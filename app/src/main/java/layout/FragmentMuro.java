@@ -138,7 +138,6 @@ public class FragmentMuro extends Fragment implements IActivity{
         GlobalVariables.Area_usuario.add(new Area("001","Seguridad"));
         GlobalVariables.Area_usuario.add(new Area("002","Salud Ocupacional"));
 
-
         GlobalVariables.Area_usuario.add(new Area("004","Comunidades"));
 
         GlobalVariables.tipo.add(new Tipo("TO01","Comportamiento"));
@@ -215,7 +214,13 @@ public class FragmentMuro extends Fragment implements IActivity{
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
+                String CodObservacion=GlobalVariables.listaGlobal.get(position).Codigo;
+
+
+
+
                 Intent intent = new Intent(getActivity(), ActMuroDet.class);
+                intent.putExtra("codObs",CodObservacion);
                 startActivity(intent);
 
 

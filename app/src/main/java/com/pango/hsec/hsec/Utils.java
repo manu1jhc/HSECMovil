@@ -1,5 +1,12 @@
 package com.pango.hsec.hsec;
 
+import com.pango.hsec.hsec.model.ObservacionModel;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Andre on 19/12/2017.
  */
@@ -17,4 +24,107 @@ public class Utils {
 
         return urlOk;
     }
+
+
+
+    public static String getTicketProperty(ObservacionModel observacionModel, String s) {
+        DateFormat formatoInicial = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("h:mm a");
+        Date temp= null;
+       /* try {
+            //temp= formatoInicial.parse(observacionModel.FECHA+"T"+observacionModel.HORA);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+        switch (s){
+            case "CodObservacion":
+                return observacionModel.CodObservacion;
+            case "CodAreaHSEC":
+                return observacionModel.CodAreaHSEC;
+            case "CodNivelRiesgo":
+                return observacionModel.CodNivelRiesgo;
+            case "ObservadoPor":
+                return observacionModel.ObservadoPor;
+
+/*
+            case "Fecha":
+                return formatoRender.format(temp);
+*/
+            case "Fecha":
+                return observacionModel.Fecha;
+            case "Gerencia":
+                return observacionModel.Gerencia;
+            case "Superint":
+                return observacionModel.Superint;
+            case "CodUbicacion":
+                return observacionModel.CodUbicacion;
+            case "Lugar":
+                return observacionModel.Lugar;
+            case "CodTipo":
+                return observacionModel.CodTipo;
+
+            default:
+                return "";
+        }
+    }
+
+
+
+    public static String getDataIzq(ObservacionModel observacionModel, String s) {
+       /* DateFormat formatoInicial = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("h:mm a");
+        Date temp= null;*/
+       /* try {
+            //temp= formatoInicial.parse(observacionModel.FECHA+"T"+observacionModel.HORA);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }*/
+        //public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha",
+        // "Gerencia","Superintendencia","Ubicacion","Lugar","Tipo"};
+
+
+        switch (s){
+            case "CodObservacion":
+                return "Codigo";
+            case "CodAreaHSEC":
+               // observacionModel.CodAreaHSEC
+
+                return "Area";
+            case "CodNivelRiesgo":
+                return "Nivel de riesgo";
+            case "ObservadoPor":
+                return "Observado Por";
+
+            case "Fecha":
+                return "Fecha";
+            case "Gerencia":
+                return "Gerencia";
+            case "Superint":
+                return observacionModel.Superint;
+            case "CodUbicacion":
+                return observacionModel.CodUbicacion;
+            case "Lugar":
+                return observacionModel.Lugar;
+            case "CodTipo":
+                return observacionModel.CodTipo;
+
+            default:
+                return "";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

@@ -49,9 +49,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             response = httpClient.execute(get);
             GlobalVariables.con_status = response.getStatusLine().getStatusCode();
             respstring = EntityUtils.toString(response.getEntity());
-
             //JSONObject respJSON = new JSONObject(respstring);
-
         } catch (Throwable e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
@@ -69,17 +67,13 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
         } else if(opcion=="get"&&GlobalVariables.flag_up_toast){
             super.onPreExecute();
-
             GlobalVariables.flag_up_toast=false;
             //if(GlobalVariables.noticias2.size()<GlobalVariables.num_vid) {
             //Toast.makeText((Context) activity,"Actualizando, por favor espere...",Toast.LENGTH_SHORT).show();
-
        /* }   else if(opcion == "get"&&GlobalVariables.flagDownSc){
             super.onPreExecute();
 */
         }
-
-
     }
 
     @Override
@@ -93,30 +87,21 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             case 404:
                 //Toast.makeText((Context) activity,"Not Found",Toast.LENGTH_SHORT).show();
                 activity.error("Not Found");
-
                 break;
             case 307:
                 //Toast.makeText((Context) activity,"Se perdio la conexion al servidor",Toast.LENGTH_SHORT).show();
                 activity.error("Se perdio la conexion al servidor");
-
                 break;
             case 500:
                 //Toast.makeText((Context) activity,"Ocurrio un error interno en el servidor",Toast.LENGTH_SHORT).show();
                 activity.error("Ocurrio un error interno en el servidor");
                 break;
-
             default:
                 activity.success(respstring);
         }
-
-
-
-
-
             if(GlobalVariables.count==1) {
                 GlobalVariables.count++;
                 progressDialog.dismiss();
-
             }
         //mainActivity.success();
 
@@ -132,7 +117,6 @@ public void generarToken(String url_token){
         token_auth = "";
     }else {
         try {
-
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(url_token);
             get.setHeader("Content-type", "application/json");
@@ -145,17 +129,11 @@ public void generarToken(String url_token){
             } else {
                 token_auth = respstring2.substring(1, respstring2.length() - 1);
                 //Utils.token=respstring2.substring(1, respstring2.length() - 1);
-
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-
     }
 */
 

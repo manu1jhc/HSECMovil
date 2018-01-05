@@ -143,6 +143,8 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     }
 
 
+
+
     public String ObtenerTipo(String tempTipo) {
         String tipo="";
 
@@ -157,27 +159,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
 
 
-
-        /*switch (tempTipo) {
-            case "TO01":
-                return "Seguridad";
-           // break;
-            case "TO02":
-                return "Salud Ocupacional";
-            //break;
-            case "TO03":
-                return "Tarea";
-            //break;
-            case "TO04":
-                return "Comunidades";
-            //break;
-            default:
-                return tempTipo;
-
-        }*/
     }
-
-
 
     public String ObtenerArea(String tempArea) {
 
@@ -190,23 +172,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         }
 
         return area;
-       /* switch (tempArea) {
-            case "001":
-                return "Comportamiento";
-            // break;
-            case "002":
-                return "Condición";
-            //break;
-            case "004":
-                return "Tarea";
-
-            default:
-                return tempArea;
-
-            //activity.success(""+GlobalVariables.con_status);
-
-            //activity.success(respstring);
-        }*/
 
 
 

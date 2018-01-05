@@ -23,6 +23,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     private ViewPager mViewPager;
     private TabHost mTabHost;
     ImageButton close;
+    String codObs;
     //TabHost tabHost;
     //
     @Override
@@ -30,8 +31,13 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_muro_det);
         close=findViewById(R.id.imageButton);
-
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        Bundle datos = this.getIntent().getExtras();
+        codObs=datos.getString("codObs");
+
+
+
 
         initialiseTabHost();
 
@@ -91,7 +97,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
 
         // TODO Put here your Fragments
-        FragmentObs f1 = FragmentObs.newInstance("Sample Fragment 1");
+        FragmentObs f1 = FragmentObs.newInstance(codObs);
         FragmentGaleria f2 = FragmentGaleria.newInstance("Sample Fragment 2");
         FragmentPlan f3 = FragmentPlan.newInstance("Sample Fragment 3");
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
@@ -104,21 +110,6 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         fList.add(f3);
         fList.add(f4);
 
-
-
-
-/*
-		List<Fragment> fragments = new Vector<Fragment>();
-		fragments.add(Fragment.instantiate(this, Tab1Fragment.class.getName()));
-		fragments.add(Fragment.instantiate(this, Tab2Fragment.class.getName()));
-		fragments.add(Fragment.instantiate(this, Tab3Fragment.class.getName()));
-
-		this.mPagerAdapter  = new PagerAdapter(super.getSupportFragmentManager(), fragments);
-		//
-		this.mViewPager = (ViewPager)super.findViewById(R.id.viewpager);
-		this.mViewPager.setAdapter(this.mPagerAdapter);
-		this.mViewPager.setOnPageChangeListener(this);
-*/
 
 
         return fList;
@@ -138,6 +129,11 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
                 this.mTabHost.newTabSpec("Tab3").setIndicator("Plan de acción"));
         ActMuroDet.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator("Comentarios"));
         mTabHost.setOnTabChangedListener(this);
+
+
+
+
+
     }
 
 

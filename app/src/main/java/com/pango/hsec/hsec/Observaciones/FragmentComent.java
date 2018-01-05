@@ -31,10 +31,10 @@ public class FragmentComent extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.fragment_obs,
+		mView = inflater.inflate(R.layout.fragment_coment,
 				container, false);
 
-
+/*
 		String sampleText = getArguments().getString("bString");
 
 
@@ -50,6 +50,9 @@ public class FragmentComent extends Fragment {
 
 			}
 		});
+
+		*/
+
 		return mView;
 	}
 

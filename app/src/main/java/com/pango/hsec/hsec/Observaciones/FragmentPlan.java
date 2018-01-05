@@ -31,7 +31,7 @@ public class FragmentPlan extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.fragment_obs,
+		mView = inflater.inflate(R.layout.fragment_plan,
 				container, false);
 
 

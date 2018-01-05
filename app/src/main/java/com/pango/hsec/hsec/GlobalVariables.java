@@ -56,7 +56,14 @@ public class GlobalVariables {
     public static ArrayList<Area> Area_usuario= new ArrayList<>();
     public static ArrayList<Tipo> tipo= new ArrayList<>();
 
+
     public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<PublicacionModel>();
     public static String  json_user="";
+    public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Gerencia","Superint","CodUbicacion","Lugar","CodTipo"};
+    public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Gerencia","Superintendencia","Ubicacion","Lugar","Tipo"};
+
+
+
+
 
 }

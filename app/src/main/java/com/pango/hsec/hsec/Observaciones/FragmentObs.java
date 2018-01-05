@@ -6,16 +6,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.adapter.ObsAdapter;
+import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.ObservacionModel;
 
-public class FragmentObs extends Fragment {
+import layout.FragmentMuro;
 
-	private static View mView;
+public class FragmentObs extends Fragment implements IActivity {
+	ObsAdapter obsAdapter;
 
-	public static final FragmentObs newInstance(String sampleText) {
+	private View mView;
+	String codObs;
+	public static FragmentObs newInstance(String sampleText) {
 		FragmentObs f = new FragmentObs();
 
 		Bundle b = new Bundle();
@@ -25,24 +35,29 @@ public class FragmentObs extends Fragment {
 		return f;
 	}
 
-
+	////////////////////////////////////////////////////////
+	String url;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		mView = inflater.inflate(R.layout.fragment_obs,
-				container, false);
+		mView = inflater.inflate(R.layout.fragment_obs, container, false);
+		codObs=getArguments().getString("bString");
+		url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
+
+		final ActivityController obj = new ActivityController("get", url, FragmentObs.this);
+		obj.execute();
 
 
-		String sampleText = getArguments().getString("bString");
 
 
 
+		//String sampleText = getArguments().getString("bString");
+/*
 		TextView txtSampleText = (TextView) mView.findViewById(R.id.txtViewSample);
-		txtSampleText.setText(sampleText);
+		txtSampleText.setText("hola");
 		Button button=(Button) mView.findViewById(R.id.button);
-
 		button.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -50,10 +65,43 @@ public class FragmentObs extends Fragment {
 
 			}
 		});
+*/
 		return mView;
 	}
 
 
+	@Override
+	public void success(String data) {
+		Gson gson = new Gson();
+		ObservacionModel getUsuarioModel = gson.fromJson(data, ObservacionModel.class);
+
+		//if(getUsuarioModel.CodUbicacion)
+		String[] parts = getUsuarioModel.CodUbicacion.split(".");
 
 
+
+		//String area=getUsuarioModel.CodAreaHSEC;
+
+
+
+
+
+		obsAdapter = new ObsAdapter(getContext(),getUsuarioModel);
+
+		ListView listaDetalles = (ListView) mView.findViewById(R.id.list_det);
+		listaDetalles.setAdapter(obsAdapter);
+
+
+
+
+
+
+	}
+
+	@Override
+	public void error(String mensaje) {
+
+
+
+	}
 }

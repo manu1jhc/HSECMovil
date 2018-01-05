@@ -34,12 +34,12 @@ public class FragmentGaleria extends Fragment {
 		mView = inflater.inflate(R.layout.fragment_galeria,
 				container, false);
 
-
+/*
 		String sampleText = getArguments().getString("bString");
 
 		TextView txtSampleText = (TextView) mView.findViewById(R.id.txtViewSample);
 		txtSampleText.setText(sampleText);
-
+*/
 		return mView;
 	}
 
