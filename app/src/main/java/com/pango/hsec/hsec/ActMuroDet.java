@@ -32,7 +32,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         setContentView(R.layout.act_muro_det);
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-
+        GlobalVariables.LoadData();
         Bundle datos = this.getIntent().getExtras();
         codObs=datos.getString("codObs");
 

@@ -198,7 +198,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                 */
             }
         });
-        
+
 
         List_muro.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

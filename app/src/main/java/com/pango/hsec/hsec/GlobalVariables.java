@@ -82,6 +82,12 @@ public class GlobalVariables {
     public static  ArrayList<Maestro> Error_obs = new ArrayList<>();
     public static String TipoObservacion = "TO01";
 
+    public static String getDescripcion(ArrayList<Maestro> Obj, String value){
+        for (Maestro o : Obj  ) {
+            if(o.CodTipo.equals(value)) return o.Descripcion;
+        }
+        return "";
+    }
     public static void LoadData() {
         if(!Area_obs.isEmpty()) return;
         Area_obs.add(new Maestro("001", "Seguridad"));

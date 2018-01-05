@@ -62,7 +62,7 @@ public class Utils {
             case "Lugar":
                 return observacionModel.Lugar;
             case "CodTipo":
-                return observacionModel.CodTipo;
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs,observacionModel.CodTipo);
 
             default:
                 return "";
