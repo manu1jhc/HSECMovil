@@ -49,23 +49,6 @@ public class FragmentObs extends Fragment implements IActivity {
 		final ActivityController obj = new ActivityController("get", url, FragmentObs.this);
 		obj.execute();
 
-
-
-
-
-		//String sampleText = getArguments().getString("bString");
-/*
-		TextView txtSampleText = (TextView) mView.findViewById(R.id.txtViewSample);
-		txtSampleText.setText("hola");
-		Button button=(Button) mView.findViewById(R.id.button);
-		button.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Toast.makeText(getActivity(),"Click en publicacion",Toast.LENGTH_SHORT).show();
-
-			}
-		});
-*/
 		return mView;
 	}
 

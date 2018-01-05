@@ -148,9 +148,9 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     public String ObtenerTipo(String tempTipo) {
         String tipo="";
 
-        for(int i=0;i<GlobalVariables.tipo.size();i++){
-            if(tempTipo.equals(GlobalVariables.tipo.get(i).getCodTipo())){
-                tipo=GlobalVariables.tipo.get(i).getNombre();
+        for(int i=0;i<GlobalVariables.Tipo_obs.size();i++){
+            if(tempTipo.equals(GlobalVariables.Tipo_obs.get(i).getCodTipo())){
+                tipo=GlobalVariables.Tipo_obs.get(i).getDescripcion();
                 break;
             }
         }
@@ -164,9 +164,9 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     public String ObtenerArea(String tempArea) {
 
         String area="";
-        for(int i=0;i<GlobalVariables.Area_usuario.size();i++){
-            if(tempArea.equals(GlobalVariables.Area_usuario.get(i).getCodArea())){
-                area=GlobalVariables.Area_usuario.get(i).getNombre();
+        for(int i=0;i<GlobalVariables.Area_obs.size();i++){
+            if(tempArea.equals(GlobalVariables.Area_obs.get(i).getCodTipo())){
+                area=GlobalVariables.Area_obs.get(i).getDescripcion();
                 break;
             }
         }

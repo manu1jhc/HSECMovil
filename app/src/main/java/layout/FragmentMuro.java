@@ -33,11 +33,11 @@ import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.Area;
+import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
-import com.pango.hsec.hsec.model.Tipo;
 import com.pango.hsec.hsec.model.UsuarioModel;
+import com.pango.hsec.hsec.observacion_edit;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.util.ArrayList;
@@ -135,15 +135,7 @@ public class FragmentMuro extends Fragment implements IActivity{
         //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
         url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+GlobalVariables.contpublic+"/"+GlobalVariables.num_items;
 
-        GlobalVariables.Area_usuario.add(new Area("001","Seguridad"));
-        GlobalVariables.Area_usuario.add(new Area("002","Salud Ocupacional"));
 
-        GlobalVariables.Area_usuario.add(new Area("004","Comunidades"));
-
-        GlobalVariables.tipo.add(new Tipo("TO01","Comportamiento"));
-        GlobalVariables.tipo.add(new Tipo("TO02","Condición"));
-        GlobalVariables.tipo.add(new Tipo("TO03","Tarea"));
-        GlobalVariables.tipo.add(new Tipo("TO04","Interacción de  Seguridad (IS)"));
 
 
 
@@ -176,8 +168,8 @@ public class FragmentMuro extends Fragment implements IActivity{
         cardPublicacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"Click en publicacion",Toast.LENGTH_SHORT).show();
-                //Toast.makeText(rootView.getContext(),"Click en publicacion",Toast.LENGTH_SHORT).show();
+                Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
+                startActivity(obserbacion_edit);
 
             }
         });
@@ -206,24 +198,16 @@ public class FragmentMuro extends Fragment implements IActivity{
                 */
             }
         });
-
-
-
+        
 
         List_muro.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
                 String CodObservacion=GlobalVariables.listaGlobal.get(position).Codigo;
-
-
-
 
                 Intent intent = new Intent(getActivity(), ActMuroDet.class);
                 intent.putExtra("codObs",CodObservacion);
                 startActivity(intent);
-
-
             }
         });
 

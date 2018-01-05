@@ -21,27 +21,26 @@
             android:name=".Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-
-            >
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>c
         </activity>
         <activity
             android:name=".Recuperar_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Act_galeria"
-            android:theme="@style/AppTheme.NoActionBar"
-
-            />
-        <activity android:name=".ActMuroDet"
-            android:theme="@style/AppTheme.NoActionBar"
-
-            ></activity>
+        <activity
+            android:name=".Act_galeria"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActMuroDet"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".observacion_edit"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
