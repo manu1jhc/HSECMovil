@@ -63,7 +63,7 @@ public class FragmentObs extends Fragment implements IActivity {
 
 
 	@Override
-	public void success(String data) {
+	public void success(String data,String Tipo) {
 		Gson gson = new Gson();
 		ObservacionModel getUsuarioModel = gson.fromJson(data, ObservacionModel.class);
 
@@ -115,12 +115,12 @@ public class FragmentObs extends Fragment implements IActivity {
 	}
 
 	@Override
-	public void successpost(String data) {
+	public void successpost(String data,String Tipo) {
 
 	}
 
 	@Override
-	public void error(String mensaje) {
+	public void error(String mensaje,String Tipo) {
 
 
 	}

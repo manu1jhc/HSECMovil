@@ -98,7 +98,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
             default:
 
-                activity.success(""+GlobalVariables.con_status);
+                activity.success(""+GlobalVariables.con_status,"");
 
                 //activity.success(respstring);
         }

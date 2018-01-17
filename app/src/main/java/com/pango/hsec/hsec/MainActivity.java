@@ -1,6 +1,7 @@
 package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
 {
     private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
-
+    public static Context contextOfApplication;
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
@@ -58,18 +59,17 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        GlobalVariables.LoadData();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         disableShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
+        contextOfApplication = getApplicationContext();
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
     }
 
 
-
+    public static Context getContextOfApplication(){ return contextOfApplication; }
     //int  backpress=0;
     private Boolean exit = false;
 
@@ -274,17 +274,17 @@ public class MainActivity extends AppCompatActivity
 
 
     @Override
-    public void success(String data) {
+    public void success(String data,String Tipo) {
 
     }
 
     @Override
-    public void successpost(String data) {
+    public void successpost(String data,String Tipo) {
 
     }
 
     @Override
-    public void error(String mensaje) {
+    public void error(String mensaje,String Tipo) {
 
     }
 

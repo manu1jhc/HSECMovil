@@ -124,7 +124,7 @@ public class FragmentComent extends Fragment implements IActivity {
 
 	ComentAdapter comentAdapter;
 	@Override
-	public void success(String data) {
+	public void success(String data,String Tipo) {
 		Gson gson = new Gson();
 		GetComentModel getComentModel= gson.fromJson(data, GetComentModel.class);
 		comentAdapter=new ComentAdapter(getContext(),getComentModel.Data);
@@ -138,7 +138,7 @@ public class FragmentComent extends Fragment implements IActivity {
 	}
 
 	@Override
-	public void successpost(String data) {
+	public void successpost(String data,String Tipo) {
 		closeSoftKeyBoard();
 		et_comentario.setText("");
 		switch (data) {
@@ -161,7 +161,7 @@ public class FragmentComent extends Fragment implements IActivity {
 	}
 
 	@Override
-	public void error(String mensaje) {
+	public void error(String mensaje,String Tipo) {
 
 	}
 

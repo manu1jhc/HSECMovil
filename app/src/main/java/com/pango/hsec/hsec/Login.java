@@ -66,12 +66,8 @@ public class Login extends AppCompatActivity implements IActivity{
 
                 Intent intent = new Intent(Login.this, Recuperar_password.class);
                 startActivity(intent);
-
             }
         });
-
-
-
 
     }
 
@@ -163,7 +159,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
 
     @Override
-    public void success(String data1) {
+    public void success(String data1,String Tipo) {
 
         if(GlobalVariables.con_status==200){
             if(check_rec.isChecked()){
@@ -204,12 +200,12 @@ public class Login extends AppCompatActivity implements IActivity{
     }
 
     @Override
-    public void successpost(String data) {
+    public void successpost(String data,String Tipo) {
 
     }
 
     @Override
-    public void error(String mensaje) {
+    public void error(String mensaje,String Tipo) {
 
     }
 

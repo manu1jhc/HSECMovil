@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 
+import static com.pango.hsec.hsec.GlobalVariables.*;
+
 public class Busqueda extends AppCompatActivity {
     Spinner sp_busqueda;
     String tipo_filtro="";
@@ -24,11 +26,12 @@ public class Busqueda extends AppCompatActivity {
         setContentView(R.layout.activity_busqueda);
         close=findViewById(R.id.imageButton);
 
-        GlobalVariables.LoadData();
+        GlobalVariables loaddata = new GlobalVariables();
+        loaddata.LoadData();
 
         sp_busqueda=(Spinner) findViewById(R.id.sp_busqueda);
 
-        ArrayAdapter adapterBusObs = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.busqueda_tipo);
+        ArrayAdapter adapterBusObs = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, busqueda_tipo);
         adapterBusObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         sp_busqueda.setAdapter(adapterBusObs);
 
@@ -50,7 +53,7 @@ public class Busqueda extends AppCompatActivity {
            @Override
            public void onClick(View v) {
 
-               if(tipo_filtro.equals(GlobalVariables.busqueda_tipo[0])) {
+               if(tipo_filtro.equals(busqueda_tipo[0])) {
                    Intent intent = new Intent(Busqueda.this, B_observaciones.class);
                    startActivity(intent);
                }

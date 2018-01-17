@@ -350,7 +350,7 @@ public class FragmentMuro extends Fragment implements IActivity{
 
 
     @Override
-    public void success(String data1) {
+    public void success(String data1,String Tipo) {
 
         Gson gson = new Gson();
         //List<PublicacionModel> getPublicacionModel= Arrays.asList(gson.fromJson(data1, PublicacionModel.class));
@@ -410,12 +410,12 @@ public class FragmentMuro extends Fragment implements IActivity{
     }
 
     @Override
-    public void successpost(String data) {
+    public void successpost(String data,String Tipo) {
 
     }
 
     @Override
-    public void error(String mensaje) {
+    public void error(String mensaje,String Tipo) {
         Toast.makeText(getContext(),mensaje,Toast.LENGTH_SHORT).show();
     }
 

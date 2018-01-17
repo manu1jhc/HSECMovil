@@ -1,10 +1,16 @@
 package com.pango.hsec.hsec;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
 
+import com.google.gson.Gson;
+import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
@@ -17,7 +23,7 @@ import java.util.regex.Pattern;
  * Created by Andre on 12/12/2017.
  */
 
-public class GlobalVariables {
+public class GlobalVariables implements IActivity {
 
     //public static String Urlbase2 = "entrada/getpaginated/";
     public  static int con_status=0;
@@ -40,8 +46,6 @@ public class GlobalVariables {
         }
     }
 
-
-
     public static View view_fragment;
     public static boolean isFragment=false;
     public static int contpublic=1;
@@ -59,12 +63,8 @@ public class GlobalVariables {
     //public static String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
     //public static String[] obsDetIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 
-
-
     public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
     public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
-
-
 
     public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","CodSolicitadoPor","CodResponsable","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
     public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Responsable", "Acción relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
@@ -101,17 +101,13 @@ public class GlobalVariables {
     public static  ArrayList<Maestro> Estado_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Error_obs = new ArrayList<>();
     public static String TipoObservacion = "TO01";
-
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
         for (Maestro o : Obj  ) {
             if(o.CodTipo.equals(value)) return o.Descripcion;
         }
         return "";
     }
-
-
-
-
+    public static  ArrayList<Maestro> SuperInt_Busq = new ArrayList<>();
 
     public static void LoadData() {
         if(!Area_obs.isEmpty()) return;
@@ -119,33 +115,62 @@ public class GlobalVariables {
         Area_obs.add(new Maestro("002", "Salud Ocupacional"));
         Area_obs.add(new Maestro("004", "Comunidades"));
 
-        Gerencia.add(new Maestro("001", "Seguridad"));
+      /*  Gerencia.add(new Maestro("001", "Seguridad"));
         Gerencia.add(new Maestro("002", "Salud Ocupacional"));
         Gerencia.add(new Maestro("004", "Comunidades"));
 
         SuperIntendencia.add(new Maestro("001", "Seguridad"));
         SuperIntendencia.add(new Maestro("002", "Salud Ocupacional"));
-        SuperIntendencia.add(new Maestro("004", "Comunidades"));
-
+        SuperIntendencia.add(new Maestro("004", "Comunidades"));*/
 
         Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
         Tipo_obs.add(new Maestro("TO02", "Condición"));
-
 
         Tipo_obs2.add(new Maestro("TO01", "Comportamiento"));
         Tipo_obs2.add(new Maestro("TO02", "Condición"));
         Tipo_obs2.add(new Maestro("TO03", "Tarea"));
         Tipo_obs2.add(new Maestro("TO04", "Interacción de  Seguridad (IS)"));
 
-
-
         NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
         NivelRiesgo_obs.add(new Maestro("ME", "Media"));
         NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
-        loadUbicaciones();
+        //loadUbicaciones();
+        GetMaestroLocal("UBIC");
+        GetMaestroLocal("GERE");
+        GetMaestroLocal("SUPE");
         loadObs_Detalles();
+
         Ubicacion_obs=loadUbicacion("",1);
     }
+
+    public  static void GetMaestroLocal(String Tipo){
+        String data1 = Recuperar_data(Tipo);
+        String url=Url_base+"Maestro/GetTipoMaestro/"+Tipo;
+        Gson gson = new Gson();
+
+        if(data1==""){
+            GlobalVariables Objeto= new GlobalVariables();
+            final ActivityController obj = new ActivityController("get", url,Objeto);
+            obj.execute(Tipo);
+        }
+        else {
+            GetMaestroModel getMaestroModel = gson.fromJson(data1, GetMaestroModel.class);
+            switch (Tipo){
+                case "UBIC":
+                    Ubicaciones_obs=getMaestroModel.Data;
+                    break;
+                case "GERE":
+                    Gerencia=getMaestroModel.Data;
+                    break;
+                case "SUPE":
+                    SuperIntendencia=getMaestroModel.Data;
+                    break;
+                /*default:
+                    break;*/
+                }
+        }
+    }
+
     public static void loadObs_Detalles(){
 
         //Error comportamiento
@@ -292,8 +317,19 @@ public class GlobalVariables {
         }
         return Ubicaciones;
     }
-    public static void loadUbicaciones(){
 
+    public static ArrayList<Maestro> loadSuperInt(String Tipo){
+        ArrayList<Maestro> Super = new ArrayList<>();
+        Super.add(new Maestro("","-  Seleccione  -"));
+        for (Maestro item:SuperIntendencia ) {
+            String Tipos[]=item.CodTipo.split("\\.");
+            if(Tipos[0].equals(Tipo))
+                    Super.add(item);
+        }
+        return Super;
+    }
+
+    public static void loadUbicaciones(){
         Ubicaciones_obs.add(new Maestro("01","Mantenimiento Mina"));
         Ubicaciones_obs.add(new Maestro("01.01","Nave de mantenimiento (TruckShop)"));
         Ubicaciones_obs.add(new Maestro("01.01.01","Taller de mantenimiento camiones"));
@@ -1123,4 +1159,44 @@ public class GlobalVariables {
         return cadena3;
     }
 
+    @Override
+    public void success(String data, String Tipo) {
+        Gson gson = new Gson();
+        GetMaestroModel getMaestroModel = gson.fromJson(data, GetMaestroModel.class);
+        switch (Tipo){
+            case "UBIC":
+                Ubicaciones_obs=getMaestroModel.Data;
+                break;
+            case "GERE":
+                Gerencia=getMaestroModel.Data;
+                break;
+            case "SUPE":
+                SuperIntendencia=getMaestroModel.Data;
+                break;
+                /*default:
+                    break;*/
+        }
+        Context applicationContext = MainActivity.getContextOfApplication() ;
+        SharedPreferences VarMaestros = applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = VarMaestros.edit();
+        editor.putString(Tipo, String.valueOf(data));
+        editor.commit();
+    }
+
+    public static String Recuperar_data(String Variable) {
+        Context applicationContext = MainActivity.getContextOfApplication() ;
+        SharedPreferences VarMaestros =  applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
+        String ListaMaestro = VarMaestros.getString(Variable,"");
+        return ListaMaestro;
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
+    }
 }

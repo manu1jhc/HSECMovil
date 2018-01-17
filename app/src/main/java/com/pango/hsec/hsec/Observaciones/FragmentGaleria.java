@@ -112,7 +112,7 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 
 
 	@Override
-	public void success(String data) {
+	public void success(String data,String Tipo) {
 		Gson gson = new Gson();
 		GetGaleriaModel getGaleriaModel = gson.fromJson(data, GetGaleriaModel.class);
 		GlobalVariables.listaGaleria=getGaleriaModel.Data;
@@ -129,12 +129,12 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 	}
 
 	@Override
-	public void successpost(String data) {
+	public void successpost(String data,String Tipo) {
 
 	}
 
 	@Override
-	public void error(String mensaje) {
+	public void error(String mensaje,String Tipo) {
 
 	}
 

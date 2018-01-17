@@ -37,6 +37,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
     String gerencia,superint,filtro;
     EditText id_apellidos,id_nombre,id_dni;
     String url="";
+    ArrayAdapter adapterGerencia,adapterSuperInt;
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,19 +55,19 @@ public class B_personas extends AppCompatActivity implements IActivity {
         spinnerSuperInt=(Spinner) findViewById(R.id.spinner_superint);
         //spinnerGerencia.setOnItemSelectedListener(this);
         gerenciadata= new ArrayList<>();
-        gerenciadata.add(new Maestro("-","-"));
+        gerenciadata.add(new Maestro("","-  Seleccione  -"));
         gerenciadata.addAll(GlobalVariables.Gerencia);
 
         superintdata=new ArrayList<>();
-        superintdata.add(new Maestro("-","-"));
-        superintdata.addAll(GlobalVariables.SuperIntendencia);
+        superintdata.add(new Maestro("-","-  Seleccione  -"));
+//        superintdata.addAll(GlobalVariables.SuperIntendencia);
 
 
-        ArrayAdapter adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, gerenciadata);
+        adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, gerenciadata);
         adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
-        ArrayAdapter adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
+        adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
         adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
 
@@ -75,11 +76,16 @@ public class B_personas extends AppCompatActivity implements IActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                if(position!=0) {
-                    gerencia = gerenciadata.get(position).Descripcion;
-                }else{
-                    gerencia="";
+               /* Maestro Geren = (Maestro) ( (Spinner) view.findViewById(R.id.spinner_gerencia) ).getSelectedItem();
+                gerencia=Geren.CodTipo;*/
+                gerencia = gerenciadata.get(position).CodTipo;
+                superintdata.clear();
+                for (Maestro item: GlobalVariables.loadSuperInt(gerencia)
+                        ) {
+                    superintdata.add(item);
                 }
+                adapterSuperInt.notifyDataSetChanged();
+                spinnerSuperInt.setSelection(0);
 
             }
 
@@ -88,6 +94,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 gerencia="";
             }
         });
+
 
         spinnerSuperInt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -150,7 +157,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
     }
 
     @Override
-    public void success(String data) {
+    public void success(String data,String Tipo) {
         Gson gson = new Gson();
         GetPersonaModel getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
 
@@ -160,12 +167,12 @@ public class B_personas extends AppCompatActivity implements IActivity {
     }
 
     @Override
-    public void successpost(String data) {
+    public void successpost(String data,String Tipo) {
 
     }
 
     @Override
-    public void error(String mensaje) {
+    public void error(String mensaje,String Tipo) {
 
     }
 }

@@ -75,7 +75,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 	PopupWindow popupWindow;
 	ImageButton ibclose;
 	@Override
-	public void success(String data) {
+	public void success(String data,String Tipo) {
 		Gson gson = new Gson();
 		final GetPlanModel getPlanModel = gson.fromJson(data, GetPlanModel.class);
 		String a="";
@@ -137,12 +137,12 @@ public class FragmentPlan extends Fragment implements IActivity {
 	}
 
 	@Override
-	public void successpost(String data) {
+	public void successpost(String data,String Tipo) {
 
 	}
 
 	@Override
-	public void error(String mensaje) {
+	public void error(String mensaje,String Tipo) {
 
 	}
 

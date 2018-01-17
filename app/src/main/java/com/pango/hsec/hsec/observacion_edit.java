@@ -34,7 +34,8 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         close=findViewById(R.id.imageButton);
 
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        GlobalVariables.LoadData();
+        GlobalVariables loaddata = new GlobalVariables();
+        loaddata.LoadData();
         initialiseTabHost();
 
         // Fragments and ViewPager Initialization

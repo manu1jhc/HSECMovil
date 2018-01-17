@@ -34,6 +34,8 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     String opcion;
     String respstring;
     String Resultado="";
+    String Tipo="";
+
 
     View v;
     public ActivityController(String opcion, String url, IActivity activity) {
@@ -41,6 +43,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         this.url = url;
         //this.url_token = url_token;
         this.opcion = opcion;
+
     }
 
     @Override
@@ -49,6 +52,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             String json=strings[0];
 
             if(opcion == "get") {
+                Tipo=json;
                 //generarToken(url_token);
                 HttpResponse response;
                 HttpClient httpClient = new DefaultHttpClient();
@@ -65,6 +69,8 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 //JSONObject respJSON = new JSONObject(respstring);
 
             }else if(opcion == "post"){
+
+                Tipo= strings.length>1? Tipo=strings[1]:"";
                 HttpResponse response;
                 InputStream inputStream = null;
                 String result = "";
@@ -141,22 +147,22 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         switch (GlobalVariables.con_status) {
             case 401:
                 //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
-                activity.error("Ocurrio un error de conexion");
+                activity.error("Ocurrio un error de conexion",Tipo);
                 break;
             case 404:
                 //Toast.makeText((Context) activity,"Not Found",Toast.LENGTH_SHORT).show();
-                activity.error("Not Found");
+                activity.error("Not Found",Tipo);
                 break;
             case 307:
                 //Toast.makeText((Context) activity,"Se perdio la conexion al servidor",Toast.LENGTH_SHORT).show();
-                activity.error("Se perdio la conexion al servidor");
+                activity.error("Se perdio la conexion al servidor",Tipo);
                 break;
             case 500:
                 //Toast.makeText((Context) activity,"Ocurrio un error interno en el servidor",Toast.LENGTH_SHORT).show();
-                activity.error("Ocurrio un error interno en el servidor");
+                activity.error("Ocurrio un error interno en el servidor",Tipo);
                 break;
             default:
-                activity.success(respstring);
+                activity.success(respstring,Tipo);
         }
         //progressDialog.dismiss();
         int a=GlobalVariables.count;
@@ -168,7 +174,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         //mainActivity.success();
     }else if(opcion=="post"){
         Resultado=Resultado.substring(1,Resultado.length()-1);
-        activity.successpost(Resultado);
+        activity.successpost(Resultado,Tipo);
         progressDialog.dismiss();
 
 

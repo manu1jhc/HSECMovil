@@ -13,5 +13,4 @@ public class ObservacionModel {
     public String CodUbicacion;
     public String Lugar;
     public String CodTipo;
-
 }
