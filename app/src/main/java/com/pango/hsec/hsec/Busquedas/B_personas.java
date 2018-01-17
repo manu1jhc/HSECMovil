@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.Busquedas;
 
+import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.adapter.BuscarPersonaAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetPersonaModel;
@@ -38,6 +41,10 @@ public class B_personas extends AppCompatActivity implements IActivity {
     EditText id_apellidos,id_nombre,id_dni;
     String url="";
     ArrayAdapter adapterGerencia,adapterSuperInt;
+    int contPublicacion;
+    ListView List_personas;
+    GetPersonaModel getPersonaModel;
+
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +56,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
         id_apellidos=(EditText) findViewById(R.id.id_apellidos);
         id_nombre=(EditText) findViewById(R.id.id_nombre);
         id_dni=(EditText) findViewById(R.id.id_dni);
+        List_personas=findViewById(R.id.listView);
 
 
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
@@ -135,11 +143,11 @@ public class B_personas extends AppCompatActivity implements IActivity {
         btn_busqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                filtro= String.valueOf(id_apellidos.getText())+"@"+String.valueOf(id_nombre.getText())+"@"+String.valueOf(id_dni.getText())
+                filtro= String.valueOf(String.valueOf(id_nombre.getText())+"@"+id_apellidos.getText())+"@"+String.valueOf(id_dni.getText())
                 +"@"+gerencia+"@"+superint;
 
-                //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/5";
-                url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
+                url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/5";
+                //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
 
                 final ActivityController obj = new ActivityController("get", url, B_personas.this);
                 obj.execute("");
@@ -159,7 +167,30 @@ public class B_personas extends AppCompatActivity implements IActivity {
     @Override
     public void success(String data,String Tipo) {
         Gson gson = new Gson();
-        GetPersonaModel getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
+        getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
+        contPublicacion=getPersonaModel.Count;
+
+        BuscarPersonaAdapter ca = new BuscarPersonaAdapter(this,getPersonaModel.Data);
+        List_personas.setAdapter(ca);
+
+        List_personas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String nombre=getPersonaModel.Data.get(position).Nombres;
+                String CodPersona=getPersonaModel.Data.get(position).CodPersona;
+                Intent intent = new Intent(B_personas.this, B_observaciones.class);
+                intent.putExtra("nombreP",nombre);
+                intent.putExtra("codpersona",CodPersona);
+
+                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+
+                startActivity(intent);
+
+
+            }
+        });
+
 
 
 

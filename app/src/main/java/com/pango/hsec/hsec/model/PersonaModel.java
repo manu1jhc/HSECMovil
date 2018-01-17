@@ -5,6 +5,7 @@ package com.pango.hsec.hsec.model;
  */
 
 public class PersonaModel {
+    public String CodPersona;
     public String Nombres;
     public String NroDocumento;
     public String Cargo;

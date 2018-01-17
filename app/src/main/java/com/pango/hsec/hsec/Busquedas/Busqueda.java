@@ -55,6 +55,8 @@ public class Busqueda extends AppCompatActivity {
 
                if(tipo_filtro.equals(busqueda_tipo[0])) {
                    Intent intent = new Intent(Busqueda.this, B_observaciones.class);
+                   intent.putExtra("nombreP","");
+
                    startActivity(intent);
                }
            }

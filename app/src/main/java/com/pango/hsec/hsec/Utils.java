@@ -6,6 +6,7 @@ import com.pango.hsec.hsec.model.PlanModel;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -219,28 +220,11 @@ public class Utils {
             default:
                 return "";
         }
+
+
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    public static ArrayList<String> tempObs=new ArrayList<String>();
 
 
 }
