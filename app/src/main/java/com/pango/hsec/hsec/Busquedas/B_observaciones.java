@@ -51,7 +51,7 @@ public class B_observaciones extends AppCompatActivity {
     ImageButton btn_buscar_p;
     String datos_user;
     String codUser;
-
+    ArrayAdapter adapterSuperInt;
     TextView id_persona;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +73,23 @@ public class B_observaciones extends AppCompatActivity {
         id_persona=(TextView) findViewById(R.id.id_persona);
 
         area_data= new ArrayList<>();
-        area_data.add(new Maestro("-","-"));
+        area_data.add(new Maestro(null,"-  Seleccione  -"));
         area_data.addAll(GlobalVariables.Area_obs);
 
         tipo_data= new ArrayList<>();
-        tipo_data.add(new Maestro("-","-"));
+        tipo_data.add(new Maestro(null,"-  Seleccione  -"));
         tipo_data.addAll(GlobalVariables.Tipo_obs);
 
         nivel_data= new ArrayList<>();
-        nivel_data.add(new Maestro("-","-"));
+        nivel_data.add(new Maestro(null,"-  Seleccione  -"));
         nivel_data.addAll(GlobalVariables.NivelRiesgo_obs);
 
         gerenciadata= new ArrayList<>();
-        gerenciadata.add(new Maestro("-","-"));
+        gerenciadata.add(new Maestro(null,"-  Seleccione  -"));
         gerenciadata.addAll(GlobalVariables.Gerencia);
 
         superintdata=new ArrayList<>();
-        superintdata.add(new Maestro("-","-"));
+        superintdata.add(new Maestro(null,"-  Seleccione  -"));
         superintdata.addAll(GlobalVariables.SuperIntendencia);
 
 
@@ -111,7 +111,7 @@ public class B_observaciones extends AppCompatActivity {
         adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
-        ArrayAdapter adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
+        adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
         adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
 
@@ -133,6 +133,52 @@ public class B_observaciones extends AppCompatActivity {
 
             }
         });
+
+        spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+               /* Maestro Geren = (Maestro) ( (Spinner) view.findViewById(R.id.spinner_gerencia) ).getSelectedItem();
+                gerencia=Geren.CodTipo;*/
+                //superint=null;
+                String gerencia = gerenciadata.get(position).CodTipo;
+                superintdata.clear();
+                for (Maestro item: GlobalVariables.loadSuperInt(gerencia)
+                        ) {
+                    superintdata.add(item);
+                }
+                adapterSuperInt.notifyDataSetChanged();
+                spinnerSuperInt.setSelection(0);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //gerencia="";
+            }
+        });
+
+
+        spinnerSuperInt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+               /* if(position!=0) {
+                    superint = superintdata.get(position).CodTipo.split("\\.")[1];
+                }else{
+                    superint="";
+                }
+*/
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+               // superint="";
+            }
+        });
+
 
         spinnerTipoObs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

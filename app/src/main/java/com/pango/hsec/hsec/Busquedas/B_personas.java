@@ -67,7 +67,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
         gerenciadata.addAll(GlobalVariables.Gerencia);
 
         superintdata=new ArrayList<>();
-        superintdata.add(new Maestro("-","-  Seleccione  -"));
+        superintdata.add(new Maestro("","-  Seleccione  -"));
 //        superintdata.addAll(GlobalVariables.SuperIntendencia);
 
 
@@ -86,6 +86,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
 
                /* Maestro Geren = (Maestro) ( (Spinner) view.findViewById(R.id.spinner_gerencia) ).getSelectedItem();
                 gerencia=Geren.CodTipo;*/
+                superint="";
                 gerencia = gerenciadata.get(position).CodTipo;
                 superintdata.clear();
                 for (Maestro item: GlobalVariables.loadSuperInt(gerencia)
@@ -110,7 +111,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
 
 
                 if(position!=0) {
-                    superint = superintdata.get(position).Descripcion;
+                    superint = superintdata.get(position).CodTipo.split("\\.")[1];
                 }else{
                     superint="";
                 }
