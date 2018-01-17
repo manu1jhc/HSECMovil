@@ -1,4 +1,4 @@
-package com.pango.hsec.hsec;
+package com.pango.hsec.hsec.Observaciones;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,12 +8,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 
-import com.pango.hsec.hsec.Observaciones.FragmentComent;
-import com.pango.hsec.hsec.Observaciones.FragmentGaleria;
-import com.pango.hsec.hsec.Observaciones.FragmentObs;
-import com.pango.hsec.hsec.Observaciones.FragmentPlan;
-import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
-import com.pango.hsec.hsec.Observaciones.MyTabFactory;
+import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +20,8 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     private TabHost mTabHost;
     ImageButton close;
     String codObs;
+    String urlObs;
+    int pos;
     //TabHost tabHost;
     //
     @Override
@@ -33,9 +31,12 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         GlobalVariables.LoadData();
+
         Bundle datos = this.getIntent().getExtras();
         codObs=datos.getString("codObs");
-
+        pos=datos.getInt("posTab");
+        //urlObs=datos.getString("UrlObs");
+        //GlobalVariables.CodObs=codObs;
 
 
 
@@ -64,7 +65,9 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
     // Manages the Tab changes, synchronizing it with Pages
     public void onTabChanged(String tag) {
-        int pos = this.mTabHost.getCurrentTab();
+
+
+        pos = this.mTabHost.getCurrentTab();
         this.mViewPager.setCurrentItem(pos);
     }
 
@@ -73,10 +76,21 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     }
 
     // Manages the Page changes, synchronizing it with Tabs
+
+    //numero de tab que quieres mostrar
+
+
     @Override
     public void onPageScrolled(int arg0, float arg1, int arg2) {
-        int pos = this.mViewPager.getCurrentItem();
+
+        if(pos==3){
+            //pos = this.mViewPager.getCurrentItem();
+            this.mTabHost.setCurrentTab(3);
+            pos=0;
+        }else{
+        pos = this.mViewPager.getCurrentItem();
         this.mTabHost.setCurrentTab(pos);
+        }
     }
 
     @Override
@@ -98,10 +112,10 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
         // TODO Put here your Fragments
         FragmentObs f1 = FragmentObs.newInstance(codObs);
-        FragmentGaleria f2 = FragmentGaleria.newInstance("Sample Fragment 2");
-        FragmentPlan f3 = FragmentPlan.newInstance("Sample Fragment 3");
+        FragmentGaleria f2 = FragmentGaleria.newInstance(codObs);
+        FragmentPlan f3 = FragmentPlan.newInstance(codObs);
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
-        FragmentComent f4=FragmentComent.newInstance("Sample Fragment 4");
+        FragmentComent f4=FragmentComent.newInstance(codObs);
 
         //ObsFragment f4 = ObsFragment.newInstance("","");
 
@@ -127,7 +141,8 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
                 this.mTabHost.newTabSpec("Tab2").setIndicator("Galería"));
         ActMuroDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab3").setIndicator("Plan de acción"));
-        ActMuroDet.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator("Comentarios"));
+        ActMuroDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab4").setIndicator("Comentarios"));
         mTabHost.setOnTabChangedListener(this);
 
 

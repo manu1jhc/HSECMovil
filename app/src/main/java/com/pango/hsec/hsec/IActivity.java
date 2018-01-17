@@ -7,5 +7,6 @@ package com.pango.hsec.hsec;
 public interface IActivity {
 
     void success(String data);
+    void successpost(String data);
     void error(String mensaje);
 }

@@ -13,10 +13,16 @@ import com.pango.hsec.hsec.IActivity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URLEncoder;
 
 public class ActivityController extends AsyncTask<String,Void,Void> {
     ProgressDialog progressDialog;
@@ -27,6 +33,8 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     String token_auth;
     String opcion;
     String respstring;
+    String Resultado="";
+
     View v;
     public ActivityController(String opcion, String url, IActivity activity) {
         this.activity = activity;
@@ -38,34 +46,80 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     @Override
     protected Void doInBackground(String... strings) {
         try {
-            //generarToken(url_token);
-            HttpResponse response;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(url);
-            //GlobalVariables.token_auth=token_auth;
-            //if (opcion == "get" && GlobalVariables.token_auth.length() > 40) {
-            get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
-            //}
-            response = httpClient.execute(get);
-            GlobalVariables.con_status = response.getStatusLine().getStatusCode();
-            respstring = EntityUtils.toString(response.getEntity());
-            //JSONObject respJSON = new JSONObject(respstring);
+            String json=strings[0];
+
+            if(opcion == "get") {
+                //generarToken(url_token);
+                HttpResponse response;
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet get = new HttpGet(url);
+                //GlobalVariables.token_auth=token_auth;
+                //if (opcion == "get" && GlobalVariables.token_auth.length() > 40) {
+                get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
+                get.setHeader("Content-type", "application/json");
+
+                //}
+                response = httpClient.execute(get);
+                GlobalVariables.con_status = response.getStatusLine().getStatusCode();
+                respstring = EntityUtils.toString(response.getEntity());
+                //JSONObject respJSON = new JSONObject(respstring);
+
+            }else if(opcion == "post"){
+                HttpResponse response;
+                InputStream inputStream = null;
+                String result = "";
+
+                HttpClient httpclient = new DefaultHttpClient();
+                HttpPost httpPost = new HttpPost (url);
+
+                StringEntity se = new StringEntity(json,"UTF-8");
+                httpPost.setEntity(se);
+                httpPost.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
+                httpPost.setHeader("Content-type", "application/json");
+                HttpResponse httpResponse = httpclient.execute(httpPost);
+
+                int status=httpResponse.getStatusLine().getStatusCode();
+
+                inputStream = httpResponse.getEntity().getContent();
+                if(inputStream != null)
+                    result = convertInputStreamToString(inputStream);
+                else
+                    result = "Did not work!";
+                String responsepost= GlobalVariables.reemplazarUnicode(result);
+                Resultado=responsepost;
+            }
+
+
+
+
         } catch (Throwable e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
         return null;
     }
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
 
+        inputStream.close();
+        return result;
+
+    }
     @Override
     protected void onPreExecute() {
-        if (opcion == "get"&&GlobalVariables.isFragment==false) {
+        if(opcion == "get"){
+
+        if (GlobalVariables.isFragment==false) {
             super.onPreExecute();
             progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
         }  else if (GlobalVariables.count==1){
             super.onPreExecute();
             progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
 
-        } else if(opcion=="get"&&GlobalVariables.flag_up_toast){
+        } else if(GlobalVariables.flag_up_toast){
             super.onPreExecute();
             GlobalVariables.flag_up_toast=false;
             //if(GlobalVariables.noticias2.size()<GlobalVariables.num_vid) {
@@ -74,11 +128,16 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             super.onPreExecute();
 */
         }
+
+        }else if(opcion == "post"){
+            progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Enviando");
+
+        }
     }
 
     @Override
     protected void onPostExecute(Void result) {
-
+    if(opcion=="get") {
         switch (GlobalVariables.con_status) {
             case 401:
                 //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
@@ -99,13 +158,35 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             default:
                 activity.success(respstring);
         }
-            if(GlobalVariables.count==1) {
-                GlobalVariables.count++;
-                progressDialog.dismiss();
-            }
+        //progressDialog.dismiss();
+        int a=GlobalVariables.count;
+
+        if (GlobalVariables.count == 1||GlobalVariables.count == 2||GlobalVariables.count == 3||GlobalVariables.count == 4) {
+            GlobalVariables.count++;
+            progressDialog.dismiss();
+        }
         //mainActivity.success();
+    }else if(opcion=="post"){
+        Resultado=Resultado.substring(1,Resultado.length()-1);
+        activity.successpost(Resultado);
+        progressDialog.dismiss();
+
 
     }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

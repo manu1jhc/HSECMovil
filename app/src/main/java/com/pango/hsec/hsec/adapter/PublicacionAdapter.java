@@ -1,6 +1,7 @@
 package com.pango.hsec.hsec.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -16,11 +17,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +36,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     private Context context;
 
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
-    DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00");
+    DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
     public PublicacionAdapter(@NonNull Context context, ArrayList<PublicacionModel> data) {
@@ -78,7 +81,12 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
 
         nombre.setText(tempNombre);
-        fecha.setText(tempFecha);
+
+
+
+        fecha.setText(Obtenerfecha(tempFecha));
+
+
 
         if (tempRiesgo.equals("BA")) {
             //riesgo.setCardBackgroundColor(Color.GREEN);
@@ -107,6 +115,16 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
+
+
+                Intent intent = new Intent(v.getContext(), ActMuroDet.class);
+                intent.putExtra("codObs",data.get(position).Codigo);
+                intent.putExtra("posTab",3);
+                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+
+                v.getContext().startActivity(intent);
+
+
 
             }
         });
@@ -170,12 +188,26 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
                 break;
             }
         }
-
         return area;
 
+    }
 
+
+    public String Obtenerfecha(String tempcom_fecha) {
+
+        String fecha="";
+        try {
+            fecha=formatoRender.format(formatoInicial.parse(tempcom_fecha));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            fecha=tempcom_fecha;
+        }
+
+        return fecha;
 
     }
+
+
 
 
     }

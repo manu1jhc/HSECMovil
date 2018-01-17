@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        GlobalVariables.LoadData();
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         disableShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -275,6 +275,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void success(String data) {
+
+    }
+
+    @Override
+    public void successpost(String data) {
 
     }
 

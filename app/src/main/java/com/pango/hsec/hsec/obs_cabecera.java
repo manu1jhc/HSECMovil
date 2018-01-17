@@ -36,6 +36,8 @@ public class obs_cabecera extends Fragment{
     Button botonEscogerFecha;
     Spinner spinnerArea, spinnerNivel, spinnerUbica,spinnerSububic,spinnerUbicEspec, spinnerTipoObs;
     String Ubicacionfinal="",TipoObs;
+
+
     public ArrayAdapter adapterUbicEspc,adapterSubN;
 
 
@@ -159,6 +161,7 @@ public class obs_cabecera extends Fragment{
 
         TextView txtSampleText = (TextView) mView.findViewById(R.id.id_CodObservacion);
         txtSampleText.setText(sampleText);
+
         botonEscogerFecha=(Button) mView.findViewById(R.id.btn_fecha);
         myCalendar = Calendar.getInstance();
         Date actual = myCalendar.getTime();
@@ -174,8 +177,19 @@ public class obs_cabecera extends Fragment{
             }
         });
 
+
         return mView;
     }
+
+
+
+
+
+
+
+
+
+
 }
 
 

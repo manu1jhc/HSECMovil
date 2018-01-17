@@ -3,10 +3,7 @@ package layout;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -25,24 +22,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.ActMuroDet;
+import com.pango.hsec.hsec.Busquedas.Busqueda;
+import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Login;
-import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
-import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.observacion_edit;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -134,14 +124,14 @@ public class FragmentMuro extends Fragment implements IActivity{
         imageView=rootView.findViewById(R.id.imageView3);
         //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
         url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+GlobalVariables.contpublic+"/"+GlobalVariables.num_items;
-
+        GlobalVariables.count=5;
 
 
 
 
         if(GlobalVariables.listaGlobal.size()==0){
             final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
-            obj.execute();
+            obj.execute("");
         }else{
             PublicacionAdapter ca = new PublicacionAdapter(getContext(),GlobalVariables.listaGlobal);
             List_muro.setAdapter(ca);
@@ -177,6 +167,12 @@ public class FragmentMuro extends Fragment implements IActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(),"Click en buscar post",Toast.LENGTH_SHORT).show();
+                Intent busquedas = new Intent(getContext(),Busqueda.class);
+                startActivity(busquedas);
+
+
+
+
 
             }
         });
@@ -203,10 +199,15 @@ public class FragmentMuro extends Fragment implements IActivity{
         List_muro.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
                 String CodObservacion=GlobalVariables.listaGlobal.get(position).Codigo;
 
                 Intent intent = new Intent(getActivity(), ActMuroDet.class);
                 intent.putExtra("codObs",CodObservacion);
+                intent.putExtra("posTab",0);
+
+                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+
                 startActivity(intent);
             }
         });
@@ -233,8 +234,9 @@ public class FragmentMuro extends Fragment implements IActivity{
                         GlobalVariables.flagUpSc=true;
                         GlobalVariables.flag_up_toast=true;
                         url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
+                        GlobalVariables.count=5;
                         final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
-                        obj.execute();
+                        obj.execute("");
                        // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 
                   //  } },0);
@@ -275,9 +277,9 @@ public class FragmentMuro extends Fragment implements IActivity{
                             constraintLayout.setVisibility(View.VISIBLE);
 
                             url = GlobalVariables.Url_base + "Observaciones/GetOBservaciones/-/" + GlobalVariables.contpublic + "/" + GlobalVariables.num_items;
-
+                            GlobalVariables.count=5;
                             final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
-                            obj.execute();
+                            obj.execute("");
 
                         }
 
@@ -309,23 +311,8 @@ public class FragmentMuro extends Fragment implements IActivity{
                         upFlag = true;
                         downFlag = false;
                       //  Toast.makeText(rootView.getContext(), "canscroll arriba" + upFlag + downFlag, Toast.LENGTH_SHORT).show();
-
-                    }
-
-
-                }
-
-
+                    }  }
             });
-
-
-
-
-
-
-
-
-
         return rootView;
     }
 
@@ -419,6 +406,11 @@ public class FragmentMuro extends Fragment implements IActivity{
         }
 
        // GlobalVariables.FDown=false;
+
+    }
+
+    @Override
+    public void successpost(String data) {
 
     }
 

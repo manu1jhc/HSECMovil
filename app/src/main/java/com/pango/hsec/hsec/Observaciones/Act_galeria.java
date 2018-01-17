@@ -1,7 +1,9 @@
-package com.pango.hsec.hsec;
+package com.pango.hsec.hsec.Observaciones;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.pango.hsec.hsec.R;
 
 public class Act_galeria extends AppCompatActivity {
 

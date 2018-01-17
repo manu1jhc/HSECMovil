@@ -1,30 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-<!--
-    <TextView
-        android:id="@+id/txtViewSample"
-        android:layout_width="wrap_content"
+
+
+        <TextView
+            android:id="@+id/tx_gal"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            android:text="Galeria de Fotos/Videos"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <GridView
+        android:id="@+id/grid_gal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tx_gal"
+        android:columnWidth="155dp"
+        android:horizontalSpacing="1dp"
+        android:verticalSpacing="2dp"
+        android:numColumns="auto_fit"
+        android:padding="2dp"
+        android:stretchMode="spacingWidthUniform">
+    </GridView>
+
+    <android.support.constraint.ConstraintLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/grid_gal"
+        android:id="@+id/cl_otros">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Otros documentos"
+            android:textSize="18sp"
+            android:textStyle="bold"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_otros"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="sample fragment" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/cl_otros">
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/txtViewSample"
-        android:layout_marginTop="15dp"
-        app:srcCompat="@mipmap/ic_launcher_round" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Aqui iran otros archivos"
+            />
 
--->
+    </FrameLayout>
 
 
 </RelativeLayout>

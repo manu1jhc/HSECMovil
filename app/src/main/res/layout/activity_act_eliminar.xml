@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pango.hsec.hsec.Observaciones.Act_galeria">
+    tools:context="com.pango.hsec.hsec.Observaciones.Act_eliminar">
 
 </android.support.constraint.ConstraintLayout>

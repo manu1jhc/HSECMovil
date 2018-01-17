@@ -204,6 +204,11 @@ public class Login extends AppCompatActivity implements IActivity{
     }
 
     @Override
+    public void successpost(String data) {
+
+    }
+
+    @Override
     public void error(String mensaje) {
 
     }

@@ -22,6 +22,9 @@ import layout.FragmentMuro;
 
 public class FragmentObs extends Fragment implements IActivity {
 	ObsAdapter obsAdapter;
+	String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
+	String[] obsDetIzq={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
+
 
 	private View mView;
 	String codObs;
@@ -43,11 +46,17 @@ public class FragmentObs extends Fragment implements IActivity {
 			Bundle savedInstanceState) {
 
 		mView = inflater.inflate(R.layout.fragment_obs, container, false);
+		GlobalVariables.count=1;
+		GlobalVariables.view_fragment=mView;
+
+
 		codObs=getArguments().getString("bString");
 		url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
 
+
+
 		final ActivityController obj = new ActivityController("get", url, FragmentObs.this);
-		obj.execute();
+		obj.execute("");
 
 		return mView;
 	}
@@ -59,31 +68,59 @@ public class FragmentObs extends Fragment implements IActivity {
 		ObservacionModel getUsuarioModel = gson.fromJson(data, ObservacionModel.class);
 
 		//if(getUsuarioModel.CodUbicacion)
-		String[] parts = getUsuarioModel.CodUbicacion.split(".");
+		String[] parts = getUsuarioModel.CodUbicacion.split("\\.");
 
 
 
-		//String area=getUsuarioModel.CodAreaHSEC;
+		if(parts.length==1){
+			for(int i=0;i<obsDetcab.length;i++){
+				if(obsDetcab.equals("CodSubUbicacion")){
 
+					for (int j = i; j < obsDetcab.length - 2; j++) {
+						obsDetcab[j] = obsDetcab[j+2];
+						obsDetIzq[j]=obsDetIzq[j+2];
 
+					}
+					obsDetcab[obsDetcab.length - 1] = "";
+					obsDetcab[obsDetcab.length - 2] = "";
 
+					obsDetIzq[obsDetIzq.length - 1] = "";
+					obsDetIzq[obsDetIzq.length - 2] = "";
 
+				}
 
-		obsAdapter = new ObsAdapter(getContext(),getUsuarioModel);
+				}
+
+		}else if(parts.length==2){
+
+			for(int i=0;i<obsDetcab.length;i++){
+				if(obsDetcab[i].equals("UbicacionEsp")){
+
+					for (int j = i; j < obsDetcab.length - 1; j++) {
+						obsDetcab[j] = obsDetcab[j+1];
+						obsDetIzq[j]=obsDetIzq[j+1];
+
+					}
+					obsDetcab[obsDetcab.length - 1] = "";
+					obsDetIzq[obsDetIzq.length - 1] = "";
+				}
+			}
+		}
+
+		obsAdapter = new ObsAdapter(getContext(),getUsuarioModel,obsDetcab,obsDetIzq);
 
 		ListView listaDetalles = (ListView) mView.findViewById(R.id.list_det);
 		listaDetalles.setAdapter(obsAdapter);
 
+	}
 
-
-
-
+	@Override
+	public void successpost(String data) {
 
 	}
 
 	@Override
 	public void error(String mensaje) {
-
 
 
 	}

@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
 
+import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
@@ -54,12 +55,23 @@ public class GlobalVariables {
 
     public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<PublicacionModel>();
     public static String  json_user="";
-    public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Gerencia","Superint","CodUbicacion","Lugar","CodTipo"};
-    public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Gerencia","Superintendencia","Ubicacion","Lugar","Tipo"};
+
+    //public static String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
+    //public static String[] obsDetIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
+
+
+
+    public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
+    public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
+
+
+
+    public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","CodSolicitadoPor","CodResponsable","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
+    public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Responsable", "Acción relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
+
+    public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
 
     public static int  CodRol=3;
-
-
 
 
 
@@ -67,8 +79,16 @@ public class GlobalVariables {
 
     public static  ArrayList<Maestro> Area_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> Tipo_obs2 = new ArrayList<>();
+
+    public static  ArrayList<Maestro> Gerencia = new ArrayList<>();
+    public static  ArrayList<Maestro> SuperIntendencia = new ArrayList<>();
+
+
     public static  ArrayList<Maestro> NivelRiesgo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Ubicaciones_obs = new ArrayList<>();
+
+
     public static  ArrayList<Maestro> Ubicacion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> SubUbicacion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> UbicacionEspecifica_obs = new ArrayList<>();
@@ -88,14 +108,35 @@ public class GlobalVariables {
         }
         return "";
     }
+
+
+
+
+
     public static void LoadData() {
         if(!Area_obs.isEmpty()) return;
         Area_obs.add(new Maestro("001", "Seguridad"));
         Area_obs.add(new Maestro("002", "Salud Ocupacional"));
         Area_obs.add(new Maestro("004", "Comunidades"));
 
+        Gerencia.add(new Maestro("001", "Seguridad"));
+        Gerencia.add(new Maestro("002", "Salud Ocupacional"));
+        Gerencia.add(new Maestro("004", "Comunidades"));
+
+        SuperIntendencia.add(new Maestro("001", "Seguridad"));
+        SuperIntendencia.add(new Maestro("002", "Salud Ocupacional"));
+        SuperIntendencia.add(new Maestro("004", "Comunidades"));
+
+
         Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
         Tipo_obs.add(new Maestro("TO02", "Condición"));
+
+
+        Tipo_obs2.add(new Maestro("TO01", "Comportamiento"));
+        Tipo_obs2.add(new Maestro("TO02", "Condición"));
+        Tipo_obs2.add(new Maestro("TO03", "Tarea"));
+        Tipo_obs2.add(new Maestro("TO04", "Interacción de  Seguridad (IS)"));
+
 
 
         NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
@@ -1059,4 +1100,27 @@ public class GlobalVariables {
         Ubicaciones_obs.add(new Maestro("17.05","Patio de Soldadura"));
         Ubicaciones_obs.add(new Maestro("17.06","Control Room"));
     }
+
+
+    public static String CodObs="";
+
+    public static List<GaleriaModel> listaGaleria =new ArrayList<GaleriaModel>();
+
+    public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
+
+    public static int con_status_video=200;
+
+   // public static List<Maestro> listPlan=new ArrayList<>();
+
+    //autenticacion
+    public static String reemplazar(String cadena, String busqueda, String reemplazo) {
+        return cadena.replaceAll(busqueda, reemplazo);
+    }
+    public static String reemplazarUnicode(String cadena) {
+        String cadena1 = GlobalVariables.reemplazar(cadena, "\\\\u000a", "\n");
+        String cadena2 = GlobalVariables.reemplazar(cadena1,"\\\\u000d", "\r");
+        String cadena3 = GlobalVariables.reemplazar(cadena2,"\\\\u0009", "\t");
+        return cadena3;
+    }
+
 }

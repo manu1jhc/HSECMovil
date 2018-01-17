@@ -4,39 +4,44 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.model.ObservacionModel;
+import com.pango.hsec.hsec.model.GetPlanModel;
+import com.pango.hsec.hsec.model.PlanModel;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Andre on 28/12/2017.
+ * Created by Andre on 11/01/2018.
  */
 
-public class ObsAdapter extends BaseAdapter {
+public class PlandetAdapter extends BaseAdapter {
     private Context context;
-    ObservacionModel observacionModel;
-    String [] obsDetcab;
-    String []obsDetIzq;
-    public ObsAdapter(Context context, ObservacionModel observacionModel,String [] obsDetcab,String []obsDetIzq) {
+    //private ArrayList<PlanModel> data = new ArrayList<PlanModel>();
+    PlanModel planModel;
+    DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'00:00:00");
+    DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+
+    public PlandetAdapter(Context context, PlanModel planModel) {
+        this.planModel = planModel;
         this.context = context;
-        this.observacionModel=observacionModel;
-        this.obsDetcab=obsDetcab;
-        this.obsDetIzq=obsDetIzq;
-
     }
-
 
     @Override
     public int getCount() {
-        return obsDetcab.length;
+        return GlobalVariables.planDetCab.length;
     }
 
     @Override
-    public ObservacionModel getItem(int position) {
+    public Object getItem(int position) {
         return null;
     }
 
@@ -53,11 +58,16 @@ public class ObsAdapter extends BaseAdapter {
         convertView = inflater.inflate(R.layout.obslist, parent, false);
 
         TextView ladoIzquierdo=convertView.findViewById(R.id.txcab);
-        ladoIzquierdo.setText(obsDetIzq[position]);
+        ladoIzquierdo.setText(GlobalVariables.planDetIzq[position]);
+
+
+
         TextView ladoDerecho=convertView.findViewById(R.id.txdet);
-        ladoDerecho.setText(Utils.getTicketProperty(observacionModel,obsDetcab[position]));
+        ladoDerecho.setText(Utils.getPlan(planModel,GlobalVariables.planDetCab[position]));
 
 
         return convertView;
     }
+
+
 }
