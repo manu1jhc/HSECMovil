@@ -102,7 +102,7 @@ public class Login extends AppCompatActivity implements IActivity{
             user=et_User.getText().toString();
             pass=et_Password.getText().toString();
             dom="anyaccess";
-            url_token="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/membership/authenticate?"+"username="+user+"&password="+pass+"&domain="+dom;
+            url_token=GlobalVariables.Url_base+"membership/authenticate?"+"username="+user+"&password="+pass+"&domain="+dom;
 
             //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/usuario/getdata/
 

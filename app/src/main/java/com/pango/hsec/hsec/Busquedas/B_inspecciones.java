@@ -1,6 +1,5 @@
 package com.pango.hsec.hsec.Busquedas;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.content.Intent;
@@ -14,88 +13,84 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TabHost;
-import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.SelectDateFragment;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
-import com.pango.hsec.hsec.model.ObservacionModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class B_observaciones extends AppCompatActivity {
+public class B_inspecciones extends AppCompatActivity {
     ArrayList<Maestro> gerenciadata;
     ArrayList<Maestro> superintdata;
-    ArrayList<Maestro> area_data;
-    ArrayList<Maestro> tipo_data;
-    ArrayList<Maestro> nivel_data;
-    String area, area_pos="0";
-    String tipo, tipo_pos="0";
-    String nivel, nivel_pos="0";
-    String gerencia_pos="0";
-    String superint_pos="0";
+    ArrayList<Maestro> ubicaciondata;
+    ArrayList<Maestro> sububicacion_data;
 
-    ObservacionModel  observacionModel=new ObservacionModel();
+    InspeccionModel inspeccionModel=new InspeccionModel();
+
 
     Calendar myCalendar,myCalendar2;
     DatePickerDialog.OnDateSetListener date, datefin;
     DialogFragment newFragment;
+
     Button btnFechaInicio,btnFechaFin,btnbuscar;
-    Spinner spinnerArea,spinnerTipoObs, spinnerNivel, spinnerGerencia,spinnerSuperInt;
+    Spinner spinnerUbicacion,spinnerSubUbicacion, spinnerGerencia,spinnerSuperInt;
     String Ubicacionfinal="",TipoObs;
-    EditText codObs;
     boolean escogioFecha;
     String fechaEscogida;
     boolean ultima_fecha=true;
     ImageButton btn_buscar_p;
+    ImageButton btn_buscar_c;
+
     String datos_user;
     String codUser;
     ArrayAdapter adapterSuperInt;
-    TextView id_persona;
 
-
+    TextView id_persona,insp_contrata;
+    EditText codInsp;
     String fecha_inicio="-";
     String fecha_fin="-";
     public static final int REQUEST_CODE = 1;
+
+    String gerencia_pos="0";
+    String superint_pos="0";
+    String ubic_pos="0";
+    String sububic_pos="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_b_observaciones);
+        setContentView(R.layout.activity_b_inspecciones);
 
-
-        spinnerArea = (Spinner) findViewById(R.id.spinner_area);
-        spinnerTipoObs=(Spinner) findViewById(R.id.spinner_tipobs);
-        spinnerNivel = (Spinner) findViewById(R.id.spinner_NivelR);
-
+        spinnerUbicacion = (Spinner) findViewById(R.id.spinner_ubicacion);
+        spinnerSubUbicacion=(Spinner) findViewById(R.id.spinner_sububic);
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.spinner_superint);
 
-        codObs=(EditText) findViewById(R.id.id_CodObservacion);
+        codInsp=(EditText) findViewById(R.id.id_CodInspeccion);
         btnFechaInicio=(Button) findViewById(R.id.btn_fecha_desde);
         btnFechaFin=(Button) findViewById(R.id.btn_fecha_fin);
-        btnbuscar=(Button) findViewById(R.id.btn_buscar_obs);
+
+        btnbuscar=(Button) findViewById(R.id.btn_buscar_insp);
+
         btn_buscar_p=(ImageButton) findViewById(R.id.btn_buscar_p);
         id_persona=(TextView) findViewById(R.id.id_persona);
+        btn_buscar_c=(ImageButton) findViewById(R.id.btn_buscar_c);
+        insp_contrata=(TextView) findViewById(R.id.insp_contrata);
 
-        area_data= new ArrayList<>();
-        area_data.add(new Maestro(null,"-  Seleccione  -"));
-        area_data.addAll(GlobalVariables.Area_obs);
+        ubicaciondata= new ArrayList<>();
+        //ubicaciondata.add(new Maestro(null,"-  Seleccione  -"));
+        ubicaciondata.addAll(GlobalVariables.Ubicacion_obs);
 
-        tipo_data= new ArrayList<>();
-        tipo_data.add(new Maestro(null,"-  Seleccione  -"));
-        tipo_data.addAll(GlobalVariables.Tipo_obs);
-
-        nivel_data= new ArrayList<>();
-        nivel_data.add(new Maestro(null,"-  Seleccione  -"));
-        nivel_data.addAll(GlobalVariables.NivelRiesgo_obs);
+        sububicacion_data= new ArrayList<>();
+        //sububicacion_data.add(new Maestro(null,"-  Seleccione  -"));
+        sububicacion_data.addAll(GlobalVariables.SubUbicacion_obs);
 
         gerenciadata= new ArrayList<>();
         gerenciadata.add(new Maestro(null,"-  Seleccione  -"));
@@ -105,19 +100,13 @@ public class B_observaciones extends AppCompatActivity {
         superintdata.add(new Maestro(null,"-  Seleccione  -"));
         superintdata.addAll(GlobalVariables.SuperIntendencia);
 
+        ArrayAdapter adapterUbic = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, ubicaciondata);
+        adapterUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerUbicacion.setAdapter(adapterUbic);
 
-
-        ArrayAdapter adapterArea = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, area_data);
-        adapterArea.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerArea.setAdapter(adapterArea);
-
-        ArrayAdapter adapterTipoObs = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, tipo_data);
-        adapterTipoObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerTipoObs.setAdapter(adapterTipoObs);
-
-        ArrayAdapter adapterNivel = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, nivel_data);
-        adapterNivel.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        spinnerNivel.setAdapter(adapterNivel);
+        final ArrayAdapter adapterSubUbic = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, sububicacion_data);
+        adapterSubUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinnerSubUbicacion.setAdapter(adapterSubUbic);
 
         //aqui va spinner gerencia y superintendencia
         ArrayAdapter adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, gerenciadata);
@@ -128,27 +117,56 @@ public class B_observaciones extends AppCompatActivity {
         adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
 
-        spinnerArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerUbicacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0) {
-                    Utils.observacionModel.CodAreaHSEC=area_data.get(position).CodTipo;
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+               /* Maestro ubica = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_ubic) ).getSelectedItem();
+                Ubicacionfinal=ubica.CodTipo;*/
+                String ubicacion=ubicaciondata.get(position).CodTipo;
+                Utils.inspeccionModel.CodUbicacion=ubicaciondata.get(position).CodTipo;
 
-                    //area = area_data.get(position).CodTipo;
-                    area_pos= String.valueOf(position);
-                }else {
-                    Utils.observacionModel.CodAreaHSEC=null;
-                    area="";
-                    area_pos=String.valueOf(position);
+                sububicacion_data.clear();
+
+                for (Maestro item: GlobalVariables.loadUbicacion(ubicacion,2)
+                        ) {
+                    sububicacion_data.add(item);
                 }
-
-                }
-
+                adapterSubUbic.notifyDataSetChanged();
+                spinnerSubUbicacion.setSelection(0);
+            }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onNothingSelected(AdapterView<?> parentView) {
+                Ubicacionfinal = "";
             }
         });
+
+        spinnerSubUbicacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+
+                String sububic;
+                if(position!=0) {
+                    sububic = superintdata.get(position).CodTipo.split("\\.")[1];
+                    Utils.inspeccionModel.CodSubUbicacion=sububicacion_data.get(position).CodTipo.split("\\.")[1];
+                    superint_pos=String.valueOf(position);
+                }else{
+                    sububic="";
+                    sububic_pos="0";
+                }
+
+
+
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                Ubicacionfinal = Ubicacionfinal.split("\\.")[0];
+            }
+        });
+
+
+
+
 
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -158,7 +176,7 @@ public class B_observaciones extends AppCompatActivity {
                 gerencia=Geren.CodTipo;*/
                     //superint=null;
                     String gerencia = gerenciadata.get(position).CodTipo;
-                    Utils.observacionModel.Gerencia = gerenciadata.get(position).CodTipo;
+                    Utils.inspeccionModel.Gerencia = gerenciadata.get(position).CodTipo;
                     gerencia_pos = String.valueOf(position);
                     superintdata.clear();
                     for (Maestro item : GlobalVariables.loadSuperInt(gerencia)
@@ -170,7 +188,7 @@ public class B_observaciones extends AppCompatActivity {
 
                 }else{
                     gerencia_pos = String.valueOf(position);
-                    Utils.observacionModel.Gerencia=null;
+                    Utils.inspeccionModel.Gerencia=null;
                 }
 
             }
@@ -188,12 +206,12 @@ public class B_observaciones extends AppCompatActivity {
 
                 String superint;
                 if(position!=0) {
-                 superint = superintdata.get(position).CodTipo.split("\\.")[1];
-                    Utils.observacionModel.Superint=superintdata.get(position).CodTipo.split("\\.")[1];
-                 superint_pos=String.valueOf(position);
+                    superint = superintdata.get(position).CodTipo.split("\\.")[1];
+                    Utils.inspeccionModel.SuperInt=superintdata.get(position).CodTipo.split("\\.")[1];
+                    superint_pos=String.valueOf(position);
                 }else{
-                  superint="";
-                  superint_pos="0";
+                    superint="";
+                    superint_pos="0";
                 }
 
 
@@ -201,50 +219,10 @@ public class B_observaciones extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-               // superint="";
+                // superint="";
             }
         });
 
-
-        spinnerTipoObs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0) {
-
-                    Utils.observacionModel.CodTipo = tipo_data.get(position).CodTipo;
-                    tipo_pos=String.valueOf(position);
-                }else{
-                    tipo="";
-                    Utils.observacionModel.CodTipo=null;
-                    tipo_pos=String.valueOf(position);
-                }
-
-                }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        spinnerNivel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0) {
-                    Utils.observacionModel.CodNivelRiesgo=nivel_data.get(position).CodTipo;
-                    //nivel = nivel_data.get(position).Descripcion;
-                    nivel_pos=String.valueOf(position);
-                }else{
-                    Utils.observacionModel.CodNivelRiesgo=null;
-                    nivel_pos=String.valueOf(position);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         /////////////Fechas//////////////////////////////////////////////////////
         myCalendar = Calendar.getInstance();
@@ -260,12 +238,12 @@ public class B_observaciones extends AppCompatActivity {
 
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
                 SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
-                Utils.observacionModel.Fecha_inicio= String.valueOf(fecha_envio.format(actual));
+                Utils.inspeccionModel.FechaP= String.valueOf(fecha_envio.format(actual));
 
                 fecha_inicio=dt.format(actual);
                 btnFechaInicio.setText(dt.format(actual));
-               // btnFechaFin.setText(dt.format(actual));
-               // fecha_inicio=dt.format(actual);
+                // btnFechaFin.setText(dt.format(actual));
+                // fecha_inicio=dt.format(actual);
                 escogioFecha = true;
                 dt = new SimpleDateFormat("yyyyMMdd");
                 fechaEscogida = dt.format(actual);
@@ -293,10 +271,10 @@ public class B_observaciones extends AppCompatActivity {
 
                 SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
 
-                Utils.observacionModel.Fecha_fin= String.valueOf(fecha_envio.format(actual));
+                Utils.inspeccionModel.Fecha= String.valueOf(fecha_envio.format(actual));
 
                 fecha_fin=dt.format(actual);
-                 btnFechaFin.setText(dt.format(actual));
+                btnFechaFin.setText(dt.format(actual));
                 //fecha_fin=dt.format(actual);
                 escogioFecha = true;
                 dt = new SimpleDateFormat("yyyyMMdd");
@@ -307,6 +285,7 @@ public class B_observaciones extends AppCompatActivity {
             }
 
         };
+
 
 
         btn_buscar_p.setOnClickListener(new View.OnClickListener() {
@@ -324,50 +303,22 @@ public class B_observaciones extends AppCompatActivity {
                 Utils.tempObs.add(gerencia_pos);
                 Utils.tempObs.add(superint_pos);
 */
-               // Intent intent = new Intent(B_observaciones.this, B_personas.class);
+                // Intent intent = new Intent(B_observaciones.this, B_personas.class);
                 //startActivity(intent);
 
-                Intent intent = new Intent(B_observaciones.this, B_personas.class);
+                Intent intent = new Intent(B_inspecciones.this, B_personas.class);
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });
 
 
-       // Bundle datos = this.getIntent().getExtras();
-        //datos_user=datos.getString("nombreP");
-/*
-        if(datos_user.equals("")){
-
-        }else{
-            codUser=datos.getString("codpersona");
-            id_persona.setText(datos_user);
-
-            codObs.setText(Utils.tempObs.get(0));
-           spinnerArea.setSelection(Integer.parseInt(Utils.tempObs.get(1)));
-             spinnerTipoObs.setSelection(Integer.parseInt(Utils.tempObs.get(2)));
-            spinnerNivel.setSelection(Integer.parseInt(Utils.tempObs.get(3)));
-
-
-            btnFechaInicio.setText(Utils.tempObs.get(4));
-            btnFechaFin.setText(Utils.tempObs.get(5));
-
-            spinnerGerencia.setSelection(Integer.parseInt(Utils.tempObs.get(6)));
-            spinnerSuperInt.setSelection(Integer.parseInt(Utils.tempObs.get(7)));
-            observacionModel=Utils.observacionModel;
-
-        }
-*/
-
-
         btnbuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.observacionModel.CodObservacion=String.valueOf(codObs.getText());
-                observacionModel=Utils.observacionModel;
+                Utils.inspeccionModel.CodInspeccion=String.valueOf(codInsp.getText());
+                inspeccionModel=Utils.inspeccionModel;
                 Intent intent = getIntent();
-                intent.putExtra("Tipo_Busqueda",1);
-
-                //intent.putExtra("nombreP",nombre);
+                intent.putExtra("Tipo_Busqueda",2);
                 //intent.putExtra("codpersona",CodPersona);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -378,12 +329,14 @@ public class B_observaciones extends AppCompatActivity {
 
 
 
+
+
+
     }
 
     public void close(View view){
         finish();
     }
-
 
     public void escogerFecha(View view){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
@@ -414,6 +367,7 @@ public class B_observaciones extends AppCompatActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
@@ -425,17 +379,14 @@ public class B_observaciones extends AppCompatActivity {
                 String codpersona_obs = data.getStringExtra("codpersona");
 
                 id_persona.setText(nombre_obs);
-                Utils.observacionModel.ObservadoPor=codpersona_obs;
+                Utils.inspeccionModel.CodTipo=codpersona_obs;
+
             }
-
-
-
         } catch (Exception ex) {
-            Toast.makeText(B_observaciones.this, ex.toString(),
+            Toast.makeText(B_inspecciones.this, ex.toString(),
                     Toast.LENGTH_SHORT).show();
         }
 
     }
-
 
 }

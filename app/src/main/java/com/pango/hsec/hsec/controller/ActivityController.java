@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Utils;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -118,9 +119,14 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     protected void onPreExecute() {
         if(opcion == "get"){
 
-        if (GlobalVariables.isFragment==false) {
+
+        if(GlobalVariables.istabs){
             super.onPreExecute();
-            progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
+            progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
+
+        } else if (GlobalVariables.isFragment==false) {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show((Context) activity, "", "Cargando...");
         }  else if (GlobalVariables.count==1){
             super.onPreExecute();
             progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
@@ -133,17 +139,30 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
        /* }   else if(opcion == "get"&&GlobalVariables.flagDownSc){
             super.onPreExecute();
 */
+        }else if(Utils.isActivity){
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
+
         }
 
         }else if(opcion == "post"){
-            progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Enviando");
+            if (GlobalVariables.isFragment) {
+                progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Enviando");
+            }else if(Utils.isActivity){
+                super.onPreExecute();
+                progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
 
+            }
         }
+
+
+
     }
 
     @Override
     protected void onPostExecute(Void result) {
     if(opcion=="get") {
+        GlobalVariables.isFragment=false;
         switch (GlobalVariables.con_status) {
             case 401:
                 //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
@@ -167,32 +186,40 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         //progressDialog.dismiss();
         int a=GlobalVariables.count;
 
+        if(GlobalVariables.istabs){
+            //GlobalVariables.istabs=false;
+            progressDialog.dismiss();
+
+        }else
+
         if (GlobalVariables.count == 1||GlobalVariables.count == 2||GlobalVariables.count == 3||GlobalVariables.count == 4) {
             GlobalVariables.count++;
+            //GlobalVariables.count=5;
             progressDialog.dismiss();
+        }else if(Utils.isActivity){
+            progressDialog.dismiss();
+            Utils.isActivity=false;
         }
         //mainActivity.success();
     }else if(opcion=="post"){
+        if(GlobalVariables.isFragment){
+            progressDialog.dismiss();
+            GlobalVariables.isFragment=false;
+        }else if(Utils.isActivity){
+            progressDialog.dismiss();
+            Utils.isActivity=false;
+        }
+
         Resultado=Resultado.substring(1,Resultado.length()-1);
         activity.successpost(Resultado,Tipo);
-        progressDialog.dismiss();
+
+
 
 
     }
 
 
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

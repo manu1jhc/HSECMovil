@@ -21,6 +21,8 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 
+import static com.pango.hsec.hsec.Observaciones.ActMuroDet.jsonGaleria;
+
 public class FragmentGaleria extends Fragment implements IActivity, AdapterView.OnItemClickListener {
 
 	private static View mView;
@@ -55,8 +57,9 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		cl_otros=(ConstraintLayout) mView.findViewById(R.id.cl_otros);
 		frame_otros=(FrameLayout) mView.findViewById(R.id.frame_otros);
 
-		GlobalVariables.count=1;
+		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
+		GlobalVariables.isFragment=true;
 
 		//codObs=getArguments().getString("bString");
 		codObs="OBS00240578";
@@ -64,12 +67,14 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		url= GlobalVariables.Url_base+"media/GetMultimedia/"+codObs;
 
 		//https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/GetMultimedia/OBS00240578
+		if(jsonGaleria.isEmpty()) {
+			GlobalVariables.istabs=true;
+			final ActivityController obj = new ActivityController("get", url, FragmentGaleria.this);
+			obj.execute("");
 
-
-		final ActivityController obj = new ActivityController("get", url, FragmentGaleria.this);
-		obj.execute("");
-
-
+		}else{
+			success(jsonGaleria,"");
+		}
 
 
 
@@ -113,6 +118,8 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 
 	@Override
 	public void success(String data,String Tipo) {
+		//GlobalVariables.istabs=false;
+		jsonGaleria=data;
 		Gson gson = new Gson();
 		GetGaleriaModel getGaleriaModel = gson.fromJson(data, GetGaleriaModel.class);
 		GlobalVariables.listaGaleria=getGaleriaModel.Data;

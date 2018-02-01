@@ -13,9 +13,10 @@ public class PublicacionModel {
     public String Fecha;
     public String ObsPor;
     public int Comentarios;
+    public Boolean Editable;
     public String Obs;
     public String UrlPrew;
     public String UrlObs;
-
+    public String Estado;
 
 }

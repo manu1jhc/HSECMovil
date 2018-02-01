@@ -7,28 +7,28 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 
 /**
- * Created by Andre on 28/12/2017.
+ * Created by Andre on 29/01/2018.
  */
 
-public class ObsAdapter extends BaseAdapter {
+public class InspAdapter extends BaseAdapter {
+
     private Context context;
-    ObservacionModel observacionModel;
+    InspeccionModel inspeccionModel;
     String [] obsDetcab;
     String []obsDetIzq;
-    public ObsAdapter(Context context, ObservacionModel observacionModel,String [] obsDetcab,String []obsDetIzq) {
+    public InspAdapter(Context context, InspeccionModel inspeccionModel,String [] obsDetcab,String []obsDetIzq) {
         this.context = context;
-        this.observacionModel=observacionModel;
+        this.inspeccionModel=inspeccionModel;
         this.obsDetcab=obsDetcab;
         this.obsDetIzq=obsDetIzq;
 
     }
-
 
     @Override
     public int getCount() {
@@ -36,7 +36,7 @@ public class ObsAdapter extends BaseAdapter {
     }
 
     @Override
-    public ObservacionModel getItem(int position) {
+    public InspeccionModel getItem(int position) {
         return null;
     }
 
@@ -47,18 +47,15 @@ public class ObsAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.obslist, parent, false);
 
         TextView ladoIzquierdo=convertView.findViewById(R.id.txcab);
-        String a=obsDetIzq[position];
         ladoIzquierdo.setText(obsDetIzq[position]);
         TextView ladoDerecho=convertView.findViewById(R.id.txdet);
-        String b=Utils.getTicketProperty(observacionModel,obsDetcab[position]);
 
-        ladoDerecho.setText(Utils.getTicketProperty(observacionModel,obsDetcab[position]));
+        ladoDerecho.setText(Utils.getInspeccionData(inspeccionModel,obsDetcab[position]));
 
 
         return convertView;

@@ -113,7 +113,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
         try {
             HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet("https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/usuario/getdata/");
+            HttpGet get = new HttpGet(GlobalVariables.Url_base+"usuario/getdata/");
             get.setHeader("Authorization", "Bearer " +Token);
 
             //get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);

@@ -60,8 +60,23 @@
         <activity
             android:name=".Busquedas.B_observaciones"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Busquedas.B_personas"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".Busquedas.B_personas"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".Busquedas.B_inspecciones"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            />
+        <activity android:name=".Inspecciones.ActInspeccionDet"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            ></activity>
     </application>
 
 </manifest>

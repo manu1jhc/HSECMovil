@@ -12,6 +12,7 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
@@ -49,15 +50,21 @@ public class GlobalVariables implements IActivity {
     public static View view_fragment;
     public static boolean isFragment=false;
     public static int contpublic=1;
-    public static int num_items=5;
+    public static int num_items=7;
     public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
+    //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
+    //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
 
     public static boolean flagUpSc=false;
    // public static boolean FDown=false;
-   public static int count=1;
+   public static int count=5;
     public static boolean flag_up_toast=false;
 
     public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<PublicacionModel>();
+    public static ArrayList<PersonaModel> lista_Personas=new ArrayList<>();
+
+    public static ArrayList<PublicacionModel> listaGlobalFiltro = new  ArrayList<PublicacionModel>();
+
     public static String  json_user="";
 
     //public static String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
@@ -93,6 +100,10 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> SubUbicacion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> UbicacionEspecifica_obs = new ArrayList<>();
 
+    public static  ArrayList<Maestro> Tipo_insp = new ArrayList<>();
+
+
+
     //Obserbacion Detalle
     public static  ArrayList<Maestro> Actividad_obs = new ArrayList<>();
     public static  ArrayList<Maestro> HHA_obs = new ArrayList<>();
@@ -122,6 +133,11 @@ public class GlobalVariables implements IActivity {
         SuperIntendencia.add(new Maestro("001", "Seguridad"));
         SuperIntendencia.add(new Maestro("002", "Salud Ocupacional"));
         SuperIntendencia.add(new Maestro("004", "Comunidades"));*/
+
+        Tipo_insp.add(new Maestro("1","Operativo"));
+        Tipo_insp.add(new Maestro("2","Gerencial"));
+        Tipo_insp.add(new Maestro("3","Comité"));
+
 
         Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
         Tipo_obs.add(new Maestro("TO02", "Condición"));
@@ -1145,6 +1161,10 @@ public class GlobalVariables implements IActivity {
     public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
 
     public static int con_status_video=200;
+
+
+    public static boolean flagObsFiltro=true;
+    public static boolean istabs=false;
 
    // public static List<Maestro> listPlan=new ArrayList<>();
 

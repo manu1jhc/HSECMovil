@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +30,15 @@ import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.observacion_edit;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -87,6 +93,8 @@ public class FragmentMuro extends Fragment implements IActivity{
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
     ListView List_muro;
     View rootView;
+
+    //boolean flagFiltro=true;
     //ArrayList<PublicacionModel> listaPublicaciones = new  ArrayList<PublicacionModel>();
     boolean upFlag;
     boolean downFlag;
@@ -104,7 +112,13 @@ public class FragmentMuro extends Fragment implements IActivity{
     int contPublicacion;
     boolean is_swipe=true;
     ImageView imageView;
-   // TextView tx_comentario;
+    int paginacion=1;
+    String datos;
+    //TextView tx_comentario;
+    boolean flagpopup=false;
+    LayoutInflater layoutInflater;
+    View popupView;
+    PopupWindow popupWindow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -123,10 +137,11 @@ public class FragmentMuro extends Fragment implements IActivity{
         btn_galeria=(ImageButton) rootView.findViewById(R.id.btn_galeria);
         imageView=rootView.findViewById(R.id.imageView3);
         //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
-        url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+GlobalVariables.contpublic+"/"+GlobalVariables.num_items;
+
+        url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+paginacion+"/"+"7";
+
         GlobalVariables.count=5;
-
-
+        GlobalVariables.LoadData();
 
 
         if(GlobalVariables.listaGlobal.size()==0){
@@ -217,24 +232,34 @@ public class FragmentMuro extends Fragment implements IActivity{
             @Override
 
             public void onRefresh() {
+                GlobalVariables.istabs=false;
 
                 //is_swipe=false;
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
-             //   upFlag=false;
-              //  downFlag=false;
-               // (new Handler()).postDelayed(new Runnable() {
+                upFlag=false;
+                downFlag=false;
+
+                // (new Handler()).postDelayed(new Runnable() {
                 //    @Override
                 //    public void run() {
                         swipeRefreshLayout.setRefreshing(true);
                         loadingTop=true;
                         tx_texto.setVisibility(View.VISIBLE);
+                        //GlobalVariables.u.clear();
+
                         GlobalVariables.listaGlobal.clear();
-                        GlobalVariables.contpublic=2;
+                        //GlobalVariables.contpublic=2;
                         GlobalVariables.flagUpSc=true;
                         GlobalVariables.flag_up_toast=true;
-                        url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
-                        GlobalVariables.count=5;
+                        GlobalVariables.isFragment=true;
+                        paginacion=1;
+                        url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+paginacion+"/"+"7";
+                        //success(datos,"");
+
+
+
+                        GlobalVariables.count=5;//para que no entre al flag
                         final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
                         obj.execute("");
                        // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
@@ -271,15 +296,27 @@ public class FragmentMuro extends Fragment implements IActivity{
                         //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                         /// cambiar el 100 por el total de publicaciones
                         if (GlobalVariables.listaGlobal.size() != contPublicacion && flag_enter) {
+                            GlobalVariables.istabs=false;
 
                             //progressBarMain.setVisibility(View.VISIBLE);
                             flag_enter = false;
                             constraintLayout.setVisibility(View.VISIBLE);
-
-                            url = GlobalVariables.Url_base + "Observaciones/GetOBservaciones/-/" + GlobalVariables.contpublic + "/" + GlobalVariables.num_items;
+                            GlobalVariables.isFragment=true;
+                            paginacion+=1;
+                            url = GlobalVariables.Url_base + "Observaciones/GetOBservaciones/-/" + paginacion + "/" + "7";
                             GlobalVariables.count=5;
                             final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
                             obj.execute("");
+
+                            layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                            popupView = layoutInflater.inflate(R.layout.popup_blanco, null);
+
+                            popupWindow = new PopupWindow(popupView,RadioGroup.LayoutParams.MATCH_PARENT ,580,false);
+                            popupWindow.showAtLocation(List_muro, Gravity.CENTER, 0, 0);
+                            flagpopup=true;
+
+
+
 
                         }
 
@@ -352,6 +389,13 @@ public class FragmentMuro extends Fragment implements IActivity{
     @Override
     public void success(String data1,String Tipo) {
 
+        //datos=data1;
+
+        if(flagpopup){
+        popupWindow.dismiss();
+            flagpopup=false;
+        }
+
         Gson gson = new Gson();
         //List<PublicacionModel> getPublicacionModel= Arrays.asList(gson.fromJson(data1, PublicacionModel.class));
         //List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
@@ -375,15 +419,15 @@ public class FragmentMuro extends Fragment implements IActivity{
         List_muro.setAdapter(ca);
 
 
-        ca.notifyDataSetChanged();
+        //ca.notifyDataSetChanged();
         if(GlobalVariables.flagUpSc==true){
             List_muro.setSelection(0);
             GlobalVariables.flagUpSc=false;
         }else
             //reemplazar el 100
-        if(GlobalVariables.listaGlobal.size()>5&&GlobalVariables.listaGlobal.size()<contPublicacion) {
+        if(GlobalVariables.listaGlobal.size()>7&&GlobalVariables.listaGlobal.size()<contPublicacion) {
             //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-            List_muro.setSelection(GlobalVariables.listaGlobal.size()-6);
+            List_muro.setSelection(GlobalVariables.listaGlobal.size()-8);
 
         }else if(GlobalVariables.listaGlobal.size()==contPublicacion){
             List_muro.setSelection(GlobalVariables.listaGlobal.size());
@@ -393,7 +437,7 @@ public class FragmentMuro extends Fragment implements IActivity{
 
 
         flag_enter=true;
-        GlobalVariables.contpublic += 1;
+        //GlobalVariables.contpublic += 1;
         // progressDialog.dismiss();
        // progressBar.setVisibility(View.GONE);
 
@@ -402,6 +446,7 @@ public class FragmentMuro extends Fragment implements IActivity{
             loadingTop=false;
             swipeRefreshLayout.setRefreshing(false);
             tx_texto.setVisibility(View.GONE);
+            //popupWindow.dismiss();
             swipeRefreshLayout.setEnabled( false );
         }
 

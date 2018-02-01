@@ -26,6 +26,7 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPlanModel;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static com.pango.hsec.hsec.Observaciones.ActMuroDet.jsonPlan;
 
 public class FragmentPlan extends Fragment implements IActivity {
 
@@ -53,17 +54,20 @@ public class FragmentPlan extends Fragment implements IActivity {
 		mView = inflater.inflate(R.layout.fragment_plan, container, false);
 		listPlan=(ListView) mView.findViewById(R.id.list_plan);
 				//codObs=getArguments().getString("bString");
-		GlobalVariables.count=1;
+		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
+		GlobalVariables.isFragment=true;
 
 		codObs="OBS00067956";
 		url= GlobalVariables.Url_base+"PlanAccion/GetPlanes/"+codObs;
 
-
-
-		final ActivityController obj = new ActivityController("get", url, FragmentPlan.this);
-		obj.execute("");
-
+		if(jsonPlan.isEmpty()) {
+			GlobalVariables.istabs=true;
+			final ActivityController obj = new ActivityController("get", url, FragmentPlan.this);
+			obj.execute("");
+		}else{
+			success(jsonPlan,"");
+		}
 
 		return mView;
 	}
@@ -76,6 +80,8 @@ public class FragmentPlan extends Fragment implements IActivity {
 	ImageButton ibclose;
 	@Override
 	public void success(String data,String Tipo) {
+		//GlobalVariables.istabs=false;
+		jsonPlan=data;
 		Gson gson = new Gson();
 		final GetPlanModel getPlanModel = gson.fromJson(data, GetPlanModel.class);
 		String a="";
@@ -99,9 +105,6 @@ public class FragmentPlan extends Fragment implements IActivity {
 
 
 				popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.WRAP_CONTENT,RadioGroup.LayoutParams.WRAP_CONTENT,false);
-
-
-
 
 
 

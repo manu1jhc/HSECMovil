@@ -26,6 +26,8 @@ import com.pango.hsec.hsec.model.GetComentModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.pango.hsec.hsec.Observaciones.ActMuroDet.jsonComentario;
+
 public class FragmentComent extends Fragment implements IActivity {
 
 	private static View mView;
@@ -51,8 +53,9 @@ public class FragmentComent extends Fragment implements IActivity {
 			Bundle savedInstanceState) {
 
 		mView = inflater.inflate(R.layout.fragment_coment, container, false);
-		GlobalVariables.count=1;
+		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
+		GlobalVariables.isFragment=true;
 
 		btn_send=(ImageButton) mView.findViewById(R.id.btn_send);
 		et_comentario=(EditText) mView.findViewById(R.id.et_comentario);
@@ -63,11 +66,19 @@ public class FragmentComent extends Fragment implements IActivity {
 		codObs="OBS00240761";
 		url= GlobalVariables.Url_base+"Comentario/getObs/"+codObs;
 
-		final ActivityController obj = new ActivityController("get", url, FragmentComent.this);
-		obj.execute("");
+
+		if(jsonComentario.isEmpty()){
+			GlobalVariables.istabs=true;
+			final ActivityController obj = new ActivityController("get", url, FragmentComent.this);
+			obj.execute("");
+		}else {
+			success(jsonComentario,"");
+		}
+
+
+
 
 		btn_send.setEnabled(false);
-
 		et_comentario.addTextChangedListener(new TextWatcher() {
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -105,17 +116,14 @@ public class FragmentComent extends Fragment implements IActivity {
 				json += jsonObject.toString();
 
 				url= GlobalVariables.Url_base+"Comentario/insert";
-
+				GlobalVariables.isFragment=true;
 				final ActivityController obj = new ActivityController("post", url, FragmentComent.this);
 				obj.execute(json);
 
-			String a="";
+
 
 			}
 		});
-
-
-
 
 
 
@@ -125,6 +133,7 @@ public class FragmentComent extends Fragment implements IActivity {
 	ComentAdapter comentAdapter;
 	@Override
 	public void success(String data,String Tipo) {
+		jsonComentario =data;
 		Gson gson = new Gson();
 		GetComentModel getComentModel= gson.fromJson(data, GetComentModel.class);
 		comentAdapter=new ComentAdapter(getContext(),getComentModel.Data);
@@ -145,6 +154,7 @@ public class FragmentComent extends Fragment implements IActivity {
 			case "1":
 				Toast.makeText(getContext(),"Comentario enviado",Toast.LENGTH_SHORT).show();
 				GlobalVariables.count=5;
+				GlobalVariables.isFragment=true;
 				url= GlobalVariables.Url_base+"Comentario/getObs/"+codObs;
 				final ActivityController obj = new ActivityController("get", url, FragmentComent.this);
 				obj.execute("");

@@ -39,13 +39,13 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public PublicacionAdapter(@NonNull Context context, ArrayList<PublicacionModel> data) {
+    public PublicacionAdapter(Context context, ArrayList<PublicacionModel> data) {
         super(context, R.layout.publicalist, data);
         this.data = data;
         this.context = context;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         //ViewHolder viewHolder;
@@ -71,14 +71,13 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         final String tempNombre = data.get(position).ObsPor;
         final String tempFecha = data.get(position).Fecha;
         final String tempRiesgo = data.get(position).NivelR;
+
         final String tempTipo = data.get(position).Tipo;
         final String tempArea = data.get(position).Area;
         final String tempDetalle = data.get(position).Obs;
         final int comentarios=data.get(position).Comentarios;
-
+        //final String tempImgDet="";
         final String tempImgDet=data.get(position).UrlPrew;
-
-
 
         nombre.setText(tempNombre);
 
@@ -102,20 +101,21 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
         }
 
+        String tipo_ejm=GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo);
+        String area_ejm=GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
 
-        tipo.setText(ObtenerTipo(tempTipo));
-        area.setText(ObtenerArea(tempArea));
+        tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo));
+        area.setText(GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea));
         tx_det.setText(tempDetalle);
 
         comentario.setText(comentarios+" comentarios");
-
-
 
         comentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
 
+                GlobalVariables.istabs=true;
 
                 Intent intent = new Intent(v.getContext(), ActMuroDet.class);
                 intent.putExtra("codObs",data.get(position).Codigo);
@@ -180,15 +180,15 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     }
 
     public String ObtenerArea(String tempArea) {
-
+/*
         String area="";
         for(int i=0;i<GlobalVariables.Area_obs.size();i++){
             if(tempArea.equals(GlobalVariables.Area_obs.get(i).getCodTipo())){
                 area=GlobalVariables.Area_obs.get(i).getDescripcion();
                 break;
             }
-        }
-        return area;
+        }*/
+        return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
 
     }
 

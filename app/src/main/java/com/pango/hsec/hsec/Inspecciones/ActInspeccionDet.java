@@ -1,4 +1,4 @@
-package com.pango.hsec.hsec.Observaciones;
+package com.pango.hsec.hsec.Inspecciones;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,14 +9,15 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 
-import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
+import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.ObservacionModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener{
+
     MyPageAdapter pageAdapter;
     private ViewPager mViewPager;
     private TabHost mTabHost;
@@ -24,31 +25,36 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     String codObs;
     String urlObs;
     int pos;
-    HorizontalScrollView horizontalsv;
+    HorizontalScrollView horizontalscroll;
 
-    //public static ObservacionModel observacionData=new ObservacionModel();
-    public static String jsonObservacion="";
-    public static String jsonGaleria="";
-    public static String jsonPlan="";
+    public static String jsonInspeccion="";
+    public static String jsonEquipo="";
+    public static String jsonParticipante="";
+
+    public static String jsonObsIns="";
     public static String jsonComentario="";
 
-    //TabHost tabHost;
-    //
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_muro_det);
+        setContentView(R.layout.act_inspeccion_det);
 
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        GlobalVariables loaddata = new GlobalVariables();
-        loaddata.LoadData();
-        horizontalsv=findViewById(R.id.horizontalsv);
+        //GlobalVariables loaddata = new GlobalVariables();
+        //loaddata.LoadData();
+        horizontalscroll=findViewById(R.id.horizontalscroll);
         Bundle datos = this.getIntent().getExtras();
         codObs=datos.getString("codObs");
         pos=datos.getInt("posTab");
         //urlObs=datos.getString("UrlObs");
         //GlobalVariables.CodObs=codObs;
+
+
 
         initialiseTabHost();
 
@@ -56,18 +62,18 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(pageAdapter);
-        mViewPager.setOnPageChangeListener(ActMuroDet.this);
+        mViewPager.setOnPageChangeListener(ActInspeccionDet.this);
 
 
     }
     public void close(View view){
-    finish();
+        finish();
     }
 
 
 
     // Method to add a TabHost
-    private static void AddTab(ActMuroDet activity, TabHost tabHost,
+    private static void AddTab(ActInspeccionDet activity, TabHost tabHost,
                                TabHost.TabSpec tabSpec) {
         tabSpec.setContent(new MyTabFactory(activity));
         tabHost.addTab(tabSpec);
@@ -79,19 +85,14 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
         pos = this.mTabHost.getCurrentTab();
         this.mViewPager.setCurrentItem(pos);
-
-       // horizontalsv.scrollTo(pos, 0);
-      //  horizontalsv.refreshDrawableState();
-
     }
 
     @Override
     public void onPageScrollStateChanged(int arg0) {
-        //horizontalsv.scrollTo(5, 0);
-        //horizontalsv.setSelected(true);
     }
 
     // Manages the Page changes, synchronizing it with Tabs
+
     //numero de tab que quieres mostrar
 
 
@@ -103,19 +104,22 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
             this.mTabHost.setCurrentTab(3);
             pos=0;
         }else{
-        pos = this.mViewPager.getCurrentItem();
-        this.mTabHost.setCurrentTab(pos);
+            pos = this.mViewPager.getCurrentItem();
+            this.mTabHost.setCurrentTab(pos);
         }
+
+
 
         View tabView = mTabHost.getTabWidget().getChildAt(position);
         if (tabView != null)
         {
-            final int width = horizontalsv.getWidth();
+            final int width = horizontalscroll.getWidth();
             final int scrollPos = tabView.getLeft() - (width - tabView.getWidth()) / 2;
-            horizontalsv.scrollTo(scrollPos, 0);
+            horizontalscroll.scrollTo(scrollPos, 0);
         } else {
-            horizontalsv.scrollBy(positionOffsetPixels, 0);
+            horizontalscroll.scrollBy(positionOffsetPixels, 0);
         }
+
 
     }
 
@@ -133,12 +137,15 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 		fList.add(Fragment.instantiate(this, ComentarioFragment.class.getName()));
 		*/
 
+
+
+
         // TODO Put here your Fragments
-        FragmentObs f1 = FragmentObs.newInstance(codObs);
-        FragmentGaleria f2 = FragmentGaleria.newInstance(codObs);
-        FragmentPlan f3 = FragmentPlan.newInstance(codObs);
+        FragmentInspeccion f1 = FragmentInspeccion.newInstance(codObs);
+        FragmentParticipante f2 = FragmentParticipante.newInstance(codObs);
+        FragmentObsInsp f3 = FragmentObsInsp.newInstance(codObs);
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
-        FragmentComent f4=FragmentComent.newInstance(codObs);
+        FragmentComentIns f4=FragmentComentIns.newInstance(codObs);
 
         //ObsFragment f4 = ObsFragment.newInstance("","");
 
@@ -146,6 +153,8 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         fList.add(f2);
         fList.add(f3);
         fList.add(f4);
+
+
 
         return fList;
     }
@@ -156,15 +165,16 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         mTabHost.setup();
 
         // TODO Put here your Tabs
-        ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("observaciones"));
-        ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("Galería"));
-        ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab3").setIndicator("Plan de acción"));
-        ActMuroDet.AddTab(this, this.mTabHost,
+        ActInspeccionDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab1").setIndicator("Inspecciones"));
+        ActInspeccionDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab2").setIndicator("Participantes"));
+        ActInspeccionDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab3").setIndicator("Observaciones"));
+        ActInspeccionDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab4").setIndicator("Comentarios"));
         mTabHost.setOnTabChangedListener(this);
 
     }
+
 }

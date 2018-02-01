@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec;
 
+import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
@@ -60,16 +61,31 @@ public class Utils {
             case "Hora":
                 return formatoHora.format(temp).replace(". ","").replace(".","");
             case "Gerencia":
-                return observacionModel.Gerencia;
+
+                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,observacionModel.Gerencia).trim().replace("=","");
+
+
+
             case "Superint":
-                return observacionModel.Superint;
+                //return observacionModel.Superint;
+
+
+                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,observacionModel.Gerencia+"."+observacionModel.Superint).trim().replace("=","");
 
 
             case "CodUbicacion":
+                String[] parts = new String[0];
                 cad=observacionModel.CodUbicacion;
-                String[] parts=cad.split("\\.");
-                String a=parts[0];
-                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
+                if (cad==null) {
+                    //parts[0]=("");
+                    return "";
+                }else {
+                    parts = cad.split("\\.");
+                    String a = parts[0];
+                    return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
+
+                }
+
             case "CodSubUbicacion":
                 cad=observacionModel.CodUbicacion;
                 String[] parts2=cad.split("\\.");
@@ -224,7 +240,89 @@ public class Utils {
 
     }
 
+    public static String getInspeccionData(InspeccionModel inspeccionModel, String s) {
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("h:mm a");
+        Date temp= null;
+        Date tempP= null;
+        try {
+            tempP= formatoInicial.parse(inspeccionModel.FechaP);
+            temp= formatoInicial.parse(inspeccionModel.Fecha);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String cad;
+        switch (s){
+            case "CodInspeccion":
+                return inspeccionModel.CodInspeccion;
+            case "Gerencia":
+                //return observacionModel.CodAreaHSEC;
+                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,inspeccionModel.Gerencia).trim().replace("=","");
+
+            case "SuperInt":
+                //return observacionModel.CodNivelRiesgo;
+                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,inspeccionModel.SuperInt).trim().replace("=","");
+
+            case "CodContrata":
+                return inspeccionModel.CodContrata;
+
+            case "FechaP":
+                return formatoRender.format(tempP);
+
+            case "Fecha":
+
+                return formatoRender.format(temp);
+
+            case "Hora":
+                return formatoHora.format(temp).replace(". ","").replace(".","");
+
+
+            case "CodUbicacion":
+                String[] parts = new String[0];
+                cad=inspeccionModel.CodUbicacion;
+                if (cad==null) {
+                    //parts[0]=("");
+                    return "";
+                }else {
+                    parts = cad.split("\\.");
+                    String a = parts[0];
+                    return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
+
+                }
+
+            case "CodSubUbicacion":
+                cad=inspeccionModel.CodUbicacion;
+                String[] parts2=cad.split("\\.");
+                String b = parts2[0]+"."+parts2[1];
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
+
+
+            case "CodTipo":
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_insp,inspeccionModel.CodTipo);
+
+            default:
+                return "";
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
     public static ArrayList<String> tempObs=new ArrayList<String>();
+    public static ObservacionModel observacionModel=new ObservacionModel();
+    public static InspeccionModel inspeccionModel=new InspeccionModel();
 
+    public static String fecha_inicio="";
 
+    public static String fecha_fin="";
+
+    public static boolean isActivity=false;
 }

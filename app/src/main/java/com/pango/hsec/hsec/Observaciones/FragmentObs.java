@@ -18,13 +18,18 @@ import com.pango.hsec.hsec.adapter.ObsAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.ObservacionModel;
 
+import java.util.Arrays;
+
 import layout.FragmentMuro;
+
+import static com.pango.hsec.hsec.Observaciones.ActMuroDet.jsonObservacion;
 
 public class FragmentObs extends Fragment implements IActivity {
 	ObsAdapter obsAdapter;
 	String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
 	String[] obsDetIzq={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
-
+	String[] obsDetcab2;
+	String[] obsDetIzq2;
 
 	private View mView;
 	String codObs;
@@ -46,46 +51,58 @@ public class FragmentObs extends Fragment implements IActivity {
 			Bundle savedInstanceState) {
 
 		mView = inflater.inflate(R.layout.fragment_obs, container, false);
-		GlobalVariables.count=1;
+		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
-
+		GlobalVariables.isFragment=true;
 
 		codObs=getArguments().getString("bString");
 		url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
 
-
-
-		final ActivityController obj = new ActivityController("get", url, FragmentObs.this);
-		obj.execute("");
-
+		if(jsonObservacion.isEmpty()) {
+			GlobalVariables.istabs=true;
+			final ActivityController obj = new ActivityController("get", url, FragmentObs.this);
+			obj.execute("");
+		}else {
+			success(jsonObservacion,"");
+		}
 		return mView;
 	}
 
 
 	@Override
 	public void success(String data,String Tipo) {
+		jsonObservacion =data;
 		Gson gson = new Gson();
 		ObservacionModel getUsuarioModel = gson.fromJson(data, ObservacionModel.class);
-
-		//if(getUsuarioModel.CodUbicacion)
-		String[] parts = getUsuarioModel.CodUbicacion.split("\\.");
+		String[] parts = new String[0];
 
 
 
-		if(parts.length==1){
+
+		if(getUsuarioModel.CodUbicacion!=null) {
+			 parts = getUsuarioModel.CodUbicacion.split("\\.");
+
+		}
+
+		if(parts.length==1||parts.length==0){
 			for(int i=0;i<obsDetcab.length;i++){
-				if(obsDetcab.equals("CodSubUbicacion")){
+				if(obsDetcab[i].equals("CodSubUbicacion")){
 
 					for (int j = i; j < obsDetcab.length - 2; j++) {
 						obsDetcab[j] = obsDetcab[j+2];
 						obsDetIzq[j]=obsDetIzq[j+2];
-
+						//obsDetIzq[j+1]=obsDetIzq[j+2];
 					}
 					obsDetcab[obsDetcab.length - 1] = "";
 					obsDetcab[obsDetcab.length - 2] = "";
 
+					obsDetcab = Arrays.copyOf(obsDetcab,obsDetcab.length-2);
+
+
 					obsDetIzq[obsDetIzq.length - 1] = "";
 					obsDetIzq[obsDetIzq.length - 2] = "";
+					obsDetIzq = Arrays.copyOf(obsDetIzq,obsDetIzq.length-2);
+
 
 				}
 
@@ -102,7 +119,11 @@ public class FragmentObs extends Fragment implements IActivity {
 
 					}
 					obsDetcab[obsDetcab.length - 1] = "";
+					obsDetcab = Arrays.copyOf(obsDetcab,obsDetcab.length-1);
+
 					obsDetIzq[obsDetIzq.length - 1] = "";
+					obsDetIzq = Arrays.copyOf(obsDetIzq,obsDetIzq.length-1);
+
 				}
 			}
 		}
