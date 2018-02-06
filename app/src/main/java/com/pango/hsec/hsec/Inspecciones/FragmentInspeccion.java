@@ -20,13 +20,13 @@ import com.pango.hsec.hsec.model.InspeccionModel;
 
 import java.util.Arrays;
 
-import static com.pango.hsec.hsec.Inspecciones.ActInspeccionDet.jsonInspeccion;
 
 
 public class FragmentInspeccion extends Fragment implements IActivity {
     String[] obsDetcab={"CodInspeccion","Gerencia","SuperInt","CodContrata","FechaP","Fecha","Hora","CodUbicacion","CodSubUbicacion","CodTipo"};
     String[] obsDetIzq={"Codigo","Gerencia","Superintendencia","Contrata","Fecha programada","Fecha de inspección","Hora","Ubicación","Sub Ubicacion","Tipo de Inspección"};
     InspAdapter inspAdapter;
+    String jsonInspeccion="";
     public FragmentInspeccion() {
         // Required empty public constructor
     }
@@ -49,14 +49,15 @@ public class FragmentInspeccion extends Fragment implements IActivity {
         // Inflate the layout for this fragment
 
         mView = inflater.inflate(R.layout.fragment_inspeccion, container, false);
-        //codObs=getArguments().getString("bString");
-        codObs="INSP0000008508";
+        codObs=getArguments().getString("bString");
+        //codObs="INSP0000008508";
 
-        GlobalVariables.count=1;
+        //GlobalVariables.count=1;
         GlobalVariables.view_fragment=mView;
-        GlobalVariables.isFragment=true;
+        //GlobalVariables.isFragment=true;
         url= GlobalVariables.Url_base+"Inspecciones/Get/"+codObs;
         if(jsonInspeccion.isEmpty()) {
+            GlobalVariables.istabs=true;
             final ActivityController obj = new ActivityController("get", url, FragmentInspeccion.this);
             obj.execute("");
         }else {

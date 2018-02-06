@@ -27,11 +27,12 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     HorizontalScrollView horizontalsv;
 
     //public static ObservacionModel observacionData=new ObservacionModel();
-    public static String jsonObservacion="";
+    /*public static String jsonObservacion="";
     public static String jsonGaleria="";
     public static String jsonPlan="";
     public static String jsonComentario="";
-
+    public static boolean ismuro=true;
+*/
     //TabHost tabHost;
     //
     @Override
@@ -61,7 +62,8 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
     }
     public void close(View view){
-    finish();
+
+        finish();
     }
 
 
@@ -134,9 +136,10 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 		*/
 
         // TODO Put here your Fragments
+        //codObs
         FragmentObs f1 = FragmentObs.newInstance(codObs);
         FragmentGaleria f2 = FragmentGaleria.newInstance(codObs);
-        FragmentPlan f3 = FragmentPlan.newInstance(codObs);
+        FragmentPlan f3 = FragmentPlan.newInstance(codObs);//cambiar a codObs
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
         FragmentComent f4=FragmentComent.newInstance(codObs);
 

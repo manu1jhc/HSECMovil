@@ -148,14 +148,14 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                 loadingTop=true;
                 tx_texto.setVisibility(View.VISIBLE);
                 GlobalVariables.listaGlobalFiltro.clear(); //crear segun el formato
-                GlobalVariables.contpublic=2;
+                //GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
-                GlobalVariables.isFragment=true;
+                //GlobalVariables.isFragment=true;
 
                 //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;                final ActivityController obj = new ActivityController("post", url, Busqueda.this);
-                GlobalVariables.count=5;
+                //GlobalVariables.count=5;
 
                 Utils.observacionModel.CodUbicacion="5";
                 Utils.observacionModel.Lugar="1";
@@ -196,7 +196,9 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     e.printStackTrace();
                 }
                 json += jsonObject.toString();*/
-                Utils.isActivity=true;
+                //Utils.isActivity=true;
+                GlobalVariables.istabs=false;
+
                 final ActivityController obj = new ActivityController("post", url, Busqueda.this);
                 obj.execute(json);
 
@@ -234,14 +236,14 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
-                        GlobalVariables.isFragment=true;
+                        //GlobalVariables.isFragment=true;
                         //Utils.isActivity=true;
                         //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
 
                         //url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+ GlobalVariables.contpublic + "/" + "7";
                         String json2 = "";
 
-                        GlobalVariables.count=5;
+                        //GlobalVariables.count=5;
                         paginacion+=1;
                         if(tipo_busqueda==1) {
 
@@ -258,10 +260,10 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                         }
 
                         //GlobalVariables.isFragment=false;
-                        Utils.isActivity=true;
+                        //Utils.isActivity=true;
                         //url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
 
-
+                        GlobalVariables.istabs=false;
                         final ActivityController obj = new ActivityController("post", url, Busqueda.this);
                         obj.execute(json2);
 

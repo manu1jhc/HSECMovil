@@ -22,7 +22,7 @@
             android:name=".Login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -67,16 +67,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".Busquedas.B_inspecciones"
+        <activity
+            android:name=".Busquedas.B_inspecciones"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            />
-        <activity android:name=".Inspecciones.ActInspeccionDet"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".Inspecciones.ActInspeccionDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            ></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".Inspecciones.ActObsInspDet"></activity>
     </application>
 
 </manifest>

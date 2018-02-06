@@ -1,6 +1,7 @@
 package com.pango.hsec.hsec;
 
 import com.pango.hsec.hsec.model.InspeccionModel;
+import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
@@ -308,7 +309,65 @@ public class Utils {
 
 
 
+    public static String getObsDetData(ObsInspDetModel obsInspDetModel, String s) {
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("h:mm a");
+        Date temp= null;
+        Date tempP= null;
+        try {
+            tempP= formatoInicial.parse(inspeccionModel.FechaP);
+            temp= formatoInicial.parse(inspeccionModel.Fecha);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String cad;
 
+        switch (s){
+            case "CodInspeccion":
+                return obsInspDetModel.CodInspeccion;
+            case "NroDetInspeccion":
+                return obsInspDetModel.NroDetInspeccion;
+                //return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,inspeccionModel.Gerencia).trim().replace("=","");
+
+            case "Lugar":
+                return obsInspDetModel.Lugar;
+                //return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,inspeccionModel.SuperInt).trim().replace("=","");
+
+            case "CodUbicacion":
+                String[] parts = new String[0];
+                cad=obsInspDetModel.CodUbicacion;
+                if (cad==null) {
+                    //parts[0]=("");
+                    return "";
+                }else {
+                    parts = cad.split("\\.");
+                    String a = parts[0];
+                    return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
+
+                }
+
+            case "CodAspectoObs":
+               /* cad=inspeccionModel.CodUbicacion;
+                String[] parts2=cad.split("\\.");
+                String b = parts2[0]+"."+parts2[1];
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);*/
+                return obsInspDetModel.CodAspectoObs;
+
+            case "CodActividadRel":
+                return obsInspDetModel.CodActividadRel;
+
+            case "CodNivelRiesgo":
+                //return obsInspDetModel.CodNivelRiesgo;
+                return GlobalVariables.getDescripcion(GlobalVariables.NivelRiesgo_obs,obsInspDetModel.CodNivelRiesgo);
+
+            case "Observacion":
+                return obsInspDetModel.Observacion;
+
+            default:
+                return "";
+        }
+    }
 
 
 

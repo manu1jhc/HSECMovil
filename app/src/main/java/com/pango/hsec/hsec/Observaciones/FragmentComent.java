@@ -26,15 +26,13 @@ import com.pango.hsec.hsec.model.GetComentModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.pango.hsec.hsec.Observaciones.ActMuroDet.jsonComentario;
-
 public class FragmentComent extends Fragment implements IActivity {
 
 	private static View mView;
 	String codObs;
 	String url;
 	String UrlObs;
-
+	String jsonComentario="";
 	public static final FragmentComent newInstance(String sampleText) {
 		FragmentComent f = new FragmentComent();
 
@@ -60,10 +58,10 @@ public class FragmentComent extends Fragment implements IActivity {
 		btn_send=(ImageButton) mView.findViewById(R.id.btn_send);
 		et_comentario=(EditText) mView.findViewById(R.id.et_comentario);
 
-		//codObs=getArguments().getString("bString");
+		codObs=getArguments().getString("bString");
 		//UrlObs=getArguments().getString("urlobs");
 
-		codObs="OBS00240761";
+		//codObs="OBS00240761";
 		url= GlobalVariables.Url_base+"Comentario/getObs/"+codObs;
 
 

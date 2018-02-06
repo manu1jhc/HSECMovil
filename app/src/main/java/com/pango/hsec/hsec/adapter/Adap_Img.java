@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.GlobalVariables;
@@ -20,6 +21,8 @@ import com.pango.hsec.hsec.model.GetGaleriaModel;
 public class Adap_Img extends BaseAdapter {
     private Context context;
     private GetGaleriaModel getGaleriaModel;
+    //RelativeLayout rel_otros;
+
     public Adap_Img(Context context,GetGaleriaModel getGaleriaModel) {
         this.context = context;
         this.getGaleriaModel=getGaleriaModel;
@@ -54,9 +57,11 @@ public class Adap_Img extends BaseAdapter {
 
         ImageView imagen = (ImageView) view.findViewById(R.id.img_adap);
         ImageView btn_play=(ImageView) view.findViewById(R.id.btn_playGrid);
+        //rel_otros=(RelativeLayout) view.findViewById(R.id.rel_otros);
 
         final GaleriaModel item = getItem(position);
         if(getGaleriaModel.Data.get(position).TipoArchivo.equals("TP03")) {
+           /// rel_otros.setVisibility(View.VISIBLE);
 
         } else if(getGaleriaModel.Data.get(position).TipoArchivo.equals("TP01"))
             {

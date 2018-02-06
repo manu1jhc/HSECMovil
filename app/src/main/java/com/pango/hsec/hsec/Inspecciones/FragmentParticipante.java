@@ -19,8 +19,6 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.GetEquipoModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
-import static com.pango.hsec.hsec.Inspecciones.ActInspeccionDet.jsonEquipo;
-import static com.pango.hsec.hsec.Inspecciones.ActInspeccionDet.jsonParticipante;
 
 
 public class FragmentParticipante extends Fragment implements IActivity {
@@ -28,6 +26,9 @@ public class FragmentParticipante extends Fragment implements IActivity {
     String codObs;
     String url,url2;
     ParticipanteAdapter participanteAdapter;
+    String jsonEquipo="";
+    String jsonParticipante="";
+
     public FragmentParticipante() {
         // Required empty public constructor
     }
@@ -48,15 +49,17 @@ public class FragmentParticipante extends Fragment implements IActivity {
         // Inflate the layout for this fragment
 
         mView = inflater.inflate(R.layout.fragment_participante, container, false);
-        //codObs=getArguments().getString("bString");
-        GlobalVariables.count=1;
+        codObs=getArguments().getString("bString");
+        //GlobalVariables.count=1;
         GlobalVariables.view_fragment=mView;
-        GlobalVariables.isFragment=true;
+        //GlobalVariables.isFragment=true;
 
-        codObs="INSP0000008508";
+        //codObs="INSP0000008302";
         url= GlobalVariables.Url_base+"Inspecciones/GetEquipoInspeccion/"+codObs;
 
         if(jsonEquipo.isEmpty()) {
+            GlobalVariables.istabs=true;
+
             final ActivityController obj = new ActivityController("get", url, FragmentParticipante.this);
             obj.execute("1");
         }else{

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+xmlns:card_view="http://schemas.android.com/apk/res-auto"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:layout_alignParentTop="true"
+android:layout_alignParentLeft="true"
+android:layout_alignParentStart="true"
+card_view:cardCornerRadius="4dp"
+android:layout_margin="5dp"
+android:background="@color/colorBlanco"
+    >
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBlanco"
+
+    >
+
+    <TextView
+        android:id="@+id/nom_file"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:text="iuwhuhfisufhsdiufhsuifhsuifhsuifhsui"
+        android:textColor="@color/colorNegro"
+        android:textSize="14sp"
+        android:textStyle="normal|bold"
+
+        android:layout_alignTop="@+id/icon_des"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginStart="15dp" />
+
+
+
+
+    <TextView
+        android:id="@+id/tam_file"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/icon_des"
+        android:layout_alignLeft="@+id/icon_des"
+        android:layout_alignRight="@+id/icon_des"
+        android:layout_alignStart="@+id/icon_des"
+        android:layout_below="@+id/icon_des"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp"
+        android:text="456456"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textColor="@color/colorplomosplash2"
+        />
+
+
+    <ImageButton
+        android:id="@+id/icon_des"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="15dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorBlanco"
+        android:src="@drawable/ic_descarga" />
+
+</RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

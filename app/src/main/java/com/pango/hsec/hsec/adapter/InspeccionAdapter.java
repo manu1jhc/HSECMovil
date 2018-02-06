@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
@@ -24,10 +25,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-/**
- * Created by Andre on 25/01/2018.
- */
 
 public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
@@ -43,8 +40,6 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         this.context = context;
     }
 
-
-
     //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
@@ -53,10 +48,8 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
         View rowView = inflater.inflate(R.layout.public_inspeccion, null, true);
 
-
         ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
         ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
-
 
         TextView nombre = rowView.findViewById(R.id.mp_nombre);
         TextView fecha = rowView.findViewById(R.id.mp_fecha);
@@ -88,10 +81,8 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         //final String tempImgDet="";
         final String tempImgDet=data.get(position).UrlPrew;
 
-
         String[] tempRiesgo = new String[0];
         String[] tempDetalle = new String[0];
-
 
         if(data.get(position).NivelR!=null){
         tempRiesgo = data.get(position).NivelR.split(";");
@@ -106,32 +97,23 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         nombre.setText(tempNombre);
         fecha.setText(Obtenerfecha(tempFecha));
 
-
-
-
         comentario.setText(comentarios+" comentarios");
 
         comentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
+                GlobalVariables.istabs=true;
 
-
-                Intent intent = new Intent(v.getContext(), ActMuroDet.class);
+                Intent intent = new Intent(v.getContext(), ActInspeccionDet.class);
                 intent.putExtra("codObs",data.get(position).Codigo);
                 intent.putExtra("posTab",3);
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
 
                 v.getContext().startActivity(intent);
 
-
-
             }
         });
-
-
-
-
 
         String Url_img=GlobalVariables.Url_base + Utils.ChangeUrl(tempimg_perfil);
         //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
@@ -140,12 +122,12 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
                 .override(50, 50)
                 .into(img_perfil);
 
-
         if(tempImgDet==null){
             img_det.setVisibility(View.GONE);
 
         }else{
-            String Url_prev=GlobalVariables.Url_base + Utils.ChangeUrl(tempImgDet);
+            String Url_prev=Utils.ChangeUrl(GlobalVariables.Url_base + "media/getImagepreview/"+tempImgDet+"/loco.jpg");
+
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
                     .load(Url_prev)
@@ -324,9 +306,6 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
                     .into(img_det);
         }
-
-
-
 */
 
         return rowView;
@@ -345,8 +324,4 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         return fecha;
 
     }
-
-
-
-
 }

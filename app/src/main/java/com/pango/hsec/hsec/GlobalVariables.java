@@ -51,8 +51,8 @@ public class GlobalVariables implements IActivity {
     public static boolean isFragment=false;
     public static int contpublic=1;
     public static int num_items=7;
-    public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
-    //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
+    //public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
+    public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
     //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
 
     public static boolean flagUpSc=false;

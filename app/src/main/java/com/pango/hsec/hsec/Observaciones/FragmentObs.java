@@ -22,15 +22,13 @@ import java.util.Arrays;
 
 import layout.FragmentMuro;
 
-import static com.pango.hsec.hsec.Observaciones.ActMuroDet.jsonObservacion;
-
 public class FragmentObs extends Fragment implements IActivity {
 	ObsAdapter obsAdapter;
 	String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
 	String[] obsDetIzq={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 	String[] obsDetcab2;
 	String[] obsDetIzq2;
-
+	String jsonObservacion="";
 	private View mView;
 	String codObs;
 	public static FragmentObs newInstance(String sampleText) {

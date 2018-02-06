@@ -26,7 +26,6 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPlanModel;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static com.pango.hsec.hsec.Observaciones.ActMuroDet.jsonPlan;
 
 public class FragmentPlan extends Fragment implements IActivity {
 
@@ -35,6 +34,8 @@ public class FragmentPlan extends Fragment implements IActivity {
 	String url;
 	ListView listPlan;
 	PlandetAdapter plandetAdapter;
+	String jsonPlan="";
+
 	public static final FragmentPlan newInstance(String sampleText) {
 		FragmentPlan f = new FragmentPlan();
 
@@ -53,12 +54,12 @@ public class FragmentPlan extends Fragment implements IActivity {
 
 		mView = inflater.inflate(R.layout.fragment_plan, container, false);
 		listPlan=(ListView) mView.findViewById(R.id.list_plan);
-				//codObs=getArguments().getString("bString");
+		codObs=getArguments().getString("bString");
 		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
 		GlobalVariables.isFragment=true;
 
-		codObs="OBS00067956";
+		//codObs="OBS00067956";
 		url= GlobalVariables.Url_base+"PlanAccion/GetPlanes/"+codObs;
 
 		if(jsonPlan.isEmpty()) {
@@ -78,10 +79,12 @@ public class FragmentPlan extends Fragment implements IActivity {
 	View popupView;
 	PopupWindow popupWindow;
 	ImageButton ibclose;
+
 	@Override
 	public void success(String data,String Tipo) {
 		//GlobalVariables.istabs=false;
 		jsonPlan=data;
+
 		Gson gson = new Gson();
 		final GetPlanModel getPlanModel = gson.fromJson(data, GetPlanModel.class);
 		String a="";

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:weightSum="1"
+    >
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_nombre"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="1dp"
+        android:layout_weight="0.2"
+        >
+
+        <TextView
+            android:id="@+id/tx_obs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:text="Observaciones"
+
+            />
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:layout_weight="0.8"
+
+        >
+
+        <ImageView
+            android:id="@+id/tx_nivel"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/green_light"
+            android:layout_gravity="center"
+            />
+
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+</LinearLayout>

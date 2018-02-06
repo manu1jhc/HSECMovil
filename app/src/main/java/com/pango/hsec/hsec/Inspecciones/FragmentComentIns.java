@@ -27,14 +27,13 @@ import com.pango.hsec.hsec.model.GetComentModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.pango.hsec.hsec.Inspecciones.ActInspeccionDet.jsonComentario;
 
 public class FragmentComentIns extends Fragment implements IActivity {
     private View mView;
     String codInsp;
     String url;
     ComentAdapter comentAdapter;
-
+    String jsonComentario="";
     public FragmentComentIns() {
         // Required empty public constructor
     }
@@ -57,9 +56,9 @@ public class FragmentComentIns extends Fragment implements IActivity {
         // Inflate the layout for this fragment
 
         mView = inflater.inflate(R.layout.fragment_coment_ins, container, false);
-        GlobalVariables.count=1;
+        //GlobalVariables.count=1;
         GlobalVariables.view_fragment=mView;
-        GlobalVariables.isFragment=true;
+        //GlobalVariables.isFragment=true;
 
         btn_send=(ImageButton) mView.findViewById(R.id.btn_send);
         et_comentario=(EditText) mView.findViewById(R.id.et_comentario);
@@ -69,6 +68,7 @@ public class FragmentComentIns extends Fragment implements IActivity {
         url= GlobalVariables.Url_base+"Comentario/getObs/"+codInsp;
 
         if(jsonComentario.isEmpty()) {
+            GlobalVariables.istabs=true;
 
             final ActivityController obj = new ActivityController("get", url, FragmentComentIns.this);
             obj.execute("");
