@@ -71,7 +71,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <HorizontalScrollView android:layout_width="fill_parent"
+            <HorizontalScrollView
+                android:id="@+id/HorizontalObsedit"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:fillViewport="true"
                 android:scrollbars="none">

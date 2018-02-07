@@ -6,6 +6,7 @@ package com.pango.hsec.hsec;
         import android.support.v4.view.ViewPager;
         import android.os.Bundle;
         import android.view.View;
+        import android.widget.HorizontalScrollView;
         import android.widget.ImageButton;
         import android.widget.TabHost;
         import android.widget.Toast;
@@ -25,14 +26,15 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     private ViewPager mViewPager;
     private TabHost mTabHost;
     ImageButton close;
+    HorizontalScrollView horizontalsv;
     //TabHost tabHost;
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_muro_det);
+        setContentView(R.layout.activity_observacion_edit);
         close=findViewById(R.id.imageButton);
-
+        horizontalsv=findViewById(R.id.HorizontalObsedit);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         GlobalVariables loaddata = new GlobalVariables();
         loaddata.LoadData();
@@ -62,19 +64,22 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         int pos = this.mTabHost.getCurrentTab();
         this.mViewPager.setCurrentItem(pos);
         View dView=this.mViewPager.getRootView();
-        if( GlobalVariables.TipoObservacion=="TO01")  {
+        if(pos==1){ //cambios solo cuando ingresemos al tab de detalle de obs.
+            if( GlobalVariables.TipoObservacion=="TO01")  {
 
-            dView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
-            dView.findViewById(R.id.id_Acto).setVisibility(View.VISIBLE);
-            dView.findViewById(R.id.id_Estado).setVisibility(View.VISIBLE);
-            dView.findViewById(R.id.id_Error).setVisibility(View.VISIBLE);
+                dView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
+                dView.findViewById(R.id.id_Acto).setVisibility(View.VISIBLE);
+                dView.findViewById(R.id.id_Estado).setVisibility(View.VISIBLE);
+                dView.findViewById(R.id.id_Error).setVisibility(View.VISIBLE);
+            }
+            else{
+                dView.findViewById(R.id.id_Condicion).setVisibility(View.VISIBLE);
+                dView.findViewById(R.id.id_Acto).setVisibility(View.GONE);
+                dView.findViewById(R.id.id_Estado).setVisibility(View.GONE);
+                dView.findViewById(R.id.id_Error).setVisibility(View.GONE);
+            }
         }
-        else{
-            dView.findViewById(R.id.id_Condicion).setVisibility(View.VISIBLE);
-            dView.findViewById(R.id.id_Acto).setVisibility(View.GONE);
-            dView.findViewById(R.id.id_Estado).setVisibility(View.GONE);
-            dView.findViewById(R.id.id_Error).setVisibility(View.GONE);
-        }
+
     }
 
     @Override
@@ -83,9 +88,19 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
 
     // Manages the Page changes, synchronizing it with Tabs
     @Override
-    public void onPageScrolled(int arg0, float arg1, int arg2) {
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         int pos = this.mViewPager.getCurrentItem();
         this.mTabHost.setCurrentTab(pos);
+
+        View tabView = mTabHost.getTabWidget().getChildAt(position);
+        if (tabView != null)
+        {
+            final int width = horizontalsv.getWidth();
+            final int scrollPos = tabView.getLeft() - (width - tabView.getWidth()) / 2;
+            horizontalsv.scrollTo(scrollPos, 0);
+        } else {
+            horizontalsv.scrollBy(positionOffsetPixels, 0);
+        }
     }
 
     @Override
@@ -105,7 +120,6 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         // TODO Put here your Fragments
         obs_cabecera f1 = obs_cabecera.newInstance("OBSXYZ000000");
         obs_detalle1 f2 = obs_detalle1.newInstance("Sample Fragment 1");
-        //obs_detalle2 f3 = obs_detalle2.newInstance("Sample Fragment 1.2");
         obs_archivos f4 = obs_archivos.newInstance("Sample Fragment 2");
         obs_planaccion f5=obs_planaccion.newInstance("Sample Fragment 3");
 
@@ -113,7 +127,6 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
 
         fList.add(f1);
         fList.add(f2);
-        //fList.add(f3);
         fList.add(f4);
         fList.add(f5);
 

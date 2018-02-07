@@ -52,8 +52,8 @@ public class GlobalVariables implements IActivity {
     public static int contpublic=1;
     public static int num_items=7;
     //public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
+    //public static String Url_base="http://servidorpango/whsec_Servicedmz/api/";
     public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
-    //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
 
     public static boolean flagUpSc=false;
    // public static boolean FDown=false;
@@ -90,7 +90,7 @@ public class GlobalVariables implements IActivity {
 
     public static  ArrayList<Maestro> Gerencia = new ArrayList<>();
     public static  ArrayList<Maestro> SuperIntendencia = new ArrayList<>();
-
+    public static  ArrayList<Maestro> Contrata = new ArrayList<>();
 
     public static  ArrayList<Maestro> NivelRiesgo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Ubicaciones_obs = new ArrayList<>();
@@ -110,7 +110,10 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> Acto_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Condicion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Estado_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> Actv_Relacionada = new ArrayList<>();
+    public static  ArrayList<Maestro> Aspecto_Obs = new ArrayList<>();
     public static  ArrayList<Maestro> Error_obs = new ArrayList<>();
+
     public static String TipoObservacion = "TO01";
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
         for (Maestro o : Obj  ) {
@@ -121,41 +124,12 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> SuperInt_Busq = new ArrayList<>();
 
     public static void LoadData() {
-        if(!Area_obs.isEmpty()) return;
-        Area_obs.add(new Maestro("001", "Seguridad"));
-        Area_obs.add(new Maestro("002", "Salud Ocupacional"));
-        Area_obs.add(new Maestro("004", "Comunidades"));
+        if(!Gerencia.isEmpty()) return;
 
-      /*  Gerencia.add(new Maestro("001", "Seguridad"));
-        Gerencia.add(new Maestro("002", "Salud Ocupacional"));
-        Gerencia.add(new Maestro("004", "Comunidades"));
-
-        SuperIntendencia.add(new Maestro("001", "Seguridad"));
-        SuperIntendencia.add(new Maestro("002", "Salud Ocupacional"));
-        SuperIntendencia.add(new Maestro("004", "Comunidades"));*/
-
-        Tipo_insp.add(new Maestro("1","Operativo"));
-        Tipo_insp.add(new Maestro("2","Gerencial"));
-        Tipo_insp.add(new Maestro("3","Comité"));
-
-
-        Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
-        Tipo_obs.add(new Maestro("TO02", "Condición"));
-
-        Tipo_obs2.add(new Maestro("TO01", "Comportamiento"));
-        Tipo_obs2.add(new Maestro("TO02", "Condición"));
-        Tipo_obs2.add(new Maestro("TO03", "Tarea"));
-        Tipo_obs2.add(new Maestro("TO04", "Interacción de  Seguridad (IS)"));
-
-        NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
-        NivelRiesgo_obs.add(new Maestro("ME", "Media"));
-        NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
-        //loadUbicaciones();
         GetMaestroLocal("UBIC");
         GetMaestroLocal("GERE");
         GetMaestroLocal("SUPE");
-        loadObs_Detalles();
-
+        GetMaestroLocal("PROV");
         Ubicacion_obs=loadUbicacion("",1);
     }
 
@@ -181,6 +155,9 @@ public class GlobalVariables implements IActivity {
                 case "SUPE":
                     SuperIntendencia=getMaestroModel.Data;
                     break;
+                case "PROV":
+                    Contrata=getMaestroModel.Data;
+                    break;
                 /*default:
                     break;*/
                 }
@@ -188,6 +165,29 @@ public class GlobalVariables implements IActivity {
     }
 
     public static void loadObs_Detalles(){
+
+        if(!Area_obs.isEmpty()) return;
+
+        Area_obs.add(new Maestro("001", "Seguridad"));
+        Area_obs.add(new Maestro("002", "Salud Ocupacional"));
+        Area_obs.add(new Maestro("004", "Comunidades"));
+
+        Tipo_insp.add(new Maestro("1","Operativo"));
+        Tipo_insp.add(new Maestro("2","Gerencial"));
+        Tipo_insp.add(new Maestro("3","Comité"));
+
+
+        Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
+        Tipo_obs.add(new Maestro("TO02", "Condición"));
+
+        Tipo_obs2.add(new Maestro("TO01", "Comportamiento"));
+        Tipo_obs2.add(new Maestro("TO02", "Condición"));
+        Tipo_obs2.add(new Maestro("TO03", "Tarea"));
+        Tipo_obs2.add(new Maestro("TO04", "Interacción de  Seguridad (IS)"));
+
+        NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
+        NivelRiesgo_obs.add(new Maestro("ME", "Media"));
+        NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
 
         //Error comportamiento
         Error_obs.add(new Maestro("01","Ojos no en la tarea"));
@@ -252,6 +252,7 @@ public class GlobalVariables implements IActivity {
         Acto_obs.add(new Maestro("0025","Intento por realizar tareas múltiples en forma simultánea"));
 
         //HHA
+        HHA_obs.add(new Maestro("14","N/A"));
         HHA_obs.add(new Maestro("01","Aislamiento y Bloqueo de energía"));
         HHA_obs.add(new Maestro("02","Trabajo en altura"));
         HHA_obs.add(new Maestro("03","Trabajo en Espacios confinados"));
@@ -265,7 +266,6 @@ public class GlobalVariables implements IActivity {
         HHA_obs.add(new Maestro("11","Uso y Mantenimiento de Neumaticos y Aros"));
         HHA_obs.add(new Maestro("12","Trabajo con riesgo de Irrupción"));
         HHA_obs.add(new Maestro("13","Manipulación de sustancias químicas"));
-        HHA_obs.add(new Maestro("14","N/A"));
         HHA_obs.add(new Maestro("15","Actividades de Riesgo"));
         HHA_obs.add(new Maestro("16","Higiene Ocupacional"));
         HHA_obs.add(new Maestro("17","Aislamiento y Bloqueo"));
@@ -274,6 +274,7 @@ public class GlobalVariables implements IActivity {
         HHA_obs.add(new Maestro("20","Trabajo en medio acuático (Presa de Relaves)"));
         HHA_obs.add(new Maestro("21","Operación de herramientas rotativas"));
         //actividad
+        Actividad_obs.add(new Maestro("0","Ninguna"));
         Actividad_obs.add(new Maestro("6","Acopio de residuos"));
         Actividad_obs.add(new Maestro("21","Almacenamiento"));
         Actividad_obs.add(new Maestro("26","Calibración de equipos"));
@@ -296,7 +297,6 @@ public class GlobalVariables implements IActivity {
         Actividad_obs.add(new Maestro("28","Monitoreo e instrumentación"));
         Actividad_obs.add(new Maestro("24","Movimiento de tierras"));
         Actividad_obs.add(new Maestro("40","Muestreria de ripios, rocas"));
-        Actividad_obs.add(new Maestro("0","Ninguna"));
         Actividad_obs.add(new Maestro("3","Operación de equipo auxiliar"));
         Actividad_obs.add(new Maestro("4","Operación de equipo de planta"));
         Actividad_obs.add(new Maestro("2","Operación de equipó pesado"));
@@ -317,6 +317,74 @@ public class GlobalVariables implements IActivity {
         Actividad_obs.add(new Maestro("41","Transporte de personal"));
         Actividad_obs.add(new Maestro("35","Transporte de sustancias peligrosas"));
 
+        //Actividad relacionada
+        Actv_Relacionada.add(new Maestro("0","Ninguna"));
+        Actv_Relacionada.add(new Maestro("6","Acopio de residuos"));
+        Actv_Relacionada.add(new Maestro("21","Almacenamiento"));
+        Actv_Relacionada.add(new Maestro("26","Calibración de equipos"));
+        Actv_Relacionada.add(new Maestro("20","Desarmado de estructuras"));
+        Actv_Relacionada.add(new Maestro("38","Desarrollo de voladura"));
+        Actv_Relacionada.add(new Maestro("39","Drenaje ó bombeo"));
+        Actv_Relacionada.add(new Maestro("36","Entrenamiento y Capacitación"));
+        Actv_Relacionada.add(new Maestro("10","Inspección"));
+        Actv_Relacionada.add(new Maestro("23","Limpieza"));
+        Actv_Relacionada.add(new Maestro("1","Manipulación de cables"));
+        Actv_Relacionada.add(new Maestro("5","Manipulación de componentes"));
+        Actv_Relacionada.add(new Maestro("25","Manipulación de explosivos"));
+        Actv_Relacionada.add(new Maestro("27","Manipulación de Herramientas"));
+        Actv_Relacionada.add(new Maestro("19","Manipulación de sustancias químicas"));
+        Actv_Relacionada.add(new Maestro("7","Mantenimiento de equipos de planta"));
+        Actv_Relacionada.add(new Maestro("17","Mantenimiento de equipos móviles"));
+        Actv_Relacionada.add(new Maestro("16","Mantenimiento de llantas gigantes"));
+        Actv_Relacionada.add(new Maestro("15","Mantenimiento de subestaciones eléctricas"));
+        Actv_Relacionada.add(new Maestro("13","Mantenimiento de tolvas"));
+        Actv_Relacionada.add(new Maestro("28","Monitoreo e instrumentación"));
+        Actv_Relacionada.add(new Maestro("24","Movimiento de tierras"));
+        Actv_Relacionada.add(new Maestro("40","Muestreria de ripios, rocas"));
+        Actv_Relacionada.add(new Maestro("3","Operación de equipo auxiliar"));
+        Actv_Relacionada.add(new Maestro("4","Operación de equipo de planta"));
+        Actv_Relacionada.add(new Maestro("2","Operación de equipó pesado"));
+        Actv_Relacionada.add(new Maestro("14","Operación de vehículos livianos"));
+        Actv_Relacionada.add(new Maestro("22","Recepción y despacho de materiales"));
+        Actv_Relacionada.add(new Maestro("9","Supervisión"));
+        Actv_Relacionada.add(new Maestro("18","Topografía"));
+        Actv_Relacionada.add(new Maestro("12","Trabajo de oficina"));
+        Actv_Relacionada.add(new Maestro("8","Trabajo en cocina"));
+        Actv_Relacionada.add(new Maestro("32","Trabajos con HDPE"));
+        Actv_Relacionada.add(new Maestro("29","Trabajos con Obras Civiles"));
+        Actv_Relacionada.add(new Maestro("30","Trabajos con obras mecánicas"));
+        Actv_Relacionada.add(new Maestro("37","Trabajos de metal mecánica"));
+        Actv_Relacionada.add(new Maestro("31","Trabajos Eléctricos"));
+        Actv_Relacionada.add(new Maestro("11","Tránsito"));
+        Actv_Relacionada.add(new Maestro("33","Transporte de Carga"));
+        Actv_Relacionada.add(new Maestro("34","Transporte de Concentrado"));
+        Actv_Relacionada.add(new Maestro("41","Transporte de personal"));
+        Actv_Relacionada.add(new Maestro("35","Transporte de sustancias peligrosas"));
+
+        //aspectos observados
+        Aspecto_Obs.add(new Maestro("01","EDIFICIOS Y PISOS"));
+        Aspecto_Obs.add(new Maestro("02","COMEDORES Y SERVICIOS HIGIÉNICOS"));
+        Aspecto_Obs.add(new Maestro("03","ERGONOMÍA / HIGIENE OCUPACIONAL"));
+        Aspecto_Obs.add(new Maestro("04","EQUIPO DE PROTECCION PERSONAL"));
+        Aspecto_Obs.add(new Maestro("05","ALMACENAMIENTO Y APILAMIENTO"));
+        Aspecto_Obs.add(new Maestro("06","SEÑALIZACION Y CÓDIGO DE COLORES"));
+        Aspecto_Obs.add(new Maestro("07","EQUIPAMIENTO DE RESPUESTA A EMERGENCIAS"));
+        Aspecto_Obs.add(new Maestro("08","AST/ PERMISOS /PROCEDIMIENTOS"));
+        Aspecto_Obs.add(new Maestro("09","HERRAMIENTAS DE MANO"));
+        Aspecto_Obs.add(new Maestro("10","EQUIPO ELÉCTRICO PORTÁTIL"));
+        Aspecto_Obs.add(new Maestro("11","RECIPIENTES A PRESIÓN"));
+        Aspecto_Obs.add(new Maestro("12","VEHÍCULOS LIVIANOS /TRANSPORTE DE PERSONAL"));
+        Aspecto_Obs.add(new Maestro("13","EQUIPO AUXILIAR Y PESADO"));
+        Aspecto_Obs.add(new Maestro("14","TRABAJO EN ALTURA"));
+        Aspecto_Obs.add(new Maestro("15","GUARDAS DE PROTECCIÓN"));
+        Aspecto_Obs.add(new Maestro("16","SUSTANCIAS PELIGROSAS"));
+        Aspecto_Obs.add(new Maestro("17","AISLAMIENTO Y BLOQUEO"));
+        Aspecto_Obs.add(new Maestro("18","IZAJE O LEVANTAMIENTO"));
+        Aspecto_Obs.add(new Maestro("19","GENERACION Y DISPOSICION DE RESIDUOS SOLIDOS"));
+        Aspecto_Obs.add(new Maestro("20","SISTEMA DE DRENAJE"));
+        Aspecto_Obs.add(new Maestro("21","MANTENIMIENTO"));
+        Aspecto_Obs.add(new Maestro("22","DERRAMES"));
+        Aspecto_Obs.add(new Maestro("23","USO DE RECURSOS"));
     }
     public static ArrayList<Maestro> loadUbicacion(String Tipo, int nivel){
         ArrayList<Maestro> Ubicaciones = new ArrayList<>();
@@ -343,6 +411,76 @@ public class GlobalVariables implements IActivity {
                     Super.add(item);
         }
         return Super;
+    }
+
+
+    public static String CodObs="";
+
+    public static List<GaleriaModel> listaGaleria =new ArrayList<GaleriaModel>();
+
+    public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
+
+    public static int con_status_video=200;
+
+
+    public static boolean flagObsFiltro=true;
+    public static boolean istabs=false;
+
+   // public static List<Maestro> listPlan=new ArrayList<>();
+
+    //autenticacion
+    public static String reemplazar(String cadena, String busqueda, String reemplazo) {
+        return cadena.replaceAll(busqueda, reemplazo);
+    }
+    public static String reemplazarUnicode(String cadena) {
+        String cadena1 = GlobalVariables.reemplazar(cadena, "\\\\u000a", "\n");
+        String cadena2 = GlobalVariables.reemplazar(cadena1,"\\\\u000d", "\r");
+        String cadena3 = GlobalVariables.reemplazar(cadena2,"\\\\u0009", "\t");
+        return cadena3;
+    }
+
+    @Override
+    public void success(String data, String Tipo) {
+        Gson gson = new Gson();
+        GetMaestroModel getMaestroModel = gson.fromJson(data, GetMaestroModel.class);
+        switch (Tipo){
+            case "UBIC":
+                Ubicaciones_obs=getMaestroModel.Data;
+                break;
+            case "GERE":
+                Gerencia=getMaestroModel.Data;
+                break;
+            case "SUPE":
+                SuperIntendencia=getMaestroModel.Data;
+                break;
+            case "PROV":
+                Contrata=getMaestroModel.Data;
+                break;
+                /*default:
+                    break;*/
+        }
+        Context applicationContext = MainActivity.getContextOfApplication() ;
+        SharedPreferences VarMaestros = applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = VarMaestros.edit();
+        editor.putString(Tipo, String.valueOf(data));
+        editor.commit();
+    }
+
+    public static String Recuperar_data(String Variable) {
+        Context applicationContext = MainActivity.getContextOfApplication() ;
+        SharedPreferences VarMaestros =  applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
+        String ListaMaestro = VarMaestros.getString(Variable,"");
+        return ListaMaestro;
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
     }
 
     public static void loadUbicaciones(){
@@ -1154,69 +1292,4 @@ public class GlobalVariables implements IActivity {
     }
 
 
-    public static String CodObs="";
-
-    public static List<GaleriaModel> listaGaleria =new ArrayList<GaleriaModel>();
-
-    public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
-
-    public static int con_status_video=200;
-
-
-    public static boolean flagObsFiltro=true;
-    public static boolean istabs=false;
-
-   // public static List<Maestro> listPlan=new ArrayList<>();
-
-    //autenticacion
-    public static String reemplazar(String cadena, String busqueda, String reemplazo) {
-        return cadena.replaceAll(busqueda, reemplazo);
-    }
-    public static String reemplazarUnicode(String cadena) {
-        String cadena1 = GlobalVariables.reemplazar(cadena, "\\\\u000a", "\n");
-        String cadena2 = GlobalVariables.reemplazar(cadena1,"\\\\u000d", "\r");
-        String cadena3 = GlobalVariables.reemplazar(cadena2,"\\\\u0009", "\t");
-        return cadena3;
-    }
-
-    @Override
-    public void success(String data, String Tipo) {
-        Gson gson = new Gson();
-        GetMaestroModel getMaestroModel = gson.fromJson(data, GetMaestroModel.class);
-        switch (Tipo){
-            case "UBIC":
-                Ubicaciones_obs=getMaestroModel.Data;
-                break;
-            case "GERE":
-                Gerencia=getMaestroModel.Data;
-                break;
-            case "SUPE":
-                SuperIntendencia=getMaestroModel.Data;
-                break;
-                /*default:
-                    break;*/
-        }
-        Context applicationContext = MainActivity.getContextOfApplication() ;
-        SharedPreferences VarMaestros = applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = VarMaestros.edit();
-        editor.putString(Tipo, String.valueOf(data));
-        editor.commit();
-    }
-
-    public static String Recuperar_data(String Variable) {
-        Context applicationContext = MainActivity.getContextOfApplication() ;
-        SharedPreferences VarMaestros =  applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
-        String ListaMaestro = VarMaestros.getString(Variable,"");
-        return ListaMaestro;
-    }
-
-    @Override
-    public void successpost(String data, String Tipo) {
-
-    }
-
-    @Override
-    public void error(String mensaje, String Tipo) {
-
-    }
 }

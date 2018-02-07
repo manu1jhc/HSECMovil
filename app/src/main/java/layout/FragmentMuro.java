@@ -266,12 +266,7 @@ public class FragmentMuro extends Fragment implements IActivity{
 
                   //  } },0);
 
-
-
-
-
             } });
-
 
 
             List_muro.setOnScrollListener(new AbsListView.OnScrollListener() {

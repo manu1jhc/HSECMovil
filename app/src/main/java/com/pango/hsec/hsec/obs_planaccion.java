@@ -30,11 +30,8 @@ public class obs_planaccion extends Fragment {
 
         mView = inflater.inflate(R.layout.fragment_obs_planaccion,
                 container, false);
-
-
+        
         String sampleText = getArguments().getString("bString");
-
-
 
         TextView txtSampleText = (TextView) mView.findViewById(R.id.txtViewSample);
         txtSampleText.setText(sampleText);
