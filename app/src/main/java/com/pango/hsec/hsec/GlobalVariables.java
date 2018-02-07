@@ -102,7 +102,10 @@ public class GlobalVariables implements IActivity {
 
     public static  ArrayList<Maestro> Tipo_insp = new ArrayList<>();
 
-
+//plan de accion
+    public static  ArrayList<Maestro> Referencia_Plan = new ArrayList<>();
+    public static  ArrayList<Maestro> Tipo_Plan = new ArrayList<>();
+    public static  ArrayList<Maestro> Estado_Plan = new ArrayList<>();
 
     //Obserbacion Detalle
     public static  ArrayList<Maestro> Actividad_obs = new ArrayList<>();
@@ -167,6 +170,18 @@ public class GlobalVariables implements IActivity {
     public static void loadObs_Detalles(){
 
         if(!Area_obs.isEmpty()) return;
+        
+        Referencia_Plan.add(new Maestro("01", "Observaciones"));
+        Referencia_Plan.add(new Maestro("02", "Inspecciones"));
+
+        Tipo_Plan.add(new Maestro("01","Correctiva"));
+        Tipo_Plan.add(new Maestro("02","Preventiva"));
+
+        Estado_Plan.add(new Maestro("01","Pendiente"));
+        Estado_Plan.add(new Maestro("02","Atendido"));
+        Estado_Plan.add(new Maestro("03","En Proceso"));
+        Estado_Plan.add(new Maestro("04","Observado"));
+        Estado_Plan.add(new Maestro("05","Cerrado"));
 
         Area_obs.add(new Maestro("001", "Seguridad"));
         Area_obs.add(new Maestro("002", "Salud Ocupacional"));
