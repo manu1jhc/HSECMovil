@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -38,7 +39,6 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 	String url="";
 	Adap_Img adaptador;
 	DownloadManager downloadManager;
-
 	public static final FragmentGaleria newInstance(String sampleText) {
 		FragmentGaleria f = new FragmentGaleria();
 
@@ -74,8 +74,8 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		GlobalVariables.view_fragment=mView;
 		GlobalVariables.isFragment=true;
 
-		//codObs=getArguments().getString("bString");
-		codObs="OBS00089866";
+		codObs=getArguments().getString("bString");
+		//codObs="OBS00089866";
 		//codObs="OBS00240578";
 
 		url= GlobalVariables.Url_base+"media/GetMultimedia/"+codObs;
@@ -89,9 +89,6 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		}else{
 			success(jsonGaleria,"");
 		}
-
-
-
 
 
 		/////////////////////////////////////////////////////////////////////
@@ -131,29 +128,26 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		list_docs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				//String NAME_FILE = GlobalVariables.listaGaleria.get(position).Descripcion;
 
-				int pos=position;
+
 				downloadManager=(DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
-
 				//Uri uri=Uri.parse("http://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf9GsdJZOxuApw8q86bV211L8tPhh1RB3zj6qIJbfVV9HwIBwlfg");
 				String url_serv= GlobalVariables.Url_base+ GlobalVariables.listaGaleria.get(position).Url;
 				//String url_serv="http://192.168.1.214/SCOM_Service/api/multimedia/GetImagen/182/portal   bug.png";
 				String cadMod= Utils.ChangeUrl(url_serv);
-
 				//;
-
 				Uri uri=Uri.parse(cadMod);
 				// Uri uri=Uri.parse("http://192.168.1.214/SCOM_Service/api/multimedia/GetImagen/182/portal%20bug.png");
-
-
 				DownloadManager.Request request= new DownloadManager.Request(uri);
 				request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
 				Long reference = downloadManager.enqueue(request);
 				Toast.makeText(getActivity(), "Descargando...", Toast.LENGTH_SHORT).show();
 
-
-//%20
 				//   Toast.makeText(context,"Boton detalles: "+position,Toast.LENGTH_LONG);
+
+				// registrer receiver in order to verify when download is complete
 
 			}
 		});
@@ -169,10 +163,19 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 	public void success(String data,String Tipo) {
 		//GlobalVariables.istabs=false;
 		jsonGaleria = data;
-
+		//int resultado=data.indexOf("TP03");
 		Gson gson = new Gson();
 		GetGaleriaModel getGaleriaModel = gson.fromJson(data, GetGaleriaModel.class);
 		GlobalVariables.listaGaleria=getGaleriaModel.Data;
+
+
+		if(data.contains("TP03") ){
+			rel_otros.setVisibility(View.VISIBLE);
+			DocsAdapter docsAdapter=new DocsAdapter(getContext(),getGaleriaModel);
+			list_docs.setAdapter(docsAdapter);
+		}else{
+			rel_otros.setVisibility(View.GONE);
+		}
 
 
 		grid_gal=(GridView) mView.findViewById(R.id.grid_gal);
@@ -180,8 +183,7 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		grid_gal.setAdapter(adaptador);
 		grid_gal.setOnItemClickListener(this);
 
-		DocsAdapter docsAdapter=new DocsAdapter(getContext(),getGaleriaModel);
-		list_docs.setAdapter(docsAdapter);
+
 
 
 	}

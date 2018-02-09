@@ -67,7 +67,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 response = httpClient.execute(get);
                 GlobalVariables.con_status = response.getStatusLine().getStatusCode();
                 respstring = EntityUtils.toString(response.getEntity());
-                String str= respstring;
+                //JSONObject respJSON = new JSONObject(respstring);
 
             }else if(opcion == "post"){
 
@@ -212,7 +212,13 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
         Resultado=Resultado.substring(1,Resultado.length()-1);
         activity.successpost(Resultado,Tipo);
+
+
+
+
     }
+
+
     }
 
 

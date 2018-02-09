@@ -60,9 +60,9 @@
         <ListView
 
             android:id="@+id/list_docs"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/frame_otros"
             />
 

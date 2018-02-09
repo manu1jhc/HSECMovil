@@ -1,6 +1,7 @@
 package com.pango.hsec.hsec;
 
 import com.pango.hsec.hsec.model.InspeccionModel;
+import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
@@ -207,7 +208,11 @@ public class Utils {
 
 
             case "CodEstadoAccion":
-                return GlobalVariables.getDescripcion(GlobalVariables.Estado_obs,planModel.CodEstadoAccion);
+
+
+
+                return GlobalVariables.getDescripcion(GlobalVariables.Estado_Plan,planModel.CodEstadoAccion);
+
 
             case "CodSolicitadoPor":
                 return planModel.CodSolicitadoPor;
@@ -218,12 +223,19 @@ public class Utils {
                 return planModel.CodResponsable;
             case "CodActiRelacionada":
 
-                return planModel.CodActiRelacionada;
+                //return planModel.CodActiRelacionada;
+                return GlobalVariables.getDescripcion(GlobalVariables.Actv_Relacionada,planModel.CodActiRelacionada);
+
+
             case "CodReferencia":
-                return planModel.CodReferencia;
+                return GlobalVariables.getDescripcion(GlobalVariables.Referencia_Plan,planModel.CodReferencia);
+
+           // return planModel.CodReferencia;
 
             case "CodTipoAccion":
-                return planModel.CodTipoAccion;
+                //return planModel.CodTipoAccion;
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_Plan,planModel.CodTipoAccion);
+
             case "FecComprometidaInicial":
                 return formatoRender.format(tempIn);
             //return planModel.FecComprometidaInicial;
@@ -352,10 +364,14 @@ public class Utils {
                 String[] parts2=cad.split("\\.");
                 String b = parts2[0]+"."+parts2[1];
                 return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);*/
-                return obsInspDetModel.CodAspectoObs;
+                return GlobalVariables.getDescripcion(GlobalVariables.Aspecto_Obs,obsInspDetModel.CodAspectoObs);
+
+                        //obsInspDetModel.CodAspectoObs;
 
             case "CodActividadRel":
-                return obsInspDetModel.CodActividadRel;
+
+            return GlobalVariables.getDescripcion(GlobalVariables.Actv_Relacionada,obsInspDetModel.CodActividadRel);
+            //return obsInspDetModel.CodActividadRel;
 
             case "CodNivelRiesgo":
                 //return obsInspDetModel.CodNivelRiesgo;
@@ -378,6 +394,8 @@ public class Utils {
     public static ArrayList<String> tempObs=new ArrayList<String>();
     public static ObservacionModel observacionModel=new ObservacionModel();
     public static InspeccionModel inspeccionModel=new InspeccionModel();
+
+    public static NoticiasModel noticiasModel=new NoticiasModel();
 
     public static String fecha_inicio="";
 

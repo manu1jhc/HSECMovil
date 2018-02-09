@@ -41,7 +41,7 @@ public class PlanAdapter extends ArrayAdapter<PlanModel> {
 
         final String tempArea=GlobalVariables.getDescripcion(GlobalVariables.Area_obs,data.get(position).CodAreaHSEC);
 
-        final String tempEstado=GlobalVariables.getDescripcion(GlobalVariables.Estado_obs,data.get(position).CodEstadoAccion);
+        final String tempEstado=GlobalVariables.getDescripcion(GlobalVariables.Estado_Plan,data.get(position).CodEstadoAccion);
 
         tarea.setText(tempTarea);
         responsable.setText(tempResponsable);

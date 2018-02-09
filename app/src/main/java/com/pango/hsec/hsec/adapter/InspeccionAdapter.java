@@ -73,8 +73,6 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
         final String tempNombre = data.get(position).ObsPor;
         final String tempFecha = data.get(position).Fecha;
-
-
         final String tempTipoInsp = data.get(position).Tipo;
 
         final int comentarios=data.get(position).Comentarios;
@@ -149,8 +147,10 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             riesgo2.setVisibility(View.GONE);
             riesgo3.setVisibility(View.GONE);
             tx_det1.setVisibility(View.GONE);
+            tx_det2.setVisibility(View.GONE);
+            tx_det3.setVisibility(View.GONE);
             txdetcompleta.setVisibility(View.VISIBLE);
-            txdetcompleta.setText(tempDetalle[0]);
+            txdetcompleta.setText(tempDetalle[0].trim());
             switch (tempRiesgo[0]){
                 case "BA":
                     riesgo1.setImageResource(R.drawable.green_light);
@@ -167,7 +167,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             riesgo3.setVisibility(View.GONE);
             tx_det1.setText(tempDetalle[0]);
             tx_det2.setText(tempDetalle[1]);
-            const1.getLayoutParams().height=50;
+            //const1.getLayoutParams().height=50;
 
             switch (tempRiesgo[0]){
                 case "BA":

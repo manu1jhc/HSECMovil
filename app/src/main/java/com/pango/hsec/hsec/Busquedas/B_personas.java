@@ -377,6 +377,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 Intent intent = getIntent();
                 intent.putExtra("nombreP",nombre);
                 intent.putExtra("codpersona",CodPersona);
+                intent.putExtra("tipo","persona");
 
                 setResult(RESULT_OK, intent);
                 finish();

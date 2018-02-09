@@ -145,8 +145,8 @@ public class FragmentMuro extends Fragment implements IActivity{
 
 
         if(GlobalVariables.listaGlobal.size()==0){
-            final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
-            obj.execute("");
+            /*final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
+            obj.execute("");*/
         }else{
             PublicacionAdapter ca = new PublicacionAdapter(getContext(),GlobalVariables.listaGlobal);
             List_muro.setAdapter(ca);

@@ -74,7 +74,7 @@ public class GlobalVariables implements IActivity {
     public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 
     public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","CodSolicitadoPor","CodResponsable","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
-    public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Responsable", "Acción relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
+    public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Responsable", "Actividad relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
 
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
 

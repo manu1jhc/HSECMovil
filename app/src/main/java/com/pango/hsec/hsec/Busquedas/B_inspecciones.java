@@ -327,7 +327,14 @@ public class B_inspecciones extends AppCompatActivity {
 
 
 
+        btn_buscar_c.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(B_inspecciones.this, B_contrata.class);
+                startActivityForResult(intent , REQUEST_CODE);
 
+            }
+        });
 
 
 
@@ -374,12 +381,25 @@ public class B_inspecciones extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
 
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+                String tipo_dato=data.getStringExtra("tipo");
 
-                String nombre_obs = data.getStringExtra("nombreP");
-                String codpersona_obs = data.getStringExtra("codpersona");
+                if(tipo_dato.equals("persona")) {
+                    String nombre_obs = data.getStringExtra("nombreP");
+                    String codpersona_obs = data.getStringExtra("codpersona");
+                    id_persona.setText(nombre_obs);
+                    Utils.inspeccionModel.CodTipo = codpersona_obs;
+                }else{
+                    String cod_contrata = data.getStringExtra("codContrata");
+                    String des_contrata = data.getStringExtra("desContrata");
+                    insp_contrata.setText(des_contrata);
+                    Utils.inspeccionModel.CodContrata = cod_contrata;
+                }
 
-                id_persona.setText(nombre_obs);
-                Utils.inspeccionModel.CodTipo=codpersona_obs;
+
+
+
+
+
 
             }
         } catch (Exception ex) {

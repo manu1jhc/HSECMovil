@@ -26,6 +26,7 @@ import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.InspeccionAdapter;
+import com.pango.hsec.hsec.adapter.NoticiasAdapter;
 import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetObservacionModel;
@@ -122,8 +123,10 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                    startActivityForResult(intent , REQUEST_CODE);
 
 
+               }else if(tipo_filtro.equals(busqueda_tipo[2])){
+                   Intent intent = new Intent(Busqueda.this, B_noticias.class);
+                   startActivityForResult(intent , REQUEST_CODE);
                }
-
 
            }
        });
@@ -175,30 +178,8 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                 }
 
 
-
-
-/*
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.accumulate("CodObservacion",Utils.observacionModel.CodObservacion);
-                    jsonObject.accumulate("CodAreaHSEC",Utils.observacionModel.CodAreaHSEC);
-                    jsonObject.accumulate("CodNivelRiesgo",Utils.observacionModel.CodNivelRiesgo);
-                    jsonObject.accumulate("ObservadoPor",Utils.observacionModel.ObservadoPor);
-                    jsonObject.accumulate("Gerencia",Utils.observacionModel.Gerencia);
-                    jsonObject.accumulate("Superint",Utils.observacionModel.Superint);
-                    jsonObject.accumulate("CodUbicacion",Utils.observacionModel.CodUbicacion);
-                    jsonObject.accumulate("Lugar",Utils.observacionModel.Lugar);
-                    jsonObject.accumulate("CodTipo",Utils.observacionModel.CodTipo);
-                    jsonObject.accumulate("FechaInicio",Utils.observacionModel.Fecha_inicio);
-                    jsonObject.accumulate("FechaFin",Utils.observacionModel.Fecha_fin);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                json += jsonObject.toString();*/
                 //Utils.isActivity=true;
                 GlobalVariables.istabs=false;
-
                 final ActivityController obj = new ActivityController("post", url, Busqueda.this);
                 obj.execute(json);
 
@@ -310,7 +291,6 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
 
 
-
                 if(tipo_busqueda==1) {
                 String CodObservacion=GlobalVariables.listaGlobalFiltro.get(position).Codigo;
                 Intent intent = new Intent(Busqueda.this, ActMuroDet.class);
@@ -334,6 +314,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
         lupabuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                GlobalVariables.flagUpSc=true;
                 if(tipo_filtro.equals(busqueda_tipo[0])) {
                     ObservacionModel observacionModel=new ObservacionModel();
                     tipo_busqueda=1;
@@ -426,6 +407,11 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             InspeccionAdapter ca = new InspeccionAdapter(this, GlobalVariables.listaGlobalFiltro);
             list_busqueda.setAdapter(ca);
             ca.notifyDataSetChanged();
+        }else if(tipo_busqueda==3){
+
+            NoticiasAdapter ca = new NoticiasAdapter(this, GlobalVariables.listaGlobalFiltro);
+            list_busqueda.setAdapter(ca);
+            ca.notifyDataSetChanged();
         }
 
 
@@ -488,6 +474,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             //tipo_busqueda=datos.getInt("Tipo_Busqueda");
 
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+                GlobalVariables.flagUpSc=true;
 
                 tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
 
@@ -527,11 +514,22 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
 
 
+                }else if(tipo_busqueda==3){
+                    Utils.noticiasModel.Elemperpage="5";
+                    Utils.noticiasModel.Pagenumber="1";
+                    String json = "";
+
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.noticiasModel);
+
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    obj.execute(json);
+
                 }
-
-
-
-
 
             }
 
