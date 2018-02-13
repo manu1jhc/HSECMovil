@@ -31,7 +31,7 @@ public class Adap_Img extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return getGaleriaModel.Count;
+        return getGaleriaModel.Data.size();
     }
 
     @Override
@@ -63,15 +63,19 @@ public class Adap_Img extends BaseAdapter {
         if(getGaleriaModel.Data.get(position).TipoArchivo.equals("TP03")) {
            /// rel_otros.setVisibility(View.VISIBLE);
 
-        } else if(getGaleriaModel.Data.get(position).TipoArchivo.equals("TP01"))
+    } else
+
+        if(getGaleriaModel.Data.get(position).TipoArchivo.equals("TP01"))
             {
+
+                //"media/getImagepreview/" + Descripcion+ "/Preview.jpg"
             Glide.with(imagen.getContext())
-                    .load(GlobalVariables.Url_base + item.Urlmin)
+                    .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Descripcion+ "/Preview.jpg")
                     .into(imagen);
         }else{
             btn_play.setVisibility(View.VISIBLE);
             Glide.with(imagen.getContext())
-                    .load(GlobalVariables.Url_base + item.Urlmin)
+                    .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Descripcion+ "/Preview.jpg")
                     .into(imagen);
         }
        /*

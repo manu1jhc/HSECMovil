@@ -34,7 +34,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public InspeccionAdapter(@NonNull Context context, ArrayList<PublicacionModel> data) {
+    public InspeccionAdapter(Context context, ArrayList<PublicacionModel> data) {
         super(context, R.layout.public_inspeccion, data);
         this.data = data;
         this.context = context;
@@ -113,7 +113,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             }
         });
 
-        String Url_img=GlobalVariables.Url_base + Utils.ChangeUrl(tempimg_perfil);
+        String Url_img=GlobalVariables.Url_base +"media/getAvatar/"+tempimg_perfil+"/Carnet.jpg";
         //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
         Glide.with(context)
                 .load(Url_img)

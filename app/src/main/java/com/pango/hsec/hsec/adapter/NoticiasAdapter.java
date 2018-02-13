@@ -12,7 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
@@ -62,7 +66,9 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
 
         final String tempTitulo = data.get(position).Area;
         final String tempdescripcion = data.get(position).Obs;
+
         final String tempImgDet=data.get(position).UrlPrew;
+
         final int comentarios=data.get(position).Comentarios;
 
 
@@ -80,7 +86,7 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
 
                 GlobalVariables.istabs=true;
 
-                Intent intent = new Intent(v.getContext(), ActMuroDet.class);
+                Intent intent = new Intent(v.getContext(), ActNoticiaDet.class);
                 intent.putExtra("codObs",data.get(position).Codigo);
                 intent.putExtra("posTab",3);
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
@@ -102,16 +108,22 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
                 .into(img_perfil);
 
 
+
+
         if(tempImgDet==null){
             img_preview.setVisibility(View.GONE);
 
         }else{
-            String Url_prev=GlobalVariables.Url_base +"getImage/"+Utils.ChangeUrl(tempImgDet)+"/Image.jpg";
+            img_preview.setVisibility(View.VISIBLE);
+
+            String Url_prev=GlobalVariables.Url_base +"media/getImagepreview/"+Utils.ChangeUrl(tempImgDet)+"/Image.jpg";
 
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
                     .load(Url_prev)
-                    //.override(50, 50)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    //.override(0, 0)
+                    .fitCenter()
                     .into(img_preview);
         }
 

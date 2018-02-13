@@ -2,11 +2,7 @@ package com.pango.hsec.hsec.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,26 +22,26 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by Andre on 15/12/2017.
+ * Created by Andre on 12/02/2018.
  */
 
-public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
+public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
     private Context context;
 
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public PublicacionAdapter(Context context, ArrayList<PublicacionModel> data) {
-        super(context, R.layout.publicalist, data);
+    public MuroAdapter(Context context, ArrayList<PublicacionModel> data) {
+        super(context,  R.layout.publicalist, data);
         this.data = data;
         this.context = context;
     }
 
-    //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+
+
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         //ViewHolder viewHolder;
@@ -55,8 +51,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
         ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
         ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
-
-
         TextView nombre = rowView.findViewById(R.id.mp_nombre);
         TextView fecha = rowView.findViewById(R.id.mp_fecha);
         ImageView riesgo=rowView.findViewById(R.id.img_riesgo);
@@ -64,7 +58,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         TextView tipo = rowView.findViewById(R.id.mp_tipo);
         TextView area = rowView.findViewById(R.id.mp_area);
         TextView comentario=rowView.findViewById(R.id.tx_comentario);
-
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
 
         final String tempimg_perfil=data.get(position).UrlObs;
@@ -101,7 +94,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
         }
 
-        String tipo_ejm=GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo);
+        String tipo_ejm= GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo);
         String area_ejm=GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
 
         tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo));
@@ -129,9 +122,9 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             }
         });
 
-       // img_perfil.setImageResource(R.drawable.fotocarnet);
+        // img_perfil.setImageResource(R.drawable.fotocarnet);
 
-        String Url_img=GlobalVariables.Url_base + "media/getAvatar/"+Utils.ChangeUrl(tempimg_perfil)+"/Carnet.jpg";
+        String Url_img=GlobalVariables.Url_base + "media/getAvatar/"+ Utils.ChangeUrl(tempimg_perfil)+"/Carnet.jpg";
         //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
         Glide.with(context)
                 .load(Url_img)
@@ -163,43 +156,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     }
 
 
-
-
-    public String ObtenerTipo(String tempTipo) {
-        String tipo="";
-
-        for(int i=0;i<GlobalVariables.Tipo_obs.size();i++){
-            if(tempTipo.equals(GlobalVariables.Tipo_obs.get(i).getCodTipo())){
-                tipo=GlobalVariables.Tipo_obs.get(i).getDescripcion();
-                break;
-            }
-        }
-
-        return tipo;
-
-
-
-    }
-
-    public String ObtenerArea(String tempArea) {
-/*
-        String area="";
-        for(int i=0;i<GlobalVariables.Area_obs.size();i++){
-            if(tempArea.equals(GlobalVariables.Area_obs.get(i).getCodTipo())){
-                area=GlobalVariables.Area_obs.get(i).getDescripcion();
-                break;
-            }
-        }*/
-        return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
-
-    }
-
-
-
-
-
-
-
     public String Obtenerfecha(String tempcom_fecha) {
 
         String fecha="";
@@ -215,6 +171,4 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     }
 
 
-
-
-    }
+}

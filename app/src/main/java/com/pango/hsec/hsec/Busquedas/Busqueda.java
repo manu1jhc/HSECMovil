@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.R;
@@ -33,6 +34,7 @@ import com.pango.hsec.hsec.model.GetObservacionModel;
 import com.pango.hsec.hsec.model.GetPersonaModel;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
+import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
@@ -160,8 +162,8 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;                final ActivityController obj = new ActivityController("post", url, Busqueda.this);
                 //GlobalVariables.count=5;
 
-                Utils.observacionModel.CodUbicacion="5";
-                Utils.observacionModel.Lugar="1";
+                //Utils.observacionModel.CodUbicacion="5";
+                //Utils.observacionModel.Lugar="1";
                 String json = "";
 
                 if(tipo_busqueda==1) {
@@ -170,11 +172,17 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     Utils.observacionModel.Lugar = String.valueOf(paginacion);
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.observacionModel);
-                }else {
+                }else if(tipo_busqueda==2){
                     Utils.inspeccionModel.Elemperpage = "5";
                     Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion);
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.inspeccionModel);
+                }else if(tipo_busqueda==3){
+
+                    Utils.noticiasModel.Elemperpage = "5";
+                    Utils.noticiasModel.Pagenumber = String.valueOf(paginacion);
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.noticiasModel);
                 }
 
 
@@ -232,13 +240,20 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                             Utils.observacionModel.Lugar = String.valueOf(paginacion);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.observacionModel);
-                        }else {
+                        }else if(tipo_busqueda==2){
 
                             Utils.inspeccionModel.Elemperpage = "5";
                             Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.inspeccionModel);
+                        }else if(tipo_busqueda==3){
+
+                            Utils.noticiasModel.Elemperpage = "5";
+                            Utils.noticiasModel.Pagenumber = String.valueOf(paginacion);
+                            Gson gson = new Gson();
+                            json2 = gson.toJson(Utils.noticiasModel);
                         }
+
 
                         //GlobalVariables.isFragment=false;
                         //Utils.isActivity=true;
@@ -306,7 +321,17 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                     startActivity(intent);
 
+                }else if(tipo_busqueda==3){
+                    String CodNoticia= GlobalVariables.listaGlobalFiltro.get(position).Codigo;
+                    Intent intent = new Intent(Busqueda.this, ActNoticiaDet.class);
+                    intent.putExtra("codObs",CodNoticia);
+                    intent.putExtra("posTab",0);
+                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                    startActivity(intent);
+
                 }
+
+
             }
         });
 
@@ -355,8 +380,25 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     Intent intent = new Intent(Busqueda.this, B_inspecciones.class);
                     startActivityForResult(intent , REQUEST_CODE);
 */
-                }
+                }else if(tipo_filtro.equals(busqueda_tipo[2])) {
+                    NoticiasModel noticiasModel = new NoticiasModel();
+                    tipo_busqueda = 3;
+                    noticiasModel.Elemperpage = "5";
+                    noticiasModel.Pagenumber = "1";
+                    String json = "";
 
+                    Gson gson = new Gson();
+                    json = gson.toJson(noticiasModel);
+
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    obj.execute(json);
+
+
+                }
 
             }
         });

@@ -92,8 +92,8 @@
             android:name=".Busquedas.B_noticias"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            ></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".Noticias.ActNoticiaDet"></activity>
     </application>
 
 </manifest>

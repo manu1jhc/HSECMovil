@@ -1,4 +1,4 @@
-package com.pango.hsec.hsec.Inspecciones;
+package com.pango.hsec.hsec.Noticias;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -9,6 +9,11 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 
+import com.pango.hsec.hsec.Inspecciones.FragmentInspeccion;
+import com.pango.hsec.hsec.Inspecciones.FragmentObsInsp;
+import com.pango.hsec.hsec.Inspecciones.FragmentParticipante;
+import com.pango.hsec.hsec.Observaciones.FragmentComent;
+import com.pango.hsec.hsec.Observaciones.FragmentGaleria;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
@@ -16,32 +21,18 @@ import com.pango.hsec.hsec.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener{
-
+public class ActNoticiaDet extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
     MyPageAdapter pageAdapter;
     private ViewPager mViewPager;
     private TabHost mTabHost;
     ImageButton close;
-    String codObs;
-    String urlObs;
+    String codNot;
     int pos;
     HorizontalScrollView horizontalscroll;
-/*
-    public static String jsonInspeccion="";
-    public static String jsonEquipo="";
-    public static String jsonParticipante="";
-
-    public static String jsonObsIns="";
-    public static String jsonComentario="";
-
-*/
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_inspeccion_det);
+        setContentView(R.layout.activity_act_noticia_det);
 
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -49,7 +40,7 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
         //loaddata.LoadData();
         horizontalscroll=findViewById(R.id.horizontalscroll);
         Bundle datos = this.getIntent().getExtras();
-        codObs=datos.getString("codObs");
+        codNot=datos.getString("codObs");
         pos=datos.getInt("posTab");
         //urlObs=datos.getString("UrlObs");
         //GlobalVariables.CodObs=codObs;
@@ -62,7 +53,9 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(pageAdapter);
-        mViewPager.setOnPageChangeListener(ActInspeccionDet.this);
+        mViewPager.setOnPageChangeListener(ActNoticiaDet.this);
+
+
 
 
     }
@@ -74,7 +67,7 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
 
 
     // Method to add a TabHost
-    private static void AddTab(ActInspeccionDet activity, TabHost tabHost,
+    private static void AddTab(ActNoticiaDet activity, TabHost tabHost,
                                TabHost.TabSpec tabSpec) {
         tabSpec.setContent(new MyTabFactory(activity));
         tabHost.addTab(tabSpec);
@@ -131,29 +124,20 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
 
-/*
-		fList.add(Fragment.instantiate(this, ObsFragment.class.getName()));
-		fList.add(Fragment.instantiate(this, GaleriaFragment.class.getName()));
-		fList.add(Fragment.instantiate(this, PlanFragment.class.getName()));
-		fList.add(Fragment.instantiate(this, ComentarioFragment.class.getName()));
-		*/
-
-
-
-
         // TODO Put here your Fragments
-        FragmentInspeccion f1 = FragmentInspeccion.newInstance(codObs);
-        FragmentParticipante f2 = FragmentParticipante.newInstance(codObs);
-        FragmentObsInsp f3 = FragmentObsInsp.newInstance(codObs);
+        FragmentDetalle f1 = FragmentDetalle.newInstance(codNot);
+        FragmentGaleria f2 = FragmentGaleria.newInstance(codNot);
+        FragmentComent f3 = FragmentComent.newInstance(codNot);
+
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
-        FragmentComentIns f4=FragmentComentIns.newInstance(codObs);
+        //FragmentComentIns f4=FragmentComentIns.newInstance(codObs);
 
         //ObsFragment f4 = ObsFragment.newInstance("","");
 
         fList.add(f1);
         fList.add(f2);
         fList.add(f3);
-        fList.add(f4);
+        //fList.add(f4);
 
 
 
@@ -166,16 +150,20 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
         mTabHost.setup();
 
         // TODO Put here your Tabs
-        ActInspeccionDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("Inspecciones"));
-        ActInspeccionDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("Participantes"));
-        ActInspeccionDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab3").setIndicator("Observaciones"));
+        ActNoticiaDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab1").setIndicator("Detalle"));
+        ActNoticiaDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab2").setIndicator("Archivos"));
+        ActNoticiaDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab3").setIndicator("Comentarios"));
+       /*
         ActInspeccionDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab4").setIndicator("Comentarios"));
+        */
         mTabHost.setOnTabChangedListener(this);
 
     }
+
+
 
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -13,77 +14,73 @@ import android.widget.TextView;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
+import com.pango.hsec.hsec.model.PublicacionModel;
+
+import java.util.ArrayList;
 
 /**
  * Created by Andre on 06/02/2018.
  */
 
-public class DocsAdapter extends BaseAdapter {
+public class DocsAdapter extends ArrayAdapter<GaleriaModel> {
 
 
     private Context context;
-    private GetGaleriaModel getGaleriaModel;
+    int contador;
+    private ArrayList<GaleriaModel> data = new ArrayList<GaleriaModel>();
+
     //RelativeLayout rel_otros;
 
-    public DocsAdapter(Context context,GetGaleriaModel getGaleriaModel) {
+    public DocsAdapter(Context context,ArrayList<GaleriaModel> data ) {
+        super(context, R.layout.public_docs, data);
+
         this.context = context;
-        this.getGaleriaModel=getGaleriaModel;
+        this.data=data;
+
     }
 
-    @Override
-    public int getCount() {
-        return getGaleriaModel.Count;
-    }
-
-    @Override
-    public GaleriaModel getItem(int position) {
-        return getGaleriaModel.Data.get(position);
-    }
 
     @Override
     public long getItemId(int position) {
         return 0;
     }
-TextView nom_file,tam_file;
+    TextView nom_file,tam_file;
     ImageButton icon_des;
     @Override
-    public View getView(final int position, View view, final ViewGroup viewGroup) {
+    public View getView(final int position, final View convertView, final ViewGroup parent) {
 
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.public_docs, viewGroup, false);
-        }
-        ImageButton icono = (ImageButton) view.findViewById(R.id.icon_des);
+            LayoutInflater inflater = LayoutInflater.from(context);
+        View rowView = inflater.inflate(R.layout.public_docs, null, true);
+
+
+        ImageButton icono = (ImageButton) rowView.findViewById(R.id.icon_des);
         icono.setTag(position);
 
-        TextView dNomFile = (TextView)  view.findViewById(R.id.nom_file);
-        TextView dTamanio = (TextView)  view.findViewById(R.id.tam_file);
+        TextView dNomFile = (TextView)  rowView.findViewById(R.id.nom_file);
+        TextView dTamanio = (TextView)  rowView.findViewById(R.id.tam_file);
         //rel_otros=(RelativeLayout) findViewById(R.id.rel_otros);
 
 
 
-        final String tempNombre=getGaleriaModel.Data.get(position).Descripcion;//data.get(position).getNombre();
-        final String tempTamanio=getGaleriaModel.Data.get(position).Urlmin;//Urlmin es el tam de la imagen
+        final String tempNombre=data.get(position).Descripcion;//data.get(position).getNombre();
+        final String tempTamanio=data.get(position).Tamanio;//Urlmin es el tam de la imagen
 
-        if(getGaleriaModel.Data.get(position).TipoArchivo.equals("TP03")) {
+        //if(data.get(position).TipoArchivo.equals("TP03")) {
             //rel_otros.setVisibility(View.VISIBLE);
 
             dNomFile.setText(tempNombre);
-            dTamanio.setText(tempTamanio + " Kb");
+            dTamanio.setText(tempTamanio + " Mb");
 
-        }
-        final View finalView = view;
+        //}
+       // final View finalView = rowView;
         icono.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ListView) viewGroup).performItemClick(finalView, position, 0);
-
-
-                //Intent intent = new Intent();
+                ((ListView) parent).performItemClick(convertView, position, 0);
 
             }
         });
 
-        return view;
+        return rowView;
     }
 }

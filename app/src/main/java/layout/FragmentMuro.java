@@ -113,7 +113,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     boolean is_swipe=true;
     ImageView imageView;
     int paginacion=1;
-    String datos;
+    String jsonMuro;
     //TextView tx_comentario;
     boolean flagpopup=false;
     LayoutInflater layoutInflater;
@@ -145,11 +145,12 @@ public class FragmentMuro extends Fragment implements IActivity{
 
 
         if(GlobalVariables.listaGlobal.size()==0){
-            /*final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
-            obj.execute("");*/
+            final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
+            obj.execute("");
         }else{
-            PublicacionAdapter ca = new PublicacionAdapter(getContext(),GlobalVariables.listaGlobal);
-            List_muro.setAdapter(ca);
+
+            success(jsonMuro,"");
+
         }
 
 
@@ -184,10 +185,6 @@ public class FragmentMuro extends Fragment implements IActivity{
                 Toast.makeText(getActivity(),"Click en buscar post",Toast.LENGTH_SHORT).show();
                 Intent busquedas = new Intent(getContext(),Busqueda.class);
                 startActivity(busquedas);
-
-
-
-
 
             }
         });
@@ -384,7 +381,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     @Override
     public void success(String data1,String Tipo) {
 
-        //datos=data1;
+        jsonMuro=data1;
 
         if(flagpopup){
         popupWindow.dismiss();
@@ -410,8 +407,14 @@ public class FragmentMuro extends Fragment implements IActivity{
 
        // String a=data1;
 
+
+
+
         PublicacionAdapter ca = new PublicacionAdapter(getContext(),GlobalVariables.listaGlobal);
         List_muro.setAdapter(ca);
+
+
+
 
 
         //ca.notifyDataSetChanged();

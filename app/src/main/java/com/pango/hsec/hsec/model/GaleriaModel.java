@@ -6,7 +6,7 @@ package com.pango.hsec.hsec.model;
 
 public class GaleriaModel {
     public String Url;
-    public String Urlmin;
+    public String Tamanio;
     public String TipoArchivo;
     public String Descripcion;
     //public String Correlativo;

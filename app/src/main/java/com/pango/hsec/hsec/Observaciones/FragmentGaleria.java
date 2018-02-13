@@ -30,9 +30,14 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 
+import java.util.ArrayList;
+
 
 public class FragmentGaleria extends Fragment implements IActivity, AdapterView.OnItemClickListener {
-
+	int contador=0;
+	ArrayList<GaleriaModel> DataDocs=new ArrayList<GaleriaModel>();
+	ArrayList<GaleriaModel> DataImg=new ArrayList<GaleriaModel>();
+	GetGaleriaModel getImg;
 	private static View mView;
 	String codObs="";
 	String jsonGaleria="";
@@ -133,7 +138,7 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 
 				downloadManager=(DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
 				//Uri uri=Uri.parse("http://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf9GsdJZOxuApw8q86bV211L8tPhh1RB3zj6qIJbfVV9HwIBwlfg");
-				String url_serv= GlobalVariables.Url_base+ GlobalVariables.listaGaleria.get(position).Url;
+				String url_serv= GlobalVariables.Url_base+ DataDocs.get(position).Url;
 				//String url_serv="http://192.168.1.214/SCOM_Service/api/multimedia/GetImagen/182/portal   bug.png";
 				String cadMod= Utils.ChangeUrl(url_serv);
 				//;
@@ -166,20 +171,47 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		//int resultado=data.indexOf("TP03");
 		Gson gson = new Gson();
 		GetGaleriaModel getGaleriaModel = gson.fromJson(data, GetGaleriaModel.class);
-		GlobalVariables.listaGaleria=getGaleriaModel.Data;
+		//GlobalVariables.listaGaleria=getGaleriaModel.Data;
 
 
 		if(data.contains("TP03") ){
 			rel_otros.setVisibility(View.VISIBLE);
-			DocsAdapter docsAdapter=new DocsAdapter(getContext(),getGaleriaModel);
-			list_docs.setAdapter(docsAdapter);
 		}else{
 			rel_otros.setVisibility(View.GONE);
 		}
 
+		for(int i=0;i<getGaleriaModel.Data.size();i++){
+			if(getGaleriaModel.Data.get(i).TipoArchivo.equals("TP03")){
+				rel_otros.setVisibility(View.VISIBLE);
+				DataDocs.add(getGaleriaModel.Data.get(i));
+			}else{
+				DataImg.add(getGaleriaModel.Data.get(i));
+			}
+		}
+		DocsAdapter docsAdapter=new DocsAdapter(getContext(),DataDocs);
+		list_docs.setAdapter(docsAdapter);
 
+
+/*
+		if(data.contains("TP03") ){
+			rel_otros.setVisibility(View.VISIBLE);
+			while (data.indexOf("TP03") > -1) {
+				data = data.substring(data.indexOf(
+						"TP03")+"TP03".length(),data.length());
+				contador++;
+			}
+			DocsAdapter docsAdapter=new DocsAdapter(getContext(),getGaleriaModel,contador);
+			list_docs.setAdapter(docsAdapter);
+		}else{
+			rel_otros.setVisibility(View.GONE);
+		}
+*/
+
+		getImg=new GetGaleriaModel();
+		getImg.Data=DataImg;
+		GlobalVariables.listaGaleria=DataImg;
 		grid_gal=(GridView) mView.findViewById(R.id.grid_gal);
-		adaptador = new Adap_Img(getContext(),getGaleriaModel);
+		adaptador = new Adap_Img(getContext(),getImg);
 		grid_gal.setAdapter(adaptador);
 		grid_gal.setOnItemClickListener(this);
 
@@ -201,20 +233,20 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-		GaleriaModel item= (GaleriaModel) parent.getItemAtPosition(position);
+		//GaleriaModel item= (GaleriaModel) parent.getItemAtPosition(position);
 		//int a= item.getId();
 
 
-		if(GlobalVariables.listaGaleria.get(position).TipoArchivo.equals("TP01")) {
+		if(DataImg.get(position).TipoArchivo.equals("TP01")) {
 
 			Intent intent = new Intent(getContext(), Galeria_detalle.class);
 			//intent.putExtra(ActImagDet.EXTRA_PARAM_ID, a);
 			intent.putExtra("post", position);
 			startActivity(intent);
-		}else if(GlobalVariables.listaGaleria.get(position).TipoArchivo.equals("TP02")){
+		}else if(DataImg.get(position).TipoArchivo.equals("TP02")){
 
 			//String finalTempUrl="https://app.antapaccay.com.pe/Proportal/SCOM_Service/Videos/1700.mp4";
-			String finalTempUrl=GlobalVariables.Url_base+GlobalVariables.listaGaleria.get(position).Url;
+			String finalTempUrl=GlobalVariables.Url_base+DataImg.get(position).Url;
 
 			//Toast.makeText(activity,"video",Toast.LENGTH_SHORT).show();
 			Intent intent = new Intent(getContext(), ActVidDet.class);

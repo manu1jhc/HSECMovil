@@ -31,6 +31,8 @@ public class FragmentObs extends Fragment implements IActivity {
 	String jsonObservacion="";
 	private View mView;
 	String codObs;
+
+
 	public static FragmentObs newInstance(String sampleText) {
 		FragmentObs f = new FragmentObs();
 
