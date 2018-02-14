@@ -30,13 +30,15 @@
             android:id="@+id/mp_nombre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
-            android:text="TextView"
+            android:text="textview"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/mp_area"
+            app:layout_constraintBottom_toTopOf="@+id/mp_fecha"
+            app:layout_constraintEnd_toStartOf="@+id/mp_tipoinsp"
             app:layout_constraintStart_toEndOf="@+id/mp_profile"
             app:layout_constraintTop_toTopOf="parent" />
 

@@ -93,9 +93,9 @@ public class ActNoticiaDet extends FragmentActivity implements TabHost.OnTabChan
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        if(pos==3){
+        if(pos==2){
             //pos = this.mViewPager.getCurrentItem();
-            this.mTabHost.setCurrentTab(3);
+            this.mTabHost.setCurrentTab(2);
             pos=0;
         }else{
             pos = this.mViewPager.getCurrentItem();

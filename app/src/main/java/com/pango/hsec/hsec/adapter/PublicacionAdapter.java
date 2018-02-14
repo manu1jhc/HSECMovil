@@ -131,14 +131,16 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
        // img_perfil.setImageResource(R.drawable.fotocarnet);
 
-        String Url_img=GlobalVariables.Url_base + "media/getAvatar/"+Utils.ChangeUrl(tempimg_perfil)+"/Carnet.jpg";
-        //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
-        Glide.with(context)
-                .load(Url_img)
-                .override(50, 50)
-
-                .into(img_perfil);
-
+        if (tempimg_perfil == null) {
+            img_perfil.setImageResource(R.drawable.ic_usuario);
+        }else {
+            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+            //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
+            Glide.with(context)
+                    .load(Url_img)
+                    .override(50, 50)
+                    .into(img_perfil);
+        }
 
         if(tempImgDet==null){
             img_det.setVisibility(View.GONE);

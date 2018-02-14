@@ -190,9 +190,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             //GlobalVariables.istabs=false;
             progressDialog.dismiss();
 
-        }else
-
-        if (GlobalVariables.count == 1||GlobalVariables.count == 2||GlobalVariables.count == 3||GlobalVariables.count == 4) {
+        }else  if (GlobalVariables.count == 1||GlobalVariables.count == 2||GlobalVariables.count == 3||GlobalVariables.count == 4) {
             GlobalVariables.count++;
             //GlobalVariables.count=5;
             progressDialog.dismiss();

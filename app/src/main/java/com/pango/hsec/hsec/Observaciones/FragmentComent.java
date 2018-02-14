@@ -131,6 +131,7 @@ public class FragmentComent extends Fragment implements IActivity {
 	ComentAdapter comentAdapter;
 	@Override
 	public void success(String data,String Tipo) {
+		//closeSoftKeyBoard();
 		jsonComentario =data;
 		Gson gson = new Gson();
 		GetComentModel getComentModel= gson.fromJson(data, GetComentModel.class);

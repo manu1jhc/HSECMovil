@@ -21,7 +21,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     private ViewPager mViewPager;
     private TabHost mTabHost;
     ImageButton close;
-    String codObs;
+    String codObs,tipoObs;
     String urlObs;
     int pos;
     HorizontalScrollView horizontalsv;
@@ -48,6 +48,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         Bundle datos = this.getIntent().getExtras();
         codObs=datos.getString("codObs");
         pos=datos.getInt("posTab");
+        tipoObs= datos.getString("tipoObs");
         //urlObs=datos.getString("UrlObs");
         //GlobalVariables.CodObs=codObs;
 
@@ -100,9 +101,9 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        if(pos==3){
+        if(pos==4){
             //pos = this.mViewPager.getCurrentItem();
-            this.mTabHost.setCurrentTab(3);
+            this.mTabHost.setCurrentTab(4);
             pos=0;
         }else{
         pos = this.mViewPager.getCurrentItem();
@@ -137,21 +138,62 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
         // TODO Put here your Fragments
         //codObs
+
+
+
+
         FragmentObs f1 = FragmentObs.newInstance(codObs);
-        FragmentGaleria f2 = FragmentGaleria.newInstance(codObs);
-        FragmentPlan f3 = FragmentPlan.newInstance(codObs);//cambiar a codObs
+
+        FragmentGaleria f3 = FragmentGaleria.newInstance(codObs);
+        FragmentPlan f4 = FragmentPlan.newInstance(codObs);//cambiar a codObs
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
-        FragmentComent f4=FragmentComent.newInstance(codObs);
+        FragmentComent f5=FragmentComent.newInstance(codObs);
 
         //ObsFragment f4 = ObsFragment.newInstance("","");
+        if(tipoObs.equals("TO01")){
+            FragmentObsCom f2 = FragmentObsCom.newInstance(codObs);
+            fList.add(f1);
+            fList.add(f2);
+            fList.add(f3);
+            fList.add(f4);
+            fList.add(f5);
+        }else if(tipoObs.equals("TO02")){
+            FragmentObsDet f2 = FragmentObsDet.newInstance(codObs);
+            fList.add(f1);
+            fList.add(f2);
+            fList.add(f3);
+            fList.add(f4);
+            fList.add(f5);
+        }else if(tipoObs.equals("TO03")){
+            FragmentObsTar f2 = FragmentObsTar.newInstance(codObs);
+            fList.add(f1);
+            fList.add(f2);
+            fList.add(f3);
+            fList.add(f4);
+            fList.add(f5);
+        }else {
+            FragmentObsIS f2 = FragmentObsIS.newInstance(codObs);
+            fList.add(f1);
+            fList.add(f2);
+            fList.add(f3);
+            fList.add(f4);
+            fList.add(f5);
+        }
 
+/*
         fList.add(f1);
         fList.add(f2);
         fList.add(f3);
         fList.add(f4);
+        fList.add(f5);
+*/
 
         return fList;
     }
+
+
+
+
 
     // Tabs Creation
     private void initialiseTabHost() {
@@ -160,13 +202,16 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
         // TODO Put here your Tabs
         ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("observaciones"));
+                this.mTabHost.newTabSpec("Tab1").setIndicator("Cabecera"));
         ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("Galería"));
+                this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
         ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab3").setIndicator("Plan de acción"));
+                this.mTabHost.newTabSpec("Tab3").setIndicator("Galería"));
         ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab4").setIndicator("Comentarios"));
+                this.mTabHost.newTabSpec("Tab4").setIndicator("Planes de Acción"));
+        mTabHost.setOnTabChangedListener(this);
+        ActMuroDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab5").setIndicator("Comentarios"));
         mTabHost.setOnTabChangedListener(this);
 
     }

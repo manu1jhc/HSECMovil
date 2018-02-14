@@ -54,12 +54,12 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		return f;
 	}
 
-	TextView txGaleria;
+	TextView txGaleria,mensaje;
 	GridView grid_gal;
 	ConstraintLayout cl_otros;
 	FrameLayout frame_otros;
 	ListView list_docs;
-	RelativeLayout rel_otros;
+	RelativeLayout rel_otros,galeria_foto;
 
 	boolean isPressed=true;
 	@Override
@@ -75,6 +75,8 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		frame_otros=(FrameLayout) mView.findViewById(R.id.frame_otros);
 		list_docs=(ListView) mView.findViewById(R.id.list_docs);
 		rel_otros=(RelativeLayout) mView.findViewById(R.id.rel_otros);
+		galeria_foto=(RelativeLayout) mView.findViewById(R.id.galeria_foto);
+		mensaje=(TextView) mView.findViewById(R.id.mensaje);
 		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
 		GlobalVariables.isFragment=true;
@@ -167,11 +169,16 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 	@Override
 	public void success(String data,String Tipo) {
 		//GlobalVariables.istabs=false;
+
 		jsonGaleria = data;
+		DataDocs.clear();
+		DataImg.clear();
 		//int resultado=data.indexOf("TP03");
 		Gson gson = new Gson();
 		GetGaleriaModel getGaleriaModel = gson.fromJson(data, GetGaleriaModel.class);
+		int count=getGaleriaModel.Count;
 		//GlobalVariables.listaGaleria=getGaleriaModel.Data;
+		if(count!=0){
 
 
 		if(data.contains("TP03") ){
@@ -215,7 +222,11 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		grid_gal.setAdapter(adaptador);
 		grid_gal.setOnItemClickListener(this);
 
-
+		}else{
+			mensaje.setVisibility(View.VISIBLE);
+			rel_otros.setVisibility(View.GONE);
+			galeria_foto.setVisibility(View.GONE);
+		}
 
 
 	}

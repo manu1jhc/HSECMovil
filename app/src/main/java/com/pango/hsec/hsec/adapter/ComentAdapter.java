@@ -62,6 +62,7 @@ public class ComentAdapter extends ArrayAdapter<ComentModel> {
 
 
         com_nombre.setText(tempcom_nombre);
+        com_detalle.setText(tempcom_detalle);
 
 
 
@@ -77,8 +78,7 @@ public class ComentAdapter extends ArrayAdapter<ComentModel> {
 
 
 
-
-        com_detalle.setText(tempcom_detalle);
+        //com_detalle.setVisibility(View.VISIBLE);
 
         // img_perfil.setImageResource(R.drawable.fotocarnet);
 

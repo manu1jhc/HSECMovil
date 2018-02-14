@@ -275,7 +275,7 @@ public class Utils {
 
             case "SuperInt":
                 //return observacionModel.CodNivelRiesgo;
-                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,inspeccionModel.SuperInt).trim().replace("=","");
+                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,inspeccionModel.Gerencia+"."+inspeccionModel.SuperInt).trim().replace("=","");
 
             case "CodContrata":
                 return inspeccionModel.CodContrata;
