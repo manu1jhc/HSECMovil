@@ -224,7 +224,7 @@ public class Utils {
             case "CodActiRelacionada":
 
                 //return planModel.CodActiRelacionada;
-                return GlobalVariables.getDescripcion(GlobalVariables.Actv_Relacionada,planModel.CodActiRelacionada);
+                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,planModel.CodActiRelacionada);
 
 
             case "CodReferencia":
@@ -370,7 +370,7 @@ public class Utils {
 
             case "CodActividadRel":
 
-            return GlobalVariables.getDescripcion(GlobalVariables.Actv_Relacionada,obsInspDetModel.CodActividadRel);
+            return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,obsInspDetModel.CodActividadRel);
             //return obsInspDetModel.CodActividadRel;
 
             case "CodNivelRiesgo":

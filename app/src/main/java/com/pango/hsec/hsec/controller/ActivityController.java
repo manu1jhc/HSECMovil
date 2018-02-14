@@ -28,7 +28,7 @@ import java.net.URLEncoder;
 public class ActivityController extends AsyncTask<String,Void,Void> {
     ProgressDialog progressDialog;
     IActivity activity;
-    String url;
+    public String url;
     //String url_token;
     int con_status;
     String token_auth;
@@ -117,7 +117,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     }
     @Override
     protected void onPreExecute() {
-        if(opcion == "get"){
+           if(opcion == "get"){
 
 
         if(GlobalVariables.istabs){

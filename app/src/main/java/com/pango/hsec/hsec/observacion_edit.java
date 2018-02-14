@@ -65,8 +65,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         this.mViewPager.setCurrentItem(pos);
         View dView=this.mViewPager.getRootView();
         if(pos==1){ //cambios solo cuando ingresemos al tab de detalle de obs.
-            if( GlobalVariables.TipoObservacion=="TO01")  {
-
+            if(GlobalVariables.TipoObservacion=="TO01"){
                 dView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
                 dView.findViewById(R.id.id_Acto).setVisibility(View.VISIBLE);
                 dView.findViewById(R.id.id_Estado).setVisibility(View.VISIBLE);
@@ -79,7 +78,6 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
                 dView.findViewById(R.id.id_Error).setVisibility(View.GONE);
             }
         }
-
     }
 
     @Override
