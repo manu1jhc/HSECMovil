@@ -16,7 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.pango.hsec.hsec.Busquedas.Busqueda;
+import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
@@ -55,8 +58,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
         ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
         ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
-
-
         TextView nombre = rowView.findViewById(R.id.mp_nombre);
         TextView fecha = rowView.findViewById(R.id.mp_fecha);
         ImageView riesgo=rowView.findViewById(R.id.img_riesgo);
@@ -80,8 +81,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         final String tempImgDet=data.get(position).UrlPrew;
 
         nombre.setText(tempNombre);
-
-
 
         fecha.setText(Obtenerfecha(tempFecha));
 
@@ -113,13 +112,18 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         comentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String tipoObs=data.get(position).Tipo;
+
                 Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
 
                 GlobalVariables.istabs=true;
 
                 Intent intent = new Intent(v.getContext(), ActMuroDet.class);
                 intent.putExtra("codObs",data.get(position).Codigo);
-                intent.putExtra("posTab",3);
+                intent.putExtra("posTab",4);
+                intent.putExtra("tipoObs",tipoObs);
+
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
 
                 v.getContext().startActivity(intent);
@@ -153,18 +157,27 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             Glide.with(context)
                     .load(Url_prev)
                     //.override(50, 50)
-
                     .into(img_det);
         }
 
+
+        img_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //GlobalVariables.desdeBusqueda=true;
+                GlobalVariables.barTitulo=false;
+                GlobalVariables.dniUser=tempimg_perfil;
+                Intent intent=new Intent(context,FichaPersona.class);
+                //intent.putExtra("codUsuario",tempimg_perfil);
+                context.startActivity(intent);
+            }
+        });
 
 
 
 
         return rowView;
     }
-
-
 
 
     public String ObtenerTipo(String tempTipo) {
@@ -178,9 +191,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         }
 
         return tipo;
-
-
-
     }
 
     public String ObtenerArea(String tempArea) {
@@ -195,12 +205,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
 
     }
-
-
-
-
-
-
 
     public String Obtenerfecha(String tempcom_fecha) {
 

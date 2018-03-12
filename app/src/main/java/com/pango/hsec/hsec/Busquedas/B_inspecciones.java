@@ -397,10 +397,6 @@ public class B_inspecciones extends AppCompatActivity {
 
 
 
-
-
-
-
             }
         } catch (Exception ex) {
             Toast.makeText(B_inspecciones.this, ex.toString(),

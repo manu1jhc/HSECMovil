@@ -97,8 +97,17 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 break;
 
             default:
+                if(GlobalVariables.token_auth.length()>40){
+                    activity.success(""+GlobalVariables.con_status,"");
 
-                activity.success(""+GlobalVariables.con_status,"");
+                }else{
+                    Toast.makeText((Context) activity,GlobalVariables.token_auth,Toast.LENGTH_SHORT).show();
+                    break;
+                }
+
+
+
+               // activity.success(""+GlobalVariables.con_status,"");
 
                 //activity.success(respstring);
         }

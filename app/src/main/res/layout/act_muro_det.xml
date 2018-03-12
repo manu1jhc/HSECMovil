@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pango.hsec.hsec.Observaciones.ActMuroDet"
     android:orientation="vertical"
-    >
+    tools:context="com.pango.hsec.hsec.Observaciones.ActMuroDet">
 
 
     <android.support.v7.widget.CardView
@@ -62,17 +61,15 @@
     </android.support.v7.widget.CardView>
 
 
-
-
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <HorizontalScrollView
                 android:id="@+id/horizontalsv"
@@ -81,12 +78,12 @@
                 android:fillViewport="true"
                 android:scrollbars="none">
 
-            <TabWidget
-                android:id="@android:id/tabs"
-                android:orientation="horizontal"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="0" />
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0"
+                    android:orientation="horizontal" />
             </HorizontalScrollView>
 
             <FrameLayout
@@ -103,9 +100,6 @@
 
         </LinearLayout>
     </TabHost>
-
-
-
 
 
 </LinearLayout>

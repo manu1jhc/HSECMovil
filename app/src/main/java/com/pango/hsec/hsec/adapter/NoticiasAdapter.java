@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
@@ -130,6 +131,21 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
                     .fitCenter()
                     .into(img_preview);
         }
+
+
+        img_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //GlobalVariables.desdeBusqueda=true;
+                GlobalVariables.barTitulo=false;
+                GlobalVariables.dniUser=tempimg_perfil;
+                Intent intent=new Intent(context,FichaPersona.class);
+                //intent.putExtra("codUsuario",tempimg_perfil);
+                context.startActivity(intent);
+            }
+        });
+
+
 
         return rowView;
     }

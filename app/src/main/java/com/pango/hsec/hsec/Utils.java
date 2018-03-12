@@ -102,7 +102,7 @@ public class Utils {
             case "Lugar":
                 return observacionModel.Lugar;
             case "CodTipo":
-                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs,observacionModel.CodTipo);
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,observacionModel.CodTipo);
 
             default:
                 return "";
@@ -214,13 +214,13 @@ public class Utils {
                 return GlobalVariables.getDescripcion(GlobalVariables.Estado_Plan,planModel.CodEstadoAccion);
 
 
-            case "CodSolicitadoPor":
-                return planModel.CodSolicitadoPor;
+            case "SolicitadoPor":
+                return planModel.SolicitadoPor;
 
 
-            case "CodResponsable":
+            case "Responsables":
+                return planModel.Responsables;
 
-                return planModel.CodResponsable;
             case "CodActiRelacionada":
 
                 //return planModel.CodActiRelacionada;
@@ -385,9 +385,28 @@ public class Utils {
         }
     }
 
+/*
+    public static void getListAñio(int anio){
+        for(int i=2015;i<anio;i++){
+            GlobalVariables.busqueda_anio
+        }
+    }
+    */
 
+    public static String Obtenerfecha(String tempcom_fecha) {
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        String fecha="";
+        try {
+            fecha=formatoRender.format(formatoInicial.parse(tempcom_fecha));
+        } catch (ParseException e) {
+            e.printStackTrace();
+            fecha=tempcom_fecha;
+        }
 
+        return fecha;
 
+    }
 
 
 
@@ -402,4 +421,6 @@ public class Utils {
     public static String fecha_fin="";
 
     public static boolean isActivity=false;
+
+
 }

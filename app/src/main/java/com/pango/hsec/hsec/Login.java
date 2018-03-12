@@ -199,7 +199,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
-        ///finish();
+        finish();
     }
 
     @Override

@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity
     private BottomNavigationView bottomNavigationView;
     private FragmentManager fragmentManager;
     public static Context contextOfApplication;
+    public static String jsonMuro="";
+
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
@@ -63,9 +65,29 @@ public class MainActivity extends AppCompatActivity
         disableShiftMode(bottomNavigationView);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
+
+
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+
+
+        if(!GlobalVariables.desdeBusqueda){
+            ChangeFragment(NavigationFragment.Muro);
+            uncheckItemsMenu();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+            GlobalVariables.desdeBusqueda=false;
+        }else{
+
+            ChangeFragment(NavigationFragment.FichaPersonal);
+            uncheckItemsMenu();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
+        }
+
+
+
+
+
     }
 
 
@@ -170,8 +192,12 @@ public class MainActivity extends AppCompatActivity
                     ClickMenuAprobaciones();
                     return true;
                 case R.id.navigation_ficha:
+                    GlobalVariables.isUserlogin=true;
+                    GlobalVariables.barTitulo=true;
+
                     uncheckItemsMenu();
                     ClickMenuFicha();
+
                     //navigationView.getMenu().findItem(R.id.nav_videos).setChecked(true);
                     return true;
                 case R.id.navigation_registro:

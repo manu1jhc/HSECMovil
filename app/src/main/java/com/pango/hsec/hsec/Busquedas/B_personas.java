@@ -39,7 +39,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
     ArrayList<Maestro> superintdata;
 
     Spinner spinnerGerencia,spinnerSuperInt;
-    TextView tx_b_persona;
+    TextView tx_b_persona,tx_mensajeP;
     ConstraintLayout const_persona;
     Button btn_busqueda;
     String gerencia,superint,filtro;
@@ -76,7 +76,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
         tx_texto =(TextView) findViewById(R.id.tx_texto);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
-
+        tx_mensajeP=findViewById(R.id.tx_mensajeP);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
 
 
@@ -294,6 +294,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
 
     }
     public void close(View view){
+        closeSoftKeyBoard();
         finish();
     }
 
@@ -307,14 +308,23 @@ public class B_personas extends AppCompatActivity implements IActivity {
         if(GlobalVariables.lista_Personas.size()==0) {
             GlobalVariables.lista_Personas = getPersonaModel.Data;
             //GlobalVariables.listaGlobal=listaPublicaciones;
+            //tx_mensajeP
+            if(getPersonaModel.Data.size()==0){
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                tx_mensajeP.setVisibility(View.VISIBLE);
+            }else{
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                tx_mensajeP.setVisibility(View.GONE);
+            }
+
         }else{
             //listaPublicaciones.addAll(getPublicacionModel.Data);
             GlobalVariables.lista_Personas.addAll(getPersonaModel.Data);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+
         }
         BuscarPersonaAdapter ca = new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas);
         List_personas.setAdapter(ca);
-
-
 
         ca.notifyDataSetChanged();
         if(GlobalVariables.flagUpSc==true){
@@ -352,19 +362,13 @@ public class B_personas extends AppCompatActivity implements IActivity {
         // GlobalVariables.FDown=false;
 
 
-
-
-
-
-
-
-
         List_personas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String nombre=GlobalVariables.lista_Personas.get(position).Nombres;
                 String CodPersona=GlobalVariables.lista_Personas.get(position).CodPersona;
+                String dniPersona=GlobalVariables.lista_Personas.get(position).NroDocumento;
 
                 /*Intent intent = new Intent(B_personas.this, B_observaciones.class);
                 intent.putExtra("nombreP",nombre);
@@ -378,6 +382,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 intent.putExtra("nombreP",nombre);
                 intent.putExtra("codpersona",CodPersona);
                 intent.putExtra("tipo","persona");
+                intent.putExtra("dni",dniPersona);
 
                 setResult(RESULT_OK, intent);
                 finish();

@@ -73,7 +73,6 @@ public class FragmentParticipante extends Fragment implements IActivity {
             obj2.execute("2");
         }else{
             success(jsonParticipante,"2");
-
         }
 
 

@@ -1,19 +1,26 @@
 package com.pango.hsec.hsec.adapter;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
@@ -27,11 +34,13 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import layout.FragmentFichaPersonal;
+
 /**
  * Created by Andre on 12/02/2018.
  */
 
-public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
+public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
     private Context context;
 
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
@@ -69,10 +78,10 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
 
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(final int position, final View convertView, final ViewGroup parent)  {
         //ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(context);
-        View rowView;
+        final View rowView;
         int positem=getItemViewType(position);
 
         if (positem == 0) {
@@ -86,7 +95,6 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
             TextView area = rowView.findViewById(R.id.mp_area);
             TextView comentario = rowView.findViewById(R.id.tx_comentario);
             TextView tx_det = rowView.findViewById(R.id.mp_txdet);
-
 
             final String tempimg_perfil = data.get(position).UrlObs;
             final String tempNombre = data.get(position).ObsPor;
@@ -121,12 +129,17 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
             comentario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String tipoObs=data.get(position).Tipo;
+
                     Toast.makeText(v.getContext(), "Comentarios", Toast.LENGTH_SHORT).show();
 
                     GlobalVariables.istabs = true;
                     Intent intent = new Intent(v.getContext(), ActMuroDet.class);
                     intent.putExtra("codObs", data.get(position).Codigo);
                     intent.putExtra("posTab", 4);
+                    intent.putExtra("tipoObs",tipoObs);
+
+
                     v.getContext().startActivity(intent);
                 }
             });
@@ -155,6 +168,70 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
                         .into(img_det);
             }
 
+
+            img_perfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    //((ListView) parent).performItemClick(convertView, position, 0);
+
+                    /*Fragment nuevoFragmento = new FragmentFichaPersonal();
+
+                    FragmentTransaction transaction = ((Activity) context).getFragmentManager().beginTransaction();
+
+                    transaction.add(R.id.content, nuevoFragmento);
+                    //transaction.replace(R.id.content, nuevoFragmento);
+                    transaction.hide(GlobalVariables.fragmentStack.lastElement());
+
+                    //transaction.addToBackStack(null);
+                    // Commit a la transacción
+                    transaction.commit();*/
+/*
+                    Fragment fragment = null;
+
+                    ((Activity) context).getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.content, fragment)
+
+                            .commit();
+*/
+/*
+                    android.app.Fragment nuevoFragmento = null;
+                    final Context context = parent.getContext();
+                    FragmentManager fm = ((Activity) context).getFragmentManager();
+                    fm.beginTransaction().replace(R.id.content, nuevoFragmento).commit();
+*/
+
+/*
+                    Fragment fragment = new FragmentFichaPersonal();
+                    FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
+*/
+
+
+                    //GlobalVariables.apilarFrag(nuevoFragmento);
+                    //navigationView.getMenu().findItem(R.id.nav_noticias).setChecked(true);
+                    //bottomNavigationView.setVisibility(View.VISIBLE);
+                   // bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
+                }
+            });
+
+            img_perfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //GlobalVariables.desdeBusqueda=true;
+                    GlobalVariables.barTitulo=false;
+                    GlobalVariables.dniUser=tempimg_perfil;
+                    Intent intent=new Intent(context,FichaPersona.class);
+                    //intent.putExtra("codUsuario",tempimg_perfil);
+                    context.startActivity(intent);
+                }
+            });
+
+
+
+
+
             return rowView;
         }else if(positem == 1) {
             rowView = inflater.inflate(R.layout.public_inspeccion, null, true);
@@ -177,7 +254,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
             ConstraintLayout const1=rowView.findViewById(R.id.constrain1);
             //media/getAvatar/30642172/Carnet.jpg
 
-            final String tempimg_perfil="media/getAvatar/"+data.get(position).UrlObs+"/Carnet.jpg";
+            final String tempimg_perfil=data.get(position).UrlObs;
 
             final String tempNombre = data.get(position).ObsPor;
             final String tempFecha = data.get(position).Fecha;
@@ -339,6 +416,20 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
                         break;
                 }
             }
+
+            img_perfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //GlobalVariables.desdeBusqueda=true;
+                    GlobalVariables.barTitulo=false;
+                    GlobalVariables.dniUser=data.get(position).UrlObs;
+                    Intent intent=new Intent(context,FichaPersona.class);
+                    //intent.putExtra("codUsuario",tempimg_perfil);
+                    context.startActivity(intent);
+                }
+            });
+
+
             return rowView;
         }else if(positem == 2) {
             rowView = inflater.inflate(R.layout.public_noticias, null, true);
@@ -408,6 +499,19 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel> {
                         .fitCenter()
                         .into(img_preview);
             }
+
+            img_perfil.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //GlobalVariables.desdeBusqueda=true;
+                    GlobalVariables.barTitulo=false;
+                    GlobalVariables.dniUser=tempimg_perfil;
+                    Intent intent=new Intent(context,FichaPersona.class);
+                    //intent.putExtra("codUsuario",tempimg_perfil);
+                    context.startActivity(intent);
+                }
+            });
+
 
             return rowView;
 

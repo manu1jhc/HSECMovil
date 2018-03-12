@@ -1,0 +1,181 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsCond"
+    >
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_margin="2dp"
+        >
+
+        <TextView
+            android:id="@+id/tx1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.65"
+            android:text="Condicion Sub-estándar observada"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tx_obs_det"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:layout_weight="0.35"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_margin="2dp"
+        >
+
+        <TextView
+            android:id="@+id/tx2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.65"
+            android:text="Acción inmediata (Corrección)"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tx_accion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:layout_weight="0.35"
+            android:layout_marginLeft="10dp"
+
+            />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_margin="2dp"
+        >
+
+        <TextView
+            android:id="@+id/tx3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.65"
+            android:text="Actividad relacionada"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tx_act_rel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:layout_weight="0.35"
+            android:layout_marginLeft="10dp"
+            />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_margin="2dp"
+        >
+
+        <TextView
+            android:id="@+id/tx4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.65"
+            android:text="HHA relacionada"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tx_hha"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:layout_weight="0.35"
+            android:layout_marginLeft="10dp"
+
+            />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="3dp"
+
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:layout_margin="2dp"
+        >
+
+        <TextView
+            android:id="@+id/tx5"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.65"
+            android:text="Condicioon Sub-estándar"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tx_sub_estandar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="TextView"
+            android:layout_weight="0.35"
+            android:layout_marginLeft="10dp"
+
+            />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
+
+</LinearLayout>

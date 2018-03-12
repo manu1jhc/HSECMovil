@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.pango.hsec.hsec.Ficha.Estadisticas">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorBlanco"
+                android:onClick="close"
+                android:src="@drawable/ic_flecha_retroceder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:cropToPadding="false"
+                android:src="@drawable/imgantapacay"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:text="HSEC "
+                android:textColor="@color/colorNegro"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        app:cardBackgroundColor="@color/colorBtnBeige">
+
+
+        <TextView
+            android:id="@+id/cap_recibida"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="@color/colorBtnBeige"
+            android:gravity="center"
+            android:text="Estadísticas"
+            android:textColor="@color/colorBlanco"
+            android:textSize="16sp" />
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+
+        >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+
+
+    <TextView
+        android:id="@+id/tx_Anio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.21"
+        android:background="@color/colorBtnBeige"
+        android:gravity="center"
+        android:text="Año"
+        android:textColor="@color/colorBlanco"
+        android:textSize="14sp" />
+
+
+    <Spinner
+        android:id="@+id/spinner_anio"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.17"
+
+        />
+
+
+    <TextView
+        android:id="@+id/tx_mes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.21"
+        android:background="@color/colorBtnBeige"
+        android:gravity="center"
+        android:text="Mes"
+        android:textColor="@color/colorBlanco"
+        android:textSize="14sp" />
+
+
+
+    <Spinner
+        android:id="@+id/spinner_mes"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.15"
+
+        />
+
+    <ImageButton
+        android:id="@+id/btn_buscar_e"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:background="?attr/colorButtonNormal"
+        android:src="@drawable/ic_search"
+        tools:layout_editor_absoluteX="318dp"
+        tools:layout_editor_absoluteY="0dp" />
+
+</LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <ListView
+        android:id="@+id/list_estadistica"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
+
+
+</LinearLayout>

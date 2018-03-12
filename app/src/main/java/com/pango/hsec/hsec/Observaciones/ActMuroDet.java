@@ -11,7 +11,6 @@ import android.widget.TabHost;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.ObservacionModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +62,6 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
     }
     public void close(View view){
-
         finish();
     }
 
@@ -128,7 +126,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
-
+        //codObs="OBS00210123";
 /*
 		fList.add(Fragment.instantiate(this, ObsFragment.class.getName()));
 		fList.add(Fragment.instantiate(this, GaleriaFragment.class.getName()));
@@ -150,6 +148,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         FragmentComent f5=FragmentComent.newInstance(codObs);
 
         //ObsFragment f4 = ObsFragment.newInstance("","");
+
         if(tipoObs.equals("TO01")){
             FragmentObsCom f2 = FragmentObsCom.newInstance(codObs);
             fList.add(f1);
@@ -158,7 +157,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
             fList.add(f4);
             fList.add(f5);
         }else if(tipoObs.equals("TO02")){
-            FragmentObsDet f2 = FragmentObsDet.newInstance(codObs);
+            FragmentObsCond f2 = FragmentObsCond.newInstance(codObs);
             fList.add(f1);
             fList.add(f2);
             fList.add(f3);
@@ -181,6 +180,8 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         }
 
 /*
+        FragmentObsCond f2 = FragmentObsCond.newInstance(codObs);
+
         fList.add(f1);
         fList.add(f2);
         fList.add(f3);

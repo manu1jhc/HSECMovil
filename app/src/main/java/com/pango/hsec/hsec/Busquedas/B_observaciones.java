@@ -91,7 +91,7 @@ public class B_observaciones extends AppCompatActivity {
 
         tipo_data= new ArrayList<>();
         tipo_data.add(new Maestro(null,"-  Seleccione  -"));
-        tipo_data.addAll(GlobalVariables.Tipo_obs);
+        tipo_data.addAll(GlobalVariables.Tipo_obs2);
 
         nivel_data= new ArrayList<>();
         nivel_data.add(new Maestro(null,"-  Seleccione  -"));
@@ -260,7 +260,7 @@ public class B_observaciones extends AppCompatActivity {
 
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
                 SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
-                Utils.observacionModel.Fecha_inicio= String.valueOf(fecha_envio.format(actual));
+                Utils.observacionModel.FechaInicio= String.valueOf(fecha_envio.format(actual));
 
                 fecha_inicio=dt.format(actual);
                 btnFechaInicio.setText(dt.format(actual));
@@ -293,7 +293,7 @@ public class B_observaciones extends AppCompatActivity {
 
                 SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
 
-                Utils.observacionModel.Fecha_fin= String.valueOf(fecha_envio.format(actual));
+                Utils.observacionModel.FechaFin= String.valueOf(fecha_envio.format(actual));
 
                 fecha_fin=dt.format(actual);
                  btnFechaFin.setText(dt.format(actual));

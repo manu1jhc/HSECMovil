@@ -85,7 +85,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 httpPost.setHeader("Content-type", "application/json");
                 HttpResponse httpResponse = httpclient.execute(httpPost);
 
-                int status=httpResponse.getStatusLine().getStatusCode();
+                GlobalVariables.con_status_post=httpResponse.getStatusLine().getStatusCode();
 
                 inputStream = httpResponse.getEntity().getContent();
                 if(inputStream != null)
@@ -163,43 +163,49 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     protected void onPostExecute(Void result) {
     if(opcion=="get") {
         GlobalVariables.isFragment=false;
-        switch (GlobalVariables.con_status) {
-            case 401:
-                //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
-                activity.error("Ocurrio un error de conexion",Tipo);
-                break;
-            case 404:
-                //Toast.makeText((Context) activity,"Not Found",Toast.LENGTH_SHORT).show();
-                activity.error("Not Found",Tipo);
-                break;
-            case 307:
-                //Toast.makeText((Context) activity,"Se perdio la conexion al servidor",Toast.LENGTH_SHORT).show();
-                activity.error("Se perdio la conexion al servidor",Tipo);
-                break;
-            case 500:
-                //Toast.makeText((Context) activity,"Ocurrio un error interno en el servidor",Toast.LENGTH_SHORT).show();
-                activity.error("Ocurrio un error interno en el servidor",Tipo);
-                break;
-            default:
-                activity.success(respstring,Tipo);
-        }
-        //progressDialog.dismiss();
-        int a=GlobalVariables.count;
 
-        if(GlobalVariables.istabs){
-            //GlobalVariables.istabs=false;
-            progressDialog.dismiss();
+            switch (GlobalVariables.con_status) {
+                case 401:
+                    //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
+                    activity.error("Ocurrio un error de conexion", Tipo);
+                    break;
+                case 404:
+                    //Toast.makeText((Context) activity,"Not Found",Toast.LENGTH_SHORT).show();
+                    activity.error("Not Found", Tipo);
+                    break;
+                case 307:
+                    //Toast.makeText((Context) activity,"Se perdio la conexion al servidor",Toast.LENGTH_SHORT).show();
+                    activity.error("Se perdio la conexion al servidor", Tipo);
+                    break;
+                case 500:
+                    //Toast.makeText((Context) activity,"Ocurrio un error interno en el servidor",Toast.LENGTH_SHORT).show();
+                    activity.error("Ocurrio un error interno en el servidor", Tipo);
+                    break;
+                default:
+                    activity.success(respstring, Tipo);
+            }
+     //   }
 
-        }else  if (GlobalVariables.count == 1||GlobalVariables.count == 2||GlobalVariables.count == 3||GlobalVariables.count == 4) {
-            GlobalVariables.count++;
-            //GlobalVariables.count=5;
-            progressDialog.dismiss();
-        }else if(Utils.isActivity){
-            progressDialog.dismiss();
-            Utils.isActivity=false;
-        }
+            //progressDialog.dismiss();
+            int a = GlobalVariables.count;
+
+            if (GlobalVariables.istabs) {
+                //GlobalVariables.istabs=false;//no borrar
+                progressDialog.dismiss();
+
+            } else if (GlobalVariables.count == 1 || GlobalVariables.count == 2 || GlobalVariables.count == 3 || GlobalVariables.count == 4) {
+                GlobalVariables.count++;
+                //GlobalVariables.count=5;
+                progressDialog.dismiss();
+            } else if (Utils.isActivity) {
+                progressDialog.dismiss();
+                Utils.isActivity = false;
+            }
+
         //mainActivity.success();
-    }else if(opcion=="post"){
+    }
+    //POST
+    else if(opcion=="post"){
         if(GlobalVariables.isFragment){
             progressDialog.dismiss();
             GlobalVariables.isFragment=false;

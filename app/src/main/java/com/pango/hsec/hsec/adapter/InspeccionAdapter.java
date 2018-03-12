@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
@@ -69,7 +70,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         ConstraintLayout  const1=rowView.findViewById(R.id.constrain1);
         //media/getAvatar/30642172/Carnet.jpg
 
-        final String tempimg_perfil="media/getAvatar/"+data.get(position).UrlObs+"/Carnet.jpg";
+        final String tempimg_perfil=data.get(position).UrlObs;
 
         final String tempNombre = data.get(position).ObsPor;
         final String tempFecha = data.get(position).Fecha;
@@ -245,7 +246,6 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             riesgo2.setVisibility(View.GONE);
             riesgo3.setVisibility(View.GONE);
             tx_det1.setText(tempDetalle[0]);
-
             switch (tempRiesgo[0]){
                 case "BA":
                     riesgo1.setImageResource(R.drawable.green_light);
@@ -312,6 +312,20 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
                     .into(img_det);
         }
 */
+
+
+        img_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //GlobalVariables.desdeBusqueda=true;
+                GlobalVariables.barTitulo=false;
+                GlobalVariables.dniUser=data.get(position).UrlObs;
+                Intent intent=new Intent(context,FichaPersona.class);
+                //intent.putExtra("codUsuario",tempimg_perfil);
+                context.startActivity(intent);
+            }
+        });
+
 
         return rowView;
     }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+
+        >
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+
+            >
+
+            <TextView
+                android:id="@+id/tx_tema"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:text="Tema"
+                android:textSize="16sp" />
+        </android.support.v7.widget.CardView>
+<!--
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.40"
+            >
+
+            <TextView
+                android:id="@+id/duracion_nota"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Duración"
+                android:textAlignment="center"
+                />
+        </android.support.v7.widget.CardView>
+-->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.75"
+            >
+
+            <TextView
+                android:id="@+id/tx_estado"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:lineSpacingExtra="6sp"
+                android:text="Estado"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>

@@ -4,7 +4,9 @@
     android:id="@+id/linear_tabla"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+
+    >
 
 
     <android.support.v7.widget.CardView
@@ -36,7 +38,6 @@
 
         <TextView
             android:id="@+id/part_area"
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="5dp"

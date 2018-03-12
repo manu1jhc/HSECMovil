@@ -35,7 +35,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 	ListView listPlan;
 	PlandetAdapter plandetAdapter;
 	String jsonPlan="";
-
+	TextView tx_msj_plan;
 	public static final FragmentPlan newInstance(String sampleText) {
 		FragmentPlan f = new FragmentPlan();
 
@@ -54,6 +54,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 
 		mView = inflater.inflate(R.layout.fragment_plan, container, false);
 		listPlan=(ListView) mView.findViewById(R.id.list_plan);
+		tx_msj_plan=mView.findViewById(R.id.tx_msj_plan);
 		codObs=getArguments().getString("bString");
 		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
@@ -92,6 +93,13 @@ public class FragmentPlan extends Fragment implements IActivity {
 		PlanAdapter ca = new PlanAdapter(getContext(), getPlanModel.Data);
 		listPlan.setAdapter(ca);
 
+		if (getPlanModel.Data.size()==0){
+			listPlan.setVisibility(View.GONE);
+			tx_msj_plan.setVisibility(View.VISIBLE);
+		}else{
+			listPlan.setVisibility(View.VISIBLE);
+			tx_msj_plan.setVisibility(View.GONE);
+		}
 
 		listPlan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -108,8 +116,6 @@ public class FragmentPlan extends Fragment implements IActivity {
 
 
 				popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.WRAP_CONTENT,RadioGroup.LayoutParams.WRAP_CONTENT,false);
-
-
 
 				btn_Cerrar = (Button)popupView.findViewById(R.id.id_cerrar);
 				btn_Cerrar.setOnClickListener(new Button.OnClickListener(){
@@ -151,6 +157,26 @@ public class FragmentPlan extends Fragment implements IActivity {
 	public void error(String mensaje,String Tipo) {
 
 	}
+
+
+/*
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		//check if popupwindow is open
+		//Log.e(TAG, "Check if it runs through this section");
+		if (popupWindow != null) {
+
+			popupWindow.dismiss();
+			popupWindow = null;
+			//myWebView = null;
+
+		}else{
+			onBackPressed();
+		}
+	}
+*/
+
+
 
 
 

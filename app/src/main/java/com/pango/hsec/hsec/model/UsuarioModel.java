@@ -10,16 +10,20 @@ import java.lang.reflect.Array;
 
 public class UsuarioModel {
     //@SerializedName("CodUsuario")
-    public String CodUsuario;
-
+    public int CodUsuario;
+    public String Codigo_Usuario;
     public String CodPersona;
-    public String Email;
     public String Nombres;
+    public String Sexo;
+    public String Email;
     public String NroDocumento;
     public String Cargo;
     public String Area;
-    public String Avatar;
-
+    public String Rol;
+    public String Empresa;
+    public String Tipo_Autenticacion;
+    public String Passwd;
+    public String Estado;
 
 
 

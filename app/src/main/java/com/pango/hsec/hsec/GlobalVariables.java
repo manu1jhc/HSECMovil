@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.Maestro;
@@ -29,6 +30,8 @@ public class GlobalVariables implements IActivity {
 
     //public static String Urlbase2 = "entrada/getpaginated/";
     public  static int con_status=0;
+    public  static int con_status_post=0;
+
     public static String token_auth="";
 
     public static boolean validarEmail(String email) {
@@ -52,9 +55,9 @@ public class GlobalVariables implements IActivity {
     public static boolean isFragment=false;
     public static int contpublic=1;
     public static int num_items=7;
-    //public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
+    public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
     //public static String Url_base="http://servidorpango/whsec_Servicedmz/api/";
-    public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
+    //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
 
     public static boolean flagUpSc=false;
    // public static boolean FDown=false;
@@ -66,20 +69,33 @@ public class GlobalVariables implements IActivity {
 
     public static ArrayList<PublicacionModel> listaGlobalFiltro = new  ArrayList<PublicacionModel>();
 
-    public static String  json_user="";
+    public static String json_user="";
 
+    public static String nombre="";
+    //public static String dni="";
     //public static String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
     //public static String[] obsDetIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 
     public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
     public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 
-    public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","CodSolicitadoPor","CodResponsable","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
+
+
+    public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","SolicitadoPor","Responsables","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
     public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Responsable", "Actividad relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
 
+
+
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
+    public static String[] busqueda_mes={"-","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+    public static String[] busqueda_anio;
 
     public static int  CodRol=3;
+    public static boolean desdeBusqueda=false;
+    public static String dniUser="";
+    public static boolean barTitulo=true;
+
+    public static  ArrayList<EstadisticaDetModel> dataAdicional = new ArrayList<>();
 
     //variables globales select
 
@@ -114,6 +130,7 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> Estado_obs = new ArrayList<>();
     //public static  ArrayList<Maestro> Actv_Relacionada = new ArrayList<>();
     public static  ArrayList<Maestro> Aspecto_Obs = new ArrayList<>();
+
     public static  ArrayList<Maestro> Error_obs = new ArrayList<>();
 
     public static  ArrayList<Maestro> Aspectos_Obs = new ArrayList<>();
@@ -121,6 +138,14 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> GestionRiesg_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Clasificacion_Obs = new ArrayList<>();
     public static  ArrayList<Maestro> CondicionComp_Obs = new ArrayList<>();
+
+
+    public static  ArrayList<Maestro> TipoAutenticacion = new ArrayList<>();
+    public static  ArrayList<Maestro> Sexo = new ArrayList<>();
+
+
+
+    public static int paginacion=1;
 
     public static String TipoObservacion = "TO01";
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
@@ -222,11 +247,11 @@ public class GlobalVariables implements IActivity {
         Aspectos_Obs.add(new Maestro("P001","EPP completos para la tarea"));
         Aspectos_Obs.add(new Maestro("P002","Orden y Limpieza"));
         Aspectos_Obs.add(new Maestro("P003","Estado de Herramientas"));
-        Aspectos_Obs.add(new Maestro("P005","Materiales necesarios para la tarea"));
-        Aspectos_Obs.add(new Maestro("P006","Estado de las instaaciones y/o estructuras"));
-        Aspectos_Obs.add(new Maestro("P007","Análisis de Seguridad en e trabajo / Peligros identificados y controles existentes"));
-        Aspectos_Obs.add(new Maestro("P008","Permiso(s) de Trabajo"));
-        Aspectos_Obs.add(new Maestro("P009","Se cumplen las  restricciones o condiciones generales del PET"));
+        Aspectos_Obs.add(new Maestro("P004","Materiales necesarios para la tarea"));
+        Aspectos_Obs.add(new Maestro("P005","Estado de las instaaciones y/o estructuras"));
+        Aspectos_Obs.add(new Maestro("P006","Análisis de Seguridad en e trabajo / Peligros identificados y controles existentes"));
+        Aspectos_Obs.add(new Maestro("P007","Permiso(s) de Trabajo"));
+        Aspectos_Obs.add(new Maestro("P008","Se cumplen las  restricciones o condiciones generales del PET"));
 
         GestionRiesg_obs.add(new Maestro("GESRIES1","Permiso de "));
         GestionRiesg_obs.add(new Maestro("GESRIES2","PET(Procedimiento escrito de trabajo)"));
@@ -312,6 +337,15 @@ public class GlobalVariables implements IActivity {
         Acto_obs.add(new Maestro("0023","Exponerse a la línea de fuego"));
         Acto_obs.add(new Maestro("0024","No uso de los 3 puntos de apoyo"));
         Acto_obs.add(new Maestro("0025","Intento por realizar tareas múltiples en forma simultánea"));
+
+
+        TipoAutenticacion.add(new Maestro("B","Básico"));
+        TipoAutenticacion.add(new Maestro("W","Windows"));
+
+        Sexo.add(new Maestro("01","Masculino"));
+        Sexo.add(new Maestro("02","Femenino"));
+
+
     }
     public static ArrayList<Maestro> loadUbicacion(String Tipo, int nivel){
         ArrayList<Maestro> Ubicaciones = new ArrayList<>();
@@ -351,7 +385,7 @@ public class GlobalVariables implements IActivity {
 
     public static boolean flagObsFiltro=true;
     public static boolean istabs=false;
-
+    public static boolean isUserlogin=false;
    // public static List<Maestro> listPlan=new ArrayList<>();
 
     //autenticacion

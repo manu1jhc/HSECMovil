@@ -57,6 +57,10 @@ public class PlandetAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(R.layout.obslist, parent, false);
 
+
+
+
+
         TextView ladoIzquierdo=convertView.findViewById(R.id.txcab);
         ladoIzquierdo.setText(GlobalVariables.planDetIzq[position]);
 

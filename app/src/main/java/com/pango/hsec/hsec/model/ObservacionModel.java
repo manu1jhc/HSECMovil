@@ -14,8 +14,11 @@ public class ObservacionModel {
     public String Lugar; //Pagenumber
     public String CodTipo;//Elemperpage
 
-    public String Fecha_inicio;
-    public String Fecha_fin;
+   // public String Fecha_inicio;
+    //public String Fecha_fin;
+
+    public String FechaInicio;
+    public String FechaFin;
     public String tipo_obs;
 
 

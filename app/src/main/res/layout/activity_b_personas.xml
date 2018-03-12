@@ -397,6 +397,21 @@
                 android:textColor="@color/colorBlanco" />
         </LinearLayout>
 
+
+        <TextView
+            android:id="@+id/tx_mensajeP"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:visibility="gone"
+            android:text="@string/resultado_vacio"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipelayout"
             android:layout_width="0dp"
@@ -423,7 +438,6 @@
                         android:id="@+id/tx_texto"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-
                         android:layout_marginTop="0dp"
                         android:text="Actualizando Registros Espere...."
                         android:textAlignment="center"

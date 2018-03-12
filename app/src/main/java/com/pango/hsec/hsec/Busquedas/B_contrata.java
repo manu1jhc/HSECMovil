@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
@@ -22,7 +24,7 @@ Button btn_busqueda;
 ListView listView;
 ArrayList<Maestro> contrata_datos=new ArrayList<>();
 ContrataAdapter contrataAdapter;
-
+TextView tx_buscarc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,14 +35,15 @@ ContrataAdapter contrataAdapter;
         id_razon=(EditText) findViewById(R.id.id_razon);
         btn_busqueda=(Button) findViewById(R.id.btn_busqueda);
         listView=(ListView) findViewById(R.id.listView);
-
+        tx_buscarc=findViewById(R.id.tx_buscarc);
 
 
         btn_busqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String codigo= String.valueOf(id_codigo.getText()).trim();
+            String codigo=String.valueOf(id_codigo.getText()).trim();
             String razon_social= String.valueOf(id_razon.getText()).trim();
+            String comp_codigo;
             contrata_datos.clear();
                 for (Maestro item: GlobalVariables.Contrata
                         ) {
@@ -51,7 +54,7 @@ ContrataAdapter contrataAdapter;
                         contrata_datos.add(item);
                     }else if(razon_social.equals("")&&item.CodTipo.equals(codigo)){
                         contrata_datos.add(item);
-                    }else if(item.CodTipo.equals(codigo)&&item.Descripcion.toLowerCase().contains(razon_social.toLowerCase())){
+                    }else if(String.valueOf(Integer.parseInt(item.CodTipo)).equals(codigo)&&item.Descripcion.toLowerCase().contains(razon_social.toLowerCase())){
                         contrata_datos.add(item);
                     }
 
@@ -59,7 +62,17 @@ ContrataAdapter contrataAdapter;
 
                 lista_contrata(contrata_datos);
 
+                if(contrata_datos.size()==0){
+                    tx_buscarc.setVisibility(View.VISIBLE);
+                    listView.setVisibility(View.GONE);
+                }else{
+                    listView.setVisibility(View.VISIBLE);
+                    tx_buscarc.setVisibility(View.GONE);
 
+                }
+
+
+                closeSoftKeyBoard();
 
             }
         });
@@ -110,6 +123,10 @@ ContrataAdapter contrataAdapter;
 
     }
 
-
+    public void closeSoftKeyBoard() {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+    }
 
 }

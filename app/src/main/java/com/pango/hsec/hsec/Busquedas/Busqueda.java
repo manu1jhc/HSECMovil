@@ -6,6 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -13,6 +15,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +58,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
     String url="";
     int contPublicacion;
     ListView list_busqueda;
-    int paginacion=1;
+    int paginacion2=1;
     boolean flagObsFiltro=true;
     boolean upFlag;
     boolean downFlag;
@@ -65,8 +69,12 @@ public class Busqueda extends AppCompatActivity implements IActivity {
     int tipo_busqueda;
     //ConstraintLayout constraintLayout;
     boolean loadingTop=false;
-    TextView tx_texto;
+    TextView tx_texto, tx_mensajeb;
     ImageButton lupabuscar;
+    LayoutInflater layoutInflater;
+    View popupView;
+    PopupWindow popupWindow;
+    boolean flagpopup=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +91,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
         loaddata.LoadData();
         list_busqueda=(ListView) findViewById(R.id.list_busqueda);
         sp_busqueda=(Spinner) findViewById(R.id.sp_busqueda);
+        tx_mensajeb=findViewById(R.id.tx_mensajeb);
 
         ArrayAdapter adapterBusObs = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, busqueda_tipo);
         adapterBusObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -138,12 +147,12 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             @Override
 
             public void onRefresh() {
-
+                GlobalVariables.istabs=false;// para que no entre al flag de tabs
                 //is_swipe=false;
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
                 flagObsFiltro=true;
-                paginacion=1;
+                paginacion2=1;
                 //   upFlag=false;
                 //  downFlag=false;
                 // (new Handler()).postDelayed(new Runnable() {
@@ -167,20 +176,21 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                 String json = "";
 
                 if(tipo_busqueda==1) {
-
+                    //Utils.observacionModel=new ObservacionModel();
                     Utils.observacionModel.CodUbicacion = "5";
-                    Utils.observacionModel.Lugar = String.valueOf(paginacion);
+                    Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.observacionModel);
                 }else if(tipo_busqueda==2){
+                    //Utils.inspeccionModel=new InspeccionModel();
                     Utils.inspeccionModel.Elemperpage = "5";
-                    Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion);
+                    Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion2);
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.inspeccionModel);
                 }else if(tipo_busqueda==3){
-
+                    //Utils.noticiasModel=new NoticiasModel();
                     Utils.noticiasModel.Elemperpage = "5";
-                    Utils.noticiasModel.Pagenumber = String.valueOf(paginacion);
+                    Utils.noticiasModel.Pagenumber = String.valueOf(paginacion2);
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.noticiasModel);
                 }
@@ -220,11 +230,13 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.lista_Personas.size() != contPublicacion && flag_enter&&flagObsFiltro) {
+                    if (GlobalVariables.listaGlobalFiltro.size() != contPublicacion && flag_enter&&flagObsFiltro) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
+                        lupabuscar.setEnabled(false);
+
                         //GlobalVariables.isFragment=true;
                         //Utils.isActivity=true;
                         //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
@@ -233,23 +245,23 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                         String json2 = "";
 
                         //GlobalVariables.count=5;
-                        paginacion+=1;
+                        paginacion2+=1;
                         if(tipo_busqueda==1) {
-
+                            //Utils.observacionModel=new ObservacionModel();
                             Utils.observacionModel.CodUbicacion = "5";
-                            Utils.observacionModel.Lugar = String.valueOf(paginacion);
+                            Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.observacionModel);
                         }else if(tipo_busqueda==2){
-
+                            //Utils.inspeccionModel=new InspeccionModel();
                             Utils.inspeccionModel.Elemperpage = "5";
-                            Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion);
+                            Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion2);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.inspeccionModel);
                         }else if(tipo_busqueda==3){
-
+                            //Utils.noticiasModel=new NoticiasModel();
                             Utils.noticiasModel.Elemperpage = "5";
-                            Utils.noticiasModel.Pagenumber = String.valueOf(paginacion);
+                            Utils.noticiasModel.Pagenumber = String.valueOf(paginacion2);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.noticiasModel);
                         }
@@ -259,9 +271,18 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                         //Utils.isActivity=true;
                         //url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
 
-                        GlobalVariables.istabs=false;
+                        GlobalVariables.istabs=false;// para que no entre al flag de tabs
                         final ActivityController obj = new ActivityController("post", url, Busqueda.this);
                         obj.execute(json2);
+
+                        layoutInflater =(LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                        popupView = layoutInflater.inflate(R.layout.popup_blanco, null);
+
+                        popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT ,580,false);
+                        popupWindow.showAtLocation(list_busqueda, Gravity.CENTER, 0, 0);
+                        flagpopup=true;
+
+
 
                     }
 
@@ -308,10 +329,14 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
                 if(tipo_busqueda==1) {
                 String CodObservacion=GlobalVariables.listaGlobalFiltro.get(position).Codigo;
+                String tipoObs=GlobalVariables.listaGlobalFiltro.get(position).Tipo;
+
                 Intent intent = new Intent(Busqueda.this, ActMuroDet.class);
                 intent.putExtra("codObs",CodObservacion);
                 intent.putExtra("posTab",0);
-                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                intent.putExtra("tipoObs",tipoObs);
+
+                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                 startActivity(intent);
                 }else if(tipo_busqueda==2){
                 String CodInspeccion= GlobalVariables.listaGlobalFiltro.get(position).Codigo;
@@ -341,6 +366,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             public void onClick(View v) {
                 GlobalVariables.flagUpSc=true;
                 if(tipo_filtro.equals(busqueda_tipo[0])) {
+                    Utils.observacionModel=new ObservacionModel();
                     ObservacionModel observacionModel=new ObservacionModel();
                     tipo_busqueda=1;
                     observacionModel.CodUbicacion = "5";
@@ -356,10 +382,8 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     final ActivityController obj = new ActivityController("post", url, Busqueda.this);
                     obj.execute(json);
 
-
-
-
                 }else if(tipo_filtro.equals(busqueda_tipo[1])){
+                    Utils.inspeccionModel=new InspeccionModel();
                     InspeccionModel inspeccionModel=new InspeccionModel();
                     tipo_busqueda=2;
                     inspeccionModel.Elemperpage="5";
@@ -381,6 +405,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     startActivityForResult(intent , REQUEST_CODE);
 */
                 }else if(tipo_filtro.equals(busqueda_tipo[2])) {
+                    Utils.noticiasModel=new NoticiasModel();
                     NoticiasModel noticiasModel = new NoticiasModel();
                     tipo_busqueda = 3;
                     noticiasModel.Elemperpage = "5";
@@ -396,7 +421,6 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
                     final ActivityController obj = new ActivityController("post", url, Busqueda.this);
                     obj.execute(json);
-
 
                 }
 
@@ -423,6 +447,12 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
     @Override
     public void successpost(String data1, String Tipo) {
+        /*
+        if(flagpopup){
+            popupWindow.dismiss();
+            flagpopup=false;
+        }
+        */
         data1="{"+data1+"}";
         Gson gson = new Gson();
         GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
@@ -431,10 +461,22 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
         if(GlobalVariables.listaGlobalFiltro.size()==0) {
             GlobalVariables.listaGlobalFiltro = getPublicacionModel.Data;
+            if(getPublicacionModel.Data.size()==0){
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                tx_mensajeb.setVisibility(View.VISIBLE);
+            }else{
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                tx_mensajeb.setVisibility(View.GONE);
+            }
+            //swipeRefreshLayout.setVisibility(View.VISIBLE);
+
             //GlobalVariables.listaGlobal=listaPublicaciones;
         }else{
             //listaPublicaciones.addAll(getPublicacionModel.Data);
             GlobalVariables.listaGlobalFiltro.addAll(getPublicacionModel.Data);
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+
+
         }
 
 
@@ -457,7 +499,6 @@ public class Busqueda extends AppCompatActivity implements IActivity {
         }
 
 
-        swipeRefreshLayout.setVisibility(View.VISIBLE);
 
         if(GlobalVariables.flagUpSc==true){
             list_busqueda.setSelection(0);
@@ -482,7 +523,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             }
 
         constraintLayout.setVisibility(View.GONE);
-
+        lupabuscar.setEnabled(true);
 
         flag_enter=true;
         //GlobalVariables.contpublic += 1;

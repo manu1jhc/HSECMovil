@@ -36,7 +36,7 @@ public class PlanAdapter extends ArrayAdapter<PlanModel> {
         TextView estado=(TextView)  rowView.findViewById(R.id.tx_estado);
 
         final String tempTarea=data.get(position).DesPlanAccion;
-        final String tempResponsable=data.get(position).CodResponsable;
+        final String tempResponsable=data.get(position).Responsables;
         //GlobalVariables.getDescripcion(GlobalVariables.Area_obs,data.get(position).CodAreaHSEC);
 
         final String tempArea=GlobalVariables.getDescripcion(GlobalVariables.Area_obs,data.get(position).CodAreaHSEC);

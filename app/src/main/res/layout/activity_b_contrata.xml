@@ -126,10 +126,12 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
-                        android:inputType="text"
                         android:selectAllOnFocus="true"
                         android:singleLine="true"
                         android:textSize="14sp"
+                        android:numeric="integer"
+                        android:inputType="number"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/txcod"
@@ -253,7 +255,19 @@
                 />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/tx_buscarc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/resultado_vacio"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
 
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
 
         <ListView
             android:id="@+id/listView"

@@ -28,6 +28,17 @@
 
     </android.support.constraint.ConstraintLayout>
 
+
+    <TextView
+        android:id="@+id/tx_msj_plan"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/constraintPlan"
+        android:gravity="center"
+        android:text="Ningún plan de acción registrado"
+        android:textSize="20dp"
+        android:visibility="gone"
+        />
     <ListView
         android:id="@+id/list_plan"
         android:layout_width="match_parent"
