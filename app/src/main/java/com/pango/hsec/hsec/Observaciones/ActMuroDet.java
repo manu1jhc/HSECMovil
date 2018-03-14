@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TabHost;
 
 import com.pango.hsec.hsec.GlobalVariables;
@@ -216,4 +217,25 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         mTabHost.setOnTabChangedListener(this);
 
     }
+
+/*
+    @Override
+    public void onBackPressed() {
+        // TODO Auto-generated method stub
+        //check if popupwindow is open
+        //Log.e(TAG, "Check if it runs through this section");
+        if (popupWindow != null) {
+
+            popupWindow.dismiss();
+            popupWindow = null;
+            //myWebView = null;
+
+        }else{
+            super.onBackPressed();
+        }
+    }
+*/
+
+
+
 }

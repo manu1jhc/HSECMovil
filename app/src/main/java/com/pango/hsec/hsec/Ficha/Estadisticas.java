@@ -132,7 +132,20 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
 
                 if(getEstadisticaModel.Data.get(position).Codigo.equals("00")) {//planes de accion
 
+                    if(mes_pos.isEmpty()){
+                        mes_position="0";
+                    }else{
+                        mes_position=mes_pos;
+                    }
 
+                    Intent intent = new Intent(Estadisticas.this, BusqEstadistica.class);
+
+                    intent.putExtra("anio", anio_sel);
+                    intent.putExtra("mes", mes_position);
+                    intent.putExtra("codiPersona", codPersona);
+                    intent.putExtra("descripcion", getEstadisticaModel.Data.get(position).Descripcion);
+
+                    startActivity(intent);
 
 
                 }else if(getEstadisticaModel.Data.get(position).Codigo.equals("01")) {//observaciones

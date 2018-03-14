@@ -15,6 +15,7 @@ import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PersonaModel;
+import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
@@ -66,6 +67,8 @@ public class GlobalVariables implements IActivity {
 
     public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<PublicacionModel>();
     public static ArrayList<PersonaModel> lista_Personas=new ArrayList<>();
+
+    public static ArrayList<PlanMinModel> listaPlanMin = new  ArrayList<PlanMinModel>();
 
     public static ArrayList<PublicacionModel> listaGlobalFiltro = new  ArrayList<PublicacionModel>();
 
@@ -122,6 +125,10 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> Tipo_Plan = new ArrayList<>();
     public static  ArrayList<Maestro> Estado_Plan = new ArrayList<>();
 
+    public static  ArrayList<Maestro> Tablas = new ArrayList<>();
+
+
+
     //Obserbacion Detalle
     public static  ArrayList<Maestro> Actividad_obs = new ArrayList<>();
     public static  ArrayList<Maestro> HHA_obs = new ArrayList<>();
@@ -142,7 +149,7 @@ public class GlobalVariables implements IActivity {
 
     public static  ArrayList<Maestro> TipoAutenticacion = new ArrayList<>();
     public static  ArrayList<Maestro> Sexo = new ArrayList<>();
-
+//
 
 
     public static int paginacion=1;
@@ -345,6 +352,26 @@ public class GlobalVariables implements IActivity {
         Sexo.add(new Maestro("01","Masculino"));
         Sexo.add(new Maestro("02","Femenino"));
 
+        Tablas.add(new Maestro("TCOM","Comites"));
+        Tablas.add(new Maestro("THIG","Higiene"));
+        Tablas.add(new Maestro("TINC","Incidentes"));
+        Tablas.add(new Maestro("TINS","Inspecciones"));
+        Tablas.add(new Maestro("TIPE","IPERC"));
+        Tablas.add(new Maestro("TOBS","Observaciones"));
+        Tablas.add(new Maestro("TREU","Reuniones"));
+        Tablas.add(new Maestro("TSIM","Simulacro"));
+        Tablas.add(new Maestro("TYOS","Yo Aseguro"));
+        Tablas.add(new Maestro("TCAP","ActaAsistencia"));
+        Tablas.add(new Maestro("TDETAINSP","DetalleInspeccion"));
+        Tablas.add(new Maestro("TDIPEAFEC","DiasPerdidosAfectado"));
+        Tablas.add(new Maestro("TEAU","EquipoAuditor"));
+        Tablas.add(new Maestro("TEIN","EquipoInvestigacion"));
+        Tablas.add(new Maestro("THALL","Hallazgos"));
+        Tablas.add(new Maestro("TINVEAFEC","InvestigaAfectado"));
+        Tablas.add(new Maestro("TSEC","SecuenciaEvento"));
+        Tablas.add(new Maestro("TSIM","Simulacro"));
+        Tablas.add(new Maestro("TTES","TestigoInvolucrado"));
+        Tablas.add(new Maestro("OTROS","Otros"));
 
     }
     public static ArrayList<Maestro> loadUbicacion(String Tipo, int nivel){

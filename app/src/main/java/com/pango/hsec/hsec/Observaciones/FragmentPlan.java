@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.Observaciones;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -78,8 +79,8 @@ public class FragmentPlan extends Fragment implements IActivity {
 	Button btn_Cerrar;
 	LayoutInflater layoutInflater;
 	View popupView;
-	PopupWindow popupWindow;
 	ImageButton ibclose;
+	PopupWindow popupWindow;
 
 	@Override
 	public void success(String data,String Tipo) {
@@ -108,6 +109,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 				layoutInflater =(LayoutInflater)mView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 				popupView = layoutInflater.inflate(R.layout.popup_plan, null);
 				ListView list_popup=(ListView) popupView.findViewById(R.id.list_popup);
+
 
 				plandetAdapter = new PlandetAdapter(getContext(),getPlanModel.Data.get(position));
 				list_popup.setAdapter(plandetAdapter);

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mp_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_usuario" />
+
+        <TextView
+            android:id="@+id/nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:text="textview"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/btn_editar"
+            app:layout_constraintStart_toEndOf="@+id/mp_profile"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/fecha_sol"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="TextView"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/nivel_riesgo"
+            app:layout_constraintStart_toEndOf="@+id/mp_profile"
+            app:layout_constraintTop_toBottomOf="@+id/nombre" />
+
+        <ImageButton
+            android:id="@+id/btn_editar"
+            android:layout_width="30dp"
+            android:layout_height="18dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorBlanco"
+            android:src="@drawable/ic_3puntos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            />
+
+        <LinearLayout
+            android:id="@+id/linearLayout10"
+            android:layout_width="286dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/mp_profile"
+            app:layout_constraintTop_toBottomOf="@+id/fecha_sol">
+
+            <TextView
+                android:id="@+id/tabla_ref"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="TextView"
+                android:textSize="12sp"
+                android:layout_marginLeft="4dp" />
+
+            <TextView
+                android:id="@+id/estado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="TextView"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/nivel_riesgo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="1dp"
+            android:layout_marginEnd="12dp"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_editar"
+            app:srcCompat="@drawable/green_light" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginStart="8dp"
+
+        >
+
+
+        <TextView
+            android:id="@+id/tx_destarea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="descripcion "
+            />
+
+
+    </LinearLayout>
+<!--
+    <TextView
+        android:id="@+id/tx_comentario"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginBottom="0dp"
+        android:layout_marginRight="12dp"
+        android:text="Comentarios"
+        android:textAlignment="textEnd"
+        android:layout_gravity="center_vertical"
+        />
+-->
+</LinearLayout>
+
+
+</android.support.v7.widget.CardView>
