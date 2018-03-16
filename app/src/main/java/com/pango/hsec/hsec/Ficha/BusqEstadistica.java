@@ -314,10 +314,10 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 }else {
                     // aqui va plaqn de accion
 
-                    if(mesActual==0) {
+                    if(Integer.parseInt(mes)==0) {
                         url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
                     }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesActual + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
                     }
 
                     //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
@@ -439,10 +439,10 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     }else {
                         // aqui va plaqn de accion
 
-                        if(mesActual==0) {
+                        if(Integer.parseInt(mes)==0) {
                             url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
                         }else{
-                            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesActual + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
                         }
 
                         //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
@@ -526,11 +526,14 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 }else {
 
 
-                  //  String CodNoticia= GlobalVariables.listaGlobalFiltro.get(position).Codigo;
-                   // Intent intent = new Intent(Busqueda.this, ActNoticiaDet.class);
-                    //intent.putExtra("codObs",CodNoticia);
+                    String CodAccion= GlobalVariables.listaPlanMin.get(position).CodAccion;
+                    Intent intent = new Intent(BusqEstadistica.this, PlanAccionDet.class);
+                    intent.putExtra("codAccion",CodAccion);
                     //intent.putExtra("posTab",0);
-                    //startActivity(intent);
+                    startActivity(intent);
+
+
+
 
                 }
 

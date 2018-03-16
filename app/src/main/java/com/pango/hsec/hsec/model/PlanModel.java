@@ -11,7 +11,6 @@ public class PlanModel {
 
     public String CodSolicitadoPor;
     public String SolicitadoPor;
-
     public String CodActiRelacionada;
     public String CodEstadoAccion;
     public String CodNivelRiesgo;
@@ -31,7 +30,7 @@ public class PlanModel {
     public String FechaSolicitud;
     public String Editable;
     public String Estado;
-
+    public String CodTipoObs;
 
 
 

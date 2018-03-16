@@ -115,14 +115,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".Ficha.FichaPersona"
+        <activity
+            android:name=".Ficha.FichaPersona"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
-        <activity android:name=".Ficha.BusqEstadistica"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Ficha.BusqEstadistica"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
-            ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Ficha.PlanAccionDet"></activity>
     </application>
 
 </manifest>
