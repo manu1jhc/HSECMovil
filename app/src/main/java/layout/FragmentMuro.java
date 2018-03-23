@@ -526,7 +526,20 @@ public class FragmentMuro extends Fragment implements IActivity{
 
     @Override
     public void error(String mensaje,String Tipo) {
+        if(flagpopup){
+            popupWindow.dismiss();
+            flagpopup=false;
+        }
+        swipeRefreshLayout.setRefreshing(false);
+        tx_texto.setVisibility(View.GONE);
+
+        constraintLayout.setVisibility(View.GONE);
+        paginacion-=1;
+        flag_enter=true;
+
         Toast.makeText(getContext(),mensaje,Toast.LENGTH_SHORT).show();
+
+
     }
 
     /**

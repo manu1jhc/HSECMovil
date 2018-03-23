@@ -18,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_observaciones;
@@ -44,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 import static com.pango.hsec.hsec.Utils.inspeccionModel;
 
 public class BusqEstadistica extends AppCompatActivity implements IActivity {
@@ -529,6 +531,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     String CodAccion= GlobalVariables.listaPlanMin.get(position).CodAccion;
                     Intent intent = new Intent(BusqEstadistica.this, PlanAccionDet.class);
                     intent.putExtra("codAccion",CodAccion);
+                    intent.putExtra("jsonPlan","");
+                    intent.putExtra("verBoton",true);
+
                     //intent.putExtra("posTab",0);
                     startActivity(intent);
 
@@ -834,6 +839,14 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
     @Override
     public void error(String mensaje, String Tipo) {
+        if(flagpopup){
+            popupWindow.dismiss();
+            flagpopup=false;
+        }
+        constraintLayout.setVisibility(View.GONE);
+        paginacion-=1;
+        flag_enter=true;
 
+        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
     }
 }

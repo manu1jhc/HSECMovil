@@ -447,12 +447,12 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
     @Override
     public void successpost(String data1, String Tipo) {
-        /*
+
         if(flagpopup){
             popupWindow.dismiss();
             flagpopup=false;
         }
-        */
+
         data1="{"+data1+"}";
         Gson gson = new Gson();
         GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
@@ -544,7 +544,16 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
     @Override
     public void error(String mensaje, String Tipo) {
+        if(flagpopup){
+            popupWindow.dismiss();
+            flagpopup=false;
+        }
+        constraintLayout.setVisibility(View.GONE);
+        paginacion-=1;
+        flag_enter=true;
 
+        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
+        
     }
 
 

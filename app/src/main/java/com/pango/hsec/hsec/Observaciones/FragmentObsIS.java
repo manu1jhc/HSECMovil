@@ -160,6 +160,8 @@ public class FragmentObsIS extends Fragment implements IActivity {
             recList.setLayoutManager(llm);
             PersonaAdapter ca = new PersonaAdapter(listAtendidos);
             recList.setAdapter(ca);
+
+
         }else if(Tipo == "3"){
             jsonSubDetalle=data;
             Gson gson = new Gson();

@@ -172,53 +172,6 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             img_perfil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    //((ListView) parent).performItemClick(convertView, position, 0);
-
-                    /*Fragment nuevoFragmento = new FragmentFichaPersonal();
-
-                    FragmentTransaction transaction = ((Activity) context).getFragmentManager().beginTransaction();
-
-                    transaction.add(R.id.content, nuevoFragmento);
-                    //transaction.replace(R.id.content, nuevoFragmento);
-                    transaction.hide(GlobalVariables.fragmentStack.lastElement());
-
-                    //transaction.addToBackStack(null);
-                    // Commit a la transacción
-                    transaction.commit();*/
-/*
-                    Fragment fragment = null;
-
-                    ((Activity) context).getSupportFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.content, fragment)
-
-                            .commit();
-*/
-/*
-                    android.app.Fragment nuevoFragmento = null;
-                    final Context context = parent.getContext();
-                    FragmentManager fm = ((Activity) context).getFragmentManager();
-                    fm.beginTransaction().replace(R.id.content, nuevoFragmento).commit();
-*/
-
-/*
-                    Fragment fragment = new FragmentFichaPersonal();
-                    FragmentManager fragmentManager = ((Activity) context).getFragmentManager();
-                    fragmentManager.beginTransaction().replace(R.id.content, fragment).commit();
-*/
-
-
-                    //GlobalVariables.apilarFrag(nuevoFragmento);
-                    //navigationView.getMenu().findItem(R.id.nav_noticias).setChecked(true);
-                    //bottomNavigationView.setVisibility(View.VISIBLE);
-                   // bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
-                }
-            });
-
-            img_perfil.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
                     //GlobalVariables.desdeBusqueda=true;
                     GlobalVariables.barTitulo=false;
                     GlobalVariables.dniUser=tempimg_perfil;

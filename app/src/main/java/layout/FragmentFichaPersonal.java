@@ -274,8 +274,8 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
                 // Commit a la transacción
                 transaction.commit();
                 GlobalVariables.apilarFrag(nuevoFragmento);
-                bottomNavigationView.setVisibility(View.VISIBLE);
-                bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
+                //bottomNavigationView.setVisibility(View.VISIBLE);
+                //bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
 
 /*
                 url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral/"+dniPersona;

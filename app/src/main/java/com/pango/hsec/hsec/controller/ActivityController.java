@@ -36,7 +36,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     String respstring;
     String Resultado="";
     String Tipo="";
-
+    boolean cargaData=true;
 
     View v;
     public ActivityController(String opcion, String url, IActivity activity) {
@@ -53,6 +53,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             String json=strings[0];
 
             if(opcion == "get") {
+
                 Tipo=json;
                 //generarToken(url_token);
                 HttpResponse response;
@@ -96,11 +97,10 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 Resultado=responsepost;
             }
 
-
-
-
         } catch (Throwable e) {
             Log.d("InputStream", e.getLocalizedMessage());
+            cargaData=false;
+
         }
         return null;
     }
@@ -118,7 +118,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPreExecute() {
            if(opcion == "get"){
-
 
         if(GlobalVariables.istabs){
             super.onPreExecute();
@@ -161,7 +160,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-    if(opcion=="get") {
+    if(opcion=="get"&&cargaData) {
         GlobalVariables.isFragment=false;
 
             switch (GlobalVariables.con_status) {
@@ -205,7 +204,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         //mainActivity.success();
     }
     //POST
-    else if(opcion=="post"){
+    else if(opcion=="post"&&cargaData){
         if(GlobalVariables.isFragment){
             progressDialog.dismiss();
             GlobalVariables.isFragment=false;
@@ -219,6 +218,9 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
 
 
+
+    }else {
+        activity.error("Se perdio la conexión a internet", Tipo);
 
     }
 

@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.Observaciones;
 
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,9 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Ficha.BusqEstadistica;
+import com.pango.hsec.hsec.Ficha.PlanAccionDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.PlanAdapter;
 import com.pango.hsec.hsec.adapter.PlandetAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
@@ -106,6 +110,9 @@ public class FragmentPlan extends Fragment implements IActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+
+				/*
+
 				layoutInflater =(LayoutInflater)mView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 				popupView = layoutInflater.inflate(R.layout.popup_plan, null);
 				ListView list_popup=(ListView) popupView.findViewById(R.id.list_popup);
@@ -140,7 +147,21 @@ public class FragmentPlan extends Fragment implements IActivity {
 
 				popupWindow.showAtLocation(listPlan, Gravity.CENTER, 0, 0);
 
+*/
 
+				String json="";
+				Gson gson = new Gson();
+				json = gson.toJson(getPlanModel.Data.get(position));
+
+
+				//String CodAccion= GlobalVariables.listaPlanMin.get(position).CodAccion;
+				Intent intent = new Intent(getContext(), PlanAccionDet.class);
+				intent.putExtra("codAccion","");
+				intent.putExtra("jsonPlan",json);
+				intent.putExtra("verBoton",false);
+
+				//intent.putExtra("posTab",0);
+				startActivity(intent);
 
 
 
