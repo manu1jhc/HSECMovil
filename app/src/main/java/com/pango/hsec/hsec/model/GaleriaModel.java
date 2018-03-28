@@ -6,11 +6,18 @@ package com.pango.hsec.hsec.model;
 
 public class GaleriaModel {
 
-    public String Correlativo;
+    public int Correlativo;
     public String Url;
     public String Tamanio;
     public String TipoArchivo;
     public String Descripcion;
 
-
+    public GaleriaModel(){}
+    public GaleriaModel(String Url,String TipoArchivo, String Tamanio,String Descripcion) {
+        this.Correlativo=-1;
+        this.Url = Url;
+        this.Tamanio = Tamanio;
+        this.TipoArchivo = TipoArchivo;
+        this.Descripcion = Descripcion;
+    }
 }

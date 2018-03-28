@@ -181,7 +181,7 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		if(count!=0){
 
 
-		if(data.contains("TP03") ){
+		if(data.contains("TP03")){
 			rel_otros.setVisibility(View.VISIBLE);
 		}else{
 			rel_otros.setVisibility(View.GONE);
@@ -197,7 +197,6 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		}
 		DocsAdapter docsAdapter=new DocsAdapter(getContext(),DataDocs);
 		list_docs.setAdapter(docsAdapter);
-
 
 /*
 		if(data.contains("TP03") ){
@@ -227,8 +226,6 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 			rel_otros.setVisibility(View.GONE);
 			galeria_foto.setVisibility(View.GONE);
 		}
-
-
 	}
 
 	@Override
@@ -269,10 +266,6 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 			//intent.putExtra(ActVidDet.EXTRA_PARAM_ID, item.getId());
 			getContext().startActivity(intent);
 
-
-
 		}
-
-
 	}
 }

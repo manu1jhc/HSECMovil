@@ -33,8 +33,6 @@
             android:layout_centerVertical="true"
             android:contentDescription="@null"
 
-
-             />
-
+            />
     </RelativeLayout>
 </RelativeLayout>

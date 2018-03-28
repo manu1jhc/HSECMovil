@@ -10,5 +10,41 @@
 
     <!-- TODO: Remove or change this placeholder text -->
 
+    <string name="album_thumbnail">Album Thumbnail</string>
+    <string name="image_thumbnail">Image thumbnail</string>
+    <string name="action_take_photo">Take a photo</string>
+    <string name="all_photos">All Photos</string>
+    <string name="image_check">Image check</string>
+    <string name="albums_title">Albums</string>
+    <string name="you_cant_check_more_images">Solo puede seleccionar 10 imagenes/videos</string>
+    <string name="image_position_in_view_pager">% of $</string>
+    <string name="action_select_all">Select all</string>
+    <string name="action_deselect_all">Deselect all</string>
+    <string name="video_too_long">Video too long. Videos must be $ seconds or less in length</string>
+    <string name="image_video_icon_desc">Indicates this thumbnail as video</string>
+    <string name="dialog_choose_camera_title">Choose camera</string>
+    <string name="dialog_choose_camera_item_0">Photo camera</string>
+    <string name="dialog_choose_camera_item_1">Video camera</string>
+
+    <string name="about_title">About</string>
+    <string name="about_body_html">
+
+        <![CDATA[
+      Sample for Multi-Image Picker Library ,  developed by  <b>yazeed44</b>.<br/>
+
+       <a href=\'https://github.com/yazeed44\'>Github</a>&nbsp;&nbsp;
+       <a href=\'https://google.com/+yazeedAlmakoushi\'>Google+</a>&nbsp;&nbsp;
+       <a href=\'mailto:g--56@hotmail.com\'>Email</a>
+
+]]>
+
+
+    </string>
+
+    <string name="btn_pick_multiple_images_with_limit">Pick Multiple images (6 is the limit)</string>
+    <string name="btn_pick_single_image">Pick single image</string>
+    <string name="btn_pick_multiple_image_infinite">Pick multiple images (No limit)</string>
+    <string name="btn_pick_with_videos">Pick multiple images (with video)</string>
+
 
 </resources>

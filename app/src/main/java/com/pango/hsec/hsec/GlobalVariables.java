@@ -101,6 +101,7 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<EstadisticaDetModel> dataAdicional = new ArrayList<>();
 
     //variables globales select
+    //public static  ArrayList<Maestro> Tablas = new ArrayList<>();
 
     public static  ArrayList<Maestro> Area_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
@@ -405,6 +406,7 @@ public class GlobalVariables implements IActivity {
     public static String CodObs="";
 
     public static List<GaleriaModel> listaGaleria =new ArrayList<GaleriaModel>();
+    public static List<GaleriaModel> listaArchivos =new ArrayList<GaleriaModel>();
 
     public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
 

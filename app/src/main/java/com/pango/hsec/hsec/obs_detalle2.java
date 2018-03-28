@@ -31,13 +31,6 @@ public class obs_detalle2 extends Fragment {
         mView = inflater.inflate(R.layout.fragment_obs_detalle2,
                 container, false);
 
-
-        String sampleText = getArguments().getString("bString");
-
-
-
-        TextView txtSampleText = (TextView) mView.findViewById(R.id.txtViewSample);
-        txtSampleText.setText(sampleText);
         Button button=(Button) mView.findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {

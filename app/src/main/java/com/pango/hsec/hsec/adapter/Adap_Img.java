@@ -72,7 +72,13 @@ public class Adap_Img extends BaseAdapter {
             Glide.with(imagen.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Correlativo+ "/Preview.jpg")
                     .into(imagen);
-        }else{
+        }
+        else if(getGaleriaModel.Data.get(position).TipoArchivo.equals("TP04")){
+            Glide.with(imagen.getContext())
+                    .load(item.Url)
+                    .into(imagen);
+        }
+        else{
             btn_play.setVisibility(View.VISIBLE);
             Glide.with(imagen.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Correlativo+ "/Preview.jpg")

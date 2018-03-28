@@ -54,9 +54,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(final ViewGroup container, final int position) {
         inflater = (LayoutInflater)activity.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-
         View itemView = inflater.inflate(R.layout.viewpager_item,container,false);
-
 
         TouchImageView image;
 
@@ -74,49 +72,31 @@ public class ViewPagerAdapter extends PagerAdapter {
         //String ad=GlobalVariables.Url_base.substring(0,GlobalVariables.Url_base.length()-4);
         if(GlobalVariables.listaGaleria.get(position).TipoArchivo.equals("TP02")){
             btn_play.setVisibility(View.VISIBLE);
-
         }
-
-        if (GlobalVariables.listaGaleria.get(position).TipoArchivo.equals("TP03")){
-
-        }else {
-
-            String ad = GlobalVariables.Url_base;
+        String ad = GlobalVariables.listaGaleria.get(position).Correlativo>0?GlobalVariables.Url_base:"";
+        if (!GlobalVariables.listaGaleria.get(position).TipoArchivo.equals("TP03")){
             try {
-
-
                 Glide.with(image.getContext())
                         .load(ad + GlobalVariables.listaGaleria.get(position).Url)
                         // .fitCenter()
                         .into(image);
                 // positionIn= position;
-
             } catch (Exception ex) {
-
             }
-
             container.addView(itemView);
         }
 
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalTempUrl=GlobalVariables.Url_base+GlobalVariables.listaGaleria.get(position).Url;
-                //String finalTempUrl="https://app.antapaccay.com.pe/Proportal/SCOM_Service/Videos/1700.mp4";
-                Toast.makeText(activity,"video",Toast.LENGTH_SHORT).show();
+                String finalTempUrl=ad+GlobalVariables.listaGaleria.get(position).Url;
                 Intent intent = new Intent(activity, ActVidDet.class);
-                //intent.putExtra("post",position);
                 intent.putExtra("urltemp", finalTempUrl);
                 intent.putExtra("isList", true);
-
-                //intent.putExtra("val",0);
-                //intent.putExtra(ActVidDet.EXTRA_PARAM_ID, item.getId());
                 activity.startActivity(intent);
 
             }
         });
-
-
 
         return itemView;
     }
