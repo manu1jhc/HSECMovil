@@ -34,7 +34,7 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.ViewHold
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.item_grid, viewGroup, false);
+        View view = inflater.inflate(R.layout.public_grid, viewGroup, false);
 
         return new ViewHolder(view);
     }
