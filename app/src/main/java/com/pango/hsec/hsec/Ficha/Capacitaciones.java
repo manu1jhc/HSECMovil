@@ -147,6 +147,8 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                 CapacitacionAdapter ca = new CapacitacionAdapter(getCapRecibidaModel.Data);
                 recList.setAdapter(ca);
 
+
+
                 final GestureDetector mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
                     @Override
                     public boolean onSingleTapUp(MotionEvent e) {

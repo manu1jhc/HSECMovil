@@ -160,6 +160,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 				intent.putExtra("jsonPlan",json);
 				intent.putExtra("verBoton",false);
 
+
 				//intent.putExtra("posTab",0);
 				startActivity(intent);
 

@@ -70,12 +70,12 @@ public class Adap_Img extends BaseAdapter {
 
                 //"media/getImagepreview/" + Descripcion+ "/Preview.jpg"
             Glide.with(imagen.getContext())
-                    .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Descripcion+ "/Preview.jpg")
+                    .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Correlativo+ "/Preview.jpg")
                     .into(imagen);
         }else{
             btn_play.setVisibility(View.VISIBLE);
             Glide.with(imagen.getContext())
-                    .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Descripcion+ "/Preview.jpg")
+                    .load(GlobalVariables.Url_base +"media/getImagepreview/"+item.Correlativo+ "/Preview.jpg")
                     .into(imagen);
         }
        /*

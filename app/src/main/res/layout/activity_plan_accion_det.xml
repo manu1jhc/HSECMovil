@@ -110,6 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorBtnBeige"
+            android:layout_marginBottom="1dp"
             >
 
             <TextView
@@ -172,10 +173,22 @@
             android:layout_height="match_parent"
             />
 
+        <LinearLayout
+            android:id="@+id/ll_levantar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            >
+
+
+
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorBtnBeige"
+            android:layout_marginBottom="1dp"
             >
 
             <TextView
@@ -194,6 +207,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardBackgroundColor="@color/colorBtnBeige"
+            android:layout_marginBottom="1dp"
             >
 
             <LinearLayout
@@ -213,6 +227,7 @@
                 android:layout_weight="0.15"
                 />
                 <ImageButton
+                    android:id="@+id/btn_agregar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_add"
@@ -224,8 +239,85 @@
 
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:weightSum="1"
+            >
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBtnBeige"
+                android:layout_marginEnd="1dp"
+                android:id="@+id/cardClas"
+                android:layout_weight="0.20"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBtnBeige"
+
+                    android:text="Descripción"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/colorBlanco" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBtnBeige"
+                android:layout_weight="0.40"
+                android:layout_marginEnd="1dp"
+
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBtnBeige"
+                    android:text="% avance"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlanco" />
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorBtnBeige"
+                android:layout_weight="0.40"
+                android:layout_marginEnd="1dp"
+
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBtnBeige"
+                    android:text="Editar"
+                    android:textAlignment="center"
+                    android:gravity="center_vertical"
+
+                    android:textColor="@color/colorBlanco" />
+            </android.support.v7.widget.CardView>
 
 
+
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_lev_obs"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+        </LinearLayout>
 
 
         <Button
@@ -234,7 +326,11 @@
             android:layout_height="60dp"
             android:visibility="gone"
             android:text="observacion o inspeccion" />
+
+
+
     </LinearLayout>
+
 
     </android.support.v4.widget.NestedScrollView>
 

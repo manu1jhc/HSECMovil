@@ -123,7 +123,9 @@
             android:name=".Ficha.BusqEstadistica"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Ficha.PlanAccionDet"></activity>
+        <activity android:name=".Ficha.PlanAccionDet" />
+        <activity android:name=".Ficha.RegistroAtencion" />
+        <activity android:name=".Ficha.AddRegistroAvance"></activity>
     </application>
 
 </manifest>

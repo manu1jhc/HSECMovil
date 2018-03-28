@@ -5,11 +5,12 @@ package com.pango.hsec.hsec.model;
  */
 
 public class GaleriaModel {
+
+    public String Correlativo;
     public String Url;
     public String Tamanio;
     public String TipoArchivo;
     public String Descripcion;
-    //public String Correlativo;
 
 
 }
