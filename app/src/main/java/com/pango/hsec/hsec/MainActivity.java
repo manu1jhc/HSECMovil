@@ -2,12 +2,14 @@ package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,11 +22,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.pango.hsec.hsec.Busquedas.Busqueda;
 
 import java.lang.reflect.Field;
 
 import layout.FragmentAprobaciones;
+import layout.FragmentConfiguracion;
+import layout.FragmentContactenos;
 import layout.FragmentFichaPersonal;
 import layout.FragmentMuro;
 import layout.FragmentRegistroIO;
@@ -34,27 +41,47 @@ import layout.FragmentAvanzado;
 public class MainActivity extends AppCompatActivity
         implements
         IActivity,
+        NavigationView.OnNavigationItemSelectedListener,
         FragmentMuro.OnFragmentInteractionListener,
         FragmentAprobaciones.OnFragmentInteractionListener,
         FragmentFichaPersonal.OnFragmentInteractionListener,
         FragmentRegistroIO.OnFragmentInteractionListener,
-        FragmentAvanzado.OnFragmentInteractionListener
+        FragmentAvanzado.OnFragmentInteractionListener,
+        FragmentConfiguracion.OnFragmentInteractionListener,
+        FragmentContactenos.OnFragmentInteractionListener
+
 {
-    private BottomNavigationView bottomNavigationView;
+
+    private NavigationView navigationView;
+    private BottomNavigationView bottomNavigationView; // menu inferior
     private FragmentManager fragmentManager;
     public static Context contextOfApplication;
     public static String jsonMuro="";
-
+    DrawerLayout drawerLayout;
+    ImageButton buscar;
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
+
+    public void menuLateral(View view) {
+
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    public void lupaBuscar(View view) {
+        Intent busquedas = new Intent(this,Busqueda.class);
+        startActivity(busquedas);
+    }
+
 
     public enum NavigationFragment{
         Muro,
         Aprobaciones,
         FichaPersonal,
         RegistroOI,
-        Avanzado
+        Avanzado,
+        Configuracion,
+        Contactenos
     }
 
     @Override
@@ -63,6 +90,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         disableShiftMode(bottomNavigationView);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        buscar=findViewById(R.id.btn_buscar);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
 
@@ -70,6 +99,9 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+
+        navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         if(!GlobalVariables.desdeBusqueda){
@@ -173,6 +205,85 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+        buscar.setVisibility(View.INVISIBLE);
+        if (id == R.id.nav_reporte) {
+
+            Toast.makeText(this, "nav_reporte",
+                    Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.nav_seguimiento) {
+
+            Toast.makeText(this, "nav_seguimiento",
+                    Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.nav_observacion) {
+
+            Intent obserbacion_edit = new Intent(this,observacion_edit.class);
+            startActivity(obserbacion_edit);
+
+            //Toast.makeText(this, "nav_observacion", Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.nav_inspeccion) {
+
+            Toast.makeText(this, "nav_inspeccion",
+                    Toast.LENGTH_SHORT).show();
+
+        } else if (id == R.id.nav_ficha) {
+
+            GlobalVariables.isUserlogin=true;
+            GlobalVariables.barTitulo=true;
+
+            ClickMenuFicha();
+            uncheckItemsMenu();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
+
+            Toast.makeText(this, "nav_ficha",
+                    Toast.LENGTH_SHORT).show();
+
+
+
+        }else if (id == R.id.nav_pendientes){
+
+            Toast.makeText(this, "nav_pendientes",
+                    Toast.LENGTH_SHORT).show();
+
+        }else if (id == R.id.nav_Contactenos){
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickMenuContactenos();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+
+
+            Toast.makeText(this, "nav_Contactenos",
+                    Toast.LENGTH_SHORT).show();
+        }else if (id == R.id.nav_configuracion){
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+
+            ClickMenuConfiguracion();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+
+
+            Toast.makeText(this, "nav_configuracion",
+                    Toast.LENGTH_SHORT).show();
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
+
     //menu inferior
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -182,16 +293,22 @@ public class MainActivity extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_muro:
                     //setTitle("Antapaccay");
+                    buscar.setVisibility(View.VISIBLE);
+
                     ChangeFragment(NavigationFragment.Muro);
                     //bottomNavigationView.setVisibility(View.GONE);
                     uncheckItemsMenu();
                     return true;
                 case R.id.navigation_aprob:
+                    buscar.setVisibility(View.INVISIBLE);
+
                     uncheckItemsMenu();
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
                     ClickMenuAprobaciones();
                     return true;
                 case R.id.navigation_ficha:
+                    buscar.setVisibility(View.INVISIBLE);
+
                     GlobalVariables.isUserlogin=true;
                     GlobalVariables.barTitulo=true;
 
@@ -201,10 +318,14 @@ public class MainActivity extends AppCompatActivity
                     //navigationView.getMenu().findItem(R.id.nav_videos).setChecked(true);
                     return true;
                 case R.id.navigation_registro:
+                    buscar.setVisibility(View.INVISIBLE);
+
                     uncheckItemsMenu();
                     ClickMenuRegistro();
                     return true;
                 case R.id.navigation_avanzado:
+                    buscar.setVisibility(View.INVISIBLE);
+
                     uncheckItemsMenu();
                     ClickMenuAvanzado();
                     return true;
@@ -227,6 +348,8 @@ public class MainActivity extends AppCompatActivity
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
         bottomNavigationView.setVisibility(View.VISIBLE);
+        navigationView.getMenu().findItem(R.id.nav_ficha).setChecked(true);
+
         ChangeFragment(NavigationFragment.FichaPersonal);
 
     }
@@ -246,11 +369,31 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    public void uncheckItemsMenu() {
-        // limpiamos todos los seleccionados
-        Menu menu = bottomNavigationView.getMenu();
-        uncheckItems(menu);
+    private void ClickMenuConfiguracion() {
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.Configuracion);
+
     }
+
+    private void ClickMenuContactenos() {
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.Contactenos);
+    }
+    public void uncheckItemsMenu() {
+
+        try {
+            // limpiamos todos los seleccionados
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+
+            menu = bottomNavigationView.getMenu();
+            uncheckItems(menu);
+        }catch (Exception e){
+            System.out.print(e);
+        }
+
+    }
+
 
     private void uncheckItems(Menu menu) {
         for (int i = 0; i < menu.size(); i++) {
@@ -276,6 +419,8 @@ public class MainActivity extends AppCompatActivity
             case FichaPersonal: fragment = new FragmentFichaPersonal(); break;
             case RegistroOI: fragment = new FragmentRegistroIO(); break;
             case Avanzado: fragment = new FragmentAvanzado(); break;
+            case Configuracion: fragment = new FragmentConfiguracion(); break;
+            case Contactenos: fragment = new FragmentContactenos(); break;
 
 
         }

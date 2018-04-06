@@ -14,6 +14,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
+    <!--
     <android.support.v7.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
@@ -57,7 +58,7 @@
                 app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-
+-->
 <!-- datos del usuario -->
 
     <android.support.v7.widget.CardView

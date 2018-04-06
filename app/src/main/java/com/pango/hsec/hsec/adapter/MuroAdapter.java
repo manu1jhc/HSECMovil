@@ -139,7 +139,6 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                     intent.putExtra("posTab", 4);
                     intent.putExtra("tipoObs",tipoObs);
 
-
                     v.getContext().startActivity(intent);
                 }
             });

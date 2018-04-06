@@ -37,4 +37,8 @@
     <color name="alter_checked_image_overlay">#a97f7f7f</color>
 
     <color name="alter_video_thumbnail_overlay">#9b9b9b</color>
+
+    <color name="colorfondoP">#E8EAF6</color>
+    <color name="colornegro">#000000</color>
+
 </resources>

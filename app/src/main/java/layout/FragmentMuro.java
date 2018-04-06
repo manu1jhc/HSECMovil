@@ -114,7 +114,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     String url;
     TextView tx_texto;
     CardView cardPublicacion;
-    ImageButton buscar;
+    //ImageButton buscar;
     ImageButton btn_usuario;
     ImageButton btn_galeria;
     int contPublicacion;
@@ -142,8 +142,8 @@ public class FragmentMuro extends Fragment implements IActivity{
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) getActivity().findViewById(R.id.const_main);
         tx_texto =(TextView)rootView.findViewById(R.id.tx_texto);
-        buscar=(ImageButton) rootView.findViewById(R.id.btn_buscar);
-        btn_usuario=(ImageButton) rootView.findViewById(R.id.btn_usuario);
+        //buscar=(ImageButton) rootView.findViewById(R.id.btn_buscar);
+        //btn_usuario=(ImageButton) rootView.findViewById(R.id.btn_usuario);
         btn_galeria=(ImageButton) rootView.findViewById(R.id.btn_galeria);
         imageView=rootView.findViewById(R.id.imageView3);
         //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
@@ -217,6 +217,9 @@ public class FragmentMuro extends Fragment implements IActivity{
 
             }
         });
+
+
+        /*
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -226,7 +229,8 @@ public class FragmentMuro extends Fragment implements IActivity{
 
             }
         });
-
+*/
+        /*
         btn_usuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,6 +239,7 @@ public class FragmentMuro extends Fragment implements IActivity{
 
             }
         });
+        */
         btn_galeria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -314,6 +319,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                         GlobalVariables.isFragment=true;
                         paginacion=1;
                         url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+"7";
+                        Utils.isActivity=false;
                         //success(datos,"");
 
                         //GlobalVariables.count=5;//para que no entre al flag
@@ -345,6 +351,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                     }
                     if (downFlag && scrollState == SCROLL_STATE_IDLE) {
                         downFlag = false;
+
                         // GlobalVariables.FDown=true;
                         //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                         /// cambiar el 100 por el total de publicaciones
@@ -355,6 +362,8 @@ public class FragmentMuro extends Fragment implements IActivity{
                             flag_enter = false;
                             constraintLayout.setVisibility(View.VISIBLE);
                             GlobalVariables.isFragment=true;
+                            Utils.isActivity=false;
+
                             paginacion+=1;
                             url = GlobalVariables.Url_base + "Muro/GetMuro/" + paginacion + "/" + "7";
                             GlobalVariables.count=5;

@@ -72,14 +72,14 @@ dependencies {
     }
     implementation 'com.melnykov:floatingactionbutton:1.3.0'
     implementation 'de.greenrobot:eventbus:2.4.0'
-    implementation 'com.github.chrisbanes.photoview:library:1.2.3'
+    //implementation 'com.github.chrisbanes.photoview:library:1.2.3'
 //    compile 'com.commonsware.cwac:cam2:0.2.3'
     implementation 'com.commonsware.cwac:cam2:0.6.7'
 
     implementation 'com.android.support:multidex:1.0.1'
 
-    implementation 'com.google.android.gms:play-services:11.0.4'
-    implementation 'com.google.android.gms:play-services-location:11.0.4'
+    implementation 'com.google.android.gms:play-services:12.0.0'
+    implementation 'com.google.android.gms:play-services-location:12.0.0'
 
 // addd
 
@@ -88,6 +88,8 @@ dependencies {
     implementation 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 
     compile 'com.commit451:PhotoView:1.2.4'
+
+    compile 'com.github.travijuu:numberpicker:1.0.7'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

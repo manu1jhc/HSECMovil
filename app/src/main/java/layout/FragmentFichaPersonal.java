@@ -108,16 +108,16 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         btn_buscaruser=rootView.findViewById(R.id.btn_buscaruser);
         ficha_avatar=rootView.findViewById(R.id.ficha_avatar);
         tx_sexo=rootView.findViewById(R.id.tx_sexo);
-        cardView3=rootView.findViewById(R.id.cardView3);
+        //cardView3=rootView.findViewById(R.id.cardView3);
 
-
+/*
         if(GlobalVariables.barTitulo){
             cardView3.setVisibility(View.VISIBLE);
         }else{
             cardView3.setVisibility(View.GONE);
 
         }
-
+*/
 
 
         GlobalVariables.view_fragment=rootView;

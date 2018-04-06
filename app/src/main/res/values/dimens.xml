@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Default screen margins, per the Android Design guidelines. -->
 
     <dimen name="floating_label">12dp</dimen>
@@ -15,5 +15,14 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="grid_spacing">2dp</dimen>
     <dimen name="grid_titleframe_height">42dp</dimen>
+
+
+
+    <dimen name="nav_header_vertical_spacing">10dp</dimen>
+    <dimen name="nav_header_height">160dp</dimen>
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">10sp</dimen>
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
+
+    <dimen name="espacio_grilla">1dp</dimen>
 
 </resources>

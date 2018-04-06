@@ -65,6 +65,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 get.setHeader("Content-type", "application/json");
 
                 //}
+                //get.abort();
                 response = httpClient.execute(get);
                 GlobalVariables.con_status = response.getStatusLine().getStatusCode();
                 respstring = EntityUtils.toString(response.getEntity());
@@ -161,7 +162,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     @Override
     protected void onPostExecute(Void result) {
     if(opcion=="get"&&cargaData) {
-        GlobalVariables.isFragment=false;
 
             switch (GlobalVariables.con_status) {
                 case 401:
@@ -199,12 +199,16 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             } else if (Utils.isActivity) {
                 progressDialog.dismiss();
                 Utils.isActivity = false;
+            }else if(GlobalVariables.isFragment==false){
+                GlobalVariables.isFragment=true;
+
             }
 
         //mainActivity.success();
     }
     //POST
     else if(opcion=="post"&&cargaData){
+
         if(GlobalVariables.isFragment){
             progressDialog.dismiss();
             GlobalVariables.isFragment=false;
