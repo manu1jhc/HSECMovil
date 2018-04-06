@@ -58,7 +58,7 @@ public class FragmentObsIS extends Fragment implements IActivity {
         mView = inflater.inflate(R.layout.fragment_obs_is, container, false);
         codObs=getArguments().getString("bString");
         GlobalVariables.view_fragment=mView;
-        GlobalVariables.isFragment=true;
+        //GlobalVariables.isFragment=true;
         tx_tarea_obs= mView.findViewById(R.id.tx_tarea_obs);
         tx_empresa=mView.findViewById(R.id.tx_empresa);
         tx_equipo=mView.findViewById(R.id.tx_equipo);

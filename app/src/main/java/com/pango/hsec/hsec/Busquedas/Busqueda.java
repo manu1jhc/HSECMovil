@@ -165,6 +165,8 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                 //GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
+                GlobalVariables.isFragment=false;
+
                 //GlobalVariables.isFragment=true;
 
                 //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
@@ -236,6 +238,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
                         lupabuscar.setEnabled(false);
+                        GlobalVariables.isFragment=false;
 
                         //GlobalVariables.isFragment=true;
                         //Utils.isActivity=true;
@@ -365,6 +368,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             @Override
             public void onClick(View v) {
                 GlobalVariables.flagUpSc=true;
+                GlobalVariables.isFragment=false;
                 if(tipo_filtro.equals(busqueda_tipo[0])) {
                     Utils.observacionModel=new ObservacionModel();
                     ObservacionModel observacionModel=new ObservacionModel();
@@ -581,7 +585,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     String json = "";
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.observacionModel);
-
+                    GlobalVariables.isFragment=false;
                     Utils.isActivity = true;
                     url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
@@ -596,7 +600,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.inspeccionModel);
-
+                    GlobalVariables.isFragment=false;
                     Utils.isActivity = true;
                     url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
@@ -614,6 +618,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.noticiasModel);
 
+                    GlobalVariables.isFragment=false;
                     Utils.isActivity = true;
                     url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();

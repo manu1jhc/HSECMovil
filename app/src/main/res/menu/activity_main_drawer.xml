@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_reporte"
+            android:icon="@drawable/ic_ireporte"
+            android:title="Ingresar reporte" />
+        <item
+            android:id="@+id/nav_seguimiento"
+            android:icon="@drawable/ic_seguimiento"
+            android:title="Seguimiento" />
+        <item
+            android:id="@+id/nav_observacion"
+            android:icon="@drawable/ic_iobservacion"
+            android:title="Ingresar observación" />
+        <item
+            android:id="@+id/nav_inspeccion"
+            android:icon="@drawable/ic_iinspeccion"
+            android:title="Ingresar inspección" />
+        <item
+            android:id="@+id/nav_ficha"
+            android:icon="@drawable/ic_3_ficha"
+            android:title="Ficha personal" />
+        <item
+            android:id="@+id/nav_pendientes"
+            android:icon="@drawable/ic_pendiente"
+            android:title="Planes de acción pendientes" />
+    </group>
+
+    <item android:title="Más Opciones">
+        <menu>
+            <item
+                android:id="@+id/nav_Contactenos"
+                android:icon="@drawable/ic_contactanos_prueba"
+                android:title="Contáctenos" />
+
+            <item
+                android:id="@+id/nav_configuracion"
+                android:icon="@drawable/ic_menu_configuracion"
+                android:title="Configuración" />
+        </menu>
+    </item>
+
+</menu>

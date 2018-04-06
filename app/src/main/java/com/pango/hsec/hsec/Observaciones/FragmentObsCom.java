@@ -57,7 +57,7 @@ public class FragmentObsCom extends Fragment implements IActivity {
         tx_error=(TextView) mView.findViewById(R.id.tx_error);
 
         GlobalVariables.view_fragment=mView;
-        GlobalVariables.isFragment=true;
+        //GlobalVariables.isFragment=true;
 
         codObs=getArguments().getString("bString");
         url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codObs;

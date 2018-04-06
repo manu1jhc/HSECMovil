@@ -1,9 +1,463 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.pango.hsec.hsec.Ficha.AddRegistroAvance">
 
-</android.support.constraint.ConstraintLayout>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/colorBlanco"
+                android:onClick="close"
+                android:src="@drawable/ic_flecha_retroceder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="8dp"
+                android:cropToPadding="false"
+                android:src="@drawable/imgantapacay"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:gravity="center_vertical"
+                android:text="HSEC "
+                android:textColor="@color/colorNegro"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="50dp"
+        >
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/colorBtnBeige"
+                android:layout_marginBottom="1dp"
+                >
+
+                <TextView
+                    android:id="@+id/titulo_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/colorBtnBeige"
+                    android:text="Agregar registro de atención"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlanco"
+                    android:layout_margin="5dp"
+                    />
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/sp2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.65"
+                        android:text="Responsables"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        android:gravity="center_vertical"
+                        />
+
+
+                    <Spinner
+                        android:id="@+id/sp_persona"
+                        android:layout_weight="0.35"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="4dp"
+                        android:layout_marginTop="4dp"
+
+                        android:gravity="center"
+                        />
+
+
+
+
+
+
+
+
+
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/tx2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.65"
+                        android:text="Fecha"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+android:gravity="center_vertical"
+                        />
+<!--
+                    <TextView
+                        android:id="@+id/tx_fecha"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="0.35"
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:layout_margin="5dp"
+
+                        />
+-->
+
+                    <Button
+                        android:id="@+id/btn_fecha"
+                        style="@style/Widget.AppCompat.Button.Borderless"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.35"
+
+                        android:layout_margin="5dp"
+                        android:onClick="escogerFecha"
+
+                        android:text="Seleccionar fecha"
+ />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:id="@+id/tx3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.65"
+                        android:text="Porcentaje de avance"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+
+                        />
+<!--
+                    <NumberPicker
+                        android:id="@+id/tx_avance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.35"
+                        android:layout_marginLeft="10dp"
+                        android:layout_margin="5dp"
+                        android:descendantFocusability="blocksDescendants"
+                        android:orientation="horizontal"
+
+                        />
+                        -->
+
+
+                    <LinearLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.35"
+                        android:gravity="center_horizontal"
+                        android:orientation="horizontal"
+                        android:background="@android:color/white">
+
+                        <Button
+                            android:id="@+id/decrement"
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:padding="0dp"
+                            android:textColor="@android:color/black"
+                            android:background="@null"
+                            android:textStyle="bold"
+                            android:drawableLeft="@drawable/ic_menor"
+                            android:text=""
+                            />
+
+                        <EditText
+                            android:id="@+id/tx_avance"
+                            android:layout_width="70dp"
+                            android:background="@android:color/white"
+                            android:layout_height="match_parent"
+                            android:text="1"
+                            android:textColor="@android:color/black"
+                            android:inputType="number"
+                            android:gravity="center"
+                            android:digits="0123456789"
+                            android:maxLength="3"
+
+                            />
+                        <Button
+                            android:id="@+id/increment"
+                            android:layout_width="30dp"
+                            android:layout_height="match_parent"
+                            android:padding="0dp"
+                            android:textSize="25sp"
+                            android:textColor="@android:color/black"
+                            android:background="@null"
+                            android:text=""
+                            android:drawableRight="@drawable/ic_mayor"
+                            />
+                    </LinearLayout>
+
+
+
+
+<!--
+                    <EditText
+                        android:id="@+id/tx_avance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_weight="0.35"
+                        android:digits="123"
+                        android:inputType="number"
+
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:layout_margin="5dp"
+
+                        />
+
+-->
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/tx4"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Tarea realizada"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_margin="5dp"
+                        />
+<!--
+                    <TextView
+                        android:id="@+id/tx_tarea"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="TextView"
+                        android:textSize="16sp"
+                        android:layout_margin="5dp"
+                        />
+-->
+                    <EditText
+                        android:id="@+id/et_mensaje"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:ems="10"
+ />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:cardBackgroundColor="@color/alter_video_thumbnail_overlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="300dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:text="Galeria de Fotos\Videos"
+                        android:textColor="@color/alter_album_name_text_color"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/btn_addfotos"
+                        style="@style/Widget.AppCompat.ImageButton"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:padding="0dp"
+                        android:src="@drawable/ic_add_circle_outline_black_24dp" />
+                </LinearLayout>
+
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/grid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                app:cardBackgroundColor="@color/alter_video_thumbnail_overlay">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="300dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="Otros Documentos"
+                        android:textColor="@color/alter_album_name_text_color"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <ImageButton
+                        android:id="@+id/btn_addfiles"
+                        style="@style/Widget.AppCompat.ImageButton"
+                        android:layout_width="45dp"
+                        android:layout_height="45dp"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:padding="0dp"
+                        android:src="@drawable/ic_add_circle_outline_black_24dp" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+
+
+        </LinearLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btn_guardar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Guardar"
+        android:layout_marginTop="-50dp"
+        />
+
+
+</LinearLayout>

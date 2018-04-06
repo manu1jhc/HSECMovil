@@ -453,6 +453,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         //Utils.isActivity = true;
                         //GlobalVariables.listaGlobalFiltro = new ArrayList<>();
                             GlobalVariables.isFragment=true;
+                            //Utils.isActivity=true;
                         final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this);
                         obj.execute("");
 
@@ -555,7 +556,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         btn_buscar_e.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.isActivity=true;
+                //Utils.isActivity=true;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
                 mes= (mes_pos < 10 ? "0" : "")+mes_pos;

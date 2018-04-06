@@ -52,7 +52,7 @@ public class FragmentObs extends Fragment implements IActivity {
 		mView = inflater.inflate(R.layout.fragment_obs, container, false);
 		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
-		GlobalVariables.isFragment=true;
+		//GlobalVariables.isFragment=true;
 
 		codObs=getArguments().getString("bString");
 		url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;

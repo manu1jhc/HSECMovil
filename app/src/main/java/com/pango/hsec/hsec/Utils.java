@@ -218,9 +218,9 @@ public class Utils {
                 return planModel.SolicitadoPor;
 
 
-            case "Responsables":
+           /* case "Responsables":
                 return planModel.Responsables;
-
+*/
             case "CodActiRelacionada":
 
                 //return planModel.CodActiRelacionada;
@@ -421,6 +421,12 @@ public class Utils {
     public static String fecha_fin="";
 
     public static boolean isActivity=false;
+
+
+
+
+
+
 
 
 }

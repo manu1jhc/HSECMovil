@@ -21,7 +21,7 @@ public class PlanModel {
     public String FecComprometidaFinal;
     public String DesPlanAccion;
 
-    public String CodResponsable; //lista, codigo de personas responsables
+    public String CodResponsables; //lista, codigo de personas responsables
     public String Responsables; //lista, nombre de personas responsables
 
 

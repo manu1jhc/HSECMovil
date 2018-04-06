@@ -169,6 +169,8 @@ public class B_personas extends AppCompatActivity implements IActivity {
 
                 url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
                 //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
+                //flags
+                GlobalVariables.istabs=false;
                 Utils.isActivity=true;
                 final ActivityController obj = new ActivityController("get", url, B_personas.this);
                 obj.execute("");

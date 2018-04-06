@@ -16,12 +16,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Busquedas.B_observaciones;
+import com.pango.hsec.hsec.Busquedas.Busqueda;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.Observaciones.FragmentPlan;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.AccionMejoraAdapter;
 import com.pango.hsec.hsec.adapter.PersonaAdapter;
 import com.pango.hsec.hsec.adapter.PlandetAdapter;
@@ -33,11 +36,14 @@ import com.pango.hsec.hsec.model.PlanModel;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
 public class PlanAccionDet extends AppCompatActivity implements IActivity {
+    public static final int REQUEST_CODE = 1;
     String codAccion;
     String url;
     String jsonPlan="";
+    //String jsonPlanEnviar="";
     PlandetAdapter plandetAdapter;
     RespAdapter respAdapter;
     String codObsIns="";
@@ -108,8 +114,16 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
             public void onClick(View v) {
                 //abre uno vacio
 
+                //Intent intent=new Intent(PlanAccionDet.this, AddRegistroAvance.class);
+                //startActivity(intent);
+
                 Intent intent=new Intent(PlanAccionDet.this, AddRegistroAvance.class);
-                startActivity(intent);
+                intent.putExtra("CodAccion",planModel.CodAccion);
+                intent.putExtra("CodResponsable",planModel.CodResponsables);
+                intent.putExtra("Responsable",planModel.Responsables);
+
+                startActivityForResult(intent , REQUEST_CODE);
+
             }
         });
 
@@ -123,7 +137,7 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
 
     @Override
     public void success(String data, String Tipo) {
-
+        //jsonPlanEnviar=data;
         Gson gson = new Gson();
 
         if(Tipo=="1"){
@@ -203,4 +217,90 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
     public void error(String mensaje, String Tipo) {
 
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            //Bundle datos = this.getIntent().getExtras();
+            //tipo_busqueda=datos.getInt("Tipo_Busqueda");
+
+            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+
+
+                url= GlobalVariables.Url_base+"AccionMejora/Get/"+codAccion;
+                final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this);
+                obj.execute("2");
+
+
+                //GlobalVariables.flagUpSc=true;
+
+                //tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
+                /*
+                if(tipo_busqueda==1) {
+                    Utils.observacionModel.CodUbicacion = "5";
+                    Utils.observacionModel.Lugar = "1";
+                    String json = "";
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.observacionModel);
+
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    obj.execute(json);
+
+                }else if(tipo_busqueda==2){
+                    Utils.inspeccionModel.Elemperpage="5";
+                    Utils.inspeccionModel.Pagenumber="1";
+                    String json = "";
+
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.inspeccionModel);
+
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    obj.execute(json);
+
+
+
+                }else if(tipo_busqueda==3){
+                    Utils.noticiasModel.Elemperpage="5";
+                    Utils.noticiasModel.Pagenumber="1";
+                    String json = "";
+
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.noticiasModel);
+
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    obj.execute(json);
+
+                }
+*/
+            }
+
+
+
+        } catch (Exception ex) {
+            Toast.makeText(PlanAccionDet.this, ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+    }
+
+
+
 }

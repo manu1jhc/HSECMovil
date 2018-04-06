@@ -81,7 +81,7 @@ public class FragmentObsTar extends Fragment implements IActivity {
         ll_comentario4=mView.findViewById(R.id.ll_comentario4);
 
         GlobalVariables.view_fragment=mView;
-        GlobalVariables.isFragment=true;
+        //GlobalVariables.isFragment=true;
 
         codObs=getArguments().getString("bString");
         url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codObs;
