@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.Busquedas.Busqueda;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 
 import java.lang.reflect.Field;
 
@@ -213,7 +214,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        buscar.setVisibility(View.INVISIBLE);
         if (id == R.id.nav_reporte) {
 
             Toast.makeText(this, "nav_reporte",
@@ -221,8 +221,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_seguimiento) {
 
-            Toast.makeText(this, "nav_seguimiento",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "nav_seguimiento", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_observacion) {
 
@@ -232,11 +231,14 @@ public class MainActivity extends AppCompatActivity
             //Toast.makeText(this, "nav_observacion", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_inspeccion) {
+            Intent addInspeccion = new Intent(this,AddInspeccion.class);
+            startActivity(addInspeccion);
 
-            Toast.makeText(this, "nav_inspeccion",
-                    Toast.LENGTH_SHORT).show();
+
+            Toast.makeText(this, "nav_inspeccion", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_ficha) {
+            buscar.setVisibility(View.INVISIBLE);
 
             GlobalVariables.isUserlogin=true;
             GlobalVariables.barTitulo=true;
@@ -256,6 +258,8 @@ public class MainActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
 
         }else if (id == R.id.nav_Contactenos){
+            buscar.setVisibility(View.INVISIBLE);
+
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
             ClickMenuContactenos();
@@ -265,6 +269,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "nav_Contactenos",
                     Toast.LENGTH_SHORT).show();
         }else if (id == R.id.nav_configuracion){
+            buscar.setVisibility(View.INVISIBLE);
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
 
