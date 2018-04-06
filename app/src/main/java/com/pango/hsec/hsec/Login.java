@@ -196,7 +196,6 @@ public class Login extends AppCompatActivity implements IActivity{
         */
         //Toast.makeText(this,"O",Toast.LENGTH_SHORT).show();
 
-
         Intent intent = new Intent(Login.this, MainActivity.class);
         startActivity(intent);
         finish();

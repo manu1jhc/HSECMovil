@@ -15,6 +15,10 @@
     <color name="colorAmarillo">#e8ff3d</color>
     <color name="colorplaystore">#fdfdfd</color>
     <color name="colorRojo">#ff2222</color>
+    <color name="colorRojoOsc">#fce8e8</color>
+    <color name="colorverde">#22b14c</color>
+    <color name="colorverdeOsc">#cdf2d8</color>
+    <color name="colorazulcielo">#61a0c1</color>
 
     <drawable name="transparent">@android:color/transparent</drawable>
     <color name="alter_primary">#424242</color>

@@ -1,13 +1,16 @@
 package layout;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.R;
 
 /**
@@ -27,6 +30,8 @@ public class FragmentRegistroIO extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    Button btn_obs;
+    private static View mView;
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,13 +64,27 @@ public class FragmentRegistroIO extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registro_io, container, false);
+
+        mView= inflater.inflate(R.layout.fragment_registro_io, container, false);
+        btn_obs=(Button) mView.findViewById(R.id.btn_obs);
+        btn_obs.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+
+                // Start NewActivity.class
+                Intent myIntent = new Intent(getActivity(), report_obs.class);
+                startActivity(myIntent);
+            }
+        });
+        return  mView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
