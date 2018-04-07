@@ -1,8 +1,8 @@
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsIS">
 
     <LinearLayout
@@ -16,10 +16,10 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:background="@color/colorBtnBeige"
                 android:text="Detalle observación"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
 
@@ -27,13 +27,12 @@
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dp">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
+                android:layout_marginLeft="5dp"
                 android:weightSum="1">
 
                 <TextView
@@ -59,14 +58,13 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
 
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
+                android:layout_marginLeft="5dp"
                 android:weightSum="1">
 
                 <TextView
@@ -93,14 +91,12 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
-
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="2dp"
+                android:layout_marginLeft="5dp"
                 android:weightSum="1">
 
                 <TextView
@@ -130,16 +126,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:background="@color/colorBtnBeige"
                 android:text="Líder de equipo de inspección"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
@@ -189,24 +186,25 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:orientation="vertical"
                 >
 
                 <TextView
                     android:id="@+id/nombre_lider"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/asap"
                     android:text="nombre"
-                    android:gravity="center"
-                     />
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_area"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="area"
-                    android:gravity="center"
-                    android:layout_marginLeft="2dp"                    />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:fontFamily="@font/asap"
+                    android:text="area" />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -227,16 +225,17 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:background="@color/colorBtnBeige"
                 android:text="Personas que atendieron"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:orientation="horizontal">
 
             <android.support.v7.widget.CardView
@@ -307,17 +306,15 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:background="@color/colorBtnBeige"
+                app:cardBackgroundColor="@color/colorBtnBeige"
                 android:layout_marginEnd="1dp"
                 android:id="@+id/cardAspectos" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige"
-
+                    android:layout_marginLeft="5dp"
                     android:text="Descripción"
-                    android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
             </android.support.v7.widget.CardView>
 
@@ -357,10 +354,10 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:background="@color/colorBtnBeige"
                 android:text="Actividad de Alto riesgo identificada"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
 
@@ -377,17 +374,15 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:background="@color/colorBtnBeige"
+                app:cardBackgroundColor="@color/colorBtnBeige"
                 android:layout_marginEnd="1dp"
                 android:id="@+id/cardAlto" >
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige"
-
+                    android:layout_marginLeft="5dp"
                     android:text="Descripción"
-                    android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
             </android.support.v7.widget.CardView>
 
@@ -491,10 +486,10 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:background="@color/colorBtnBeige"
                 android:text="Clasificación de la observacion"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
 
@@ -511,7 +506,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:background="@color/colorBtnBeige"
+                app:cardBackgroundColor="@color/colorBtnBeige"
                 android:layout_marginEnd="1dp"
                 android:id="@+id/cardClas" >
 
@@ -521,7 +516,7 @@
                     android:background="@color/colorBtnBeige"
 
                     android:text="Descripción"
-                    android:textAlignment="center"
+                    android:layout_marginLeft="5dp"
                     android:textColor="@color/colorBlanco" />
             </android.support.v7.widget.CardView>
 
@@ -598,7 +593,7 @@
                     android:background="@color/colorBtnBeige"
 
                     android:text="Descripción"
-                    android:textAlignment="center"
+                    android:layout_marginLeft="5dp"
                     android:textColor="@color/colorBlanco" />
             </android.support.v7.widget.CardView>
 

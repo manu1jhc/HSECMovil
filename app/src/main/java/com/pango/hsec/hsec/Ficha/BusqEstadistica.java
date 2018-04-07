@@ -13,6 +13,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -55,7 +56,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     int contPublicacion;
     String url="";
     ListView list_estadistica;
-    ImageButton btn_buscar_e;
+    ImageView btn_buscar_e;
     String anio_sel="";
     int mes_pos;
     String diaFin;

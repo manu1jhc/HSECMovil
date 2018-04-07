@@ -279,7 +279,7 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/editText4"
+                    android:id="@+id/txt_accion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
@@ -322,7 +322,7 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/editText3"
+                    android:id="@+id/txt_observacion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="-8dp"

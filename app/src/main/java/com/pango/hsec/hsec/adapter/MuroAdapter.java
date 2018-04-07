@@ -1,25 +1,19 @@
 package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
@@ -28,13 +22,12 @@ import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import layout.FragmentFichaPersonal;
 
 /**
  * Created by Andre on 12/02/2018.
@@ -84,7 +77,13 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
         final View rowView;
         int positem=getItemViewType(position);
 
-        if (positem == 0) {
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height= dm.heightPixels;
+        if(width>height)width=height;
+
+        if (positem == 0) { //Observacion
             rowView = inflater.inflate(R.layout.publicalist, null, true);
             ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
             ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
@@ -112,13 +111,13 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             if (tempRiesgo == null) {
                 riesgo.setVisibility(View.INVISIBLE);
             } else if (tempRiesgo.equals("BA")) {
-                riesgo.setImageResource(R.drawable.green_light);
+                riesgo.setImageResource(R.drawable.ic_alertaverde);
 
             } else if (tempRiesgo.equals("ME")) {
-                riesgo.setImageResource(R.drawable.yellow_light);
+                riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
 
             } else {
-                riesgo.setImageResource(R.drawable.red_light);
+                riesgo.setImageResource(R.drawable.ic_alertaroja);
 
             }
             tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2, tempTipo));
@@ -146,13 +145,14 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             ///AQUI ESTA EL ERROR
 
             if (tempimg_perfil == null) {
-                img_perfil.setImageResource(R.drawable.ic_usuario);
+                img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
                 String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
                         .override(50, 50)
+                        .transform(new CircleTransform(getContext())) // applying the image transformer
                         .into(img_perfil);
             }
 
@@ -161,9 +161,10 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
             } else {
                 String Url_prev = GlobalVariables.Url_base + "media/getImagepreview/" + tempImgDet + "/Preview.jpg";
+
                 Glide.with(context)
                         .load(Url_prev)
-                        //.override(50, 50)
+                        .override(width, width)
                         .into(img_det);
             }
 
@@ -185,7 +186,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
 
             return rowView;
-        }else if(positem == 1) {
+        }else if(positem == 1) {  // inspecciones
             rowView = inflater.inflate(R.layout.public_inspeccion, null, true);
             ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
             ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
@@ -248,13 +249,14 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             });
 
             if(tempimg_perfil==null){
-                img_perfil.setImageResource(R.drawable.ic_usuario);
+                img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
                 String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
                         .override(50, 50)
+                        .transform(new CircleTransform(getContext())) // applying the image transformer
                         .into(img_perfil);
             }
             if(tempImgDet==null){
@@ -264,7 +266,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 String Url_prev=Utils.ChangeUrl(GlobalVariables.Url_base + "media/getImagepreview/"+tempImgDet+"/loco.jpg");
                 Glide.with(context)
                         .load(Url_prev)
-                        //.override(50, 50)
+                        .override(width, width)
                         .into(img_det);
             }
 
@@ -287,13 +289,13 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 txdetcompleta.setText(tempDetalle[0].trim());
                 switch (tempRiesgo[0]){
                     case "BA":
-                        riesgo1.setImageResource(R.drawable.green_light);
+                        riesgo1.setImageResource(R.drawable.ic_alertaverde);
                         break;
                     case "ME":
-                        riesgo1.setImageResource(R.drawable.yellow_light);
+                        riesgo1.setImageResource(R.drawable.ic_alerta_amarilla);
                         break;
                     case "AL":
-                        riesgo1.setImageResource(R.drawable.red_light);
+                        riesgo1.setImageResource(R.drawable.ic_alertaroja);
                         break;
 
                 }
@@ -305,26 +307,26 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
                 switch (tempRiesgo[0]){
                     case "BA":
-                        riesgo1.setImageResource(R.drawable.green_light);
+                        riesgo1.setImageResource(R.drawable.ic_alertaverde);
                         break;
                     case "ME":
-                        riesgo1.setImageResource(R.drawable.yellow_light);
+                        riesgo1.setImageResource(R.drawable.ic_alerta_amarilla);
                         break;
                     case "AL":
-                        riesgo1.setImageResource(R.drawable.red_light);
+                        riesgo1.setImageResource(R.drawable.ic_alertaroja);
                         break;
 
                 }
 
                 switch (tempRiesgo[1]){
                     case "BA":
-                        riesgo2.setImageResource(R.drawable.green_light);
+                        riesgo2.setImageResource(R.drawable.ic_alertaverde);
                         break;
                     case "ME":
-                        riesgo2.setImageResource(R.drawable.yellow_light);
+                        riesgo2.setImageResource(R.drawable.ic_alerta_amarilla);
                         break;
                     case "AL":
-                        riesgo2.setImageResource(R.drawable.red_light);
+                        riesgo2.setImageResource(R.drawable.ic_alertaroja);
                         break;
 
                 }
@@ -334,37 +336,37 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 tx_det3.setText(tempDetalle[2]);
                 switch (tempRiesgo[0]){
                     case "BA":
-                        riesgo1.setImageResource(R.drawable.green_light);
+                        riesgo1.setImageResource(R.drawable.ic_alertaverde);
                         break;
                     case "ME":
-                        riesgo1.setImageResource(R.drawable.yellow_light);
+                        riesgo1.setImageResource(R.drawable.ic_alerta_amarilla);
                         break;
                     case "AL":
-                        riesgo1.setImageResource(R.drawable.red_light);
+                        riesgo1.setImageResource(R.drawable.ic_alertaroja);
                         break;
 
                 }
 
                 switch (tempRiesgo[1]){
                     case "BA":
-                        riesgo2.setImageResource(R.drawable.green_light);
+                        riesgo2.setImageResource(R.drawable.ic_alertaverde);
                         break;
                     case "ME":
-                        riesgo2.setImageResource(R.drawable.yellow_light);
+                        riesgo2.setImageResource(R.drawable.ic_alerta_amarilla);
                         break;
                     case "AL":
-                        riesgo2.setImageResource(R.drawable.red_light);
+                        riesgo2.setImageResource(R.drawable.ic_alertaroja);
                         break;
                 }
                 switch (tempRiesgo[2]) {
                     case "BA":
-                        riesgo3.setImageResource(R.drawable.green_light);
+                        riesgo3.setImageResource(R.drawable.ic_alertaverde);
                         break;
                     case "ME":
-                        riesgo3.setImageResource(R.drawable.yellow_light);
+                        riesgo3.setImageResource(R.drawable.ic_alerta_amarilla);
                         break;
                     case "AL":
-                        riesgo3.setImageResource(R.drawable.red_light);
+                        riesgo3.setImageResource(R.drawable.ic_alertaroja);
                         break;
                 }
             }
@@ -383,7 +385,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
 
             return rowView;
-        }else if(positem == 2) {
+        }else if(positem == 2) { // Noticias
             rowView = inflater.inflate(R.layout.public_noticias, null, true);
             ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
             ImageView img_preview = rowView.findViewById(R.id.img_preview);
@@ -425,13 +427,14 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
 
             if(tempimg_perfil==null){
-                img_perfil.setImageResource(R.drawable.ic_usuario);
+                img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
                 String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
                         .override(50, 50)
+                        .transform(new CircleTransform(getContext())) // applying the image transformer
                         .into(img_perfil);
             }
 
@@ -446,8 +449,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_prev)
-                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                        //.override(0, 0)
+                        .override(width, width)
                         .fitCenter()
                         .into(img_preview);
             }

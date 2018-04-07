@@ -63,20 +63,17 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="1dp"
-
-        >
-
+        android:layout_height="35dp"
+        android:layout_margin="1dp">
 
         <TextView
             android:id="@+id/ficha_nombre"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBtnBeige"
+            android:background="@color/ColorVerdeClarito"
             android:gravity="center"
             android:text="nombre y apellidos"
-            android:textColor="@color/colorBlanco"
+            android:textColor="@color/ColorPlomo3"
 
             android:textSize="16sp" />
 
@@ -121,19 +118,19 @@
 
         <Button
             android:id="@+id/btn_buscaruser"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableRight="@drawable/ic_usuario"
-            android:text="filtro"
 
-            />
+            android:drawableRight="@drawable/ic_filtro"
+            android:text="filtro" />
 
         <Button
             android:id="@+id/btn_capacita"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Capacitaciones  "
-            android:drawableRight="@drawable/ic_capacitacion2"
+            android:drawableRight="@drawable/ic_capacitacion"
 
             />
 
@@ -181,17 +178,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="Usuario"
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ficha_user"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -216,17 +216,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="DNI: "
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ficha_dni"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -253,17 +256,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="Sexo: "
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tx_sexo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -289,17 +295,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="Correo electrónico: "
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ficha_correo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -322,17 +331,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="Empresa"
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ficha_empresa"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -355,17 +367,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="Rol"
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ficha_rol"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -388,17 +403,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="Área"
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ficha_area"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
@@ -421,17 +439,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.75"
+                android:fontFamily="@font/asap"
                 android:text="Tipo de logueo"
+                android:textColor="@color/colorNegro"
+                android:textSize="16dp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ficha_tipo"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text=""
-                android:layout_weight="0.25"
                 android:layout_marginLeft="10dp"
-                />
+                android:layout_weight="0.25"
+                android:fontFamily="@font/asap"
+                android:text="" />
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

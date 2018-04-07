@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3f51b5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#337180</color>
+    <color name="colorPrimaryDark">#337180</color>
     <color name="colorAccent">#FF4081</color>
 
     <color name="colorBlanco">#ffffff</color>
 
-    <color name="colorBtnBeige">#708090</color>
+    <color name="colorBtnBeige">#7dacc0</color>
     <color name="colorNegro">#000000</color>
 
     <color name="colorplomosplash2">#c1c1c1</color>
@@ -19,6 +19,15 @@
     <color name="colorverde">#22b14c</color>
     <color name="colorverdeOsc">#cdf2d8</color>
     <color name="colorazulcielo">#61a0c1</color>
+    <color name="colorSeleccionado">#bfe3de</color>
+    <color name="ColorAmarillo">#fedd12</color>
+    <color name="ColorPlomon">#d8dce5</color>
+    <color name="ColorPlomo2">#ececec</color>
+    <color name="ColorPlomo3">#5b5b5b</color>
+    <color name="ColorVerdoso">#337180</color>
+    <color name="ColorbtnVerdoso">#337180</color>
+    <color name="ColorVerdeChillon">#b4e3e9</color>
+    <color name="ColorVerdeClarito">#dfe8ed</color>
 
     <drawable name="transparent">@android:color/transparent</drawable>
     <color name="alter_primary">#424242</color>

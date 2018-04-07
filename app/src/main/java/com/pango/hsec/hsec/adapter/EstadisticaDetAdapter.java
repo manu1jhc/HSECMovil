@@ -16,6 +16,7 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.EstadisticaModel;
+import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -76,6 +77,7 @@ public class EstadisticaDetAdapter extends ArrayAdapter<EstadisticaDetModel> {
                 Glide.with(context)
                         .load(Url_img)
                         .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .transform(new CircleTransform(getContext())) // applying the image transformer
                         .fitCenter()
                         .into(profile);
             }else{

@@ -2,16 +2,22 @@ package com.pango.hsec.hsec;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.ObsDetalleModel;
 
 public class obs_detalle1 extends Fragment {
 
@@ -30,6 +36,10 @@ public class obs_detalle1 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_obs_detalle1, container,false);
+        String codigo_obs = getArguments().getString("bString");
+
+        EditText txtObservacion=(EditText) mView.findViewById(R.id.txt_observacion);
+        EditText txtAccion=(EditText) mView.findViewById(R.id.txt_accion);
 
         spinneActividad = (Spinner) mView.findViewById(R.id.sp_actividad);
         spinnerHHA = (Spinner) mView.findViewById(R.id.sp_hha);
@@ -63,17 +73,131 @@ public class obs_detalle1 extends Fragment {
         spinnerError.setAdapter(adapterError);
 
 
-      /*  TextView txtSampleText = (TextView) mView.findViewById(R.id.txtViewSample);
-        txtSampleText.setText(sampleText);
-        Button button=(Button) mView.findViewById(R.id.button);
+        //detect chabgues values
+        txtObservacion.addTextChangedListener(new TextWatcher() {
 
-        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"Click en publicacion",Toast.LENGTH_SHORT).show();
+            public void onTextChanged(CharSequence s, int st, int b, int c)
+            { }
 
+            @Override
+            public void beforeTextChanged(CharSequence s, int st, int c, int a)
+            { }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                GlobalVariables.ObserbacionDetalle.Observacion = txtObservacion.getText().toString();
             }
-        });*/
+        });
+        txtAccion.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int st, int b, int c)
+            { }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int st, int c, int a)
+            { }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                GlobalVariables.ObserbacionDetalle.Accion = txtAccion.getText().toString();
+            }
+        });
+
+        spinneActividad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_actividad) ).getSelectedItem();
+                GlobalVariables.ObserbacionDetalle.CodActiRel=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+        spinnerHHA.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_hha) ).getSelectedItem();
+                GlobalVariables.ObserbacionDetalle.CodHHA=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+        spinnerActo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_acto) ).getSelectedItem();
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+        spinnerCondicion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_condicion) ).getSelectedItem();
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+        spinnerEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_estado) ).getSelectedItem();
+                GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+        spinnerError.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_error) ).getSelectedItem();
+                GlobalVariables.ObserbacionDetalle.CodError=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+       if(GlobalVariables.ObjectEditable){ // load data of server
+
+        }
+        else // new Obserbacion
+        {
+            if(GlobalVariables.ObserbacionDetalle.CodObservacion==null){
+
+                GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
+                GlobalVariables.ObserbacionDetalle.Observacion="";
+                GlobalVariables.ObserbacionDetalle.Accion="";
+                GlobalVariables.ObserbacionDetalle.CodActiRel=GlobalVariables.Actividad_obs.get(0).CodTipo;
+                GlobalVariables.ObserbacionDetalle.CodHHA=GlobalVariables.HHA_obs.get(0).CodTipo;
+                GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.Estado_obs.get(0).CodTipo;
+                GlobalVariables.ObserbacionDetalle.CodError=GlobalVariables.Error_obs.get(0).CodTipo;
+            }
+            else if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
+                GlobalVariables.ObserbacionDetalle= new ObsDetalleModel();
+        }
+
+        txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
+        txtAccion.setText(GlobalVariables.ObserbacionDetalle.Accion);
+
+        spinneActividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
+        spinnerHHA.setSelection(GlobalVariables.indexOf(GlobalVariables.HHA_obs,GlobalVariables.ObserbacionDetalle.CodHHA));
+        if(GlobalVariables.Obserbacion.CodTipo=="TO01")
+            spinnerActo.setSelection(GlobalVariables.indexOf(GlobalVariables.Acto_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
+        else spinnerCondicion.setSelection(GlobalVariables.indexOf(GlobalVariables.Condicion_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
+        spinnerEstado.setSelection(GlobalVariables.indexOf(GlobalVariables.Estado_obs,GlobalVariables.ObserbacionDetalle.CodEstado));
+        spinnerError.setSelection(GlobalVariables.indexOf(GlobalVariables.Error_obs,GlobalVariables.ObserbacionDetalle.CodError));
+
         return mView;
     }
 }

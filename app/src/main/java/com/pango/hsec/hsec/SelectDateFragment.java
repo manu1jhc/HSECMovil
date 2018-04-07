@@ -50,7 +50,10 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
 
         Date actual = calendar.getTime();
         SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         botonFecha.setText(dt.format(actual));
+        GlobalVariables.Obserbacion.Fecha=df.format(actual);
+
     }
 
 }

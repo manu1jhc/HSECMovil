@@ -9,81 +9,79 @@
     >
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cabecera"
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/ColorVerdoso">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            >
 
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/colorBlanco"
+                android:background="@drawable/transparent"
                 android:onClick="close"
                 android:src="@drawable/ic_flecha_retroceder"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
             <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
+                android:id="@+id/imageView20"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="0dp"
+                android:layout_marginStart="80dp"
                 android:layout_marginTop="8dp"
                 android:cropToPadding="false"
-                android:src="@drawable/imgantapacay"
+                android:src="@drawable/ic_minero"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
                 android:gravity="center_vertical"
-                android:text="HSEC "
-                android:textColor="@color/colorNegro"
-                android:textSize="20sp"
+
+                android:text="HSEC"
+                android:textColor="@color/colorBlanco"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toEndOf="@+id/imageView20"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
+                app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
-
     </android.support.v7.widget.CardView>
-
     <android.support.v7.widget.CardView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        app:cardBackgroundColor="@color/place_autocomplete_prediction_secondary_text">
+        app:cardBackgroundColor="@color/colorBtnBeige">
 
         <TextView
             android:id="@+id/textView20"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="TextView"
+            android:text="Plan de Accion"
             android:textAlignment="center"
             android:textColor="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="Plan de Accion" />
+            android:textStyle="bold" />
     </android.support.v7.widget.CardView>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="45dp"
         android:fillViewport="true">
 
         <LinearLayout
@@ -96,41 +94,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/CodAccion"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp">
-
-                    <android.support.constraint.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <TextView
-                            android:id="@+id/subtitle"
-                            android:layout_width="140dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:gravity="center_vertical"
-                            android:text="Codigo Accion:"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/txt_codaccion"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:gravity="center_vertical"
-                            android:text="TextView"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/subtitle"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </android.support.constraint.ConstraintLayout>
-                </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/Fecha"
@@ -159,7 +122,6 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:gravity="center_vertical"
-                            android:text="TextView"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/subFecha"
@@ -168,73 +130,158 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/CodReferencia"
+                    android:id="@+id/plan_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
-                    <android.support.constraint.ConstraintLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/subreferencia"
-                            android:layout_width="140dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:gravity="center"
-                            android:text="Nro. Documento:"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/Referencia"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
-                        <TextView
-                            android:id="@+id/codreferencia"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:gravity="center_vertical"
-                            android:text="TextView"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/subreferencia"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </android.support.constraint.ConstraintLayout>
-                </android.support.v7.widget.CardView>
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
 
-                <android.support.v7.widget.CardView
-                    android:id="@+id/Estado"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                                <TextView
+                                    android:id="@+id/subareferencia"
+                                    android:layout_width="140dp"
+                                    android:layout_height="33dp"
+                                    android:layout_marginStart="8dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Referencia:"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <android.support.constraint.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                                <TextView
+                                    android:id="@+id/txt_referencia"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:gravity="center_vertical"
+                                    android:text="TextView"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/subareferencia"
+                                    app:layout_constraintTop_toTopOf="parent" />
 
-                        <TextView
-                            android:id="@+id/subestado"
-                            android:layout_width="140dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:gravity="center_vertical"
-                            android:text="Estado:"
-                            android:textSize="18sp"
-                            android:textStyle="bold"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            </android.support.constraint.ConstraintLayout>
+                        </android.support.v7.widget.CardView>
 
-                        <TextView
-                            android:id="@+id/txt_estado"
-                            android:layout_width="0dp"
-                            android:layout_height="0dp"
-                            android:gravity="center_vertical"
-                            android:text="TextView"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/subestado"
-                            app:layout_constraintTop_toTopOf="parent" />
-                    </android.support.constraint.ConstraintLayout>
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/CodReferencia"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp">
+
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/subreferencia"
+                                    android:layout_width="140dp"
+                                    android:layout_height="0dp"
+                                    android:layout_marginStart="8dp"
+                                    android:gravity="center"
+                                    android:text="Nro. Documento:"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/txt_codreferencia"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:gravity="center_vertical"
+                                    android:text="TextView"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/subreferencia"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </android.support.constraint.ConstraintLayout>
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/CodAccion"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp">
+
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/subtitle"
+                                    android:layout_width="140dp"
+                                    android:layout_height="0dp"
+                                    android:layout_marginStart="8dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Codigo Accion:"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/txt_codaccion"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:gravity="center_vertical"
+                                    android:text="TextView"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/subtitle"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </android.support.constraint.ConstraintLayout>
+                        </android.support.v7.widget.CardView>
+
+                        <android.support.v7.widget.CardView
+                            android:id="@+id/Estado"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp">
+
+                            <android.support.constraint.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <TextView
+                                    android:id="@+id/subestado"
+                                    android:layout_width="140dp"
+                                    android:layout_height="0dp"
+                                    android:layout_marginStart="8dp"
+                                    android:gravity="center_vertical"
+                                    android:text="Estado:"
+                                    android:textSize="18sp"
+                                    android:textStyle="bold"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/txt_estado"
+                                    android:layout_width="0dp"
+                                    android:layout_height="0dp"
+                                    android:gravity="center_vertical"
+                                    android:text="TextView"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintStart_toEndOf="@+id/subestado"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </android.support.constraint.ConstraintLayout>
+                        </android.support.v7.widget.CardView>
+                    </LinearLayout>
+
                 </android.support.v7.widget.CardView>
 
             </LinearLayout>
@@ -272,14 +319,13 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="TextView"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_solcitadopor"
                         app:layout_constraintStart_toEndOf="@+id/subsolicitado"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageButton
-                        android:id="@+id/imageButton2"
+                        android:id="@+id/btn_solcitadopor"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@android:color/transparent"
@@ -299,6 +345,7 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/subactrelacionada"
                         android:layout_width="140dp"
@@ -311,16 +358,18 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <Spinner
                         android:id="@+id/sp_actrelacionada"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subactrelacionada"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/Car_NivelRiesgo"
                 android:layout_width="match_parent"
@@ -329,10 +378,11 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/subnivelriesgo"
                         android:layout_width="140dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="33dp"
                         android:layout_marginStart="8dp"
                         android:gravity="center_vertical"
                         android:text="Nivel Riesgo:"
@@ -341,16 +391,18 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <Spinner
                         android:id="@+id/sp_nivelriesgo"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subnivelriesgo"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/AreaHSEC"
                 android:layout_width="match_parent"
@@ -359,10 +411,11 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/subareahsec"
                         android:layout_width="140dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="33dp"
                         android:layout_marginStart="8dp"
                         android:gravity="center_vertical"
                         android:text="Área HSEC:"
@@ -371,46 +424,18 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <Spinner
                         android:id="@+id/sp_areahsec"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subareahsec"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/Referencia"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:id="@+id/subareferencia"
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
-                        android:text="Referencia:"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-                    <Spinner
-                        android:id="@+id/sp_referencia"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/subareferencia"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
                 android:id="@+id/TipoAccion"
                 android:layout_width="match_parent"
@@ -423,7 +448,7 @@
                     <TextView
                         android:id="@+id/subtipoaccion"
                         android:layout_width="140dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="33dp"
                         android:layout_marginStart="8dp"
                         android:gravity="center_vertical"
                         android:text="Tipo Accion:"
@@ -436,7 +461,7 @@
                     <Spinner
                         android:id="@+id/sp_tipoaccion"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subtipoaccion"
@@ -453,6 +478,7 @@
                 android:text="Fecha Comprometida"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
             <android.support.v7.widget.CardView
                 android:id="@+id/id_fecha"
                 android:layout_width="match_parent"
@@ -487,6 +513,7 @@
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:gravity="top"
+                        android:onClick="EscogerFechainicial"
                         android:text="Seleccionar fecha inicial"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -497,6 +524,7 @@
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/id_fechafin"
                 android:layout_width="match_parent"
@@ -531,6 +559,7 @@
                         android:layout_width="0dp"
                         android:layout_height="35dp"
                         android:gravity="top"
+                        android:onClick="EscogerFechafinal"
                         android:text="Seleccionar fecha final"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -541,6 +570,7 @@
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.v7.widget.CardView>
+
             <TextView
                 android:id="@+id/textView24"
                 android:layout_width="match_parent"
@@ -552,7 +582,7 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/editText3"
+                android:id="@+id/txt_tarea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="-8dp"
@@ -574,16 +604,17 @@
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:background="@color/colorplomo"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBtnBeige">
 
                     <TextView
                         android:id="@+id/subresponsables"
-                        android:layout_width="140dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:gravity="center_vertical"
                         android:text="Responsables"
+                        android:textColor="@color/colorBlanco"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -593,7 +624,7 @@
                     <ImageButton
                         android:id="@+id/add_responsables"
                         android:layout_width="40dp"
-                        android:layout_height="40dp"
+                        android:layout_height="30dp"
                         android:background="@android:color/transparent"
                         android:padding="0dp"
                         android:src="@drawable/ic_add_circle_outline_black_24dp"
@@ -602,6 +633,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/listResponsables"
                 android:layout_width="match_parent"
@@ -609,5 +641,16 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <Button
+        android:id="@+id/btn_Salvar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-45dp"
+        android:background="@color/ColorbtnVerdoso"
+        android:onClick="SalvarPlan"
+        android:text="Guardar"
+        android:visibility="visible"
+         />
 
 </LinearLayout>

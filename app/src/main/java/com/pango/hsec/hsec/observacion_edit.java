@@ -1,6 +1,7 @@
 
 package com.pango.hsec.hsec;
 
+        import android.content.Intent;
         import android.support.v4.app.Fragment;
         import android.support.v4.app.FragmentActivity;
         import android.support.v4.view.ViewPager;
@@ -9,12 +10,6 @@ package com.pango.hsec.hsec;
         import android.widget.HorizontalScrollView;
         import android.widget.ImageButton;
         import android.widget.TabHost;
-        import android.widget.Toast;
-
-        import com.pango.hsec.hsec.Observaciones.FragmentComent;
-        import com.pango.hsec.hsec.Observaciones.FragmentGaleria;
-        import com.pango.hsec.hsec.Observaciones.FragmentObs;
-        import com.pango.hsec.hsec.Observaciones.FragmentPlan;
         import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
         import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 
@@ -27,6 +22,9 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     private TabHost mTabHost;
     ImageButton close;
     HorizontalScrollView horizontalsv;
+    String CodObservacion;
+
+    ;
     //TabHost tabHost;
     //
     @Override
@@ -36,8 +34,16 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         close=findViewById(R.id.imageButton);
         horizontalsv=findViewById(R.id.HorizontalObsedit);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        GlobalVariables loaddata = new GlobalVariables();
-        loaddata.LoadData();
+
+        Bundle datos = this.getIntent().getExtras();
+        CodObservacion="OBS000000XYZ";
+        //if(GlobalVariables.ObjectEditable) CodObservacion=datos.getString("Observacion");
+
+
+        GlobalVariables.activity= this;
+        GlobalVariables.loadObs_Detalles();
+        GlobalVariables.LoadData();
+
         initialiseTabHost();
 
         // Fragments and ViewPager Initialization
@@ -53,8 +59,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     }
 
     // Method to add a TabHost
-    private static void AddTab(observacion_edit activity, TabHost tabHost,
-                               TabHost.TabSpec tabSpec) {
+    private static void AddTab(observacion_edit activity, TabHost tabHost,TabHost.TabSpec tabSpec) {
         tabSpec.setContent(new MyTabFactory(activity));
         tabHost.addTab(tabSpec);
     }
@@ -65,7 +70,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         this.mViewPager.setCurrentItem(pos);
         View dView=this.mViewPager.getRootView();
         if(pos==1){ //cambios solo cuando ingresemos al tab de detalle de obs.
-            if(GlobalVariables.TipoObservacion=="TO01"){
+            if(GlobalVariables.Obserbacion.CodTipo=="TO01"){
                 dView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
                 dView.findViewById(R.id.id_Acto).setVisibility(View.VISIBLE);
                 dView.findViewById(R.id.id_Estado).setVisibility(View.VISIBLE);
@@ -108,38 +113,18 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
 
-/*
-		fList.add(Fragment.instantiate(this, ObsFragment.class.getName()));
-		fList.add(Fragment.instantiate(this, GaleriaFragment.class.getName()));
-		fList.add(Fragment.instantiate(this, PlanFragment.class.getName()));
-		fList.add(Fragment.instantiate(this, ComentarioFragment.class.getName()));
-		*/
-
         // TODO Put here your Fragments
-        obs_cabecera f1 = obs_cabecera.newInstance("OBSXYZ000000");
-        obs_detalle1 f2 = obs_detalle1.newInstance("Sample Fragment 1");
-        obs_archivos f4 = obs_archivos.newInstance("Sample Fragment 2");
-        obs_planaccion f5=obs_planaccion.newInstance("Sample Fragment 3");
+        obs_cabecera f1 = obs_cabecera.newInstance(CodObservacion);
+        obs_detalle1 f2 = obs_detalle1.newInstance(CodObservacion);
+        obs_archivos f4 = obs_archivos.newInstance(CodObservacion);
+        obs_planaccion f5=obs_planaccion.newInstance(CodObservacion);
 
-        //ObsFragment f4 = ObsFragment.newInstance("","");
 
         fList.add(f1);
         fList.add(f2);
         fList.add(f4);
         fList.add(f5);
 
-/*
-		List<Fragment> fragments = new Vector<Fragment>();
-		fragments.add(Fragment.instantiate(this, Tab1Fragment.class.getName()));
-		fragments.add(Fragment.instantiate(this, Tab2Fragment.class.getName()));
-		fragments.add(Fragment.instantiate(this, Tab3Fragment.class.getName()));
-
-		this.mPagerAdapter  = new PagerAdapter(super.getSupportFragmentManager(), fragments);
-		//
-		this.mViewPager = (ViewPager)super.findViewById(R.id.viewpager);
-		this.mViewPager.setAdapter(this.mPagerAdapter);
-		this.mViewPager.setOnPageChangeListener(this);
-*/
         return fList;
     }
 
@@ -155,4 +140,9 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         observacion_edit.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator("Plan Accion"));
         mTabHost.setOnTabChangedListener(this);
     }
+
+  /*  @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Toast.makeText(this,"Su data fue actualizada "+ requestCode ,Toast.LENGTH_SHORT).show();
+    }*/
 }

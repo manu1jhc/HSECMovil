@@ -15,7 +15,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,20 +23,25 @@
 
         <TextView
             android:id="@+id/tx_user"
-            android:layout_width="150dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="user" />
+            android:fontFamily="@font/asap"
+            android:text="user"
+            android:textColor="@color/colorNegro" />
 
         <TextView
             android:id="@+id/tx_userdni"
-            android:layout_width="70dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
             android:text="dni" />
 
         <TextView
             android:id="@+id/tx_usercargo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="cargo" />
+            android:fontFamily="@font/asap"
+            android:text="cargo"
+            android:textColor="@color/colorNegro" />
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

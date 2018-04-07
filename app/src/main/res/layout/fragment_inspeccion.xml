@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context="com.pango.hsec.hsec.Inspecciones.FragmentInspeccion"
     >
-
+<!--
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-    </android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>-->
 
     <ListView
         android:id="@+id/list_detinsp"

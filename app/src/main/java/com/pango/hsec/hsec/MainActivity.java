@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.Busquedas.Busqueda;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity
     public static Context contextOfApplication;
     public static String jsonMuro="";
     DrawerLayout drawerLayout;
-    ImageButton buscar;
+    ImageView buscar;
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
@@ -226,10 +227,9 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_observacion) {
 
+            GlobalVariables.ObjectEditable=false;
             Intent obserbacion_edit = new Intent(this,observacion_edit.class);
             startActivity(obserbacion_edit);
-
-            //Toast.makeText(this, "nav_observacion", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_inspeccion) {
 

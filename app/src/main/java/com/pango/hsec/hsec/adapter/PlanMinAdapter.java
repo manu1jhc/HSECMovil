@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -17,6 +16,7 @@ import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.PlanMinModel;
+import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -81,15 +81,15 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
             riesgo.setVisibility(View.INVISIBLE);
         }else if (tempRiesgo.equals("BA")) {
             //riesgo.setCardBackgroundColor(Color.GREEN);
-            riesgo.setImageResource(R.drawable.green_light);
+            riesgo.setImageResource(R.drawable.ic_alertaverde);
 
         } else if (tempRiesgo.equals("ME")) {
             //riesgo.setCardBackgroundColor(Color.YELLOW);
-            riesgo.setImageResource(R.drawable.yellow_light);
+            riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
 
         } else {
             //riesgo.setCardBackgroundColor(Color.RED);
-            riesgo.setImageResource(R.drawable.red_light);
+            riesgo.setImageResource(R.drawable.ic_alertaroja);
 
         }
 
@@ -118,6 +118,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
             Glide.with(context)
                     .load(Url_img)
                     .override(50, 50)
+                    .transform(new CircleTransform(getContext())) // applying the image transformer
                     .into(img_perfil);
         }
 

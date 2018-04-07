@@ -27,7 +27,8 @@
 -->
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/ColorVerdoso">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -37,16 +38,61 @@
                 android:id="@+id/menulat"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@color/colorBlanco"
+                android:background="@drawable/transparent"
                 android:onClick="menuLateral"
-                android:src="@mipmap/ic_menu_lat"
+                android:src="@drawable/ic_menu"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="8dp"
+                android:cropToPadding="false"
+                android:src="@drawable/ic_minero"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/menulat"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="2dp"
+                android:gravity="center_vertical"
+                android:text="HSEC "
+                android:textAlignment="viewStart"
+                android:textColor="@color/colorBlanco"
+
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_buscar"
+                app:layout_constraintHorizontal_bias="0.453"
+                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageView
+                android:id="@+id/btn_buscar"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_search"
+                android:onClick="lupaBuscar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+
 <!--                   android:onClick="close"
   -->
-            <ImageView
+           <!-- <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="70dp"
                 android:layout_height="50dp"
@@ -78,12 +124,12 @@
                 android:layout_width="60dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="2dp"
-                android:background="@color/colorBlanco"
+                android:background="@drawable/transparent"
                 android:src="@drawable/ic_search"
                 android:onClick="lupaBuscar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 
@@ -91,8 +137,7 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        >
+        android:layout_weight="1">
 
     </FrameLayout>
 
@@ -141,7 +186,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:background="@color/colorBlanco"
+        android:background="@color/ColorVerdoso"
         app:itemIconTint="@drawable/selector_bottom_bar"
         app:itemTextColor="@drawable/selector_bottom_bar"
         app:menu="@menu/navigation"

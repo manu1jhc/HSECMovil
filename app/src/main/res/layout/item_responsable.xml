@@ -18,37 +18,32 @@
         tools:layout_editor_absoluteX="0dp">
 
         <TextView
-            android:id="@+id/txt_nombres"
+            android:id="@+id/txt_tarea"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/txt_dni"
-            android:layout_toStartOf="@+id/txt_dni"
+            android:layout_toLeftOf="@+id/txt_adicional"
+            android:layout_toStartOf="@+id/txt_adicional"
+            android:fontFamily="@font/asap"
             android:text="Nombre"
             android:textAlignment="viewStart"
+            android:textColor="@color/colorNegro"
+            app:layout_constraintBottom_toTopOf="@+id/txt_cargo"
             app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/txt_dni"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_nombres"
-            android:layout_toStartOf="@+id/btn_delete"
-            android:text="dni"
-            app:layout_constraintEnd_toStartOf="@+id/btn_delete"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_nombres" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <TextView
             android:id="@+id/txt_cargo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/asap"
             android:text="Cargo"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_dni" />
+            app:layout_constraintTop_toBottomOf="@+id/txt_tarea" />
 
         <ImageButton
             android:id="@+id/btn_delete"
@@ -58,7 +53,7 @@
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
             android:padding="0dp"
-            android:src="@drawable/ic_delete_black_24dp"
+            android:src="@drawable/ic_tacho"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

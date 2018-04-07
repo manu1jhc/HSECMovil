@@ -68,10 +68,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     private RecyclerView gridView;
     private ListViewAdapter listViewAdapter;
     private GridViewAdapter gridViewAdapter;
-    private ArrayList<GaleriaModel> DataFiles;
-    private ArrayList<GaleriaModel> DataImg;
 
-    private ArrayList<ImageEntry> mSelectedImages;
     ProgressDialog progressDialog;
     final String[] ACCEPT_MIME_TYPES = {
             "application/pdf",
@@ -98,21 +95,42 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
                              Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_obs_archivos,  container, false);
-        //String sampleText = getArguments().getString("bString");
+        String codigo_obs = getArguments().getString("bString");
 
-        //TextView txtSampleText = (TextView) mView.findViewById(R.id.txtViewSample);
-        //txtSampleText.setText(sampleText);
+
         ImageButton btnFotos=(ImageButton) mView.findViewById(R.id.btn_addfotos);
         ImageButton btnFiles=(ImageButton) mView.findViewById(R.id.btn_addfiles);
-       /* mImageSampleRecycler = (RecyclerView) mView.findViewById(R.id.images_sample);
-        setupRecycler();*/
+
         gridView = (RecyclerView)  mView.findViewById(R.id.grid);
-        DataImg = new ArrayList<>();
-
         listView = (RecyclerView) mView.findViewById(R.id.list);
-        DataFiles = new ArrayList<>();
 
-        //grid_gal=(MyGridView) mView.findViewById(R.id.grid_gal);
+
+
+        if(GlobalVariables.ObjectEditable){ // load data of server
+
+        }
+        else // new Obserbacion
+        {
+            if(GlobalVariables.ObserbacionFile==null){
+                GlobalVariables.ObserbacionFile=codigo_obs;
+            }
+            else if(!GlobalVariables.ObserbacionFile.contains("XYZ")){
+                GlobalVariables.listaGaleria= new ArrayList<>();
+                GlobalVariables.listaArchivos= new ArrayList<>();
+            }
+        }
+
+        //load data adapter
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        gridView.setLayoutManager(layoutManager);
+        gridViewAdapter = new GridViewAdapter(getActivity(), GlobalVariables.listaGaleria);
+        gridView.setAdapter(gridViewAdapter);
+
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        listView.setLayoutManager(horizontalManager);
+        listViewAdapter = new ListViewAdapter(getActivity(), GlobalVariables.listaArchivos);
+        listView.setAdapter(listViewAdapter);
+
 
         btnFotos.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -121,7 +139,6 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
                                         }
                                     }
         );
-
         btnFiles.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -133,7 +150,6 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
                                         }
                                     }
         );
-
         return mView;
     }
 
@@ -168,15 +184,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
            String ext=exts[exts.length-1];
            switch (ext){
                case "pdf":case "doc":case "docx":case "ppt":case "pptx":case "xls":case "xlsx":case "odt":
-                   DataFiles.add(new GaleriaModel(myFile.getAbsolutePath(),"TP03", myFile.getTotalSpace()+"", displayName));
-                   GlobalVariables.listaArchivos=DataFiles;
-                   //listView.setHasFixedSize(true);
-                   //set layout manager and adapter for "ListView"
-                   LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                   listView.setLayoutManager(horizontalManager);
-                   listViewAdapter = new ListViewAdapter(getActivity(), DataFiles);
-                   listView.setAdapter(listViewAdapter);
-
+                   listViewAdapter.add(new GaleriaModel(myFile.getAbsolutePath(),"TP03", myFile.getTotalSpace()+"", displayName));
                    break;
                default: Toast.makeText(getActivity(), "Archivo no permitido", Toast.LENGTH_LONG).show();
            }
@@ -268,18 +276,8 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
 
         for (ImageEntry image:images) {
-            DataImg.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",image.dateAdded+"",image.imageId+""));
+            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",image.dateAdded+"",image.imageId+""));
         }
-        GlobalVariables.listaGaleria=DataImg;
-        mSelectedImages = images;
-      //  gridView.setHasFixedSize(true);
-
-        //set layout manager and adapter for "GridView"
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        gridView.setLayoutManager(layoutManager);
-        gridViewAdapter = new GridViewAdapter(getActivity(), DataImg);
-        gridView.setAdapter(gridViewAdapter);
-
     }
 
     @Override
@@ -303,47 +301,5 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     @Override
     public void error(String mensaje, String Tipo) {
 
-    }
-
-
-    private class ImageSamplesAdapter extends RecyclerView.Adapter<ImageSampleViewHolder> {
-
-        @Override
-        public ImageSampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            final ImageView imageView = new ImageView(parent.getContext());
-            return new ImageSampleViewHolder(imageView);
-        }
-
-        @Override
-        public void onBindViewHolder(ImageSampleViewHolder holder, int position) {
-
-            final String path = mSelectedImages.get(position).path;
-            loadImage(path, holder.thumbnail);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mSelectedImages.size();
-        }
-
-        private void loadImage(final String path, final ImageView imageView) {
-            imageView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 440));
-
-            Glide.with(getActivity())
-                    .load(path)
-                    .asBitmap()
-                    .into(imageView);
-        }
-    }
-
-
-    class ImageSampleViewHolder extends RecyclerView.ViewHolder {
-
-        protected ImageView thumbnail;
-
-        public ImageSampleViewHolder(View itemView) {
-            super(itemView);
-            thumbnail = (ImageView) itemView;
-        }
     }
 }
