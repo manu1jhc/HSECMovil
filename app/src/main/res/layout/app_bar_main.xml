@@ -7,11 +7,6 @@
     android:layout_height="match_parent"
     tools:context="com.pango.hsec.hsec.MainActivity">
 
-
-
-
-
-
     <!-- menu inferior -->
     <include layout="@layout/content_main"
 

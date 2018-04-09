@@ -58,15 +58,18 @@ public class ParticipanteAdapter extends BaseAdapter {
 
         TextView nombre=convertView.findViewById(R.id.part_nombre);
         TextView area=convertView.findViewById(R.id.part_area);
-        LinearLayout linear_tabla=convertView.findViewById(R.id.linear_tabla);
+       /* TextView lider=convertView.findViewById(R.id.part_lider);*/
+        /*LinearLayout linear_tabla=convertView.findViewById(R.id.linear_tabla);
         CardView card_nombre=convertView.findViewById(R.id.card_nombre);
-        CardView card_area=convertView.findViewById(R.id.card_area);
+        CardView card_area=convertView.findViewById(R.id.card_area);*/
 
         if(tipo.equals("1"))
         {
             if(equipoModel.get(position).Estado.equals("1")){
-                card_nombre.setBackgroundColor(Color.CYAN);
-                card_area.setCardBackgroundColor(Color.CYAN);
+                convertView.setBackgroundColor(Color.parseColor("#bfe3de"));
+               //lider.setVisibility(View.VISIBLE);
+                /*card_nombre.setBackgroundColor(Color.CYAN);
+                card_area.setCardBackgroundColor(Color.CYAN);*/
             }
         }
         //card_nombre.setBackgroundColor(Color.CYAN);

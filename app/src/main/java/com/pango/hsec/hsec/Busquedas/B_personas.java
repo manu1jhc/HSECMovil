@@ -371,7 +371,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 String nombre=GlobalVariables.lista_Personas.get(position).Nombres;
                 String CodPersona=GlobalVariables.lista_Personas.get(position).CodPersona;
                 String dniPersona=GlobalVariables.lista_Personas.get(position).NroDocumento;
-
+                String Cargo=GlobalVariables.lista_Personas.get(position).Cargo;
                 /*Intent intent = new Intent(B_personas.this, B_observaciones.class);
                 intent.putExtra("nombreP",nombre);
                 intent.putExtra("codpersona",CodPersona);
@@ -385,6 +385,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 intent.putExtra("codpersona",CodPersona);
                 intent.putExtra("tipo","persona");
                 intent.putExtra("dni",dniPersona);
+                intent.putExtra("cargo",Cargo);
 
                 setResult(RESULT_OK, intent);
                 finish();

@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -70,7 +71,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
     //ConstraintLayout constraintLayout;
     boolean loadingTop=false;
     TextView tx_texto, tx_mensajeb;
-    ImageButton lupabuscar;
+    ImageView lupabuscar;
     LayoutInflater layoutInflater;
     View popupView;
     PopupWindow popupWindow;
@@ -86,9 +87,9 @@ public class Busqueda extends AppCompatActivity implements IActivity {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
-        lupabuscar=(ImageButton) findViewById(R.id.lupabuscar);
+        lupabuscar=(ImageView) findViewById(R.id.lupabuscar);
         GlobalVariables loaddata = new GlobalVariables();
-        loaddata.LoadData();
+        //loaddata.LoadData();
         list_busqueda=(ListView) findViewById(R.id.list_busqueda);
         sp_busqueda=(Spinner) findViewById(R.id.sp_busqueda);
         tx_mensajeb=findViewById(R.id.tx_mensajeb);

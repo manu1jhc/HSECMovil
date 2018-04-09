@@ -113,13 +113,10 @@ public class FragmentMuro extends Fragment implements IActivity{
     boolean loadingTop=false;
     String url;
     TextView tx_texto;
-    CardView cardPublicacion;
-    //ImageButton buscar;
-    ImageButton btn_usuario;
     ImageButton btn_galeria;
+    ImageView imageView;
     int contPublicacion;
     boolean is_swipe=true;
-    ImageView imageView;
     //int paginacion=1;
    // private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
@@ -138,14 +135,13 @@ public class FragmentMuro extends Fragment implements IActivity{
         GlobalVariables.view_fragment=rootView;
         GlobalVariables.isFragment=true;
         List_muro=rootView.findViewById(R.id.List_muro);
-        cardPublicacion=rootView.findViewById(R.id.cardPublicacion);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) getActivity().findViewById(R.id.const_main);
         tx_texto =(TextView)rootView.findViewById(R.id.tx_texto);
         //buscar=(ImageButton) rootView.findViewById(R.id.btn_buscar);
         //btn_usuario=(ImageButton) rootView.findViewById(R.id.btn_usuario);
         btn_galeria=(ImageButton) rootView.findViewById(R.id.btn_galeria);
-        imageView=rootView.findViewById(R.id.imageView3);
+        imageView= rootView.findViewById(R.id.btn_usuario);
         //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
        // navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
@@ -201,45 +197,11 @@ public class FragmentMuro extends Fragment implements IActivity{
                 //navigationView.getMenu().findItem(R.id.nav_noticias).setChecked(true);
                 //bottomNavigationView.setVisibility(View.VISIBLE);
                 bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
-
-
             }
         });
-
-
 
 //opciones de menu y publicacion
-        cardPublicacion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
-                startActivity(obserbacion_edit);
 
-            }
-        });
-
-
-        /*
-        buscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"Click en buscar post",Toast.LENGTH_SHORT).show();
-                Intent busquedas = new Intent(getContext(),Busqueda.class);
-                startActivity(busquedas);
-
-            }
-        });
-*/
-        /*
-        btn_usuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(getActivity(),"Click en perfil de usuario",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        */
         btn_galeria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,7 +211,6 @@ public class FragmentMuro extends Fragment implements IActivity{
                 */
             }
         });
-
 
         List_muro.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -282,19 +243,12 @@ public class FragmentMuro extends Fragment implements IActivity{
 
                         break;
                 }
-
-
-
-
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-
             }
         });
 
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-
             public void onRefresh() {
                 GlobalVariables.istabs=false;// para que no entre al flag de tabs
 
@@ -331,8 +285,7 @@ public class FragmentMuro extends Fragment implements IActivity{
 
             } });
 
-
-            List_muro.setOnScrollListener(new AbsListView.OnScrollListener() {
+        List_muro.setOnScrollListener(new AbsListView.OnScrollListener() {
 
                 @Override
                 public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -351,7 +304,6 @@ public class FragmentMuro extends Fragment implements IActivity{
                     }
                     if (downFlag && scrollState == SCROLL_STATE_IDLE) {
                         downFlag = false;
-
                         // GlobalVariables.FDown=true;
                         //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                         /// cambiar el 100 por el total de publicaciones
@@ -371,20 +323,13 @@ public class FragmentMuro extends Fragment implements IActivity{
                             final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
                             obj.execute("");
 
-
-
                             layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                             popupView = layoutInflater.inflate(R.layout.popup_blanco, null);
 
                             popupWindow = new PopupWindow(popupView,RadioGroup.LayoutParams.MATCH_PARENT ,580,false);
                             popupWindow.showAtLocation(List_muro, Gravity.CENTER, 0, 0);
                             flagpopup=true;
-
-
-
-
                         }
-
                     }
                     if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                         listenerFlag = true;
@@ -415,6 +360,17 @@ public class FragmentMuro extends Fragment implements IActivity{
                     }  }
             });
         listenerFlag = false;
+
+        TextView btn=(TextView) rootView.findViewById(R.id.btn_obs_new);
+        btn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                GlobalVariables.ObjectEditable=false;
+                Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
+                startActivity(obserbacion_edit);
+            }
+        });
 
         return rootView;
     }
@@ -448,9 +404,6 @@ public class FragmentMuro extends Fragment implements IActivity{
         super.onDetach();
         mListener = null;
     }
-
-
-
 
     @Override
     public void success(String data1,String Tipo) {

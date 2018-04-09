@@ -223,6 +223,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         // String url_avatar="https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/media/getAvatar/43054695/fotocarnet.jpg";
         Glide.with(getContext())
                 .load(url_avatar) // add your image url
+                .transform(new CircleTransform(getContext())) // applying the image transformer
                 .into(ficha_avatar);
 
     }
@@ -250,8 +251,6 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
 
         try {
             super.onActivityResult(requestCode, resultCode, data);
-
-
 
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
 

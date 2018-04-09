@@ -23,6 +23,7 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -109,11 +110,9 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
             Glide.with(context)
                     .load(Url_img)
                     .override(50, 50)
+                    .transform(new CircleTransform(getContext())) // applying the image transformer
                     .into(img_perfil);
         }
-
-
-
 
         if(tempImgDet==null){
             img_preview.setVisibility(View.GONE);

@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabWidget;
@@ -20,7 +23,9 @@ import android.widget.Toast;
 
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.ObservacionModel;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -36,8 +41,6 @@ public class obs_cabecera extends Fragment{
     Button botonEscogerFecha;
     Spinner spinnerArea, spinnerNivel, spinnerUbica,spinnerSububic,spinnerUbicEspec, spinnerTipoObs;
     String Ubicacionfinal="",TipoObs;
-
-
     public ArrayAdapter adapterUbicEspc,adapterSubN;
 
 
@@ -47,6 +50,7 @@ public class obs_cabecera extends Fragment{
         Bundle b = new Bundle();
         b.putString("bString", sampleText);
         f.setArguments(b);
+
         return f;
     }
     @Override
@@ -54,9 +58,11 @@ public class obs_cabecera extends Fragment{
                              Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_obs_cabecera, container, false);
-
-        String sampleText = getArguments().getString("bString");
-
+        final boolean[] pass1 = {false};
+        final boolean[] pass2 = {false};
+        final Date opentab= new Date();
+        String Ubicacion="",codigo_obs = getArguments().getString("bString");
+        EditText txtLugar=(EditText) mView.findViewById(R.id.txt_lugar);
         spinnerArea = (Spinner) mView.findViewById(R.id.spinner_area);
         spinnerNivel = (Spinner) mView.findViewById(R.id.spinner_NivelR);
         spinnerUbica = (Spinner) mView.findViewById(R.id.spinner_ubic);
@@ -89,6 +95,61 @@ public class obs_cabecera extends Fragment{
         adapterUbicEspc.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerUbicEspec.setAdapter(adapterUbicEspc);
 
+        ///////////////////////////
+
+        TextView Codigo = (TextView) mView.findViewById(R.id.id_CodObservacion);
+
+
+        SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        botonEscogerFecha=(Button) mView.findViewById(R.id.btn_fecha);
+
+        Date fecha=new Date();
+        if(GlobalVariables.ObjectEditable){ // load data of server
+
+        }
+        else // new Obserbacion
+        {
+            if(GlobalVariables.Obserbacion.CodObservacion==null){
+                myCalendar = Calendar.getInstance();
+                fecha = myCalendar.getTime();
+                GlobalVariables.Obserbacion.CodObservacion= codigo_obs;
+                GlobalVariables.Obserbacion.Fecha=df.format(fecha);
+                GlobalVariables.Obserbacion.Lugar="";
+                GlobalVariables.Obserbacion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
+                GlobalVariables.Obserbacion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
+                GlobalVariables.Obserbacion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
+                GlobalVariables.Obserbacion.CodUbicacion="";
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar=GlobalVariables.Acto_obs.get(0).CodTipo;
+            }
+            else if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
+                GlobalVariables.Obserbacion= new ObservacionModel();
+        }
+
+        //inicialice data
+        try {
+            fecha = df.parse(GlobalVariables.Obserbacion.Fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Codigo.setText(GlobalVariables.Obserbacion.CodObservacion);
+        txtLugar.setText(GlobalVariables.Obserbacion.Lugar);
+        botonEscogerFecha.setText(dt.format(fecha));
+
+        spinnerArea.setSelection(GlobalVariables.indexOf(GlobalVariables.Area_obs,GlobalVariables.Obserbacion.CodAreaHSEC));
+        spinnerNivel.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,GlobalVariables.Obserbacion.CodNivelRiesgo));
+        if(GlobalVariables.Obserbacion.CodUbicacion!=null&&!GlobalVariables.Obserbacion.CodUbicacion.isEmpty()){
+            String data[]=GlobalVariables.Obserbacion.CodUbicacion.split("\\.");
+            spinnerUbica.setSelection(GlobalVariables.indexOf(GlobalVariables.Ubicacion_obs,data[0]));
+            Ubicacion=GlobalVariables.Obserbacion.CodUbicacion;
+            pass1[0] =true;
+        }
+        spinnerTipoObs.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_obs,GlobalVariables.Obserbacion.CodTipo));
+
+        ////////////////////////////
+
+// DETECT changue values
+        String finalUbicacion = Ubicacion;
         spinnerUbica.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -100,14 +161,29 @@ public class obs_cabecera extends Fragment{
                     GlobalVariables.SubUbicacion_obs.add(item);
                 }
                 adapterSubN.notifyDataSetChanged();
-                spinnerSububic.setSelection(0);
+                if(!pass1[0]){
+                    Date openSpinner=new Date();
+                    if((openSpinner.getTime()-opentab.getTime())>1000)
+                    {
+                        GlobalVariables.Obserbacion.CodUbicacion=Ubicacionfinal;
+                        spinnerSububic.setSelection(0);
+                    }
+                }
+                else {
+                    pass1[0] =false;
+                    String data[]= finalUbicacion.split("\\.");
+                    if(data.length>1)
+                    {
+                        pass2[0] =true;
+                        spinnerSububic.setSelection(GlobalVariables.indexOf(GlobalVariables.SubUbicacion_obs,data[0]+"."+data[1]));
+                    }
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 Ubicacionfinal = "";
             }
         });
-
         spinnerSububic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -119,19 +195,31 @@ public class obs_cabecera extends Fragment{
                     GlobalVariables.UbicacionEspecifica_obs.add(item);
                 }
                 adapterUbicEspc.notifyDataSetChanged();
-                spinnerUbicEspec.setSelection(0);
+                if(!pass2[0]){
+                    Date openSpinner=new Date();
+                    if((openSpinner.getTime()-opentab.getTime())>1000){
+                        GlobalVariables.Obserbacion.CodUbicacion=Ubicacionfinal;
+                        spinnerUbicEspec.setSelection(0);
+                    }
+                }
+                else {
+                    pass2[0] =false;
+                    if(finalUbicacion.split("\\.").length==3)
+                    spinnerUbicEspec.setSelection(GlobalVariables.indexOf(GlobalVariables.UbicacionEspecifica_obs,finalUbicacion));
+                    else spinnerUbicEspec.setSelection(0);
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 Ubicacionfinal = Ubicacionfinal.split("\\.")[0];
             }
         });
-
         spinnerUbicEspec.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Maestro UbicaEspec = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_ubicespc) ).getSelectedItem();
                 Ubicacionfinal=UbicaEspec.CodTipo;
+                GlobalVariables.Obserbacion.CodUbicacion=UbicaEspec.CodTipo;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -139,34 +227,58 @@ public class obs_cabecera extends Fragment{
                 Ubicacionfinal = Ubic[0]+"."+ Ubic[1];
             }
         });
-
-
         spinnerTipoObs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_tipobs) ).getSelectedItem();
                 TabHost mTabHost = (TabHost) getActivity().findViewById(android.R.id.tabhost);
                 TabWidget tabWidget =(TabWidget)getActivity().findViewById(android.R.id.tabs);
-                GlobalVariables.TipoObservacion=Tipo.CodTipo;
-
+                GlobalVariables.Obserbacion.CodTipo=Tipo.CodTipo;
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar=Tipo.CodTipo=="TO01"?GlobalVariables.Acto_obs.get(0).CodTipo:GlobalVariables.Condicion_obs.get(0).CodTipo;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
-                String Ubic[] =  Ubicacionfinal.split("\\.");
-                Ubicacionfinal = Ubic[0]+"."+ Ubic[1];
             }
         });
 
+        spinnerArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_area) ).getSelectedItem();
+                GlobalVariables.Obserbacion.CodAreaHSEC=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+        spinnerNivel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_NivelR) ).getSelectedItem();
+                GlobalVariables.Obserbacion.CodNivelRiesgo=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
 
+        txtLugar.addTextChangedListener(new TextWatcher() {
 
-        TextView txtSampleText = (TextView) mView.findViewById(R.id.id_CodObservacion);
-        txtSampleText.setText(sampleText);
+            @Override
+            public void onTextChanged(CharSequence s, int st, int b, int c)
+            { }
 
-        botonEscogerFecha=(Button) mView.findViewById(R.id.btn_fecha);
-        myCalendar = Calendar.getInstance();
-        Date actual = myCalendar.getTime();
-        SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
-        botonEscogerFecha.setText(dt.format(actual));
+            @Override
+            public void beforeTextChanged(CharSequence s, int st, int c, int a)
+            { }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                GlobalVariables.Obserbacion.Lugar = txtLugar.getText().toString();
+            }
+        });
+
 
         botonEscogerFecha.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -180,13 +292,6 @@ public class obs_cabecera extends Fragment{
 
         return mView;
     }
-
-
-
-
-
-
-
 
 
 

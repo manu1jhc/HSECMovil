@@ -36,13 +36,13 @@ public class AspectosAdapter extends RecyclerView.Adapter<AspectosAdapter.Aspect
         aspectoViewHolder.descripcion.setText(GlobalVariables.getDescripcion(GlobalVariables.Aspectos_Obs, em.CodSubtipo));
 
         if(aspectoModel.get(i).Descripcion.isEmpty()){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_na);
+            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_noaplica);
         }else if (aspectoModel.get(i).Descripcion.equals("R001")){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_check);
+            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_correcto);
         }else if(aspectoModel.get(i).Descripcion.equals("R002")){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_cross);
+            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_incorrecto);
         }else if(aspectoModel.get(i).Descripcion.equals("R003")){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_na);
+            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_noaplica);
         }
     }
 

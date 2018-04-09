@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
@@ -42,7 +43,8 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
     String anio_sel="";
     //String mes_sel="";
     String mes_pos="";
-    ImageButton btn_buscar_e,ibclose;
+    ImageButton ibclose;
+    ImageView btn_buscar_e;
     GetEstadisticaDetModel getEstadisticaDetModel;
     AdicionalAdapter adicionalAdapter;
     TextView tx_ref,tx_autor,tx_fecha,tx_descripcion;

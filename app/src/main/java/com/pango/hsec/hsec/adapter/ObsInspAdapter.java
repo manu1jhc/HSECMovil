@@ -5,13 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.ObsInspModel;
-import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
 
@@ -51,15 +49,15 @@ public class ObsInspAdapter extends ArrayAdapter<ObsInspModel> {
 
         if (tempRiesgo.equals("BA")) {
             //riesgo.setCardBackgroundColor(Color.GREEN);
-            nivel.setImageResource(R.drawable.green_light);
+            nivel.setImageResource(R.drawable.ic_alertaverde);
 
         } else if (tempRiesgo.equals("ME")) {
             //riesgo.setCardBackgroundColor(Color.YELLOW);
-            nivel.setImageResource(R.drawable.yellow_light);
+            nivel.setImageResource(R.drawable.ic_alerta_amarilla);
 
         } else {
             //riesgo.setCardBackgroundColor(Color.RED);
-            nivel.setImageResource(R.drawable.red_light);
+            nivel.setImageResource(R.drawable.ic_alertaroja);
 
         }
 

@@ -33,24 +33,28 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="8dp"
             android:text="TextView"
+            android:textColor="@color/colorNegro"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/img_riesgo"
             app:layout_constraintStart_toEndOf="@+id/mp_profile"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside" />
 
         <TextView
             android:id="@+id/mp_fecha"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
+            android:paddingTop="-3dp"
             android:text="TextView"
+            android:textAlignment="viewStart"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/mp_tipo"
+            app:layout_constraintEnd_toStartOf="@+id/img_riesgo"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/mp_profile"
             app:layout_constraintTop_toBottomOf="@+id/mp_nombre" />
 
@@ -58,89 +62,93 @@
             android:id="@+id/mp_tipo"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:layout_marginStart="8dp"
+            android:paddingTop="-3dp"
             android:text="TextView"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mp_profile" />
+            app:layout_constraintStart_toEndOf="@+id/mp_profile"
+            app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
         <TextView
             android:id="@+id/mp_area"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginStart="16dp"
+            android:paddingTop="-3dp"
             android:text="TextView"
             android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_riesgo"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/mp_tipo" />
+            app:layout_constraintStart_toEndOf="@+id/mp_tipo"
+            app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
         <ImageView
             android:id="@+id/img_riesgo"
             android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/green_light" />
+            app:srcCompat="@drawable/ic_alertaverde" />
 
     </android.support.constraint.ConstraintLayout>
 
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-
-        <ImageView
-            android:id="@+id/mp_imgdet"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginBottom="2dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="2dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/mp_txdet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
+
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="2dp"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
-
+            android:fontFamily="@font/asap"
             android:maxLines="5"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textColor="@color/colorNegro"
+            android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/mp_imgdet"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            tools:text="Descripcion de la observacion" />
+
+        <ImageView
+            android:id="@+id/mp_imgdet"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mp_txdet"
+            app:srcCompat="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/tx_comentario"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="5dp"
+            android:layout_marginEnd="8dp"
+            android:text="Comentarios"
+            android:textAlignment="textEnd"
+            android:textSize="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mp_imgdet" />
+
     </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/tx_comentario"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginRight="12dp"
-        android:text="Comentarios"
-        android:textAlignment="textEnd"
-        android:layout_gravity="center_vertical"
-        />
-
-
-
 
 
 </LinearLayout>

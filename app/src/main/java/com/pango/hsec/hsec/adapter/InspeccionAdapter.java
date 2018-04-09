@@ -2,9 +2,7 @@ package com.pango.hsec.hsec.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +15,10 @@ import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
-import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -122,6 +120,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             Glide.with(context)
                     .load(Url_img)
                     .override(50, 50)
+                    .transform(new CircleTransform(getContext())) // applying the image transformer
                     .into(img_perfil);
         }
 
@@ -159,13 +158,13 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             txdetcompleta.setText(tempDetalle[0].trim());
             switch (tempRiesgo[0]){
                 case "BA":
-                    riesgo1.setImageResource(R.drawable.green_light);
+                    riesgo1.setImageResource(R.drawable.ic_alertaverde);
                     break;
                 case "ME":
-                    riesgo1.setImageResource(R.drawable.yellow_light);
+                    riesgo1.setImageResource(R.drawable.ic_alerta_amarilla);
                     break;
                 case "AL":
-                    riesgo1.setImageResource(R.drawable.red_light);
+                    riesgo1.setImageResource(R.drawable.ic_alertaroja);
                     break;
 
             }
@@ -177,26 +176,26 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
             switch (tempRiesgo[0]){
                 case "BA":
-                    riesgo1.setImageResource(R.drawable.green_light);
+                    riesgo1.setImageResource(R.drawable.ic_alertaverde);
                     break;
                 case "ME":
-                    riesgo1.setImageResource(R.drawable.yellow_light);
+                    riesgo1.setImageResource(R.drawable.ic_alerta_amarilla);
                     break;
                 case "AL":
-                    riesgo1.setImageResource(R.drawable.red_light);
+                    riesgo1.setImageResource(R.drawable.ic_alertaroja);
                     break;
 
             }
 
             switch (tempRiesgo[1]){
                 case "BA":
-                    riesgo2.setImageResource(R.drawable.green_light);
+                    riesgo2.setImageResource(R.drawable.ic_alertaverde);
                     break;
                 case "ME":
-                    riesgo2.setImageResource(R.drawable.yellow_light);
+                    riesgo2.setImageResource(R.drawable.ic_alerta_amarilla);
                     break;
                 case "AL":
-                    riesgo2.setImageResource(R.drawable.red_light);
+                    riesgo2.setImageResource(R.drawable.ic_alertaroja);
                     break;
 
             }
@@ -206,37 +205,37 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             tx_det3.setText(tempDetalle[2]);
             switch (tempRiesgo[0]){
                 case "BA":
-                    riesgo1.setImageResource(R.drawable.green_light);
+                    riesgo1.setImageResource(R.drawable.ic_alertaverde);
                     break;
                 case "ME":
-                    riesgo1.setImageResource(R.drawable.yellow_light);
+                    riesgo1.setImageResource(R.drawable.ic_alerta_amarilla);
                     break;
                 case "AL":
-                    riesgo1.setImageResource(R.drawable.red_light);
+                    riesgo1.setImageResource(R.drawable.ic_alertaroja);
                     break;
 
             }
 
             switch (tempRiesgo[1]){
                 case "BA":
-                    riesgo2.setImageResource(R.drawable.green_light);
+                    riesgo2.setImageResource(R.drawable.ic_alertaverde);
                     break;
                 case "ME":
-                    riesgo2.setImageResource(R.drawable.yellow_light);
+                    riesgo2.setImageResource(R.drawable.ic_alerta_amarilla);
                     break;
                 case "AL":
-                    riesgo2.setImageResource(R.drawable.red_light);
+                    riesgo2.setImageResource(R.drawable.ic_alertaroja);
                     break;
         }
             switch (tempRiesgo[2]) {
                 case "BA":
-                    riesgo3.setImageResource(R.drawable.green_light);
+                    riesgo3.setImageResource(R.drawable.ic_alertaverde);
                     break;
                 case "ME":
-                    riesgo3.setImageResource(R.drawable.yellow_light);
+                    riesgo3.setImageResource(R.drawable.ic_alerta_amarilla);
                     break;
                 case "AL":
-                    riesgo3.setImageResource(R.drawable.red_light);
+                    riesgo3.setImageResource(R.drawable.ic_alertaroja);
                     break;
 
             }
@@ -248,7 +247,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             tx_det1.setText(tempDetalle[0]);
             switch (tempRiesgo[0]){
                 case "BA":
-                    riesgo1.setImageResource(R.drawable.green_light);
+                    riesgo1.setImageResource(R.drawable.ic_alaertaverde);
                     break;
                 case "ME":
                     riesgo1.setImageResource(R.drawable.yellow_light);
@@ -276,7 +275,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
         if (tempRiesgo.equals("BA")) {
             //riesgo.setCardBackgroundColor(Color.GREEN);
-            riesgo.setImageResource(R.drawable.green_light);
+            riesgo.setImageResource(R.drawable.ic_alaertaverde);
 
         } else if (tempRiesgo.equals("ME")) {
             //riesgo.setCardBackgroundColor(Color.YELLOW);

@@ -26,6 +26,10 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
         this.items = items;
     }
 
+    public void add(GaleriaModel newdata){
+        items.add(newdata);
+        notifyDataSetChanged();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -42,19 +46,25 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
         String ext=exts[exts.length-1];
         switch (ext) {
             case "pdf":
-                idIcon = R.drawable.ic_content_file;
+                idIcon = R.drawable.ic_pdf;
                 break;
             case "doc":
             case "docx":
+                idIcon = R.drawable.ic_word;
+                break;
             case "ppt":
             case "pptx":
+                idIcon = R.drawable.ic_ppt;
+                break;
             case "xls":
             case "xlsx":
+                idIcon = R.drawable.ic_xlsx;
+                break;
             case "odt":
                 idIcon = R.drawable.ic_contrata;
                 break;
             default:
-                idIcon = R.drawable.ic_2_aprob;
+                idIcon = R.drawable.ic_contrata;
         }
         viewHolder.imageView.setImageResource(idIcon);
         viewHolder.textView.setText(items.get(position).Descripcion);

@@ -34,7 +34,7 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
         //tablaViewHolder.descripcion.setText(GlobalVariables.getDescripcion(GlobalVariables.Aspectos_Obs, em.CodSubtipo));
 
         //tablaViewHolder.descripcion.setText();
-        tablaViewHolder.opciones.setImageResource(R.drawable.icon_check);
+        tablaViewHolder.opciones.setImageResource(R.drawable.ic_correcto);
 
         if(em.CodTipo.equals("OBSR")){
             tablaViewHolder.descripcion.setText(GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs, em.Descripcion));
@@ -52,7 +52,7 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
 
 /*
         if(aspectoModel.get(i).Descripcion.isEmpty()){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_na);
+            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_noaplica);
         }else if (aspectoModel.get(i).Descripcion.equals("R001")){
             aspectoViewHolder.opciones.setImageResource(R.drawable.icon_check);
         }else if(aspectoModel.get(i).Descripcion.equals("R002")){

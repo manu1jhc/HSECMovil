@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -14,8 +15,11 @@ import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.ObsDetalleModel;
+import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
+import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
@@ -29,9 +33,20 @@ import java.util.regex.Pattern;
 
 public class GlobalVariables implements IActivity {
 
+
+    //variables de edicion Observaciones
+    public static ObservacionModel Obserbacion= new ObservacionModel();
+    public static ObsDetalleModel ObserbacionDetalle= new ObsDetalleModel();
+    public static String ObserbacionFile;
+    public static List<GaleriaModel> listaGaleria =new ArrayList<>();
+    public static List<GaleriaModel> listaArchivos =new ArrayList<>();
+
+    public static ArrayList<PlanModel> Planes= new  ArrayList<>();
+    public static boolean ObjectEditable=true;
+
     //public static String Urlbase2 = "entrada/getpaginated/";
-    public  static int con_status=0;
-    public  static int con_status_post=0;
+    public static int con_status=0;
+    public static int con_status_post=0;
 
     public static String token_auth="";
 
@@ -147,23 +162,26 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> Clasificacion_Obs = new ArrayList<>();
     public static  ArrayList<Maestro> CondicionComp_Obs = new ArrayList<>();
 
-
     public static  ArrayList<Maestro> TipoAutenticacion = new ArrayList<>();
     public static  ArrayList<Maestro> Sexo = new ArrayList<>();
-//
-
 
     public static int paginacion=1;
 
-    public static String TipoObservacion = "TO01";
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
         for (Maestro o : Obj  ) {
             if(o.CodTipo.equals(value)) return o.Descripcion;
         }
         return "";
     }
-    public static  ArrayList<Maestro> SuperInt_Busq = new ArrayList<>();
 
+    public static int indexOf(ArrayList<Maestro> Obj, String value){
+        for (int i=0;i<Obj.size();i++  ) {
+            if(Obj.get(i).CodTipo.equals(value)) return i;
+        }
+        return 0;
+    }
+    public static  ArrayList<Maestro> SuperInt_Busq = new ArrayList<>();
+    public static Activity activity;
     public static void LoadData() {
         if(Ubicaciones_obs.isEmpty())GetMaestroLocal("UBIC");
         if(Gerencia.isEmpty())GetMaestroLocal("GERE");
@@ -283,6 +301,13 @@ public class GlobalVariables implements IActivity {
 
         Referencia_Plan.add(new Maestro("01", "Observaciones"));
         Referencia_Plan.add(new Maestro("02", "Inspecciones"));
+        Referencia_Plan.add(new Maestro("03","Incidentes"));
+        Referencia_Plan.add(new Maestro("04","IPERC"));
+        Referencia_Plan.add(new Maestro("05","Auditorias"));
+        Referencia_Plan.add(new Maestro("06","Simulacros"));
+        Referencia_Plan.add(new Maestro("07","Reuniones"));
+        Referencia_Plan.add(new Maestro("08","Comites"));
+        Referencia_Plan.add(new Maestro("09","Capacitaciones"));
 
         Estado_Plan.add(new Maestro("01","Pendiente"));
         Estado_Plan.add(new Maestro("02","Atendido"));
@@ -405,9 +430,6 @@ public class GlobalVariables implements IActivity {
 
     public static String CodObs="";
 
-    public static List<GaleriaModel> listaGaleria =new ArrayList<GaleriaModel>();
-    public static List<GaleriaModel> listaArchivos =new ArrayList<GaleriaModel>();
-
     public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
 
     public static int con_status_video=200;
@@ -489,8 +511,8 @@ public class GlobalVariables implements IActivity {
     }
 
     public static String Recuperar_data(String Variable) {
-        Context applicationContext = MainActivity.getContextOfApplication() ;
-        SharedPreferences VarMaestros =  applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
+       // Context applicationContext = MainActivity.getContextOfApplication() ;
+        SharedPreferences VarMaestros =  activity.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
         String ListaMaestro = VarMaestros.getString(Variable,"");
         return ListaMaestro;
     }

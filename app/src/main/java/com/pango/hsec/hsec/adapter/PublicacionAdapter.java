@@ -2,11 +2,6 @@ package com.pango.hsec.hsec.adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,20 +11,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.pango.hsec.hsec.Busquedas.Busqueda;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
-import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Andre on 15/12/2017.
@@ -88,15 +80,15 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             riesgo.setVisibility(View.INVISIBLE);
         }else if (tempRiesgo.equals("BA")) {
             //riesgo.setCardBackgroundColor(Color.GREEN);
-            riesgo.setImageResource(R.drawable.green_light);
+            riesgo.setImageResource(R.drawable.ic_alertaverde);
 
         } else if (tempRiesgo.equals("ME")) {
             //riesgo.setCardBackgroundColor(Color.YELLOW);
-            riesgo.setImageResource(R.drawable.yellow_light);
+            riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
 
         } else {
             //riesgo.setCardBackgroundColor(Color.RED);
-            riesgo.setImageResource(R.drawable.red_light);
+            riesgo.setImageResource(R.drawable.ic_alertaroja);
 
         }
 
@@ -143,6 +135,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             Glide.with(context)
                     .load(Url_img)
                     .override(50, 50)
+                    .transform(new CircleTransform(getContext())) // applying the image transformer
                     .into(img_perfil);
         }
 

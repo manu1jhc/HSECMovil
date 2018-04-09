@@ -9,4 +9,14 @@ public class PersonaModel {
     public String Nombres;
     public String NroDocumento;
     public String Cargo;
+
+    public PersonaModel(){}
+    public PersonaModel(String CodPersona,String Nombres, String NroDocumento,String Cargo) {
+        this.CodPersona = CodPersona;
+        this.Nombres = Nombres;
+        this.NroDocumento = NroDocumento;
+        this.Cargo = Cargo;
+    }
 }
+
+

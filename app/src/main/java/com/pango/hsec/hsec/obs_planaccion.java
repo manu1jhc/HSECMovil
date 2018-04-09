@@ -4,22 +4,35 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.adapter.PlanEditAdapter;
+import com.pango.hsec.hsec.model.PlanModel;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class obs_planaccion extends Fragment {
 
     private static View mView;
-    private ListView listPlan;
+    private RecyclerView listPlan;
+    private PlanEditAdapter listViewAdapter;
+    private  Gson gson;
     public static final com.pango.hsec.hsec.obs_planaccion newInstance(String sampleText) {
         obs_planaccion f = new obs_planaccion();
 
@@ -30,43 +43,70 @@ public class obs_planaccion extends Fragment {
         return f;
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        mView = inflater.inflate(R.layout.fragment_obs_planaccion,
-                container, false);
-
+        mView = inflater.inflate(R.layout.fragment_obs_planaccion, container, false);
+        gson = new Gson();
         ImageButton btnAddPlan=(ImageButton) mView.findViewById(R.id.btn_addplan);
        /* mImageSampleRecycler = (RecyclerView) mView.findViewById(R.id.images_sample);
         setupRecycler();*/
-        listPlan = (ListView)  mView.findViewById(R.id.list_plan);
+        listPlan = (RecyclerView) mView.findViewById(R.id.list_plan);
+
+        String codigo_obs = getArguments().getString("bString");
+        if(GlobalVariables.ObjectEditable){ // load data of server
+
+        }
+        else // new Obserbacion
+        {
+            if(GlobalVariables.ObserbacionFile==null){
+                GlobalVariables.ObserbacionFile=codigo_obs;
+            }
+            else if(!GlobalVariables.ObserbacionFile.contains("XYZ")){
+                GlobalVariables.Planes= new ArrayList<>();
+            }
+        }
+
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        listPlan.setLayoutManager(horizontalManager);
+        listViewAdapter = new PlanEditAdapter(getActivity(),this, GlobalVariables.Planes);
+        listPlan.setAdapter(listViewAdapter);
 
         btnAddPlan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), PlanAccionEdit.class);
-                i.putExtra("CodAccion", "-1");
-                getActivity().startActivityForResult(i, 1);
+               PlanModel Plan= new PlanModel();
+                Plan.CodTabla="TOBS";
+                Plan.CodReferencia="01";
+                Plan.CodAccion="0";
+                i.putExtra("Plan", gson.toJson(Plan));
+                startActivityForResult(i, 1);
             }
         });
+
         return mView;
     }
 
-    /*@Override
-    public void onActivityCreated(Bundle savedInstanceState) {  // activity Edit
-        super.onActivityCreated(savedInstanceState);
-        // some code
-        Intent i = new Intent(getActivity(), PlanAccionEdit.class);
-        i.putExtra("CodAccion", CodAccion);
-        getActivity().startActivityForResult(i, 1);
-    }*/
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
-        getActivity();
-        if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            //some code
+        //listViewAdapter.onActivityResult(requestCode, resultCode, data);
+        try{
+            if(requestCode == 1 && resultCode == Activity.RESULT_OK) { // new plan
+                PlanModel plan= gson.fromJson(data.getStringExtra("planaccion"),PlanModel.class);
+                listViewAdapter.add(plan);
+            }
+            if(requestCode == 2 && resultCode == Activity.RESULT_OK) { // edit plan
+                Gson gson = new Gson();
+                PlanModel plan= gson.fromJson(data.getStringExtra("planaccion"),PlanModel.class);
+                listViewAdapter.replace(plan);
+            }
+        }
+        catch (Exception ex) {
+            Toast.makeText(getContext(), ex.toString(),
+                    Toast.LENGTH_SHORT).show();
         }
     }
+
 }
