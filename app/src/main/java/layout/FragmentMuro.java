@@ -205,10 +205,13 @@ public class FragmentMuro extends Fragment implements IActivity{
         btn_galeria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"Click en boton camara",Toast.LENGTH_SHORT).show();
-             /*   Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
-                startActivityForResult(gallery, PICK_IMAGE);
-                */
+
+
+                GlobalVariables.ObjectEditable=false;
+                Intent intent = new Intent(getContext(),observacion_edit.class);
+                intent.putExtra("codObs", "OBS000000XYZ");
+                intent.putExtra("posTab", 2);
+                startActivity(intent);
             }
         });
 
@@ -368,6 +371,8 @@ public class FragmentMuro extends Fragment implements IActivity{
             public void onClick(View v) {
                 GlobalVariables.ObjectEditable=false;
                 Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
+                obserbacion_edit.putExtra("codObs", "OBS000000XYZ");
+                obserbacion_edit.putExtra("posTab", 0);
                 startActivity(obserbacion_edit);
             }
         });
