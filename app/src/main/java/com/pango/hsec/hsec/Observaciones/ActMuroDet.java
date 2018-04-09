@@ -204,7 +204,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
         // TODO Put here your Tabs
         ActMuroDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("Cabecera"));
+                this.mTabHost.newTabSpec("Tab1").setIndicator("Observación"));
         ActMuroDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
         ActMuroDet.AddTab(this, this.mTabHost,

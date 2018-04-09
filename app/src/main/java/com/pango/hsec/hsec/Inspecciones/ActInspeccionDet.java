@@ -167,7 +167,7 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
 
         // TODO Put here your Tabs
         ActInspeccionDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("Inspecciones"));
+                this.mTabHost.newTabSpec("Tab1").setIndicator("Inspección"));
         ActInspeccionDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab2").setIndicator("Participantes"));
         ActInspeccionDet.AddTab(this, this.mTabHost,

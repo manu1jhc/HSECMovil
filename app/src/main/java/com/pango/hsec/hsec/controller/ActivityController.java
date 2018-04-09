@@ -155,8 +155,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             }
         }
 
-
-
     }
 
     @Override

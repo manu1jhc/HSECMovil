@@ -134,7 +134,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         mTabHost.setup();
 
         // TODO Put here your Tabs
-        observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab1").setIndicator("Cabecera"));
+        observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab1").setIndicator("Observación"));
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab3").setIndicator("Archivos"));
         observacion_edit.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator("Plan Accion"));

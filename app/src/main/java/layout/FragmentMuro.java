@@ -149,7 +149,7 @@ public class FragmentMuro extends Fragment implements IActivity{
         url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+"7";
 
         //GlobalVariables.count=5;
-      //  GlobalVariables.LoadData();
+        GlobalVariables.LoadData();
 
         if(GlobalVariables.listaGlobal.size()==0){
             final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);

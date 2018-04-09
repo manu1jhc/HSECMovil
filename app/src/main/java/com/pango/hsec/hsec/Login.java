@@ -165,7 +165,6 @@ public class Login extends AppCompatActivity implements IActivity{
 
             GlobalVariables.activity= this;
             GlobalVariables.loadObs_Detalles();
-            GlobalVariables.LoadData();
             if(check_rec.isChecked()){
                 //guardar estado del check, user pass
                 Save_status(true);

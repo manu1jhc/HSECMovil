@@ -11,10 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/colorBtnBeige"
-        app:layout_constraintTop_toBottomOf="@+id/btn_addplan"
-        tools:layout_editor_absoluteX="0dp"
         android:orientation="vertical"
-        tools:ignore="MissingConstraints,NotSibling">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/text_tarea"
