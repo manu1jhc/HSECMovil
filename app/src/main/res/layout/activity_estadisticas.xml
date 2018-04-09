@@ -152,7 +152,7 @@
     </android.support.v7.widget.CardView>
 
     <ListView
-        android:id="@+id/list_estadistica"
+        android:id="@+id/list_estadistica2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
 

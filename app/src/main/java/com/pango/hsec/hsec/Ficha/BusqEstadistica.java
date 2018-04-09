@@ -98,6 +98,15 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         tx_texto =(TextView) findViewById(R.id.tx_texto);
 
         list_estadistica=findViewById(R.id.list_estadistica);
+       /* list_estadistica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(),"Click en "+position,Toast.LENGTH_SHORT).show();
+            }
+        });
+*/
+
+
         sp_anio=findViewById(R.id.spinner_anio);
         sp_mes=findViewById(R.id.spinner_mes);
 
@@ -239,7 +248,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
             public void onRefresh() {
                 GlobalVariables.istabs=false;// para que no entre al flag de tabs
-
+                GlobalVariables.isFragment=true;
                 //is_swipe=false;
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
@@ -253,7 +262,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 loadingTop=true;
                 GlobalVariables.listaGlobalFiltro.clear(); //crear segun el formato
                 GlobalVariables.listaPlanMin.clear(); //crear segun el formato
-
                 //GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
@@ -263,7 +271,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 //ObservacionModel observacionModel=new ObservacionModel();
                 //tipo_busqueda=1;
                 String jsonR = "";
-
+                Utils.isActivity=false;
                 if(descripcion.equals("Observaciones")) {
                     flagObsFiltro=true;
 
@@ -281,8 +289,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                     Gson gson = new Gson();
                     jsonR = gson.toJson(Utils.observacionModel);
-                    Utils.isActivity = true;
-                    GlobalVariables.istabs = false;
+                    //Utils.isActivity = true;
                     url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
 
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
@@ -306,8 +313,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     Gson gson = new Gson();
                     jsonR = gson.toJson(Utils.inspeccionModel);
 
-                    Utils.isActivity = true;
-                    GlobalVariables.istabs = false;
+                    //Utils.isActivity = true;
                     url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
 
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
@@ -325,7 +331,8 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                     //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
                     GlobalVariables.flagUpSc=true;
-                    Utils.isActivity = true;
+
+                    //Utils.isActivity = true;
                     //GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
                     final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this);
@@ -370,6 +377,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 }
                 if (downFlag && scrollState == SCROLL_STATE_IDLE) {
                     downFlag = false;
+                    GlobalVariables.istabs=false;
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
@@ -502,11 +510,13 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
 
 
+
+
         list_estadistica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
-
+                GlobalVariables.istabs=false;
 
                 if(descripcion.equals("Observaciones")) {
                     String CodObservacion=GlobalVariables.listaGlobalFiltro.get(position).Codigo;
@@ -560,6 +570,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 //Utils.isActivity=true;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
+
                 mes= (mes_pos < 10 ? "0" : "")+mes_pos;
 
                 Calendar calFin = Calendar.getInstance();
@@ -595,6 +606,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
 
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
                     final ActivityController obj2 = new ActivityController("post", url, BusqEstadistica.this);
                     obj2.execute(json);
 
@@ -851,4 +863,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
     }
+
+
+
 }

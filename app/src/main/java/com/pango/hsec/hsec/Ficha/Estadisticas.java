@@ -38,7 +38,7 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_estadisticas);
         btn_buscar_e=findViewById(R.id.btn_buscar_e);
-        list_estadistica=findViewById(R.id.list_estadistica);
+        list_estadistica=findViewById(R.id.list_estadistica2);
         sp_anio=findViewById(R.id.spinner_anio);
         sp_mes=findViewById(R.id.spinner_mes);
 
