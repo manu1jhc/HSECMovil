@@ -114,8 +114,7 @@
             android:name=".PlanAccionEdit"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".Ficha.Capacitaciones"
             android:screenOrientation="portrait"
@@ -137,27 +136,30 @@
             android:name=".Ficha.FichaPersona"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".Ficha.BusqEstadistica"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".Ficha.PlanAccionDet"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".Ficha.PlanAccionDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".Ficha.RegistroAtencion"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".Ficha.RegistroAtencion"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity
-            android:name=".Ficha.AddRegistroAvance"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
+        <activity android:name=".Ficha.AddRegistroAvance"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+ />
+        <activity android:name=".Facilito.report_obs"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+
         <activity android:name=".Ingresos.Inspecciones.AddInspeccion"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
