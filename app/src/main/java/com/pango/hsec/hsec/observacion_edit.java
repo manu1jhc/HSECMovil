@@ -23,7 +23,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     ImageButton close;
     HorizontalScrollView horizontalsv;
     String CodObservacion;
-
+    int pos;
     ;
     //TabHost tabHost;
     //
@@ -37,6 +37,8 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
 
         Bundle datos = this.getIntent().getExtras();
         CodObservacion="OBS000000XYZ";
+        CodObservacion=datos.getString("codObs");
+        pos=datos.getInt("posTab");
         //if(GlobalVariables.ObjectEditable) CodObservacion=datos.getString("Observacion");
 
 
@@ -92,8 +94,17 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     // Manages the Page changes, synchronizing it with Tabs
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        int pos = this.mViewPager.getCurrentItem();
+     /*   int pos = this.mViewPager.getCurrentItem();
         this.mTabHost.setCurrentTab(pos);
+*/
+        if(pos==2){
+            //pos = this.mViewPager.getCurrentItem();
+            this.mTabHost.setCurrentTab(2);
+            pos=0;
+        }else{
+            pos = this.mViewPager.getCurrentItem();
+            this.mTabHost.setCurrentTab(pos);
+        }
 
         View tabView = mTabHost.getTabWidget().getChildAt(position);
         if (tabView != null)
@@ -116,7 +127,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         // TODO Put here your Fragments
         obs_cabecera f1 = obs_cabecera.newInstance(CodObservacion);
         obs_detalle1 f2 = obs_detalle1.newInstance(CodObservacion);
-        obs_archivos f4 = obs_archivos.newInstance(CodObservacion);
+        obs_archivos f4 = obs_archivos.newInstance(CodObservacion,pos);
         obs_planaccion f5=obs_planaccion.newInstance(CodObservacion);
 
 

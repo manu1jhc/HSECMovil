@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.pango.hsec.hsec.Facilito.report_obs;
+import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.observacion_edit;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +32,7 @@ public class FragmentRegistroIO extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    Button btn_obs;
+    Button btn_obs,btn_newobs;
     private static View mView;
 
     private OnFragmentInteractionListener mListener;
@@ -76,12 +78,22 @@ public class FragmentRegistroIO extends Fragment {
 
         mView= inflater.inflate(R.layout.fragment_registro_io, container, false);
         btn_obs=(Button) mView.findViewById(R.id.btn_obs);
+        btn_newobs=(Button) mView.findViewById(R.id.btn_observacion);
         btn_obs.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
 
                 // Start NewActivity.class
                 Intent myIntent = new Intent(getActivity(), report_obs.class);
                 startActivity(myIntent);
+            }
+        });
+        btn_newobs.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View arg0) {
+                GlobalVariables.ObjectEditable=false;
+                Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
+                obserbacion_edit.putExtra("codObs", "OBS000000XYZ");
+                obserbacion_edit.putExtra("posTab", 0);
+                startActivity(obserbacion_edit);
             }
         });
         return  mView;

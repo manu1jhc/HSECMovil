@@ -70,6 +70,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     private GridViewAdapter gridViewAdapter;
 
     ProgressDialog progressDialog;
+    int position=0;
     final String[] ACCEPT_MIME_TYPES = {
             "application/pdf",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -81,11 +82,12 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
             "application/vnd.ms-excel"
     };
 
-    public static final com.pango.hsec.hsec.obs_archivos newInstance(String sampleText) {
+    public static final com.pango.hsec.hsec.obs_archivos newInstance(String sampleText, int pos) {
         obs_archivos f = new obs_archivos();
 
         Bundle b = new Bundle();
         b.putString("bString", sampleText);
+        b.putInt("bPos", pos);
         f.setArguments(b);
 
         return f;
@@ -96,7 +98,11 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
         mView = inflater.inflate(R.layout.fragment_obs_archivos,  container, false);
         String codigo_obs = getArguments().getString("bString");
-
+        if(position==0)position = getArguments().getInt("bPos");
+        if (position==2){
+            position=1;
+            loadImage();
+        }
 
         ImageButton btnFotos=(ImageButton) mView.findViewById(R.id.btn_addfotos);
         ImageButton btnFiles=(ImageButton) mView.findViewById(R.id.btn_addfiles);
