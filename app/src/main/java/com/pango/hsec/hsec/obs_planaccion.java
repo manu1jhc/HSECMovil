@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.PlanEditAdapter;
+import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.GetPlanModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
 import java.text.DateFormat;
@@ -27,7 +29,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class obs_planaccion extends Fragment {
+public class obs_planaccion extends Fragment implements IActivity{
 
     private static View mView;
     private RecyclerView listPlan;
@@ -54,22 +56,20 @@ public class obs_planaccion extends Fragment {
 
         String codigo_obs = getArguments().getString("bString");
         if(GlobalVariables.ObjectEditable){ // load data of server
-
+            String url=GlobalVariables.Url_base+"PlanAccion/GetPlanes/"+codigo_obs;
+            final ActivityController obj = new ActivityController("get", url, obs_planaccion.this);
+            obj.execute("");
         }
         else // new Obserbacion
         {
-            if(GlobalVariables.ObserbacionFile==null){
-                GlobalVariables.ObserbacionFile=codigo_obs;
-            }
-            else if(!GlobalVariables.ObserbacionFile.contains("XYZ")){
+            if(GlobalVariables.ObserbacionFile==null || !GlobalVariables.ObserbacionFile.contains("XYZ")){
+
                 GlobalVariables.Planes= new ArrayList<>();
             }
+            GlobalVariables.ObserbacionFile=codigo_obs;
+            setdata();
         }
 
-        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        listPlan.setLayoutManager(horizontalManager);
-        listViewAdapter = new PlanEditAdapter(getActivity(),this, GlobalVariables.Planes);
-        listPlan.setAdapter(listViewAdapter);
 
         btnAddPlan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,6 +85,12 @@ public class obs_planaccion extends Fragment {
         });
 
         return mView;
+    }
+    public void setdata(){
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        listPlan.setLayoutManager(horizontalManager);
+        listViewAdapter = new PlanEditAdapter(getActivity(),this, GlobalVariables.Planes);
+        listPlan.setAdapter(listViewAdapter);
     }
 
     @Override
@@ -109,4 +115,19 @@ public class obs_planaccion extends Fragment {
         }
     }
 
+    @Override
+    public void success(String data, String Tipo) {
+        GlobalVariables.Planes = gson.fromJson(data, GetPlanModel.class).Data;
+        setdata();
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
+    }
 }

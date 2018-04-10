@@ -2,11 +2,15 @@ package com.pango.hsec.hsec.controller;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.model.GetMaestroModel;
+import com.pango.hsec.hsec.model.Maestro;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -34,6 +38,17 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     }
 
     @Override
+    protected void onPreExecute() {
+
+        super.onPreExecute();
+        progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
+       /* if (opcion == "get") {
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
+        }*/
+    }
+
+    @Override
     protected Void doInBackground(String... strings) {
         try {
             HttpClient httpClient = new DefaultHttpClient();
@@ -50,30 +65,17 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 //Utils.token=respstring2.substring(1, respstring2.length() - 1);
 
             }
-
             //conseguir la data de usuario
-
-            Obtener_dataUser(GlobalVariables.token_auth);
-
-
+            if(GlobalVariables.token_auth.length()>40) {
+                Obtener_dataUser();
+                LoadData();
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return null;
-    }
-
-
-    @Override
-    protected void onPreExecute() {
-
-        super.onPreExecute();
-        progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
-       /* if (opcion == "get") {
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
-        }*/
     }
 
     @Override
@@ -118,12 +120,12 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     }
 
 
-    public void Obtener_dataUser(String Token){
+    public void Obtener_dataUser(){
 
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(GlobalVariables.Url_base+"usuario/getdata/");
-            get.setHeader("Authorization", "Bearer " +Token);
+            get.setHeader("Authorization", "Bearer " +GlobalVariables.token_auth);
 
             //get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
             HttpResponse response;
@@ -135,12 +137,92 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
     }
 
+    public void LoadData(){
+        GlobalVariables.loadObs_Detalles();
 
+        SharedPreferences VarMaestros = ((Context)activity).getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
+        String ListaMaestro = VarMaestros.getString("MaestroAll","");
 
+        if(ListaMaestro=="" || ListaMaestro.contains("Count\":-1")){
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+                HttpGet get = new HttpGet(GlobalVariables.Url_base+"Maestro/GetTipoMaestro/ALL");
+                get.setHeader("Authorization", "Bearer " +GlobalVariables.token_auth);
+                //get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
+                HttpResponse response;
+
+                response = httpClient.execute(get);
+                if(response.getStatusLine().getStatusCode()==200){
+                    ListaMaestro = EntityUtils.toString(response.getEntity());
+                    SharedPreferences.Editor editor = VarMaestros.edit();
+                    editor.putString("MaestroAll", String.valueOf(ListaMaestro));
+                    editor.commit();
+                    Setdata(ListaMaestro);
+                }
+                else  Toast.makeText((Context) activity,"Ocurrio un error al cargar datos del sistemas",Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else Setdata(ListaMaestro);
+    }
+
+    public void Setdata(String data){
+        Gson gson = new Gson();
+        GetMaestroModel getMaestroModel = gson.fromJson(data, GetMaestroModel.class);
+        for (Maestro item: getMaestroModel.Data ) {
+            switch (item.Codigo)
+            {
+                case "UBIC":
+                    GlobalVariables.Ubicaciones_obs.add(item);
+                    break;
+                case "GERE":
+                    GlobalVariables.Gerencia.add(item);
+                    break;
+                case "SUPE":
+                    GlobalVariables.SuperIntendencia.add(item);
+                    break;
+                case "PROV":
+                    GlobalVariables.Contrata.add(item);
+                    break;
+                //observacion
+                case "HHAR":
+                    GlobalVariables.HHA_obs.add(item);
+                    break;
+                case "ACTR":
+                    GlobalVariables.Actividad_obs.add(item);
+                    break;
+                case "TPOB":
+                    GlobalVariables.Tipo_obs2.add(item);
+                    break;
+                case "ESOB":
+                    GlobalVariables.Estado_obs.add(item);
+                    break;
+                case "EROB":
+                    GlobalVariables.Error_obs.add(item);
+                    break;
+                //inspecciones
+                case "ASPO":
+                    GlobalVariables.Aspecto_Obs.add(item);
+                    break;
+                case "TPIN":
+                    GlobalVariables.Tipo_insp.add(item);
+                    break;
+                //Plan de Accion
+                case "AREA":
+                    GlobalVariables.Area_obs.add(item);
+                    break;
+                case "TPAC":
+                    GlobalVariables.Tipo_Plan.add(item);
+                    break;
+                /*default:
+                    break;*/
+            }
+        }
+
+        GlobalVariables.Ubicacion_obs=GlobalVariables.loadUbicacion("",1);
+    }
 
 }

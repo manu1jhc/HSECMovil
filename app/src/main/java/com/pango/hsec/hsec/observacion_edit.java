@@ -23,7 +23,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     ImageButton close;
     HorizontalScrollView horizontalsv;
     String CodObservacion;
-    int pos;
+    int pos=0;
     ;
     //TabHost tabHost;
     //
@@ -36,15 +36,9 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
         Bundle datos = this.getIntent().getExtras();
-        CodObservacion="OBS000000XYZ";
         CodObservacion=datos.getString("codObs");
         pos=datos.getInt("posTab");
         //if(GlobalVariables.ObjectEditable) CodObservacion=datos.getString("Observacion");
-
-
-        GlobalVariables.activity= this;
-        GlobalVariables.loadObs_Detalles();
-        GlobalVariables.LoadData();
 
         initialiseTabHost();
 
@@ -94,9 +88,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
     // Manages the Page changes, synchronizing it with Tabs
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-     /*   int pos = this.mViewPager.getCurrentItem();
-        this.mTabHost.setCurrentTab(pos);
-*/
+
         if(pos==2){
             //pos = this.mViewPager.getCurrentItem();
             this.mTabHost.setCurrentTab(2);

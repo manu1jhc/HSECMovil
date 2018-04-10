@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 import android.widget.TabWidget;
@@ -55,7 +56,7 @@ public class B_observaciones extends AppCompatActivity {
     boolean escogioFecha;
     String fechaEscogida;
     boolean ultima_fecha=true;
-    ImageButton btn_buscar_p;
+    ImageView btn_buscar_p;
     String datos_user;
     String codUser;
     ArrayAdapter adapterSuperInt;
@@ -82,7 +83,7 @@ public class B_observaciones extends AppCompatActivity {
         btnFechaInicio=(Button) findViewById(R.id.btn_fecha_desde);
         btnFechaFin=(Button) findViewById(R.id.btn_fecha_fin);
         btnbuscar=(Button) findViewById(R.id.btn_buscar_obs);
-        btn_buscar_p=(ImageButton) findViewById(R.id.btn_buscar_p);
+        btn_buscar_p=(ImageView) findViewById(R.id.btn_buscar_p);
         id_persona=(TextView) findViewById(R.id.id_persona);
 
         area_data= new ArrayList<>();

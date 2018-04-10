@@ -38,7 +38,7 @@
             android:textColor="@color/colorNegro"
             android:textSize="12sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/img_riesgo"
+            app:layout_constraintEnd_toStartOf="@+id/btn_editar"
             app:layout_constraintStart_toEndOf="@+id/mp_profile"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="spread_inside" />
@@ -84,15 +84,24 @@
             app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
         <ImageView
+            android:id="@+id/btn_editar"
+            android:layout_width="35dp"
+            android:layout_height="28dp"
+            android:layout_marginEnd="4dp"
+            android:background="@color/colorBlanco"
+            android:src="@drawable/ic_3puntos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:id="@+id/img_riesgo"
             android:layout_width="20dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_editar"
             app:srcCompat="@drawable/ic_alertaverde" />
 
     </android.support.constraint.ConstraintLayout>
@@ -126,6 +135,7 @@
             android:id="@+id/mp_imgdet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
             android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -135,9 +145,8 @@
 
         <TextView
             android:id="@+id/tx_comentario"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="20dp"
-            android:layout_gravity="center_vertical"
             android:layout_marginBottom="5dp"
             android:layout_marginEnd="8dp"
             android:text="Comentarios"
@@ -145,7 +154,6 @@
             android:textSize="15dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mp_imgdet" />
 
     </android.support.constraint.ConstraintLayout>

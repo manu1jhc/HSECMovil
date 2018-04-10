@@ -1,19 +1,10 @@
 package com.pango.hsec.hsec;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
-import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
@@ -31,7 +22,7 @@ import java.util.regex.Pattern;
  * Created by Andre on 12/12/2017.
  */
 
-public class GlobalVariables implements IActivity {
+public class GlobalVariables  {
 
 
     //variables de edicion Observaciones
@@ -54,7 +45,6 @@ public class GlobalVariables implements IActivity {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
-
 
     public static Stack<Fragment> fragmentStack= new Stack<Fragment>();
 
@@ -90,19 +80,12 @@ public class GlobalVariables implements IActivity {
     public static String json_user="";
 
     public static String nombre="";
-    //public static String dni="";
-    //public static String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
-    //public static String[] obsDetIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 
     public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
     public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 
-
-
     public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","SolicitadoPor","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
     public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Actividad relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
-
-
 
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
     public static String[] busqueda_mes={"-","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
@@ -129,7 +112,6 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> NivelRiesgo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Ubicaciones_obs = new ArrayList<>();
 
-
     public static  ArrayList<Maestro> Ubicacion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> SubUbicacion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> UbicacionEspecifica_obs = new ArrayList<>();
@@ -142,8 +124,6 @@ public class GlobalVariables implements IActivity {
     public static  ArrayList<Maestro> Estado_Plan = new ArrayList<>();
 
     public static  ArrayList<Maestro> Tablas = new ArrayList<>();
-
-
 
     //Obserbacion Detalle
     public static  ArrayList<Maestro> Actividad_obs = new ArrayList<>();
@@ -181,90 +161,6 @@ public class GlobalVariables implements IActivity {
         return 0;
     }
     public static  ArrayList<Maestro> SuperInt_Busq = new ArrayList<>();
-    public static Activity activity;
-    public static void LoadData() {
-        if(Ubicaciones_obs.isEmpty())GetMaestroLocal("UBIC");
-        if(Gerencia.isEmpty())GetMaestroLocal("GERE");
-        if(SuperIntendencia.isEmpty())GetMaestroLocal("SUPE");
-        if(Contrata.isEmpty())GetMaestroLocal("PROV");
-        //observacion
-        if(HHA_obs.isEmpty())GetMaestroLocal("HHAR");
-        if(Actividad_obs.isEmpty())GetMaestroLocal("ACTR");
-        if(Error_obs.isEmpty())GetMaestroLocal("EROB");
-        if(Estado_obs.isEmpty())GetMaestroLocal("ESOB");
-        if(Tipo_obs2.isEmpty())GetMaestroLocal("TPOB");
-
-        //inspecciones
-        if(Aspecto_Obs.isEmpty())GetMaestroLocal("ASPO");
-        if(Tipo_insp.isEmpty())GetMaestroLocal("TPIN");
-
-        //Plan de Accion
-        if(Area_obs.isEmpty())GetMaestroLocal("AREA");
-        if(Tipo_Plan.isEmpty())GetMaestroLocal("TPAC");
-
-        Ubicacion_obs=loadUbicacion("",1);
-    }
-
-    public  static void GetMaestroLocal(String Tipo){
-        String data1 = Recuperar_data(Tipo);
-        String url=Url_base+"Maestro/GetTipoMaestro/"+Tipo;
-        Gson gson = new Gson();
-
-        if(data1=="" || data1.contains("Count\":-1")){
-            GlobalVariables Objeto= new GlobalVariables();
-            final ActivityController obj = new ActivityController("get", url,Objeto);
-            obj.execute(Tipo);
-        }
-        else {
-            GetMaestroModel getMaestroModel = gson.fromJson(data1, GetMaestroModel.class);
-            switch (Tipo){
-                case "UBIC":
-                    Ubicaciones_obs=getMaestroModel.Data;
-                    break;
-                case "GERE":
-                    Gerencia=getMaestroModel.Data;
-                    break;
-                case "SUPE":
-                    SuperIntendencia=getMaestroModel.Data;
-                    break;
-                case "PROV":
-                    Contrata=getMaestroModel.Data;
-                    break;
-                //observacion
-                case "HHAR":
-                    HHA_obs=getMaestroModel.Data;
-                    break;
-                case "ACTR":
-                    Actividad_obs=getMaestroModel.Data;
-                    break;
-                case "TPOB":
-                    Tipo_obs2=getMaestroModel.Data;
-                    break;
-                case "ESOB":
-                    Estado_obs=getMaestroModel.Data;
-                    break;
-                case "EROB":
-                    Error_obs=getMaestroModel.Data;
-                    break;
-                //inspecciones
-                case "ASPO":
-                    Aspecto_Obs=getMaestroModel.Data;
-                    break;
-                case "TPIN":
-                    Tipo_insp=getMaestroModel.Data;
-                    break;
-                //Plan de Accion
-                case "AREA":
-                    Area_obs=getMaestroModel.Data;
-                    break;
-                case "TPAC":
-                    Tipo_Plan=getMaestroModel.Data;
-                    break;
-                /*default:
-                    break;*/
-                }
-        }
-    }
 
     public static void loadObs_Detalles(){
 
@@ -450,6 +346,92 @@ public class GlobalVariables implements IActivity {
         return cadena3;
     }
 
+
+
+  /*  public static void LoadData() {
+        if(Ubicaciones_obs.isEmpty())GetMaestroLocal("UBIC");
+        if(Gerencia.isEmpty())GetMaestroLocal("GERE");
+        if(SuperIntendencia.isEmpty())GetMaestroLocal("SUPE");
+        if(Contrata.isEmpty())GetMaestroLocal("PROV");
+        //observacion
+        if(HHA_obs.isEmpty())GetMaestroLocal("HHAR");
+        if(Actividad_obs.isEmpty())GetMaestroLocal("ACTR");
+        if(Error_obs.isEmpty())GetMaestroLocal("EROB");
+        if(Estado_obs.isEmpty())GetMaestroLocal("ESOB");
+        if(Tipo_obs2.isEmpty())GetMaestroLocal("TPOB");
+
+        //inspecciones
+        if(Aspecto_Obs.isEmpty())GetMaestroLocal("ASPO");
+        if(Tipo_insp.isEmpty())GetMaestroLocal("TPIN");
+
+        //Plan de Accion
+        if(Area_obs.isEmpty())GetMaestroLocal("AREA");
+        if(Tipo_Plan.isEmpty())GetMaestroLocal("TPAC");
+
+        Ubicacion_obs=loadUbicacion("",1);
+    }
+
+    public  static void GetMaestroLocal(String Tipo){
+        String data1 = Recuperar_data(Tipo);
+        String url=Url_base+"Maestro/GetTipoMaestro/"+Tipo;
+        Gson gson = new Gson();
+
+        if(data1=="" || data1.contains("Count\":-1")){
+            GlobalVariables Objeto= new GlobalVariables();
+            final ActivityController obj = new ActivityController("get", url,Objeto);
+            obj.execute(Tipo);
+        }
+        else {
+            GetMaestroModel getMaestroModel = gson.fromJson(data1, GetMaestroModel.class);
+            switch (Tipo){
+                case "UBIC":
+                    Ubicaciones_obs=getMaestroModel.Data;
+                    break;
+                case "GERE":
+                    Gerencia=getMaestroModel.Data;
+                    break;
+                case "SUPE":
+                    SuperIntendencia=getMaestroModel.Data;
+                    break;
+                case "PROV":
+                    Contrata=getMaestroModel.Data;
+                    break;
+                //observacion
+                case "HHAR":
+                    HHA_obs=getMaestroModel.Data;
+                    break;
+                case "ACTR":
+                    Actividad_obs=getMaestroModel.Data;
+                    break;
+                case "TPOB":
+                    Tipo_obs2=getMaestroModel.Data;
+                    break;
+                case "ESOB":
+                    Estado_obs=getMaestroModel.Data;
+                    break;
+                case "EROB":
+                    Error_obs=getMaestroModel.Data;
+                    break;
+                //inspecciones
+                case "ASPO":
+                    Aspecto_Obs=getMaestroModel.Data;
+                    break;
+                case "TPIN":
+                    Tipo_insp=getMaestroModel.Data;
+                    break;
+                //Plan de Accion
+                case "AREA":
+                    Area_obs=getMaestroModel.Data;
+                    break;
+                case "TPAC":
+                    Tipo_Plan=getMaestroModel.Data;
+                    break;
+                *//*default:
+                    break;*//*
+            }
+        }
+    }
+
     @Override
     public void success(String data, String Tipo) {
         Gson gson = new Gson();
@@ -498,8 +480,8 @@ public class GlobalVariables implements IActivity {
                 case "TPAC":
                     Tipo_Plan = getMaestroModel.Data;
                     break;
-                /*default:
-                    break;*/
+                *//*default:
+                    break;*//*
             }
                 Context applicationContext = MainActivity.getContextOfApplication();
                 SharedPreferences VarMaestros = applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
@@ -525,5 +507,5 @@ public class GlobalVariables implements IActivity {
     @Override
     public void error(String mensaje, String Tipo) {
 
-    }
+    }*/
 }

@@ -116,6 +116,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     ImageButton btn_galeria;
     ImageView imageView;
     int contPublicacion;
+    UsuarioModel getUsuarioModel;
     boolean is_swipe=true;
     //int paginacion=1;
    // private NavigationView navigationView;
@@ -149,7 +150,6 @@ public class FragmentMuro extends Fragment implements IActivity{
         url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+"7";
 
         //GlobalVariables.count=5;
-        GlobalVariables.LoadData();
 
         if(GlobalVariables.listaGlobal.size()==0){
             final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
@@ -167,8 +167,11 @@ public class FragmentMuro extends Fragment implements IActivity{
 
 
         Gson gson = new Gson();
-        UsuarioModel getUsuarioModel = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-
+        getUsuarioModel = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+        /*if(getUsuarioModel==null){
+            getUsuarioModel= new UsuarioModel();
+            getUsuarioModel.NroDocumento="1234";
+        }*/
         String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+getUsuarioModel.NroDocumento+"/fotocarnet.jpg";
 
        // String url_avatar="https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/media/getAvatar/43054695/fotocarnet.jpg";

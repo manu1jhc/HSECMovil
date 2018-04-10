@@ -46,17 +46,19 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         viewHolder.selectid=position;
+        String urlMedio=items.get(position).Url;
+        if (items.get(position).Correlativo>0) urlMedio=GlobalVariables.Url_base +"media/getImagepreview/"+items.get(position).Correlativo+ "/Preview.jpg";
         if(items.get(position).TipoArchivo.equals("TP02")){
             viewHolder.btn_play.setVisibility(View.VISIBLE);
             Glide.with(viewHolder.imageView.getContext())
-                    .load(items.get(position).Url)
+                    .load(urlMedio)
                     .into(viewHolder.imageView);
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
            // viewHolder.textView.setText(items.get(position).Descripcion);
         }
         else{
             Glide.with(viewHolder.imageView.getContext())
-                    .load(items.get(position).Url)
+                    .load(urlMedio)
                     //.fitCenter()
                     .into(viewHolder.imageView);
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());

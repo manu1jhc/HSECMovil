@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 
 public class Maestro {
+    public String Codigo;
     public String CodTipo;
     public String Descripcion;
    // public ArrayList<Maestro> SubTipos;

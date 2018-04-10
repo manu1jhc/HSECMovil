@@ -42,8 +42,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        GlobalVariables loaddata = new GlobalVariables();
-        loaddata.LoadData();
+
         horizontalsv=findViewById(R.id.horizontalsv);
         Bundle datos = this.getIntent().getExtras();
         codObs=datos.getString("codObs");

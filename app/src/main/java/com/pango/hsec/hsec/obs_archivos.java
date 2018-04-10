@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.pm.PackageManager;
 
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.Observaciones.ActVidDet;
 import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
 import com.pango.hsec.hsec.R;
@@ -43,6 +44,7 @@ import android.app.ProgressDialog;
 
 import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.adapter.Adap_Img;
+import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.ImageEntry;
@@ -113,30 +115,21 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
 
         if(GlobalVariables.ObjectEditable){ // load data of server
-
+            String url=GlobalVariables.Url_base+"media/GetMultimedia/"+codigo_obs;
+            final ActivityController obj = new ActivityController("get", url, obs_archivos.this);
+            obj.execute("");
         }
         else // new Obserbacion
         {
-            if(GlobalVariables.ObserbacionFile==null){
-                GlobalVariables.ObserbacionFile=codigo_obs;
-            }
-            else if(!GlobalVariables.ObserbacionFile.contains("XYZ")){
+            if(GlobalVariables.ObserbacionFile==null || !GlobalVariables.ObserbacionFile.contains("XYZ")){
                 GlobalVariables.listaGaleria= new ArrayList<>();
                 GlobalVariables.listaArchivos= new ArrayList<>();
             }
+            GlobalVariables.ObserbacionFile=codigo_obs;
+            setdata();
         }
 
         //load data adapter
-        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
-        gridView.setLayoutManager(layoutManager);
-        gridViewAdapter = new GridViewAdapter(getActivity(), GlobalVariables.listaGaleria);
-        gridView.setAdapter(gridViewAdapter);
-
-        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        listView.setLayoutManager(horizontalManager);
-        listViewAdapter = new ListViewAdapter(getActivity(), GlobalVariables.listaArchivos);
-        listView.setAdapter(listViewAdapter);
-
 
         btnFotos.setOnClickListener(new View.OnClickListener() {
                                         @Override
@@ -157,6 +150,18 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
                                     }
         );
         return mView;
+    }
+
+    public void setdata(){
+        GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        gridView.setLayoutManager(layoutManager);
+        gridViewAdapter = new GridViewAdapter(getActivity(), GlobalVariables.listaGaleria);
+        gridView.setAdapter(gridViewAdapter);
+
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        listView.setLayoutManager(horizontalManager);
+        listViewAdapter = new ListViewAdapter(getActivity(), GlobalVariables.listaArchivos);
+        listView.setAdapter(listViewAdapter);
     }
 
    @Override
@@ -297,6 +302,22 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     @Override
     public void success(String data, String Tipo) {
 
+        Gson gson = new Gson();
+        GetGaleriaModel getGaleriaModel = gson.fromJson(data, GetGaleriaModel.class);
+        int count = getGaleriaModel.Count;
+        GlobalVariables.listaGaleria= new ArrayList<>();
+        GlobalVariables.listaArchivos= new ArrayList<>();
+        if (count != 0) {
+
+            for (int i = 0; i < getGaleriaModel.Data.size(); i++) {
+                if (getGaleriaModel.Data.get(i).TipoArchivo.equals("TP03")) {
+                    GlobalVariables.listaArchivos.add(getGaleriaModel.Data.get(i));
+                } else {
+                    GlobalVariables.listaGaleria.add(getGaleriaModel.Data.get(i));
+                }
+            }
+        }
+        setdata();
     }
 
     @Override

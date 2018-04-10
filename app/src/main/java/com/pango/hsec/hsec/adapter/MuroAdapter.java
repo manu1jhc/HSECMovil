@@ -22,6 +22,7 @@ import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.observacion_edit;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
@@ -94,6 +95,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             TextView area = rowView.findViewById(R.id.mp_area);
             TextView comentario = rowView.findViewById(R.id.tx_comentario);
             TextView tx_det = rowView.findViewById(R.id.mp_txdet);
+            ImageView editar = rowView.findViewById(R.id.btn_editar);
 
             final String tempimg_perfil = data.get(position).UrlObs;
             final String tempNombre = data.get(position).ObsPor;
@@ -104,7 +106,22 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final String tempDetalle = data.get(position).Obs;
             final int comentarios = data.get(position).Comentarios;
             final String tempImgDet = data.get(position).UrlPrew;
+            final boolean editable = data.get(position).Editable;
 
+            if(!editable||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
+                editar.setVisibility(View.GONE);
+            }
+            editar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    GlobalVariables.ObjectEditable=true;
+                    Intent intent = new Intent(getContext(),observacion_edit.class);
+                    intent.putExtra("codObs", data.get(position).Codigo);
+                    intent.putExtra("posTab", 0);
+                    v.getContext().startActivity(intent);
+                }
+            });
             nombre.setText(tempNombre);
             fecha.setText(Obtenerfecha(tempFecha));
 
@@ -129,9 +146,6 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 @Override
                 public void onClick(View v) {
                     String tipoObs=data.get(position).Tipo;
-
-                    Toast.makeText(v.getContext(), "Comentarios", Toast.LENGTH_SHORT).show();
-
                     GlobalVariables.istabs = true;
                     Intent intent = new Intent(v.getContext(), ActMuroDet.class);
                     intent.putExtra("codObs", data.get(position).Codigo);

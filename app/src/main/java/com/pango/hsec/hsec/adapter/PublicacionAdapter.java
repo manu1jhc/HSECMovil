@@ -16,6 +16,7 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.observacion_edit;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
@@ -72,6 +73,22 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         //final String tempImgDet="";
         final String tempImgDet=data.get(position).UrlPrew;
 
+        ImageView editar = rowView.findViewById(R.id.btn_editar);
+
+        if(!data.get(position).Editable||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
+            editar.setVisibility(View.GONE);
+        }
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                GlobalVariables.ObjectEditable=true;
+                Intent intent = new Intent(getContext(),observacion_edit.class);
+                intent.putExtra("codObs", data.get(position).Codigo);
+                intent.putExtra("posTab", 0);
+                v.getContext().startActivity(intent);
+            }
+        });
         nombre.setText(tempNombre);
 
         fecha.setText(Obtenerfecha(tempFecha));
@@ -106,8 +123,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             public void onClick(View v) {
 
                 String tipoObs=data.get(position).Tipo;
-
-                Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
 
                 GlobalVariables.istabs=true;
 

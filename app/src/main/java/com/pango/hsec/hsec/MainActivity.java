@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
 
-
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
@@ -156,7 +155,6 @@ public class MainActivity extends AppCompatActivity
                 ft.commit();
 
 
-
                 //bottomNavigationView.setVisibility(View.GONE);
                 //toolbar.setVisibility(View.VISIBLE);
 
@@ -168,8 +166,7 @@ public class MainActivity extends AppCompatActivity
                     GlobalVariables.fragmentStack.clear();
                     super.onBackPressed(); // finish activity
                 } else {
-                    Toast.makeText(this, "Press Back again to Exit.",
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Press Back again to Exit.",Toast.LENGTH_SHORT).show();
                     exit = true;
                     new Handler().postDelayed(new Runnable() {
                         @Override

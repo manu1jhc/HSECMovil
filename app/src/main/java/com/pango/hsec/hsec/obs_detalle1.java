@@ -15,14 +15,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
 
-public class obs_detalle1 extends Fragment {
+public class obs_detalle1 extends Fragment implements IActivity{
 
     private static View mView;
     Spinner spinneActividad, spinnerHHA, spinnerActo,spinnerCondicion,spinnerEstado, spinnerError;
+    EditText txtObservacion,txtAccion;
     public static final com.pango.hsec.hsec.obs_detalle1 newInstance(String sampleText) {
         obs_detalle1 f = new obs_detalle1();
 
@@ -38,8 +41,8 @@ public class obs_detalle1 extends Fragment {
         mView = inflater.inflate(R.layout.fragment_obs_detalle1, container,false);
         String codigo_obs = getArguments().getString("bString");
 
-        EditText txtObservacion=(EditText) mView.findViewById(R.id.txt_observacion);
-        EditText txtAccion=(EditText) mView.findViewById(R.id.txt_accion);
+        txtObservacion=(EditText) mView.findViewById(R.id.txt_observacion);
+        txtAccion=(EditText) mView.findViewById(R.id.txt_accion);
 
         spinneActividad = (Spinner) mView.findViewById(R.id.sp_actividad);
         spinnerHHA = (Spinner) mView.findViewById(R.id.sp_hha);
@@ -169,11 +172,13 @@ public class obs_detalle1 extends Fragment {
         });
 
        if(GlobalVariables.ObjectEditable){ // load data of server
-
+           String url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codigo_obs;
+           ActivityController obj = new ActivityController("get", url, obs_detalle1.this);
+           obj.execute("");
         }
         else // new Obserbacion
         {
-            if(GlobalVariables.ObserbacionDetalle.CodObservacion==null){
+            if(GlobalVariables.ObserbacionDetalle.CodObservacion==null || !GlobalVariables.Obserbacion.CodObservacion.contains("XYZ")){
 
                 GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
                 GlobalVariables.ObserbacionDetalle.Observacion="";
@@ -183,10 +188,13 @@ public class obs_detalle1 extends Fragment {
                 GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.Estado_obs.get(0).CodTipo;
                 GlobalVariables.ObserbacionDetalle.CodError=GlobalVariables.Error_obs.get(0).CodTipo;
             }
-            else if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
-                GlobalVariables.ObserbacionDetalle= new ObsDetalleModel();
+            setdata();
         }
 
+        return mView;
+    }
+
+    public void setdata(){
         txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
         txtAccion.setText(GlobalVariables.ObserbacionDetalle.Accion);
 
@@ -197,7 +205,22 @@ public class obs_detalle1 extends Fragment {
         else spinnerCondicion.setSelection(GlobalVariables.indexOf(GlobalVariables.Condicion_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
         spinnerEstado.setSelection(GlobalVariables.indexOf(GlobalVariables.Estado_obs,GlobalVariables.ObserbacionDetalle.CodEstado));
         spinnerError.setSelection(GlobalVariables.indexOf(GlobalVariables.Error_obs,GlobalVariables.ObserbacionDetalle.CodError));
+    }
 
-        return mView;
+    @Override
+    public void success(String data, String Tipo) {
+        Gson gson = new Gson();
+        GlobalVariables.ObserbacionDetalle = gson.fromJson(data, ObsDetalleModel.class);
+        setdata();
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
     }
 }
