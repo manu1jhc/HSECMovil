@@ -29,6 +29,7 @@ public class GlobalVariables  {
     public static ObservacionModel Obserbacion= new ObservacionModel();
     public static ObsDetalleModel ObserbacionDetalle= new ObsDetalleModel();
     public static String ObserbacionFile;
+    public static String ObserbacionPlan;
     public static List<GaleriaModel> listaGaleria =new ArrayList<>();
     public static List<GaleriaModel> listaArchivos =new ArrayList<>();
 

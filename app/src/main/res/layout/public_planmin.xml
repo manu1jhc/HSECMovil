@@ -25,7 +25,8 @@ android:layout_height="match_parent"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_usuario" />
+            app:srcCompat="@drawable/ic_usuario"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/nombre"
@@ -74,24 +75,24 @@ android:layout_height="match_parent"
         <ImageView
             android:id="@+id/btn_editar"
             android:layout_width="30dp"
-            android:layout_height="18dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="25dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginTop="4dp"
             android:background="@color/colorBlanco"
             android:src="@drawable/ic_3puntos"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
             />
+
         <LinearLayout
             android:id="@+id/linearLayout10"
-            android:layout_width="286dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintEnd_toStartOf="@+id/nivel_riesgo"
             app:layout_constraintStart_toEndOf="@+id/mp_profile"
             app:layout_constraintTop_toBottomOf="@+id/fecha_sol">
 
@@ -122,12 +123,12 @@ android:layout_height="match_parent"
             android:id="@+id/nivel_riesgo"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginBottom="1dp"
-            android:layout_marginEnd="12dp"
-            app:layout_constraintBottom_toTopOf="@+id/linearLayout10"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_editar"
-            app:srcCompat="@drawable/ic_alertaverde" />
+            app:srcCompat="@drawable/ic_alertaverde"
+            tools:ignore="VectorDrawableCompat" />
 
     </android.support.constraint.ConstraintLayout>
 

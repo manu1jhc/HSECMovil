@@ -45,7 +45,7 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
         // Fragments and ViewPager Initialization
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
-
+        mTabHost.setCurrentTab(pos);
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setOnPageChangeListener(observacion_edit.this);
 
@@ -91,11 +91,11 @@ public class observacion_edit extends FragmentActivity implements TabHost.OnTabC
 
         if(pos==2){
             //pos = this.mViewPager.getCurrentItem();
-            this.mTabHost.setCurrentTab(2);
+            this.mTabHost.setCurrentTab(pos);
             pos=0;
         }else{
-            pos = this.mViewPager.getCurrentItem();
-            this.mTabHost.setCurrentTab(pos);
+           int posi = this.mViewPager.getCurrentItem();
+            this.mTabHost.setCurrentTab(posi);
         }
 
         View tabView = mTabHost.getTabWidget().getChildAt(position);

@@ -76,9 +76,8 @@ public class EstadisticaDetAdapter extends ArrayAdapter<EstadisticaDetModel> {
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
-                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .override(50, 50)
                         .transform(new CircleTransform(getContext())) // applying the image transformer
-                        .fitCenter()
                         .into(profile);
             }else{
             Nombre.setText(tempNombre);
@@ -86,8 +85,8 @@ public class EstadisticaDetAdapter extends ArrayAdapter<EstadisticaDetModel> {
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
                     .load(Url_img)
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .fitCenter()
+                    .override(50, 50)
+                    .transform(new CircleTransform(getContext()))
                     .into(profile);
         }
 

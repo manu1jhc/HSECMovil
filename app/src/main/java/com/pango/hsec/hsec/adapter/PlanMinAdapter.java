@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 
 import android.content.Intent;
@@ -12,8 +13,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.PlanAccionEdit;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
@@ -29,12 +32,12 @@ import java.util.ArrayList;
 
 public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
 
-    private Context context;
+    private Activity context;
     private ArrayList<PlanMinModel> data = new ArrayList<PlanMinModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public PlanMinAdapter(Context context, ArrayList<PlanMinModel> data) {
+    public PlanMinAdapter(Activity context, ArrayList<PlanMinModel> data) {
         super(context, R.layout.public_planmin, data);
         this.data = data;
         this.context = context;
@@ -69,11 +72,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
         final String tempEstado = data.get(position).CodEstadoAccion;
         final String tempDesTarea = data.get(position).DesPlanAccion;
 
-
-
-
         nombre.setText(tempNombre);
-
 
         fecha.setText(Obtenerfecha(tempFecha));
 
@@ -100,14 +99,20 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
             editar.setVisibility(View.GONE);
         }
 
+        editar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent i = new Intent(context, PlanAccionEdit.class);
+                Gson gson = new Gson();
+                i.putExtra("Plan", gson.toJson(data.get(position)));
+                context.startActivityForResult(i,3);
+            }
+        });
         //GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo);
         tabla_ref.setText(GlobalVariables.getDescripcion(GlobalVariables.Tablas,tempTabla_ref));
         estado.setText(GlobalVariables.getDescripcion(GlobalVariables.Estado_Plan,tempEstado));
         desTarea.setText(tempDesTarea);
-
-
-
-
 
 
         if (tempimg_perfil == null) {

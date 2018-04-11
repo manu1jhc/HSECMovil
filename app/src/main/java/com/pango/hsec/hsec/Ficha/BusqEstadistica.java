@@ -787,9 +787,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         btn_buscar_e.setEnabled(true);
 
         flag_enter=true;
-        //GlobalVariables.contpublic += 1;
-        // progressDialog.dismiss();
-        // progressBar.setVisibility(View.GONE);
 
         if(loadingTop)
         {
@@ -798,11 +795,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             tx_texto.setVisibility(View.GONE);
             swipeRefreshLayout.setEnabled( false );
         }
-
-        // GlobalVariables.FDown=false;
-
-
-
 
     }
 

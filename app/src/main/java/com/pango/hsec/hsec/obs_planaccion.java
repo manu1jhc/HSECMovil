@@ -56,17 +56,22 @@ public class obs_planaccion extends Fragment implements IActivity{
 
         String codigo_obs = getArguments().getString("bString");
         if(GlobalVariables.ObjectEditable){ // load data of server
-            String url=GlobalVariables.Url_base+"PlanAccion/GetPlanes/"+codigo_obs;
-            final ActivityController obj = new ActivityController("get", url, obs_planaccion.this,getActivity());
-            obj.execute("");
+            if(GlobalVariables.ObserbacionPlan==null || !GlobalVariables.ObserbacionPlan.equals(codigo_obs))
+            {
+                String url=GlobalVariables.Url_base+"PlanAccion/GetPlanes/"+codigo_obs;
+                final ActivityController obj = new ActivityController("get", url, obs_planaccion.this,getActivity());
+                obj.execute("");
+            }
+            else setdata();
+            GlobalVariables.ObserbacionPlan=codigo_obs;
         }
         else // new Obserbacion
         {
-            if(GlobalVariables.ObserbacionFile==null || !GlobalVariables.ObserbacionFile.contains("XYZ")){
+            if(GlobalVariables.ObserbacionPlan==null || !GlobalVariables.ObserbacionPlan.contains("XYZ")){
 
                 GlobalVariables.Planes= new ArrayList<>();
             }
-            GlobalVariables.ObserbacionFile=codigo_obs;
+            GlobalVariables.ObserbacionPlan=codigo_obs;
             setdata();
         }
 

@@ -172,9 +172,15 @@ public class obs_detalle1 extends Fragment implements IActivity{
         });
 
        if(GlobalVariables.ObjectEditable){ // load data of server
-           String url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codigo_obs;
-           ActivityController obj = new ActivityController("get", url, obs_detalle1.this,getActivity());
-           obj.execute("");
+
+           if(GlobalVariables.ObserbacionDetalle.CodObservacion==null || !GlobalVariables.ObserbacionDetalle.CodObservacion.equals(codigo_obs))
+           {
+               String url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codigo_obs;
+               ActivityController obj = new ActivityController("get", url, obs_detalle1.this,getActivity());
+               obj.execute("");
+           }
+           else setdata();
+           GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
         }
         else // new Obserbacion
         {
@@ -210,7 +216,9 @@ public class obs_detalle1 extends Fragment implements IActivity{
     @Override
     public void success(String data, String Tipo) {
         Gson gson = new Gson();
+        String codigo_obs = GlobalVariables.ObserbacionDetalle.CodObservacion;
         GlobalVariables.ObserbacionDetalle = gson.fromJson(data, ObsDetalleModel.class);
+        GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
         setdata();
     }
 

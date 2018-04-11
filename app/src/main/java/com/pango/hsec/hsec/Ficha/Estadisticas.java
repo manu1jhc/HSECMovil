@@ -227,12 +227,6 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
         EstadisticaAdapter ca = new EstadisticaAdapter(this,getEstadisticaModel.Data);
         list_estadistica.setAdapter(ca);
 
-
-
-
-
-
-
     }
 
     @Override

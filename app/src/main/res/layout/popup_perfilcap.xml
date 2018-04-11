@@ -17,6 +17,7 @@ android:orientation="vertical">
     android:layout_marginTop="5dp"
     android:background="@color/colorBlanco"
     android:gravity="center"
+    android:elevation="100dp"
     android:orientation="vertical"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
@@ -33,14 +34,15 @@ android:orientation="vertical">
         <TextView
             android:id="@+id/textView3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="35dp"
             android:layout_marginTop="2dp"
             android:layout_weight="0.85"
+            android:background="@color/colorBtnBeige"
             android:text="Perfil de capacitación"
-            android:textAlignment="center"
+            android:gravity="center"
+            android:textColor="@color/colorBlanco"
             android:textSize="18sp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
 
         <ImageButton
             android:id="@+id/ibclose"
@@ -49,7 +51,8 @@ android:orientation="vertical">
             android:layout_height="40dp"
             android:layout_weight="0.15"
             android:background="@android:color/transparent"
-            android:src="@drawable/ic_close" />
+            android:src="@drawable/ic_close"
+            android:visibility="gone" />
 
 
     </LinearLayout>
@@ -78,12 +81,14 @@ android:orientation="vertical">
                     android:id="@+id/tx1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.65"
-                    android:text="Tema"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
                     android:layout_margin="5dp"
-                    />
+                    android:layout_weight="0.65"
+
+                    android:text="Tema"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/tx_tema"
@@ -94,7 +99,8 @@ android:orientation="vertical">
                     android:text="TextView"
                     android:textSize="16sp"
                     android:layout_margin="5dp"
-
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
             </LinearLayout>
@@ -122,7 +128,8 @@ android:orientation="vertical">
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
-
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
                 <TextView
@@ -134,7 +141,8 @@ android:orientation="vertical">
                     android:text="TextView"
                     android:textSize="16sp"
                     android:layout_margin="5dp"
-
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
             </LinearLayout>
@@ -162,7 +170,8 @@ android:orientation="vertical">
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
-
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
                 <TextView
@@ -174,7 +183,8 @@ android:orientation="vertical">
                     android:text="TextView"
                     android:textSize="16sp"
                     android:layout_margin="5dp"
-
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
             </LinearLayout>
@@ -202,6 +212,8 @@ android:orientation="vertical">
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
                 <TextView
@@ -213,6 +225,8 @@ android:orientation="vertical">
                     android:text="TextView"
                     android:textSize="16sp"
                     android:layout_margin="5dp"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
             </LinearLayout>
@@ -239,6 +253,8 @@ android:orientation="vertical">
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
                 <TextView
@@ -250,6 +266,8 @@ android:orientation="vertical">
                     android:text="TextView"
                     android:textSize="16sp"
                     android:layout_margin="5dp"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
             </LinearLayout>
@@ -276,6 +294,8 @@ android:orientation="vertical">
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_margin="5dp"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
                 <TextView
@@ -287,6 +307,8 @@ android:orientation="vertical">
                     android:text="TextView"
                     android:textSize="16sp"
                     android:layout_margin="5dp"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"
                     />
 
             </LinearLayout>
@@ -295,9 +317,12 @@ android:orientation="vertical">
 
         <Button
             android:id="@+id/id_cerrar"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Cerrar"
+            android:textColor="@color/colorBlanco"
+            android:background="@color/ColorbtnVerdoso"
             android:textSize="16sp" />
     </LinearLayout>
 

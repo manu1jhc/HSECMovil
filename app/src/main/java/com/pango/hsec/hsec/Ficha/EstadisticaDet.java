@@ -188,14 +188,8 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
 
         tipo_estadistica.setText(descripcion+" ("+getEstadisticaDetModel.Count+")");
 
-
         EstadisticaDetAdapter ca = new EstadisticaDetAdapter(this,getEstadisticaDetModel.Data);
         list_estadistica.setAdapter(ca);
-
-
-
-
-
 
     }
 

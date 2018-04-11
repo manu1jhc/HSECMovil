@@ -26,6 +26,8 @@ import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -179,7 +181,7 @@ public class PlanAccionEdit extends AppCompatActivity {
             spTipoAccion.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_Plan,Plan.CodTipoAccion));
             if(Plan.SolicitadoPor!=null)SolicitadoPor.setText(Plan.SolicitadoPor);
             if(Plan.DesPlanAccion!=null)txtTarea.setText(Plan.DesPlanAccion);
-            if(!Plan.CodResponsables.isEmpty()){
+            if(!StringUtils.isEmpty(Plan.CodResponsables)){
                 String  Responsables[]=Plan.CodResponsables.split(";"),ResponsablesData[]=Plan.Responsables.split(";");
                 for(int i=0;i<Responsables.length;i++){
                     String datosper[]= ResponsablesData[i].split(":");
