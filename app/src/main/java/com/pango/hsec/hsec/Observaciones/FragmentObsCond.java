@@ -58,7 +58,7 @@ public class FragmentObsCond extends Fragment implements IActivity {
 
         if(jsonObsCond.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, FragmentObsCond.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentObsCond.this,getActivity());
             obj.execute("");
         }else {
             success(jsonObsCond,"");

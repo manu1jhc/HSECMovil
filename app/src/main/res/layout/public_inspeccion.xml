@@ -24,7 +24,8 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_usuario" />
+                app:srcCompat="@drawable/ic_usuario"
+                tools:ignore="VectorDrawableCompat" />
 
             <TextView
                 android:id="@+id/mp_nombre"
@@ -39,8 +40,21 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/mp_fecha"
-                app:layout_constraintEnd_toStartOf="@+id/mp_tipoinsp"
+                app:layout_constraintEnd_toStartOf="@+id/btn_editar"
                 app:layout_constraintStart_toEndOf="@+id/mp_profile"
+                app:layout_constraintTop_toTopOf="@+id/btn_editar" />
+
+
+            <ImageView
+                android:id="@+id/btn_editar"
+                android:layout_width="35dp"
+                android:layout_height="28dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginTop="4dp"
+                android:background="@color/colorBlanco"
+                android:src="@drawable/ic_3puntos"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -53,7 +67,7 @@
                 android:text="TextView"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_editar"
                 app:layout_constraintStart_toEndOf="@+id/mp_profile" />
 
             <TextView
@@ -122,7 +136,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_alertaverde" />
+                    app:srcCompat="@drawable/ic_alertaverde"
+                    tools:ignore="VectorDrawableCompat" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -161,7 +176,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.2"
-                    app:srcCompat="@drawable/ic_alertaverde" />
+                    app:srcCompat="@drawable/ic_alertaverde"
+                    tools:ignore="VectorDrawableCompat" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -199,7 +215,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.2"
-                    app:srcCompat="@drawable/ic_alertaverde" />
+                    app:srcCompat="@drawable/ic_alertaverde"
+                    tools:ignore="VectorDrawableCompat" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -207,6 +224,7 @@
                 android:id="@+id/mp_imgdet"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="-2dp"
                 android:layout_marginRight="-2dp"
@@ -214,21 +232,19 @@
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/constrain3"
-                app:srcCompat="@drawable/ic_launcher_background" />
+                app:srcCompat="@drawable/ic_launcher_background"
+                tools:ignore="VectorDrawableCompat" />
 
             <TextView
                 android:id="@+id/tx_comentario"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="5dp"
                 android:layout_marginEnd="8dp"
                 android:text="Comentarios"
-                android:textAlignment="textEnd"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mp_imgdet"
                 app:layout_constraintVertical_bias="0.2" />
         </android.support.constraint.ConstraintLayout>

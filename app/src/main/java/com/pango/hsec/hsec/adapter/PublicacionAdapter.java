@@ -83,6 +83,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             public void onClick(View v) {
 
                 GlobalVariables.ObjectEditable=true;
+                GlobalVariables.isFragment=false;
                 Intent intent = new Intent(getContext(),observacion_edit.class);
                 intent.putExtra("codObs", data.get(position).Codigo);
                 intent.putExtra("posTab", 0);

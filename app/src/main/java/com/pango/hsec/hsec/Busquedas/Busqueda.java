@@ -201,7 +201,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
                 //Utils.isActivity=true;
                 GlobalVariables.istabs=false;
-                final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                 obj.execute(json);
 
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
@@ -209,8 +209,6 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                 //  } },0);
 
             } });
-
-
 
 
         list_busqueda.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -276,7 +274,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                         //url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
 
                         GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                        final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                        final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                         obj.execute(json2);
 
                         layoutInflater =(LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -322,9 +320,6 @@ public class Busqueda extends AppCompatActivity implements IActivity {
         });
         listenerFlag = false;
 
-
-
-
         list_busqueda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -364,7 +359,6 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             }
         });
 
-
         lupabuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -384,7 +378,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                     obj.execute(json);
 
                 }else if(tipo_filtro.equals(busqueda_tipo[1])){
@@ -402,7 +396,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                     obj.execute(json);
 
 /*
@@ -424,7 +418,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                     obj.execute(json);
 
                 }
@@ -591,7 +585,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                     obj.execute(json);
 
                 }else if(tipo_busqueda==2){
@@ -606,7 +600,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                     obj.execute(json);
 
 
@@ -624,7 +618,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
                     url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
                     GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
+                    final ActivityController obj = new ActivityController("post", url, Busqueda.this,Busqueda.this);
                     obj.execute(json);
 
                 }

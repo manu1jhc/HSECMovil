@@ -173,7 +173,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
        if(GlobalVariables.ObjectEditable){ // load data of server
            String url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codigo_obs;
-           ActivityController obj = new ActivityController("get", url, obs_detalle1.this);
+           ActivityController obj = new ActivityController("get", url, obs_detalle1.this,getActivity());
            obj.execute("");
         }
         else // new Obserbacion

@@ -108,7 +108,7 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
 
         Utils.isActivity=true;
         url= GlobalVariables.Url_base+"FichaPersonal/Estadisticasgenerales?CodPersona="+codPersona+"&anho="+anio+"&mes="+mes;
-        final ActivityController obj = new ActivityController("get", url, Estadisticas.this);
+        final ActivityController obj = new ActivityController("get", url, Estadisticas.this,this);
         obj.execute("");
 
 
@@ -118,7 +118,7 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             public void onClick(View v) {
                 Utils.isActivity=true;
                 url= GlobalVariables.Url_base+"FichaPersonal/Estadisticasgenerales?CodPersona="+codPersona+"&anho="+anio_sel+"&mes="+mes_pos;
-                final ActivityController obj = new ActivityController("get", url, Estadisticas.this);
+                final ActivityController obj = new ActivityController("get", url, Estadisticas.this,Estadisticas.this);
                 obj.execute("");
             }
         });

@@ -172,7 +172,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 //flags
                 GlobalVariables.istabs=false;
                 Utils.isActivity=true;
-                final ActivityController obj = new ActivityController("get", url, B_personas.this);
+                final ActivityController obj = new ActivityController("get", url, B_personas.this,B_personas.this);
                 obj.execute("");
 
 
@@ -207,21 +207,12 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion+"/"+"7";
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
                 GlobalVariables.count=5;
-                final ActivityController obj = new ActivityController("get", url, B_personas.this);
+                final ActivityController obj = new ActivityController("get-0", url, B_personas.this,B_personas.this);
                 obj.execute("");
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 
                 //  } },0);
-
-
-
-
-
             } });
-
-
-
-
 
         List_personas.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -256,11 +247,9 @@ public class B_personas extends AppCompatActivity implements IActivity {
                         url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion + "/" + "7";
 
                         GlobalVariables.count=5;
-                        final ActivityController obj = new ActivityController("get", url, B_personas.this);
+                        final ActivityController obj = new ActivityController("get-"+paginacion, url, B_personas.this,B_personas.this);
                         obj.execute("");
-
                     }
-
                 }
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     listenerFlag = true;

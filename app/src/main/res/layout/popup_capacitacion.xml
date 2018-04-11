@@ -7,9 +7,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:background="@android:color/transparent"
+    android:background="@drawable/transparent"
 
     android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,12 +20,16 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:background="@color/colorBlanco"
+        android:elevation="100dp"
+
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.497">
 
         <LinearLayout
             android:id="@+id/linearLayout6"
@@ -36,14 +41,15 @@
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:layout_marginTop="2dp"
                 android:layout_weight="0.85"
+                android:background="@color/colorBtnBeige"
+                android:textColor="@color/colorBlanco"
                 android:text="Capacitaciones recibidas"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <ImageButton
                 android:id="@+id/ibclose"
@@ -52,7 +58,8 @@
                 android:layout_height="40dp"
                 android:layout_weight="0.15"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_close" />
+                android:src="@drawable/ic_close"
+                android:visibility="gone" />
 
 
         </LinearLayout>
@@ -81,23 +88,25 @@
                         android:id="@+id/tx1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.65"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         android:text="Fecha"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tx_fecha"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.35"
                         android:text="TextView"
                         android:textSize="16sp"
-                        android:layout_margin="5dp"
-
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         />
 
                 </LinearLayout>
@@ -120,24 +129,26 @@
                         android:id="@+id/tx2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.65"
                         android:text="Duracion"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
-
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         />
 
                     <TextView
                         android:id="@+id/tx_duracion"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.35"
                         android:text="TextView"
                         android:textSize="16sp"
-                        android:layout_margin="5dp"
-
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         />
 
                 </LinearLayout>
@@ -160,24 +171,26 @@
                         android:id="@+id/tx3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.65"
                         android:text="Tema"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
-
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         />
 
                     <TextView
                         android:id="@+id/tx_tema"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.35"
                         android:text="TextView"
                         android:textSize="16sp"
-                        android:layout_margin="5dp"
-
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         />
 
                 </LinearLayout>
@@ -200,23 +213,25 @@
                         android:id="@+id/tx4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.65"
                         android:text="Tipo"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        />
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"/>
 
                     <TextView
                         android:id="@+id/tx_tipo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.35"
                         android:text="TextView"
-                        android:textSize="16sp"
-                        android:layout_margin="5dp"
-                        />
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -238,23 +253,25 @@
                         android:id="@+id/tx5"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.65"
                         android:text="Nota"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tx_nota"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.35"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         android:text="TextView"
-                        android:textSize="16sp"
-                        android:layout_margin="5dp"
-                        />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -276,23 +293,25 @@
                         android:id="@+id/tx6"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.65"
                         android:text="Estado"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        />
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tx_estado"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.35"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         android:text="TextView"
-                        android:textSize="16sp"
-                        android:layout_margin="5dp"
-                        />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -314,23 +333,25 @@
                         android:id="@+id/tx7"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_weight="0.65"
                         android:text="Vencimiento"
                         android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        />
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tx_vencimiento"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="5dp"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="0.35"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         android:text="TextView"
-                        android:textSize="16sp"
-                        android:layout_margin="5dp"
-                        />
+                        android:textSize="16sp" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -338,10 +359,13 @@
 
             <Button
                 android:id="@+id/id_cerrar"
+                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/ColorbtnVerdoso"
                 android:text="Cerrar"
 
+                android:textColor="@color/colorBlanco"
                 android:textSize="16sp" />
         </LinearLayout>
 

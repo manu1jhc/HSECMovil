@@ -75,7 +75,7 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         if(jsonPlan.isEmpty()) {
             //GlobalVariables.istabs=true;
             url= GlobalVariables.Url_base+"PlanAccion/Get/"+codAccion;
-            final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this);
+            final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this,this);
             obj.execute("1");
         }else{
 
@@ -182,7 +182,7 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
 
             GlobalVariables.isFragment=true;
             url= GlobalVariables.Url_base+"AccionMejora/Get/"+codAccion;
-            final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this);
+            final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this,this);
             obj.execute("2");
 
         }else{
@@ -231,7 +231,7 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
 
 
                 url= GlobalVariables.Url_base+"AccionMejora/Get/"+codAccion;
-                final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this);
+                final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this,this);
                 obj.execute("2");
 
 

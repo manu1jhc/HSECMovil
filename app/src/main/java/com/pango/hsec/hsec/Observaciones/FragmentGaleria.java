@@ -90,7 +90,7 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		//https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/GetMultimedia/OBS00240578
 		if(jsonGaleria.isEmpty()) {
 			GlobalVariables.istabs=true;
-			final ActivityController obj = new ActivityController("get", url, FragmentGaleria.this);
+			final ActivityController obj = new ActivityController("get", url, FragmentGaleria.this,getActivity());
 			obj.execute("");
 
 		}else{

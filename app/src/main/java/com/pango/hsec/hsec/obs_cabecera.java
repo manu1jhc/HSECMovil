@@ -109,7 +109,7 @@ public class obs_cabecera extends Fragment implements IActivity{
         Date fecha=new Date();
         if(GlobalVariables.ObjectEditable){ // load data of server
             String url= GlobalVariables.Url_base+"Observaciones/Get/"+codigo_obs;
-            ActivityController obj = new ActivityController("get", url, obs_cabecera.this);
+            ActivityController obj = new ActivityController("get", url, obs_cabecera.this,getActivity());
             obj.execute("");
         }
         else // new Obserbacion

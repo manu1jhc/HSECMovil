@@ -70,7 +70,7 @@ public class FragmentComentIns extends Fragment implements IActivity {
         if(jsonComentario.isEmpty()) {
             GlobalVariables.istabs=true;
 
-            final ActivityController obj = new ActivityController("get", url, FragmentComentIns.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentComentIns.this,getActivity());
             obj.execute("");
         }else {
             success(jsonComentario,"");
@@ -116,7 +116,7 @@ public class FragmentComentIns extends Fragment implements IActivity {
 
                 url= GlobalVariables.Url_base+"Comentario/insert";
                 GlobalVariables.isFragment=true;
-                final ActivityController obj = new ActivityController("post", url, FragmentComentIns.this);
+                final ActivityController obj = new ActivityController("post", url, FragmentComentIns.this,getActivity());
                 obj.execute(json);
 
 
@@ -150,7 +150,7 @@ public class FragmentComentIns extends Fragment implements IActivity {
                 GlobalVariables.count=5;
                 GlobalVariables.isFragment=true;
                 url= GlobalVariables.Url_base+"Comentario/getObs/"+codInsp;
-                final ActivityController obj = new ActivityController("get", url, FragmentComentIns.this);
+                final ActivityController obj = new ActivityController("get", url, FragmentComentIns.this,getActivity());
                 obj.execute("");
 
                 break;

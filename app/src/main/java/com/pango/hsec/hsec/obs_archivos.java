@@ -116,7 +116,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
         if(GlobalVariables.ObjectEditable){ // load data of server
             String url=GlobalVariables.Url_base+"media/GetMultimedia/"+codigo_obs;
-            final ActivityController obj = new ActivityController("get", url, obs_archivos.this);
+            final ActivityController obj = new ActivityController("get", url, obs_archivos.this,getActivity());
             obj.execute("");
         }
         else // new Obserbacion

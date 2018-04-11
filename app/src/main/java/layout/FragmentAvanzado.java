@@ -169,7 +169,7 @@ public class FragmentAvanzado extends Fragment implements IActivity {
                 //http://servidorpango/whsec_Servicedmz/api/Inspecciones/Get/INSP0000008309
                 url= GlobalVariables.Url_base+"Usuario/SendFeedback";
                 GlobalVariables.isFragment=true;
-                final ActivityController obj = new ActivityController("post", url, FragmentAvanzado.this);
+                final ActivityController obj = new ActivityController("post", url, FragmentAvanzado.this,getActivity());
                 obj.execute(json);
 
 

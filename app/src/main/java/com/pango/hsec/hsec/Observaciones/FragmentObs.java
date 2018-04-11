@@ -59,7 +59,7 @@ public class FragmentObs extends Fragment implements IActivity {
 
 		if(jsonObservacion.isEmpty()) {
 			GlobalVariables.istabs=true;
-			final ActivityController obj = new ActivityController("get", url, FragmentObs.this);
+			final ActivityController obj = new ActivityController("get", url, FragmentObs.this,getActivity());
 			obj.execute("");
 		}else {
 			success(jsonObservacion,"");

@@ -64,7 +64,7 @@ public class FragmentObsCom extends Fragment implements IActivity {
 
         if(jsonObsCom.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, FragmentObsCom.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentObsCom.this,getActivity());
             obj.execute("");
         }else {
             success(jsonObsCom,"");

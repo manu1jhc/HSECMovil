@@ -59,7 +59,7 @@ public class FragmentDetalle extends Fragment implements IActivity {
 
         if(jsonNoticia.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, FragmentDetalle.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentDetalle.this,getActivity());
             obj.execute("");
         }else {
             success(jsonNoticia,"");

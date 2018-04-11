@@ -135,7 +135,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
 
             url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral/"+GlobalVariables.dniUser;
 
-            final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this,getActivity());
             obj.execute("");
         }
 

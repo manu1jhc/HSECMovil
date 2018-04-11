@@ -60,7 +60,7 @@ public class FragmentParticipante extends Fragment implements IActivity {
         if(jsonEquipo.isEmpty()) {
             GlobalVariables.istabs=true;
 
-            final ActivityController obj = new ActivityController("get", url, FragmentParticipante.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentParticipante.this,getActivity());
             obj.execute("1");
         }else{
             success(jsonEquipo,"1");
@@ -69,7 +69,7 @@ public class FragmentParticipante extends Fragment implements IActivity {
         url2=GlobalVariables.Url_base+"Inspecciones/GetPersonasAtendidas/"+codObs;
 
         if(jsonParticipante.isEmpty()) {
-            final ActivityController obj2 = new ActivityController("get", url2, FragmentParticipante.this);
+            final ActivityController obj2 = new ActivityController("get", url2, FragmentParticipante.this,getActivity());
             obj2.execute("2");
         }else{
             success(jsonParticipante,"2");

@@ -57,7 +57,7 @@ public class obs_planaccion extends Fragment implements IActivity{
         String codigo_obs = getArguments().getString("bString");
         if(GlobalVariables.ObjectEditable){ // load data of server
             String url=GlobalVariables.Url_base+"PlanAccion/GetPlanes/"+codigo_obs;
-            final ActivityController obj = new ActivityController("get", url, obs_planaccion.this);
+            final ActivityController obj = new ActivityController("get", url, obs_planaccion.this,getActivity());
             obj.execute("");
         }
         else // new Obserbacion

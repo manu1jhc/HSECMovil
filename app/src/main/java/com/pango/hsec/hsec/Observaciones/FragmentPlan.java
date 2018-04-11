@@ -70,7 +70,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 
 		if(jsonPlan.isEmpty()) {
 			GlobalVariables.istabs=true;
-			final ActivityController obj = new ActivityController("get", url, FragmentPlan.this);
+			final ActivityController obj = new ActivityController("get", url, FragmentPlan.this,getActivity());
 			obj.execute("");
 		}else{
 			success(jsonPlan,"");

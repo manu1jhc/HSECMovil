@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.controller;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -28,6 +29,7 @@ import java.net.URLEncoder;
 public class ActivityController extends AsyncTask<String,Void,Void> {
     ProgressDialog progressDialog;
     IActivity activity;
+    Activity ActContext;
     public String url;
     //String url_token;
     int con_status;
@@ -39,11 +41,59 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     boolean cargaData=true;
 
     View v;
-    public ActivityController(String opcion, String url, IActivity activity) {
+    public ActivityController(String opcion, String url, IActivity activity, Activity ActContext) {
         this.activity = activity;
         this.url = url;
-        //this.url_token = url_token;
+        this.ActContext = ActContext;
         this.opcion = opcion;
+
+    }
+
+    @Override
+    protected void onPreExecute() {
+           if(opcion.contains("get")){
+
+               /* if(GlobalVariables.istabs){
+                    super.onPreExecute();
+                    progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
+
+                } else if (GlobalVariables.isFragment==false) {
+                    super.onPreExecute();
+                    progressDialog = ProgressDialog.show((Context) activity, "", "Cargando...");
+                }  else if (GlobalVariables.count==1){
+                    super.onPreExecute();
+                    progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
+
+                } else if(GlobalVariables.flag_up_toast){
+                    super.onPreExecute();
+                    GlobalVariables.flag_up_toast=false;
+                    //if(GlobalVariables.noticias2.size()<GlobalVariables.num_vid) {
+                    //Toast.makeText((Context) activity,"Actualizando, por favor espere...",Toast.LENGTH_SHORT).show();
+               *//* }   else if(opcion == "get"&&GlobalVariables.flagDownSc){
+                    super.onPreExecute();
+        *//*
+                }else */
+               String paginas[]= opcion.split("-");
+               int pag=1;
+               if(paginas.length>1) pag=Integer.parseInt(paginas[1]);
+               if(pag==1){
+                   super.onPreExecute();
+                   progressDialog = ProgressDialog.show(ActContext, "", "Cargando");
+               }
+
+              /*  if(Utils.isActivity){
+                    super.onPreExecute();
+                    progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
+                }*/
+            }
+            else if(opcion == "post"){
+                if (GlobalVariables.isFragment) {
+                    progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Enviando");
+                }else if(Utils.isActivity){
+                    super.onPreExecute();
+                    progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
+                }
+            }
 
     }
 
@@ -52,7 +102,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         try {
             String json=strings[0];
 
-            if(opcion == "get") {
+            if(opcion.contains("get")) {
 
                 Tipo=json;
                 //generarToken(url_token);
@@ -116,50 +166,10 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         return result;
 
     }
-    @Override
-    protected void onPreExecute() {
-           if(opcion == "get"){
-
-        if(GlobalVariables.istabs){
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
-
-        } else if (GlobalVariables.isFragment==false) {
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show((Context) activity, "", "Cargando...");
-        }  else if (GlobalVariables.count==1){
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
-
-        } else if(GlobalVariables.flag_up_toast){
-            super.onPreExecute();
-            GlobalVariables.flag_up_toast=false;
-            //if(GlobalVariables.noticias2.size()<GlobalVariables.num_vid) {
-            //Toast.makeText((Context) activity,"Actualizando, por favor espere...",Toast.LENGTH_SHORT).show();
-       /* }   else if(opcion == "get"&&GlobalVariables.flagDownSc){
-            super.onPreExecute();
-*/
-        }else if(Utils.isActivity){
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
-
-        }
-
-        }else if(opcion == "post"){
-            if (GlobalVariables.isFragment) {
-                progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Enviando");
-            }else if(Utils.isActivity){
-                super.onPreExecute();
-                progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
-
-            }
-        }
-
-    }
 
     @Override
     protected void onPostExecute(Void result) {
-    if(opcion=="get"&&cargaData) {
+    if(opcion.contains("get")&&cargaData) {
 
             switch (GlobalVariables.con_status) {
                 case 401:
@@ -184,7 +194,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
      //   }
 
             //progressDialog.dismiss();
-            int a = GlobalVariables.count;
+            /*int a = GlobalVariables.count;
 
             if (GlobalVariables.istabs) {
                 //GlobalVariables.istabs=false;//no borrar
@@ -200,8 +210,11 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             }else if(GlobalVariables.isFragment==false){
                 GlobalVariables.isFragment=true;
 
-            }
-
+            }*/
+        String paginas[]= opcion.split("-");
+        int pag=1;
+        if(paginas.length>1) pag=Integer.parseInt(paginas[1]);
+        if(pag==1) progressDialog.dismiss();
         //mainActivity.success();
     }
     //POST

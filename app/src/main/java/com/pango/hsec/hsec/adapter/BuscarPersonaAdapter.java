@@ -18,6 +18,8 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PersonaModel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 
 /**
@@ -52,9 +54,12 @@ public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
         final String tempcargo_p = data.get(position).Cargo;
 
 
-        nombre_p.setText(tempnombre_p);
-        dni_p.setText(tempdni_p);
-        cargo_p.setText(tempcargo_p);
+        if(StringUtils.isEmpty(tempnombre_p)) nombre_p.setVisibility(View.GONE);
+        else nombre_p.setText(tempnombre_p);
+        if(StringUtils.isEmpty(tempdni_p)) dni_p.setVisibility(View.GONE);
+        else dni_p.setText(tempdni_p);
+        if(StringUtils.isEmpty(tempcargo_p)) cargo_p.setVisibility(View.GONE);
+        else cargo_p.setText(tempcargo_p);
 
         return rowView;
     }

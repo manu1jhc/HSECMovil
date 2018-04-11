@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.Ficha;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -75,7 +76,7 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
         url= GlobalVariables.Url_base+"FichaPersonal/CapacitacionesRecibidas/"+codPersona;
         //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
         //Utils.isActivity=true;
-        final ActivityController obj = new ActivityController("get", url, Capacitaciones.this);
+        final ActivityController obj = new ActivityController("get", url, Capacitaciones.this,this);
         obj.execute("1");
 
 
@@ -83,7 +84,7 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
         url2= GlobalVariables.Url_base+"FichaPersonal/Perfilcapacitacion/"+codPersona;
         //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
         //Utils.isActivity=true;
-        final ActivityController obj2 = new ActivityController("get", url2, Capacitaciones.this);
+        final ActivityController obj2 = new ActivityController("get", url2, Capacitaciones.this,this);
         obj2.execute("2");
 
 
@@ -118,10 +119,6 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                 }
             }
         });
-
-
-
-
 
     }
     public void close(View view){
@@ -180,7 +177,9 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
 //popup
 
                                 layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+
                                 popupView = layoutInflater.inflate(R.layout.popup_capacitacion, null);
+
                             /*ListView list_popup=(ListView) popupView.findViewById(R.id.list_popup);
 
                             plandetAdapter = new PlandetAdapter(getContext(),getPlanModel.Data.get(position));
@@ -338,11 +337,9 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
 
                                     }
                                 });
-
                                 //popupWindow.showAsDropDown(btn_Abrir_Popup, 50, -400);
 
                                 popupWindow.showAtLocation(recListperfil, Gravity.CENTER, 0, 0);
-
 
                                 return true;
                             }
@@ -359,27 +356,9 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                     }
                 });
 
-
             }
 
-
-
-
-
-
-
-
-
-
-            //////////////////////////////////
         }
-
-
-
-
-
-
-
 
     }
 

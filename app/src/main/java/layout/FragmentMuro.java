@@ -152,7 +152,7 @@ public class FragmentMuro extends Fragment implements IActivity{
         //GlobalVariables.count=5;
 
         if(GlobalVariables.listaGlobal.size()==0){
-            final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
+            final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentMuro.this,getActivity());
             obj.execute("");
 
 
@@ -283,7 +283,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                         //success(datos,"");
 
                         //GlobalVariables.count=5;//para que no entre al flag
-                        final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
+                        final ActivityController obj = new ActivityController("get-0", url, FragmentMuro.this,getActivity());
                         obj.execute("");
                        // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 
@@ -326,7 +326,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                             url = GlobalVariables.Url_base + "Muro/GetMuro/" + paginacion + "/" + "7";
                             GlobalVariables.count=5;
 
-                            final ActivityController obj = new ActivityController("get", url, FragmentMuro.this);
+                            final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentMuro.this,getActivity());
                             obj.execute("");
 
                             layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);

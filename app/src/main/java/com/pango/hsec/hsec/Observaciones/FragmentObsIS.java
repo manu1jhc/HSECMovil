@@ -77,7 +77,7 @@ public class FragmentObsIS extends Fragment implements IActivity {
 
         if(jsonObsIS.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, FragmentObsIS.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentObsIS.this,getActivity());
             obj.execute("1");
         }else {
             success(jsonObsIS,"1");
@@ -87,7 +87,7 @@ public class FragmentObsIS extends Fragment implements IActivity {
 
         if(jsonPersonas.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url2, FragmentObsIS.this);
+            final ActivityController obj = new ActivityController("get", url2, FragmentObsIS.this,getActivity());
             obj.execute("2");
         }else {
             success(jsonPersonas,"2");
@@ -96,7 +96,7 @@ public class FragmentObsIS extends Fragment implements IActivity {
 
         if(jsonSubDetalle.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url3, FragmentObsIS.this);
+            final ActivityController obj = new ActivityController("get", url3, FragmentObsIS.this,getActivity());
             obj.execute("3");
         }else {
             success(jsonSubDetalle,"3");

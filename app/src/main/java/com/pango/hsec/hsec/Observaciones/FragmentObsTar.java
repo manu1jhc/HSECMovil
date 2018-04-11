@@ -88,7 +88,7 @@ public class FragmentObsTar extends Fragment implements IActivity {
 
         if(jsonObsTar.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, FragmentObsTar.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentObsTar.this,getActivity());
             obj.execute("1");
         }else {
             success(jsonObsTar,"1");
@@ -97,7 +97,7 @@ public class FragmentObsTar extends Fragment implements IActivity {
         url2=GlobalVariables.Url_base+"Observaciones/GetInvolucrados/"+codObs;
 
         if(jsonPersnas.isEmpty()) {
-            final ActivityController obj2 = new ActivityController("get", url2, FragmentObsTar.this);
+            final ActivityController obj2 = new ActivityController("get", url2, FragmentObsTar.this,getActivity());
             obj2.execute("2");
         }else{
             success(jsonPersnas,"2");
@@ -106,7 +106,7 @@ public class FragmentObsTar extends Fragment implements IActivity {
         url3=GlobalVariables.Url_base+"Observaciones/GetSubDetalle/"+codObs;
 
         if(jsonSubDetalle.isEmpty()) {
-            final ActivityController obj2 = new ActivityController("get", url3, FragmentObsTar.this);
+            final ActivityController obj2 = new ActivityController("get", url3, FragmentObsTar.this,getActivity());
             obj2.execute("3");
         }else{
             success(jsonSubDetalle,"3");

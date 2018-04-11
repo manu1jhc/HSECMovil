@@ -57,7 +57,7 @@ public class FragmentObsInsp extends Fragment implements IActivity {
         url= GlobalVariables.Url_base+"Inspecciones/GetDetalleInspeccion/"+codInsp;
         if(jsonObsIns.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, FragmentObsInsp.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentObsInsp.this,getActivity());
             obj.execute("");
         }else {
             success(jsonObsIns,"");

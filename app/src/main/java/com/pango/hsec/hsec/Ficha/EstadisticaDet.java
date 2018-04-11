@@ -65,7 +65,7 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
         descripcion=datos.getString("descripcion");
 
         tipo_estadistica=findViewById(R.id.tipo_estadistica);
-
+        tipo_estadistica.setText(descripcion);
         btn_buscar_e=findViewById(R.id.btn_buscar_e);
         list_estadistica=findViewById(R.id.list_estadistica);
         sp_anio=findViewById(R.id.spinner_anio);
@@ -121,7 +121,7 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
         url= GlobalVariables.Url_base+"FichaPersonal/EstadisticasDetalles?Categoria="+categoria+"&CodPersona="+codPersona+"&anho="+anio+"&mes="+mes;
 
         //url="http://192.168.1.2/whsec_Servicedmz/api/FichaPersonal/EstadisticasDetalles?Categoria=03&CodPersona=S0020013157&anho=2017";
-        final ActivityController obj = new ActivityController("get", url, EstadisticaDet.this);
+        final ActivityController obj = new ActivityController("get", url, EstadisticaDet.this,this);
         obj.execute("");
 
 
@@ -150,7 +150,7 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
                 url= GlobalVariables.Url_base+"FichaPersonal/EstadisticasDetalles?Categoria="+categoria+"&CodPersona="+codPersona+"&anho="+anio_sel+"&mes="+mes_pos;
 
                 //url="http://192.168.1.2/whsec_Servicedmz/api/FichaPersonal/EstadisticasDetalles?Categoria=03&CodPersona=S0020013157&anho=2017";
-                final ActivityController obj = new ActivityController("get", url, EstadisticaDet.this);
+                final ActivityController obj = new ActivityController("get", url, EstadisticaDet.this,EstadisticaDet.this);
                 obj.execute("");
             }
         });

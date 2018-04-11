@@ -61,7 +61,7 @@ public class FragmentObsdet extends Fragment implements IActivity {
         url= GlobalVariables.Url_base+"Inspecciones/GetDetalleInspeccionID/"+correlativo;
         if(jsonObsdet.isEmpty()) {
             GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, FragmentObsdet.this);
+            final ActivityController obj = new ActivityController("get", url, FragmentObsdet.this,getActivity());
             obj.execute("");
         }else {
             success(jsonObsdet,"");
