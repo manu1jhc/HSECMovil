@@ -46,33 +46,12 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         this.url = url;
         this.ActContext = ActContext;
         this.opcion = opcion;
-
     }
 
     @Override
     protected void onPreExecute() {
            if(opcion.contains("get")){
 
-               /* if(GlobalVariables.istabs){
-                    super.onPreExecute();
-                    progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
-
-                } else if (GlobalVariables.isFragment==false) {
-                    super.onPreExecute();
-                    progressDialog = ProgressDialog.show((Context) activity, "", "Cargando...");
-                }  else if (GlobalVariables.count==1){
-                    super.onPreExecute();
-                    progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Cargando");
-
-                } else if(GlobalVariables.flag_up_toast){
-                    super.onPreExecute();
-                    GlobalVariables.flag_up_toast=false;
-                    //if(GlobalVariables.noticias2.size()<GlobalVariables.num_vid) {
-                    //Toast.makeText((Context) activity,"Actualizando, por favor espere...",Toast.LENGTH_SHORT).show();
-               *//* }   else if(opcion == "get"&&GlobalVariables.flagDownSc){
-                    super.onPreExecute();
-        *//*
-                }else */
                String paginas[]= opcion.split("-");
                int pag=1;
                if(paginas.length>1) pag=Integer.parseInt(paginas[1]);
@@ -81,10 +60,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                    progressDialog = ProgressDialog.show(ActContext, "", "Cargando");
                }
 
-              /*  if(Utils.isActivity){
-                    super.onPreExecute();
-                    progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
-                }*/
             }
             else if(opcion == "post"){
                 if (GlobalVariables.isFragment) {
@@ -94,7 +69,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                     progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
                 }
             }
-
     }
 
     @Override
@@ -191,26 +165,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 default:
                     activity.success(respstring, Tipo);
             }
-     //   }
 
-            //progressDialog.dismiss();
-            /*int a = GlobalVariables.count;
-
-            if (GlobalVariables.istabs) {
-                //GlobalVariables.istabs=false;//no borrar
-                progressDialog.dismiss();
-
-            } else if (GlobalVariables.count == 1 || GlobalVariables.count == 2 || GlobalVariables.count == 3 || GlobalVariables.count == 4) {
-                GlobalVariables.count++;
-                //GlobalVariables.count=5;
-                progressDialog.dismiss();
-            } else if (Utils.isActivity) {
-                progressDialog.dismiss();
-                Utils.isActivity = false;
-            }else if(GlobalVariables.isFragment==false){
-                GlobalVariables.isFragment=true;
-
-            }*/
         String paginas[]= opcion.split("-");
         int pag=1;
         if(paginas.length>1) pag=Integer.parseInt(paginas[1]);
@@ -223,53 +178,40 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         if(GlobalVariables.isFragment){
             progressDialog.dismiss();
             GlobalVariables.isFragment=false;
-        }else if(Utils.isActivity){
+        }
+        else if(Utils.isActivity){
             progressDialog.dismiss();
             Utils.isActivity=false;
         }
 
-        Resultado=Resultado.substring(1,Resultado.length()-1);
-        activity.successpost(Resultado,Tipo);
-
+        switch (GlobalVariables.con_status) {
+            case 401:
+                //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
+                activity.error("Ocurrio un error de conexion", Tipo);
+                break;
+            case 404:
+                //Toast.makeText((Context) activity,"Not Found",Toast.LENGTH_SHORT).show();
+                activity.error("Not Found", Tipo);
+                break;
+            case 307:
+                //Toast.makeText((Context) activity,"Se perdio la conexion al servidor",Toast.LENGTH_SHORT).show();
+                activity.error("Se perdio la conexion al servidor", Tipo);
+                break;
+            case 500:
+                //Toast.makeText((Context) activity,"Ocurrio un error interno en el servidor",Toast.LENGTH_SHORT).show();
+                activity.error("Ocurrio un error interno en el servidor", Tipo);
+                break;
+            default:
+                Resultado=Resultado.substring(1,Resultado.length()-1);
+                activity.successpost(Resultado,Tipo);
+        }
 
 
 
     }else {
         activity.error("Se perdio la conexión a internet", Tipo);
-
     }
 
-
     }
-
-
-
-/*  GENERAR TOKEN */
-/*
-public void generarToken(String url_token){
-
-    if(url_token.equals("")){
-        token_auth = "";
-    }else {
-        try {
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(url_token);
-            get.setHeader("Content-type", "application/json");
-            HttpResponse response = httpClient.execute(get);
-            String respstring2 = EntityUtils.toString(response.getEntity());
-            con_status = response.getStatusLine().getStatusCode();
-            if (respstring2.equals("")) {
-                token_auth = "";
-                // GlobalVariables.con_status =0;
-            } else {
-                token_auth = respstring2.substring(1, respstring2.length() - 1);
-                //Utils.token=respstring2.substring(1, respstring2.length() - 1);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    }
-*/
 
 }

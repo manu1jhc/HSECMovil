@@ -59,8 +59,7 @@ public class obs_cabecera extends Fragment implements IActivity{
         return f;
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         mView = inflater.inflate(R.layout.fragment_obs_cabecera, container, false);
         final boolean[] pass2 = {false};

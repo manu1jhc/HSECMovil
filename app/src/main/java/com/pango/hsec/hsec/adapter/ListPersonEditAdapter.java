@@ -21,7 +21,10 @@ public class ListPersonEditAdapter extends RecyclerView.Adapter<ListPersonEditAd
         this.activity = activity;
         this.items = items;
     }
-
+    public void add(PersonaModel newdata){
+        items.add(newdata);
+        notifyDataSetChanged();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();

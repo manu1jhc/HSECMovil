@@ -44,7 +44,7 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
         int idIcon=0;
         String [] exts=items.get(position).Descripcion.split("\\.");
         String ext=exts[exts.length-1];
-        switch (ext) {
+        switch (ext.toLowerCase()) {
             case "pdf":
                 idIcon = R.drawable.ic_pdf;
                 break;

@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.adapter.ListPersonEditAdapter;
+import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PlanModel;
@@ -36,17 +37,19 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class PlanAccionEdit extends AppCompatActivity {
+public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     public PlanModel Plan;
-    public TextView SolicitadoPor;
+    public TextView SolicitadoPor,FechaSolic,CodReferencia,txtReferencia;
     Button btnFechaInicio,btnFechaFin;
     ImageButton btnSelectSolicitante, btnaddresponsables;
     Spinner spActRelacionada, spNivelRiesgo, spinnerArea,spTipoAccion;
     DatePickerDialog.OnDateSetListener dateInicial,dateFinal;
     Calendar myCalendar;
-    SimpleDateFormat df;
+    SimpleDateFormat df,dt;
+    DateFormat formatoRender;
     EditText txtTarea;
     Gson gson;
+    boolean edit=false;
     private RecyclerView listView;
     private ListPersonEditAdapter listPersonAdapter;
     private ArrayList<PersonaModel> ListResponsables;
@@ -54,25 +57,28 @@ public class PlanAccionEdit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Bundle datos = this.getIntent().getExtras();
+        edit=datos.getBoolean("editplan");
         gson = new Gson();
         Plan = gson.fromJson(datos.getString("Plan"), PlanModel.class);
         setContentView(R.layout.activity_plan_accion_edit);
         if(!(Plan.CodAccion.contains("-1")||Plan.CodAccion.equals("0"))) {
             CardView cv_edit = (CardView) findViewById(R.id.plan_edit);
             cv_edit.setVisibility(View.VISIBLE);
-            TextView CodReferencia = (TextView)findViewById(R.id.txt_codreferencia);
+
             TextView CodAccion = (TextView)findViewById(R.id.txt_codaccion);
             TextView CodEstado = (TextView)findViewById(R.id.txt_estado);
-            TextView txtReferencia = (TextView)findViewById(R.id.txt_referencia);
+
+            CodReferencia = (TextView)findViewById(R.id.txt_codreferencia);
+            txtReferencia = (TextView)findViewById(R.id.txt_referencia);
             txtReferencia.setText(GlobalVariables.getDescripcion(GlobalVariables.Referencia_Plan,Plan.CodReferencia));
             CodReferencia.setText(Plan.NroDocReferencia);
             CodAccion.setText(Plan.CodAccion);
             CodEstado.setText(GlobalVariables.getDescripcion(GlobalVariables.Estado_Plan,Plan.CodEstadoAccion));
         }
 
-        TextView FechaSolic = (TextView)findViewById(R.id.txt_fecha);
+        FechaSolic = (TextView)findViewById(R.id.txt_fecha);
         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
+        dt = new SimpleDateFormat("dd 'de' MMMM");
         SolicitadoPor = (TextView)findViewById(R.id.txt_solicitado);
 
 
@@ -157,42 +163,15 @@ public class PlanAccionEdit extends AppCompatActivity {
         ListResponsables= new ArrayList<>();
         listView = (RecyclerView) findViewById(R.id.listResponsables);
 
-        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
         if(!Plan.CodAccion.equals("0")){ //Edit plan
 
-            try {
-                Date fecha = df.parse(Plan.FechaSolicitud);
-                FechaSolic.setText(formatoRender.format(fecha));
-                if(Plan.FecComprometidaInicial!=null)
-                {
-                    fecha = df.parse(Plan.FecComprometidaInicial);
-                    btnFechaInicio.setText(dt.format(fecha));
-                }
-                if(Plan.FecComprometidaFinal!=null){
-                    fecha = df.parse(Plan.FecComprometidaFinal);
-                    btnFechaFin.setText(dt.format(fecha));
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
+            if(edit){
+                String url= GlobalVariables.Url_base+"PlanAccion/Get/"+Plan.CodAccion;
+                final ActivityController obj = new ActivityController("get", url, PlanAccionEdit.this,PlanAccionEdit.this);
+                obj.execute("");
             }
-            spActRelacionada.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,Plan.CodActiRelacionada));
-            spNivelRiesgo.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,Plan.CodNivelRiesgo));
-            spinnerArea.setSelection(GlobalVariables.indexOf(GlobalVariables.Area_obs,Plan.CodAreaHSEC));
-            spTipoAccion.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_Plan,Plan.CodTipoAccion));
-            if(Plan.SolicitadoPor!=null)SolicitadoPor.setText(Plan.SolicitadoPor);
-            if(Plan.DesPlanAccion!=null)txtTarea.setText(Plan.DesPlanAccion);
-            if(!StringUtils.isEmpty(Plan.CodResponsables)){
-                String  Responsables[]=Plan.CodResponsables.split(";"),ResponsablesData[]=Plan.Responsables.split(";");
-                for(int i=0;i<Responsables.length;i++){
-                    String datosper[]= ResponsablesData[i].split(":");
-                    ListResponsables.add(new PersonaModel(Responsables[i],datosper[0],"",datosper[1]));
-                }
-
-                LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-                listView.setLayoutManager(horizontalManager);
-                listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
-                listView.setAdapter(listPersonAdapter);
-            }
+            setData();
 
         }
         else{
@@ -203,9 +182,49 @@ public class PlanAccionEdit extends AppCompatActivity {
             FechaSolic.setText(formatoRender.format(actual));
             Plan.FechaSolicitud=df.format(actual);
 
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            listView.setLayoutManager(horizontalManager);
+            listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
+            listView.setAdapter(listPersonAdapter);
         }
 
     }
+    public void setData(){
+
+        try {
+            Date fecha = df.parse(Plan.FechaSolicitud);
+            FechaSolic.setText(formatoRender.format(fecha));
+            if(Plan.FecComprometidaInicial!=null)
+            {
+                fecha = df.parse(Plan.FecComprometidaInicial);
+                btnFechaInicio.setText(dt.format(fecha));
+            }
+            if(Plan.FecComprometidaFinal!=null){
+                fecha = df.parse(Plan.FecComprometidaFinal);
+                btnFechaFin.setText(dt.format(fecha));
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        spActRelacionada.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,Plan.CodActiRelacionada));
+        spNivelRiesgo.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,Plan.CodNivelRiesgo));
+        spinnerArea.setSelection(GlobalVariables.indexOf(GlobalVariables.Area_obs,Plan.CodAreaHSEC));
+        spTipoAccion.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_Plan,Plan.CodTipoAccion));
+        if(Plan.SolicitadoPor!=null)SolicitadoPor.setText(Plan.SolicitadoPor);
+        if(Plan.DesPlanAccion!=null)txtTarea.setText(Plan.DesPlanAccion);
+        if(!StringUtils.isEmpty(Plan.CodResponsables)){
+            String  Responsables[]=Plan.CodResponsables.split(";"),ResponsablesData[]=Plan.Responsables.split(";");
+            for(int i=0;i<Responsables.length;i++){
+                String datosper[]= ResponsablesData[i].split(":");
+                ListResponsables.add(new PersonaModel(Responsables[i],datosper[0],"",datosper[1]));
+            }
+        }
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        listView.setLayoutManager(horizontalManager);
+        listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
+        listView.setAdapter(listPersonAdapter);
+    }
+
     public void SalvarPlan(View view){
 
         Plan.CodActiRelacionada= ((Maestro) spActRelacionada.getSelectedItem()).CodTipo;
@@ -234,12 +253,13 @@ public class PlanAccionEdit extends AppCompatActivity {
         data.setData(Uri.parse(gson.toJson(Plan)));
         setResult(RESULT_OK, data);
         finish();*/
+       if(edit){
+           String url= GlobalVariables.Url_base+"PlanAccion/Post";
 
-        Intent intent = getIntent();
-        intent.putExtra("planaccion",gson.toJson(Plan));
-
-        setResult(RESULT_OK, intent);
-        finish();
+           final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);
+           obj.execute(gson.toJson(Plan));
+       }
+       else FinishSave();
     }
     public void EscogerFechainicial(View view){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateInicial, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
@@ -256,6 +276,7 @@ public class PlanAccionEdit extends AppCompatActivity {
     }
 
     public void EscogerFechafinal(View view){
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateFinal, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
         Calendar tempCalendar = Calendar.getInstance();
         tempCalendar.set(Calendar.HOUR, 0);
@@ -268,7 +289,13 @@ public class PlanAccionEdit extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
         datePickerDialog.show();
     }
+    public void FinishSave(){
+        Intent intent = getIntent();
+        intent.putExtra("planaccion",gson.toJson(Plan));
 
+        setResult(RESULT_OK, intent);
+        finish();
+    }
     public void close(View view){
         finish();
     }
@@ -285,17 +312,34 @@ public class PlanAccionEdit extends AppCompatActivity {
                 Plan.CodSolicitadoPor=data.getStringExtra("codpersona");
             }
             if (requestCode == 2  && resultCode  == RESULT_OK) {
-
-                ListResponsables.add(new PersonaModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
-                LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-                listView.setLayoutManager(horizontalManager);
-                listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
-                listView.setAdapter(listPersonAdapter);
+                listPersonAdapter.add(new PersonaModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
             }
         } catch (Exception ex) {
             Toast.makeText(PlanAccionEdit.this, ex.toString(),
                     Toast.LENGTH_SHORT).show();
         }
+    }
 
+    @Override
+    public void success(String data, String Tipo) {
+        Gson gson = new Gson();
+        Plan = gson.fromJson(data, PlanModel.class);
+        txtReferencia.setText(GlobalVariables.getDescripcion(GlobalVariables.Referencia_Plan,Plan.CodReferencia));
+        CodReferencia.setText(Plan.NroDocReferencia);
+
+        setData();
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) {
+        if(data.equals("-1"))
+            Toast.makeText(this,"Ocurrio un error interno al intentar guardar cambios",Toast.LENGTH_SHORT).show();
+        else
+        FinishSave();
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
     }
 }

@@ -105,6 +105,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
 
                 Intent i = new Intent(context, PlanAccionEdit.class);
                 Gson gson = new Gson();
+                i.putExtra("editplan", true);
                 i.putExtra("Plan", gson.toJson(data.get(position)));
                 context.startActivityForResult(i,3);
             }
