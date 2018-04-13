@@ -39,6 +39,7 @@ import java.util.Date;
 
 public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     public PlanModel Plan;
+    public String StrPlan,DniAvatar;
     public TextView SolicitadoPor,FechaSolic,CodReferencia,txtReferencia;
     Button btnFechaInicio,btnFechaFin;
     ImageButton btnSelectSolicitante, btnaddresponsables;
@@ -187,7 +188,6 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
             listView.setAdapter(listPersonAdapter);
         }
-
     }
     public void setData(){
 
@@ -253,13 +253,19 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         data.setData(Uri.parse(gson.toJson(Plan)));
         setResult(RESULT_OK, data);
         finish();*/
-       if(edit){
-           String url= GlobalVariables.Url_base+"PlanAccion/Post";
-
-           final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);
-           obj.execute(gson.toJson(Plan));
+       String StrNewPlan=gson.toJson(Plan);
+       if(StrPlan.equals(StrNewPlan)){
+           Toast.makeText(this,"No se detectaron cambios",Toast.LENGTH_SHORT).show();
+           finish();
        }
-       else FinishSave();
+       else{
+           if(edit){
+               String url= GlobalVariables.Url_base+"PlanAccion/Post";
+               final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);
+               obj.execute(gson.toJson(Plan));
+           }
+           else FinishSave();
+       }
     }
     public void EscogerFechainicial(View view){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateInicial, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
@@ -305,13 +311,14 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         try {
             super.onActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == 1  && resultCode  == RESULT_OK) {
+            if (requestCode == 1  && resultCode  == RESULT_OK) { // seleccion de solicitado por
                 String name=data.getStringExtra("nombreP");
+                DniAvatar=data.getStringExtra("dni");
                 SolicitadoPor.setText(name);
                 Plan.SolicitadoPor=name;
                 Plan.CodSolicitadoPor=data.getStringExtra("codpersona");
             }
-            if (requestCode == 2  && resultCode  == RESULT_OK) {
+            if (requestCode == 2  && resultCode  == RESULT_OK) { //agregar responsables
                 listPersonAdapter.add(new PersonaModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
             }
         } catch (Exception ex) {
@@ -323,10 +330,12 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     @Override
     public void success(String data, String Tipo) {
         Gson gson = new Gson();
+        DniAvatar=Plan.CodSolicitadoPor;
         Plan = gson.fromJson(data, PlanModel.class);
+        Plan.Editable="1";
         txtReferencia.setText(GlobalVariables.getDescripcion(GlobalVariables.Referencia_Plan,Plan.CodReferencia));
         CodReferencia.setText(Plan.NroDocReferencia);
-
+        StrPlan=gson.toJson(Plan);
         setData();
     }
 
@@ -334,8 +343,10 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     public void successpost(String data, String Tipo) {
         if(data.equals("-1"))
             Toast.makeText(this,"Ocurrio un error interno al intentar guardar cambios",Toast.LENGTH_SHORT).show();
-        else
-        FinishSave();
+        else{
+            Plan.CodSolicitadoPor=DniAvatar;
+            FinishSave();
+        }
     }
 
     @Override

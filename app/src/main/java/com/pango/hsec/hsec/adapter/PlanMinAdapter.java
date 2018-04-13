@@ -42,7 +42,18 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
         this.data = data;
         this.context = context;
     }
-
+    public void replace(PlanMinModel replacedata){
+        data.get(indexOf(replacedata.CodAccion)).CodNivelRiesgo=replacedata.CodNivelRiesgo;
+        data.get(indexOf(replacedata.CodAccion)).DesPlanAccion=replacedata.DesPlanAccion;
+        data.set(indexOf(replacedata.CodAccion),replacedata);
+        notifyDataSetChanged();
+    }
+    public int indexOf(String value){
+        for (int i=0;i<data.size();i++  ) {
+            if(data.get(i).CodAccion.equals(value)) return i;
+        }
+        return 0;
+    }
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         //ViewHolder viewHolder;

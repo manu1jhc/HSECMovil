@@ -39,6 +39,7 @@ import com.pango.hsec.hsec.model.GetPlanMinModel;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
+import com.pango.hsec.hsec.model.PlanMinModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -77,6 +78,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     PopupWindow popupWindow;
     boolean flagpopup=false;
     TextView tipo_estadistica;
+    PlanMinAdapter pma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -203,8 +205,8 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
             url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
 
-            GlobalVariables.flagUpSc=true;
-            Utils.isActivity = true;
+           // GlobalVariables.flagUpSc=true;
+           // Utils.isActivity = true;
             GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
             final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
@@ -324,19 +326,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
 
                 }
-
-
-
-
-
-/*
-                //Utils.isActivity=true;
-                GlobalVariables.istabs=false;
-                final ActivityController obj = new ActivityController("post", url, Busqueda.this);
-                obj.execute(json);
-*/
-                // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
-                //  } },0);
 
             } });
 
@@ -490,7 +479,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
-                GlobalVariables.istabs=false;
+                //GlobalVariables.istabs=false;
 
                 if(descripcion.equals("Observaciones")) {
                     String CodObservacion=GlobalVariables.listaGlobalFiltro.get(position).Codigo;
@@ -633,13 +622,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                 }
             }});
-
-
-
-
-
-
-
     }
 
     public void close(View view){
@@ -680,7 +662,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             swipeRefreshLayout.setVisibility(View.VISIBLE);
         }
 
-        PlanMinAdapter pma = new PlanMinAdapter(this, GlobalVariables.listaPlanMin);
+        pma = new PlanMinAdapter(this, GlobalVariables.listaPlanMin);
         list_estadistica.setAdapter(pma);
 
 
@@ -810,7 +792,25 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == 3) {
+                if(resultCode == this.RESULT_OK){
+                    try {
+                        Gson gson = new Gson();
+                        PlanMinModel plan= gson.fromJson(data.getStringExtra("planaccion"), PlanMinModel.class);
+                        pma.replace(plan);
+                    } catch (Exception ex) {
+                        Toast.makeText(this, ex.toString(),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (resultCode == this.RESULT_CANCELED) {
+                }
+            }
+    }
 
 
 }

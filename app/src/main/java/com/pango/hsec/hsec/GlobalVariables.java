@@ -160,6 +160,7 @@ public class GlobalVariables  {
         }
         return 0;
     }
+
     public static  ArrayList<Maestro> SuperInt_Busq = new ArrayList<>();
 
     public static void loadObs_Detalles(){

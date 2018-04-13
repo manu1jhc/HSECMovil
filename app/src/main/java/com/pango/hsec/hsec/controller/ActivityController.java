@@ -50,7 +50,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
     @Override
     protected void onPreExecute() {
-           if(opcion.contains("get")){
+           /*if(opcion.contains("get")){
 
                String paginas[]= opcion.split("-");
                int pag=1;
@@ -68,7 +68,17 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                     super.onPreExecute();
                     progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
                 }
-            }
+            }*/
+
+
+        String paginas[]= opcion.split("-");
+        int pag=1;
+        if(paginas.length>1) pag=Integer.parseInt(paginas[1]);
+        if(pag==1){
+            super.onPreExecute();
+            progressDialog = ProgressDialog.show(ActContext, "", "Cargando");
+        }
+
     }
 
     @Override
@@ -143,7 +153,8 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-    if(opcion.contains("get")&&cargaData) {
+
+    if(cargaData) {
 
             switch (GlobalVariables.con_status) {
                 case 401:
@@ -163,7 +174,10 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                     activity.error("Ocurrio un error interno en el servidor", Tipo);
                     break;
                 default:
-                    activity.success(respstring, Tipo);
+                    if(opcion=="post")
+                    activity.successpost(Resultado,Tipo);
+                    else activity.success(respstring, Tipo);
+                    break;
             }
 
         String paginas[]= opcion.split("-");
@@ -173,9 +187,9 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         //mainActivity.success();
     }
     //POST
-    else if(opcion=="post"&&cargaData){
+   /* else if(opcion=="post"&&cargaData){
 
-        if(GlobalVariables.isFragment){
+       *//* if(GlobalVariables.isFragment){
             progressDialog.dismiss();
             GlobalVariables.isFragment=false;
         }
@@ -183,7 +197,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             progressDialog.dismiss();
             Utils.isActivity=false;
         }
-
+*//*
         switch (GlobalVariables.con_status) {
             case 401:
                 //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
@@ -204,11 +218,10 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             default:
                 Resultado=Resultado.substring(1,Resultado.length()-1);
                 activity.successpost(Resultado,Tipo);
-        }
+            }
 
-
-
-    }else {
+        }*/
+    else {
         activity.error("Se perdio la conexión a internet", Tipo);
     }
 
