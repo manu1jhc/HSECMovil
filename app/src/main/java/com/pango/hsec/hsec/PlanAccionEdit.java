@@ -341,7 +341,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
 
     @Override
     public void successpost(String data, String Tipo) {
-        if(data.equals("-1"))
+        if(data.contains("-1"))
             Toast.makeText(this,"Ocurrio un error interno al intentar guardar cambios",Toast.LENGTH_SHORT).show();
         else{
             Plan.CodSolicitadoPor=DniAvatar;

@@ -7,6 +7,6 @@ import java.util.ArrayList;
  */
 
 public class GetAccionMejoraModel {
-    public ArrayList<AccionMejoraModel> Data;
+    public ArrayList<AccionMejoraMinModel> Data;
     public int Count;
 }

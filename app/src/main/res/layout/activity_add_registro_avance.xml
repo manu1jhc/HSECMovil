@@ -57,8 +57,21 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView20"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
+
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -93,6 +106,7 @@
                     android:textColor="@color/colorBlanco"
                     android:layout_margin="5dp"
                     />
+
             </android.support.v7.widget.CardView>
 
 
@@ -447,7 +461,53 @@ android:gravity="center_vertical"
 
     </android.support.v4.widget.NestedScrollView>
 
-    <Button
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="-50dp"
+
+        android:id="@+id/constraintLayout6">
+
+        <Button
+            android:id="@+id/btn_guardar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/ColorbtnVerdoso"
+            android:text="Guardar"
+            android:textColor="@color/colorBlanco"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/btn_deleteAm"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <Button
+            android:id="@+id/btn_deleteAm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="1dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/ColorbtnDelete"
+            android:text="Eliminar"
+            android:textColor="@color/colorBlanco"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/btn_guardar"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+    </android.support.constraint.ConstraintLayout>
+
+   <!-- <Button
         android:id="@+id/btn_guardar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -455,7 +515,7 @@ android:gravity="center_vertical"
         android:background="@color/ColorVerdoso"
         android:textColor="@color/colorBlanco"
         android:layout_marginTop="-50dp"
-        />
+        />-->
 
 
 </LinearLayout>

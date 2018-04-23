@@ -69,15 +69,17 @@ public class ViewPagerAdapter extends PagerAdapter {
         image.setMinimumHeight(height);
         image.setMinimumWidth(width);
 
-        //String ad=GlobalVariables.Url_base.substring(0,GlobalVariables.Url_base.length()-4);
+        String host = GlobalVariables.listaGaleria.get(position).Correlativo>0?GlobalVariables.Url_base:"";
+        String url= GlobalVariables.listaGaleria.get(position).Url;
         if(GlobalVariables.listaGaleria.get(position).TipoArchivo.equals("TP02")){
             btn_play.setVisibility(View.VISIBLE);
+            if(GlobalVariables.listaGaleria.get(position).Correlativo>0) url="media/getImagepreview/"+GlobalVariables.listaGaleria.get(position).Correlativo+ "/Preview.jpg";
         }
-        String ad = GlobalVariables.listaGaleria.get(position).Correlativo>0?GlobalVariables.Url_base:"";
+
         if (!GlobalVariables.listaGaleria.get(position).TipoArchivo.equals("TP03")){
             try {
                 Glide.with(image.getContext())
-                        .load(ad + GlobalVariables.listaGaleria.get(position).Url)
+                        .load(host +url)
                         // .fitCenter()
                         .into(image);
                 // positionIn= position;
@@ -89,7 +91,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         btn_play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String finalTempUrl=ad+GlobalVariables.listaGaleria.get(position).Url;
+                String finalTempUrl=host+GlobalVariables.listaGaleria.get(position).Url;
                 Intent intent = new Intent(activity, ActVidDet.class);
                 intent.putExtra("urltemp", finalTempUrl);
                 intent.putExtra("isList", true);

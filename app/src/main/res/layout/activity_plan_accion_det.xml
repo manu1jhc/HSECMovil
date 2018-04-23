@@ -254,7 +254,7 @@
                 android:background="@color/colorBtnBeige"
                 android:layout_marginEnd="1dp"
                 android:id="@+id/cardClas"
-                android:layout_weight="0.20"
+                android:layout_weight="0.17"
                 >
 
                 <TextView
@@ -290,7 +290,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorBtnBeige"
-                android:layout_weight="0.40"
+                android:layout_weight="0.43"
                 android:layout_marginEnd="1dp"
 
                 >
@@ -327,7 +327,7 @@
             android:layout_width="match_parent"
             android:textColor="@color/colorBlanco"
             android:background="@color/ColorbtnVerdoso"
-            android:layout_height="60dp"
+            android:layout_height="45dp"
             android:text="observacion o inspeccion"
             android:visibility="gone" />
 

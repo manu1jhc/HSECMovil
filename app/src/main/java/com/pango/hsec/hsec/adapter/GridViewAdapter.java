@@ -27,18 +27,27 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
     public GridViewAdapter(Activity activity, List<GaleriaModel> items) {
         this.activity = activity;
         this.items = items;
+        GlobalVariables.listaGaleria=items;
     }
 
     public void add(GaleriaModel newdata){
-        items.add(newdata);
-        notifyDataSetChanged();
+        boolean pass=true;
+        for (GaleriaModel temp: items) {
+            if(temp.Descripcion.equals(newdata.Descripcion)&&temp.Tamanio.equals(newdata.Tamanio))
+                pass=false;
+        }
+        if(pass)
+        {
+            items.add(newdata);
+            notifyDataSetChanged();
+        }
+        else Toast.makeText(activity, "El archivo ya existe en la lista" , Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
         View view = inflater.inflate(R.layout.item_grid, viewGroup, false);
-
 
         return new ViewHolder(view);
     }
@@ -74,7 +83,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
                                                          GlobalVariables.listaGaleria=items;
                                                          notifyItemRemoved(position);
                                                          notifyItemRangeChanged(position,items.size());
-                                                         if(Correlativo>0) Toast.makeText(v.getContext(), "Seleccione 'Guardar cambios' para eliminar definitivamente" , Toast.LENGTH_SHORT).show();
+                                                        // if(Correlativo>0) Toast.makeText(v.getContext(), "Seleccione 'Guardar cambios' para eliminar definitivamente" , Toast.LENGTH_SHORT).show();
                                                          //else Toast.makeText(v.getContext(),"Removed : " +item,Toast.LENGTH_SHORT).show();
                                                      }
                                                  }

@@ -30,7 +30,10 @@ import com.pango.hsec.hsec.adapter.PersonaAdapter;
 import com.pango.hsec.hsec.adapter.PlandetAdapter;
 import com.pango.hsec.hsec.adapter.RespAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.AccionMejoraMinModel;
+import com.pango.hsec.hsec.model.AccionMejoraModel;
 import com.pango.hsec.hsec.model.GetAccionMejoraModel;
+import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetPlanModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
@@ -44,15 +47,22 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
     String url;
     String jsonPlan="";
     //String jsonPlanEnviar="";
-    PlandetAdapter plandetAdapter;
+
     RespAdapter respAdapter;
     String codObsIns="";
-    PlanModel planModel;
+
     Button ver_obs_insp;
     boolean verBoton;
     LinearLayout ll_levantar;
-    GetAccionMejoraModel getAccionMejoraModel;
     ImageButton btn_agregar;
+
+    PlandetAdapter plandetAdapter;
+    AccionMejoraAdapter accionMejoraAdapter;
+    ArrayList<AccionMejoraMinModel> ListMejoras;
+    PlanModel planModel;
+    GetAccionMejoraModel getAccionMejoraModel;
+    RecyclerView rec_mejora;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,18 +70,13 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         ver_obs_insp=findViewById(R.id.ver_obs_insp);
         ll_levantar=findViewById(R.id.ll_levantar);
         btn_agregar=findViewById(R.id.btn_agregar);
+        rec_mejora = (RecyclerView) findViewById(R.id.rec_lev_obs);
 
         Bundle datos = this.getIntent().getExtras();
         codAccion=datos.getString("codAccion");
         jsonPlan=datos.getString("jsonPlan");
         verBoton=datos.getBoolean("verBoton");
-        //GlobalVariables.view_fragment=mView;
-        //GlobalVariables.isFragment=false;
-        //codObs="OBS00067956";
-
-
-        GlobalVariables.isFragment=true;
-
+        ListMejoras= new ArrayList<>();
         if(jsonPlan.isEmpty()) {
             //GlobalVariables.istabs=true;
             url= GlobalVariables.Url_base+"PlanAccion/Get/"+codAccion;
@@ -102,38 +107,34 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
                     //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                     startActivity(intent);
                 }
-
-
             }
         });
-
-
 
         btn_agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //abre uno vacio
 
-                //Intent intent=new Intent(PlanAccionDet.this, AddRegistroAvance.class);
-                //startActivity(intent);
-
+                Gson gson= new Gson();
+                AccionMejoraModel temp= new AccionMejoraModel();
+                temp.CodAccion=planModel.CodAccion;
+                temp.Correlativo="-1";
+                temp.PorcentajeAvance="0";
+                temp.Descripcion="";
+                //temp.Files= new GetGaleriaModel();
+                temp.CodResponsable=planModel.CodResponsables.split(";").length>1?"":planModel.CodResponsables;
                 Intent intent=new Intent(PlanAccionDet.this, AddRegistroAvance.class);
-                intent.putExtra("CodAccion",planModel.CodAccion);
+                intent.putExtra("AccionMejora",  gson.toJson(temp));
+                intent.putExtra("Edit", false);
                 intent.putExtra("CodResponsable",planModel.CodResponsables);
                 intent.putExtra("Responsable",planModel.Responsables);
-
                 startActivityForResult(intent , REQUEST_CODE);
-
             }
         });
-
-
     }
 
     public void close(View view){
         finish();
     }
-
 
     @Override
     public void success(String data, String Tipo) {
@@ -155,20 +156,22 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         plandetAdapter = new PlandetAdapter(this,planModel);
         list_popup.setAdapter(plandetAdapter);
         //codObsIns=planModel.NroDocReferencia;
-        String[]responsable=planModel.Responsables.split(";");
+       if(planModel.CodResponsables!=null){
+           String[]responsable=planModel.Responsables.split(";");
 
-        final RecyclerView rec_responsable = (RecyclerView) findViewById(R.id.rec_responsable);
-        rec_responsable.setHasFixedSize(true);
-        LinearLayoutManager llm2 = new LinearLayoutManager(this);
-        llm2.setOrientation(LinearLayoutManager.VERTICAL);
-        rec_responsable.setLayoutManager(llm2);
-        rec_responsable.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+           final RecyclerView rec_responsable = (RecyclerView) findViewById(R.id.rec_responsable);
+           rec_responsable.setHasFixedSize(true);
+           LinearLayoutManager llm2 = new LinearLayoutManager(this);
+           llm2.setOrientation(LinearLayoutManager.VERTICAL);
+           rec_responsable.setLayoutManager(llm2);
+           rec_responsable.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-        respAdapter = new RespAdapter(this,responsable);
-        rec_responsable.setAdapter(respAdapter);
+           respAdapter = new RespAdapter(this,responsable);
+           rec_responsable.setAdapter(respAdapter);
+       }
 
 
-        if(verBoton) {
+        if(verBoton&&planModel.CodResponsables!=null) {
             ll_levantar.setVisibility(View.VISIBLE);
 
             if (planModel.NroDocReferencia.substring(0, 3).equals("OBS")) {
@@ -190,117 +193,44 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         }
 
         }else if(Tipo=="2"){
-            getAccionMejoraModel = gson.fromJson(data, GetAccionMejoraModel.class);
-            int Count=getAccionMejoraModel.Count;
 
-            final RecyclerView rec_mejora = (RecyclerView) findViewById(R.id.rec_lev_obs);
-            rec_mejora.setHasFixedSize(true);
-            LinearLayoutManager llm3 = new LinearLayoutManager(this);
-            llm3.setOrientation(LinearLayoutManager.VERTICAL);
-            rec_mejora.setLayoutManager(llm3);
-            rec_mejora.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+           ListMejoras = gson.fromJson(data, GetAccionMejoraModel.class).Data;
 
-            AccionMejoraAdapter accionMejoraAdapter= new AccionMejoraAdapter(this,getAccionMejoraModel.Data,data);
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            rec_mejora.setLayoutManager(horizontalManager);
+            accionMejoraAdapter= new AccionMejoraAdapter(this,ListMejoras,planModel.Responsables,planModel.CodResponsables);
             rec_mejora.setAdapter(accionMejoraAdapter);
-
-
         }
-
     }
 
     @Override
     public void successpost(String data, String Tipo) {
-
     }
 
     @Override
     public void error(String mensaje, String Tipo) {
-
     }
-
-
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        try {
-            super.onActivityResult(requestCode, resultCode, data);
-            //Bundle datos = this.getIntent().getExtras();
-            //tipo_busqueda=datos.getInt("Tipo_Busqueda");
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
-
-
-                url= GlobalVariables.Url_base+"AccionMejora/Get/"+codAccion;
-                final ActivityController obj = new ActivityController("get", url, PlanAccionDet.this,this);
-                obj.execute("2");
-
-
-                //GlobalVariables.flagUpSc=true;
-
-                //tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
-                /*
-                if(tipo_busqueda==1) {
-                    Utils.observacionModel.CodUbicacion = "5";
-                    Utils.observacionModel.Lugar = "1";
-                    String json = "";
-                    Gson gson = new Gson();
-                    json = gson.toJson(Utils.observacionModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
-                    obj.execute(json);
-
-                }else if(tipo_busqueda==2){
-                    Utils.inspeccionModel.Elemperpage="5";
-                    Utils.inspeccionModel.Pagenumber="1";
-                    String json = "";
-
-                    Gson gson = new Gson();
-                    json = gson.toJson(Utils.inspeccionModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
-                    obj.execute(json);
-
-
-
-                }else if(tipo_busqueda==3){
-                    Utils.noticiasModel.Elemperpage="5";
-                    Utils.noticiasModel.Pagenumber="1";
-                    String json = "";
-
-                    Gson gson = new Gson();
-                    json = gson.toJson(Utils.noticiasModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-                    final ActivityController obj = new ActivityController("post", url, Busqueda.this);
-                    obj.execute(json);
-
-                }
-*/
+        super.onActivityResult(requestCode, resultCode, data);
+        Gson gson = new Gson();
+        try{
+            if(requestCode == 1 && resultCode == this.RESULT_OK) { // new plan
+                AccionMejoraMinModel accionMejora= gson.fromJson(data.getStringExtra("AccionMejora"),AccionMejoraMinModel.class);
+                accionMejora.Editable="true";
+                accionMejoraAdapter.add(accionMejora);
             }
+            if(requestCode == 2 && resultCode == this.RESULT_OK) { // edit plan
 
-
-
-        } catch (Exception ex) {
-            Toast.makeText(PlanAccionDet.this, ex.toString(),
+                AccionMejoraMinModel accionMejora= gson.fromJson(data.getStringExtra("AccionMejora"),AccionMejoraMinModel.class);
+                accionMejoraAdapter.replace(accionMejora);
+            }
+        }
+        catch (Exception ex) {
+            Toast.makeText(this, ex.toString(),
                     Toast.LENGTH_SHORT).show();
         }
-
-
-
-
     }
-
-
-
 }

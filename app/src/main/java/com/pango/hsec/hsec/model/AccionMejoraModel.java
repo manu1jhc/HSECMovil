@@ -18,7 +18,4 @@ public class AccionMejoraModel {
     public String Editable;
     public GetGaleriaModel Files;
 
-
-
-
 }

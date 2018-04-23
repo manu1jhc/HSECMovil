@@ -109,7 +109,6 @@ public class obs_planaccion extends Fragment implements IActivity{
                 listViewAdapter.add(plan);
             }
             if(requestCode == 2 && resultCode == Activity.RESULT_OK) { // edit plan
-                Gson gson = new Gson();
                 PlanModel plan= gson.fromJson(data.getStringExtra("planaccion"),PlanModel.class);
                 listViewAdapter.replace(plan);
             }

@@ -32,14 +32,13 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
     public int length=0;
 
     private VideoView surfaceView;
-    private ConstraintLayout top, button;
+    private ConstraintLayout top, button,left, right;
+    private LinearLayout video_layout;
     private MediaPlayer mediaPlayer;
     private SurfaceHolder surfaceHolder;
     private MediaController mediaController;
     private Handler handler = new Handler();
     public PowerManager.WakeLock wakelock;
-    //private static final String video= "https://app.antapaccay.com.pe/Proportal/SCOM_Service/Videos/1700.mp4";
-
 
     public ProgressDialog pDialog;
     private SeekBar seekbar;
@@ -50,9 +49,7 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*final ProgressDialog pDialog;
-        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);*/
+
         super.onCreate(savedInstanceState);
         percenloadin=0;
 
@@ -67,30 +64,11 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
         if(isListvideo==true) {
 
             String video_data=datos.getString("urltemp");
-
             video=video_data; //GlobalVariables.Urlbase.substring(0, GlobalVariables.Urlbase.length() - 4)+video_data.replace(".",GlobalVariables.cal_sd_hd);//+video_data.replace(".",GlobalVariables.cal_sd_hd);
 
         }else{
             //video = GlobalVariables.Urlbase.substring(0, GlobalVariables.Urlbase.length() - 4) + GlobalVariables.listdetvid.get(position).getUrl_vid().replace(".",GlobalVariables.cal_sd_hd);
         }
-
-       /* final ValidUrlController obj1 = new ValidUrlController(ActVidDet.this,"url","get");
-        obj1.execute(video);
-*/
-
-        /*final Handler h = new Handler();
-        h.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (obj1.getStatus() == AsyncTask.Status.FINISHED) {
-
-
-
-                } else {
-                    h.postDelayed(this, 50);
-                }
-            }
-        }, 250);*/
 
         if(GlobalVariables.con_status_video==200) {
             surfaceView = (VideoView) findViewById(R.id.surfaceView);
@@ -109,6 +87,10 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
 
             top = (ConstraintLayout) findViewById(R.id.padingtop);
             button = (ConstraintLayout) findViewById(R.id.padingbutton);
+            left = (ConstraintLayout) findViewById(R.id.padingleft);
+            right = (ConstraintLayout) findViewById(R.id.padingright);
+            video_layout  = (LinearLayout) findViewById(R.id.layout_horizontal);
+
 
             pDialog = new ProgressDialog(ActVidDet.this);
             pDialog.setMessage("Buffering...");
@@ -137,28 +119,15 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
             alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     finish();
-                    //startActivity(getIntent());
                 }
             });
-
-                /*alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cerrar Aplicación", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                        //startActivity(getIntent());
-                    }
-                });*/
-
             alertDialog.show();
         }
 
 
     }
 
-    //////////////////////////////////////////////77
-
-
-
-
+    //////////////////////////////////////////////
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
@@ -166,17 +135,42 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
         super.onConfigurationChanged(newConfig);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) //To fullscreen
         {
-            top.setVisibility(View.GONE);
-            button.setVisibility(View.GONE);
-            surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
-
+            if(mediaPlayer.getVideoWidth()>mediaPlayer.getVideoHeight()) { //fullscreen
+                top.setVisibility(View.GONE);
+                button.setVisibility(View.GONE);
+                left.setVisibility(View.GONE);
+                right.setVisibility(View.GONE);
+                surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+                video_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+            }
+            else{
+                top.setVisibility(View.GONE);
+                button.setVisibility(View.GONE);
+                left.setVisibility(View.VISIBLE);
+                right.setVisibility(View.VISIBLE);
+                video_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+                surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 0.34f));
+            }
         }
         else if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
         {
-            top.setVisibility(View.VISIBLE);
-            button.setVisibility(View.VISIBLE);
-            surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 0.38f));
-
+            if(mediaPlayer.getVideoHeight()>mediaPlayer.getVideoWidth())//fullScrim
+            {
+                top.setVisibility(View.GONE);
+                button.setVisibility(View.GONE);
+                left.setVisibility(View.GONE);
+                right.setVisibility(View.GONE);
+                surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+                video_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+            }
+            else {
+                top.setVisibility(View.VISIBLE);
+                button.setVisibility(View.VISIBLE);
+                left.setVisibility(View.GONE);
+                right.setVisibility(View.GONE);
+                video_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0, 0.34f));
+                surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+            }
         }
     }
 
@@ -202,6 +196,38 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
         mediaPlayer.start();
         mediaController.setMediaPlayer(this);
         mediaController.setAnchorView(surfaceView);
+        if(getResources().getConfiguration().orientation==1) //orientacion Vertical
+        {
+            if(mediaPlayer.getVideoHeight()>mediaPlayer.getVideoWidth())//fullScrim
+            {
+                top.setVisibility(View.GONE);
+                button.setVisibility(View.GONE);
+                left.setVisibility(View.GONE);
+                right.setVisibility(View.GONE);
+                surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+                video_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+            }
+            else{
+                left.setVisibility(View.GONE);
+                right.setVisibility(View.GONE);
+                surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+            }
+        }
+        else{   //orientacion Horizonal
+            if(mediaPlayer.getVideoWidth()>mediaPlayer.getVideoHeight()) { //fullscreen
+                top.setVisibility(View.GONE);
+                button.setVisibility(View.GONE);
+                left.setVisibility(View.GONE);
+                right.setVisibility(View.GONE);
+                surfaceView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+                video_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+            }
+            else{
+                top.setVisibility(View.GONE);
+                button.setVisibility(View.GONE);
+                video_layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 1f));
+            }
+        }
         handler.post(new Runnable() {
 
             public void run() {
@@ -247,6 +273,7 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
             mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
             mediaPlayer.prepareAsync();
             mediaController = new MediaController(this);
+
         }
         catch (IOException e){
             e.printStackTrace();

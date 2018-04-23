@@ -1,11 +1,31 @@
 package com.pango.hsec.hsec;
 
+import android.content.ContentUris;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.provider.OpenableColumns;
+import android.support.annotation.Nullable;
+import android.util.Log;
+
+import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,8 +49,6 @@ public class Utils {
 
         return urlOk;
     }
-
-
 
     public static String getTicketProperty(ObservacionModel observacionModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -109,12 +127,6 @@ public class Utils {
         }
     }
 
-
-
-
-
-
-
     public static String getDataIzq(ObservacionModel observacionModel, String s) {
        /* DateFormat formatoInicial = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
@@ -164,11 +176,6 @@ public class Utils {
         }
     }
 
-
-
-
-
-
     public static String getPlan(PlanModel planModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
@@ -208,8 +215,6 @@ public class Utils {
 
 
             case "CodEstadoAccion":
-
-
 
                 return GlobalVariables.getDescripcion(GlobalVariables.Estado_Plan,planModel.CodEstadoAccion);
 
@@ -319,8 +324,6 @@ public class Utils {
         }
     }
 
-
-
     public static String getObsDetData(ObsInspDetModel obsInspDetModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
@@ -409,7 +412,6 @@ public class Utils {
     }
 
 
-
     public static ArrayList<String> tempObs=new ArrayList<String>();
     public static ObservacionModel observacionModel=new ObservacionModel();
     public static InspeccionModel inspeccionModel=new InspeccionModel();
@@ -423,10 +425,115 @@ public class Utils {
     public static boolean isActivity=false;
 
 
+    @Nullable
+    public static GaleriaModel getFilePath(Context context, Uri uri) throws URISyntaxException {
+        String selection = null;
 
+        String[] selectionArgs = null;
+        // Uri is different in versions after KITKAT (Android 4.4), we need to
+        if (Build.VERSION.SDK_INT >= 19 && DocumentsContract.isDocumentUri(context.getApplicationContext(), uri)) {
+            if (isExternalStorageDocument(uri)) {
 
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+               // return Environment.getExternalStorageDirectory() + "/" + split[1];
+                File myFile = new File(Environment.getExternalStorageDirectory() + "/" + split[1]);
+                return new GaleriaModel(Environment.getExternalStorageDirectory() + "/" + split[1],"TP03", myFile.length()+"", myFile.getName());
+            } else if (isDownloadsDocument(uri)) {
+                final String id = DocumentsContract.getDocumentId(uri);
+                uri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+            } else if (isMediaDocument(uri)) {
+                final String docId = DocumentsContract.getDocumentId(uri);
+                final String[] split = docId.split(":");
+                final String type = split[0];
+                if ("image".equals(type)) {
+                    uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+                } else if ("video".equals(type)) {
+                    uri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
+                } else if ("audio".equals(type)) {
+                    uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+                }
+                selection = "_id=?";
+                selectionArgs = new String[]{
+                        split[1]
+                };
+            } else if (isGoogleDriveFile(uri)) {
+                String mimeType = context.getContentResolver().getType(uri);
+                Cursor returnCursor = context.getContentResolver().query(uri, null, null, null, null);
+                if(returnCursor.moveToFirst()){
+                    String fileName = returnCursor.getString(returnCursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    String SizeDoc = returnCursor.getString(returnCursor.getColumnIndex(OpenableColumns.SIZE));
+                    GaleriaModel temp=new GaleriaModel(uri.getPath(),"TP03", SizeDoc, fileName);
+                    temp.uri=uri;
+                    return temp;
+                }
+            }
+        }
 
+        if ("content".equalsIgnoreCase(uri.getScheme())) {
+            String[] projection = {
+                    MediaStore.Images.Media.DATA
+            };
+            Cursor cursor = null,cursor2=null;
+            try {
+                cursor2 = context.getContentResolver().query(uri, null, null, null, null);
+                cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs, null);
+                int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+                if (cursor.moveToFirst()&&cursor2.moveToFirst()) {
+                    String fileName = cursor2.getString(cursor2.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                    String SizeDoc = cursor2.getString(cursor2.getColumnIndex(OpenableColumns.SIZE));
+                    return  new GaleriaModel(cursor.getString(column_index),"TP03", SizeDoc, fileName);
+                }
+            } catch (Exception e) {
+            }
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            File myFile = new File(uri.getPath());
+            return new GaleriaModel(uri.getPath(),"TP03", myFile.length()+"", myFile.getName());
+        }
+        return null;
+    }
 
+    public static boolean isExternalStorageDocument(Uri uri) {
+        return "com.android.externalstorage.documents".equals(uri.getAuthority());
+    }
 
+    public static boolean isDownloadsDocument(Uri uri) {
+        return "com.android.providers.downloads.documents".equals(uri.getAuthority());
+    }
 
+    public static boolean isMediaDocument(Uri uri) {
+        return "com.android.providers.media.documents".equals(uri.getAuthority());
+    }
+
+    public static boolean isGoogleDriveFile(Uri uri) {
+        return "com.google.android.apps.docs.storage".equals(uri.getAuthority());
+    }
+
+    public static void copyStreamToFile(File file, InputStream input) {
+        try {
+            OutputStream output = new FileOutputStream(file);
+            try {
+                byte[] buffer = new byte[4 * 1024]; // or other buffer size
+                int read;
+
+                while ((read = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, read);
+                }
+
+                output.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                output.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

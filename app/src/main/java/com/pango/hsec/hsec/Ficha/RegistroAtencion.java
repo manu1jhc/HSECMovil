@@ -21,9 +21,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.DocumentoAdapter;
 import com.pango.hsec.hsec.adapter.GaleriaAdapter;
+import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.AccionMejoraModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 
@@ -32,10 +34,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-public class RegistroAtencion extends AppCompatActivity {
+public class RegistroAtencion extends AppCompatActivity implements IActivity {
     RecyclerView gridView,listView;
     AccionMejoraModel accionMejoraModel;
-    String json="";
     TextView tx_responsable,tx_fecha,tx_avance,tx_tarea;
     GaleriaAdapter galeriaAdapter;
     private static final short REQUEST_CODE = 6545;
@@ -61,102 +62,19 @@ public class RegistroAtencion extends AppCompatActivity {
 
         rel_otros=findViewById(R.id.rel_otros);
 
-        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
-
         Bundle datos = getIntent().getExtras();
-        json=datos.getString("json");
-        Gson gson = new Gson();
-        accionMejoraModel = gson.fromJson(json, AccionMejoraModel.class);
-
-        tx_responsable.setText(accionMejoraModel.Responsable);
-        tx_avance.setText(accionMejoraModel.PorcentajeAvance);
-        tx_tarea.setText(accionMejoraModel.Descripcion);
-
-
-        try {
-            tx_fecha.setText(formatoRender.format(formatoInicial.parse(accionMejoraModel.Fecha)));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-        DataDocs.clear();
-        DataImg.clear();
-        int count=accionMejoraModel.Files.Count;
-
-        if(count!=0){
-            if(json.contains("TP01") ){
-                ll_galeria.setVisibility(View.VISIBLE);
-            }else {
-                ll_galeria.setVisibility(View.GONE);
-            }
-
-            if(json.contains("TP03") ){
-                rel_otros.setVisibility(View.VISIBLE);
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
-                    checkSelfPermission();
-                    //executeDownload();
-
-                } else {
-                    Toast.makeText(this, "Download manager is not available", Toast.LENGTH_LONG).show();
-                }
-
-
-
-            }else {
-                rel_otros.setVisibility(View.GONE);
-            }
-
-            for(int i=0;i<accionMejoraModel.Files.Data.size();i++){
-                if(accionMejoraModel.Files.Data.get(i).TipoArchivo.equals("TP03")){
-                    rel_otros.setVisibility(View.VISIBLE);
-                    DataDocs.add(accionMejoraModel.Files.Data.get(i));
-                }else{
-                    DataImg.add(accionMejoraModel.Files.Data.get(i));
-                }
-            }
-
-            GlobalVariables.listaGaleria=DataImg;
-
-
-
-
-
-            GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-            gridView.setLayoutManager(layoutManager);
-            galeriaAdapter = new GaleriaAdapter(this,DataImg );
-            gridView.setAdapter(galeriaAdapter);
-
-
-
-            LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            listView.setLayoutManager(horizontalManager);
-            documentoAdapter = new DocumentoAdapter(this, DataDocs,permiso);
-            listView.setAdapter(documentoAdapter);
-
-
-
-        }else{
-            //mensaje.setVisibility(View.VISIBLE);
-            rel_otros.setVisibility(View.GONE);
-            gridView.setVisibility(View.GONE);
-            ll_galeria.setVisibility(View.GONE);
-        }
-
-
-        //gridView.setHasFixedSize(true);
-        //set layout manager and adapter for "GridView"
-
-
+        String url= GlobalVariables.Url_base+"AccionMejora/GetId/"+datos.getString("Correlativo");
+        ActivityController obj = new ActivityController("get", url, RegistroAtencion.this,this);
+        obj.execute("");
 
     }
 
     public void close(View view){finish();}
 
+    public void setData(){
 
 
+    }
 
     private static boolean isDownloadManagerAvailable() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
@@ -182,7 +100,6 @@ public class RegistroAtencion extends AppCompatActivity {
 
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
@@ -227,14 +144,86 @@ public class RegistroAtencion extends AppCompatActivity {
     }
 
 
+    @Override
+    public void success(String data, String Tipo) {
 
+        Gson gson = new Gson();
+        accionMejoraModel = gson.fromJson(data, AccionMejoraModel.class);
 
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
+        try {
+            tx_fecha.setText(formatoRender.format(formatoInicial.parse(accionMejoraModel.Fecha)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
+        DataDocs.clear();
+        DataImg.clear();
+        tx_responsable.setText(accionMejoraModel.Responsable);
+        tx_avance.setText(accionMejoraModel.PorcentajeAvance);
+        tx_tarea.setText(accionMejoraModel.Descripcion);
 
+        int count=accionMejoraModel.Files.Count;
+        if(count!=0){
+            if(data.contains("TP01") ||data.contains("TP02")){
+                ll_galeria.setVisibility(View.VISIBLE);
+            }else {
+                ll_galeria.setVisibility(View.GONE);
+            }
 
+            if(data.contains("TP03") ){
+                rel_otros.setVisibility(View.VISIBLE);
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+                    checkSelfPermission();
+                    //executeDownload();
 
+                } else {
+                    Toast.makeText(this, "Download manager is not available", Toast.LENGTH_LONG).show();
+                }
 
+            }else {
+                rel_otros.setVisibility(View.GONE);
+            }
 
+            for(int i=0;i<accionMejoraModel.Files.Data.size();i++){
+                if(accionMejoraModel.Files.Data.get(i).TipoArchivo.equals("TP03")){
+                    rel_otros.setVisibility(View.VISIBLE);
+                    DataDocs.add(accionMejoraModel.Files.Data.get(i));
+                }else{
+                    DataImg.add(accionMejoraModel.Files.Data.get(i));
+                }
+            }
+
+            GlobalVariables.listaGaleria=DataImg;
+
+            GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+            gridView.setLayoutManager(layoutManager);
+            galeriaAdapter = new GaleriaAdapter(this,DataImg );
+            gridView.setAdapter(galeriaAdapter);
+
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            listView.setLayoutManager(horizontalManager);
+            documentoAdapter = new DocumentoAdapter(this, DataDocs,permiso);
+            listView.setAdapter(documentoAdapter);
+
+        }else{
+            //mensaje.setVisibility(View.VISIBLE);
+            rel_otros.setVisibility(View.GONE);
+            gridView.setVisibility(View.GONE);
+            ll_galeria.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
+    }
 }

@@ -12,6 +12,8 @@ public class GetGaleriaModel {
     public int Count;
 
     public GetGaleriaModel() {
+        Data= new ArrayList<>();
+        Count=0;
     }
 
     public GetGaleriaModel(ArrayList<GaleriaModel> data) {

@@ -238,12 +238,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
                 paginacion2=1;
-                //   upFlag=false;
-                //  downFlag=false;
-                // (new Handler()).postDelayed(new Runnable() {
-                //    @Override
-                //    public void run() {
-                //swipeRefreshLayout.setRefreshing(true);
+
                 loadingTop=true;
                 GlobalVariables.listaGlobalFiltro.clear(); //crear segun el formato
                 GlobalVariables.listaPlanMin.clear(); //crear segun el formato
@@ -252,9 +247,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 GlobalVariables.flag_up_toast=true;
                 flagObsFiltro=true;
 
-                //Utils.observacionModel=new ObservacionModel();
-                //ObservacionModel observacionModel=new ObservacionModel();
-                //tipo_busqueda=1;
                 String jsonR = "";
                 Utils.isActivity=false;
                 if(descripcion.equals("Observaciones")) {
@@ -314,16 +306,8 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
                     }
 
-                    //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
-                    GlobalVariables.flagUpSc=true;
-
-                    //Utils.isActivity = true;
-                    //GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
                     final ActivityController obj = new ActivityController("get-0", url, BusqEstadistica.this,BusqEstadistica.this);
                     obj.execute("");
-
-
 
                 }
 
@@ -374,14 +358,8 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                             Utils.observacionModel.FechaFin = anio + "-" + mes + "-" + diaFin;
                         }
 
-
-
                         Gson gson = new Gson();
                         json2 = gson.toJson(Utils.observacionModel);
-
-                        //GlobalVariables.isFragment=false;
-                        //Utils.isActivity=true;
-                        //url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
 
                             GlobalVariables.istabs=false;// para que no entre al flag de tabs
                             final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
@@ -403,18 +381,10 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                         Gson gson = new Gson();
                         json2 = gson.toJson(Utils.inspeccionModel);
-/*
-                        Utils.isActivity = true;
-                        GlobalVariables.istabs = false;
-                        url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-*/
 
                             GlobalVariables.istabs=false;// para que no entre al flag de tabs
                             final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
                             obj.execute(json2);
-
-
-
 
                     }else {
                         // aqui va plaqn de accion
@@ -434,23 +404,14 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                             //Utils.isActivity=true;
                         final ActivityController obj = new ActivityController("get-"+paginacion2, url, BusqEstadistica.this,BusqEstadistica.this);
                         obj.execute("");
-
-
-
                         }
-
-
-
                     }
-
                 }
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
                     listenerFlag = true;
                     swipeRefreshLayout.setEnabled(false);
                     Log.d("started", "comenzo");
                 }
-                //  }
-
             }
 
             @Override
@@ -502,22 +463,15 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                 }else {
 
+                    boolean  pass=Integer.parseInt(GlobalVariables.listaPlanMin.get(position).Editable)>1?true:false;
 
                     String CodAccion= GlobalVariables.listaPlanMin.get(position).CodAccion;
                     Intent intent = new Intent(BusqEstadistica.this, PlanAccionDet.class);
                     intent.putExtra("codAccion",CodAccion);
                     intent.putExtra("jsonPlan","");
-                    intent.putExtra("verBoton",true);
-
-                    //intent.putExtra("posTab",0);
+                    intent.putExtra("verBoton",pass);
                     startActivity(intent);
-
-
-
-
                 }
-
-
             }
         });
 
@@ -607,15 +561,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     }else{
                         url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
                     }
-
-                    //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
-                    //GlobalVariables.flagUpSc=true;
-                    //GlobalVariables.istabs=false;
-                    //Utils.isActivity = true;
-                    //GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-                    Utils.isActivity = true;
-
-                    //GlobalVariables.isFragment=true;
                     GlobalVariables.listaPlanMin=new ArrayList<>();
                     final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
                     obj.execute("");

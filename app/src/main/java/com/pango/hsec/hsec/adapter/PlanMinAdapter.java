@@ -104,7 +104,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
         }
 
 
-        if(tempEditar.equals("1")){
+        if(tempEditar.equals("1")||tempEditar.equals("3")){
             editar.setVisibility(View.VISIBLE);
         }else{
             editar.setVisibility(View.GONE);

@@ -3,12 +3,17 @@ package com.pango.hsec.hsec;
 import android.*;
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.provider.FontRequest;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -54,10 +59,12 @@ import com.pango.hsec.hsec.adapter.ListViewAdapter;
 
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
 
 public class obs_archivos extends Fragment implements IActivity,Picker.PickListener {
 
@@ -150,8 +157,9 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
                                             Intent intent = new Intent();
                                             intent.setType("application/pdf");
                                             intent.setAction(Intent.ACTION_GET_CONTENT);
+                                            intent.addFlags(FLAG_GRANT_READ_URI_PERMISSION);
                                             intent.putExtra(Intent.EXTRA_MIME_TYPES, ACCEPT_MIME_TYPES);
-                                            startActivityForResult(Intent.createChooser(intent, "Choose Document"), 1);
+                                            startActivityForResult(Intent.createChooser(intent, "Seleccione Documento"), 1);
                                         }
                                     }
         );
@@ -173,46 +181,35 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
    @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data)
    {
-       if(resultCode==RESULT_CANCELED)
-       {
-           // action cancelled
-       }
+       if(resultCode==RESULT_CANCELED){ // action cancelled
+            }
        if(resultCode==RESULT_OK)
        {
            Uri uri = data.getData();
-           String uriString = uri.toString();
-           File myFile = new File(uriString);
-           String displayName="";
-           if (uriString.startsWith("content://")) {
-               Cursor cursor = null;
-               try {
-                   cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-                   if (cursor != null && cursor.moveToFirst()) {
-                       displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                   }
-               } finally {
-                   cursor.close();
-               }
-           } else if (uriString.startsWith("file://")) {
-               displayName = myFile.getName();
+           GaleriaModel temp= null;
+           try {
+               temp = Utils.getFilePath(this.getContext(),uri);
+           } catch (URISyntaxException e) {
+               e.printStackTrace();
            }
-
-           String [] exts=displayName.split("\\.");
-           String ext=exts[exts.length-1];
-           switch (ext){
+           String [] exts=temp.Descripcion.split("\\.");
+           switch (exts[exts.length-1]){
                case "pdf":case "doc":case "docx":case "ppt":case "pptx":case "xls":case "xlsx":case "odt":
-                   listViewAdapter.add(new GaleriaModel(myFile.getAbsolutePath(),"TP03", myFile.getTotalSpace()+"", displayName));
+                   listViewAdapter.add(temp);
                    break;
                default: Toast.makeText(getActivity(), "Archivo no permitido", Toast.LENGTH_LONG).show();
            }
        }
    }
+
+
    /* private static boolean isDownloadManagerAvailable() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
             return true;
         }
         return false;
     }*/
+
     public void loadImage(){
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)requestPermissions(new String[] {android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1011);
         else  if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)requestPermissions(new String[] {Manifest.permission.CAMERA}, 1022);
@@ -293,7 +290,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
 
         for (ImageEntry image:images) {
-            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",image.dateAdded+"",image.imageId+""));
+            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",image.imageId+""));
         }
     }
 

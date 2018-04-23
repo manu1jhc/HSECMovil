@@ -4,37 +4,35 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
+import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.support.annotation.RequiresApi;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
@@ -42,45 +40,56 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.adapter.ListViewAdapter;
+import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.controller.WebServiceAPI;
 import com.pango.hsec.hsec.model.AccionMejoraModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.ImageEntry;
 import com.pango.hsec.hsec.model.Maestro;
-import com.pango.hsec.hsec.obs_archivos;
 import com.pango.hsec.hsec.util.Picker;
+import com.pango.hsec.hsec.util.ProgressRequestBody;
 import com.pango.hsec.hsec.utilitario.InputFilterMinMax;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
+import java.net.URISyntaxException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
-public class AddRegistroAvance extends AppCompatActivity implements IActivity, Picker.PickListener {
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class AddRegistroAvance extends AppCompatActivity implements IActivity, Picker.PickListener,  ProgressRequestBody.UploadCallbacks {
     Calendar myCalendar;
     DatePickerDialog.OnDateSetListener date;
     EditText tx_avance,et_mensaje;
-    Button decrement, increment,btnFechaInicio,btn_guardar;
-    String fecha_inicio="-";
-    boolean escogioFecha;
-    String fechaEscogida;
-    AccionMejoraModel AddAccionMejora=new AccionMejoraModel();
-    String fecha="";
-    //String PlanEnviar="";
+    Button decrement, increment,btnFechaInicio,btn_guardar,btn_eliminar;
+    ProgressBar progressBar;
+    private ProgressDialog progress;
+    boolean  Editable=false;
     private RecyclerView listView;
     private RecyclerView gridView;
     private ListViewAdapter listViewAdapter;
     private GridViewAdapter gridViewAdapter;
     private ArrayList<GaleriaModel> DataFiles;
     private ArrayList<GaleriaModel> DataImg;
-    private ArrayList<GaleriaModel> Data=new ArrayList<>();
     Spinner spinnerUsuario;
-    String CodAccion="",CodResponsable="",Responsable="";
+    String CodResponsable="",Responsable="",StrAccionmejora="", Errores="";
+    ArrayList<Integer> Actives=new ArrayList();
     ArrayList<Maestro> usuario_data;
 
-    private ArrayList<ImageEntry> mSelectedImages;
-    ProgressDialog progressDialog;
     final String[] ACCEPT_MIME_TYPES = {
             "application/pdf",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -91,51 +100,52 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             "application/vnd.ms-excel"
     };
-
+    AccionMejoraModel AddAccionMejora=new AccionMejoraModel();
+    Gson gson;
+    SimpleDateFormat df,dt;
+    ArrayList<GaleriaModel> Data;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_registro_avance);
         tx_avance=findViewById(R.id.tx_avance);
-        tx_avance.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "100")});
+        tx_avance.setFilters(new InputFilter[]{ new InputFilterMinMax("0", "100")});
         decrement=findViewById(R.id.decrement);
         increment=findViewById(R.id.increment);
         btnFechaInicio=(Button) findViewById(R.id.btn_fecha);
         et_mensaje=findViewById(R.id.et_mensaje);
         btn_guardar=findViewById(R.id.btn_guardar);
+        btn_eliminar=findViewById(R.id.btn_deleteAm);
+        progressBar = findViewById(R.id.progressBar2);
         //////////////
         ImageButton btnFotos=(ImageButton) findViewById(R.id.btn_addfotos);
         ImageButton btnFiles=(ImageButton) findViewById(R.id.btn_addfiles);
-        gridView = (RecyclerView)  findViewById(R.id.grid);
+
         spinnerUsuario=(Spinner) findViewById(R.id.sp_persona);
-
-        DataImg = new ArrayList<>();
-
+        gridView = (RecyclerView)  findViewById(R.id.grid);
         listView = (RecyclerView) findViewById(R.id.list);
+        DataImg = new ArrayList<>();
         DataFiles = new ArrayList<>();
-
-
+        Data = new ArrayList<>();
+        gson = new Gson();
+        df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        dt = new SimpleDateFormat("dd 'de' MMMM");
         Bundle datos = this.getIntent().getExtras();
-        CodAccion=datos.getString("CodAccion");
+        AddAccionMejora= gson.fromJson(datos.getString("AccionMejora"), AccionMejoraModel.class);
         CodResponsable=datos.getString("CodResponsable");
         Responsable=datos.getString("Responsable");
-
+        Editable=datos.getBoolean("Edit");
         usuario_data= new ArrayList<>();
-        usuario_data.add(new Maestro(null,"-  Seleccione  -"));
         String[] cod_Responsables=CodResponsable.split(";");
-
         String[] nom_Responsables=Responsable.split(";");
 
         for(int i=0;i<cod_Responsables.length;i++){
-            usuario_data.add(new Maestro(cod_Responsables[i],nom_Responsables[i]));
+            usuario_data.add(new Maestro(cod_Responsables[i],nom_Responsables[i].split(":")[0]));
         }
-
+        if(usuario_data.size()>1)usuario_data.add(0,new Maestro(null,"-  Seleccione  -"));
         ArrayAdapter adapterUsuario = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, usuario_data);
         adapterUsuario.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerUsuario.setAdapter(adapterUsuario);
-
-
-
         spinnerUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -146,11 +156,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                     //area_pos= String.valueOf(position);
                 }else {
                     AddAccionMejora.CodResponsable="";
-                    //Utils.observacionModel.CodAreaHSEC=null;
-                    //area="";
-                    //area_pos=String.valueOf(position);
                 }
-
             }
 
             @Override
@@ -159,12 +165,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
             }
         });
 
-
-
-
-
-        //usuario_data.addAll();
-
         btnFotos.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -172,7 +172,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                                         }
                                     }
         );
-
         btnFiles.setOnClickListener(new View.OnClickListener() {
                                         @Override
                                         public void onClick(View v) {
@@ -180,40 +179,35 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                                             intent.setType("application/pdf");
                                             intent.setAction(Intent.ACTION_GET_CONTENT);
                                             intent.putExtra(Intent.EXTRA_MIME_TYPES, ACCEPT_MIME_TYPES);
-                                            startActivityForResult(Intent.createChooser(intent, "Choose Document"), 1);
+                                            startActivityForResult(Intent.createChooser(intent, "Seleccione un documento"), 1);
                                         }
                                     }
         );
-
-
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text=tx_avance.getText().toString();
-                int val_dec=Integer.parseInt(text)-1;
-                if(val_dec>0&&val_dec<=100) {
+                int val_dec=100;
+                if(!text.isEmpty()) val_dec=Integer.parseInt(text)-1;
+                if(val_dec>=0&&val_dec<=100) {
                     //tx_avance.setText(val_dec+"");
                     tx_avance.setText(String.valueOf(val_dec), TextView.BufferType.EDITABLE);
-
                 }
             }
         });
-
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text=tx_avance.getText().toString();
-                int val_dec=Integer.parseInt(text)+1;
-                if(val_dec>0&&val_dec<=100) {
+                int val_dec=0;
+                if(!text.isEmpty()) val_dec=Integer.parseInt(text)+1;
+                if(val_dec>=0&&val_dec<=100) {
                     //tx_avance.setText(val_dec+"");
                     tx_avance.setText(String.valueOf(val_dec), TextView.BufferType.EDITABLE);
 
                 }
             }
         });
-
-
-
 
         ////////////////////////////////////////////////
         myCalendar = Calendar.getInstance();
@@ -226,67 +220,296 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 Date actual = myCalendar.getTime();
-
-                SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
-                SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
-                //Utils.observacionModel.FechaInicio= String.valueOf(fecha_envio.format(actual));
-                fecha=String.valueOf(fecha_envio.format(actual));
-
-                fecha_inicio=dt.format(actual);
+                AddAccionMejora.Fecha=df.format(actual);
                 btnFechaInicio.setText(dt.format(actual));
-                // btnFechaFin.setText(dt.format(actual));
-                // fecha_inicio=dt.format(actual);
-                escogioFecha = true;
-                dt = new SimpleDateFormat("yyyyMMdd");
-                fechaEscogida = dt.format(actual);
-              /*  if (escogioOrigen && escogioDestino && escogioFecha)
-                    botonBuscarTickets.setEnabled(true);
-                    */
             }
-
         };
-
 
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                String avance=tx_avance.getText().toString();
-                String tarea_realizada=et_mensaje.getText().toString();
-
-                Data.addAll(DataImg);
-                Data.addAll(DataFiles);
-                AddAccionMejora.CodAccion=CodAccion;
-                AddAccionMejora.Correlativo="-1";
-                AddAccionMejora.PorcentajeAvance=avance;
-                AddAccionMejora.Descripcion=tarea_realizada;
-                AddAccionMejora.Fecha=fecha;
-                AddAccionMejora.Files=new GetGaleriaModel(Data);
-
-                //AddAccionMejora.Files.Data.addAll(DataImg); //=new ArrayList<GaleriaModel>(DataImg);
-
-                //AddAccionMejora.Files.Data.addAll(DataFiles);
-
-
-                //DataFiles
-                        //.add(new GaleriaModel(DataImg));
-
-
-
-                Intent intent = getIntent();
-                //intent.putExtra("Tipo_Busqueda",1);
-
-                //intent.putExtra("nombreP",nombre);
-                //intent.putExtra("codpersona",CodPersona);
-                setResult(RESULT_OK, intent);
-                finish();
-
-
-
-
+                AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
+                AddAccionMejora.PorcentajeAvance=tx_avance.getText().toString();
+                AddAccionMejora.Descripcion=et_mensaje.getText().toString();
+                Actives.clear();
+                Errores="";
+                if(Editable){
+                    String newJson=gson.toJson(AddAccionMejora);
+                    if(!StrAccionmejora.equals(newJson))  {
+                        Actives.add(0);
+                        String url= GlobalVariables.Url_base+"AccionMejora/post";
+                        ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                        obj.execute(gson.toJson(AddAccionMejora),"1");
+                    }
+                    else {
+                        Actives.add(1);
+                        UpdateFiles(true);
+                    }
+                }
+                else{
+                    Actives.add(0);
+                    String url= GlobalVariables.Url_base+"AccionMejora/post";
+                    ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                    obj.execute(gson.toJson(AddAccionMejora),"1");
+                }
             }
         });
 
+        if(Editable){
+            btn_eliminar.setVisibility(View.VISIBLE);
+            String url= GlobalVariables.Url_base+"AccionMejora/GetId/"+AddAccionMejora.Correlativo;
+            ActivityController obj = new ActivityController("get", url, AddRegistroAvance.this,this);
+            obj.execute("0");
+        }
+        else{
+            Date fecha=new Date();
+            myCalendar = Calendar.getInstance();
+            fecha = myCalendar.getTime();
+            AddAccionMejora.Fecha=df.format(fecha);
+            Data=new ArrayList<>();
+            setdata();
+        }
+
+        btn_eliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder;
+                builder = new AlertDialog.Builder(AddRegistroAvance.this);
+                builder.setTitle("¿Desea continuar?");
+                builder.setIcon(R.drawable.erroricon);
+                builder.setMessage("Está a punto de eliminar la accion de mejora.");
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        String url= GlobalVariables.Url_base+"AccionMejora/Delete/"+AddAccionMejora.Correlativo;
+                        ActivityController obj = new ActivityController("get", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                        obj.execute("2");
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Cerrar diálogo
+                        dialog.dismiss();
+                    }
+                });
+                builder.show();
+            }
+        });
+    }
+
+    public void setdata(){
+
+        if(!AddAccionMejora.CodResponsable.isEmpty()){
+            spinnerUsuario.setSelection(GlobalVariables.indexOf(usuario_data,AddAccionMejora.CodResponsable));
+        }
+
+        Date fecha=new Date();
+        SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            fecha = df.parse(AddAccionMejora.Fecha);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        btnFechaInicio.setText(dt.format(fecha));
+        tx_avance.setText(AddAccionMejora.PorcentajeAvance);
+        et_mensaje.setText(AddAccionMejora.Descripcion);
+
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        gridView.setLayoutManager(layoutManager);
+        gridViewAdapter = new GridViewAdapter(this, DataImg);
+        gridView.setAdapter(gridViewAdapter);
+
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        listView.setLayoutManager(horizontalManager);
+        listViewAdapter = new ListViewAdapter(this, DataFiles);
+        listView.setAdapter(listViewAdapter);
+    }
+
+    public void UpdateFiles(boolean opt){
+
+        ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+        ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+        DataAll.addAll(DataImg);
+        DataAll.addAll(DataFiles);
+
+        //delete files
+        String DeleteFiles="";
+        for (GaleriaModel item:Data) {
+            boolean pass=true;
+            for (GaleriaModel item2:DataAll) {
+                if(item.Correlativo==item2.Correlativo){
+                    pass=false;
+                    continue;
+                }
+            }
+            if(pass){
+                DeleteFiles+=item.Correlativo+";";
+                item.Estado="E";
+            }
+        }
+//Insert Files
+        for (GaleriaModel item:DataAll) {
+            if(item.Correlativo==-1) {
+                DataInsert.add(item);
+                Data.add(item);
+            }
+        }
+
+        if(DeleteFiles.equals("")&&DataInsert.size()==0){
+            if(opt) finish();// no hubo ningun gambio
+            else  FinishSave();
+        }
+        else{
+//Delete Files
+            if(!DeleteFiles.equals("")){
+                Actives.add(0);
+                String url= GlobalVariables.Url_base+"media/deleteAll/"+DeleteFiles.substring(0,DeleteFiles.length()-1);
+                ActivityController obj = new ActivityController("get", url, AddRegistroAvance.this,this);
+                obj.execute("1");
+            }
+            else Actives.add(1);
+//Insert Files
+            if(DataInsert.size()>0){
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(GlobalVariables.Url_base)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+                Actives.add(0);
+                List<MultipartBody.Part> Files = new ArrayList<>();
+                for (GaleriaModel item:DataInsert) {
+                    Files.add(createPartFromFile(item));
+                }
+                Toast.makeText(AddRegistroAvance.this, "Subiendo Archivos, Espere..." , Toast.LENGTH_SHORT).show();
+
+                Call<String> request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(AddAccionMejora.CodAccion),createPartFromString("TACME"),createPartFromString(AddAccionMejora.Correlativo+""),Files);
+                progressBar.setVisibility(View.VISIBLE);
+                request.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+
+                        if(response.isSuccessful()){
+                            String respt  = response.body();
+                            if(respt.contains("-1")){
+                                Actives.set(2,-1);
+                                Errores+="\nOcurrio un error al subir algunos archivos";
+                            }
+                            else  Actives.set(2,1);
+                            for (String file:respt.split(";")) {
+                                String[] datosf= file.split(":");
+                                for (GaleriaModel item:Data) {
+                                    if(item.Descripcion.equals(datosf[0]))
+                                    {
+                                        item.Correlativo=Integer.parseInt(datosf[1]);
+                                        if(item.Correlativo==-1) item.Estado="E";
+                                        else {
+                                            if(item.TipoArchivo.equals("TP01")) item.Url= "/Media/getImage/"+datosf[1]+"/Image.jpg";
+                                            else if(item.TipoArchivo.equals("TP02")) item.Url= "/Media/Play/"+datosf[1]+"/Video.mp4";
+                                            else item.Url= "/Media/Getfile/"+datosf[1]+"/"+datosf[0];
+                                        }
+                                    }
+                                }
+                            }
+
+                        }else{
+                            Actives.set(2,-1);
+                            Errores+="\nOcurrio un error interno de servidor";
+                        }
+                        if(!Actives.contains(0)) FinishSave();
+                        progressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Actives.set(2,-1);
+                        Errores+="\nFallo la subida de archivos";
+                        if(!Actives.contains(0)) FinishSave();
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+            }
+            else  Actives.add(1);
+        }
+    }
+
+    @NonNull
+    private RequestBody createPartFromString(String data){
+        return RequestBody.create(MultipartBody.FORM,data);
+    }
+
+    @NonNull
+    private MultipartBody.Part createPartFromFile(GaleriaModel item){
+
+        ProgressRequestBody fileBody = new ProgressRequestBody(item, this,this);
+        return  MultipartBody.Part.createFormData("image", item.Descripcion, fileBody);
+    }
+
+    boolean ok,fail;
+    public void FinishSave(){
+        int icon=R.drawable.confirmicon;
+        String Mensaje="Se guardaron los datos correctamente";
+        ok=false;
+        fail=false;
+        if(Actives.contains(1))ok=true;
+        if(Actives.contains(-1)){
+            fail=true;
+            icon=R.drawable.erroricon;
+            Mensaje="Ocurrio algun error interno, No se pudo guardar los datos.";
+        }
+        if(fail&&ok){
+            Mensaje="Se guardo con los siguientes errores:\n\n";
+            Mensaje+=Errores;//.replace("@","\n");
+            icon=R.drawable.warninicon;
+        }
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Desea Finalizar?");
+        alertDialog.setIcon(icon);
+        alertDialog.setMessage(Mensaje);
+
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                DataImg.clear();
+                DataFiles.clear();
+                for (GaleriaModel item: Data) {
+                    if(item.TipoArchivo.equals("TP03")) DataFiles.add(item);
+                    else DataImg.add(item);
+                }
+                setdata();
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                if(ok&&!fail)
+                {
+                    Intent intent = getIntent();
+                    intent.putExtra("AccionMejora",gson.toJson(AddAccionMejora));
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+                else if(Data.size()>0){
+                    DataImg.clear();
+                    DataFiles.clear();
+                    for (GaleriaModel item: Data) {
+                        if(item.TipoArchivo.equals("TP03")) DataFiles.add(item);
+                        else DataImg.add(item);
+                    }
+                    setdata();
+                }
+            }
+        });
+        alertDialog.show();
+
+       /* Intent intent = getIntent();
+        intent.putExtra("AccionMejora",gson.toJson(AddAccionMejora));
+        setResult(RESULT_OK, intent);
+        finish();*/
     }
 
     public void close(View view){finish();}
@@ -305,47 +528,24 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         datePickerDialog.show();
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if(resultCode==RESULT_CANCELED)
-        {
-            // action cancelled
+        if(resultCode==RESULT_CANCELED){ // action cancelled
         }
         if(resultCode==RESULT_OK)
         {
             Uri uri = data.getData();
-            String uriString = uri.toString();
-            File myFile = new File(uriString);
-            String displayName="";
-            if (uriString.startsWith("content://")) {
-                Cursor cursor = null;
-                try {
-                    cursor = this.getContentResolver().query(uri, null, null, null, null);
-                    if (cursor != null && cursor.moveToFirst()) {
-                        displayName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
-                    }
-                } finally {
-                    cursor.close();
-                }
-            } else if (uriString.startsWith("file://")) {
-                displayName = myFile.getName();
+            GaleriaModel temp= null;
+            try {
+                temp = Utils.getFilePath(this,uri);
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
             }
-
-            String [] exts=displayName.split("\\.");
-            String ext=exts[exts.length-1];
-            switch (ext){
+            String [] exts=temp.Descripcion.split("\\.");
+            switch (exts[exts.length-1]){
                 case "pdf":case "doc":case "docx":case "ppt":case "pptx":case "xls":case "xlsx":case "odt":
-                    DataFiles.add(new GaleriaModel(myFile.getAbsolutePath(),"TP03", myFile.getTotalSpace()+"", displayName));
-                    GlobalVariables.listaArchivos=DataFiles;
-                    //listView.setHasFixedSize(true);
-                    //set layout manager and adapter for "ListView"
-                    LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-                    listView.setLayoutManager(horizontalManager);
-                    listViewAdapter = new ListViewAdapter(this, DataFiles);
-                    listView.setAdapter(listViewAdapter);
-
+                    listViewAdapter.add(temp);
                     break;
                 default: Toast.makeText(this, "Archivo no permitido", Toast.LENGTH_LONG).show();
             }
@@ -367,9 +567,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                     .startActivity();
         }
     }
-
-
-
 
     @Override
 
@@ -412,41 +609,11 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_about, menu);
-        return true;
-    }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-       /* final int id = item.getItemId();
-
-        if (id == R.id.action_about) {
-            showAbout();
-            return true;
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
 
         for (ImageEntry image:images) {
-            DataImg.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",image.dateAdded+"",image.imageId+""));
+            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",image.path.split("/")[image.path.split("/").length-1]));
         }
-        GlobalVariables.listaGaleria=DataImg;
-        mSelectedImages = images;
-        //  gridView.setHasFixedSize(true);
-
-        //set layout manager and adapter for "GridView"
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
-        gridView.setLayoutManager(layoutManager);
-        gridViewAdapter = new GridViewAdapter(this, DataImg);
-        gridView.setAdapter(gridViewAdapter);
 
     }
 
@@ -454,18 +621,82 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     public void onCancel() {
         //Log.i(TAG, "User canceled picker activity");
         // Toast.makeText(getActivity(), "User canceld picker activtiy", Toast.LENGTH_SHORT).show();
-
     }
 
 
     @Override
     public void success(String data, String Tipo) {
+        if(Tipo.equals("0"))  // load Accion mejora
+        {
+            Gson gson = new Gson();
+            String idEdit=AddAccionMejora.Editable;
+            AddAccionMejora = gson.fromJson(data, AccionMejoraModel.class);
+            Data.addAll(AddAccionMejora.Files.Data);
+            for (GaleriaModel item: Data) {
+                if(item.TipoArchivo.equals("TP03")) DataFiles.add(item);
+                else DataImg.add(item);
+            }
 
+            AddAccionMejora.Files=null;
+            AddAccionMejora.Editable=idEdit;
+            StrAccionmejora=gson.toJson(AddAccionMejora);
+            setdata();
+        }
+        else if(Tipo.equals("1")){ //delete Files
+            if(data.contains("false")){
+                Actives.set(1,-1);
+                Errores+="\nNo se pudo eliminar algunas imagenes";
+            }
+            else {
+                Actives.set(1,1);
+                ArrayList<GaleriaModel> temp= new ArrayList<>(Data);
+
+                for (GaleriaModel item : Data) {
+                    if(!StringUtils.isEmpty(item.Estado)&&item.Estado.equals("E"))
+                        temp.remove(item);
+                }
+                Data=temp;
+            }
+            if(!Actives.contains(0)) FinishSave();
+        }
+        else if(Tipo.equals("2")){  //delete ACcion Mejora
+            if(data.contains("-1")){
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                alertDialog.setCancelable(false);
+                alertDialog.setTitle("Error!");
+                alertDialog.setIcon(R.drawable.erroricon);
+                alertDialog.setMessage("Ocurrio un error interno, intente de nuevo.");
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertDialog.dismiss();
+                    }
+                });
+                alertDialog.show();
+            }
+            else{
+                AddAccionMejora.Correlativo="E";
+                Intent intent = getIntent();
+                intent.putExtra("AccionMejora",gson.toJson(AddAccionMejora));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
     }
 
     @Override
     public void successpost(String data, String Tipo) {
+        if(Tipo.equals("1")){
+            if(data.contains("-1")){
+                Actives.set(0,-1);
+                FinishSave();
+            }
+            else{
+                Actives.set(0,1);
+                AddAccionMejora.Correlativo = data.substring(1, data.length() - 1);
+                UpdateFiles(false);
+            }
 
+        }
     }
 
     @Override
@@ -473,47 +704,18 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
 
     }
 
-
-    private class ImageSamplesAdapter extends RecyclerView.Adapter<AddRegistroAvance.ImageSampleViewHolder> {
-
-        @Override
-        public AddRegistroAvance.ImageSampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            final ImageView imageView = new ImageView(parent.getContext());
-            return new AddRegistroAvance.ImageSampleViewHolder(imageView);
-        }
-
-        @Override
-        public void onBindViewHolder(AddRegistroAvance.ImageSampleViewHolder holder, int position) {
-
-            final String path = mSelectedImages.get(position).path;
-            loadImage(path, holder.thumbnail);
-        }
-
-        @Override
-        public int getItemCount() {
-            return mSelectedImages.size();
-        }
-
-        private void loadImage(final String path, final ImageView imageView) {
-            imageView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 440));
-
-            Glide.with(getApplicationContext())
-                    .load(path)
-                    .asBitmap()
-                    .into(imageView);
-        }
+    @Override
+    public void onProgressUpdate(int percentage) {
+        progressBar.setProgress(percentage);
     }
 
+    @Override
+    public void onError() {
 
-    class ImageSampleViewHolder extends RecyclerView.ViewHolder {
-
-        protected ImageView thumbnail;
-
-        public ImageSampleViewHolder(View itemView) {
-            super(itemView);
-            thumbnail = (ImageView) itemView;
-        }
     }
 
-
+    @Override
+    public void onFinish() {
+        progressBar.setProgress(100);
+    }
 }

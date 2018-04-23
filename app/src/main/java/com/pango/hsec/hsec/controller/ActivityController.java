@@ -16,14 +16,23 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLEncoder;
 
 public class ActivityController extends AsyncTask<String,Void,Void> {
@@ -50,26 +59,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
     @Override
     protected void onPreExecute() {
-           /*if(opcion.contains("get")){
-
-               String paginas[]= opcion.split("-");
-               int pag=1;
-               if(paginas.length>1) pag=Integer.parseInt(paginas[1]);
-               if(pag==1){
-                   super.onPreExecute();
-                   progressDialog = ProgressDialog.show(ActContext, "", "Cargando");
-               }
-
-            }
-            else if(opcion == "post"){
-                if (GlobalVariables.isFragment) {
-                    progressDialog = ProgressDialog.show(GlobalVariables.view_fragment.getContext(), "", "Enviando");
-                }else if(Utils.isActivity){
-                    super.onPreExecute();
-                    progressDialog = ProgressDialog.show((Context) activity, "", "Cargando");
-                }
-            }*/
-
 
         String paginas[]= opcion.split("-");
         int pag=1;
@@ -105,7 +94,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 respstring = EntityUtils.toString(response.getEntity());
                 //JSONObject respJSON = new JSONObject(respstring);
 
-            }else if(opcion == "post"){
+            }else if(opcion.equals("post")){
 
                 Tipo= strings.length>1? Tipo=strings[1]:"";
                 HttpResponse response;
@@ -184,45 +173,10 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         int pag=1;
         if(paginas.length>1) pag=Integer.parseInt(paginas[1]);
         if(pag==1) progressDialog.dismiss();
-        //mainActivity.success();
     }
-    //POST
-   /* else if(opcion=="post"&&cargaData){
-
-       *//* if(GlobalVariables.isFragment){
-            progressDialog.dismiss();
-            GlobalVariables.isFragment=false;
-        }
-        else if(Utils.isActivity){
-            progressDialog.dismiss();
-            Utils.isActivity=false;
-        }
-*//*
-        switch (GlobalVariables.con_status) {
-            case 401:
-                //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
-                activity.error("Ocurrio un error de conexion", Tipo);
-                break;
-            case 404:
-                //Toast.makeText((Context) activity,"Not Found",Toast.LENGTH_SHORT).show();
-                activity.error("Not Found", Tipo);
-                break;
-            case 307:
-                //Toast.makeText((Context) activity,"Se perdio la conexion al servidor",Toast.LENGTH_SHORT).show();
-                activity.error("Se perdio la conexion al servidor", Tipo);
-                break;
-            case 500:
-                //Toast.makeText((Context) activity,"Ocurrio un error interno en el servidor",Toast.LENGTH_SHORT).show();
-                activity.error("Ocurrio un error interno en el servidor", Tipo);
-                break;
-            default:
-                Resultado=Resultado.substring(1,Resultado.length()-1);
-                activity.successpost(Resultado,Tipo);
-            }
-
-        }*/
     else {
-        activity.error("Se perdio la conexión a internet", Tipo);
+        progressDialog.dismiss();
+        activity.error("Ocurrio un error al intentar enviar peticion.", Tipo);
     }
 
     }
