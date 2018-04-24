@@ -2,13 +2,14 @@ package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -17,7 +18,10 @@ import com.pango.hsec.hsec.Observaciones.ActVidDet;
 import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.util.Compressor;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHolder> {
@@ -38,10 +42,76 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         }
         if(pass)
         {
-            items.add(newdata);
-            notifyDataSetChanged();
+            if(newdata.TipoArchivo.equals("TP01")) newdata.Estado="P";
+                items.add(newdata);
+                notifyDataSetChanged();
         }
         else Toast.makeText(activity, "El archivo ya existe en la lista" , Toast.LENGTH_SHORT).show();
+    }
+
+    public void ProcesarImagens(){
+        boolean pass= false;
+        for (GaleriaModel item:items)
+        {
+            if(item.Estado!=null&&item.Estado.equals("P")){
+                   if(!pass){
+                       Toast.makeText(activity, "Procesando Imagen..." , Toast.LENGTH_SHORT).show();
+                       pass=true;
+                }
+                customimage(item);
+            }
+        }
+    }
+
+    public boolean finaliceProceso(){
+        for (GaleriaModel item: items) {
+            if(item.Estado.equals("P")) return false;
+        }
+        return true;
+    }
+
+    public void replace(GaleriaModel replacedata){
+        for (int i=0;i<items.size();i++){
+            if(items.get(i).Descripcion.equals(replacedata.Descripcion)){
+                items.set(i,replacedata);
+                notifyDataSetChanged();
+            }
+        }
+    }
+
+    public void customimage(GaleriaModel mFileup){
+
+        File mfile= new File(mFileup.Url);
+        Bitmap bMap = BitmapFactory.decodeFile(mfile.getAbsolutePath());
+        if (bMap.getHeight() > bMap.getWidth()) {
+            try {
+                mfile = new Compressor(activity)
+                        .setMaxWidth(640)
+                        .setMaxHeight(480)
+                        .setQuality(75)
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .compressToFile(mfile);
+                replace(new GaleriaModel(mfile.getAbsolutePath(),"TP01",mfile.length()+"",mfile.getName()));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                showError(e.getMessage());
+            }
+        } else {
+            try {
+                mfile = new Compressor(activity)
+                        .setCompressFormat(Bitmap.CompressFormat.JPEG)
+                        .compressToFile(mfile);
+                replace(new GaleriaModel(mfile.getAbsolutePath(),"TP01",mfile.length()+"",mfile.getName()));
+            } catch (IOException e) {
+                e.printStackTrace();
+                showError(e.getMessage());
+            }
+        }
+    }
+
+    private void showError(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -125,7 +195,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
             }else if(items.get(selectid).TipoArchivo.equals("TP02")){
 
                 //String finalTempUrl="https://app.antapaccay.com.pe/Proportal/SCOM_Service/Videos/1700.mp4";
-                String finalTempUrl=items.get(selectid).Correlativo>0?GlobalVariables.Url_base:""+items.get(selectid).Url;
+                String finalTempUrl=(items.get(selectid).Correlativo>0?GlobalVariables.Url_base:"")+items.get(selectid).Url;
 
                 //Toast.makeText(activity,"video",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(v.getContext(), ActVidDet.class);

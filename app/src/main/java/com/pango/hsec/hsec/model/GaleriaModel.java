@@ -23,5 +23,6 @@ public class GaleriaModel {
         this.Tamanio = Tamanio;
         this.TipoArchivo = TipoArchivo;
         this.Descripcion = Descripcion;
+        this.Estado="A";
     }
 }

@@ -60,7 +60,8 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         Bundle datos = this.getIntent().getExtras();
         edit=datos.getBoolean("editplan");
         gson = new Gson();
-        Plan = gson.fromJson(datos.getString("Plan"), PlanModel.class);
+        StrPlan=datos.getString("Plan");
+        Plan = gson.fromJson(StrPlan, PlanModel.class);
         setContentView(R.layout.activity_plan_accion_edit);
         if(!(Plan.CodAccion.contains("-1")||Plan.CodAccion.equals("0"))) {
             CardView cv_edit = (CardView) findViewById(R.id.plan_edit);

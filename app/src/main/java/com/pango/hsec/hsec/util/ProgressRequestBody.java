@@ -3,11 +3,14 @@ package com.pango.hsec.hsec.util;
 import android.app.Activity;
 
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.pango.hsec.hsec.model.GaleriaModel;
 
@@ -19,6 +22,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
@@ -41,12 +47,11 @@ public class ProgressRequestBody extends RequestBody {
         void onFinish();
     }
 
-    public ProgressRequestBody(final GaleriaModel file, final  UploadCallbacks listener, Activity activity) {
+    public ProgressRequestBody( GaleriaModel file,   UploadCallbacks listener, Activity activity) {
         mFileup=file;
         mListener = listener;
         mactivity=activity;
     }
-
     @Override
     public MediaType contentType() {
         // i want to upload only images
@@ -61,28 +66,29 @@ public class ProgressRequestBody extends RequestBody {
     @Override
     @NonNull
     public void writeTo(BufferedSink sink) throws IOException {
-        long fileLength =Long.parseLong(mFileup.Tamanio);
+
         long uploaded = 0;
         int bytesRead, bytesAvailable, bufferSize;
         // create a buffer of  maximum size
         if(mFileup.uri!= null){
+            long fileLength =Long.parseLong(mFileup.Tamanio);
             Cursor returnCursor =mactivity.getContentResolver().query(mFileup.uri, null, null, null, null);
             try {
                 InputStream inputStream = mactivity.getContentResolver().openInputStream(mFileup.uri);
                 try {
-                        if(mFileup.Tamanio==null)fileLength =inputStream.available();
-                        bytesAvailable = inputStream.available();
-                        bufferSize = Math.min(bytesAvailable, DEFAULT_BUFFER_SIZE);
+                    if(mFileup.Tamanio==null)fileLength =inputStream.available();
+                    bytesAvailable = inputStream.available();
+                    bufferSize = Math.min(bytesAvailable, DEFAULT_BUFFER_SIZE);
 
-                        byte[] buffer = new byte[bufferSize]; // or other buffer size
-                        int read;
+                    byte[] buffer = new byte[bufferSize]; // or other buffer size
+                    int read;
 
-                        Handler handler = new Handler(Looper.getMainLooper());
-                        while ((read = inputStream.read(buffer)) != -1) {
-                            handler.post(new ProgressUpdater(uploaded, fileLength));
-                            uploaded += read;
-                            sink.write(buffer, 0, read);
-                        }
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    while ((read = inputStream.read(buffer)) != -1) {
+                        handler.post(new ProgressUpdater(uploaded, fileLength));
+                        uploaded += read;
+                        sink.write(buffer, 0, read);
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -99,29 +105,33 @@ public class ProgressRequestBody extends RequestBody {
                 returnCursor.close();
             }
         }
-       else{
+        else{
             File mfile= new File(mFileup.Url);
-           FileInputStream in = new FileInputStream(mfile);
-           if(mFileup.Tamanio==null)fileLength =mfile.length();
-           bytesAvailable = in.available();
-           bufferSize = Math.min(bytesAvailable, DEFAULT_BUFFER_SIZE);
-           byte[] buffer = new byte[bufferSize];
+            FileInputStream in = new FileInputStream(mfile);
+            long fileLength =fileLength =mfile.length();
+            bytesAvailable = in.available();
+            bufferSize = Math.min(bytesAvailable, DEFAULT_BUFFER_SIZE);
+            byte[] buffer = new byte[bufferSize];
 
-           try {
-               int read;
-               Handler handler = new Handler(Looper.getMainLooper());
-               while ((read = in.read(buffer)) != -1) {
+            try {
+                int read;
+                Handler handler = new Handler(Looper.getMainLooper());
+                while ((read = in.read(buffer)) != -1) {
 
-                   // update progress on UI thread
-                   handler.post(new ProgressUpdater(uploaded, fileLength));
+                    // update progress on UI thread
+                    handler.post(new ProgressUpdater(uploaded, fileLength));
 
-                   uploaded += read;
-                   sink.write(buffer, 0, read);
-               }
-           } finally {
-               in.close();
-           }
-       }
+                    uploaded += read;
+                    sink.write(buffer, 0, read);
+                }
+            } finally {
+                in.close();
+            }
+        }
+    }
+
+    private void showError(String message) {
+        Toast.makeText(mactivity, message, Toast.LENGTH_SHORT).show();
     }
 
     private class ProgressUpdater implements Runnable {

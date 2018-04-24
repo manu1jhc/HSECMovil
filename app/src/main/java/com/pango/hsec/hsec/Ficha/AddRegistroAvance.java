@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.games.GamesMetadata;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
@@ -47,6 +48,7 @@ import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.ImageEntry;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.util.Compressor;
 import com.pango.hsec.hsec.util.Picker;
 import com.pango.hsec.hsec.util.ProgressRequestBody;
 import com.pango.hsec.hsec.utilitario.InputFilterMinMax;
@@ -328,11 +330,15 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         listViewAdapter = new ListViewAdapter(this, DataFiles);
         listView.setAdapter(listViewAdapter);
     }
-
-    public void UpdateFiles(boolean opt){
-
+    
+    public void UpdateFiles (boolean opt){
+        gridViewAdapter.ProcesarImagens();
+        if(!gridViewAdapter.finaliceProceso())Log.d("Procesando :", "Esperando ");
+        else Log.d("Procesado :", "Finalizado ");
         ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
         ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+
+
         DataAll.addAll(DataImg);
         DataAll.addAll(DataFiles);
 
@@ -353,9 +359,13 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         }
 //Insert Files
         for (GaleriaModel item:DataAll) {
+            boolean pass=false;
+            for(GaleriaModel item2:Data)
+                if(item.Descripcion.equals(item2.Descripcion))
+                    pass=true;
             if(item.Correlativo==-1) {
                 DataInsert.add(item);
-                Data.add(item);
+                if(!pass)Data.add(item);
             }
         }
 
@@ -400,6 +410,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                                 Errores+="\nOcurrio un error al subir algunos archivos";
                             }
                             else  Actives.set(2,1);
+                            Utils.DeleteCache(new Compressor(AddRegistroAvance.this).destinationDirectoryPath); //delete cache Files;
                             for (String file:respt.split(";")) {
                                 String[] datosf= file.split(":");
                                 for (GaleriaModel item:Data) {
@@ -444,7 +455,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
 
     @NonNull
     private MultipartBody.Part createPartFromFile(GaleriaModel item){
-
         ProgressRequestBody fileBody = new ProgressRequestBody(item, this,this);
         return  MultipartBody.Part.createFormData("image", item.Descripcion, fileBody);
     }
@@ -612,7 +622,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
 
         for (ImageEntry image:images) {
-            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",image.path.split("/")[image.path.split("/").length-1]));
+            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",new File(image.path).getName())); //image.path.split("/")[image.path.split("/").length-1]
         }
 
     }
@@ -691,8 +701,10 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 FinishSave();
             }
             else{
+                Editable=true;
                 Actives.set(0,1);
                 AddAccionMejora.Correlativo = data.substring(1, data.length() - 1);
+                StrAccionmejora=gson.toJson(AddAccionMejora);
                 UpdateFiles(false);
             }
 

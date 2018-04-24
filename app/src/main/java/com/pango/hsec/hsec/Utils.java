@@ -3,6 +3,8 @@ package com.pango.hsec.hsec;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -11,6 +13,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
@@ -18,6 +21,7 @@ import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
+import com.pango.hsec.hsec.util.Compressor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -31,6 +35,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Andre on 19/12/2017.
@@ -536,4 +544,16 @@ public class Utils {
             }
         }
     }
+
+
+    public static void DeleteCache(String DiRroot){
+        File file = new File(DiRroot);
+        String[] files;
+        files = file.list();
+        for (int i=0; i<files.length; i++) {
+            File myFile = new File(file, files[i]);
+            myFile.delete();
+        }
+    }
+
 }

@@ -176,7 +176,7 @@ public class GlobalVariables  {
         Aspectos_Obs.add(new Maestro("P007","Permiso(s) de Trabajo"));
         Aspectos_Obs.add(new Maestro("P008","Se cumplen las  restricciones o condiciones generales del PET"));
 
-        GestionRiesg_obs.add(new Maestro("GESRIES1","Permiso de "));
+        GestionRiesg_obs.add(new Maestro("GESRIES1","Permiso de Trabajo"));
         GestionRiesg_obs.add(new Maestro("GESRIES2","PET(Procedimiento escrito de trabajo)"));
         GestionRiesg_obs.add(new Maestro("GESRIES3","AST(Análisis de Seguridad en el trabajo)"));
 
