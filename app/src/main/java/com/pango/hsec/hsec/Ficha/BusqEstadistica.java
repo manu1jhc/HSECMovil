@@ -654,7 +654,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     @Override
     public void successpost(String data, String Tipo) {
 
-        data="{"+data+"}";
+      //  data="{"+data+"}";
         Gson gson = new Gson();
         GetPublicacionModel getPublicacionModel = gson.fromJson(data, GetPublicacionModel.class);
         contPublicacion=getPublicacionModel.Count;

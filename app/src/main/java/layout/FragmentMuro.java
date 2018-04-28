@@ -213,6 +213,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                 GlobalVariables.ObjectEditable=false;
                 Intent intent = new Intent(getContext(),observacion_edit.class);
                 intent.putExtra("codObs", "OBS000000XYZ");
+                intent.putExtra("tipoObs","TO01");
                 intent.putExtra("posTab", 2);
                 startActivity(intent);
             }
@@ -375,6 +376,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                 GlobalVariables.ObjectEditable=false;
                 Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
                 obserbacion_edit.putExtra("codObs", "OBS000000XYZ");
+                obserbacion_edit.putExtra("tipoObs","TO01");
                 obserbacion_edit.putExtra("posTab", 0);
                 startActivity(obserbacion_edit);
             }

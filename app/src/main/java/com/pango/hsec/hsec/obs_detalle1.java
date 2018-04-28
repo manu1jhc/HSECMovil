@@ -21,16 +21,19 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class obs_detalle1 extends Fragment implements IActivity{
 
     private static View mView;
     Spinner spinneActividad, spinnerHHA, spinnerActo,spinnerCondicion,spinnerEstado, spinnerError;
     EditText txtObservacion,txtAccion;
-    public static final com.pango.hsec.hsec.obs_detalle1 newInstance(String sampleText) {
+    public static final com.pango.hsec.hsec.obs_detalle1 newInstance(String sampleText,String CodTipo) {
         obs_detalle1 f = new obs_detalle1();
 
         Bundle b = new Bundle();
         b.putString("bString", sampleText);
+        b.putString("bTipo", CodTipo);
         f.setArguments(b);
 
         return f;
@@ -40,7 +43,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
         mView = inflater.inflate(R.layout.fragment_obs_detalle1, container,false);
         String codigo_obs = getArguments().getString("bString");
-
+        String Tipo = getArguments().getString("bTipo");
         txtObservacion=(EditText) mView.findViewById(R.id.txt_observacion);
         txtAccion=(EditText) mView.findViewById(R.id.txt_accion);
 
@@ -133,8 +136,10 @@ public class obs_detalle1 extends Fragment implements IActivity{
         spinnerActo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_acto) ).getSelectedItem();
-                GlobalVariables.ObserbacionDetalle.CodSubEstandar=Tipo.CodTipo;
+                if(GlobalVariables.Obserbacion.CodTipo.equals("TO01")){
+                    Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_acto) ).getSelectedItem();
+                    GlobalVariables.ObserbacionDetalle.CodSubEstandar=Tipo.CodTipo;
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -143,8 +148,10 @@ public class obs_detalle1 extends Fragment implements IActivity{
         spinnerCondicion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_condicion) ).getSelectedItem();
-                GlobalVariables.ObserbacionDetalle.CodSubEstandar=Tipo.CodTipo;
+                if(GlobalVariables.Obserbacion.CodTipo.equals("TO02")) {
+                    Maestro Tipo = (Maestro) ((Spinner) mView.findViewById(R.id.sp_condicion)).getSelectedItem();
+                    GlobalVariables.ObserbacionDetalle.CodSubEstandar = Tipo.CodTipo;
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -170,22 +177,21 @@ public class obs_detalle1 extends Fragment implements IActivity{
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
+        if(GlobalVariables.Obserbacion==null)changueTipo(Tipo);
 
        if(GlobalVariables.ObjectEditable){ // load data of server
-
-           if(GlobalVariables.ObserbacionDetalle.CodObservacion==null || !GlobalVariables.ObserbacionDetalle.CodObservacion.equals(codigo_obs))
+           if(GlobalVariables.ObserbacionDetalle.CodObservacion==null)
            {
                String url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codigo_obs;
                ActivityController obj = new ActivityController("get", url, obs_detalle1.this,getActivity());
                obj.execute("");
            }
            else setdata();
-           GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
         }
         else // new Obserbacion
         {
-            if(GlobalVariables.ObserbacionDetalle.CodObservacion==null || !GlobalVariables.Obserbacion.CodObservacion.contains("XYZ")){
-
+            if(GlobalVariables.ObserbacionDetalle.CodObservacion==null){
+                Gson gson = new Gson();
                 GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
                 GlobalVariables.ObserbacionDetalle.Observacion="";
                 GlobalVariables.ObserbacionDetalle.Accion="";
@@ -193,6 +199,10 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 GlobalVariables.ObserbacionDetalle.CodHHA=GlobalVariables.HHA_obs.get(0).CodTipo;
                 GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.Estado_obs.get(0).CodTipo;
                 GlobalVariables.ObserbacionDetalle.CodError=GlobalVariables.Error_obs.get(0).CodTipo;
+                GlobalVariables.ObserbacionDetalle.CodTipo=Tipo;
+
+                GlobalVariables.StrObsDetalle=gson.toJson(GlobalVariables.ObserbacionDetalle);
+
             }
             setdata();
         }
@@ -200,25 +210,46 @@ public class obs_detalle1 extends Fragment implements IActivity{
         return mView;
     }
 
-    public void setdata(){
-        txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
-        txtAccion.setText(GlobalVariables.ObserbacionDetalle.Accion);
+    public void changueTipo(String Tipo){
 
-        spinneActividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
-        spinnerHHA.setSelection(GlobalVariables.indexOf(GlobalVariables.HHA_obs,GlobalVariables.ObserbacionDetalle.CodHHA));
-        if(GlobalVariables.Obserbacion.CodTipo=="TO01")
-            spinnerActo.setSelection(GlobalVariables.indexOf(GlobalVariables.Acto_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
-        else spinnerCondicion.setSelection(GlobalVariables.indexOf(GlobalVariables.Condicion_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
-        spinnerEstado.setSelection(GlobalVariables.indexOf(GlobalVariables.Estado_obs,GlobalVariables.ObserbacionDetalle.CodEstado));
-        spinnerError.setSelection(GlobalVariables.indexOf(GlobalVariables.Error_obs,GlobalVariables.ObserbacionDetalle.CodError));
+        if(!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO01")){
+            mView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
+            mView.findViewById(R.id.id_Acto).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.id_Estado).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.id_Error).setVisibility(View.VISIBLE);
+        }
+        else{
+            mView.findViewById(R.id.id_Condicion).setVisibility(View.VISIBLE);
+            mView.findViewById(R.id.id_Acto).setVisibility(View.GONE);
+            mView.findViewById(R.id.id_Estado).setVisibility(View.GONE);
+            mView.findViewById(R.id.id_Error).setVisibility(View.GONE);
+        }
+    }
+    public void setdata(){
+
+        if(GlobalVariables.ObserbacionDetalle.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
+        if(GlobalVariables.ObserbacionDetalle.Accion!=null)txtAccion.setText(GlobalVariables.ObserbacionDetalle.Accion);
+
+        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel))spinneActividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
+        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA))spinnerHHA.setSelection(GlobalVariables.indexOf(GlobalVariables.HHA_obs,GlobalVariables.ObserbacionDetalle.CodHHA));
+
+        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar))spinnerActo.setSelection(GlobalVariables.indexOf(GlobalVariables.Acto_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
+        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar))spinnerCondicion.setSelection(GlobalVariables.indexOf(GlobalVariables.Condicion_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
+
+        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado))spinnerEstado.setSelection(GlobalVariables.indexOf(GlobalVariables.Estado_obs,GlobalVariables.ObserbacionDetalle.CodEstado));
+        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError))spinnerError.setSelection(GlobalVariables.indexOf(GlobalVariables.Error_obs,GlobalVariables.ObserbacionDetalle.CodError));
     }
 
     @Override
     public void success(String data, String Tipo) {
         Gson gson = new Gson();
-        String codigo_obs = GlobalVariables.ObserbacionDetalle.CodObservacion;
-        GlobalVariables.ObserbacionDetalle = gson.fromJson(data, ObsDetalleModel.class);
+        String codigo_obs = GlobalVariables.Obserbacion.CodObservacion;
+        ObsDetalleModel temp= gson.fromJson(data, ObsDetalleModel.class);
+        GlobalVariables.ObserbacionDetalle=temp;
+        if(GlobalVariables.ObserbacionDetalle==null)
+            GlobalVariables.ObserbacionDetalle= new ObsDetalleModel();
         GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
+            GlobalVariables.StrObsDetalle = gson.toJson(GlobalVariables.ObserbacionDetalle);
         setdata();
     }
 

@@ -106,6 +106,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     Gson gson;
     SimpleDateFormat df,dt;
     ArrayList<GaleriaModel> Data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -144,7 +145,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         for(int i=0;i<cod_Responsables.length;i++){
             usuario_data.add(new Maestro(cod_Responsables[i],nom_Responsables[i].split(":")[0]));
         }
-        if(usuario_data.size()>1)usuario_data.add(0,new Maestro(null,"-  Seleccione  -"));
+        if(usuario_data.size()>1)usuario_data.add(0,new Maestro("-1","-  Seleccione  -"));
         ArrayAdapter adapterUsuario = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, usuario_data);
         adapterUsuario.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerUsuario.setAdapter(adapterUsuario);
@@ -215,8 +216,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         myCalendar = Calendar.getInstance();
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -230,30 +230,33 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Utils.closeSoftKeyBoard(AddRegistroAvance.this);
                 AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
                 AddAccionMejora.PorcentajeAvance=tx_avance.getText().toString();
                 AddAccionMejora.Descripcion=et_mensaje.getText().toString();
-                Actives.clear();
-                Errores="";
-                if(Editable){
-                    String newJson=gson.toJson(AddAccionMejora);
-                    if(!StrAccionmejora.equals(newJson))  {
+                if(ValifarFormulario())
+                {
+                    Actives.clear();
+                    Errores="";
+                    if(Editable){
+                        String newJson=gson.toJson(AddAccionMejora);
+                        if(!StrAccionmejora.equals(newJson))  {
+                            Actives.add(0);
+                            String url= GlobalVariables.Url_base+"AccionMejora/post";
+                            ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                            obj.execute(gson.toJson(AddAccionMejora),"1");
+                        }
+                        else {
+                            Actives.add(1);
+                            UpdateFiles(true);
+                        }
+                    }
+                    else{
                         Actives.add(0);
                         String url= GlobalVariables.Url_base+"AccionMejora/post";
                         ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
                         obj.execute(gson.toJson(AddAccionMejora),"1");
                     }
-                    else {
-                        Actives.add(1);
-                        UpdateFiles(true);
-                    }
-                }
-                else{
-                    Actives.add(0);
-                    String url= GlobalVariables.Url_base+"AccionMejora/post";
-                    ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
-                    obj.execute(gson.toJson(AddAccionMejora),"1");
                 }
             }
         });
@@ -301,10 +304,40 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         });
     }
 
+    public boolean ValifarFormulario(){
+        String ErrorForm="";
+        if(StringUtils.isEmpty(AddAccionMejora.CodResponsable) || AddAccionMejora.CodResponsable.equals("-1")) ErrorForm+=" ->Responsable\n";
+        if(StringUtils.isEmpty(AddAccionMejora.PorcentajeAvance)||AddAccionMejora.PorcentajeAvance.equals("0") ) ErrorForm+=" ->Porcentaje de avance invalido\n";
+        if(StringUtils.isEmpty(AddAccionMejora.Descripcion)) ErrorForm+=" ->Tarea realizada";
+        if(ErrorForm.isEmpty()) return true;
+        else{
+            String Mensaje="Complete los siguientes campos obligatorios:\n\n"+ErrorForm;
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos incorrectos");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            alertDialog.show();
+            return false;
+        }
+    }
+
     public void setdata(){
 
         if(!AddAccionMejora.CodResponsable.isEmpty()){
-            spinnerUsuario.setSelection(GlobalVariables.indexOf(usuario_data,AddAccionMejora.CodResponsable));
+            int idrespoSpinner=GlobalVariables.indexOf(usuario_data,AddAccionMejora.CodResponsable);
+            if(idrespoSpinner<0){
+                idrespoSpinner=0;
+                if(usuario_data.size()==1)
+                usuario_data.add(0,new Maestro("-1","-  Seleccione  -"));
+            }
+            spinnerUsuario.setSelection(idrespoSpinner);
         }
 
         Date fecha=new Date();
@@ -330,11 +363,11 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         listViewAdapter = new ListViewAdapter(this, DataFiles);
         listView.setAdapter(listViewAdapter);
     }
-    
+
     public void UpdateFiles (boolean opt){
         gridViewAdapter.ProcesarImagens();
-        if(!gridViewAdapter.finaliceProceso())Log.d("Procesando :", "Esperando ");
-        else Log.d("Procesado :", "Finalizado ");
+        /*if(!gridViewAdapter.finaliceProceso())Log.d("Procesando :", "Esperando ");
+        else Log.d("Procesado :", "Finalizado ");*/
         ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
         ArrayList<GaleriaModel> DataAll=new ArrayList<>();
 
@@ -370,7 +403,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         }
 
         if(DeleteFiles.equals("")&&DataInsert.size()==0){
-            if(opt) finish();// no hubo ningun gambio
+            if(opt) Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
             else  FinishSave();
         }
         else{
@@ -655,7 +688,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         else if(Tipo.equals("1")){ //delete Files
             if(data.contains("false")){
                 Actives.set(1,-1);
-                Errores+="\nNo se pudo eliminar algunas imagenes";
+                Errores+="\nNo se pudo eliminar algunas imagenes/archivos";
             }
             else {
                 Actives.set(1,1);

@@ -118,6 +118,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                     GlobalVariables.ObjectEditable=true;
                     Intent intent = new Intent(getContext(),observacion_edit.class);
                     intent.putExtra("codObs", data.get(position).Codigo);
+                    intent.putExtra("tipoObs", data.get(position).Tipo);
                     intent.putExtra("posTab", 0);
                     v.getContext().startActivity(intent);
                 }

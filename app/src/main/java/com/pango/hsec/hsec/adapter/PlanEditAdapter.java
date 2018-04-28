@@ -30,7 +30,6 @@ public class PlanEditAdapter extends RecyclerView.Adapter<PlanEditAdapter.ViewHo
         this.activity = activity;
         this.items = items;
         this.fragment = fragment;
-
     }
     public void add(PlanModel newdata){
         items.add(newdata);

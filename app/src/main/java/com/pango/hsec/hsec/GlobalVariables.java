@@ -3,6 +3,8 @@ package com.pango.hsec.hsec;
 import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
+
+import com.pango.hsec.hsec.adapter.PlanEditAdapter;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.Maestro;
@@ -28,10 +30,15 @@ public class GlobalVariables  {
     //variables de edicion Observaciones
     public static ObservacionModel Obserbacion= new ObservacionModel();
     public static ObsDetalleModel ObserbacionDetalle= new ObsDetalleModel();
-    public static String ObserbacionFile;
-    public static String ObserbacionPlan;
+    public static String StrObservacion,StrObsDetalle;
+
     public static List<GaleriaModel> listaGaleria =new ArrayList<>();
     public static List<GaleriaModel> listaArchivos =new ArrayList<>();
+    public static ArrayList<PlanModel> StrPlanes=new ArrayList<>();
+    public static List<GaleriaModel> StrFiles=new ArrayList<>();
+
+    public static String ObserbacionFile;
+    public static String ObserbacionPlan;
 
     public static ArrayList<PlanModel> Planes= new  ArrayList<>();
     public static boolean ObjectEditable=true;
@@ -149,24 +156,38 @@ public class GlobalVariables  {
 
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
         for (Maestro o : Obj  ) {
-            if(o.CodTipo.equals(value)) return o.Descripcion;
+            if(o.CodTipo!=null&&o.CodTipo.equals(value)) return o.Descripcion;
         }
         return "";
     }
 
     public static int indexOf(ArrayList<Maestro> Obj, String value){
         for (int i=0;i<Obj.size();i++  ) {
-            if(Obj.get(i).CodTipo.equals(value)) return i;
+            if(Obj.get(i).CodTipo!=null&&Obj.get(i).CodTipo.equals(value)) return i;
         }
         return 0;
     }
 
     public static  ArrayList<Maestro> SuperInt_Busq = new ArrayList<>();
-
+    public static void InicialiceVar(){
+        Maestro Select = new Maestro("-  Seleccione  -");
+        Area_obs.add(Select);
+       // Tipo_obs.add(Select);
+        NivelRiesgo_obs.add(Select);
+        Actividad_obs.add(Select);
+        HHA_obs.add(Select);
+        Acto_obs.add(Select);
+        Condicion_obs.add(Select);
+        Estado_obs.add(Select);
+        Error_obs.add(Select);
+        Gerencia.add(Select);
+        Tipo_insp.add(Select);
+        Tipo_Plan.add(Select);
+    }
     public static void loadObs_Detalles(){
 
         if(!Area_obs.isEmpty()) return;
-
+        InicialiceVar();
         Aspectos_Obs.add(new Maestro("P001","EPP completos para la tarea"));
         Aspectos_Obs.add(new Maestro("P002","Orden y Limpieza"));
         Aspectos_Obs.add(new Maestro("P003","Estado de Herramientas"));

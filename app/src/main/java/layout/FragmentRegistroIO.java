@@ -92,6 +92,7 @@ public class FragmentRegistroIO extends Fragment {
                 GlobalVariables.ObjectEditable=false;
                 Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
                 obserbacion_edit.putExtra("codObs", "OBS000000XYZ");
+                obserbacion_edit.putExtra("tipoObs","TO01");
                 obserbacion_edit.putExtra("posTab", 0);
                 startActivity(obserbacion_edit);
             }

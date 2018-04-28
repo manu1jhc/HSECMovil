@@ -37,4 +37,8 @@ public interface WebServiceAPI {
     @POST("Media/UploadAllFiles")
     Call<String> uploadAllFile(@Header("Authorization") String token, @Part("NroDocReferencia") RequestBody Nrodoc, @Part("CodTabla") RequestBody tabla, @Part("GrupoPertenece") RequestBody Grupo, @Part List<MultipartBody.Part> files);
 
+    @Multipart
+    @POST("Observaciones/Insertar")
+    Call<String> insertarObservacion(@Header("Authorization") String token, @Part("1") RequestBody Nrodoc, @Part("2") RequestBody tabla, @Part("3") RequestBody Grupo, @Part List<MultipartBody.Part> files);
+
 }

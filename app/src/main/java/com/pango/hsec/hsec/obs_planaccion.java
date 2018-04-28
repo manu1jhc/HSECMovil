@@ -22,6 +22,7 @@ import com.pango.hsec.hsec.adapter.PlanEditAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPlanModel;
 import com.pango.hsec.hsec.model.PlanModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,7 +34,7 @@ public class obs_planaccion extends Fragment implements IActivity{
 
     private static View mView;
     private RecyclerView listPlan;
-    private PlanEditAdapter listViewAdapter;
+    public PlanEditAdapter listViewAdapter;
     private  Gson gson;
     public static final com.pango.hsec.hsec.obs_planaccion newInstance(String sampleText) {
         obs_planaccion f = new obs_planaccion();
@@ -56,22 +57,21 @@ public class obs_planaccion extends Fragment implements IActivity{
 
         String codigo_obs = getArguments().getString("bString");
         if(GlobalVariables.ObjectEditable){ // load data of server
-            if(GlobalVariables.ObserbacionPlan==null || !GlobalVariables.ObserbacionPlan.equals(codigo_obs))
+            if(GlobalVariables.ObserbacionPlan==null)
             {
+                GlobalVariables.ObserbacionPlan=codigo_obs;
                 String url=GlobalVariables.Url_base+"PlanAccion/GetPlanes/"+codigo_obs;
                 final ActivityController obj = new ActivityController("get", url, obs_planaccion.this,getActivity());
                 obj.execute("");
             }
             else setdata();
-            GlobalVariables.ObserbacionPlan=codigo_obs;
         }
         else // new Obserbacion
         {
-            if(GlobalVariables.ObserbacionPlan==null || !GlobalVariables.ObserbacionPlan.contains("XYZ")){
-
+            if(GlobalVariables.ObserbacionPlan==null){
+                GlobalVariables.ObserbacionPlan=codigo_obs;
                 GlobalVariables.Planes= new ArrayList<>();
             }
-            GlobalVariables.ObserbacionPlan=codigo_obs;
             setdata();
         }
 
@@ -81,8 +81,16 @@ public class obs_planaccion extends Fragment implements IActivity{
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), PlanAccionEdit.class);
                PlanModel Plan= new PlanModel();
+                Gson gson = new Gson();
+              //  UsuarioModel UsuarioLogeado = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+
                 Plan.CodTabla="TOBS";
                 Plan.CodReferencia="01";
+                Plan.SolicitadoPor=GlobalVariables.Obserbacion.ObservadoPor;//UsuarioLogeado.Nombres;
+                Plan.CodSolicitadoPor=GlobalVariables.Obserbacion.CodObservadoPor;//UsuarioLogeado.CodPersona;
+                Plan.CodAreaHSEC=GlobalVariables.Obserbacion.CodAreaHSEC;
+                Plan.CodNivelRiesgo=GlobalVariables.Obserbacion.CodNivelRiesgo;
+                Plan.NroDocReferencia=GlobalVariables.ObserbacionPlan.equals("OBS000000XYZ")?null:GlobalVariables.ObserbacionPlan;
                 Plan.CodAccion="0";
                 i.putExtra("Plan", gson.toJson(Plan));
                 startActivityForResult(i, 1);
@@ -122,6 +130,7 @@ public class obs_planaccion extends Fragment implements IActivity{
     @Override
     public void success(String data, String Tipo) {
         GlobalVariables.Planes = gson.fromJson(data, GetPlanModel.class).Data;
+        GlobalVariables.StrPlanes=GlobalVariables.Planes;
         setdata();
     }
 

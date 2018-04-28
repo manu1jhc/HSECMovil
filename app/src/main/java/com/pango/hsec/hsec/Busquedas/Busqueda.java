@@ -452,7 +452,6 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             flagpopup=false;
         }
 
-        data1="{"+data1+"}";
         Gson gson = new Gson();
         GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
         contPublicacion=getPublicacionModel.Count;

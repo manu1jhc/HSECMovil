@@ -6,7 +6,8 @@ public class ObservacionModel {
     public String CodObservacion;
     public String CodAreaHSEC;
     public String CodNivelRiesgo;
-    public String ObservadoPor;//codigo de la persona
+    public String CodObservadoPor;//codigo de la persona
+    public String ObservadoPor;
     public String Fecha;
     public String Gerencia;
     public String Superint;

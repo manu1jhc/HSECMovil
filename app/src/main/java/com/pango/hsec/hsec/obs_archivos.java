@@ -123,22 +123,22 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
         if(GlobalVariables.ObjectEditable){ // load data of server
 
-            if(GlobalVariables.ObserbacionFile==null || !GlobalVariables.ObserbacionFile.equals(codigo_obs))
+            if(GlobalVariables.ObserbacionFile==null)
             {
+                GlobalVariables.ObserbacionFile=codigo_obs;
                 String url=GlobalVariables.Url_base+"media/GetMultimedia/"+codigo_obs;
                 final ActivityController obj = new ActivityController("get", url, obs_archivos.this,getActivity());
                 obj.execute("");
             }
             else setdata();
-            GlobalVariables.ObserbacionFile=codigo_obs;
         }
         else // new Obserbacion
         {
-            if(GlobalVariables.ObserbacionFile==null || !GlobalVariables.ObserbacionFile.contains("XYZ")){
+            if(GlobalVariables.ObserbacionFile==null){
+                GlobalVariables.ObserbacionFile=codigo_obs;
                 GlobalVariables.listaGaleria= new ArrayList<>();
                 GlobalVariables.listaArchivos= new ArrayList<>();
             }
-            GlobalVariables.ObserbacionFile=codigo_obs;
             setdata();
         }
 
@@ -290,7 +290,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
 
         for (ImageEntry image:images) {
-            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",image.imageId+""));
+            gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",new File(image.path).getName())); //image.path.split("/")[image.path.split("/").length-1]
         }
     }
 
@@ -308,6 +308,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
         Gson gson = new Gson();
         GetGaleriaModel getGaleriaModel = gson.fromJson(data, GetGaleriaModel.class);
         int count = getGaleriaModel.Count;
+        GlobalVariables.StrFiles=getGaleriaModel.Data;
         GlobalVariables.listaGaleria= new ArrayList<>();
         GlobalVariables.listaArchivos= new ArrayList<>();
         if (count != 0) {

@@ -130,10 +130,6 @@ public class ProgressRequestBody extends RequestBody {
         }
     }
 
-    private void showError(String message) {
-        Toast.makeText(mactivity, message, Toast.LENGTH_SHORT).show();
-    }
-
     private class ProgressUpdater implements Runnable {
         private long mUploaded;
         private long mTotal;

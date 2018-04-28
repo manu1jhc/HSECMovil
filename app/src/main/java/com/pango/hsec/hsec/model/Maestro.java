@@ -19,6 +19,10 @@ public class Maestro {
         CodTipo = codTipo;
         Descripcion = nombre;
     }
+
+    public Maestro(String nombre) {
+        Descripcion = nombre;
+    }
     public Maestro(String codTipo, String nombre, ArrayList<Maestro> Subtipos) {
         CodTipo = codTipo;
         Descripcion = nombre;

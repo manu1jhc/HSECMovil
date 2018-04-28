@@ -1,9 +1,11 @@
 package com.pango.hsec.hsec;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -181,13 +183,15 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             Date actual = myCalendar.getTime();
 
             //btnFechaInicio.setText(dt.format(actual));
-            FechaSolic.setText(formatoRender.format(actual));
+            //FechaSolic.setText(formatoRender.format(actual));
             Plan.FechaSolicitud=df.format(actual);
 
-            LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            /*LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             listView.setLayoutManager(horizontalManager);
             listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
-            listView.setAdapter(listPersonAdapter);
+            listView.setAdapter(listPersonAdapter);*/
+
+            setData();
         }
     }
     public void setData(){
@@ -226,15 +230,51 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         listView.setAdapter(listPersonAdapter);
     }
 
+
+    public boolean ValifarFormulario(){
+        String ErrorForm="";
+        if(StringUtils.isEmpty(Plan.CodSolicitadoPor)) ErrorForm+=" ->Solicitante\n";
+        if(StringUtils.isEmpty(Plan.CodActiRelacionada)) ErrorForm+=" ->Actividad Relacionada\n";
+        if(StringUtils.isEmpty(Plan.CodNivelRiesgo)) ErrorForm+=" ->Nivel de riesgo\n";
+        if(StringUtils.isEmpty(Plan.CodAreaHSEC)) ErrorForm+=" ->Area HSEC\n";
+        if(StringUtils.isEmpty(Plan.CodTipoAccion)) ErrorForm+=" ->Tipo de accion\n";
+        if(StringUtils.isEmpty(Plan.FecComprometidaInicial)) ErrorForm+=" ->Fecha Inicial\n";
+        if(StringUtils.isEmpty(Plan.FecComprometidaFinal)) ErrorForm+=" ->Fecha Final\n";
+        if(StringUtils.isEmpty(Plan.DesPlanAccion)) ErrorForm+=" ->Tarea\n";
+        if(StringUtils.isEmpty(Plan.CodResponsables)) ErrorForm+=" ->Responsables\n";
+
+        if(ErrorForm.isEmpty()) return true;
+        else{
+            String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos incorrectos");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            alertDialog.show();
+            return false;
+        }
+    }
+
     public void SalvarPlan(View view){
 
+        Utils.closeSoftKeyBoard(this);
         Plan.CodActiRelacionada= ((Maestro) spActRelacionada.getSelectedItem()).CodTipo;
         Plan.CodNivelRiesgo= ((Maestro)spNivelRiesgo.getSelectedItem()).CodTipo;
         Plan.CodAreaHSEC= ((Maestro)spinnerArea.getSelectedItem()).CodTipo;
         Plan.CodTipoAccion= ((Maestro)spTipoAccion.getSelectedItem()).CodTipo;
         Plan.DesPlanAccion= txtTarea.getText().toString();
         if(Plan.CodAccion.equals("0")){
-            Plan.CodAccion="-1";
+            int pos=1;
+            if(GlobalVariables.Planes.size()>0)
+                pos =Math.abs(Integer.parseInt(GlobalVariables.Planes.get(GlobalVariables.Planes.size()-1).CodAccion))+1;
+            Plan.CodAccion="-"+pos;
             Plan.CodEstadoAccion="01";
         }
         int cont=0;
@@ -250,24 +290,31 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         }
         Plan.Responsables=ResponsableData;
         Plan.CodResponsables=ResponsableCod;
-       /* Intent data = new Intent();
-        data.setData(Uri.parse(gson.toJson(Plan)));
-        setResult(RESULT_OK, data);
-        finish();*/
        String StrNewPlan=gson.toJson(Plan);
        if(StrPlan.equals(StrNewPlan)){
            Toast.makeText(this,"No se detectaron cambios",Toast.LENGTH_SHORT).show();
            finish();
        }
        else{
-           if(edit){
-               String url= GlobalVariables.Url_base+"PlanAccion/Post";
-               final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);
-               obj.execute(gson.toJson(Plan));
+           if(ValifarFormulario()){
+               if(edit||Plan.NroDocReferencia!=null){
+                   String url= GlobalVariables.Url_base+"PlanAccion/Post";
+                   final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);
+                   obj.execute(gson.toJson(Plan));
+               }
+               else {
+                   Intent intent = getIntent();
+                   intent.putExtra("planaccion",gson.toJson(Plan));
+
+                   setResult(RESULT_OK, intent);
+                   finish();
+               }
            }
-           else FinishSave();
        }
     }
+
+
+
     public void EscogerFechainicial(View view){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateInicial, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
         Calendar tempCalendar = Calendar.getInstance();
@@ -296,12 +343,44 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
         datePickerDialog.show();
     }
-    public void FinishSave(){
-        Intent intent = getIntent();
-        intent.putExtra("planaccion",gson.toJson(Plan));
+    public void FinishSave(boolean pass){
 
-        setResult(RESULT_OK, intent);
-        finish();
+            String Mensaje="Se guardo los datos correctamente";
+            String Titulo="Desea Finalizar?";
+            int icon=R.drawable.confirmicon;
+            if(!pass)
+            {
+                icon=R.drawable.erroricon;
+                Mensaje="Ocurrio un error al intentar guardar los datos.";
+                Titulo="Ocurrio un error";
+            }
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle(Titulo);
+            alertDialog.setIcon(icon);
+            alertDialog.setMessage(Mensaje);
+
+            if(pass)
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    if(pass){
+                        if(edit)Plan.CodSolicitadoPor=DniAvatar;
+                        Intent intent = getIntent();
+                        intent.putExtra("planaccion",gson.toJson(Plan));
+
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                }
+            });
+            alertDialog.show();
+
+
     }
     public void close(View view){
         finish();
@@ -342,11 +421,11 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
 
     @Override
     public void successpost(String data, String Tipo) {
-        if(data.contains("-1"))
-            Toast.makeText(this,"Ocurrio un error interno al intentar guardar cambios",Toast.LENGTH_SHORT).show();
+        if(data.contains("-1")) FinishSave(false);
+            //Toast.makeText(this,"Ocurrio un error interno al intentar guardar cambios",Toast.LENGTH_SHORT).show();
         else{
-            Plan.CodSolicitadoPor=DniAvatar;
-            FinishSave();
+            Plan.CodAccion = data.substring(1, data.length() - 1);
+            FinishSave(true);
         }
     }
 

@@ -37,6 +37,8 @@ import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetPlanModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -156,7 +158,7 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         plandetAdapter = new PlandetAdapter(this,planModel);
         list_popup.setAdapter(plandetAdapter);
         //codObsIns=planModel.NroDocReferencia;
-       if(planModel.CodResponsables!=null){
+       if(!StringUtils.isEmpty(planModel.CodResponsables)){
            String[]responsable=planModel.Responsables.split(";");
 
            final RecyclerView rec_responsable = (RecyclerView) findViewById(R.id.rec_responsable);
@@ -171,7 +173,7 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
        }
 
 
-        if(verBoton&&planModel.CodResponsables!=null) {
+        if(verBoton&&!StringUtils.isEmpty(planModel.CodResponsables)) {
             ll_levantar.setVisibility(View.VISIBLE);
 
             if (planModel.NroDocReferencia.substring(0, 3).equals("OBS")) {

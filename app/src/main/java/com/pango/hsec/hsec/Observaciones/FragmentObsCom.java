@@ -82,15 +82,13 @@ public class FragmentObsCom extends Fragment implements IActivity {
         Gson gson = new Gson();
         ObsDetalleModel observacionModel = gson.fromJson(data, ObsDetalleModel.class);
 
-        tx_obs_det.setText(observacionModel.Observacion);
-        tx_accion.setText(observacionModel.Accion);
-        tx_act_rel.setText(GlobalVariables.getDescripcion(Actividad_obs,observacionModel.CodActiRel));
-        tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs,observacionModel.CodHHA));
-        tx_sub_estandar.setText(GlobalVariables.getDescripcion(Acto_obs,observacionModel.CodSubEstandar));
-        tx_estado.setText(GlobalVariables.getDescripcion(Estado_obs,observacionModel.CodEstado));
-        tx_error.setText(GlobalVariables.getDescripcion(Error_obs,observacionModel.CodError));
-
-
+        if(observacionModel.Observacion!=null)tx_obs_det.setText(observacionModel.Observacion);
+        if(observacionModel.Accion!=null)tx_accion.setText(observacionModel.Accion);
+        if(observacionModel.CodActiRel!=null)tx_act_rel.setText(GlobalVariables.getDescripcion(Actividad_obs,observacionModel.CodActiRel));
+        if(observacionModel.CodHHA!=null)tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs,observacionModel.CodHHA));
+        if(observacionModel.CodSubEstandar!=null)tx_sub_estandar.setText(GlobalVariables.getDescripcion(Acto_obs,observacionModel.CodSubEstandar));
+        if(observacionModel.CodEstado!=null)tx_estado.setText(GlobalVariables.getDescripcion(Estado_obs,observacionModel.CodEstado));
+        if(observacionModel.CodError!=null)tx_error.setText(GlobalVariables.getDescripcion(Error_obs,observacionModel.CodError));
 
     }
 

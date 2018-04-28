@@ -59,10 +59,22 @@
                 app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
     <TabHost
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="45dp">
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -98,4 +110,16 @@
 
         </LinearLayout>
     </TabHost>
+
+    <Button
+        android:id="@+id/btn_Salvar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-45dp"
+        android:background="@color/ColorbtnVerdoso"
+        android:textColor="@color/colorBlanco"
+        android:onClick="SalvarObservacion"
+        android:text="Guardar"
+        android:visibility="visible"
+        />
 </LinearLayout>

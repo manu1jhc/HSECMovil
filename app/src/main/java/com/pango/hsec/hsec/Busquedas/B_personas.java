@@ -285,13 +285,13 @@ public class B_personas extends AppCompatActivity implements IActivity {
 
     }
     public void close(View view){
-        closeSoftKeyBoard();
+        Utils.closeSoftKeyBoard(this);
         finish();
     }
 
     @Override
     public void success(String data,String Tipo) {
-        closeSoftKeyBoard();
+        Utils.closeSoftKeyBoard(this);
         Gson gson = new Gson();
         getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
         contPublicacion=getPersonaModel.Count;

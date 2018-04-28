@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec;
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.model.GaleriaModel;
@@ -554,6 +556,12 @@ public class Utils {
             File myFile = new File(file, files[i]);
             myFile.delete();
         }
+    }
+
+    public static void closeSoftKeyBoard(Activity context) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
     }
 
 }

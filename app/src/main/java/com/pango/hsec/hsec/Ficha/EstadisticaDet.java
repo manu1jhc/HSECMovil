@@ -177,7 +177,6 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
 
 
 
-
     @Override
     public void success(String data, String Tipo) {
 
