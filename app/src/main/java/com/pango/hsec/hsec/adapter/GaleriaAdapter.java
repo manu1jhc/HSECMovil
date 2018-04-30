@@ -49,14 +49,12 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.ViewHold
             //"media/getImagepreview/" + Descripcion+ "/Preview.jpg"
             Glide.with(viewHolder.imageView.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+Data.get(position).Correlativo+ "/Preview.jpg")
-                    .override(250,250)
                     .centerCrop()
                     .into(viewHolder.imageView);
         }else{
             viewHolder.btn_play.setVisibility(View.VISIBLE);
             Glide.with(viewHolder.imageView.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+Data.get(position).Correlativo+ "/Preview.jpg")
-                    .override(250,250)
                     .centerCrop()
                     .into(viewHolder.imageView);
 

@@ -1,27 +1,28 @@
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
+    >
+
+<android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentAddCabecera">
-
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-    >
+        >
         <android.support.v7.widget.CardView
             android:id="@+id/card_codigo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-        >
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,14 +57,16 @@
                     android:textSize="14sp"
                     android:layout_weight="0.35"
                     android:layout_margin="4dp"
-                    android:editable="false"
                     />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+
+
+
         <android.support.v7.widget.CardView
-            android:id="@+id/card_gerencia"
+            android:id="@+id/card_ninspeccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -73,37 +76,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:weightSum="1"
                 >
 
                 <TextView
-                    android:id="@+id/tx_gerencia"
+                    android:id="@+id/txinsp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
-                    android:text="Gerencia"
+                    android:text="Nro Inspección"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
-                    tools:text="Gerencia" />
+                    tools:text="Nro Inspección" />
 
-                <Spinner
-                    android:id="@+id/spinner_gerencia"
+                <TextView
+                    android:id="@+id/edit_ninsp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:inputType="text"
+                    android:text="1"
+                    android:gravity="center"
+                    android:textSize="14sp"
                     android:layout_weight="0.35"
                     android:layout_margin="4dp"
-                    android:gravity="center"
-
                     />
-
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+
         <android.support.v7.widget.CardView
-            android:id="@+id/card_superint"
+            android:id="@+id/card_lugar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -113,212 +120,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
                 android:weightSum="1"
                 >
 
                 <TextView
-                    android:id="@+id/tx_superint"
+                    android:id="@+id/txlugar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
-                    android:text="Superintendencia"
+                    android:text="Lugar"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
-                    tools:text="Superintendencia" />
+                    tools:text="Lugar" />
 
-                <Spinner
-                    android:id="@+id/spinner_superint"
+                <EditText
+                    android:id="@+id/edit_lugar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
                     android:gravity="center"
-                    />
-
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_contrata"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                >
-
-                <TextView
-                    android:id="@+id/txtcontrata"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:text="Contrata"
-                    android:gravity="center_vertical"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    tools:text="Contrata"
-                    android:layout_weight="0.65"
-                    />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_margin="4dp"
+                    android:textSize="14sp"
                     android:layout_weight="0.35"
-                    android:weightSum="1"
-                    >
-                <TextView
-                    android:id="@+id/insp_contrata"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:enabled="false"
-                    android:text="xxxxxxxxxxxxxxxxx"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="0.16"
-                    android:gravity="center"
+                    android:layout_margin="4dp"
+                    android:focusable="true"
                     />
-
-                <ImageButton
-                    android:id="@+id/btn_buscar_c"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.84"
-                    android:src="@drawable/ic_contrata"
-                    app:srcCompat="@drawable/ic_contrata"
-                    />
-                </LinearLayout>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_fechaprog"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
->
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                >
-
-                <TextView
-                    android:id="@+id/textViewdesde"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:text="Fecha programada"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Fecha programada" />
-
-                <Button
-                    android:id="@+id/btn_fecha_prog"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.35"
-                    android:text="Seleccionar fecha"
- />
-                <!-- android:onClick="escogerFecha" -->
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_fechainsp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                >
-
-                <TextView
-                    android:id="@+id/textinspeccion"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:text="Fecha de inspección"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Fecha de inspección" />
-
-                <Button
-                    android:id="@+id/btn_fechainsp"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.35"
-                    android:text="Seleccionar fecha"
-                    />
-<!-- android:onClick="escogerFecha2"-->
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_hora"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1"
-                >
-
-                <TextView
-                    android:id="@+id/texthora"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:text="Hora"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Hora de inspección"
-                    android:gravity="center_vertical"
-                    />
-
-                <Button
-                    android:id="@+id/btn_hora"
-                    style="@style/Widget.AppCompat.Button.Borderless"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.35"
-                    android:text="00:00"
-                    />
-                <!-- android:onClick="escogerHora"-->
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -342,12 +170,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
-                    android:text="Ubicación"
+                    android:text="Ubicación específica"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
-                    tools:text="Ubicación" />
+                    tools:text="Ubicación específica" />
 
                 <Spinner
                     android:id="@+id/spinner_ubicacion"
@@ -362,7 +190,7 @@
 
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_sububicacion"
+            android:id="@+id/card_asp_obs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -376,19 +204,98 @@
                 >
 
                 <TextView
-                    android:id="@+id/tx_sububicacion"
+                    android:id="@+id/tx_aspecto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
-                    android:text="Sub ubicación"
+                    android:text="Aspecto observado"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
-                    tools:text="Sub ubicación" />
+                    tools:text="Aspecto observado" />
 
                 <Spinner
-                    android:id="@+id/spinner_sububicacion"
+                    android:id="@+id/spinner_aspecto"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.35"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+
+                    />
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_actividad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+
+                <TextView
+                    android:id="@+id/tx_actividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:text="Actividad relacionada"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_weight="0.65"
+                    tools:text="Actividad relacionada" />
+
+                <Spinner
+                    android:id="@+id/spinner_actividad"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.35"
+                    android:layout_margin="4dp"
+                    android:gravity="center"
+                    />
+
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_riesgo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+
+                <TextView
+                    android:id="@+id/tx_riesgo"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:text="Nivel de riesgo"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_weight="0.65"
+                    tools:text="Nivel de riesgo" />
+
+                <Spinner
+                    android:id="@+id/spinner_riesgo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="0.35"
@@ -400,7 +307,7 @@
 
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_tipoinsp"
+            android:id="@+id/card_observacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
@@ -408,38 +315,40 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:weightSum="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 >
 
                 <TextView
-                    android:id="@+id/tx_tipoinsp"
+                    android:id="@+id/tx_obs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
-                    android:text="Tipo de inspección"
+                    android:text="Observación"
                     android:gravity="center_vertical"
                     android:textSize="16sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Tipo de inspección" />
+                    tools:text="Observación" />
 
-                <Spinner
-                    android:id="@+id/spinner_tipoinsp"
+                <EditText
+                    android:id="@+id/edit_observacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:textSize="14sp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="4dp"
+                    android:layout_marginBottom="2dp"
+                    android:ems="10"
+                    android:scrollbars="vertical"
+
                     />
+
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-
-
     </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.NestedScrollView>
 
 
 </LinearLayout>

@@ -5,22 +5,25 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.TabHost;
 
+import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Inspecciones.FragmentInspeccion;
 import com.pango.hsec.hsec.Inspecciones.FragmentObsInsp;
 import com.pango.hsec.hsec.Inspecciones.FragmentParticipante;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.model.PersonaModel;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AddInspeccion extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
-
     MyPageAdapter pageAdapter;
     private ViewPager mViewPager;
     private TabHost mTabHost;
@@ -29,18 +32,44 @@ public class AddInspeccion extends FragmentActivity implements TabHost.OnTabChan
     String urlObs="";
     int pos=0;
     HorizontalScrollView horizontalscroll;
+    public static String DesContrata="XXXXXXXXXXX";
+    public static String fecha_1="SELECCIONAR FECHA";
+    public static String fecha_2="SELECCIONAR FECHA";
+    public static String hora="00:00:00";
+    Button btnguardar_insp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act_add_inspeccion);
+
+
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         horizontalscroll=findViewById(R.id.horizontalscroll);
-        //Bundle datos = this.getIntent().getExtras();
-        //codObs=datos.getString("codObs");
-        //pos=datos.getInt("posTab");
+        btnguardar_insp=findViewById(R.id.btnguardar_insp);
+        Bundle datos = this.getIntent().getExtras();
+        codObs=datos.getString("codObs");
+        pos=datos.getInt("posTab");
 
+        GlobalVariables.ListResponsables=new ArrayList<>();
+        GlobalVariables.ListAtendidos=new ArrayList<>();
+        GlobalVariables.ListobsInspAddModel=new ArrayList<>();
+
+        btnguardar_insp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//GlobalVariables.ListobsInspAddModel)
+            GlobalVariables.AddInspeccion.Fecha=GlobalVariables.AddInspeccion.Fecha+"T"+hora;
+
+
+            finish();
+            }
+        });
+
+
+        GlobalVariables.countObsInsp=1;
 
 
         initialiseTabHost();
@@ -114,7 +143,6 @@ public class AddInspeccion extends FragmentActivity implements TabHost.OnTabChan
 
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
-
 
 
         // TODO Put here your Fragments

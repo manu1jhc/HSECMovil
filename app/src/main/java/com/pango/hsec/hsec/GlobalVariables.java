@@ -7,8 +7,12 @@ import android.view.View;
 import com.pango.hsec.hsec.adapter.PlanEditAdapter;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetMaestroModel;
+import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
+import com.pango.hsec.hsec.model.ObsInspAddModel;
+import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
@@ -48,6 +52,33 @@ public class GlobalVariables  {
     public static int con_status_post=0;
 
     public static String token_auth="";
+
+
+
+    public static String CodObs="";
+
+    public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
+
+    public static int con_status_video=200;
+
+    public static boolean flagObsFiltro=true;
+    public static boolean istabs=false;
+    public static boolean isUserlogin=false;
+    public static InspeccionModel AddInspeccion=new InspeccionModel();
+    //public static ArrayList<ObsInspDetModel> ListaObsInsp=new ArrayList<>();
+    public static int countObsInsp=1;
+    // public static List<Maestro> listPlan=new ArrayList<>();
+    public static ObsInspDetModel obsInspDetModel=new ObsInspDetModel();
+    public static ObsInspAddModel obsInspAddModel=new ObsInspAddModel();
+    public static ArrayList<ObsInspAddModel> ListobsInspAddModel=new ArrayList<>();
+    public static boolean editar_list=false;
+
+    public static ArrayList<PersonaModel> ListResponsables=new ArrayList<>();
+    public static ArrayList<PersonaModel> ListAtendidos=new ArrayList<>();
+
+
+    //public static InspeccionModel Inspeccion=new InspeccionModel();
+
 
     public static boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -346,17 +377,6 @@ public class GlobalVariables  {
         return Super;
     }
 
-
-    public static String CodObs="";
-
-    public static List<GaleriaModel> listaImgVid =new ArrayList<GaleriaModel>();
-
-    public static int con_status_video=200;
-
-    public static boolean flagObsFiltro=true;
-    public static boolean istabs=false;
-    public static boolean isUserlogin=false;
-   // public static List<Maestro> listPlan=new ArrayList<>();
 
     //autenticacion
     public static String reemplazar(String cadena, String busqueda, String reemplazo) {

@@ -91,7 +91,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
             "application/vnd.ms-excel"
     };
 
-    public static final com.pango.hsec.hsec.obs_archivos newInstance(String sampleText, int pos) {
+    public static final obs_archivos newInstance(String sampleText, int pos) {
         obs_archivos f = new obs_archivos();
 
         Bundle b = new Bundle();
@@ -131,6 +131,12 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
                 obj.execute("");
             }
             else setdata();
+        }
+        else if(GlobalVariables.editar_list){////editar galeria no almacenada en el servidor
+
+            setdata();
+
+
         }
         else // new Obserbacion
         {
@@ -211,9 +217,9 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     }*/
 
     public void loadImage(){
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)requestPermissions(new String[] {android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1011);
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED)requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1011);
         else  if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED)requestPermissions(new String[] {Manifest.permission.CAMERA}, 1022);
-        else  if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED)requestPermissions(new String[] {android.Manifest.permission.RECORD_AUDIO}, 1033);
+        else  if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.RECORD_AUDIO)!= PackageManager.PERMISSION_GRANTED)requestPermissions(new String[] {Manifest.permission.RECORD_AUDIO}, 1033);
         else
         {
             new Picker.Builder(getActivity(), obs_archivos.this, R.style.MIP_theme)

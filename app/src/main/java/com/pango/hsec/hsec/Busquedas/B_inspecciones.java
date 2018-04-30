@@ -98,7 +98,7 @@ public class B_inspecciones extends AppCompatActivity {
 
         superintdata=new ArrayList<>();
         superintdata.add(new Maestro(null,"-  Seleccione  -"));
-        superintdata.addAll(GlobalVariables.SuperIntendencia);
+        //superintdata.addAll(GlobalVariables.SuperIntendencia);
 
         ArrayAdapter adapterUbic = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, ubicaciondata);
         adapterUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -148,7 +148,7 @@ public class B_inspecciones extends AppCompatActivity {
                 if(position!=0) {
                     sububic = superintdata.get(position).CodTipo.split("\\.")[1];
                     Utils.inspeccionModel.CodSubUbicacion=sububicacion_data.get(position).CodTipo.split("\\.")[1];
-                    superint_pos=String.valueOf(position);
+                    sububic_pos=String.valueOf(position);
                 }else{
                     sububic="";
                     sububic_pos="0";

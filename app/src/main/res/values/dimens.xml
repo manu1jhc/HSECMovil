@@ -24,5 +24,6 @@
     <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
 
     <dimen name="espacio_grilla">1dp</dimen>
+    <dimen name="item_offset">1dp</dimen>
 
 </resources>

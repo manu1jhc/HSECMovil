@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
@@ -222,6 +223,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             ImageView riesgo2=rowView.findViewById(R.id.img_riesgo2);
             ImageView riesgo3=rowView.findViewById(R.id.img_riesgo3);
             TextView tipo_insp = rowView.findViewById(R.id.mp_tipoinsp);
+            ImageView btn_editar=rowView.findViewById(R.id.btn_editar);
 
             TextView comentario=rowView.findViewById(R.id.tx_comentario);
             TextView tx_det1 = rowView.findViewById(R.id.mp_txdet);
@@ -245,11 +247,31 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
             String[] tempRiesgo = new String[0];
             String[] tempDetalle = new String[0];
+            final boolean editable = data.get(position).Editable;
 
             if(data.get(position).NivelR!=null){
                 tempRiesgo = data.get(position).NivelR.split(";");
                 tempDetalle = data.get(position).Obs.split(";");
             }
+
+
+            if(!editable){
+                btn_editar.setVisibility(View.GONE);
+            }
+////////////////////////////////////////////////////////////////////////////editar inspecciones
+            btn_editar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    GlobalVariables.ObjectEditable=true;
+                    Intent intent = new Intent(getContext(),AddInspeccion.class);
+                    intent.putExtra("codObs", data.get(position).Codigo);
+                    intent.putExtra("posTab", 0);
+                    v.getContext().startActivity(intent);
+
+
+                }
+            });
 
             tipo_insp.setText(GlobalVariables.getDescripcion(GlobalVariables.Tipo_insp,tempTipoInsp));
 

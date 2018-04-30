@@ -99,8 +99,6 @@ public class FragmentObsInsp extends Fragment implements IActivity {
 
 
         obsInspAdapter = new ObsInspAdapter(getContext(),getObsInspModel.Data);
-
-
         list_obsinsp.setAdapter(obsInspAdapter);
 
     }

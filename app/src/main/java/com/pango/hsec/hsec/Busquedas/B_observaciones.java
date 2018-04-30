@@ -104,7 +104,7 @@ public class B_observaciones extends AppCompatActivity {
 
         superintdata=new ArrayList<>();
         superintdata.add(new Maestro(null,"-  Seleccione  -"));
-        superintdata.addAll(GlobalVariables.SuperIntendencia);
+        //superintdata.addAll(GlobalVariables.SuperIntendencia);
 
 
 

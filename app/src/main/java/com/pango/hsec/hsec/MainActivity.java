@@ -231,7 +231,9 @@ public class MainActivity extends AppCompatActivity
             startActivity(obserbacion_edit);
 
         } else if (id == R.id.nav_inspeccion) {
+            GlobalVariables.ObjectEditable=false;
             Intent addInspeccion = new Intent(this,AddInspeccion.class);
+            addInspeccion.putExtra("codObs","");
             startActivity(addInspeccion);
 
 

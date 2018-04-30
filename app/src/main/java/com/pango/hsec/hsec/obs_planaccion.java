@@ -66,7 +66,15 @@ public class obs_planaccion extends Fragment implements IActivity{
             }
             else setdata();
         }
-        else // new Obserbacion
+        else if(GlobalVariables.editar_list){////editar galeria no almacenada en el servidor
+
+                //GlobalVariables.Planes= new ArrayList<>();
+                //GlobalVariables.Planes=GlobalVariables.obsInspAddModel.Planes;
+                //GlobalVariables.editar_list=false;
+                setdata();
+
+            }else// new Obserbacion
+
         {
             if(GlobalVariables.ObserbacionPlan==null){
                 GlobalVariables.ObserbacionPlan=codigo_obs;
