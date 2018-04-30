@@ -202,7 +202,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 GlobalVariables.ObserbacionDetalle.CodTipo=Tipo;
 
                 GlobalVariables.StrObsDetalle=gson.toJson(GlobalVariables.ObserbacionDetalle);
-
             }
             setdata();
         }

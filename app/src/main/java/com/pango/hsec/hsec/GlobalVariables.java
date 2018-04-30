@@ -230,6 +230,7 @@ public class GlobalVariables  {
         Estado_Plan.add(new Maestro("01","Pendiente"));
         Estado_Plan.add(new Maestro("02","Atendido"));
         Estado_Plan.add(new Maestro("03","En Proceso"));
+        //////
         Estado_Plan.add(new Maestro("04","Observado"));
         Estado_Plan.add(new Maestro("05","Cerrado"));
 

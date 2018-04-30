@@ -19,6 +19,7 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
+import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PublicacionModel;
@@ -182,7 +183,17 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         .override(width, width)
                         .into(img_det);
             }
-
+            img_det.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), Galeria_detalle.class);
+                    //intent.putExtra(ActImagDet.EXTRA_PARAM_ID, a);
+                    intent.putExtra("post", tempImgDet);
+                    intent.putExtra("codigo", "G"+data.get(position).Codigo);
+                    v.getContext().startActivity(intent);
+                    //GlobalVariables.desdeBusqueda=true;
+                }
+            });
 
             img_perfil.setOnClickListener(new View.OnClickListener() {
                 @Override
