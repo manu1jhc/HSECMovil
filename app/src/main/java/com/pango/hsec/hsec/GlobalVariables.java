@@ -11,6 +11,7 @@ import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
+import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObsInspAddModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
@@ -33,6 +34,7 @@ public class GlobalVariables  {
 
     //variables de edicion Observaciones
     public static ObservacionModel Obserbacion= new ObservacionModel();
+    public static ObsFacilitoModel FacilitoList= new ObsFacilitoModel();
     public static ObsDetalleModel ObserbacionDetalle= new ObsDetalleModel();
     public static String StrObservacion,StrObsDetalle;
 
@@ -104,6 +106,7 @@ public class GlobalVariables  {
     //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
 
     public static boolean flagUpSc=false;
+    public  static boolean flagFacilito=false;
    // public static boolean FDown=false;
    public static int count=5;
     public static boolean flag_up_toast=false;
@@ -114,6 +117,8 @@ public class GlobalVariables  {
     public static ArrayList<PlanMinModel> listaPlanMin = new  ArrayList<PlanMinModel>();
 
     public static ArrayList<PublicacionModel> listaGlobalFiltro = new  ArrayList<PublicacionModel>();
+    public static ArrayList<ObsFacilitoModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoModel>();
+    public static  ArrayList<Maestro> ObsFacilito_tiempo = new ArrayList<>();
 
     public static String json_user="";
 
@@ -271,6 +276,12 @@ public class GlobalVariables  {
         NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
         NivelRiesgo_obs.add(new Maestro("ME", "Media"));
         NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
+
+        ObsFacilito_tiempo.add(new Maestro("00","Inmediato"));
+        ObsFacilito_tiempo.add(new Maestro("01","1 dìa"));
+        ObsFacilito_tiempo.add(new Maestro("07","1 semana"));
+        ObsFacilito_tiempo.add(new Maestro("15","15 dias"));
+        ObsFacilito_tiempo.add(new Maestro("30","1 mes"));
 
    //condicion sub estandar
         Condicion_obs.add(new Maestro("0027","Protección inadecuadas, defectuosa o inexistente"));

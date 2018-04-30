@@ -83,6 +83,7 @@ public class FragmentRegistroIO extends Fragment {
             public void onClick(View arg0) {
 
                 // Start NewActivity.class
+                GlobalVariables.flagFacilito=false;
                 Intent myIntent = new Intent(getActivity(), report_obs.class);
                 startActivity(myIntent);
             }

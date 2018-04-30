@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
+import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
@@ -424,6 +425,7 @@ public class Utils {
 
     public static ArrayList<String> tempObs=new ArrayList<String>();
     public static ObservacionModel observacionModel=new ObservacionModel();
+    public static ObsFacilitoModel observacionFacilitoModel=new ObsFacilitoModel();
     public static InspeccionModel inspeccionModel=new InspeccionModel();
 
     public static NoticiasModel noticiasModel=new NoticiasModel();

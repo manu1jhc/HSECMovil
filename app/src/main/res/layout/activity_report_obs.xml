@@ -60,42 +60,14 @@
                 app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/card_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorBtnBeige"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <TextView
-                android:id="@+id/tx_title"
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:text="Reporte de observación"
-                android:textAlignment="center"
-                android:textSize="16dp"
-                android:gravity="center"
-                android:textColor="@color/colorBlanco"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                 />
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.CardView>
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/const_buttons"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -148,7 +120,7 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cv_area"
+                android:id="@+id/cv_gerencia"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginTop="2dp"
@@ -162,22 +134,22 @@
                     android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/txarea"
+                        android:id="@+id/txgerencia"
                         android:layout_width="120dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Área:"
+                        android:text="Gerencia:"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Área:" />
+                        tools:text="Gerencia:" />
 
                     <Spinner
-                        android:id="@+id/sp_area"
+                        android:id="@+id/sp_gerencia"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginBottom="8dp"
@@ -186,7 +158,52 @@
                         android:layout_marginTop="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txarea"
+                        app:layout_constraintStart_toEndOf="@+id/txgerencia"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_superint"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_gerencia">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txsuperint"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Superintendencia:"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Superintendencia:" />
+
+                    <Spinner
+                        android:id="@+id/sp_superint"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txsuperint"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -194,13 +211,12 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_ubicacion"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_area">
+                app:layout_constraintTop_toBottomOf="@+id/cv_superint">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -227,8 +243,8 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
-                        android:selectAllOnFocus="true"
-                        android:singleLine="true"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -252,11 +268,10 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_observacion"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_ubicacion">
 
@@ -285,8 +300,8 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
-                        android:selectAllOnFocus="true"
-                        android:singleLine="true"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -311,69 +326,9 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
-                android:id="@+id/cv_fotografia"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_accion">
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/txaccion"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Fotografia:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Fotografia:" />
-
-                    <EditText
-                        android:id="@+id/dt_foto"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="0dp"
-                        android:ems="10"
-                        android:inputType="number"
-                        android:numeric="integer"
-                        android:selectAllOnFocus="true"
-                        android:singleLine="true"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txaccion"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageButton
-                        android:id="@+id/btn_galeria"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/colorBlanco"
-                        android:src="@drawable/ic_fotos"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/dt_foto"
-                        app:layout_constraintTop_toTopOf="parent" />
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
                 android:id="@+id/cv_accion"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -405,8 +360,8 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
-                        android:selectAllOnFocus="true"
-                        android:singleLine="true"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -429,6 +384,68 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/cv_fotografia"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_accion">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/txaccion"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Fotografia:"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Fotografia:" />
+
+                    <EditText
+                        android:id="@+id/dt_foto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:gravity="top"
+                        android:inputType="number"
+                        android:numeric="integer"
+                        android:text="Seleccione fotos:"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txaccion"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Seleccione fotos:" />
+
+                    <ImageButton
+                        android:id="@+id/btn_galeria"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="2dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/colorBlanco"
+                        android:src="@drawable/ic_fotos"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/dt_foto"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
                 android:id="@+id/cv_grid"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -448,30 +465,24 @@
                         android:layout_height="wrap_content" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-
-          <!--  <android.support.v7.widget.CardView
-                android:id="@+id/cv_enviar"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_enviarbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_grid">
-
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <Button
                         android:id="@+id/btn_enviar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="34dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="@color/colorazulcielo"
-                        android:text="Enviar"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="-50dp"
+                        android:background="@color/ColorbtnVerdoso"
                         android:textColor="@color/colorBlanco"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -479,21 +490,10 @@
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="parent" />
                 </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>-->
+            </android.support.v7.widget.CardView>
         </android.support.constraint.ConstraintLayout>
-    </android.support.constraint.ConstraintLayout>
-    <Button
-        android:id="@+id/btn_enviar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="-50dp"
-        android:background="@color/ColorbtnVerdoso"
-        android:text="Enviar"
-        android:textColor="@color/colorBlanco"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+
+    </ScrollView>
+
 
 </LinearLayout>

@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.pango.hsec.hsec.Facilito.obsFacilitoDet">
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/ColorVerdoso">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            >
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/transparent"
+                android:onClick="close"
+                android:src="@drawable/ic_flecha_retroceder"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginTop="8dp"
+                android:cropToPadding="false"
+                android:src="@drawable/ic_minero"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="8dp"
+                android:gravity="center_vertical"
+
+                android:text="HSEC"
+                android:textColor="@color/colorBlanco"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--android:visibility="invisible"-->
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv1"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:cardBackgroundColor="@color/colorplomosplash2"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="Detalle Observacion"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv1"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx1"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="0.65"
+                android:text="Codigo Obs"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_codigo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv2"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="0.65"
+                android:text="Observado Por"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_persona"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv4"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv3"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="0.65"
+                android:text="Tipo Observacion"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv4"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx_ger"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.65"
+                android:text="Gerencia"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_geren"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+<android.support.v7.widget.CardView
+android:id="@+id/cv6"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+app:layout_constraintEnd_toEndOf="parent"
+app:layout_constraintStart_toStartOf="parent"
+app:layout_constraintTop_toBottomOf="@+id/cv5"
+
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:layout_margin="2dp"
+    >
+
+    <TextView
+        android:id="@+id/tx_sup"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.65"
+        android:text="Superintendencia"
+        android:gravity="left|center"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tx_superint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text=" "
+        android:layout_weight="0.35"
+        android:gravity="left|center"
+        android:layout_marginLeft="10dp"
+
+        />
+
+</LinearLayout>
+</android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv7"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv6"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx4"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="0.65"
+                android:text="Ubicacion Exacta"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_ubicacion"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv7"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.65"
+                android:text="Observacion"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_observacion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv9"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv8"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx6"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="0.65"
+                android:text="Accion a tomar"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_accion"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv10"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cv9"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx7"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_weight="0.65"
+                android:text="Fecha Creacion"
+                android:gravity="left|center"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tx_fecha"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:gravity="left|center"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv11"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        app:cardBackgroundColor="@color/colorplomosplash2"
+        app:layout_constraintTop_toBottomOf="@+id/cv10"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="Galeria Imagenes"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>
+    <!--
+
+
+
+        <TabHost
+            android:id="@+id/tabHost"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <HorizontalScrollView android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                </HorizontalScrollView>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/viewpager"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom" />
+            </LinearLayout>
+        </TabHost>
+
+    -->

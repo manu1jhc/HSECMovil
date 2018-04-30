@@ -436,10 +436,6 @@ public class FragmentMuro extends Fragment implements IActivity{
 
         GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
         contPublicacion=getPublicacionModel.Count;
-
-
-
-
         if(GlobalVariables.listaGlobal.size()==0) {
             GlobalVariables.listaGlobal = getPublicacionModel.Data;
             //GlobalVariables.listaGlobal=listaPublicaciones;

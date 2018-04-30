@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.Busquedas.Busqueda;
+import com.pango.hsec.hsec.Facilito.list_obsfacilito;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 
 import java.lang.reflect.Field;
@@ -221,7 +222,14 @@ public class MainActivity extends AppCompatActivity
 
             Toast.makeText(this, "nav_seguimiento", Toast.LENGTH_SHORT).show();
 
-        } else if (id == R.id.nav_observacion) {
+        }else if (id == R.id.nav_listaobs) {
+            GlobalVariables.flagFacilito=true;
+            Intent addObsReport = new Intent(this,list_obsfacilito.class);
+            startActivity(addObsReport);
+
+            Toast.makeText(this, "nav_listaobs", Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.nav_observacion) {
 
             GlobalVariables.ObjectEditable=false;
             Intent obserbacion_edit = new Intent(this,observacion_edit.class);
