@@ -37,6 +37,7 @@ import layout.FragmentConfiguracion;
 import layout.FragmentContactenos;
 import layout.FragmentFichaPersonal;
 import layout.FragmentMuro;
+import layout.FragmentPlanPendiente;
 import layout.FragmentRegistroIO;
 import layout.FragmentAvanzado;
 
@@ -51,7 +52,8 @@ public class MainActivity extends AppCompatActivity
         FragmentRegistroIO.OnFragmentInteractionListener,
         FragmentAvanzado.OnFragmentInteractionListener,
         FragmentConfiguracion.OnFragmentInteractionListener,
-        FragmentContactenos.OnFragmentInteractionListener
+        FragmentContactenos.OnFragmentInteractionListener,
+        FragmentPlanPendiente.OnFragmentInteractionListener
 
 {
 
@@ -84,7 +86,8 @@ public class MainActivity extends AppCompatActivity
         RegistroOI,
         Avanzado,
         Configuracion,
-        Contactenos
+        Contactenos,
+        PlanPendiente
     }
 
     @Override
@@ -264,6 +267,13 @@ public class MainActivity extends AppCompatActivity
 
         }else if (id == R.id.nav_pendientes){
 
+            buscar.setVisibility(View.INVISIBLE);
+
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickPendientes();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+
             Toast.makeText(this, "nav_pendientes",
                     Toast.LENGTH_SHORT).show();
 
@@ -394,6 +404,11 @@ public class MainActivity extends AppCompatActivity
         uncheckItemsMenu();
         ChangeFragment(NavigationFragment.Contactenos);
     }
+
+    public void ClickPendientes(){
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.PlanPendiente);
+    }
     public void uncheckItemsMenu() {
 
         try {
@@ -436,8 +451,7 @@ public class MainActivity extends AppCompatActivity
             case Avanzado: fragment = new FragmentAvanzado(); break;
             case Configuracion: fragment = new FragmentConfiguracion(); break;
             case Contactenos: fragment = new FragmentContactenos(); break;
-
-
+            case PlanPendiente: fragment = new FragmentPlanPendiente(); break;
         }
         if(fragment!=null&&GlobalVariables.fragmentStack.size()==0){
             getSupportFragmentManager()
