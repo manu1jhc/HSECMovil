@@ -3,6 +3,7 @@ package com.pango.hsec.hsec;
 import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ListView;
 
 import com.pango.hsec.hsec.adapter.PlanEditAdapter;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;

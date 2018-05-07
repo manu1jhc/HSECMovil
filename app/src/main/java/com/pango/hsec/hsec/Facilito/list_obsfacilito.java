@@ -160,7 +160,7 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
                         obj.execute("");
 
                         layoutInflater =(LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                        popupView = layoutInflater.inflate(R.layout.popup_blanco, null);
+                        popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
 
                         popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT ,580,false);
                         popupWindow.showAtLocation(list_Obs, Gravity.CENTER, 0, 0);

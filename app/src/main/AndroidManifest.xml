@@ -58,7 +58,7 @@
             android:name=".observacion_edit"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Observaciones.Galeria_detalle"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -173,7 +173,8 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
-        <activity android:name=".Ingresos.Inspecciones.ActObsInspEdit"
+        <activity
+            android:name=".Ingresos.Inspecciones.ActObsInspEdit"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />

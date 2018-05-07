@@ -2,19 +2,37 @@ package com.pango.hsec.hsec.adapter;
 
 import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
+import com.pango.hsec.hsec.Facilito.opcionfacilito;
 import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
+
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +41,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.pango.hsec.hsec.Utils.Obtenerfecha;
 
 /**
@@ -30,6 +49,9 @@ import static com.pango.hsec.hsec.Utils.Obtenerfecha;
  */
 
 public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
+//    LayoutInflater layoutInflater;
+    View popupView;
+    PopupWindow popupWindow;
     private Context context;
     private ArrayList<ObsFacilitoModel> data = new ArrayList<ObsFacilitoModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -44,8 +66,11 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
     public View getView(final int position, final View convertView, final ViewGroup parent)  {
         //ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater;
+        ListView list_Obs;
         final View rowView;
         rowView = inflater.inflate(R.layout.public_obsfacilito, null, true);
+        list_Obs = (ListView) rowView.findViewById(R.id.list_Obs);
         ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
         ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
         TextView nombre = rowView.findViewById(R.id.mp_nombre);
@@ -73,19 +98,79 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
                 @Override
                 public void onClick(View v) {
                     String edit=data.get(position).Editable;
-                    if(edit.equals("1") || edit.equals("3")){
-                        GlobalVariables.ObjectEditable=true;
-                        Intent intent = new Intent(getContext(),report_obs.class);
-                        intent.putExtra("codObs", data.get(position).CodObsFacilito);
-                        v.getContext().startActivity(intent);
+                    GlobalVariables.ObjectEditable=true;
+                    LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);//getSystemService(LAYOUT_INFLATER_SERVICE);
+                    popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
+
+                    popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
+                    popupWindow.showAtLocation(editar, Gravity.BOTTOM, 0, 0);
+                    popupWindow.setFocusable(true);
+                    popupWindow.setOutsideTouchable(true);
+                    popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    Button button1=(Button) popupView.findViewById(R.id.btn_editartv);
+                    Button button2=(Button) popupView.findViewById(R.id.btn_aprobartv);
+                    Button button3=(Button) popupView.findViewById(R.id.btn_eliminartv);
+                    RelativeLayout rl1=(RelativeLayout) popupView.findViewById(R.id.rl1);
+                    CardView cv1=(CardView) popupView.findViewById(R.id.cv1);
+                    CardView cv2=(CardView) popupView.findViewById(R.id.cv2);
+                    CardView cv3=(CardView) popupView.findViewById(R.id.cv3);
+                    rl1.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v){
+                            popupWindow.dismiss();
+                        }
+                    });
+                    if(edit.equals("1")){
+                        cv1.setVisibility(View.VISIBLE);
+                        cv3.setVisibility(View.VISIBLE);
                     }
                     else if(edit.equals("2")){
-
-                        Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
-                        intent.putExtra("codObs", data.get(position).CodObsFacilito);
-                        v.getContext().startActivity(intent);
+                        cv2.setVisibility(View.VISIBLE);
                     }
+                    else if(edit.equals("3")){
+                        cv1.setVisibility(View.VISIBLE);
+                        cv2.setVisibility(View.VISIBLE);
+                        cv3.setVisibility(View.VISIBLE);
+                    }
+                    button1.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v){
 
+                                Intent intent = new Intent(getContext(),report_obs.class);
+                                intent.putExtra("codObs", data.get(position).CodObsFacilito);
+                                v.getContext().startActivity(intent);
+                        }
+                    });
+                    button2.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v){
+
+                            Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
+                            intent.putExtra("codObs", data.get(position).CodObsFacilito);
+                            v.getContext().startActivity(intent);
+                        }
+                    });
+//                    }
+                    button3.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View v) {
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
+                            alertDialog.setTitle("Desea Eliminar Observacion")
+                            .setMessage(tempObservacion)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // continue with delete
+                                }
+                            })
+                                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            // do nothing
+                                        }
+                                    })
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .show();
+                        }
+                    });
                 }
             });
         nombre.setText(tempNombre);
@@ -141,4 +226,6 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
         }
         return fecha;
     }
+
 }
+

@@ -64,7 +64,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             case "OBS":
                 tipo=0;
                 break;
-            case "INS":
+            case "INS":case "OBF":
                 tipo=1;
                 break;
             case "NOT":

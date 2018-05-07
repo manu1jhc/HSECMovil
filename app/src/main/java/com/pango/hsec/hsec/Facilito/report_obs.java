@@ -4,11 +4,16 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.speech.RecognizerIntent;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
@@ -23,6 +28,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,35 +37,59 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.controller.WebServiceAPI;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.ImageEntry;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.obs_archivos;
+import com.pango.hsec.hsec.util.Compressor;
 import com.pango.hsec.hsec.util.Picker;
 import com.pango.hsec.hsec.util.Picker.PickListener;
+import com.pango.hsec.hsec.util.ProgressRequestBody;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
-public class report_obs extends AppCompatActivity implements IActivity,Picker.PickListener  {
+import javax.microedition.khronos.opengles.GL;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class report_obs extends AppCompatActivity implements IActivity,Picker.PickListener,ViewPager.OnPageChangeListener,ProgressRequestBody.UploadCallbacks {
     ArrayList<Maestro> gerenciadata;
     ArrayList<Maestro> superintdata;
     public ObsFacilitoModel Obs;
+    ObsFacilitoModel ObsPost=new ObsFacilitoModel();
     String codObs;
+    ProgressBar progressBar;
+    ArrayList<Integer> Actives=new ArrayList();
+    MyPageAdapter pageAdapter;
+    String CodObservacion,CodTipo;
     ArrayAdapter adapterGerencia,adapterSuperInt;
     private EditText txvResult,txvUbicacion,dt_accion;
     private ImageButton mbtnmicrofono;
     private ImageButton btnFotos,mbtn_microaccion,mbtn_microubi;
     private RecyclerView gridView;
     private ArrayList<GaleriaModel> DataImg;
+    private ArrayList<GaleriaModel> DataImgList;
+    ArrayList<GaleriaModel> Data;
     private GridViewAdapter gridViewAdapter;
     private ArrayList<ImageEntry> mSelectedImages;
     private static View mView;
@@ -70,30 +100,33 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
     private static final int REQ_CODE_SPEECH_INPUT = 100;
     Gson gson;
     String url;
+    ConstraintLayout contenedor;
+    String SupertInt="";
+    String SupertIntfinal="";
+    GetGaleriaModel getGaleriaModel;
+    String obsFacilitoModel;
+    String Errores;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_obs);
         Bundle datos = this.getIntent().getExtras();
+        boolean[] pass = {false,false};
+        Integer[] itemSel = {0,0,0};
         gson = new Gson();
         Obs = new ObsFacilitoModel();
-        if(GlobalVariables.flagFacilito==true){
-            try{
-                Bundle data1 = this.getIntent().getExtras();
-                codObs=data1.getString("codObs");
-                url= GlobalVariables.Url_base+"ObsFacilito/GetObsFacilitoID/"+codObs;
-                final ActivityController obj = new ActivityController("get", url, report_obs.this,this);
-                obj.execute("");
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+        DataImg = new ArrayList<>();
+        DataImgList=new ArrayList<>();
+        gridView = (RecyclerView)  findViewById(R.id.grid);
+        Data = new ArrayList<>();
+
         mbtn_acto=(Button) findViewById(R.id.btn_acto);
         mbtn_condicion=(Button) findViewById(R.id.btn_condicion);
         mbtnmicrofono=(ImageButton) findViewById(R.id.btnmicrofono);
+        contenedor=(ConstraintLayout) findViewById(R.id.contenedor);
         mbtn_enviar=(Button) findViewById(R.id.btn_enviar);
         if (GlobalVariables.flagFacilito==false){
+            contenedor.setVisibility(View.VISIBLE);
             mbtn_enviar.setText("ENVIAR");
         }
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
@@ -103,40 +136,49 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         btnFotos=(ImageButton) findViewById(R.id.btn_galeria);
         mbtn_microubi=(ImageButton) findViewById(R.id.btn_microubi);
         mbtn_microaccion=(ImageButton) findViewById(R.id.btn_microaccion);
-
-        gridView = (RecyclerView)  findViewById(R.id.grid);
-        DataImg = new ArrayList<>();
-        gerenciadata= new ArrayList<>();
-        gerenciadata.add(new Maestro("","-  Seleccione  -"));
-        gerenciadata.addAll(GlobalVariables.Gerencia);
+        progressBar = findViewById(R.id.progressBar2);
 
         superintdata=new ArrayList<>();
         superintdata.add(new Maestro("","-  Seleccione  -"));
         spinnerGerencia=(Spinner) findViewById(R.id.sp_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.sp_superint);
-        adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, gerenciadata);
+        adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.Gerencia);
         adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
+        ArrayList<Maestro> dataSuper=new ArrayList<>();
         adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
         adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//
+//
 
-                /*Maestro Geren = (Maestro) ( (Spinner) view.findViewById(R.id.spinner_gerencia) ).getSelectedItem();
-                gerencia=Geren.CodTipo;*///
-                superint="";
-                gerencia = gerenciadata.get(position).CodTipo;
-                Obs.CodPosicionGer=gerencia;
-                superintdata.clear();
-                for (Maestro item: GlobalVariables.loadSuperInt(gerencia)
-                        ) {
-                    superintdata.add(item);
+                if(itemSel[0]!=position) {
+                    itemSel[0] = position;
+                    superint = "";
+
+                    Maestro ubica = (Maestro) ((Spinner) findViewById(R.id.sp_gerencia)).getSelectedItem();
+                    gerencia = ubica.CodTipo;
+                    Obs.CodPosicionGer = gerencia;
+                    superintdata.clear();
+                    for (Maestro item : GlobalVariables.loadSuperInt(gerencia)
+                            ) {
+                        superintdata.add(item);
+                    }
+                    adapterSuperInt.notifyDataSetChanged();
+                    if (!pass[0]) {
+                        pass[0] = true;
+                        if (!StringUtils.isEmpty(Obs.CodPosicionSup))
+                            spinnerSuperInt.setSelection(GlobalVariables.indexOf(superintdata, Obs.CodPosicionGer + "." + Obs.CodPosicionSup));
+                    } else {
+                        Obs.CodPosicionGer = gerencia;
+                        spinnerSuperInt.setSelection(0);
+                    }
+
                 }
-                adapterSuperInt.notifyDataSetChanged();
-                spinnerSuperInt.setSelection(0);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -146,6 +188,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         spinnerSuperInt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 if(position!=0) {
                     superint = superintdata.get(position).CodTipo.split("\\.")[1];
                     Obs.CodPosicionSup=superint;
@@ -203,48 +246,116 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                                         public void onClick(View v) {
                                             loadImage();
                                         }
-                                    }
-        );
+                                    });
+
         //enviar reporte de observacion
         mbtn_enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(GlobalVariables.flagFacilito==false){
-                    try {
-//                    Obs.CodPosicionGer=((Maestro) spinnerGerencia.getSelectedItem()).CodTipo;
-//                    Obs.CodPosicionSup=((Maestro) spinnerSuperInt.getSelectedItem()).CodTipo;
-                        Obs.Tipo=tipo;
-                        Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
-                        Obs.Observacion=String.valueOf(txvResult.getText());
-                        Obs.Accion=String.valueOf(dt_accion.getText());
-                        String url= GlobalVariables.Url_base+"ObsFacilito/Insertar";
-                        final ActivityController obj = new ActivityController("post", url, report_obs.this,report_obs.this);
-                        obj.execute(gson.toJson(Obs));
+                try {
+                    Errores="";
+                    Actives.clear();
+                    Gson gson = new Gson();
+                    Utils.closeSoftKeyBoard(report_obs.this);
+                    if(GlobalVariables.flagFacilito==false){
+                        try {
+                            Obs.Tipo=tipo;
+                            Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
+                            Obs.Observacion=String.valueOf(txvResult.getText());
+                            Obs.Accion=String.valueOf(dt_accion.getText());
+                            if(!ValifarFormulario()) return;
+                            String url= GlobalVariables.Url_base+"ObsFacilito/Insertar";
+                            final ActivityController obj = new ActivityController("post", url, report_obs.this,report_obs.this);
+                            obj.execute(gson.toJson(Obs));
+
+                        }
+                        catch (Exception ex){
+                            ex.printStackTrace();
+                        }
                     }
-                    catch (Exception ex){
-                        ex.printStackTrace();
+                    if(GlobalVariables.flagFacilito==true){
+                        try {
+                            ObsPost.CodObsFacilito=codObs;
+                            Obs.CodObsFacilito=codObs;
+                            Obs.Tipo=tipo;
+                            Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
+                            Obs.Observacion=String.valueOf(txvResult.getText());
+                            Obs.Accion=String.valueOf(dt_accion.getText());
+                            String Obsstr=gson.toJson(Obs);
+                            if(!Obsstr.equals(obsFacilitoModel)){
+                                Actives.add(0);
+                                String url= GlobalVariables.Url_base+"ObsFacilito/Insertar";
+                                final ActivityController obj = new ActivityController("post", url, report_obs.this,report_obs.this);
+                                obj.execute(gson.toJson(Obs));
+                            }
+                            else {
+                                Actives.add(1);
+                                UpdateFiles(true);
+                            }
+
+                        }
+                        catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+
                     }
                 }
-                if(GlobalVariables.flagFacilito==true){
-                    try {
-//                    Obs.CodPosicionGer=((Maestro) spinnerGerencia.getSelectedItem()).CodTipo;
-//                    Obs.CodPosicionSup=((Maestro) spinnerSuperInt.getSelectedItem()).CodTipo;
-                        Obs.CodObsFacilito=codObs;
-                        Obs.Tipo=tipo;
-                        Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
-                        Obs.Observacion=String.valueOf(txvResult.getText());
-                        Obs.Accion=String.valueOf(dt_accion.getText());
-                        String url= GlobalVariables.Url_base+"ObsFacilito/Insertar";
-                        final ActivityController obj = new ActivityController("post", url, report_obs.this,report_obs.this);
-                        obj.execute(gson.toJson(Obs));
-                    }
-                    catch (Exception ex){
-                        ex.printStackTrace();
-                    }
+                catch (Exception ex){
+                    ex.printStackTrace();
                 }
 
             }
         });
+
+        if(GlobalVariables.flagFacilito==true){
+            try{
+                Bundle data1 = this.getIntent().getExtras();
+                codObs=data1.getString("codObs");
+                Actives.add(0);
+
+                url= GlobalVariables.Url_base+"ObsFacilito/GetObsFacilitoID/"+codObs;
+                final ActivityController obj = new ActivityController("get", url, report_obs.this,this);
+                obj.execute("2");
+                Actives.add(0);
+
+                String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs;
+                final ActivityController obj1 = new ActivityController("get", url1, report_obs.this,this);
+                obj1.execute("1");
+
+
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            GlobalVariables.StrFiles.clear();
+            setdata();}
+    }
+    public boolean ValifarFormulario(){
+        String ErrorForm="Detalle:\n";
+        if(ErrorForm.equals("Detalle:\n")) ErrorForm="";
+        if(StringUtils.isEmpty(Obs.UbicacionExacta)) ErrorForm+=" ->Ubicacion exacta\n";
+        if(StringUtils.isEmpty(Obs.Observacion)) ErrorForm+=" ->Observacion detalle\n";
+        if(StringUtils.isEmpty(Obs.Accion)) ErrorForm+=" ->Accion a tomar\n";
+        if(StringUtils.isEmpty(Obs.CodPosicionGer)) ErrorForm+=" ->Gerencia\n";
+        if(ErrorForm.isEmpty()) return true;
+        else{
+            String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos incorrectos");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+            alertDialog.show();
+            return false;
+        }
     }
     private void askSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -323,19 +434,160 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
     @Override
     public void onPickedSuccessfully(ArrayList<ImageEntry> images) {
 
-        for (ImageEntry image:images) {
-            DataImg.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",image.dateAdded+"",image.imageId+""));
+        try {
+            for (ImageEntry image:images) {
+                gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",new File(image.path).getName())); //image.path.split("/")[image.path.split("/").length-1]
+            }
         }
-        GlobalVariables.listaGaleria=DataImg;
-
-        mSelectedImages = images;
-        //  gridView.setHasFixedSize(true);
-
-        //set layout manager and adapter for "GridView"
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
+    public void setdata(){
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         gridView.setLayoutManager(layoutManager);
         gridViewAdapter = new GridViewAdapter(this, DataImg);
         gridView.setAdapter(gridViewAdapter);
+        if(GlobalVariables.flagFacilito==true){
+                if(!StringUtils.isEmpty(Obs.CodPosicionGer))spinnerGerencia.setSelection(GlobalVariables.indexOf(GlobalVariables.Gerencia,Obs.CodPosicionGer));
+                txvUbicacion.setText(Obs.UbicacionExacta);
+                txvResult.setText(Obs.Observacion);
+                dt_accion.setText(Obs.Accion);
+                if(Obs.Tipo.equals("A")){
+                    mbtn_acto.setBackgroundColor(Color.parseColor("#22b14c"));
+                    mbtn_condicion.setBackgroundColor(Color.parseColor("#fce8e8"));
+                    tipo="A";
+                }
+                else if(Obs.Tipo.equals("C")){
+                    mbtn_acto.setBackgroundColor(Color.parseColor("#cdf2d8"));
+                    mbtn_condicion.setBackgroundColor(Color.parseColor("#ff2222"));
+                    tipo="C";
+                }
+            contenedor.setVisibility(View.VISIBLE);
+
+        }
+
+    }
+    public void UpdateFiles(boolean apt){
+        try {
+            gridViewAdapter.ProcesarImagens();
+            ArrayList<GaleriaModel> DataInsert = new ArrayList<>();
+            ArrayList<GaleriaModel> DataAll = new ArrayList<>();
+            DataAll.addAll(DataImg);
+           // delete files
+            String DeleteFiles = "";
+            for (GaleriaModel item : GlobalVariables.StrFiles) {
+                boolean pass = true;
+                for (GaleriaModel item2 : DataAll) {
+                    if (item.Correlativo == item2.Correlativo) {
+                        pass = false;
+                        continue;
+                    }
+                }
+                if (pass) {
+                    DeleteFiles += item.Correlativo + ";";
+                    item.Estado = "E";
+                }
+            }
+            for (GaleriaModel item : DataAll) {
+                boolean pass = false;
+                for (GaleriaModel item2 : GlobalVariables.StrFiles)
+                    if (item.Descripcion.equals(item2.Descripcion))
+                        pass = true;
+                if (item.Correlativo == -1) {
+                    DataInsert.add(item);
+                    if (!pass) GlobalVariables.StrFiles.add(item);
+                }
+            }
+            if (apt && DeleteFiles.equals("") && DataInsert.size() == 0) {
+                    Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
+            } else {
+//Delete Files
+                if (!DeleteFiles.equals("")) {
+                    Actives.add(0);
+                    String url = GlobalVariables.Url_base + "media/deleteAll/" + DeleteFiles.substring(0, DeleteFiles.length() - 1);
+                    ActivityController obj = new ActivityController("get", url, report_obs.this, this);
+                    obj.execute("3");
+                }
+                else Actives.add(1);
+                if(DataInsert.size()>0){
+                    Actives.add(0);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(GlobalVariables.Url_base)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+                    List<MultipartBody.Part> Files = new ArrayList<>();
+                    for (GaleriaModel item : DataInsert) {
+                        Files.add(createPartFromFile(item));
+                    }
+                    Toast.makeText(report_obs.this, "Guardando Reporte Observacion, Espere...", Toast.LENGTH_SHORT).show();
+                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(ObsPost.CodObsFacilito), createPartFromString("OBF"), createPartFromString("1"), Files);
+                    progressBar.setVisibility(View.VISIBLE);
+                    request.enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+
+                            if (response.isSuccessful()) {
+                                String respt = response.body();
+                                if (respt.contains("-1")) {
+                                Actives.set(2,-1);
+                                    Errores += "\nOcurrio un error al subir algunas imagenes";
+                                }
+                        else  Actives.set(2,1);
+                                Utils.DeleteCache(new Compressor(report_obs.this).destinationDirectoryPath); //delete cache Files;
+                                for (String file : respt.split(";")) {
+                                    String[] datosf = file.split(":");
+                                    for (GaleriaModel item : GlobalVariables.StrFiles) {
+                                        if (item.Descripcion.equals(datosf[0])) {
+                                            item.Correlativo = Integer.parseInt(datosf[1]);
+                                            if (item.Correlativo == -1) item.Estado = "E";
+                                            else {
+                                                if (item.TipoArchivo.equals("TP01"))
+                                                    item.Url = "/Media/getImage/" + datosf[1] + "/Image.jpg";
+                                                else if (item.TipoArchivo.equals("TP02"))
+                                                    item.Url = "/Media/Play/" + datosf[1] + "/Video.mp4";
+                                                else
+                                                    item.Url = "/Media/Getfile/" + datosf[1] + "/" + datosf[0];
+                                            }
+                                        }
+                                    }
+                                }
+
+                            } else {
+                        Actives.set(2,-1);
+                                Errores += "\nOcurrio un error interno de servidor";
+                            }
+                            if (!Actives.contains(0)) FinishSave();
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                    Actives.set(2,-1);
+                            Errores += "\nFallo la subida de archivos";
+                            if (!Actives.contains(0)) FinishSave();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+
+                }
+
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
+    @NonNull
+    private RequestBody createPartFromString(String data){
+        return RequestBody.create(MultipartBody.FORM,data);
+    }
+    @NonNull
+    private MultipartBody.Part createPartFromFile(GaleriaModel item){
+        ProgressRequestBody fileBody = new ProgressRequestBody(item,report_obs.this,this);
+        return  MultipartBody.Part.createFormData("image", item.Descripcion, fileBody);
     }
     @Override
     public void onCancel() {
@@ -344,53 +596,150 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
     public void success(String data, String Tipo) {
 
         if(GlobalVariables.flagFacilito==true){
-            Gson gson = new Gson();
-            Obs = gson.fromJson(data, ObsFacilitoModel.class);
-            mbtn_enviar.setText("ENVIAR MODIFICACIÓN");
-            ObsFacilitoModel obsFacilitoModel = gson.fromJson(data, ObsFacilitoModel.class);
-            if(!StringUtils.isEmpty(obsFacilitoModel.CodPosicionGer))spinnerGerencia.setSelection(GlobalVariables.indexOf(GlobalVariables.Gerencia,obsFacilitoModel.CodPosicionGer));
-//            if(!StringUtils.isEmpty(obsFacilitoModel.CodPosicionGer+"."+obsFacilitoModel.CodPosicionSup))spinnerSuperInt.setSelection(GlobalVariables.indexOf(GlobalVariables.SuperIntendencia,obsFacilitoModel.CodPosicionGer+"."+obsFacilitoModel.CodPosicionSup));
-//            String gerencia=GlobalVariables.getDescripcion(GlobalVariables.Gerencia,obsFacilitoModel.CodPosicionGer).trim().replace("=","");
-//            String superint=GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,obsFacilitoModel.CodPosicionGer +"."+obsFacilitoModel.CodPosicionSup).trim().replace("=","");
-//            spinnerGerencia.setPrompt(gerencia);
-//            spinnerSuperInt.setPrompt(superint);
-            txvUbicacion.setText(obsFacilitoModel.UbicacionExacta);
-            txvResult.setText(obsFacilitoModel.Observacion);
-            dt_accion.setText(obsFacilitoModel.Accion);
-            if(obsFacilitoModel.Tipo.equals("A")){
-                mbtn_acto.setBackgroundColor(Color.parseColor("#22b14c"));
-                mbtn_condicion.setBackgroundColor(Color.parseColor("#fce8e8"));
-                tipo="A";
+            if(Tipo.equals("1")){
+                Actives.set(0,1);
+                Gson gson = new Gson();
+                DataImg=gson.fromJson(data, GetGaleriaModel.class).Data;
+                DataImgList=gson.fromJson(data, GetGaleriaModel.class).Data;
+                GlobalVariables.StrFiles=DataImgList;
+
             }
-            else if(obsFacilitoModel.Tipo.equals("C")){
-                mbtn_acto.setBackgroundColor(Color.parseColor("#cdf2d8"));
-                mbtn_condicion.setBackgroundColor(Color.parseColor("#ff2222"));
-                tipo="C";
+            else if (Tipo.equals("2")){
+                Actives.set(1,1);
+                Gson gson = new Gson();
+                Obs = gson.fromJson(data, ObsFacilitoModel.class);
+                mbtn_enviar.setText("ENVIAR MODIFICACIÓN");
+                obsFacilitoModel = gson.toJson(Obs);
+
+            }
+            else if(Tipo.equals("3")){ //delete Files
+                if(data.contains("false")){
+                    Actives.set(1,-1);
+                    Errores+="\nNo se pudo eliminar algunas imagenes";
+                }
+                else {
+                    Actives.set(1,1);
+                    ArrayList<GaleriaModel> temp= new ArrayList<>(GlobalVariables.StrFiles);
+
+                    for (GaleriaModel item : GlobalVariables.StrFiles) {
+                        if(!StringUtils.isEmpty(item.Estado)&&item.Estado.equals("E"))
+                            temp.remove(item);
+                    }
+                    GlobalVariables.StrFiles=temp;
+                }
+                if(!Actives.contains(0)) FinishSave();
+            }
+            if(!Actives.contains(0)){
+                setdata();
             }
         }
-        if(GlobalVariables.flagFacilito==false){
-            Gson gson = new Gson();
-            Obs = gson.fromJson(data, ObsFacilitoModel.class);
-            mbtn_enviar.setText("ENVIAR");
-        }
+//        if(GlobalVariables.flagFacilito==false){
+//            Gson gson = new Gson();
+//            Obs = gson.fromJson(data, ObsFacilitoModel.class);
+//            mbtn_enviar.setText("ENVIAR");
+//        }
     }
+    boolean ok,fail;
     public void FinishSave(){
-        Intent intent = getIntent();
-        intent.putExtra("observacion",gson.toJson(Obs));
+        int icon=R.drawable.confirmicon;
+        String Mensaje="Se guardaron los datos correctamente";
+        ok=false;
+        fail=false;
+        if(Actives.contains(1))ok=true;
+        if(Actives.contains(-1)){
+            fail=true;
+            icon=R.drawable.erroricon;
+            Mensaje="Ocurrio algun error interno, No se pudo guardar los datos.";
+        }
+        if(fail&&ok){
+            Mensaje="Se guardo con los siguientes errores:\n";
+            Mensaje+=Errores;//.replace("@","\n");
+            icon=R.drawable.warninicon;
+        }
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Desea Finalizar?");
+        alertDialog.setIcon(icon);
+        alertDialog.setMessage(Mensaje);
+        if(ok&&!fail)
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+//                    btn_Salvar.setEnabled(true);
+                    GlobalVariables.ObjectEditable=true;
+                }
+            });
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                if(ok&&!fail){
+                    finish();
+                }
+//                btn_Salvar.setEnabled(true);
+            }
+        });
+
+        alertDialog.show();
+
+        DataImg.clear();
+        for (GaleriaModel item: GlobalVariables.StrFiles) {
+            DataImg.add(item);
+        }
+        setdata();
+       /* Intent intent = getIntent();
+        intent.putExtra("AccionMejora",gson.toJson(AddAccionMejora));
         setResult(RESULT_OK, intent);
-        finish();
+        finish();*/
     }
+//    public String getDataIma(String codObs){
+//        String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs;
+//        final ActivityController obj1 = new ActivityController("get", url1, report_obs.this,this);
+//       return obj1.execute("").toString();
+//    }
     @Override
     public void successpost(String data, String Tipo) {
-        if(data.equals("-1"))
-            Toast.makeText(this,"Ocurrio un error interno al intentar guardar",Toast.LENGTH_SHORT).show();
+        Gson gson = new Gson();
+        ObsPost.CodObsFacilito = data.substring(1, data.length() - 1);
+
+        if(data.equals("-1")){
+            Errores+="\nOcurrio un error al guardar cabezera";
+            Actives.set(0,-1);
+        }
         else{
-            Toast.makeText(this,"Se envió la observación",Toast.LENGTH_SHORT).show();
-            FinishSave();
+            UpdateFiles(false);
+            Actives.set(0,1);
         }
     }
     @Override
     public void error(String mensaje, String Tipo) {
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
+    @Override
+    public void onProgressUpdate(int percentage) {
+        progressBar.setProgress(percentage);
+    }
+
+    @Override
+    public void onError() {
+
+    }
+
+    @Override
+    public void onFinish() {
+        progressBar.setProgress(100);
     }
 }

@@ -5,6 +5,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
@@ -19,7 +21,10 @@ import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 
 import java.text.DateFormat;
@@ -34,6 +39,9 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
     ConstraintLayout contenedor;
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+    private RecyclerView gridView;
+    private GridViewAdapter gridViewAdapter;
+    private ArrayList<GaleriaModel> DataImg;
     int pos;
     String jsonObsCond="";
     String url;
@@ -42,6 +50,8 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_obs_facilito_det);
+        gridView = (RecyclerView)  findViewById(R.id.grid);
+        DataImg = new ArrayList<>();
         close=(ImageButton) findViewById(R.id.imageButton);
         tx_codigo=(TextView) findViewById(R.id.tx_codigo);
         tx_persona=(TextView) findViewById(R.id.tx_persona);
@@ -54,39 +64,58 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         tx_superint=(TextView) findViewById(R.id.tx_superint);
         contenedor=(ConstraintLayout) findViewById(R.id.contenedor);
         Bundle data1 = this.getIntent().getExtras();
+
         codObs=data1.getString("codObs");
         url= GlobalVariables.Url_base+"ObsFacilito/GetObsFacilitoID/"+codObs;
         final ActivityController obj = new ActivityController("get", url, obsFacilitoDet.this,this);
-        obj.execute("");
+        obj.execute("1");
+
+        String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs;
+        final ActivityController obj1 = new ActivityController("get", url1, obsFacilitoDet.this,this);
+        obj1.execute("2");
     }
     public void close(View view){
+        DataImg.clear();
+
         finish();
     }
-
+    public void setdata() {
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
+        gridView.setLayoutManager(layoutManager);
+        gridViewAdapter = new GridViewAdapter(this, DataImg);
+        gridView.setAdapter(gridViewAdapter);
+    }
     @Override
     public void success(String data, String Tipo) {
-        jsonObsCond =data;
-        Gson gson = new Gson();
-        ObsFacilitoModel obsFacilitoModel = gson.fromJson(data, ObsFacilitoModel.class);
-        String gerencia=GlobalVariables.getDescripcion(GlobalVariables.Gerencia,obsFacilitoModel.CodPosicionGer).trim().replace("=","");
-        String superint=GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,obsFacilitoModel.CodPosicionGer +"."+obsFacilitoModel.CodPosicionSup).trim().replace("=","");
-        tx_codigo.setText(String.valueOf(obsFacilitoModel.CodObsFacilito));
-        tx_persona.setText(String.valueOf(obsFacilitoModel.Persona));
-        tx_tipo.setText(String.valueOf(obsFacilitoModel.Tipo));
-        tx_geren.setText(String.valueOf(gerencia));
-        tx_superint.setText(String.valueOf(superint));
-        tx_ubicacion.setText(String.valueOf(obsFacilitoModel.UbicacionExacta));
-        tx_observacion.setText(String.valueOf(obsFacilitoModel.Observacion));
-        tx_accion.setText(String.valueOf(obsFacilitoModel.Accion));
-        tx_fecha.setText(String.valueOf(Obtenerfecha(obsFacilitoModel.FecCreacion)));
-        contenedor.setVisibility(View.VISIBLE);
+        if(Tipo.equals("2")){
+//            Actives.set(0,1);
+            Gson gson = new Gson();
+            DataImg=gson.fromJson(data, GetGaleriaModel.class).Data;
+        }
+        else if (Tipo.equals("1")){
+            jsonObsCond =data;
+            Gson gson = new Gson();
+            ObsFacilitoModel obsFacilitoModel = gson.fromJson(data, ObsFacilitoModel.class);
+            String gerencia=GlobalVariables.getDescripcion(GlobalVariables.Gerencia,obsFacilitoModel.CodPosicionGer).trim().replace("=","");
+            String superint=GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,obsFacilitoModel.CodPosicionGer +"."+obsFacilitoModel.CodPosicionSup).trim().replace("=","");
+            tx_codigo.setText(String.valueOf(obsFacilitoModel.CodObsFacilito));
+            tx_persona.setText(String.valueOf(obsFacilitoModel.Persona));
+            tx_tipo.setText(String.valueOf(obsFacilitoModel.Tipo));
+            tx_geren.setText(String.valueOf(gerencia));
+            tx_superint.setText(String.valueOf(superint));
+            tx_ubicacion.setText(String.valueOf(obsFacilitoModel.UbicacionExacta));
+            tx_observacion.setText(String.valueOf(obsFacilitoModel.Observacion));
+            tx_accion.setText(String.valueOf(obsFacilitoModel.Accion));
+            tx_fecha.setText(String.valueOf(Obtenerfecha(obsFacilitoModel.FecCreacion)));
+            contenedor.setVisibility(View.VISIBLE);
+        }
+        setdata();
     }
 
     @Override
     public void successpost(String data, String Tipo) {
 
     }
-
     @Override
     public void error(String mensaje, String Tipo) {
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
