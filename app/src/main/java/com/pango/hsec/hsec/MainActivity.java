@@ -3,6 +3,7 @@ package com.pango.hsec.hsec;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -36,7 +37,9 @@ import layout.FragmentAprobaciones;
 import layout.FragmentConfiguracion;
 import layout.FragmentContactenos;
 import layout.FragmentFichaPersonal;
+import layout.FragmentInspecciones;
 import layout.FragmentMuro;
+import layout.FragmentObservaciones;
 import layout.FragmentPlanPendiente;
 import layout.FragmentRegistroIO;
 import layout.FragmentAvanzado;
@@ -47,9 +50,12 @@ public class MainActivity extends AppCompatActivity
         IActivity,
         NavigationView.OnNavigationItemSelectedListener,
         FragmentMuro.OnFragmentInteractionListener,
-        FragmentAprobaciones.OnFragmentInteractionListener,
+        //FragmentAprobaciones.OnFragmentInteractionListener,
         FragmentFichaPersonal.OnFragmentInteractionListener,
-        FragmentRegistroIO.OnFragmentInteractionListener,
+        FragmentObservaciones.OnFragmentInteractionListener,
+        FragmentInspecciones.OnFragmentInteractionListener,
+
+        //FragmentRegistroIO.OnFragmentInteractionListener,
         FragmentAvanzado.OnFragmentInteractionListener,
         FragmentConfiguracion.OnFragmentInteractionListener,
         FragmentContactenos.OnFragmentInteractionListener,
@@ -62,6 +68,8 @@ public class MainActivity extends AppCompatActivity
     private FragmentManager fragmentManager;
     public static Context contextOfApplication;
     public static String jsonMuro="";
+    public static String jsonObs="";
+
     DrawerLayout drawerLayout;
     ImageView buscar;
     @Override
@@ -81,9 +89,11 @@ public class MainActivity extends AppCompatActivity
 
     public enum NavigationFragment{
         Muro,
-        Aprobaciones,
+        //Aprobaciones,
         FichaPersonal,
-        RegistroOI,
+        //RegistroOI,
+        Observaciones,
+        Inspecciones,
         Avanzado,
         Configuracion,
         Contactenos,
@@ -221,9 +231,9 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "nav_reporte",
                     Toast.LENGTH_SHORT).show();
 
-        } else if (id == R.id.nav_seguimiento) {
+        } else if (id == R.id.nav_aprobaciones) {
 
-            Toast.makeText(this, "nav_seguimiento", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "nav_Aprobaciones", Toast.LENGTH_SHORT).show();
 
         }else if (id == R.id.nav_listaobs) {
             GlobalVariables.flagFacilito=true;
@@ -286,6 +296,7 @@ public class MainActivity extends AppCompatActivity
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
 
 
+
             Toast.makeText(this, "nav_Contactenos",
                     Toast.LENGTH_SHORT).show();
         }else if (id == R.id.nav_configuracion){
@@ -300,6 +311,14 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "nav_configuracion",
                     Toast.LENGTH_SHORT).show();
 
+        }else if(id == R.id.nav_cerrar){
+            buscar.setVisibility(View.INVISIBLE);
+
+            Save_status(false);
+            Save_Datalogin("","");
+            Intent intent=new Intent(this, Login.class);
+            startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -324,13 +343,15 @@ public class MainActivity extends AppCompatActivity
                     //bottomNavigationView.setVisibility(View.GONE);
                     uncheckItemsMenu();
                     return true;
-                case R.id.navigation_aprob:
+
+                /*case R.id.navigation_aprob:
                     buscar.setVisibility(View.INVISIBLE);
 
                     uncheckItemsMenu();
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
                     ClickMenuAprobaciones();
                     return true;
+                    */
                 case R.id.navigation_ficha:
                     buscar.setVisibility(View.INVISIBLE);
 
@@ -342,12 +363,30 @@ public class MainActivity extends AppCompatActivity
 
                     //navigationView.getMenu().findItem(R.id.nav_videos).setChecked(true);
                     return true;
-                case R.id.navigation_registro:
+            /*    case R.id.navigation_registro:
                     buscar.setVisibility(View.INVISIBLE);
 
                     uncheckItemsMenu();
                     ClickMenuRegistro();
                     return true;
+                    */
+                case R.id.navigation_observacion:
+                    buscar.setVisibility(View.INVISIBLE);
+
+                    uncheckItemsMenu();
+                    //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
+                    ClickMenuObservacion();
+                    return true;
+
+                case R.id.navigation_inspeccion:
+                    buscar.setVisibility(View.INVISIBLE);
+
+                    uncheckItemsMenu();
+                    //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
+                    ClickMenuInspeccion();
+                    return true;
+
+
                 case R.id.navigation_avanzado:
                     buscar.setVisibility(View.INVISIBLE);
 
@@ -361,14 +400,31 @@ public class MainActivity extends AppCompatActivity
 
     };
 
-    public void ClickMenuAprobaciones() {
+
+    public void ClickMenuObservacion() {
         uncheckItemsMenu();
-        bottomNavigationView.getMenu().findItem(R.id.navigation_aprob).setChecked(true);
+        bottomNavigationView.getMenu().findItem(R.id.navigation_observacion).setChecked(true);
         bottomNavigationView.setVisibility(View.VISIBLE);
-        ChangeFragment(NavigationFragment.Aprobaciones);
+        ChangeFragment(NavigationFragment.Observaciones);
 
     }
+    public void ClickMenuInspeccion() {
 
+        uncheckItemsMenu();
+        bottomNavigationView.getMenu().findItem(R.id.navigation_inspeccion).setChecked(true);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        ChangeFragment(NavigationFragment.Inspecciones);
+    }
+
+    /*
+        public void ClickMenuAprobaciones() {
+            uncheckItemsMenu();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_aprob).setChecked(true);
+            bottomNavigationView.setVisibility(View.VISIBLE);
+            ChangeFragment(NavigationFragment.Aprobaciones);
+
+        }
+    */
     public void ClickMenuFicha() {
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
@@ -378,7 +434,7 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.FichaPersonal);
 
     }
-
+/*
     public void ClickMenuRegistro() {
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_registro).setChecked(true);
@@ -386,6 +442,7 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.RegistroOI);
 
     }
+    */
     public void ClickMenuAvanzado() {
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_avanzado).setChecked(true);
@@ -445,10 +502,14 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = null;
         switch (value) {
             case Muro:    fragment = new FragmentMuro(); break;
-            case Aprobaciones:    fragment = new FragmentAprobaciones(); break;
+            //case Aprobaciones:    fragment = new FragmentAprobaciones(); break;
             case FichaPersonal: fragment = new FragmentFichaPersonal(); break;
-            case RegistroOI: fragment = new FragmentRegistroIO(); break;
-            case Avanzado: fragment = new FragmentAvanzado(); break;
+            //case RegistroOI: fragment = new FragmentRegistroIO(); break;
+            case Observaciones: fragment = new FragmentObservaciones(); break;
+
+            case Inspecciones: fragment = new FragmentInspecciones(); break;
+
+            case Avanzado: fragment = new FragmentAvanzado(); break;// configuracion
             case Configuracion: fragment = new FragmentConfiguracion(); break;
             case Contactenos: fragment = new FragmentContactenos(); break;
             case PlanPendiente: fragment = new FragmentPlanPendiente(); break;
@@ -509,6 +570,23 @@ public class MainActivity extends AppCompatActivity
         } catch (IllegalAccessException e) {
             //Timber.e(e, "Unable to change value of shift mode");
         }
+    }
+
+
+
+
+    public void Save_status(boolean ischecked){
+        SharedPreferences check_status = this.getSharedPreferences("checked", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor_estado = check_status.edit();
+        editor_estado.putBoolean("check", ischecked);
+        editor_estado.commit();
+    }
+    public void Save_Datalogin(String user,String password){
+        SharedPreferences user_login = this.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor_user = user_login.edit();
+        editor_user.putString("user", user);
+        editor_user.putString("password",password);
+        editor_user.commit();
     }
 
 

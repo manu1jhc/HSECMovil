@@ -56,7 +56,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         ImageView riesgo=rowView.findViewById(R.id.img_riesgo);
         //CardView riesgo = rowView.findViewById(R.id.mp_nriesgo);
         TextView tipo = rowView.findViewById(R.id.mp_tipo);
-        TextView area = rowView.findViewById(R.id.mp_area);
+        //TextView area = rowView.findViewById(R.id.mp_area);
         TextView comentario=rowView.findViewById(R.id.tx_comentario);
 
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
@@ -72,10 +72,11 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         final int comentarios=data.get(position).Comentarios;
         //final String tempImgDet="";
         final String tempImgDet=data.get(position).UrlPrew;
+        final String editable = data.get(position).Editable;
 
         ImageView editar = rowView.findViewById(R.id.btn_editar);
 
-        if(!data.get(position).Editable||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
+        if(editable=="0"||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
             editar.setVisibility(View.GONE);
         }
         editar.setOnClickListener(new View.OnClickListener() {
@@ -114,8 +115,8 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         String tipo_ejm=GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo);
         String area_ejm=GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
 
-        tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo));
-        area.setText(GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea));
+        tipo.setText(" / "+GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2, tempTipo)+" / "+GlobalVariables.getDescripcion(GlobalVariables.Area_obs, tempArea));
+        //area.setText(GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea));
         tx_det.setText(tempDetalle);
 
         comentario.setText(comentarios+" comentarios");

@@ -6,15 +6,21 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,12 +43,17 @@ public class Login extends AppCompatActivity implements IActivity{
     //String data;
     CheckBox check_rec;
     TextView tx_rec_pass;
-
+    Button btn_entrar;
+    LayoutInflater layoutInflater;
+    View popupView;
+    PopupWindow popupWindow;
+    ConstraintLayout constraintLayout4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         GlobalVariables.isFragment=false;
+
         et_User = (TextInputEditText) findViewById(R.id.et_User);
         et_Password = (TextInputEditText) findViewById(R.id.et_Password);
         ti_User = (TextInputLayout) findViewById(R.id.ti_User);
@@ -50,7 +61,8 @@ public class Login extends AppCompatActivity implements IActivity{
 ////recordar contraseña y olvide contraseña
         check_rec=(CheckBox) findViewById(R.id.checkBox);
         tx_rec_pass=(TextView) findViewById(R.id.tx_rec_pass);
-
+        btn_entrar=findViewById(R.id.btn_entrar);
+        constraintLayout4=findViewById(R.id.constraintLayout4);
 
         if(obtener_status()){
             check_rec.setChecked(true);
@@ -58,6 +70,18 @@ public class Login extends AppCompatActivity implements IActivity{
             String pass_saved=obtener_pass();
             et_User.setText(usuario_saved);
             et_Password.setText(pass_saved);
+
+            validate(this.findViewById(android.R.id.content));
+
+
+
+            //flagpopup=true;
+
+
+
+
+        }else{
+            constraintLayout4.setVisibility(View.VISIBLE);
         }
 
         tx_rec_pass.setOnClickListener(new View.OnClickListener() {
@@ -167,17 +191,23 @@ public class Login extends AppCompatActivity implements IActivity{
                 //guardar estado del check, user pass
                 Save_status(true);
                 Save_Datalogin(et_User.getText().toString(),et_Password.getText().toString());
+
+
+
             }else
             {
                 Save_status(false);
                 Save_Datalogin("","");
                 //guarde el estado false ""en todos los campos
             }
+
         }else{
             et_User.setText("");
             et_Password.setText("");
             check_rec.setChecked(false);
         }
+        ////////////////Toast.makeText(Login.this,"mensaje que se muestra despues de cargar",Toast.LENGTH_SHORT).show();
+
 
         //Gson gson = new Gson();
         //List<UsuarioModel> Data=new ArrayList<UsuarioModel>();

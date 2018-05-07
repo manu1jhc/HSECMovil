@@ -134,6 +134,17 @@ public class GlobalVariables  {
     public static String[] busqueda_mes={"-","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
     public static String[] busqueda_anio;
 
+    public static String Obtener_Tipo(String tipo){
+        String descripcion="";
+        if(tipo.equals("A")){
+            descripcion="Acción";
+        }else if(tipo.equals("C")){
+            descripcion="Condición";
+        }
+        return descripcion;
+    }
+
+
     public static int  CodRol=3;
     public static boolean desdeBusqueda=false;
     public static String dniUser="";

@@ -9,9 +9,9 @@
             android:icon="@drawable/ic_ireporte"
             android:title="Ingresar reporte" />
         <item
-            android:id="@+id/nav_seguimiento"
-            android:icon="@drawable/ic_seguimiento"
-            android:title="Seguimiento" />
+            android:id="@+id/nav_aprobaciones"
+            android:icon="@drawable/ic_aprobacion"
+            android:title="Aprobaciones" />
         <item
             android:id="@+id/nav_observacion"
             android:icon="@drawable/ic_iobservacion"
@@ -45,6 +45,12 @@
                 android:id="@+id/nav_configuracion"
                 android:icon="@drawable/ic_menu_configuracion"
                 android:title="Configuración" />
+
+            <item
+                android:id="@+id/nav_cerrar"
+                android:icon="@drawable/ic_cerrar_sesion"
+                android:title="Cerrar sesión" />
+
         </menu>
     </item>
 

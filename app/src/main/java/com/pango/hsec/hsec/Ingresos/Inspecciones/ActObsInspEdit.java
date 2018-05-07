@@ -55,6 +55,7 @@ public class ActObsInspEdit extends FragmentActivity implements TabHost.OnTabCha
                     GlobalVariables.countObsInsp=Integer.parseInt(GlobalVariables.obsInspDetModel.NroDetInspeccion);
                 }else{
                     GlobalVariables.countObsInsp=GlobalVariables.countObsInsp+1;
+
                 }
 
                 GlobalVariables.editar_list=false;

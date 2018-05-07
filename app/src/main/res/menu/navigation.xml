@@ -9,28 +9,47 @@
         android:title="Home"
         app:showAsAction="ifRoom|withText"/>
 
+    <!--
     <item
         android:id="@+id/navigation_aprob"
         android:icon="@drawable/ic_aprobacion"
         android:title="aprobaciones"
         app:showAsAction="ifRoom|withText"/>
 
+-->
+
+
     <item
         android:id="@+id/navigation_ficha"
         android:icon="@drawable/ic_ficha"
-        android:title="ficha"
+        android:title="Ficha"
         app:showAsAction="ifRoom|withText"/>
-
+<!--
     <item
         android:id="@+id/navigation_registro"
         android:icon="@drawable/ic_registro"
         android:title="Registro"
         app:showAsAction="ifRoom|withText"/>
+-->
+
+    <item
+        android:id="@+id/navigation_observacion"
+        android:icon="@drawable/ic_iobservacion"
+        android:title="Observación"
+        app:showAsAction="ifRoom|withText"/>
+
+
+    <item
+        android:id="@+id/navigation_inspeccion"
+        android:icon="@drawable/ic_iinspeccion"
+        android:title="Inspección"
+        app:showAsAction="ifRoom|withText"/>
+
 
     <item
         android:id="@+id/navigation_avanzado"
         android:icon="@drawable/ic_opcavanzadas"
-        android:title="Opc. Avanzadas"
+        android:title="Configuración"
         app:showAsAction="ifRoom|withText"/>
 
 

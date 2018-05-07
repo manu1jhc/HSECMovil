@@ -6,36 +6,50 @@
     <LinearLayout
         android:id="@+id/linearLayout8"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         android:weightSum="1">
-
-        <TextView
-            android:id="@+id/nombre_doc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="0.20"
-            android:gravity="center_vertical"
-            android:text="Nombre del documento" />
-
-        <TextView
-            android:id="@+id/tam_doc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="0.40"
-            android:gravity="center"
-            android:text="Tamaño" />
-
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_descargar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="2dp"
             android:layout_weight="0.40"
-            android:src="@drawable/ic_descarga"
+            android:src="@drawable/ic_pdf"
             android:text="Enlace" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="0.20"
+            >
+        <TextView
+            android:id="@+id/nombre_doc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            android:text="Nombre del documento" />
+
+        <TextView
+                android:id="@+id/tam_doc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                android:text="Tamaño" />
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/ref"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:layout_weight="0.40"
+            android:gravity="center"
+            android:visibility="invisible"
+            android:text="Tamaño" />
+
+
     </LinearLayout>
 
 

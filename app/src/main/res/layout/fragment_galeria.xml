@@ -16,6 +16,48 @@
     android:visibility="gone"
     />
 
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <LinearLayout
+            android:id="@+id/galeria_foto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/tx_gal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Galeria de Fotos/Videos"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@color/colorBtnBeige"
+                android:textColor="@color/colorBlanco"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_galeria"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+
+                />
+
+        </LinearLayout>
+
+
+
     <RelativeLayout
         android:id="@+id/rel_otros"
         android:layout_width="match_parent"
@@ -39,10 +81,7 @@
         android:id="@+id/cl_otros"
         android:background="@color/colorBtnBeige"
         android:textColor="@color/colorBlanco"
-
         >
-
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,68 +94,32 @@
             android:text="Otros documentos"
             android:textSize="18sp"
             android:textStyle="bold"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </android.support.constraint.ConstraintLayout>
     </FrameLayout>
 
 
-        <ListView
+        <android.support.v7.widget.RecyclerView
 
             android:id="@+id/list_docs"
             android:visibility="visible"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/frame_otros"
             />
+
+
+
+
 
     </RelativeLayout>
 <!--               -->
 
-    <RelativeLayout
-        android:id="@+id/galeria_foto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/rel_otros"
 
-        >
-
-        <TextView
-            android:id="@+id/tx_gal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="Galeria de Fotos/Videos"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:background="@color/colorBtnBeige"
-            android:textColor="@color/colorBlanco"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    <GridView
-        android:id="@+id/grid_gal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tx_gal"
-        android:columnWidth="155dp"
-        android:horizontalSpacing="1dp"
-        android:verticalSpacing="2dp"
-        android:numColumns="auto_fit"
-        android:padding="2dp"
-        android:stretchMode="spacingWidthUniform"
-
-        >
-    </GridView>
-
-</RelativeLayout>
-
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

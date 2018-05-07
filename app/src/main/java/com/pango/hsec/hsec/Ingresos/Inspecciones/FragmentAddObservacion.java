@@ -120,8 +120,17 @@ public class FragmentAddObservacion extends Fragment implements IActivity {
                 if(tam==0){
                     GlobalVariables.countObsInsp=1;
                 }   else {
+                    String a=GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion;
+                    if(a==null){
+                        GlobalVariables.countObsInsp=0;
+                    }else{
                     GlobalVariables.countObsInsp = Integer.parseInt(GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion) + 1;
                 }
+                }
+
+                GlobalVariables.obsInspDetModel=new ObsInspDetModel();
+                GlobalVariables.ObjectEditable=false;
+
                 obsInspDetModel=new ObsInspDetModel();
                 Intent intent=new Intent(getContext(),ActObsInspEdit.class);
                 intent.putExtra("codObs",codObs);

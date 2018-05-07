@@ -82,7 +82,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
         String[] tempRiesgo = new String[0];
         String[] tempDetalle = new String[0];
-        final boolean editable = data.get(position).Editable;
+        final String editable = data.get(position).Editable;
 
         if(data.get(position).NivelR!=null){
         tempRiesgo = data.get(position).NivelR.split(";");
@@ -94,10 +94,10 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
 
 
-        if(!editable){
+        if(editable=="0"){
             btn_editar.setVisibility(View.GONE);
         }
-        
+
         btn_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

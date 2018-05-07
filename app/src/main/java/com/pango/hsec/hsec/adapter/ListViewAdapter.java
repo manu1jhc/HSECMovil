@@ -114,7 +114,7 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
                                                              DownloadManager.Request request= new DownloadManager.Request(uri);
                                                              request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
                                                              Long reference = downloadManager.enqueue(request);
-                                                             Toast.makeText(v.getContext(),"Descargango : " +nameFile,Toast.LENGTH_SHORT).show();
+                                                             Toast.makeText(v.getContext(),"Descargando : " +nameFile,Toast.LENGTH_SHORT).show();
                                                          }
                                                      }
                                                  }

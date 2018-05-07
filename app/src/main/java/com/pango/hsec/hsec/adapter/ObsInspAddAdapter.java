@@ -88,6 +88,7 @@ protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnCli
         public void onClick(View v) {
                 Toast.makeText(v.getContext(), position_item+"", Toast.LENGTH_SHORT).show();
             ObsInspAddModel obsInspAddModel=new ObsInspAddModel();
+            GlobalVariables.ObjectEditable=true;
 
             obsInspAddModel=items.get(position_item);
 

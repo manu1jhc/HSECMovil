@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context="layout.FragmentObservaciones"
+    >
+
+
+<LinearLayout
+    android:id="@+id/linearLayout7"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/colorBtnBeige"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:weightSum="1"
+    >
+
+    <Button
+        android:id="@+id/add_obs"
+        style="@style/Widget.AppCompat.ImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.2"
+        android:background="@android:color/transparent"
+        android:padding="0dp"
+        android:drawableLeft="@drawable/ic_add_circle_outline_black_24dp"
+        android:text="Añadir"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorBlanco"
+        />
+
+
+
+    <Button
+        android:id="@+id/btn_filtro"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.4"
+        android:drawableLeft="@drawable/ic_equalizer"
+        android:text="Filtro" />
+
+    <ImageView
+        android:id="@+id/lupabuscar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0.4"
+        app:srcCompat="@drawable/ic_search" />
+
+
+</LinearLayout>
+
+
+<TextView
+    android:id="@+id/tx_mensajeb"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:text="@string/resultado_vacio"
+    android:textSize="24dp"
+    android:visibility="gone"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipelayout"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginBottom="1dp"
+    android:layout_marginTop="1dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/linearLayout7"
+
+    >
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/constraintLayout5"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
+
+        <TextView
+            android:id="@+id/tx_texto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="0dp"
+            android:text="Actualizando Registros Espere...."
+            android:textAlignment="center"
+            android:visibility="gone"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Actualizando Registros Espere...." />
+
+        <ListView
+            android:id="@+id/list_busqueda"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+
+            android:layout_marginBottom="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="2dp"
+            android:dividerHeight="5dp"
+
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tx_texto" />
+
+    </android.support.constraint.ConstraintLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
+
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/const_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@color/colorBlanco"
+    android:visibility="invisible"
+    app:layout_constraintBottom_toBottomOf="@+id/swipelayout"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent">
+
+    <ProgressBar
+        android:id="@+id/pbar_main"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="8dp"
+
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.893"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/tx_main"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/tx_main"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:layout_marginRight="117dp"
+        android:layout_marginTop="2dp"
+        android:text="Cargando ..."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.516" />
+</android.support.constraint.ConstraintLayout>
+
+</android.support.constraint.ConstraintLayout>

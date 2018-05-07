@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,6 +30,10 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.Busqueda;
+import com.pango.hsec.hsec.Facilito.list_obsfacilito;
+import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
+import com.pango.hsec.hsec.Facilito.report_obs;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
@@ -113,14 +118,15 @@ public class FragmentMuro extends Fragment implements IActivity{
     boolean loadingTop=false;
     String url;
     TextView tx_texto;
-    ImageButton btn_galeria;
-    ImageView imageView;
+    //ImageButton btn_galeria;
+    //ImageView imageView;
     int contPublicacion;
     UsuarioModel getUsuarioModel;
     boolean is_swipe=true;
     //int paginacion=1;
    // private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView;
+    Button btn_facilito,btn_obs,btn_insp;
 
     //TextView tx_comentario;
     boolean flagpopup=false;
@@ -139,13 +145,18 @@ public class FragmentMuro extends Fragment implements IActivity{
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) getActivity().findViewById(R.id.const_main);
         tx_texto =(TextView)rootView.findViewById(R.id.tx_texto);
+        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
+
+        btn_facilito=rootView.findViewById(R.id.btn_facilito);
+        btn_obs=rootView.findViewById(R.id.btn_obs);
+        btn_insp=rootView.findViewById(R.id.btn_insp);
+
         //buscar=(ImageButton) rootView.findViewById(R.id.btn_buscar);
         //btn_usuario=(ImageButton) rootView.findViewById(R.id.btn_usuario);
-        btn_galeria=(ImageButton) rootView.findViewById(R.id.btn_galeria);
-        imageView= rootView.findViewById(R.id.btn_usuario);
+        //btn_galeria=(ImageButton) rootView.findViewById(R.id.btn_galeria);
+        //imageView= rootView.findViewById(R.id.btn_usuario);
         //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
        // navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-        bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
 
         url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+"7";
 
@@ -172,9 +183,11 @@ public class FragmentMuro extends Fragment implements IActivity{
             getUsuarioModel= new UsuarioModel();
             getUsuarioModel.NroDocumento="1234";
         }*/
-        String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+getUsuarioModel.NroDocumento+"/fotocarnet.jpg";
+
+        //String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+getUsuarioModel.NroDocumento+"/fotocarnet.jpg";
 
        // String url_avatar="https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/media/getAvatar/43054695/fotocarnet.jpg";
+        /*
         Glide.with(getContext())
                 .load(url_avatar) // add your image url
                 .override(50, 50)
@@ -202,9 +215,9 @@ public class FragmentMuro extends Fragment implements IActivity{
                 bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
             }
         });
-
+*/
 //opciones de menu y publicacion
-
+/*
         btn_galeria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,6 +229,37 @@ public class FragmentMuro extends Fragment implements IActivity{
                 intent.putExtra("tipoObs","TO01");
                 intent.putExtra("posTab", 2);
                 startActivity(intent);
+            }
+        });
+*/
+        btn_facilito.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Start NewActivity.class
+                GlobalVariables.flagFacilito=false;
+                Intent myIntent = new Intent(getActivity(), report_obs.class);
+                startActivity(myIntent);
+
+            }
+        });
+        btn_obs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalVariables.ObjectEditable=false;
+                Intent obserbacion_edit = new Intent(getActivity(),observacion_edit.class);
+                obserbacion_edit.putExtra("codObs", "OBS000000XYZ");
+                obserbacion_edit.putExtra("tipoObs","TO01");
+                obserbacion_edit.putExtra("posTab", 0);
+                startActivity(obserbacion_edit);
+            }
+        });
+        btn_insp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalVariables.ObjectEditable=false;
+                Intent addInspeccion = new Intent(getActivity(),AddInspeccion.class);
+                addInspeccion.putExtra("codObs","");
+                startActivity(addInspeccion);
             }
         });
 
@@ -248,6 +292,13 @@ public class FragmentMuro extends Fragment implements IActivity{
                         //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                         startActivity(intent);
 
+                        break;
+                    case "OBF":
+                        intent = new Intent(getActivity(), obsFacilitoDet.class);
+                        intent.putExtra("codObs",Codigo);
+                        //intent.putExtra("posTab",0);
+                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                        startActivity(intent);
                         break;
                 }
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
@@ -367,7 +418,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                     }  }
             });
         listenerFlag = false;
-
+/*
         TextView btn=(TextView) rootView.findViewById(R.id.btn_obs_new);
         btn.setOnClickListener(new View.OnClickListener() {
 
@@ -381,7 +432,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                 startActivity(obserbacion_edit);
             }
         });
-
+*/
         return rootView;
     }
 

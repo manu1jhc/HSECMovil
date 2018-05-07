@@ -31,7 +31,6 @@
                 android:id="@+id/mp_nombre"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
@@ -39,21 +38,21 @@
                 android:textColor="@color/colorNegro"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/mp_fecha"
+                android:maxLines="1"
                 app:layout_constraintEnd_toStartOf="@+id/btn_editar"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/mp_profile"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.666" />
+                app:layout_constraintTop_toTopOf="parent" />
 
 
             <ImageView
                 android:id="@+id/btn_editar"
                 android:layout_width="35dp"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
                 android:layout_marginEnd="4dp"
-                android:layout_marginTop="8dp"
+                android:adjustViewBounds="false"
                 android:background="@color/colorBlanco"
+                android:cropToPadding="false"
                 android:src="@drawable/ic_3puntos"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -62,15 +61,14 @@
                 android:id="@+id/mp_fecha"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:text="TextView"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_editar"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/mp_profile" />
+                app:layout_constraintStart_toEndOf="@+id/mp_profile"
+                app:layout_constraintTop_toBottomOf="@+id/mp_nombre" />
 
             <TextView
                 android:id="@+id/mp_tipoinsp"
@@ -83,6 +81,19 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView26"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="Inspección"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/btn_editar"
+                app:layout_constraintStart_toEndOf="@+id/mp_profile"
+                app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
         </android.support.constraint.ConstraintLayout>
 

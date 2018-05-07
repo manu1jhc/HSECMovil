@@ -3,17 +3,25 @@ package com.pango.hsec.hsec.Observaciones;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -26,6 +34,8 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.Adap_Img;
 import com.pango.hsec.hsec.adapter.DocsAdapter;
+import com.pango.hsec.hsec.adapter.DocumentoAdapter;
+import com.pango.hsec.hsec.adapter.GaleriaAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
@@ -33,7 +43,7 @@ import com.pango.hsec.hsec.model.GetGaleriaModel;
 import java.util.ArrayList;
 
 
-public class FragmentGaleria extends Fragment implements IActivity, AdapterView.OnItemClickListener {
+public class FragmentGaleria extends Fragment implements IActivity {
 	int contador=0;
 	ArrayList<GaleriaModel> DataDocs=new ArrayList<GaleriaModel>();
 	ArrayList<GaleriaModel> DataImg=new ArrayList<GaleriaModel>();
@@ -44,6 +54,13 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 	String url="";
 	Adap_Img adaptador;
 	DownloadManager downloadManager;
+	private static final short REQUEST_CODE = 6545;
+
+	boolean permiso=false;
+	DocumentoAdapter documentoAdapter;
+	GaleriaAdapter galeriaAdapter;
+
+
 	public static final FragmentGaleria newInstance(String sampleText) {
 		FragmentGaleria f = new FragmentGaleria();
 
@@ -55,11 +72,13 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 	}
 
 	TextView txGaleria,mensaje;
-	GridView grid_gal;
+	//GridView grid_gal;
 	ConstraintLayout cl_otros;
 	FrameLayout frame_otros;
-	ListView list_docs;
-	RelativeLayout rel_otros,galeria_foto;
+	//ListView list_docs;
+	RelativeLayout rel_otros;
+	LinearLayout galeria_foto;
+	RecyclerView gridView,listView;
 
 	boolean isPressed=true;
 	@Override
@@ -68,14 +87,16 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 
 		mView = inflater.inflate(R.layout.fragment_galeria,
 				container, false);
+		gridView = (RecyclerView) mView.findViewById(R.id.rec_galeria);
+		listView = (RecyclerView) mView.findViewById(R.id.list_docs);
 
 		txGaleria=(TextView) mView.findViewById(R.id.tx_gal);
-		grid_gal=(GridView) mView.findViewById(R.id.grid_gal);
+		//grid_gal=(GridView) mView.findViewById(R.id.grid_gal);
 		cl_otros=(ConstraintLayout) mView.findViewById(R.id.cl_otros);
 		frame_otros=(FrameLayout) mView.findViewById(R.id.frame_otros);
-		list_docs=(ListView) mView.findViewById(R.id.list_docs);
+		//list_docs=(ListView) mView.findViewById(R.id.list_docs);
 		rel_otros=(RelativeLayout) mView.findViewById(R.id.rel_otros);
-		galeria_foto=(RelativeLayout) mView.findViewById(R.id.galeria_foto);
+		galeria_foto=(LinearLayout) mView.findViewById(R.id.galeria_foto);
 		mensaje=(TextView) mView.findViewById(R.id.mensaje);
 		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
@@ -102,10 +123,10 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		txGaleria.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(grid_gal.getVisibility()==View.GONE){
-					grid_gal.setVisibility(View.VISIBLE);
+				if(gridView.getVisibility()==View.GONE){
+					gridView.setVisibility(View.VISIBLE);
 				}else{
-					grid_gal.setVisibility(View.GONE);
+					gridView.setVisibility(View.GONE);
 				}
 				//grid_gal.setVisibility(View.GONE);
 			}
@@ -114,10 +135,10 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		cl_otros.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(list_docs.getVisibility()==View.GONE){
-					list_docs.setVisibility(View.VISIBLE);
+				if(listView.getVisibility()==View.GONE){
+					listView.setVisibility(View.VISIBLE);
 				}else{
-					list_docs.setVisibility(View.GONE);
+					listView.setVisibility(View.GONE);
 				}
 			}
 		});
@@ -131,7 +152,7 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		txtSampleText.setText(sampleText);
 */
 
-
+/*
 		list_docs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -158,11 +179,60 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 
 			}
 		});
-
+*/
 
 
 
 		return mView;
+	}
+
+	private static boolean isDownloadManagerAvailable() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+			return true;
+		}
+		return false;
+	}
+
+
+	public void checkSelfPermission() {
+
+		if (ContextCompat.checkSelfPermission(getActivity(),
+				android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+				!= PackageManager.PERMISSION_GRANTED) {
+
+			ActivityCompat.requestPermissions(getActivity(),
+					new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+					REQUEST_CODE);
+
+		} else {
+
+			executeDownload();
+
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+		switch (requestCode) {
+			case REQUEST_CODE: {
+				// If request is cancelled, the result arrays are empty.
+				if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+					// permission was granted! Do the work
+					executeDownload();
+				} else {
+					// permission denied!
+					Toast.makeText(getActivity(), "Please give permissions ", Toast.LENGTH_LONG).show();
+				}
+				return;
+			}
+		}
+	}
+
+	private void executeDownload() {
+
+
+		permiso=true;
+
 	}
 
 
@@ -179,10 +249,23 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 		int count=getGaleriaModel.Count;
 		//GlobalVariables.listaGaleria=getGaleriaModel.Data;
 		if(count!=0){
-
+			if(data.contains("TP01") ||data.contains("TP02")){
+				galeria_foto.setVisibility(View.VISIBLE);
+			}else {
+				galeria_foto.setVisibility(View.GONE);
+			}
 
 		if(data.contains("TP03")){
 			rel_otros.setVisibility(View.VISIBLE);
+
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
+				checkSelfPermission();
+				//executeDownload();
+
+			} else {
+				Toast.makeText(getActivity(), "Download manager is not available", Toast.LENGTH_LONG).show();
+			}
+
 		}else{
 			rel_otros.setVisibility(View.GONE);
 		}
@@ -195,31 +278,22 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 				DataImg.add(getGaleriaModel.Data.get(i));
 			}
 		}
-		DocsAdapter docsAdapter=new DocsAdapter(getContext(),DataDocs);
-		list_docs.setAdapter(docsAdapter);
 
-/*
-		if(data.contains("TP03") ){
-			rel_otros.setVisibility(View.VISIBLE);
-			while (data.indexOf("TP03") > -1) {
-				data = data.substring(data.indexOf(
-						"TP03")+"TP03".length(),data.length());
-				contador++;
-			}
-			DocsAdapter docsAdapter=new DocsAdapter(getContext(),getGaleriaModel,contador);
-			list_docs.setAdapter(docsAdapter);
-		}else{
-			rel_otros.setVisibility(View.GONE);
-		}
-*/
 
-		getImg=new GetGaleriaModel();
-		getImg.Data=DataImg;
-		GlobalVariables.listaGaleria=DataImg;
-		grid_gal=(GridView) mView.findViewById(R.id.grid_gal);
-		adaptador = new Adap_Img(getContext(),getImg);
-		grid_gal.setAdapter(adaptador);
-		grid_gal.setOnItemClickListener(this);
+			GlobalVariables.listaGaleria=DataImg;
+
+			GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+			gridView.setLayoutManager(layoutManager);
+			galeriaAdapter = new GaleriaAdapter(getActivity(),DataImg );
+			gridView.setAdapter(galeriaAdapter);
+
+
+			LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+			listView.setLayoutManager(horizontalManager);
+			documentoAdapter = new DocumentoAdapter(getActivity(), DataDocs,permiso);
+			listView.setAdapter(documentoAdapter);
+
+
 
 		}else{
 			mensaje.setVisibility(View.VISIBLE);
@@ -238,6 +312,8 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 
 	}
 
+
+	/*
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -268,4 +344,10 @@ public class FragmentGaleria extends Fragment implements IActivity, AdapterView.
 
 		}
 	}
+
+	*/
+
+
+
+
 }

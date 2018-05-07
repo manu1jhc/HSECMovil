@@ -93,6 +93,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
         tipo_estadistica=findViewById(R.id.tipo_estadistica);
         tipo_estadistica.setText(descripcion);
+
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
@@ -218,9 +219,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             //aqui va planes
 
             if(mesActual==0) {
-                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "5";
+                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
             }else{
-                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "5";
+                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
             }
 
             GlobalVariables.listaPlanMin=new ArrayList<>();
@@ -301,9 +302,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     // aqui va plaqn de accion
 
                     if(Integer.parseInt(mes)==0) {
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                     }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                     }
 
                     final ActivityController obj = new ActivityController("get-0", url, BusqEstadistica.this,BusqEstadistica.this);
@@ -390,9 +391,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         // aqui va plaqn de accion
 
                         if(Integer.parseInt(mes)==0) {
-                            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                         }else{
-                            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                         }
 
                         //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
@@ -481,6 +482,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 //Utils.isActivity=true;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
+                flagObsFiltro=true;
 
                 mes= (mes_pos < 10 ? "0" : "")+mes_pos;
 
@@ -557,9 +559,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     anio=anio_sel;
                     int mesbuscar=Integer.parseInt(mes);
                     if(mesbuscar==0) {
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                     }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "5";
+                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                     }
                     GlobalVariables.listaPlanMin=new ArrayList<>();
                     final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
@@ -616,10 +618,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             GlobalVariables.flagUpSc=false;
         }else
             //reemplazar el 100
-            if(GlobalVariables.listaPlanMin.size()>5&&GlobalVariables.listaPlanMin.size()<contPublicacion) {
+            if(GlobalVariables.listaPlanMin.size()==7){
+                list_estadistica.setSelection(0);
+            }else if(GlobalVariables.listaPlanMin.size()>7&&GlobalVariables.listaPlanMin.size()<contPublicacion) {
                 //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-                if(GlobalVariables.listaPlanMin.size()%5==0) {
-                    list_estadistica.setSelection(GlobalVariables.listaPlanMin.size() - 6);
+                if(GlobalVariables.listaPlanMin.size()%7==0) {
+                    list_estadistica.setSelection(GlobalVariables.listaPlanMin.size() - 8);
                 }else{
                     list_estadistica.setSelection(GlobalVariables.listaPlanMin.size()-1 );
                     //- GlobalVariables.listaGlobalFiltro.size()%5+1
@@ -628,7 +632,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 flagObsFiltro=true;
 
             }else if(GlobalVariables.listaPlanMin.size()==contPublicacion){
-                list_estadistica.setSelection(GlobalVariables.listaPlanMin.size());
+                list_estadistica.setSelection((GlobalVariables.listaPlanMin.size()/7)*7-1);
                 flagObsFiltro=false;
 
             }

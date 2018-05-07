@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
+import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
@@ -51,7 +53,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
     @Override
     public int getViewTypeCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -67,6 +69,9 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 break;
             case "NOT":
                 tipo=2;
+                break;
+            case "OBF":
+                tipo=3;
                 break;
         }
         return tipo;    //objects[position].getType();
@@ -94,7 +99,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             TextView fecha = rowView.findViewById(R.id.mp_fecha);
             ImageView riesgo = rowView.findViewById(R.id.img_riesgo);
             TextView tipo = rowView.findViewById(R.id.mp_tipo);
-            TextView area = rowView.findViewById(R.id.mp_area);
+            //TextView area = rowView.findViewById(R.id.mp_area);//no va
             TextView comentario = rowView.findViewById(R.id.tx_comentario);
             TextView tx_det = rowView.findViewById(R.id.mp_txdet);
             ImageView editar = rowView.findViewById(R.id.btn_editar);
@@ -108,9 +113,9 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final String tempDetalle = data.get(position).Obs;
             final int comentarios = data.get(position).Comentarios;
             final String tempImgDet = data.get(position).UrlPrew;
-            final boolean editable = data.get(position).Editable;
+            final String editable = data.get(position).Editable;
 
-            if(!editable||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
+            if(editable=="0"||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
                 editar.setVisibility(View.GONE);
             }
             editar.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +145,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 riesgo.setImageResource(R.drawable.ic_alertaroja);
 
             }
-            tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2, tempTipo));
-            area.setText(GlobalVariables.getDescripcion(GlobalVariables.Area_obs, tempArea));
+            tipo.setText(" / "+GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2, tempTipo)+" / "+GlobalVariables.getDescripcion(GlobalVariables.Area_obs, tempArea));
+            //area.setText(GlobalVariables.getDescripcion(GlobalVariables.Area_obs, tempArea));
             tx_det.setText(tempDetalle);
 
             comentario.setText(comentarios + " comentarios");
@@ -247,7 +252,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
             String[] tempRiesgo = new String[0];
             String[] tempDetalle = new String[0];
-            final boolean editable = data.get(position).Editable;
+            final String editable = data.get(position).Editable;
 
             if(data.get(position).NivelR!=null){
                 tempRiesgo = data.get(position).NivelR.split(";");
@@ -255,7 +260,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             }
 
 
-            if(!editable){
+            if(editable=="0"){
                 btn_editar.setVisibility(View.GONE);
             }
 ////////////////////////////////////////////////////////////////////////////editar inspecciones
@@ -517,7 +522,102 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
             return rowView;
 
-        }else {
+        }else if(positem == 3){//facilito
+
+            rowView = inflater.inflate(R.layout.public_obsfacilito, null, true);
+            ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
+            ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
+            TextView nombre = rowView.findViewById(R.id.mp_nombre);
+            TextView fecha = rowView.findViewById(R.id.mp_fecha);
+            ImageView riesgo = rowView.findViewById(R.id.img_riesgo);
+            TextView tipo = rowView.findViewById(R.id.mp_tipo);
+            TextView area = rowView.findViewById(R.id.mp_area);
+//        TextView accion=rowView.findViewById(R.id.mp_txaccion);
+            TextView tx_det = rowView.findViewById(R.id.mp_txdet);
+            ImageView editar = rowView.findViewById(R.id.btn_editar);
+
+            final String tempimg_perfil = data.get(position).UrlObs;
+            final String tempNombre = data.get(position).ObsPor;
+            final String tempFecha = data.get(position).Fecha;
+            //final String tempUbicacion = data.get(position).UbicacionExacta;
+            final String tempTipo = data.get(position).Tipo;
+            final String tempObservacion = data.get(position).Obs;
+            //final String tempAccion = data.get(position).Accion;
+            final String tempImgDet=data.get(position).UrlPrew;
+            final String editable = data.get(position).Editable;
+            if(editable.equals("0")){
+                editar.setVisibility(View.GONE);
+            }
+            editar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    String edit=data.get(position).Editable;
+                    if(edit.equals("1") || edit.equals("3")){
+                        GlobalVariables.ObjectEditable=true;
+                        Intent intent = new Intent(getContext(),report_obs.class);
+                        intent.putExtra("codObs", data.get(position).Codigo);
+                        v.getContext().startActivity(intent);
+                    }
+                    else if(edit.equals("2")){
+
+                        Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
+                        intent.putExtra("codObs", data.get(position).Codigo);
+                        v.getContext().startActivity(intent);
+                    }
+
+                }
+            });
+            nombre.setText(tempNombre);
+            fecha.setText(Obtenerfecha(tempFecha));
+            tipo.setText(" / "+GlobalVariables.Obtener_Tipo(tempTipo));
+
+
+            //area.setText(tempUbicacion);
+//        accion.setText(tempAccion);
+            tx_det.setText(tempObservacion);
+            if (tempTipo == null) {
+                riesgo.setVisibility(View.INVISIBLE);
+            } else if (tempTipo.equals("A")) {
+                riesgo.setImageResource(R.drawable.ic_alertaroja);
+
+            } else if (tempTipo.equals("C")) {
+                riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
+            }
+
+            if (tempimg_perfil == null) {
+                img_perfil.setImageResource(R.drawable.ic_loginusuario);
+            }else {
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
+                Glide.with(context)
+                        .load(Url_img)
+                        .override(50, 50)
+                        .transform(new CircleTransform(getContext())) // applying the image transformer
+                        .into(img_perfil);
+            }
+
+
+            if(tempImgDet==null){
+                img_det.setVisibility(View.GONE);
+
+            }else{
+                String Url_prev=GlobalVariables.Url_base + "media/getImagepreview/"+tempImgDet+"/Preview.jpg";
+
+                //"media/getImagepreview/" + Descripcion+ "/Preview.jpg"
+                //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
+                Glide.with(context)
+                        .load(Url_prev)
+                        //.override(50, 50)
+                        .into(img_det);
+            }
+
+
+
+
+
+            return rowView;
+        }else
+            {
             return null;
         }
     }

@@ -26,6 +26,7 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.GaleriaModel;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -55,8 +56,42 @@ public class DocumentoAdapter extends RecyclerView.Adapter<DocumentoAdapter.View
     @Override
     public void onBindViewHolder(DocumentoAdapter.ViewHolder viewHolder, int position) {
         viewHolder.position_item=position;
+
+        int idIcon=0;
+        String [] exts=Data.get(position).Descripcion.split("\\.");
+        String ext=exts[exts.length-1];
+        switch (ext.toLowerCase()) {
+            case "pdf":
+                idIcon = R.drawable.ic_pdf;
+                break;
+            case "doc":
+            case "docx":
+                idIcon = R.drawable.ic_word;
+                break;
+            case "ppt":
+            case "pptx":
+                idIcon = R.drawable.ic_ppt;
+                break;
+            case "xls":
+            case "xlsx":
+                idIcon = R.drawable.ic_xlsx;
+                break;
+            case "odt":
+                idIcon = R.drawable.ic_contrata;
+                break;
+            default:
+                idIcon = R.drawable.ic_contrata;
+        }
+
+        viewHolder.btn_descargar.setImageResource(idIcon);
         viewHolder.nombre_doc.setText(Data.get(position).Descripcion);
-        viewHolder.tam_doc.setText(Data.get(position).Tamanio+" Mb");
+
+        if(Data.get(position).Tamanio!=null)viewHolder.tam_doc.setText(getReadableFileSize(Long.parseLong(Data.get(position).Tamanio)));
+        else viewHolder.tam_doc.setVisibility(View.GONE);
+
+
+        //viewHolder.tam_doc.setText(Data.get(position).Tamanio+" Mb");
+
 
     }
 
@@ -65,12 +100,20 @@ public class DocumentoAdapter extends RecyclerView.Adapter<DocumentoAdapter.View
         return Data.size();
     }
 
+    public String getReadableFileSize(long size) {
+        if (size <= 0) {
+            return "0";
+        }
+        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
     /**
      * View holder to display each RecylerView item
      */
     protected class ViewHolder extends RecyclerView.ViewHolder  {
         TextView nombre_doc, tam_doc;
-        ImageButton btn_descargar;
+        ImageView btn_descargar;
         public int position_item;
         String nombre_file="";
         String cadMod="";
@@ -79,7 +122,7 @@ public class DocumentoAdapter extends RecyclerView.Adapter<DocumentoAdapter.View
             super(view);
             nombre_doc = (TextView)view.findViewById(R.id.nombre_doc);
             tam_doc = (TextView)view.findViewById(R.id.tam_doc);
-            btn_descargar = (ImageButton) view.findViewById(R.id.btn_descargar);
+            btn_descargar = (ImageView) view.findViewById(R.id.btn_descargar);
 
             btn_descargar.setOnClickListener(new View.OnClickListener() {
                 @Override

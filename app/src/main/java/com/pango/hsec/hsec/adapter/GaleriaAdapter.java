@@ -49,13 +49,13 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.ViewHold
             //"media/getImagepreview/" + Descripcion+ "/Preview.jpg"
             Glide.with(viewHolder.imageView.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+Data.get(position).Correlativo+ "/Preview.jpg")
-                    .centerCrop()
+                   // .centerCrop()
                     .into(viewHolder.imageView);
         }else{
             viewHolder.btn_play.setVisibility(View.VISIBLE);
             Glide.with(viewHolder.imageView.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+Data.get(position).Correlativo+ "/Preview.jpg")
-                    .centerCrop()
+                 //   .centerCrop()
                     .into(viewHolder.imageView);
 
         }
@@ -71,7 +71,7 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.ViewHold
      * View holder to display each RecylerView item
      */
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private ImageView imageView;
+        public ImageView imageView;
         //private TextView textView;
         ImageView btn_play;
         public int position_item;

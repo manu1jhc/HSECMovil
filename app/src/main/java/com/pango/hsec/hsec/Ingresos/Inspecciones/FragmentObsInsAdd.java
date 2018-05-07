@@ -81,11 +81,20 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
 
         GlobalVariables.obsInspDetModel.CodInspeccion="-1";
 
-
+        int tam=GlobalVariables.ListobsInspAddModel.size();
         if(ActObsInspEdit.editar){
+
             url= GlobalVariables.Url_base+"Inspecciones/GetDetalleInspeccionID/"+correlativo;
             final ActivityController obj = new ActivityController("get", url, FragmentObsInsAdd.this,getActivity());
             obj.execute("");
+        }else if(GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion==null){
+            GlobalVariables.countObsInsp=1;
+            edit_ninsp.setText(GlobalVariables.countObsInsp+"");
+        }else{
+            int contador=Integer.parseInt(GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion)+1;
+            //edit_codigo.setText(GlobalVariables.ListobsInspAddModel.get(0).obsInspDetModel.CodInspeccion);
+
+            edit_ninsp.setText(contador);
         }
 
 
@@ -249,7 +258,6 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
 
         //GlobalVariables.ListaObsInsp
         //GlobalVariables.countObsInsp
-        edit_ninsp.setText(GlobalVariables.countObsInsp+"");
         GlobalVariables.obsInspDetModel.NroDetInspeccion=String.valueOf(GlobalVariables.countObsInsp);
 
         ///if()
