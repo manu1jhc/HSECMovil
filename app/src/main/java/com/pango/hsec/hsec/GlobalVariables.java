@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.pango.hsec.hsec.adapter.PlanEditAdapter;
+import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetMaestroModel;
@@ -41,7 +42,7 @@ public class GlobalVariables  {
 
     public static List<GaleriaModel> listaGaleria =new ArrayList<>();
     public static List<GaleriaModel> listaArchivos =new ArrayList<>();
-    public static ArrayList<PlanModel> StrPlanes=new ArrayList<>();
+    public static List<PlanModel> StrPlanes=new ArrayList<>();
     public static List<GaleriaModel> StrFiles=new ArrayList<>();
 
     public static String ObserbacionFile;
@@ -67,18 +68,22 @@ public class GlobalVariables  {
     public static boolean flagObsFiltro=true;
     public static boolean istabs=false;
     public static boolean isUserlogin=false;
-    public static InspeccionModel AddInspeccion=new InspeccionModel();
-    //public static ArrayList<ObsInspDetModel> ListaObsInsp=new ArrayList<>();
+
     public static int countObsInsp=1;
-    // public static List<Maestro> listPlan=new ArrayList<>();
-    public static ObsInspDetModel obsInspDetModel=new ObsInspDetModel();
-    public static ObsInspAddModel obsInspAddModel=new ObsInspAddModel();
-    public static ArrayList<ObsInspAddModel> ListobsInspAddModel=new ArrayList<>();
+    public static InspeccionModel AddInspeccion=new InspeccionModel(); //cabecera
+    public static String StrInspeccion;
+    public static ArrayList<EquipoModel> ListResponsables=new ArrayList<>(); //participantes
+    public static ArrayList<EquipoModel> StrResponsables=new ArrayList<>();
+    public static ArrayList<EquipoModel> ListAtendidos=new ArrayList<>();
+    public static ArrayList<EquipoModel> StrAtendidos=new ArrayList<>();
+    public static ArrayList<ObsInspAddModel> ListobsInspAddModel=new ArrayList<>(); //observaciones
+    public static ArrayList<ObsInspAddModel> StrtobsInspAddModel=new ArrayList<>();
+    public static String InspeccionObserbacion;
+
+    public static ObsInspAddModel obsInspAddModel=new ObsInspAddModel();  //Modelo general de Observacion
+    public static ObsInspDetModel obsInspDetModel=new ObsInspDetModel();  //detalle Obs
+
     public static boolean editar_list=false;
-
-    public static ArrayList<PersonaModel> ListResponsables=new ArrayList<>();
-    public static ArrayList<PersonaModel> ListAtendidos=new ArrayList<>();
-
 
     //public static InspeccionModel Inspeccion=new InspeccionModel();
 
@@ -220,7 +225,7 @@ public class GlobalVariables  {
     public static void InicialiceVar(){
         Maestro Select = new Maestro("-  Seleccione  -");
         Area_obs.add(Select);
-       // Tipo_obs.add(Select);
+        Aspecto_Obs.add(Select);
         NivelRiesgo_obs.add(Select);
         Actividad_obs.add(Select);
         HHA_obs.add(Select);
@@ -372,6 +377,13 @@ public class GlobalVariables  {
         Tablas.add(new Maestro("TTES","TestigoInvolucrado"));
         Tablas.add(new Maestro("OTROS","Otros"));
 
+    }
+
+    public static void reloadUbicacion(){
+        GlobalVariables.SubUbicacion_obs.clear();
+        GlobalVariables.UbicacionEspecifica_obs.clear();
+        GlobalVariables.SubUbicacion_obs.add(new Maestro("","-  Seleccione  -"));
+        GlobalVariables.UbicacionEspecifica_obs.add(new Maestro("","-  Seleccione  -"));
     }
     public static ArrayList<Maestro> loadUbicacion(String Tipo, int nivel){
         ArrayList<Maestro> Ubicaciones = new ArrayList<>();

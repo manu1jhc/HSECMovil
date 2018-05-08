@@ -65,7 +65,7 @@ public class ParticipanteAdapter extends BaseAdapter {
 
         if(tipo.equals("1"))
         {
-            if(equipoModel.get(position).Estado.equals("1")){
+            if(equipoModel.get(position).Lider.equals("1")){
                 convertView.setBackgroundColor(Color.parseColor("#bfe3de"));
                //lider.setVisibility(View.VISIBLE);
                 /*card_nombre.setBackgroundColor(Color.CYAN);

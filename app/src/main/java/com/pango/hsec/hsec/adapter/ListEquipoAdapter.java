@@ -1,44 +1,48 @@
 package com.pango.hsec.hsec.adapter;
 
         import android.app.Activity;
+        import android.graphics.Color;
         import android.support.v7.widget.RecyclerView;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.CheckBox;
         import android.widget.ImageButton;
         import android.widget.TextView;
         import android.widget.Toast;
 
         import com.pango.hsec.hsec.R;
-        import com.pango.hsec.hsec.model.PersonaModel;
+        import com.pango.hsec.hsec.model.EquipoModel;
 
         import java.util.List;
 
-public class ListPersonEditAdapter extends RecyclerView.Adapter<ListPersonEditAdapter.ViewHolder> {
+public class ListEquipoAdapter extends RecyclerView.Adapter<ListEquipoAdapter.ViewHolder> {
     private Activity activity;
-    private List<PersonaModel> items;
+    private List<EquipoModel> items;
+    private boolean ShowLider;
 
-    public ListPersonEditAdapter(Activity activity, List<PersonaModel> items) {
+    public ListEquipoAdapter(Activity activity, List<EquipoModel> items,boolean ShowLider) {
         this.activity = activity;
         this.items = items;
+        this.ShowLider=ShowLider;
     }
-    public void add(PersonaModel newdata){
+    public void add(EquipoModel newdata){
         boolean pass=true;
-        for (PersonaModel temp: items) {
+        for (EquipoModel temp: items) {
             if(temp.CodPersona.equals(newdata.CodPersona))
                 pass=false;
         }
         if(pass)
         {
             items.add(newdata);
-            //notifyDataSetChanged();
+          //  notifyDataSetChanged();
         }
         else Toast.makeText(activity, "La persona ya existe en la lista" , Toast.LENGTH_SHORT).show();
     }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
-        View view = inflater.inflate(R.layout.item_responsable, parent, false);
+        View view = inflater.inflate(R.layout.item_equipo, parent, false);
 
         return new ViewHolder(view);
     }
@@ -46,8 +50,33 @@ public class ListPersonEditAdapter extends RecyclerView.Adapter<ListPersonEditAd
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
 
+        if(ShowLider)
+        {
+            String BackgrColor= "#FFFFFF";
+            viewHolder.Lider.setEnabled(true);
+            if(items.get(position).Lider.equals("1")){
+                BackgrColor= "#BFE3DE";
+                viewHolder.Lider.setChecked(true);
+                viewHolder.Lider.setEnabled(false);
+            }
+            else {
+                viewHolder.Lider.setChecked(false);
+            }
+            viewHolder.itemView.setBackgroundColor(Color.parseColor(BackgrColor));
+            viewHolder.Lider.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(items.get(position).Lider.equals("0"))
+                    {
+                        for (EquipoModel item:items) item.Lider="0";
+                        items.get(position).Lider="1";
+                        notifyDataSetChanged();
+                    }
+                }
+            });
+        }
+        else  viewHolder.Lider.setVisibility(View.GONE);
         viewHolder.Nombre.setText(items.get(position).Nombres);
-       // viewHolder.DNI.setText(items.get(position).NroDocumento);
         viewHolder.Cargo.setText(items.get(position).Cargo);
         viewHolder.btn_Delete.setOnClickListener(new View.OnClickListener() {
                                                      @Override
@@ -72,14 +101,15 @@ public class ListPersonEditAdapter extends RecyclerView.Adapter<ListPersonEditAd
     protected class ViewHolder extends RecyclerView.ViewHolder {//implements View.OnClickListener
         private TextView Nombre, DNI, Cargo;
         private ImageButton btn_Delete;
+        private CheckBox Lider;
 
         public ViewHolder(View view) {
             super(view);
             Nombre = (TextView)view.findViewById(R.id.txt_tarea);
-           // DNI = (TextView)view.findViewById(R.id.txt_adicional);
+            Lider = (CheckBox) view.findViewById(R.id.checkBox2);
             Cargo = (TextView)view.findViewById(R.id.txt_cargo);
             btn_Delete= (ImageButton) view.findViewById(R.id.btn_delete);
-           // itemView.setOnClickListener(this);
+            // itemView.setOnClickListener(this);
         }
 /*
         @Override

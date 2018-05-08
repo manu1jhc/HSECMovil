@@ -38,20 +38,21 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
     ArrayList<Maestro> actividad_data;
     ArrayList<Maestro> nivel_data;
 
-
+    Gson gson;
     TextView edit_ninsp,edit_codigo;
     EditText edit_lugar,edit_observacion;
     Spinner spinner_ubicacionEsp,spinner_aspecto,spinner_actividad,spinner_riesgo;
-    String url, correlativo;
+    String correlativo;
     public FragmentObsInsAdd() {
         // Required empty public constructor
     }
     private View mView;
     //String codObs;
-    public static FragmentObsInsAdd newInstance(String sampleText) {
+    public static FragmentObsInsAdd newInstance(String Correlativo,String Grupo) {
         FragmentObsInsAdd fragment = new FragmentObsInsAdd();
         Bundle b = new Bundle();
-        b.putString("bString", sampleText);
+        b.putString("correlativo", Correlativo);
+        b.putString("grupo", Grupo);
         fragment.setArguments(b);
         return fragment;
     }
@@ -62,7 +63,10 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_obs_ins_add, container, false);
-        correlativo=getArguments().getString("bString");
+        correlativo=getArguments().getString("correlativo");
+        String grupo =getArguments().getString("grupo");
+        gson = new Gson();
+
         edit_codigo=mView.findViewById(R.id.edit_codigo);
 
         edit_ninsp=mView.findViewById(R.id.edit_ninsp);
@@ -78,101 +82,29 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
         edit_lugar.setText(GlobalVariables.obsInspDetModel.Lugar);
         edit_observacion.setText(GlobalVariables.obsInspDetModel.Observacion);
 
-
-        GlobalVariables.obsInspDetModel.CodInspeccion="-1";
-
-        int tam=GlobalVariables.ListobsInspAddModel.size();
-        if(ActObsInspEdit.editar){
-
-            url= GlobalVariables.Url_base+"Inspecciones/GetDetalleInspeccionID/"+correlativo;
-            final ActivityController obj = new ActivityController("get", url, FragmentObsInsAdd.this,getActivity());
-            obj.execute("");
-        }else if(GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion==null){
-            GlobalVariables.countObsInsp=1;
-            edit_ninsp.setText(GlobalVariables.countObsInsp+"");
-        }else{
-            int contador=Integer.parseInt(GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion)+1;
-            //edit_codigo.setText(GlobalVariables.ListobsInspAddModel.get(0).obsInspDetModel.CodInspeccion);
-
-            edit_ninsp.setText(contador);
-        }
-
-
-
-        aspecto_data= new ArrayList<>();
-        aspecto_data.add(new Maestro(null,"-  Seleccione  -"));
-        aspecto_data.addAll(GlobalVariables.Aspecto_Obs);
-///         UbicacionEspecifica_obs
-
-        actividad_data= new ArrayList<>();
-        actividad_data.add(new Maestro(null,"-  Seleccione  -"));
-        actividad_data.addAll(GlobalVariables.Actividad_obs);
-
-        nivel_data= new ArrayList<>();
-        nivel_data.add(new Maestro(null,"-  Seleccione  -"));
-        nivel_data.addAll(GlobalVariables.NivelRiesgo_obs);
-
-
         ArrayAdapter adapterUbicEspc = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.UbicacionEspecifica_obs);
         adapterUbicEspc.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner_ubicacionEsp.setAdapter(adapterUbicEspc);
 
-        ArrayAdapter adapterAspecto = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,aspecto_data);
+        ArrayAdapter adapterAspecto = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Aspecto_Obs);
         adapterAspecto.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner_aspecto.setAdapter(adapterAspecto);
 
 
-        ArrayAdapter adapterNivel = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,actividad_data);
+        ArrayAdapter adapterNivel = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Actividad_obs);
         adapterNivel.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner_actividad.setAdapter(adapterNivel);
 
 
-        ArrayAdapter adapterActividad = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,nivel_data);
+        ArrayAdapter adapterActividad = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.NivelRiesgo_obs);
         adapterActividad.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner_riesgo.setAdapter(adapterActividad);
 
-        if(ActObsInspEdit.editar){
-            spinner_ubicacionEsp.setSelection(GlobalVariables.indexOf(GlobalVariables.UbicacionEspecifica_obs,GlobalVariables.obsInspDetModel.CodUbicacion));
-
-            //String minutoFormateado = (minutoFinal < 10)? String.valueOf(CERO + minutoFinal):String.valueOf(minutoFinal);
-
-
-            if(GlobalVariables.obsInspDetModel.CodAspectoObs==null){
-                spinner_aspecto.setSelection(0);
-            }else{
-                spinner_aspecto.setSelection(1+GlobalVariables.indexOf(GlobalVariables.Aspecto_Obs,GlobalVariables.obsInspDetModel.CodAspectoObs));
-
-            }
-
-
-
-            //spinner_aspecto.setSelection((GlobalVariables.indexOf(GlobalVariables.Aspecto_Obs,GlobalVariables.obsInspDetModel.CodAspectoObs)==0)?0
-            //        :GlobalVariables.indexOf(GlobalVariables.Aspecto_Obs,GlobalVariables.obsInspDetModel.CodAspectoObs)+1);
-            spinner_actividad.setSelection(1+GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.obsInspDetModel.CodActividadRel));
-            spinner_riesgo.setSelection(1+GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,GlobalVariables.obsInspDetModel.CodNivelRiesgo));
-
-
-        }/*else {
-
-        }*/
         spinner_ubicacionEsp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-                //Utils.inspeccionModel.CodUbicacion=ubicaciondata.get(position).CodTipo;
-                String data;
-                if(position!=0) {
-                    GlobalVariables.obsInspDetModel.CodUbicacion =GlobalVariables.UbicacionEspecifica_obs.get(position).CodTipo;
-
-                    //area = area_data.get(position).CodTipo;
-                    //area_pos= String.valueOf(position);
-                }else {
-                    GlobalVariables.obsInspDetModel.CodUbicacion =null;
-                    //data=null;
-                    //area="";
-                    //area_pos=String.valueOf(position);
-                }
-
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_ubicacion) ).getSelectedItem();
+                GlobalVariables.obsInspDetModel.CodUbicacion=Tipo.CodTipo;
             }
 
             @Override
@@ -180,26 +112,11 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
 
             }
         });
-
-
-
         spinner_aspecto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-
-                if(position!=0) {
-                    GlobalVariables.obsInspDetModel.CodAspectoObs=aspecto_data.get(position).CodTipo;
-
-                    //area = area_data.get(position).CodTipo;
-                    /////////area_pos= String.valueOf(position);
-                }else {
-                    GlobalVariables.obsInspDetModel.CodAspectoObs=null;
-                    //area="";
-                    //area_pos=String.valueOf(position);
-                }
-
-
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_aspecto) ).getSelectedItem();
+                GlobalVariables.obsInspDetModel.CodAspectoObs=Tipo.CodTipo;
             }
 
             @Override
@@ -207,22 +124,11 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
                 GlobalVariables.obsInspDetModel.CodAspectoObs=null;
             }
         });
-
-
         spinner_actividad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0) {
-                    GlobalVariables.obsInspDetModel.CodActividadRel=actividad_data.get(position).CodTipo;
-
-                    //area = area_data.get(position).CodTipo;
-                    /////////area_pos= String.valueOf(position);
-                }else {
-                    GlobalVariables.obsInspDetModel.CodActividadRel=null;
-                    //area="";
-                    //area_pos=String.valueOf(position);
-                }
-
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_actividad) ).getSelectedItem();
+                GlobalVariables.obsInspDetModel.CodActividadRel=Tipo.CodTipo;
             }
 
             @Override
@@ -230,22 +136,11 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
 
             }
         });
-
         spinner_riesgo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0) {
-                    GlobalVariables.obsInspDetModel.CodNivelRiesgo=nivel_data.get(position).CodTipo;
-
-                    //area = area_data.get(position).CodTipo;
-                    /////////area_pos= String.valueOf(position);
-                }else {
-                    GlobalVariables.obsInspDetModel.CodNivelRiesgo=null;
-                    //area="";
-                    //area_pos=String.valueOf(position);
-                }
-
-
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_riesgo) ).getSelectedItem();
+                GlobalVariables.obsInspDetModel.CodNivelRiesgo=Tipo.CodTipo;
             }
 
             @Override
@@ -253,18 +148,6 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
 
             }
         });
-
-        //////////////////////////////////////////////////GlobalVariables.AddInspeccion.CodSubUbicacion
-
-        //GlobalVariables.ListaObsInsp
-        //GlobalVariables.countObsInsp
-        GlobalVariables.obsInspDetModel.NroDetInspeccion=String.valueOf(GlobalVariables.countObsInsp);
-
-        ///if()
-
-
-
-
         edit_lugar.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -296,6 +179,31 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
             }
         });
 
+        if(ActObsInspEdit.editar){
+            if(GlobalVariables.obsInspDetModel.Correlativo==null)  // load server
+            {
+                String url= GlobalVariables.Url_base+"Inspecciones/GetDetalleInspeccionID/"+correlativo;
+                final ActivityController obj = new ActivityController("get", url, FragmentObsInsAdd.this,getActivity());
+                obj.execute("");
+            }
+            else setdata();
+        }
+        else {
+            if(GlobalVariables.obsInspDetModel.Correlativo==null){
+
+                GlobalVariables.obsInspDetModel= new ObsInspDetModel();
+
+                GlobalVariables.obsInspDetModel.Correlativo= "-1";
+                GlobalVariables.obsInspDetModel.CodInspeccion=GlobalVariables.InspeccionObserbacion;
+                GlobalVariables.obsInspDetModel.NroDetInspeccion=grupo;
+                GlobalVariables.obsInspDetModel.Lugar="";
+                GlobalVariables.obsInspDetModel.Observacion="";
+                GlobalVariables.obsInspDetModel.CodUbicacion="";
+                GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.obsInspDetModel);
+            }
+          //  else //if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
+                setdata();
+        }
         return mView;
     }
 
@@ -304,31 +212,28 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
     public void success(String data, String Tipo) {
         Gson gson = new Gson();
         ObsInspDetModel getObsInspDetModel = gson.fromJson(data, ObsInspDetModel.class);
-        ///GlobalVariables.obsInspDetModel= new ObsInspDetModel();
+        //GlobalVariables.obsInspDetModel= new ObsInspDetModel();
         GlobalVariables.obsInspDetModel=getObsInspDetModel;
+        GlobalVariables.obsInspDetModel.Correlativo=correlativo;
+        GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.obsInspDetModel);
         setdata();
     }
 
-
+    public void updateCodigo(String Codigotxt){
+        edit_ninsp.setText(Codigotxt);
+    }
 
     public void setdata(){
 
-
-        edit_codigo.setText(GlobalVariables.obsInspDetModel.CodInspeccion);
-        edit_ninsp.setText(GlobalVariables.obsInspDetModel.NroDetInspeccion);
-        edit_lugar.setText(GlobalVariables.obsInspDetModel.Lugar);
-        spinner_ubicacionEsp.setSelection(GlobalVariables.indexOf(GlobalVariables.UbicacionEspecifica_obs,GlobalVariables.obsInspDetModel.CodUbicacion));
-
-        spinner_aspecto.setSelection(GlobalVariables.indexOf(GlobalVariables.Aspecto_Obs,GlobalVariables.obsInspDetModel.CodAspectoObs)+1);
-
-        spinner_actividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.obsInspDetModel.CodActividadRel)+1);
-        spinner_riesgo.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,GlobalVariables.obsInspDetModel.CodNivelRiesgo)+1);
-
-        edit_observacion.setText(GlobalVariables.obsInspDetModel.Observacion);
-
+        if(GlobalVariables.obsInspDetModel.CodInspeccion!=null)edit_codigo.setText(GlobalVariables.obsInspDetModel.CodInspeccion);
+        if(GlobalVariables.obsInspDetModel.NroDetInspeccion!=null)edit_ninsp.setText(GlobalVariables.obsInspDetModel.NroDetInspeccion);
+        if(GlobalVariables.obsInspDetModel.Lugar!=null)edit_lugar.setText(GlobalVariables.obsInspDetModel.Lugar);
+        if(GlobalVariables.obsInspDetModel.CodUbicacion!=null)spinner_ubicacionEsp.setSelection(GlobalVariables.indexOf(GlobalVariables.UbicacionEspecifica_obs,GlobalVariables.obsInspDetModel.CodUbicacion));
+        if(GlobalVariables.obsInspDetModel.CodAspectoObs!=null)spinner_aspecto.setSelection(GlobalVariables.indexOf(GlobalVariables.Aspecto_Obs,GlobalVariables.obsInspDetModel.CodAspectoObs));
+        if(GlobalVariables.obsInspDetModel.CodActividadRel!=null)spinner_actividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.obsInspDetModel.CodActividadRel));
+        if(GlobalVariables.obsInspDetModel.CodNivelRiesgo!=null)spinner_riesgo.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,GlobalVariables.obsInspDetModel.CodNivelRiesgo));
+        if(GlobalVariables.obsInspDetModel.Observacion!=null)edit_observacion.setText(GlobalVariables.obsInspDetModel.Observacion);
     }
-
-
 
 
     @Override

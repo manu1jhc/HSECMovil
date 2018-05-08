@@ -76,6 +76,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/contrainLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -316,7 +317,7 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="1dp"
-        android:background="@color/ColorVerdoso"
+        android:background="@color/ColorbtnVerdoso"
         android:text="buscar"
         android:textColor="@color/colorBlanco"
         android:textSize="12sp"
@@ -345,7 +346,6 @@
             app:layout_constraintTop_toBottomOf="@+id/const_persona" />
 
         <!--
-
         <ListView
             android:id="@+id/listView"
             android:layout_width="0dp"
@@ -357,9 +357,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout8" />
-
 -->
-
 
         <LinearLayout
             android:id="@+id/linearLayout8"
@@ -417,6 +415,7 @@
             android:layout_height="0dp"
             android:layout_marginBottom="1dp"
             android:layout_marginTop="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/const_main"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -458,8 +457,7 @@
                         android:layout_marginEnd="2dp"
                         android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
-                        android:dividerHeight="5dp"
-
+                        android:dividerHeight="2dp"
 
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -475,12 +473,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="8dp"
-            android:background="@color/colorBlanco"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:background="@color/colorBlanco"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/swipelayout"
+            app:layout_constraintBottom_toTopOf="@+id/btn_Agregar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -516,6 +513,20 @@
                 app:layout_constraintVertical_bias="0.516" />
         </android.support.constraint.ConstraintLayout>
 
+        <Button
+            android:id="@+id/btn_Agregar"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/ColorbtnVerdoso"
+            android:onClick="AgregarLista"
+            android:text="Agregar"
+            android:textColor="@color/colorBlanco"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
 

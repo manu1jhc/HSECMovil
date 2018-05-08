@@ -1,40 +1,38 @@
+
 package com.pango.hsec.hsec.Busquedas;
 
-import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.Spinner;
-import android.widget.TextView;
+        import android.content.Intent;
+        import android.graphics.Rect;
+        import android.support.constraint.ConstraintLayout;
+        import android.support.v4.widget.SwipeRefreshLayout;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.View;
+        import android.view.ViewTreeObserver;
+        import android.widget.AbsListView;
+        import android.widget.AdapterView;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.EditText;
+        import android.widget.ListView;
+        import android.widget.Spinner;
+        import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.pango.hsec.hsec.GlobalVariables;
-import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Observaciones.FragmentComent;
-import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.adapter.BuscarPersonaAdapter;
-import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.GetGaleriaModel;
-import com.pango.hsec.hsec.model.GetPersonaModel;
-import com.pango.hsec.hsec.model.Maestro;
-import com.pango.hsec.hsec.model.PlanModel;
+        import com.google.gson.Gson;
+        import com.pango.hsec.hsec.GlobalVariables;
+        import com.pango.hsec.hsec.IActivity;
+        import com.pango.hsec.hsec.R;
+        import com.pango.hsec.hsec.Utils;
+        import com.pango.hsec.hsec.adapter.BuscarPersonaAdapter;
+        import com.pango.hsec.hsec.controller.ActivityController;
+        import com.pango.hsec.hsec.model.GetPersonaModel;
+        import com.pango.hsec.hsec.model.Maestro;
+        import com.pango.hsec.hsec.model.PersonaModel;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
+        import java.util.ArrayList;
 
-public class B_personas extends AppCompatActivity implements IActivity {
+public class B_personasM extends AppCompatActivity implements IActivity {
     ArrayList<Maestro> gerenciadata;
     ArrayList<Maestro> superintdata;
 
@@ -54,12 +52,14 @@ public class B_personas extends AppCompatActivity implements IActivity {
     boolean listenerFlag;
     SwipeRefreshLayout swipeRefreshLayout;
     boolean flag_enter=true;
-    ConstraintLayout constraintLayout;
+    ConstraintLayout constraintLayout,contrainLayout;
     boolean flagPersonaFiltro=true;
     //ConstraintLayout constraintLayout;
     boolean loadingTop=false;
+    Button btn_Agregar;
     TextView tx_texto;
     int paginacion=1;
+    BuscarPersonaAdapter ca;
 
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
@@ -67,6 +67,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_personas);
         tx_b_persona=(TextView) findViewById(R.id.tx_b_persona);
+        btn_Agregar=(Button)findViewById(R.id.btn_Agregar);
         const_persona=(ConstraintLayout) findViewById(R.id.const_persona);
         btn_busqueda=(Button) findViewById(R.id.btn_busqueda);
         id_apellidos=(EditText) findViewById(R.id.id_apellidos);
@@ -76,10 +77,11 @@ public class B_personas extends AppCompatActivity implements IActivity {
         tx_texto =(TextView) findViewById(R.id.tx_texto);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
+        contrainLayout=(ConstraintLayout) findViewById(R.id.contrainLayout);
         tx_mensajeP=findViewById(R.id.tx_mensajeP);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
 
-
+        GlobalVariables.lista_Personas.clear();
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.spinner_superint);
         //spinnerGerencia.setOnItemSelectedListener(this);
@@ -97,7 +99,6 @@ public class B_personas extends AppCompatActivity implements IActivity {
         adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
         adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
-
 
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -123,8 +124,6 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 gerencia="";
             }
         });
-
-
         spinnerSuperInt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -145,6 +144,49 @@ public class B_personas extends AppCompatActivity implements IActivity {
             }
         });
 
+
+       /* id_apellidos.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    btn_Agregar.setVisibility(View.GONE);
+                else btn_Agregar.setVisibility(View.VISIBLE);
+            }
+        });
+        id_nombre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    btn_Agregar.setVisibility(View.GONE);
+                else btn_Agregar.setVisibility(View.VISIBLE);
+            }
+        });
+        id_dni.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    btn_Agregar.setVisibility(View.GONE);
+                else btn_Agregar.setVisibility(View.VISIBLE);
+            }
+        });*/
+
+
+        final View activityRootView = findViewById(R.id.contrainLayout);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //r will be populated with the coordinates of your view that area still visible.
+                activityRootView.getWindowVisibleDisplayFrame(r);
+
+                int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+                if (heightDiff > 150)  // if more than 100 pixels, its probably a keyboard...
+                    btn_Agregar.setVisibility(View.GONE);
+                else if(ca.btntrue)btn_Agregar.setVisibility(View.VISIBLE);
+                else btn_Agregar.setVisibility(View.GONE);
+            }
+        });
+
         tx_b_persona.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,20 +203,21 @@ public class B_personas extends AppCompatActivity implements IActivity {
             @Override
             public void onClick(View v) {
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
-                GlobalVariables.lista_Personas=new ArrayList<>();
+                ArrayList<PersonaModel> Select=new ArrayList<>();
+                for(PersonaModel item:GlobalVariables.lista_Personas)
+                    if(item.Check)Select.add(item);
+                GlobalVariables.lista_Personas=Select;
 
                 filtro= Utils.ChangeUrl(String.valueOf(String.valueOf(id_nombre.getText())+"@"+id_apellidos.getText())+"@"+String.valueOf(id_dni.getText())
-                +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
+                        +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
 
                 url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
                 //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
                 //flags
                 GlobalVariables.istabs=false;
                 Utils.isActivity=true;
-                final ActivityController obj = new ActivityController("get", url, B_personas.this,B_personas.this);
+                final ActivityController obj = new ActivityController("get", url, B_personasM.this,B_personasM.this);
                 obj.execute("");
-
-
             }
         });
 
@@ -196,7 +239,13 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 swipeRefreshLayout.setRefreshing(true);
                 loadingTop=true;
                 tx_texto.setVisibility(View.VISIBLE);
-                GlobalVariables.lista_Personas.clear();
+                //GlobalVariables.lista_Personas.clear();
+
+                ArrayList<PersonaModel> Select=new ArrayList<>();
+                for(PersonaModel item:GlobalVariables.lista_Personas)
+                    if(item.Check)Select.add(item);
+                GlobalVariables.lista_Personas=Select;
+
                 GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
@@ -206,7 +255,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion+"/"+"7";
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
                 GlobalVariables.count=5;
-                final ActivityController obj = new ActivityController("get-0", url, B_personas.this,B_personas.this);
+                final ActivityController obj = new ActivityController("get-0", url, B_personasM.this,B_personasM.this);
                 obj.execute("");
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 
@@ -246,7 +295,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                         url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion + "/" + "7";
 
                         GlobalVariables.count=5;
-                        final ActivityController obj = new ActivityController("get-"+paginacion, url, B_personas.this,B_personas.this);
+                        final ActivityController obj = new ActivityController("get-"+paginacion, url, B_personasM.this,B_personasM.this);
                         obj.execute("");
                     }
                 }
@@ -281,20 +330,27 @@ public class B_personas extends AppCompatActivity implements IActivity {
         });
         listenerFlag = false;
 
-
+        ca= new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,btn_Agregar);
+        List_personas.setAdapter(ca);
     }
     public void close(View view){
         Utils.closeSoftKeyBoard(this);
         finish();
     }
 
+    public void AgregarLista(View view){
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
+        finish();
+    }
     @Override
     public void success(String data,String Tipo) {
         Utils.closeSoftKeyBoard(this);
         Gson gson = new Gson();
         getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
         contPublicacion=getPersonaModel.Count;
-
+        for(PersonaModel item:getPersonaModel.Data)
+            item.Check=false;
         if(GlobalVariables.lista_Personas.size()==0) {
             GlobalVariables.lista_Personas = getPersonaModel.Data;
             //GlobalVariables.listaGlobal=listaPublicaciones;
@@ -313,9 +369,12 @@ public class B_personas extends AppCompatActivity implements IActivity {
             swipeRefreshLayout.setVisibility(View.VISIBLE);
 
         }
-        BuscarPersonaAdapter ca = new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,null);
+       /* BuscarPersonaAdapter ca = new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,btn_Agregar);
         List_personas.setAdapter(ca);
+*/
 
+       for(PersonaModel item:GlobalVariables.lista_Personas)
+           ca.add(item);
         ca.notifyDataSetChanged();
         if(GlobalVariables.flagUpSc==true){
             List_personas.setSelection(0);
@@ -348,42 +407,6 @@ public class B_personas extends AppCompatActivity implements IActivity {
             tx_texto.setVisibility(View.GONE);
             swipeRefreshLayout.setEnabled( false );
         }
-
-        // GlobalVariables.FDown=false;
-
-
-        List_personas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                String nombre=GlobalVariables.lista_Personas.get(position).Nombres;
-                String CodPersona=GlobalVariables.lista_Personas.get(position).CodPersona;
-                String dniPersona=GlobalVariables.lista_Personas.get(position).NroDocumento;
-                String Cargo=GlobalVariables.lista_Personas.get(position).Cargo;
-                /*Intent intent = new Intent(B_personas.this, B_observaciones.class);
-                intent.putExtra("nombreP",nombre);
-                intent.putExtra("codpersona",CodPersona);
-
-                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-
-                startActivity(intent);*/
-
-                Intent intent = getIntent();
-                intent.putExtra("nombreP",nombre);
-                intent.putExtra("codpersona",CodPersona);
-                intent.putExtra("tipo","persona");
-                intent.putExtra("dni",dniPersona);
-                intent.putExtra("cargo",Cargo);
-
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
-
-
-
-
-
     }
 
     @Override

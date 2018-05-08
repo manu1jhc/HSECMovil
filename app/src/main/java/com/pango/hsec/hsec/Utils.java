@@ -14,6 +14,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -294,7 +295,7 @@ public class Utils {
                 return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,inspeccionModel.Gerencia+"."+inspeccionModel.SuperInt).trim().replace("=","");
 
             case "CodContrata":
-                return inspeccionModel.CodContrata;
+                return GlobalVariables.getDescripcion(GlobalVariables.Contrata,inspeccionModel.CodContrata);
 
             case "FechaP":
                 return formatoRender.format(tempP);
@@ -308,6 +309,8 @@ public class Utils {
 
 
             case "CodUbicacion":
+                return  GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,inspeccionModel.CodUbicacion);
+              /*
                 String[] parts = new String[0];
                 cad=inspeccionModel.CodUbicacion;
                 if (cad==null) {
@@ -316,16 +319,16 @@ public class Utils {
                 }else {
                     parts = cad.split("\\.");
                     String a = parts[0];
-                    return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
+                    return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,inspeccionModel.CodUbicacion);
 
-                }
+                }*/
 
             case "CodSubUbicacion":
-                cad=inspeccionModel.CodUbicacion;
+                return  GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,inspeccionModel.CodSubUbicacion);
+                /*cad=inspeccionModel.CodUbicacion;
                 String[] parts2=cad.split("\\.");
-                String b = parts2[0]+"."+parts2[1];
-                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
-
+                String b = parts2[0]+"."+parts2[1];*/
+              //  return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,inspeccionModel.CodSubUbicacion);
 
             case "CodTipo":
                 return GlobalVariables.getDescripcion(GlobalVariables.Tipo_insp,inspeccionModel.CodTipo);
@@ -561,9 +564,13 @@ public class Utils {
     }
 
     public static void closeSoftKeyBoard(Activity context) {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
+       // InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+        //inputMethodManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
+        View view = context.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
 }

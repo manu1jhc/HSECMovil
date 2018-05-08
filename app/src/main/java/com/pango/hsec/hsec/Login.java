@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class Login extends AppCompatActivity implements IActivity{
     LayoutInflater layoutInflater;
     View popupView;
     PopupWindow popupWindow;
+    ProgressBar progresbar;
     ConstraintLayout constraintLayout4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +65,7 @@ public class Login extends AppCompatActivity implements IActivity{
         tx_rec_pass=(TextView) findViewById(R.id.tx_rec_pass);
         btn_entrar=findViewById(R.id.btn_entrar);
         constraintLayout4=findViewById(R.id.constraintLayout4);
-
+        progresbar= findViewById(R.id.progressBar3);
         if(obtener_status()){
             check_rec.setChecked(true);
             String usuario_saved=obtener_usuario();
@@ -72,13 +74,7 @@ public class Login extends AppCompatActivity implements IActivity{
             et_Password.setText(pass_saved);
 
             validate(this.findViewById(android.R.id.content));
-
-
-
             //flagpopup=true;
-
-
-
 
         }else{
             constraintLayout4.setVisibility(View.VISIBLE);
@@ -130,7 +126,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
             //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/usuario/getdata/
 
-            final GetTokenController objT = new GetTokenController(url_token,Login.this);
+            final GetTokenController objT = new GetTokenController(url_token,Login.this,progresbar);
             objT.execute();
 /*
             final Handler h = new Handler();

@@ -39,6 +39,14 @@ public interface WebServiceAPI {
 
     @Multipart
     @POST("Observaciones/Insertar")
-    Call<String> insertarObservacion(@Header("Authorization") String token, @Part("1") RequestBody Nrodoc, @Part("2") RequestBody tabla, @Part("3") RequestBody Grupo, @Part List<MultipartBody.Part> files);
+    Call<String> insertarObservacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody detalle, @Part("3") RequestBody planes, @Part List<MultipartBody.Part> files);
+
+    @Multipart
+    @POST("Inspecciones/InsertarObservacion")
+    Call<String> insertarInspeccionObs(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody planes, @Part List<MultipartBody.Part> files);
+
+    @Multipart
+    @POST("Inspecciones/Insertar")
+    Call<String> insertarInspeccion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody responsables,@Part("3") RequestBody atendidos, @Part("4") RequestBody observaciones,@Part("5") RequestBody planes,  @Part List<MultipartBody.Part> files);
 
 }

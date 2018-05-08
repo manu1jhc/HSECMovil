@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorNegro</item>
-        <item name="colorAccent">@color/ColorVerdeChillon</item>
+        <item name="colorAccent">@color/ColorVerdoso</item>
 
     </style>
     <style name="RecyclerView"></style>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.ActObsInspEdit;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.PlanEditAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
@@ -56,7 +57,7 @@ public class obs_planaccion extends Fragment implements IActivity{
         listPlan = (RecyclerView) mView.findViewById(R.id.list_plan);
 
         String codigo_obs = getArguments().getString("bString");
-        if(GlobalVariables.ObjectEditable){ // load data of server
+        if(GlobalVariables.ObjectEditable && ActObsInspEdit.editar){ // load data of server
             if(GlobalVariables.ObserbacionPlan==null)
             {
                 GlobalVariables.ObserbacionPlan=codigo_obs;
@@ -66,15 +67,15 @@ public class obs_planaccion extends Fragment implements IActivity{
             }
             else setdata();
         }
-        else if(GlobalVariables.editar_list){////editar galeria no almacenada en el servidor
+       /* else if(GlobalVariables.editar_list){////editar galeria no almacenada en el servidor
 
                 //GlobalVariables.Planes= new ArrayList<>();
                 //GlobalVariables.Planes=GlobalVariables.obsInspAddModel.Planes;
                 //GlobalVariables.editar_list=false;
                 setdata();
 
-            }else// new Obserbacion
-
+            }*/
+        else// new Obserbacion
         {
             if(GlobalVariables.ObserbacionPlan==null){
                 GlobalVariables.ObserbacionPlan=codigo_obs;
@@ -90,15 +91,28 @@ public class obs_planaccion extends Fragment implements IActivity{
                 Intent i = new Intent(getActivity(), PlanAccionEdit.class);
                PlanModel Plan= new PlanModel();
                 Gson gson = new Gson();
-              //  UsuarioModel UsuarioLogeado = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
 
-                Plan.CodTabla="TOBS";
-                Plan.CodReferencia="01";
-                Plan.SolicitadoPor=GlobalVariables.Obserbacion.ObservadoPor;//UsuarioLogeado.Nombres;
-                Plan.CodSolicitadoPor=GlobalVariables.Obserbacion.CodObservadoPor;//UsuarioLogeado.CodPersona;
-                Plan.CodAreaHSEC=GlobalVariables.Obserbacion.CodAreaHSEC;
-                Plan.CodNivelRiesgo=GlobalVariables.Obserbacion.CodNivelRiesgo;
-                Plan.NroDocReferencia=GlobalVariables.ObserbacionPlan.equals("OBS000000XYZ")?null:GlobalVariables.ObserbacionPlan;
+                if(GlobalVariables.obsInspDetModel==null){
+                    Plan.CodTabla="TOBS";
+                    Plan.CodReferencia="01";
+                    Plan.SolicitadoPor=GlobalVariables.Obserbacion.ObservadoPor;
+                    Plan.CodSolicitadoPor=GlobalVariables.Obserbacion.CodObservadoPor;
+                    Plan.CodAreaHSEC=GlobalVariables.Obserbacion.CodAreaHSEC;
+                    Plan.CodNivelRiesgo=GlobalVariables.Obserbacion.CodNivelRiesgo;
+                    Plan.NroDocReferencia=GlobalVariables.ObserbacionPlan.equals("OBS000000XYZ")?null:GlobalVariables.ObserbacionPlan;
+                }
+                else{
+                    UsuarioModel UsuarioLogeado = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+                    Plan.CodTabla="TINS";
+                    Plan.CodReferencia="02";
+                    Plan.SolicitadoPor=UsuarioLogeado.Nombres;
+                    Plan.CodSolicitadoPor=UsuarioLogeado.CodPersona;
+                    Plan.CodNivelRiesgo=GlobalVariables.obsInspDetModel.CodNivelRiesgo;
+                    Plan.NroAccionOrigen=GlobalVariables.obsInspDetModel.NroDetInspeccion;
+                    if(!GlobalVariables.ObserbacionPlan.contains("INSP000000XYZ")&Integer.parseInt(GlobalVariables.obsInspDetModel.Correlativo)>0){
+                        Plan.NroDocReferencia=GlobalVariables.obsInspDetModel.CodInspeccion;
+                    }
+                }
                 Plan.CodAccion="0";
                 i.putExtra("Plan", gson.toJson(Plan));
                 startActivityForResult(i, 1);
@@ -138,7 +152,8 @@ public class obs_planaccion extends Fragment implements IActivity{
     @Override
     public void success(String data, String Tipo) {
         GlobalVariables.Planes = gson.fromJson(data, GetPlanModel.class).Data;
-        GlobalVariables.StrPlanes=GlobalVariables.Planes;
+        GlobalVariables.StrPlanes= (ArrayList<PlanModel>)GlobalVariables.Planes.clone();
+
         setdata();
     }
 

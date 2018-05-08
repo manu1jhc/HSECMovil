@@ -12,6 +12,8 @@ import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 
+import java.util.ArrayList;
+
 /**
  * Created by Andre on 29/01/2018.
  */
@@ -20,9 +22,9 @@ public class InspAdapter extends BaseAdapter {
 
     private Context context;
     InspeccionModel inspeccionModel;
-    String [] obsDetcab;
-    String []obsDetIzq;
-    public InspAdapter(Context context, InspeccionModel inspeccionModel,String [] obsDetcab,String []obsDetIzq) {
+    ArrayList<String> obsDetcab;
+    ArrayList<String> obsDetIzq;
+    public InspAdapter(Context context, InspeccionModel inspeccionModel,ArrayList<String> obsDetcab,ArrayList<String> obsDetIzq) {
         this.context = context;
         this.inspeccionModel=inspeccionModel;
         this.obsDetcab=obsDetcab;
@@ -32,7 +34,7 @@ public class InspAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return obsDetcab.length;
+        return obsDetcab.size();
     }
 
     @Override
@@ -52,12 +54,9 @@ public class InspAdapter extends BaseAdapter {
         convertView = inflater.inflate(R.layout.obslist, parent, false);
 
         TextView ladoIzquierdo=convertView.findViewById(R.id.txcab);
-        ladoIzquierdo.setText(obsDetIzq[position]);
+        ladoIzquierdo.setText(obsDetIzq.get(position));
         TextView ladoDerecho=convertView.findViewById(R.id.txdet);
-
-        ladoDerecho.setText(Utils.getInspeccionData(inspeccionModel,obsDetcab[position]));
-
-
+        ladoDerecho.setText(Utils.getInspeccionData(inspeccionModel,obsDetcab.get(position)));
         return convertView;
     }
 }

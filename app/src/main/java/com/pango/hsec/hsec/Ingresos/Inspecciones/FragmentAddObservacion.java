@@ -25,6 +25,7 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetObsInspModel;
 import com.pango.hsec.hsec.model.ObsInspAddModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
+import com.pango.hsec.hsec.model.ObsInspModel;
 import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PlanModel;
 
@@ -46,7 +47,6 @@ public class FragmentAddObservacion extends Fragment implements IActivity {
     }
 
     private View mView;
-    String codObs,url,url2;
     // TODO: Rename and change types and number of parameters
     public static FragmentAddObservacion newInstance(String sampleText) {
         FragmentAddObservacion fragment = new FragmentAddObservacion();
@@ -62,54 +62,30 @@ public class FragmentAddObservacion extends Fragment implements IActivity {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_add_observacion, container, false);
-        codObs=getArguments().getString("bString");
+        String codObs=getArguments().getString("bString");
         rec_listObservacion=mView.findViewById(R.id.rec_listObservacion);
         add_Observacion=mView.findViewById(R.id.add_Observacion);
 
         if(GlobalVariables.ObjectEditable){ // load data of server
-            //GlobalVariables.ListAtendidos
-            url= GlobalVariables.Url_base+"Inspecciones/GetDetalleInspeccion/"+codObs;
 
-            if(codObs!="") {
+            if(GlobalVariables.InspeccionObserbacion==null) {
+                String url= GlobalVariables.Url_base+"Inspecciones/GetDetalleInspeccion/"+codObs;
+                GlobalVariables.InspeccionObserbacion=codObs;
                 final ActivityController obj = new ActivityController("get", url, FragmentAddObservacion.this,getActivity());
                 obj.execute("");
-
             }
-
-           /* if(GlobalVariables.AddInspeccion.CodInspeccion==null || !GlobalVariables.AddInspeccion.CodInspeccion.equals(codInsp))
-            {
-
-
+            else{
+                setdata();
             }
-            else setdata();*/
         }
         else // new inspeccion
         {
-            if(GlobalVariables.AddInspeccion.CodInspeccion==null||!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ")){
-
-                //myCalendar = Calendar.getInstance();
-                //fecha = myCalendar.getTime();
-                GlobalVariables.ListResponsables= new ArrayList<>();
-                GlobalVariables.ListAtendidos= new ArrayList<>();
-                //GlobalVariables.AddInspeccion.CodInspeccion="-1";//saber si es nuevo
-/*
-                GlobalVariables.Inspeccion.CodInspeccion= codInsp;
-                GlobalVariables.Inspeccion.Fecha="";
-                GlobalVariables.Inspeccion.Lugar="";
-                GlobalVariables.Inspeccion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodUbicacion="";
-                GlobalVariables.Inspeccion.CodSubEstandar=GlobalVariables.Acto_obs.get(0).CodTipo;
-                */
+            if (GlobalVariables.InspeccionObserbacion == null) {//||!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ")
+                GlobalVariables.InspeccionObserbacion=codObs;
+                GlobalVariables.ListobsInspAddModel= new ArrayList<>();
             }
-            //  else if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
-
-            //setdata();
+            setdata();
         }
-
-
-
 
         add_Observacion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,41 +93,32 @@ public class FragmentAddObservacion extends Fragment implements IActivity {
 
 
                 int tam=GlobalVariables.ListobsInspAddModel.size();
-                if(tam==0){
-                    GlobalVariables.countObsInsp=1;
-                }   else {
-                    String a=GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion;
-                    if(a==null){
-                        GlobalVariables.countObsInsp=0;
-                    }else{
-                    GlobalVariables.countObsInsp = Integer.parseInt(GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion) + 1;
+                int Grupo=1;
+                if(tam>0){
+                    Grupo = Integer.parseInt(GlobalVariables.ListobsInspAddModel.get(tam-1).obsInspDetModel.NroDetInspeccion) + 1;
                 }
-                }
-
-                GlobalVariables.obsInspDetModel=new ObsInspDetModel();
-                GlobalVariables.ObjectEditable=false;
-
                 obsInspDetModel=new ObsInspDetModel();
                 Intent intent=new Intent(getContext(),ActObsInspEdit.class);
-                intent.putExtra("codObs",codObs);
+                intent.putExtra("correlativo","0");
+                intent.putExtra("Grupo",Grupo+"");
                 intent.putExtra("Editar",false);
-
+                intent.putExtra("index","-1");
                 startActivityForResult(intent , 1);
-
 
             }
         });
 
 
-
-        LinearLayoutManager horizontalManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rec_listObservacion.setLayoutManager(horizontalManager);
-        listObsInspAdapter = new ObsInspAddAdapter(getActivity(), GlobalVariables.ListobsInspAddModel);
-        rec_listObservacion.setAdapter(listObsInspAdapter);
-
         return mView;
     }
 
+    public void setdata(){
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rec_listObservacion.setLayoutManager(horizontalManager);
+        listObsInspAdapter = new ObsInspAddAdapter(getActivity(),this, GlobalVariables.ListobsInspAddModel);
+        rec_listObservacion.setAdapter(listObsInspAdapter);
+
+    }
 
 
     @Override
@@ -160,29 +127,18 @@ public class FragmentAddObservacion extends Fragment implements IActivity {
             super.onActivityResult(requestCode, resultCode, data);
 
             if (requestCode == 1  && resultCode  == RESULT_OK) {
-                //int obspos=data.getIntExtra("observacion",0);
-                //ObsInspDetModel obsInspDetModel=new ObsInspDetModel();
-                //obsInspDetModel=(ObsInspDetModel)data.getSerializableExtra("observacion");
                 String json_obs=data.getStringExtra("JsonObsInsp");
-                ObsInspAddModel obsInspAddModel=new ObsInspAddModel();
-
                 Gson gson = new Gson();
-                obsInspAddModel = gson.fromJson(json_obs, ObsInspAddModel.class);
-
+                ObsInspAddModel obsInspAddModel = gson.fromJson(json_obs, ObsInspAddModel.class);
                 listObsInspAdapter.add(obsInspAddModel);
 
-
-
-/*
-
-               listObsInspAdapter.add(new ObsInspDetModel("",data.getStringExtra("codigo"),data.getStringExtra("Ninspeccion"),data.getStringExtra("lugar"),
-                       data.getStringExtra("ub_especifica"),data.getStringExtra("aspecto"),data.getStringExtra("actividad"),data.getStringExtra("nivel"),
-                       data.getStringExtra("observacion"), ""));
-*/
-                //ListLocalObs=GlobalVariables.ListaObsInsp;
-
-
-
+            }
+            else if (requestCode == 2  && resultCode  == RESULT_OK) {
+                String json_obs=data.getStringExtra("JsonObsInsp");
+                int index=data.getIntExtra ("index",-1);
+                Gson gson = new Gson();
+                ObsInspAddModel obsInspAddModel = gson.fromJson(json_obs, ObsInspAddModel.class);
+                listObsInspAdapter.replace(obsInspAddModel,index);
             }
 
         } catch (Exception ex) {
@@ -197,28 +153,12 @@ public class FragmentAddObservacion extends Fragment implements IActivity {
     public void success(String data, String Tipo) {
 
             Gson gson = new Gson();
-            GetObsInspModel getObsInspModel=new GetObsInspModel();
-
-             getObsInspModel = gson.fromJson(data, GetObsInspModel.class);
-            int count = getObsInspModel.Count;
-
-            for(int i=0;i<count;i++){
-                //GlobalVariables.ListobsInspAddModel.get(i).obsInspDetModel.Observacion="xsqfewfwe"; //getObsInspModel.Data.get(i).Observacion;
-                ObsInspAddModel obsInspAddModel=new ObsInspAddModel();
-
-                obsInspDetModel.Observacion=getObsInspModel.Data.get(i).Observacion;
-                obsInspDetModel.Correlativo=getObsInspModel.Data.get(i).Correlativo;
-                obsInspDetModel.CodInspeccion=getObsInspModel.Data.get(i).CodInspeccion;
-
-                obsInspAddModel.obsInspDetModel=obsInspDetModel;
-
-                listObsInspAdapter.add(obsInspAddModel);
-
+            GetObsInspModel getObsInspModel = gson.fromJson(data, GetObsInspModel.class);
+            for (ObsInspModel item:getObsInspModel.Data) {
+                GlobalVariables.ListobsInspAddModel.add(new ObsInspAddModel(item));
             }
-
-
-
-
+            GlobalVariables.StrtobsInspAddModel= (ArrayList<ObsInspAddModel>)GlobalVariables.ListobsInspAddModel.clone();
+            setdata();
     }
 
     @Override

@@ -15,9 +15,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_icon_hsec"
+        android:icon="@mipmap/ic_logo_hsec2"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_icon_hsec"
+        android:roundIcon="@mipmap/ic_logo_hsec2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.PickerActivity" />
@@ -76,6 +76,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".Busquedas.B_personasM"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".Busquedas.B_personas"
             android:screenOrientation="portrait"

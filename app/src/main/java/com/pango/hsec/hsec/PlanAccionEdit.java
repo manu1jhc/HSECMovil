@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_personas;
+import com.pango.hsec.hsec.Busquedas.B_personasM;
 import com.pango.hsec.hsec.adapter.ListPersonEditAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.Maestro;
@@ -116,7 +117,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         btnaddresponsables.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PlanAccionEdit.this, B_personas.class);
+                Intent intent = new Intent(PlanAccionEdit.this, B_personasM.class);
                 startActivityForResult(intent , 2);
             }
         });
@@ -399,7 +400,10 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
                 Plan.CodSolicitadoPor=data.getStringExtra("codpersona");
             }
             if (requestCode == 2  && resultCode  == RESULT_OK) { //agregar responsables
-                listPersonAdapter.add(new PersonaModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
+                for(PersonaModel item: GlobalVariables.lista_Personas)
+                    if(item.Check) listPersonAdapter.add(item);
+                listPersonAdapter.notifyDataSetChanged();
+                //listPersonAdapter.add(new PersonaModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
             }
         } catch (Exception ex) {
             Toast.makeText(PlanAccionEdit.this, ex.toString(),

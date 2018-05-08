@@ -18,6 +18,9 @@ import com.pango.hsec.hsec.adapter.InspAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.InspeccionModel;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 
 
@@ -73,42 +76,30 @@ public class FragmentInspeccion extends Fragment implements IActivity {
         jsonInspeccion=data;
         Gson gson = new Gson();
         InspeccionModel getInspeccionModel = gson.fromJson(data, InspeccionModel.class);
-        String[] parts = new String[0];
 
-        if(getInspeccionModel.CodUbicacion!=null) {
-            parts = getInspeccionModel.CodUbicacion.split("\\.");
-        }
+        ArrayList<String> obsDetcabf=new ArrayList<>();//  {"CodInspeccion","Gerencia"}; obsDetcab={"CodInspeccion","Gerencia","SuperInt","CodContrata","FechaP","Fecha","Hora","CodUbicacion","CodSubUbicacion","CodTipo"};
+        ArrayList<String> obsDetIzqf=new ArrayList<>();// obsDetIzq={"Codigo","Gerencia","Superintendencia","Contrata","Fecha programada","Fecha de inspección","Hora","Ubicación","Sub Ubicacion","Tipo de Inspección"};
 
-
-
-        if(parts.length==1||parts.length==0){
-            for(int i=0;i<obsDetcab.length;i++){
-                if(obsDetcab[i].equals("CodSubUbicacion")){
-
-                    for (int j = i; j < obsDetcab.length - 1; j++) {
-                        obsDetcab[j] = obsDetcab[j+1];
-                        obsDetIzq[j]=obsDetIzq[j+1];
-                        //obsDetIzq[j+1]=obsDetIzq[j+2];
-                    }
-                    obsDetcab[obsDetcab.length - 1] = "";
-                    //obsDetcab[obsDetcab.length - 2] = "";
-
-                    obsDetcab = Arrays.copyOf(obsDetcab,obsDetcab.length-1);
-
-
-                    obsDetIzq[obsDetIzq.length - 1] = "";
-                    //obsDetIzq[obsDetIzq.length - 2] = "";
-                    obsDetIzq = Arrays.copyOf(obsDetIzq,obsDetIzq.length-1);
-
-
-                }
-
+        for(int i=0;i<10;i++){
+            Boolean pass=true;
+            switch (i){
+                case 2:
+                    if(StringUtils.isEmpty(getInspeccionModel.SuperInt))pass=false;
+                    break;
+                case 3:
+                    if(StringUtils.isEmpty(getInspeccionModel.CodContrata))pass=false;
+                    break;
+                case 8:
+                    if(StringUtils.isEmpty(getInspeccionModel.CodSubUbicacion))pass=false;
+                    break;
             }
-
+            if(pass){
+                obsDetcabf.add(obsDetcab[i]);
+                obsDetIzqf.add(obsDetIzq[i]);
+            }
         }
 
-
-        inspAdapter = new InspAdapter(getContext(),getInspeccionModel,obsDetcab,obsDetIzq);
+        inspAdapter = new InspAdapter(getContext(),getInspeccionModel,obsDetcabf,obsDetIzqf);
 
         ListView listaDetalles = (ListView) mView.findViewById(R.id.list_detinsp);
         listaDetalles.setAdapter(inspAdapter);

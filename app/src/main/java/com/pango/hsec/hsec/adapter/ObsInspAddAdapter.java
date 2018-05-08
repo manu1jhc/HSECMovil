@@ -2,6 +2,7 @@ package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,16 +28,23 @@ import java.util.List;
 public class ObsInspAddAdapter extends RecyclerView.Adapter<ObsInspAddAdapter.ViewHolder>{
 
 private Activity activity;
+private Fragment fragment;
 private ArrayList<ObsInspAddModel> items;
 
-public ObsInspAddAdapter(Activity activity, ArrayList<ObsInspAddModel> items) {
+public ObsInspAddAdapter(Activity activity, Fragment fragment, ArrayList<ObsInspAddModel> items) {
         this.activity = activity;
+        this.fragment = fragment;
         this.items = items;
         }
 public void add(ObsInspAddModel newdata){
         items.add(newdata);
         notifyDataSetChanged();
         }
+
+    public void replace(ObsInspAddModel replacedata,int index){
+        items.set(index,replacedata);
+        notifyDataSetChanged();
+    }
 @Override
 public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -86,31 +94,14 @@ protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnCli
 
         @Override
         public void onClick(View v) {
-                Toast.makeText(v.getContext(), position_item+"", Toast.LENGTH_SHORT).show();
-            ObsInspAddModel obsInspAddModel=new ObsInspAddModel();
-            GlobalVariables.ObjectEditable=true;
 
-            obsInspAddModel=items.get(position_item);
-
-            GlobalVariables.obsInspDetModel=new ObsInspDetModel();
-            GlobalVariables.listaGaleria=new ArrayList<>();
-            GlobalVariables.listaArchivos=new ArrayList<>();
-            GlobalVariables.Planes=new ArrayList<>();
-            //GlobalVariables.obsInspAddModel=new ObsInspAddModel(GlobalVariables.obsInspDetModel,
-              //      GlobalVariables.listaGaleria,GlobalVariables.listaArchivos,GlobalVariables.Planes);
-
-            GlobalVariables.obsInspDetModel=obsInspAddModel.obsInspDetModel;
-            GlobalVariables.listaGaleria=obsInspAddModel.listaGaleria;
-            GlobalVariables.listaArchivos=obsInspAddModel.listaArchivos;
-            GlobalVariables.Planes=obsInspAddModel.Planes;
-
-            //GlobalVariables.countObsInsp=Integer.parseInt(obsInspAddModel.obsInspDetModel.NroDetInspeccion);
                 Intent intent=new Intent(v.getContext(),ActObsInspEdit.class);
-                intent.putExtra("codObs",items.get(position_item).obsInspDetModel.CodInspeccion);
                 intent.putExtra("correlativo",items.get(position_item).obsInspDetModel.Correlativo);
+                intent.putExtra("Grupo",items.get(position_item).obsInspDetModel.NroDetInspeccion);
                 intent.putExtra("Editar",true);
-               // intent.putExtra("position",position_item)
-                v.getContext().startActivity(intent);
+                intent.putExtra("index",position_item);
+                fragment.startActivityForResult(intent,2);
+
         }
 }
 

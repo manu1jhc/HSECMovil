@@ -39,7 +39,7 @@
                     android:layout_margin="4dp"
                     android:text="Código"
                     android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
                     tools:text="Codigo" />
@@ -83,7 +83,7 @@
                     android:layout_margin="4dp"
                     android:text="Gerencia"
                     android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
                     tools:text="Gerencia" />
@@ -121,12 +121,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="4dp"
-                    android:text="Superintendencia"
+                    android:text="Super-intendencia"
                     android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
-                    tools:text="Superintendencia" />
+                    tools:text="Super-intendencia" />
 
                 <Spinner
                     android:id="@+id/spinner_superint"
@@ -194,7 +194,7 @@
                     android:layout_height="40dp"
                     android:layout_weight="0.84"
                     android:src="@drawable/ic_contrata"
-                    app:srcCompat="@drawable/ic_contrata"
+                    android:background="@drawable/transparent"
                     />
                 </LinearLayout>
 
@@ -232,7 +232,7 @@
                     android:id="@+id/btn_fecha_prog"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="0.35"
                     android:text="Seleccionar fecha"
@@ -246,7 +246,7 @@
             android:id="@+id/id_fechainsp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
+            android:layout_margin="1dp"
             >
 
             <LinearLayout
@@ -271,7 +271,7 @@
                     android:id="@+id/btn_fechainsp"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_weight="0.35"
                     android:text="Seleccionar fecha"
@@ -286,7 +286,6 @@
             android:id="@+id/id_hora"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             >
 
             <LinearLayout
@@ -299,13 +298,13 @@
                 <TextView
                     android:id="@+id/texthora"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:text="Hora"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_weight="0.65"
-                    tools:text="Hora de inspección"
+                    tools:text="Hora inspección"
                     android:gravity="center_vertical"
                     />
 
@@ -313,8 +312,8 @@
                     android:id="@+id/btn_hora"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
                     android:layout_weight="0.35"
                     android:text="00:00"
                     />

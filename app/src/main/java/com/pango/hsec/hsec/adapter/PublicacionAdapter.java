@@ -56,7 +56,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         ImageView riesgo=rowView.findViewById(R.id.img_riesgo);
         //CardView riesgo = rowView.findViewById(R.id.mp_nriesgo);
         TextView tipo = rowView.findViewById(R.id.mp_tipo);
-        //TextView area = rowView.findViewById(R.id.mp_area);
+        TextView area = rowView.findViewById(R.id.mp_area);
         TextView comentario=rowView.findViewById(R.id.tx_comentario);
 
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
@@ -76,7 +76,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
         ImageView editar = rowView.findViewById(R.id.btn_editar);
 
-        if(editable=="0"||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
+        if(editable.equals("0")||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
             editar.setVisibility(View.GONE);
         }
         editar.setOnClickListener(new View.OnClickListener() {

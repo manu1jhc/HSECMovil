@@ -9,6 +9,7 @@ public class PersonaModel {
     public String Nombres;
     public String NroDocumento;
     public String Cargo;
+    public Boolean Check;
 
     public PersonaModel(){}
     public PersonaModel(String CodPersona,String Nombres, String NroDocumento,String Cargo) {
@@ -16,6 +17,7 @@ public class PersonaModel {
         this.Nombres = Nombres;
         this.NroDocumento = NroDocumento;
         this.Cargo = Cargo;
+        this.Check=false;
     }
 }
 

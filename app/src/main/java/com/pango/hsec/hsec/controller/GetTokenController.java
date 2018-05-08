@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -27,21 +29,23 @@ import java.io.IOException;
 public class GetTokenController extends AsyncTask<String,Void,Void> {
     IActivity activity;
     String url_token;
-    ProgressDialog progressDialog;
+    ProgressBar progressDialog;
 
     //int con_status;
     String token_auth;
 
-    public GetTokenController(String url_token, IActivity activity) {
+    public GetTokenController(String url_token, IActivity activity, ProgressBar prog) {
         this.activity = activity;
         this.url_token = url_token;
+        this.progressDialog=prog;
     }
 
     @Override
     protected void onPreExecute() {
 
         super.onPreExecute();
-        progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
+        progressDialog.setVisibility(View.VISIBLE);
+      //  progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
        /* if (opcion == "get") {
             super.onPreExecute();
             progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
@@ -100,7 +104,11 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
             default:
                 if(GlobalVariables.token_auth.length()>40){
-                    activity.success(""+GlobalVariables.con_status,"");
+                    try {
+                        activity.success(""+GlobalVariables.con_status,"");
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
 
                 }else{
                     Toast.makeText((Context) activity,GlobalVariables.token_auth,Toast.LENGTH_SHORT).show();
@@ -113,8 +121,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
                 //activity.success(respstring);
         }
-
-        progressDialog.dismiss();
+        progressDialog.setVisibility(View.GONE);
         //mainActivity.success();
 
     }

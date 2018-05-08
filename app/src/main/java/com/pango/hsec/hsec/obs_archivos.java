@@ -41,6 +41,7 @@ import android.widget.Toast;
 import android.content.pm.PackageManager;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.ActObsInspEdit;
 import com.pango.hsec.hsec.Observaciones.ActVidDet;
 import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
 import com.pango.hsec.hsec.R;
@@ -76,7 +77,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
     private RecyclerView listView;
     private RecyclerView gridView;
     private ListViewAdapter listViewAdapter;
-    private GridViewAdapter gridViewAdapter;
+    public GridViewAdapter gridViewAdapter;
 
     ProgressDialog progressDialog;
     int position=0;
@@ -91,12 +92,12 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
             "application/vnd.ms-excel"
     };
 
-    public static final obs_archivos newInstance(String sampleText, int pos) {
+    public static final obs_archivos newInstance(String sampleText) {
         obs_archivos f = new obs_archivos();
 
         Bundle b = new Bundle();
         b.putString("bString", sampleText);
-        b.putInt("bPos", pos);
+       // b.putInt("bPos", pos);
         f.setArguments(b);
 
         return f;
@@ -107,11 +108,11 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
         mView = inflater.inflate(R.layout.fragment_obs_archivos,  container, false);
         String codigo_obs = getArguments().getString("bString");
-        if(position==0)position = getArguments().getInt("bPos");
+       /* if(position==0)position = getArguments().getInt("bPos");
         if (position==2){
             position=1;
             loadImage();
-        }
+        }*/
 
         ImageButton btnFotos=(ImageButton) mView.findViewById(R.id.btn_addfotos);
         ImageButton btnFiles=(ImageButton) mView.findViewById(R.id.btn_addfiles);
@@ -121,7 +122,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
 
 
-        if(GlobalVariables.ObjectEditable){ // load data of server
+        if(GlobalVariables.ObjectEditable && ActObsInspEdit.editar){ // load data of server
 
             if(GlobalVariables.ObserbacionFile==null)
             {
@@ -132,12 +133,10 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
             }
             else setdata();
         }
-        else if(GlobalVariables.editar_list){////editar galeria no almacenada en el servidor
+       /* else if(GlobalVariables.editar_list){////editar galeria no almacenada en el servidor
 
             setdata();
-
-
-        }
+        }*/
         else // new Obserbacion
         {
             if(GlobalVariables.ObserbacionFile==null){

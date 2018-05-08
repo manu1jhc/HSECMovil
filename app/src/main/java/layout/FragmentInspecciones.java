@@ -26,6 +26,7 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_inspecciones;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
@@ -173,14 +174,9 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
                 GlobalVariables.ObjectEditable=false;
-                Intent obserbacion_edit = new Intent(getActivity(),observacion_edit.class);
-                obserbacion_edit.putExtra("codObs", "OBS000000XYZ");
-                obserbacion_edit.putExtra("tipoObs","TO01");
-                obserbacion_edit.putExtra("posTab", 0);
-                startActivity(obserbacion_edit);
-
-
-
+                Intent addInspeccion = new Intent(getActivity(),AddInspeccion.class);
+                addInspeccion.putExtra("codObs","INSP000000XYZ");
+                startActivity(addInspeccion);
             }
         });
 

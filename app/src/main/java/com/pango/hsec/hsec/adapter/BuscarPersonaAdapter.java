@@ -2,11 +2,14 @@ package com.pango.hsec.hsec.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,14 +32,20 @@ import java.util.ArrayList;
 public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
     private Context context;
     private ArrayList<PersonaModel> data = new ArrayList<PersonaModel>();
+    public Button botonAgregar;
+    public boolean btntrue;
 
-    public BuscarPersonaAdapter(@NonNull Context context, ArrayList<PersonaModel> data) {
+    public BuscarPersonaAdapter(@NonNull Context context, ArrayList<PersonaModel> data,Button botonAgregar) {
         super(context, R.layout.public_buscarp, data);
         this.data = data;
         this.context = context;
+        this.botonAgregar=botonAgregar;
+        btntrue=false;
     }
 
-
+    public void add(PersonaModel newItem){
+        data.add(newItem);
+    }
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         //ViewHolder viewHolder;
@@ -44,8 +53,8 @@ public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
 
         View rowView = inflater.inflate(R.layout.public_buscarp, null, true);
 
-
         TextView nombre_p=rowView.findViewById(R.id.tx_user);
+        Button btn_Agregar=rowView.findViewById(R.id.btn_Agregar);
         TextView dni_p=rowView.findViewById(R.id.tx_userdni);
         TextView cargo_p=rowView.findViewById(R.id.tx_usercargo);
 
@@ -60,6 +69,39 @@ public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
         else dni_p.setText(tempdni_p);
         if(StringUtils.isEmpty(tempcargo_p)) cargo_p.setVisibility(View.GONE);
         else cargo_p.setText(tempcargo_p);
+
+        final View finalConvertView = rowView;
+
+        if(botonAgregar!= null){
+            CheckBox personaCheckSeleccionar = (CheckBox) rowView.findViewById(R.id.checkBoxListaPersonas);
+            personaCheckSeleccionar.setVisibility(View.VISIBLE);
+            personaCheckSeleccionar.setChecked(data.get(position).Check);
+
+            String BackgrColor= "#FFFFFF";
+            if(data.get(position).Check) BackgrColor= "#D6EAF8";
+            rowView.setBackgroundColor(Color.parseColor(BackgrColor));
+
+            personaCheckSeleccionar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    data.get(position).Check=!data.get(position).Check;
+                    String BackgrColor= "#FFFFFF";
+                    if(data.get(position).Check)  BackgrColor= "#D6EAF8";
+                    finalConvertView.setBackgroundColor(Color.parseColor(BackgrColor));
+
+                    int flag=View.GONE;
+                    btntrue=false;
+                    for(PersonaModel item:data)
+                    {
+                        if(item.Check){
+                            flag=View.VISIBLE;
+                            btntrue=true;
+                        }
+                    }
+                    botonAgregar.setVisibility(flag);
+                }
+            });
+        }
 
         return rowView;
     }

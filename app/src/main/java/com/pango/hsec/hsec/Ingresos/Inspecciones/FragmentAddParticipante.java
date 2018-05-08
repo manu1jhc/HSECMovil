@@ -16,14 +16,17 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_personas;
+import com.pango.hsec.hsec.Busquedas.B_personasM;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.FragmentParticipante;
 import com.pango.hsec.hsec.PlanAccionEdit;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.adapter.ListEquipoAdapter;
 import com.pango.hsec.hsec.adapter.ListPersonEditAdapter;
 import com.pango.hsec.hsec.adapter.ParticipanteAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.GetEquipoModel;
 import com.pango.hsec.hsec.model.GetPersonaModel;
 import com.pango.hsec.hsec.model.PersonaModel;
@@ -37,9 +40,7 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
     ImageButton add_responsables,add_atendidos;
     //private ArrayList<PersonaModel> ListResponsables=new ArrayList<>();
     //private ArrayList<PersonaModel> ListAtendidos=new ArrayList<>();
-    private ListPersonEditAdapter listPersonAdapter;
-
-    private ListPersonEditAdapter listPersonAdapter2;
+    public ListEquipoAdapter listPersonAdapter,listPersonAdapter2;
     public FragmentAddParticipante() {
         // Required empty public constructor
     }
@@ -79,44 +80,22 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
                 final ActivityController obj2 = new ActivityController("get", url2, FragmentAddParticipante.this, getActivity());
                 obj2.execute("2");
             }
-
-           /* if(GlobalVariables.AddInspeccion.CodInspeccion==null || !GlobalVariables.AddInspeccion.CodInspeccion.equals(codInsp))
-            {
-
-
-            }
-            else setdata();*/
+            else setdata();
         }
         else // new inspeccion
         {
-            if(GlobalVariables.AddInspeccion.CodInspeccion==null||!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ")){
-
-                //myCalendar = Calendar.getInstance();
-                //fecha = myCalendar.getTime();
+            if(GlobalVariables.AddInspeccion.CodInspeccion==null){ //||!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ")
                 GlobalVariables.ListResponsables= new ArrayList<>();
                 GlobalVariables.ListAtendidos= new ArrayList<>();
-                //GlobalVariables.AddInspeccion.CodInspeccion="-1";//saber si es nuevo
-/*
-                GlobalVariables.Inspeccion.CodInspeccion= codInsp;
-                GlobalVariables.Inspeccion.Fecha="";
-                GlobalVariables.Inspeccion.Lugar="";
-                GlobalVariables.Inspeccion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodUbicacion="";
-                GlobalVariables.Inspeccion.CodSubEstandar=GlobalVariables.Acto_obs.get(0).CodTipo;
-                */
             }
-            //  else if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
-
-            //setdata();
+            setdata();
         }
 
 
         add_responsables.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), B_personas.class);
+                Intent intent = new Intent(getContext(), B_personasM.class);
                 startActivityForResult(intent , 1);
             }
         });
@@ -124,31 +103,26 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
         add_atendidos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), B_personas.class);
+                Intent intent = new Intent(getContext(), B_personasM.class);
                 startActivityForResult(intent , 2);
             }
         });
-
 ////////////////////////////////////////////////////////
-
-
-        LinearLayoutManager horizontalManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rec_listResponsables.setLayoutManager(horizontalManager);
-        listPersonAdapter = new ListPersonEditAdapter(getActivity(), GlobalVariables.ListResponsables);
-        rec_listResponsables.setAdapter(listPersonAdapter);
-
-
-
-        LinearLayoutManager horizontalManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        rec_listAtendidos.setLayoutManager(horizontalManager2);
-        listPersonAdapter2 = new ListPersonEditAdapter(getActivity(), GlobalVariables.ListAtendidos);
-        rec_listAtendidos.setAdapter(listPersonAdapter2);
-
 
         return mView;
     }
 
+    public void setdata(){
+        LinearLayoutManager horizontalManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rec_listResponsables.setLayoutManager(horizontalManager);
+        listPersonAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListResponsables,true);
+        rec_listResponsables.setAdapter(listPersonAdapter);
 
+        LinearLayoutManager horizontalManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        rec_listAtendidos.setLayoutManager(horizontalManager2);
+        listPersonAdapter2 = new ListEquipoAdapter(getActivity(), GlobalVariables.ListAtendidos,false);
+        rec_listAtendidos.setAdapter(listPersonAdapter2);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -158,13 +132,17 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
             if (requestCode == 1  && resultCode  == RESULT_OK) {
                 String name=data.getStringExtra("nombreP");
                 String codSolicitado=data.getStringExtra("codpersona");
-
-                listPersonAdapter.add(new PersonaModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
+                for(PersonaModel item: GlobalVariables.lista_Personas)
+                    if(item.Check) listPersonAdapter.add(new EquipoModel(item));
+                listPersonAdapter.notifyDataSetChanged();
+               // listPersonAdapter.add(new EquipoModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
 
             }
             if (requestCode == 2  && resultCode  == RESULT_OK) {
-                listPersonAdapter2.add(new PersonaModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
-
+                //listPersonAdapter2.add(new EquipoModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
+                for(PersonaModel item: GlobalVariables.lista_Personas)
+                    if(item.Check) listPersonAdapter2.add(new EquipoModel(item));
+                listPersonAdapter2.notifyDataSetChanged();
             }
         } catch (Exception ex) {
             Toast.makeText(getContext(), ex.toString(),
@@ -173,36 +151,29 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
 
     }
 
-
+    ArrayList<Integer> actives= new ArrayList<>();
     @Override
-    public void success(String data, String Tipo) {
+    public void success(String data, String Tipo) throws CloneNotSupportedException {
 
 
         if (Tipo == "1") {
 
             Gson gson = new Gson();
-
-            GetPersonaModel getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
-            int count=getPersonaModel.Count;
-            GlobalVariables.ListResponsables=getPersonaModel.Data;
-
-            LinearLayoutManager horizontalManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rec_listResponsables.setLayoutManager(horizontalManager);
-            listPersonAdapter = new ListPersonEditAdapter(getActivity(), GlobalVariables.ListResponsables);
-            rec_listResponsables.setAdapter(listPersonAdapter);
+            GlobalVariables.ListResponsables=gson.fromJson(data, GetEquipoModel.class).Data;
+            for(EquipoModel item:GlobalVariables.ListResponsables)
+                GlobalVariables.StrResponsables.add((EquipoModel)item.clone());
+                //GlobalVariables.StrResponsables=(ArrayList<EquipoModel>)GlobalVariables.ListResponsables.clone();
+            actives.add(1);
 
         }else if(Tipo == "2"){
             Gson gson = new Gson();
-            GetPersonaModel getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
-            int count=getPersonaModel.Count;
-            GlobalVariables.ListAtendidos=getPersonaModel.Data;
-
-            LinearLayoutManager horizontalManager2 = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-            rec_listAtendidos.setLayoutManager(horizontalManager2);
-            listPersonAdapter2 = new ListPersonEditAdapter(getActivity(), GlobalVariables.ListAtendidos);
-            rec_listAtendidos.setAdapter(listPersonAdapter2);
-
+            GlobalVariables.ListAtendidos=gson.fromJson(data, GetEquipoModel.class).Data;
+            for(EquipoModel item:GlobalVariables.ListAtendidos)
+                GlobalVariables.StrAtendidos.add((EquipoModel)item.clone());
+            //GlobalVariables.StrAtendidos=(ArrayList<EquipoModel>)GlobalVariables.ListAtendidos.clone();
+            actives.add(1);
         }
+        if(actives.size()==2)setdata();
     }
 
     @Override

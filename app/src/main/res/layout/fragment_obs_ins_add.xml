@@ -108,49 +108,6 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/card_lugar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
-            >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                android:weightSum="1"
-                >
-
-                <TextView
-                    android:id="@+id/txlugar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:text="Lugar"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Lugar" />
-
-                <EditText
-                    android:id="@+id/edit_lugar"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
-                    android:focusable="true"
-                    />
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
             android:id="@+id/card_ubicacion"
             android:layout_width="match_parent"
@@ -187,6 +144,46 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_lugar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="2dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:weightSum="1"
+                >
+
+                <TextView
+                    android:id="@+id/txlugar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:text="Lugar"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_weight="0.65"
+                    tools:text="Lugar" />
+
+                <EditText
+                    android:id="@+id/edit_lugar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="4dp"
+                    android:layout_weight="0.35"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
 
 
         <android.support.v7.widget.CardView

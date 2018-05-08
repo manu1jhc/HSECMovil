@@ -20,6 +20,7 @@ package com.pango.hsec.hsec;
         import android.widget.Toast;
 
         import com.google.gson.Gson;
+        import com.pango.hsec.hsec.Ingresos.Inspecciones.ActObsInspEdit;
         import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
         import com.pango.hsec.hsec.Observaciones.MyTabFactory;
         import com.pango.hsec.hsec.adapter.GridViewAdapter;
@@ -93,7 +94,7 @@ public void reiniciadata(){
     GlobalVariables.listaArchivos=new ArrayList<>();
     GlobalVariables.listaGaleria=new ArrayList<>();
     GlobalVariables.ObserbacionFile=null;
-    GlobalVariables.ObserbacionFile=null;
+    GlobalVariables.ObserbacionPlan=null;
     GlobalVariables.Planes=new ArrayList<>();
     //save data Inicial
     GlobalVariables.StrObservacion=null;
@@ -101,7 +102,9 @@ public void reiniciadata(){
     GlobalVariables.StrPlanes=new ArrayList<>();
     GlobalVariables.StrFiles=new ArrayList<>();
 
-
+    //inicialize options
+    GlobalVariables.obsInspDetModel=null;
+    ActObsInspEdit.editar=true;
 
 }
     public void close(View view){
@@ -166,7 +169,7 @@ public void reiniciadata(){
         // TODO Put here your Fragments
         obs_cabecera f1 = obs_cabecera.newInstance(CodObservacion);
         obs_detalle1 f2 = obs_detalle1.newInstance(CodObservacion,CodTipo);
-        obs_archivos f4 = obs_archivos.newInstance(CodObservacion,pos);
+        obs_archivos f4 = obs_archivos.newInstance(CodObservacion);
         obs_planaccion f5=obs_planaccion.newInstance(CodObservacion);
 
 
@@ -374,8 +377,9 @@ public void reiniciadata(){
         }
         else{  //Insert new Observacion
             Actives.add(0);
-            GridViewAdapter gridViewAdapter = new GridViewAdapter(this,GlobalVariables.listaGaleria);
-            gridViewAdapter.ProcesarImagens();
+           // GridViewAdapter gridViewAdapter = new GridViewAdapter(this,GlobalVariables.listaGaleria);
+            obs_archivos archivos = (obs_archivos) pageAdapter.getItem(2);
+            archivos.gridViewAdapter.ProcesarImagens();
             GlobalVariables.StrFiles= new ArrayList();
 
             GlobalVariables.StrFiles.addAll(GlobalVariables.listaGaleria);
@@ -457,7 +461,6 @@ public void reiniciadata(){
                             //update file
                             if(!respts[3].equals("0"))
                             {
-                                Utils.DeleteCache(new Compressor(observacion_edit.this).destinationDirectoryPath); //delete cache Files;
                                 for (String file:respts[3].split(",")) {
                                     String[] datosf= file.split(":");
                                     for (GaleriaModel item:GlobalVariables.StrFiles) {
@@ -601,7 +604,7 @@ public void reiniciadata(){
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        Actives.set(2,-1);
+                        Actives.set(4,-1);
                         Errores+="\nFallo la subida de archivos";
                         if(!Actives.contains(0)) FinishSave();
                         progressBar.setVisibility(View.GONE);
@@ -685,7 +688,7 @@ public void reiniciadata(){
 
     @Override
     public void success(String data, String Tipo) {
-        if(Tipo.equals("1")){ //delete Files
+        if(Tipo.equals("1")){ //delete Planes
             if(data.contains("-1")){
                 Actives.set(2,-1);
                 Errores+="\nNo se pudo eliminar algunos planes de accion";

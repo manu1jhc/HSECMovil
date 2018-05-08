@@ -37,6 +37,8 @@ import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.obs_cabecera;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -47,24 +49,14 @@ import static android.app.Activity.RESULT_OK;
 
 
 public class FragmentAddCabecera extends Fragment implements IActivity {
-    //InspeccionModel AddInspeccion;
 
-    ArrayList<Maestro> gerenciadata;
     ArrayList<Maestro> superintdata;
-    //ArrayList<Maestro> ubicaciondata;
-    //ArrayList<Maestro> sububicacion_data;
-    ArrayList<Maestro> Tipo_insp_data;
     TextView insp_contrata,edit_codigo;
 
     Button btnFechaInicio,btnFechaFin,btn_hora;
-    String gerencia_pos="0";
-    String superint_pos="0";
-    String ubic_pos="0";
-    String sububic_pos="0";
-    String tipoInsp_pos="0";
 
     Spinner spinnerUbicacion,spinnerSubUbicacion, spinnerGerencia,spinnerSuperInt,spinnerTipoInsp;
-    ArrayAdapter adapterSuperInt;
+
     public static final int REQUEST_CODE = 1;
     ImageButton btn_buscar_c;
     Calendar myCalendar,myCalendar2;
@@ -76,10 +68,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
     String fechaEscogida;
     String Ubicacion="";
 
-    String Ubicacionfinal="",TipoObs;
-    String Gerenciafinal="";
-    final boolean[] pass1 = {false};
-    final boolean[] pass2 = {false};
+    String Ubicacionfinal="", Gerenciafinal="";
 
     ///////////////////////////////
     private static final String CERO = "0";
@@ -110,7 +99,9 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_add_cabecera, container, false);
         codInsp=getArguments().getString("bString");
-        final Date opentab= new Date();
+
+        boolean[] pass = {false,false},passGer={false};
+        Integer[] itemSel = {0,0},itemSelGer={0};
 
         spinnerGerencia=(Spinner) mView.findViewById(R.id.spinner_gerencia);
         spinnerSuperInt=(Spinner) mView.findViewById(R.id.spinner_superint);
@@ -125,63 +116,40 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         btnFechaFin=(Button) mView.findViewById(R.id.btn_fechainsp);
         btn_hora=(Button) mView.findViewById(R.id.btn_hora);
         edit_codigo=(TextView) mView.findViewById(R.id.edit_codigo);
+        String SelecFecha="SELECCIONAR FECHA";
+        //insp_contrata.setText(AddInspeccion.DesContrata);
+        btnFechaInicio.setText(SelecFecha);
+        btnFechaFin.setText(SelecFecha);
+        btn_hora.setText("SELECCIONAR HORA");
 
-
-
-        //AddInspeccion.DesContrata=des_contrata;
-        insp_contrata.setText(AddInspeccion.DesContrata);
-        btnFechaInicio.setText(AddInspeccion.fecha_1);
-        btnFechaFin.setText(AddInspeccion.fecha_2);
-        btn_hora.setText(AddInspeccion.hora);
-
-
-        gerenciadata= new ArrayList<>();
-        gerenciadata.add(new Maestro(null,"-  Seleccione  -"));
-        gerenciadata.addAll(GlobalVariables.Gerencia);
-        //GlobalVariables.Gerencia=new ArrayList<>();
-        //GlobalVariables.Gerencia=gerenciadata;
-
-        superintdata=new ArrayList<>();
-        //superintdata.addAll(GlobalVariables.SuperIntendencia);
-        superintdata.add(new Maestro(null,"-  Seleccione  -"));
-
-        //ubicaciondata= new ArrayList<>();
-        //ubicaciondata.add(new Maestro(null,"-  Seleccione  -"));
-        //ubicaciondata.addAll(GlobalVariables.Ubicacion_obs);
-
-        //sububicacion_data= new ArrayList<>();
-        //sububicacion_data.add(new Maestro(null,"-  Seleccione  -"));
-        //sububicacion_data.addAll(GlobalVariables.SubUbicacion_obs);
-
-
-        Tipo_insp_data= new ArrayList<>();
-        Tipo_insp_data.add(new Maestro(null,"-  Seleccione  -"));
-        Tipo_insp_data.addAll(GlobalVariables.Tipo_insp);
-
-        ArrayAdapter adapterGerencia = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, gerenciadata);
+        ArrayAdapter adapterGerencia = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, GlobalVariables.Gerencia);
         adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
-        adapterSuperInt = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, superintdata);
+        superintdata=new ArrayList<>();
+        superintdata.add(new Maestro("","-  Seleccione  -"));
+        ArrayAdapter adapterSuperInt = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, superintdata);
         adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
 
+        //ubicaciones
+        GlobalVariables.reloadUbicacion();
         ArrayAdapter adapterUbic = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, GlobalVariables.Ubicacion_obs);
         adapterUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerUbicacion.setAdapter(adapterUbic);
 
-        final ArrayAdapter adapterSubUbic = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, GlobalVariables.SubUbicacion_obs);
+        ArrayAdapter adapterSubUbic = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, GlobalVariables.SubUbicacion_obs);
         adapterSubUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSubUbicacion.setAdapter(adapterSubUbic);
 
 
-        ArrayAdapter adapterTipoInsp = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, Tipo_insp_data);
+        ArrayAdapter adapterTipoInsp = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item, GlobalVariables.Tipo_insp);
         adapterTipoInsp.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerTipoInsp.setAdapter(adapterTipoInsp);
 
 
         if(GlobalVariables.ObjectEditable){ // load data of server
-            if(GlobalVariables.AddInspeccion.CodInspeccion==null || !GlobalVariables.AddInspeccion.CodInspeccion.equals(codInsp))
+            if(GlobalVariables.AddInspeccion.CodInspeccion==null) // || !GlobalVariables.AddInspeccion.CodInspeccion.equals(codInsp)
             {
                 String url= GlobalVariables.Url_base+"Inspecciones/Get/"+codInsp;
                 ActivityController obj = new ActivityController("get", url, FragmentAddCabecera.this,getActivity());
@@ -191,73 +159,41 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         }
         else // new inspeccion
         {
-            if(GlobalVariables.AddInspeccion.CodInspeccion==null||!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ")){
-
-                //myCalendar = Calendar.getInstance();
-                //fecha = myCalendar.getTime();
+            if(GlobalVariables.AddInspeccion.CodInspeccion==null){
+                pass[0]=true;
+                pass[1]=true;
+                passGer[0]=true;
                 GlobalVariables.AddInspeccion= new InspeccionModel();
-                GlobalVariables.AddInspeccion.CodInspeccion="-1";//saber si es nuevo
-
-
-/*
-                GlobalVariables.Inspeccion.CodInspeccion= codInsp;
-                GlobalVariables.Inspeccion.Fecha="";
-                GlobalVariables.Inspeccion.Lugar="";
-                GlobalVariables.Inspeccion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
-                GlobalVariables.Inspeccion.CodUbicacion="";
-                GlobalVariables.Inspeccion.CodSubEstandar=GlobalVariables.Acto_obs.get(0).CodTipo;
-                */
+                GlobalVariables.AddInspeccion.CodInspeccion=codInsp;//saber si es nuevo
             }
-            //  else if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
-
-            //setdata();
+            //else if(!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ"))
+             else   setdata();
         }
-
-
 
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                /*
-                if(position!=0) {
-                    GlobalVariables.AddInspeccion.CodTipo=Tipo_insp_data.get(position).CodTipo;
-                    tipoInsp_pos = String.valueOf(position);
-                }else{
-                    tipoInsp_pos = String.valueOf(position);
-                    //Utils.inspeccionModel.Gerencia=null;
-                    GlobalVariables.AddInspeccion.CodTipo="";
-                }
-                */
-
-                Maestro gerencia = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_gerencia) ).getSelectedItem();
-                Gerenciafinal=gerencia.CodTipo;
-
-                if(position!=0) {
-               /* Maestro Geren = (Maestro) ( (Spinner) view.findViewById(R.id.spinner_gerencia) ).getSelectedItem();
-                gerencia=Geren.CodTipo;*/
-                    //superint=null;
-                    //Gerenciafinal = gerenciadata.get(position).CodTipo;
-                    GlobalVariables.AddInspeccion.Gerencia= Gerenciafinal;
-                    gerencia_pos = String.valueOf(position);
-                    spinnerGerencia.setSelection(position);
+                if(itemSelGer[0]!=position) {
+                    itemSelGer[0]=position;
+                    Maestro ubica = (Maestro) ((Spinner) mView.findViewById(R.id.spinner_gerencia)).getSelectedItem();
+                    Gerenciafinal = ubica.CodTipo;
                     superintdata.clear();
-                    for (Maestro item : GlobalVariables.loadSuperInt(Gerenciafinal)
-                            ) {
+                    for (Maestro item : GlobalVariables.loadSuperInt(Gerenciafinal)) {
                         superintdata.add(item);
                     }
                     adapterSuperInt.notifyDataSetChanged();
-                    //spinnerSuperInt.setSelection(Integer.parseInt(superint_pos));
-
-                }else{
-                    spinnerGerencia.setSelection(0);
-                    spinnerSuperInt.setSelection(0);
-                    gerencia_pos = String.valueOf(position);
-                    GlobalVariables.AddInspeccion.Gerencia=null;
+                    if(!passGer[0])
+                    {
+                        passGer[0] =true;
+                        if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.SuperInt))
+                            spinnerSuperInt.setSelection(GlobalVariables.indexOf(superintdata,Gerenciafinal+"."+GlobalVariables.AddInspeccion.SuperInt));
+                    }
+                    else {
+                        GlobalVariables.AddInspeccion.Gerencia=Gerenciafinal;
+                        spinnerSuperInt.setSelection(0);
+                    }
                 }
-
             }
 
             @Override
@@ -266,39 +202,13 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
             }
         });
 
-
         spinnerSuperInt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                //Maestro SuperInt = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_superint) ).getSelectedItem();
-                //Gerenciafinal=SuperInt.CodTipo;
-                /*GlobalVariables.UbicacionEspecifica_obs.clear();
-                for (Maestro item: GlobalVariables.loadUbicacion(Ubicacionfinal,3)) {
-                    GlobalVariables.UbicacionEspecifica_obs.add(item);
-                }*/
-                //adapterUbicEspc.notifyDataSetChanged();
-
-                GlobalVariables.AddInspeccion.SuperInt=superintdata.get(position).CodTipo;
-
-
-                String superint;
-                if(position!=0) {
-                    superint = superintdata.get(position).CodTipo.split("\\.")[1];
-                    GlobalVariables.AddInspeccion.SuperInt=superintdata.get(position).CodTipo.split("\\.")[1];
-                    superint_pos=String.valueOf(position);
-                    spinnerSuperInt.setSelection(position);
-
-                }else{
-                    spinnerSuperInt.setSelection(0);
-                    superint="";
-                    superint_pos="0";
-                }
-
-
-
-
-
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_superint) ).getSelectedItem();
+                if(!StringUtils.isEmpty(Tipo.CodTipo))
+                GlobalVariables.AddInspeccion.SuperInt=Tipo.CodTipo.split("\\.")[1];
             }
 
             @Override
@@ -307,44 +217,29 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
             }
         });
 
-
         spinnerUbicacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Maestro ubica = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_ubicacion) ).getSelectedItem();
-                Ubicacionfinal=ubica.CodTipo;
-                //String ubicacion=ubicaciondata.get(position).CodTipo;
-                //Utils.inspeccionModel.CodUbicacion=ubicaciondata.get(position).CodTipo;
-                GlobalVariables.SubUbicacion_obs.clear();
-                //GlobalVariables.AddInspeccion.CodUbicacion=ubicaciondata.get(position).CodTipo;
 
-                for (Maestro item: GlobalVariables.loadUbicacion(Ubicacionfinal,2)
-                        ) {
-                    GlobalVariables.SubUbicacion_obs.add(item);
-                }
-                adapterSubUbic.notifyDataSetChanged();
-                //spinnerSubUbicacion.setSelection(GlobalVariables.indexOf(sububicacion_data,sububic_pos));
-
-                if(!pass1[0]){
-                    Date openSpinner=new Date();
-                    long diff=openSpinner.getTime()-opentab.getTime();
-                    if(diff>2000)
+                if(itemSel[0]!=position) {
+                    itemSel[0]=position;
+                    Maestro ubica = (Maestro) ((Spinner) mView.findViewById(R.id.spinner_ubicacion)).getSelectedItem();
+                    Ubicacionfinal = ubica.CodTipo;
+                    GlobalVariables.SubUbicacion_obs.clear();
+                    for (Maestro item : GlobalVariables.loadUbicacion(Ubicacionfinal, 2) ) {
+                        GlobalVariables.SubUbicacion_obs.add(item);
+                    }
+                    adapterSubUbic.notifyDataSetChanged();
+                    if(!pass[0])
                     {
-                        //GlobalVariables.Obserbacion.CodUbicacion=Ubicacionfinal;
+                        pass[0] =true;
+                        if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodSubUbicacion))spinnerSubUbicacion.setSelection(GlobalVariables.indexOf(GlobalVariables.SubUbicacion_obs,GlobalVariables.AddInspeccion.CodSubUbicacion));
+                    }
+                    else {
                         GlobalVariables.AddInspeccion.CodUbicacion=Ubicacionfinal;
                         spinnerSubUbicacion.setSelection(0);
                     }
                 }
-                else {
-                    pass1[0] =false;
-                    String data[]= Ubicacion.split("\\.");
-                    if(data.length>1)
-                    {
-                        //pass2[0] =true;
-                        spinnerSubUbicacion.setSelection(GlobalVariables.indexOf(GlobalVariables.SubUbicacion_obs,data[0]+"."+data[1]));
-                    }
-                }
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -356,32 +251,16 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         spinnerSubUbicacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //String sububic;
-                //spinnerSubUbicacion=(Spinner) mView.findViewById(R.id.spinner_sububicacion);
-                //Maestro Sububica = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_sububicacion) ).getSelectedItem();
-
-                Maestro Sububica = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_sububicacion) ).getSelectedItem();
-                Ubicacionfinal=Sububica.CodTipo;
-                GlobalVariables.UbicacionEspecifica_obs.clear();
-                for (Maestro item: GlobalVariables.loadUbicacion(Ubicacionfinal,3)) {
-                    GlobalVariables.UbicacionEspecifica_obs.add(item);
-                }
-                //adapterUbicEspc.notifyDataSetChanged();
-                if(!pass2[0]){
-                    Date openSpinner=new Date();
-                    long diff=openSpinner.getTime()-opentab.getTime();
-                    if(diff>2000){
-                        GlobalVariables.AddInspeccion.CodUbicacion=Ubicacionfinal;
+                if(itemSel[1]!=position) {
+                    itemSel[1]=position;
+                    Maestro Sububica = (Maestro) ((Spinner) mView.findViewById(R.id.spinner_sububicacion)).getSelectedItem();
+                    Ubicacionfinal = Sububica.CodTipo;
+                    GlobalVariables.UbicacionEspecifica_obs.clear();
+                    for (Maestro item : GlobalVariables.loadUbicacion(Ubicacionfinal, 3)) {
+                        GlobalVariables.UbicacionEspecifica_obs.add(item);
                     }
+                        GlobalVariables.AddInspeccion.CodSubUbicacion=Ubicacionfinal;
                 }
-                else {
-                    pass2[0] =false;
-                   /* if(Ubicacion.split("\\.").length==3)
-                        spinnerUbicEspec.setSelection(GlobalVariables.indexOf(GlobalVariables.UbicacionEspecifica_obs,Ubicacion));
-                    else spinnerUbicEspec.setSelection(0);*/
-                }
-
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -390,26 +269,11 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
             }
         });
 
-
-
         spinnerTipoInsp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position!=0) {
-               /* Maestro Geren = (Maestro) ( (Spinner) view.findViewById(R.id.spinner_gerencia) ).getSelectedItem();
-                gerencia=Geren.CodTipo;*/
-                    //superint=null;
-                    //Utils.inspeccionModel.Gerencia = gerenciadata.get(position).CodTipo;
-                    GlobalVariables.AddInspeccion.CodTipo=Tipo_insp_data.get(position).CodTipo;
-                    tipoInsp_pos = String.valueOf(position);
-
-
-                }else{
-                    tipoInsp_pos = String.valueOf(position);
-                    //Utils.inspeccionModel.Gerencia=null;
-                    GlobalVariables.AddInspeccion.CodTipo="";
-                }
-
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_tipoinsp) ).getSelectedItem();
+                GlobalVariables.AddInspeccion.CodTipo=Tipo.CodTipo;
             }
 
             @Override
@@ -431,14 +295,12 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                 Date actual = myCalendar.getTime();
 
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
-                SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
+                SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 //Utils.inspeccionModel.FechaP= String.valueOf(fecha_envio.format(actual));
                 GlobalVariables.AddInspeccion.FechaP=String.valueOf(fecha_envio.format(actual));
 
                 fecha_inicio=dt.format(actual);
-                //btnFechaInicio.setText(dt.format(actual));
-                AddInspeccion.fecha_1=dt.format(actual);
-                btnFechaInicio.setText(AddInspeccion.fecha_1);
+                btnFechaInicio.setText(dt.format(actual));
 
                 // btnFechaFin.setText(dt.format(actual));
                 // fecha_inicio=dt.format(actual);
@@ -465,28 +327,25 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
                 //btnFechaInicio.setText(dt.format(actual));
 
-                SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
-
+                SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                String FechaEnvio="";
+                FechaEnvio= fecha_envio.format(actual);
+                if(GlobalVariables.AddInspeccion.Fecha==null)
+                    btn_hora.setText("00:00:00");
+                else{
+                    String [] hora=GlobalVariables.AddInspeccion.Fecha.split("T");
+                    FechaEnvio=FechaEnvio.split("T")[0]+"T"+hora[1];
+                }
                 //Utils.inspeccionModel.Fecha= String.valueOf(fecha_envio.format(actual));
-                GlobalVariables.AddInspeccion.Fecha=String.valueOf(fecha_envio.format(actual));
+                GlobalVariables.AddInspeccion.Fecha=FechaEnvio;
                 fecha_fin=dt.format(actual);
-                //btnFechaFin.setText(dt.format(actual));
-                AddInspeccion.fecha_2=dt.format(actual);
-
-                btnFechaFin.setText(AddInspeccion.fecha_2);
-
+                btnFechaFin.setText(dt.format(actual));
                 //fecha_fin=dt.format(actual);
                 escogioFecha = true;
                 dt = new SimpleDateFormat("yyyyMMdd");
                 fechaEscogida = dt.format(actual);
-
             }
-
         };
-
-
-
-
 
         btn_buscar_c.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -496,7 +355,6 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
 
             }
         });
-
 
         ////////////////////botones para escoger fecha///////////////////////////////////////
 
@@ -526,7 +384,6 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
 
             }
         });
-
 
         btnFechaFin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -558,50 +415,49 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         btn_hora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(GlobalVariables.AddInspeccion.Fecha!=null){
+                    TimePickerDialog recogerHora = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            //Formateo el hora obtenido: antepone el 0 si son menores de 10
+                            String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                            //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                            //String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
+                            //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                            String AM_PM;
+                            int horaFinal;
+                            int minutoFinal;
+                            //GlobalVariables.AddInspeccion.Fecha=GlobalVariables.AddInspeccion.Fecha+"'"+"T"+"'"+String.valueOf(hourOfDay)+":"+minute;
 
-                TimePickerDialog recogerHora = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                            if(hourOfDay < 12) {
+                                AM_PM = "a.m.";
+                                horaFinal=hourOfDay;
+                                minutoFinal=minute;
+                            } else {
+                                AM_PM = "p.m.";
+                                horaFinal=hourOfDay-12;
+                                minutoFinal=minute;
+                            }
+                            //Muestro la hora con el formato deseado
+                            String minutoFormateado = (minutoFinal < 10)? String.valueOf(CERO + minutoFinal):String.valueOf(minutoFinal);
 
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        //Formateo el hora obtenido: antepone el 0 si son menores de 10
-                        String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
-                        //Formateo el minuto obtenido: antepone el 0 si son menores de 10
-                        //String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
-                        //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
-                        String AM_PM;
-                        int horaFinal;
-                        int minutoFinal;
-                        //GlobalVariables.AddInspeccion.Fecha=GlobalVariables.AddInspeccion.Fecha+"'"+"T"+"'"+String.valueOf(hourOfDay)+":"+minute;
+                            String [] fecha=GlobalVariables.AddInspeccion.Fecha.split("T");
+                            GlobalVariables.AddInspeccion.Fecha=fecha[0]+"T"+hourOfDay+":"+minutoFormateado+":00";
 
-                        if(hourOfDay < 12) {
-                            AM_PM = "a.m.";
-                            horaFinal=hourOfDay;
-                            minutoFinal=minute;
-                        } else {
-                            AM_PM = "p.m.";
-                            horaFinal=hourOfDay-12;
-                            minutoFinal=minute;
+                            //AddInspeccion.hora=horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM;
+                            btn_hora.setText(horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                            hora=hourOfDay;
+                            minuto=minute;
+
                         }
-                        //Muestro la hora con el formato deseado
-                        String minutoFormateado = (minutoFinal < 10)? String.valueOf(CERO + minutoFinal):String.valueOf(minutoFinal);
-                        AddInspeccion.hora=hourOfDay+":"+minutoFormateado+":00";
-
-                        //AddInspeccion.hora=horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM;
-                        btn_hora.setText(horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
-                        hora=hourOfDay;
-                        minuto=minute;
-
-                    }
-                    //Estos valores deben ir en ese orden
-                    //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
-                    //Pero el sistema devuelve la hora en formato 24 horas
-                }, hora, minuto, false);
-
-                recogerHora.show();
-
+                        //Estos valores deben ir en ese orden
+                        //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+                        //Pero el sistema devuelve la hora en formato 24 horas
+                    }, hora, minuto, false);
+                    recogerHora.show();
+                }
             }
         });
-
 
         return mView;
     }
@@ -618,7 +474,6 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
 
                 String cod_contrata = data.getStringExtra("codContrata");
                 String des_contrata = data.getStringExtra("desContrata");
-                AddInspeccion.DesContrata=des_contrata;
                 insp_contrata.setText(des_contrata);
 
                 GlobalVariables.AddInspeccion.CodContrata=cod_contrata;
@@ -635,6 +490,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
 
         Gson gson = new Gson();
         GlobalVariables.AddInspeccion = gson.fromJson(data, InspeccionModel.class);
+        GlobalVariables.StrInspeccion= gson.toJson(GlobalVariables.AddInspeccion);
         setdata();
 
     }
@@ -649,7 +505,9 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
 
     }
 
-
+    public void updateCodigo(String Codigotxt){
+        edit_codigo.setText(Codigotxt);
+    }
 
     public void setdata(){
 
@@ -661,82 +519,34 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         SimpleDateFormat dh = new SimpleDateFormat("h:mm a");
 
 
-        try {
-            fecha = df.parse(GlobalVariables.AddInspeccion.FechaP);
-            fecha2=df.parse(GlobalVariables.AddInspeccion.Fecha);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+            if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.FechaP)){
+                try {
+                fecha = df.parse(GlobalVariables.AddInspeccion.FechaP);
+                btnFechaInicio.setText(dt.format(fecha));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.Fecha)) {
+                try {
+                fecha2 = df.parse(GlobalVariables.AddInspeccion.Fecha);
+                btnFechaFin.setText(dt.format(fecha2));
+                btn_hora.setText(dh.format(fecha2));
+                } catch (ParseException e) {
+                e.printStackTrace();
+                }
+            }
 
-        btnFechaInicio.setText(dt.format(fecha));
-        btnFechaFin.setText(dt.format(fecha2));
-        btn_hora.setText(dh.format(fecha2));
 
         edit_codigo.setText(GlobalVariables.AddInspeccion.CodInspeccion);
-        spinnerGerencia.setSelection(GlobalVariables.indexOf(GlobalVariables.Gerencia,GlobalVariables.AddInspeccion.Gerencia)+1);
-        int a=GlobalVariables.indexOf(GlobalVariables.Gerencia,GlobalVariables.AddInspeccion.Gerencia);
-        superintdata.clear();
-        for (Maestro item : GlobalVariables.loadSuperInt(GlobalVariables.AddInspeccion.Gerencia)
-                ) {
-            superintdata.add(item);
-        }
-        int b=GlobalVariables.indexOf(superintdata,GlobalVariables.AddInspeccion.Gerencia+"."+GlobalVariables.AddInspeccion.SuperInt);
-        spinnerSuperInt.setSelection(GlobalVariables.indexOf(superintdata,GlobalVariables.AddInspeccion.Gerencia+"."+GlobalVariables.AddInspeccion.SuperInt));
+        if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodContrata)) insp_contrata.setText(GlobalVariables.getDescripcion(GlobalVariables.Contrata,GlobalVariables.AddInspeccion.CodContrata));
 
+        if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodUbicacion))spinnerUbicacion.setSelection(GlobalVariables.indexOf(GlobalVariables.Ubicacion_obs, GlobalVariables.AddInspeccion.CodUbicacion));
 
-        insp_contrata.setText(GlobalVariables.AddInspeccion.CodContrata);
-        //insp_contrata.setText("xxxxxxxxxxxxx");
-        if(GlobalVariables.AddInspeccion.CodUbicacion!=null&&!GlobalVariables.AddInspeccion.CodUbicacion.isEmpty()){
-            String data[]=GlobalVariables.AddInspeccion.CodUbicacion.split("\\.");
-            spinnerUbicacion.setSelection(GlobalVariables.indexOf(GlobalVariables.Ubicacion_obs,data[0]));
-            Ubicacion=GlobalVariables.AddInspeccion.CodUbicacion;
-            pass1[0] =true;
-        }
-
-        spinnerTipoInsp.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_insp,GlobalVariables.AddInspeccion.CodTipo)+1);
-
-        //spinnerSubUbicacion.setSelection(GlobalVariables.indexOf(GlobalVariables.Ubicacion_obs,GlobalVariables.Inspeccion.CodUbicacion));
-
-
-
-        //spinnerSubUbicacion.setSelection(GlobalVariables.indexOf(GlobalVariables.SubUbicacion_obs,GlobalVariables.Inspeccion.CodUbicacion));
-
-        //GlobalVariables.AddInspeccion.CodTipo=Tipo_insp_data.get(position).CodTipo;
-        //tipoInsp_pos = String.valueOf(position);
-
-
-
-        //spinnerUbicacion = (Spinner) mView.findViewById(R.id.spinner_ubicacion);
-        //spinnerSubUbicacion=(Spinner) mView.findViewById(R.id.spinner_sububicacion);
-        //spinnerTipoInsp=(Spinner) mView.findViewById(R.id.spinner_tipoinsp);
-
-
-
-/*
-        try {
-            fecha = df.parse(GlobalVariables.Obserbacion.Fecha);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        txtLugar.setText(GlobalVariables.Obserbacion.Lugar);
-        botonEscogerFecha.setText(dt.format(fecha));
-
-        spinnerArea.setSelection(GlobalVariables.indexOf(GlobalVariables.Area_obs,GlobalVariables.Obserbacion.CodAreaHSEC));
-        spinnerNivel.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,GlobalVariables.Obserbacion.CodNivelRiesgo));
-        if(GlobalVariables.Obserbacion.CodUbicacion!=null&&!GlobalVariables.Obserbacion.CodUbicacion.isEmpty()){
-            String data[]=GlobalVariables.Obserbacion.CodUbicacion.split("\\.");
-            spinnerUbica.setSelection(GlobalVariables.indexOf(GlobalVariables.Ubicacion_obs,data[0]));
-            Ubicacion=GlobalVariables.Obserbacion.CodUbicacion;
-            pass1[0] =true;
-        }
-        spinnerTipoObs.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_obs,GlobalVariables.Obserbacion.CodTipo));
-      */
+        if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodTipo)) spinnerTipoInsp.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_insp,GlobalVariables.AddInspeccion.CodTipo));
+        if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.Gerencia))spinnerGerencia.setSelection(GlobalVariables.indexOf(GlobalVariables.Gerencia,GlobalVariables.AddInspeccion.Gerencia));
 
     }
-
-
-
 }
 
 

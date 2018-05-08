@@ -164,8 +164,16 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                     break;
                 default:
                     if(opcion=="post")
-                    activity.successpost(Resultado,Tipo);
-                    else activity.success(respstring, Tipo);
+                        try {
+                            activity.successpost(Resultado,Tipo);
+                        } catch (CloneNotSupportedException e) {
+                            e.printStackTrace();
+                        }
+                    else try {
+                        activity.success(respstring, Tipo);
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
                     break;
             }
 

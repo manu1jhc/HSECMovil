@@ -258,7 +258,7 @@ public class FragmentMuro extends Fragment implements IActivity{
             public void onClick(View v) {
                 GlobalVariables.ObjectEditable=false;
                 Intent addInspeccion = new Intent(getActivity(),AddInspeccion.class);
-                addInspeccion.putExtra("codObs","");
+                addInspeccion.putExtra("codObs","INSP000000XYZ");
                 startActivity(addInspeccion);
             }
         });
