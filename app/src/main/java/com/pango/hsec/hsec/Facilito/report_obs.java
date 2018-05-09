@@ -142,13 +142,13 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         superintdata.add(new Maestro("","-  Seleccione  -"));
         spinnerGerencia=(Spinner) findViewById(R.id.sp_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.sp_superint);
-        adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.Gerencia);
-        adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapterGerencia = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.Gerencia);
+        adapterGerencia.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
         ArrayList<Maestro> dataSuper=new ArrayList<>();
-        adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
-        adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapterSuperInt = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, superintdata);
+        adapterSuperInt.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

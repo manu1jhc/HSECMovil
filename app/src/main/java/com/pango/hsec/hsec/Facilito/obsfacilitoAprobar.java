@@ -59,8 +59,8 @@ public class obsfacilitoAprobar extends AppCompatActivity implements IActivity {
         spinner_tipobs = (Spinner) findViewById(R.id.spinner_tipobs);
         ObsFacilito_tiempo= new ArrayList<>();
         ObsFacilito_tiempo.addAll(GlobalVariables.ObsFacilito_tiempo);
-        ArrayAdapter adapterNivelR = new ArrayAdapter(this,android.R.layout.simple_spinner_item, ObsFacilito_tiempo);
-        adapterNivelR.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterNivelR = new ArrayAdapter(this,R.layout.custom_spinner_item, ObsFacilito_tiempo);
+        adapterNivelR.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_tipobs.setAdapter(adapterNivelR);
         spinner_tipobs.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

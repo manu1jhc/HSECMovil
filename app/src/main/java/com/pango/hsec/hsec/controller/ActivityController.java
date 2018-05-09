@@ -94,7 +94,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 respstring = EntityUtils.toString(response.getEntity());
                 //JSONObject respJSON = new JSONObject(respstring);
 
-            }else if(opcion.equals("post")){
+            }else if(opcion.contains("post")){
 
                 Tipo= strings.length>1? Tipo=strings[1]:"";
                 HttpResponse response;
@@ -163,7 +163,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                     activity.error("Ocurrio un error interno en el servidor", Tipo);
                     break;
                 default:
-                    if(opcion=="post")
+                    if(opcion.contains("post"))
                         try {
                             activity.successpost(Resultado,Tipo);
                         } catch (CloneNotSupportedException e) {

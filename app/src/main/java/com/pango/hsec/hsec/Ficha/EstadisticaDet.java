@@ -72,8 +72,8 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
         sp_mes=findViewById(R.id.spinner_mes);
 
 
-        ArrayAdapter adapterAnio = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.busqueda_anio);
-        adapterAnio.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterAnio = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.busqueda_anio);
+        adapterAnio.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         sp_anio.setAdapter(adapterAnio);
         sp_anio.setSelection(find(anio));
 
@@ -88,8 +88,8 @@ public class EstadisticaDet extends AppCompatActivity implements IActivity {
             }
         });
 
-        ArrayAdapter adapterMes = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.busqueda_mes);
-        adapterMes.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterMes = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.busqueda_mes);
+        adapterMes.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         sp_mes.setAdapter(adapterMes);
         sp_mes.setSelection(Integer.parseInt(mes));
         sp_mes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

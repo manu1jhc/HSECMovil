@@ -12,7 +12,9 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.model.GetMaestroModel;
+import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.UsuarioModel;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -21,6 +23,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+
+import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 
 /**
  * Created by Andre on 13/12/2017.
@@ -73,6 +77,9 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
             if(GlobalVariables.token_auth.length()>40) {
                 Obtener_dataUser();
                 LoadData();
+
+                LoadDataMuro();
+
             }
 
         } catch (IOException e) {
@@ -81,6 +88,8 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
         return null;
     }
+
+
 
     @Override
     protected void onPostExecute(Void result) {
@@ -145,6 +154,40 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
             e.printStackTrace();
         }
     }
+
+    public void LoadDataMuro() {
+
+       String url=GlobalVariables.Url_base+"Muro/GetMuro/"+"1"+"/"+"7";
+
+
+        try {
+            HttpClient httpClient = new DefaultHttpClient();
+            HttpGet get = new HttpGet(url);
+            get.setHeader("Authorization", "Bearer " +GlobalVariables.token_auth);
+
+            //get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
+            HttpResponse response;
+
+            response = httpClient.execute(get);
+            String respstring2 = EntityUtils.toString(response.getEntity());
+            int con_status = response.getStatusLine().getStatusCode();
+            GlobalVariables.jsonMuro=respstring2;
+            Gson gson = new Gson();
+            GetPublicacionModel getPublicacionModel = gson.fromJson(respstring2, GetPublicacionModel.class);
+            GlobalVariables.listaGlobal=getPublicacionModel.Data;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+
+    }
+
+
+
 
     public void LoadData(){
         GlobalVariables.loadObs_Detalles();

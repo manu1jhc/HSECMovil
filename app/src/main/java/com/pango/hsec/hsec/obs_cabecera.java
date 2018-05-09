@@ -86,30 +86,30 @@ public class obs_cabecera extends Fragment implements IActivity{
         spinnerTipoObs = (Spinner) mView.findViewById(R.id.spinner_tipobs);
 
 
-        ArrayAdapter adapterTipoObs = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Tipo_obs);
-        adapterTipoObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterTipoObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Tipo_obs);
+        adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerTipoObs.setAdapter(adapterTipoObs);
 
-        ArrayAdapter adapterArea = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Area_obs);
-        adapterArea.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterArea = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Area_obs);
+        adapterArea.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerArea.setAdapter(adapterArea);
 
-        ArrayAdapter adapterNivel = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.NivelRiesgo_obs);
-        adapterNivel.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterNivel = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.NivelRiesgo_obs);
+        adapterNivel.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerNivel.setAdapter(adapterNivel);
 
         //Ubicaciones
         GlobalVariables.reloadUbicacion();
-        ArrayAdapter adapterUbic = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Ubicacion_obs);
-        adapterUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterUbic = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Ubicacion_obs);
+        adapterUbic.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerUbica.setAdapter(adapterUbic);
 
-        adapterSubN = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.SubUbicacion_obs);
-        adapterSubN.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapterSubN = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.SubUbicacion_obs);
+        adapterSubN.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerSububic.setAdapter(adapterSubN);
 
-        adapterUbicEspc = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.UbicacionEspecifica_obs);
-        adapterUbicEspc.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapterUbicEspc = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.UbicacionEspecifica_obs);
+        adapterUbicEspc.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerUbicEspec.setAdapter(adapterUbicEspc);
 
         ///////////////////////////

@@ -92,12 +92,12 @@ public class B_personasM extends AppCompatActivity implements IActivity {
 //        superintdata.addAll(GlobalVariables.SuperIntendencia);
 
 
-        adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, gerenciadata);
-        adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapterGerencia = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, gerenciadata);
+        adapterGerencia.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
-        adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
-        adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapterSuperInt = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, superintdata);
+        adapterSuperInt.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
 
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

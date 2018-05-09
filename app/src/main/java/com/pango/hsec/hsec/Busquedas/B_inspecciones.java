@@ -100,21 +100,21 @@ public class B_inspecciones extends AppCompatActivity {
         superintdata.add(new Maestro(null,"-  Seleccione  -"));
         //superintdata.addAll(GlobalVariables.SuperIntendencia);
 
-        ArrayAdapter adapterUbic = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, ubicaciondata);
-        adapterUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterUbic = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, ubicaciondata);
+        adapterUbic.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerUbicacion.setAdapter(adapterUbic);
 
-        final ArrayAdapter adapterSubUbic = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, sububicacion_data);
-        adapterSubUbic.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        final ArrayAdapter adapterSubUbic = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, sububicacion_data);
+        adapterSubUbic.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerSubUbicacion.setAdapter(adapterSubUbic);
 
         //aqui va spinner gerencia y superintendencia
-        ArrayAdapter adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, gerenciadata);
-        adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterGerencia = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, gerenciadata);
+        adapterGerencia.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
-        adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
-        adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        adapterSuperInt = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, superintdata);
+        adapterSuperInt.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
 
         spinnerUbicacion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

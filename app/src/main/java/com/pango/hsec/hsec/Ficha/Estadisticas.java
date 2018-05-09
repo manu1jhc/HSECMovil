@@ -61,8 +61,8 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             }
 
 
-        ArrayAdapter adapterAnio = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.busqueda_anio);
-        adapterAnio.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterAnio = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.busqueda_anio);
+        adapterAnio.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         sp_anio.setAdapter(adapterAnio);
 
         sp_anio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -76,8 +76,8 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             }
         });
 
-        ArrayAdapter adapterMes = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.busqueda_mes);
-        adapterMes.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterMes = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.busqueda_mes);
+        adapterMes.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         sp_mes.setAdapter(adapterMes);
         sp_mes.setSelection(mes);
 

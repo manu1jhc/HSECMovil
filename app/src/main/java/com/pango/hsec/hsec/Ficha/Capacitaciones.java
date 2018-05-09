@@ -1,6 +1,7 @@
 package com.pango.hsec.hsec.Ficha;
 
 import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -166,7 +167,7 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                             View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                             //LinearLayout linearLayout5;
                             TextView tx_fecha, tx_duracion, tx_tema, tx_tipo, tx_nota, tx_estado, tx_vencimiento;
-
+                            ConstraintLayout pop;
                             if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
                                 DateFormat formatoInicial = new SimpleDateFormat("dd/MM/yyyy");
                                 DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
@@ -195,6 +196,7 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                                 tx_estado = popupView.findViewById(R.id.tx_estado);
                                 tx_vencimiento = popupView.findViewById(R.id.tx_vencimiento);
 
+
                                 tx_fecha.setText(formatoRender.format(formatoInicial.parse(getCapRecibidaModel.Data.get(position).Fecha)));
                                 tx_duracion.setText(getCapRecibidaModel.Data.get(position).Duracion + " hrs.");
                                 tx_tema.setText(getCapRecibidaModel.Data.get(position).Tema);
@@ -203,6 +205,19 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                                 tx_estado.setText(getCapRecibidaModel.Data.get(position).Estado);
                                 tx_vencimiento.setText(getCapRecibidaModel.Data.get(position).Vencimiento);
                                 popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
+
+/*
+                                popupWindow.setOutsideTouchable(true);
+                                popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+                                    public boolean onTouch(View v, MotionEvent event) {
+                                        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                            popupWindow.dismiss();
+                                            return true;
+                                        }
+                                        return false;
+                                    }
+                                });
+*/
 
                                 btn_Cerrar = (Button) popupView.findViewById(R.id.id_cerrar);
                                 btn_Cerrar.setOnClickListener(new Button.OnClickListener() {

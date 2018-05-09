@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.pango.hsec.hsec.GlobalVariables.paginacion;
+import static com.pango.hsec.hsec.MainActivity.jsonInsp;
+import static com.pango.hsec.hsec.MainActivity.jsonObs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -137,7 +139,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
         tx_texto =(TextView) rootView.findViewById(R.id.tx_texto);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) rootView.findViewById(R.id.const_main);
-        swipeRefreshLayout.setVisibility(View.INVISIBLE);
+        //swipeRefreshLayout.setVisibility(View.INVISIBLE);
         lupabuscar=(ImageView) rootView.findViewById(R.id.lupabuscar);
         GlobalVariables loaddata = new GlobalVariables();
         //loaddata.LoadData();
@@ -146,26 +148,30 @@ public class FragmentInspecciones extends Fragment implements IActivity {
         tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
         btn_filtro=(Button) rootView.findViewById(R.id.btn_filtro);
 
-
-
-        Utils.inspeccionModel=new InspeccionModel();
-        InspeccionModel inspeccionModel=new InspeccionModel();
-        tipo_busqueda=2;
-        inspeccionModel.Elemperpage="5";
-        inspeccionModel.Pagenumber="1";
-        String json = "";
-
-        Gson gson = new Gson();
-        json = gson.toJson(inspeccionModel);
-
-        Utils.isActivity = true;
         url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-        GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-        final ActivityController obj = new ActivityController("post", url, FragmentInspecciones.this,getActivity());
-        obj.execute(json);
+        if(GlobalVariables.listaGlobalInspeccion.size()==0) {
 
+            Utils.inspeccionModel = new InspeccionModel();
+            InspeccionModel inspeccionModel = new InspeccionModel();
+            tipo_busqueda = 2;
+            inspeccionModel.Elemperpage = "5";
+            inspeccionModel.Pagenumber = "1";
+            String json = "";
 
+            Gson gson = new Gson();
+            json = gson.toJson(inspeccionModel);
+
+            Utils.isActivity = true;
+            //GlobalVariables.listaGlobalInspeccion = new ArrayList<>();
+
+            final ActivityController obj = new ActivityController("post-" + paginacion2, url, FragmentInspecciones.this, getActivity());
+            obj.execute(json);
+
+        }else{
+            successpost(jsonInsp,"");
+
+        }
 
 
 
@@ -236,7 +242,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 //swipeRefreshLayout.setRefreshing(true);
                 loadingTop=true;
                 tx_texto.setVisibility(View.VISIBLE);
-                GlobalVariables.listaGlobalFiltro.clear(); //crear segun el formato
+                GlobalVariables.listaGlobalInspeccion.clear(); //crear segun el formato
                 //GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
@@ -274,7 +280,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
                 //Utils.isActivity=true;
                 GlobalVariables.istabs=false;
-                final ActivityController obj = new ActivityController("post", url, FragmentInspecciones.this,getActivity());
+                final ActivityController obj = new ActivityController("post-0", url, FragmentInspecciones.this,getActivity());
                 obj.execute(json);
 
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
@@ -304,7 +310,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalFiltro.size() != contPublicacion && flag_enter&&flagObsFiltro) {
+                    if (GlobalVariables.listaGlobalInspeccion.size() != contPublicacion && flag_enter&&flagObsFiltro) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -351,7 +357,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
 
                         GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                        final ActivityController obj = new ActivityController("post", url, FragmentInspecciones.this,getActivity());
+                        final ActivityController obj = new ActivityController("post-"+paginacion2, url, FragmentInspecciones.this,getActivity());
                         obj.execute(json2);
 
                         layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -401,7 +407,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
-                String CodInspeccion= GlobalVariables.listaGlobalFiltro.get(position).Codigo;
+                String CodInspeccion= GlobalVariables.listaGlobalInspeccion.get(position).Codigo;
                 Intent intent = new Intent(getActivity(), ActInspeccionDet.class);
                 intent.putExtra("codObs",CodInspeccion);
                 intent.putExtra("posTab",0);
@@ -461,7 +467,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
                 Utils.isActivity = true;
                 url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-                GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+                GlobalVariables.listaGlobalInspeccion = new ArrayList<>();
 
                 final ActivityController obj = new ActivityController("post", url, FragmentInspecciones.this,getActivity());
                 obj.execute(json);
@@ -567,7 +573,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     @Override
     public void successpost(String data, String Tipo) {
 
-        //jsonObs=data1;
+        jsonInsp=data;
         if(flagpopup){
             popupWindow.dismiss();
             flagpopup=false;
@@ -584,8 +590,8 @@ public class FragmentInspecciones extends Fragment implements IActivity {
         contPublicacion=getPublicacionModel.Count;
 
 
-        if(GlobalVariables.listaGlobalFiltro.size()==0) {
-            GlobalVariables.listaGlobalFiltro = getPublicacionModel.Data;
+        if(GlobalVariables.listaGlobalInspeccion.size()==0) {
+            GlobalVariables.listaGlobalInspeccion = getPublicacionModel.Data;
             if(getPublicacionModel.Data.size()==0){
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 tx_mensajeb.setVisibility(View.VISIBLE);
@@ -596,15 +602,15 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             //swipeRefreshLayout.setVisibility(View.VISIBLE);
 
             //GlobalVariables.listaGlobal=listaPublicaciones;
-        }else{
+        }else if(!(GlobalVariables.listaGlobalInspeccion.get(GlobalVariables.listaGlobalInspeccion.size()-1).Codigo.equals(getPublicacionModel.Data.get(getPublicacionModel.Data.size()-1).Codigo))){
             //listaPublicaciones.addAll(getPublicacionModel.Data);
-            GlobalVariables.listaGlobalFiltro.addAll(getPublicacionModel.Data);
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            GlobalVariables.listaGlobalInspeccion.addAll(getPublicacionModel.Data);
+            //swipeRefreshLayout.setVisibility(View.VISIBLE);
 
 
         }
 
-        InspeccionAdapter ca = new InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalFiltro);
+        InspeccionAdapter ca = new InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalInspeccion);
         list_busqueda.setAdapter(ca);
         ca.notifyDataSetChanged();
         /*
@@ -633,19 +639,19 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             GlobalVariables.flagUpSc=false;
         }else
             //reemplazar el 100
-            if(GlobalVariables.listaGlobalFiltro.size()>5&&GlobalVariables.listaGlobalFiltro.size()<contPublicacion) {
+            if(GlobalVariables.listaGlobalInspeccion.size()>5&&GlobalVariables.listaGlobalInspeccion.size()<contPublicacion) {
                 //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-                if(GlobalVariables.listaGlobalFiltro.size()%5==0) {
-                    list_busqueda.setSelection(GlobalVariables.listaGlobalFiltro.size() - 6);
+                if(GlobalVariables.listaGlobalInspeccion.size()%5==0) {
+                    list_busqueda.setSelection(GlobalVariables.listaGlobalInspeccion.size() - 6);
                 }else{
-                    list_busqueda.setSelection(GlobalVariables.listaGlobalFiltro.size()-1 );
-                    //- GlobalVariables.listaGlobalFiltro.size()%5+1
+                    list_busqueda.setSelection(GlobalVariables.listaGlobalInspeccion.size()-1 );
+                    //- GlobalVariables.listaGlobalInspeccion.size()%5+1
                 }
 
                 flagObsFiltro=true;
 
-            }else if(GlobalVariables.listaGlobalFiltro.size()==contPublicacion){
-                list_busqueda.setSelection(GlobalVariables.listaGlobalFiltro.size());
+            }else if(GlobalVariables.listaGlobalInspeccion.size()==contPublicacion){
+                list_busqueda.setSelection(GlobalVariables.listaGlobalInspeccion.size());
                 flagObsFiltro=false;
 
             }
@@ -729,7 +735,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 GlobalVariables.isFragment=false;
                 Utils.isActivity = true;
                 url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-                GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+                GlobalVariables.listaGlobalInspeccion = new ArrayList<>();
 
                 final ActivityController obj = new ActivityController("post", url, FragmentInspecciones.this,getActivity());
                 obj.execute(json);

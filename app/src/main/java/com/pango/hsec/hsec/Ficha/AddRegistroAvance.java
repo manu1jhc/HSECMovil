@@ -146,8 +146,8 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
             usuario_data.add(new Maestro(cod_Responsables[i],nom_Responsables[i].split(":")[0]));
         }
         if(usuario_data.size()>1)usuario_data.add(0,new Maestro("-1","-  Seleccione  -"));
-        ArrayAdapter adapterUsuario = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, usuario_data);
-        adapterUsuario.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterUsuario = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, usuario_data);
+        adapterUsuario.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerUsuario.setAdapter(adapterUsuario);
         spinnerUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -5,12 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -53,6 +56,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     DateFormat formatoRender;
     EditText txtTarea;
     Gson gson;
+    TextView subresponsables;
     boolean edit=false;
     private RecyclerView listView;
     private ListPersonEditAdapter listPersonAdapter;
@@ -66,6 +70,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         StrPlan=datos.getString("Plan");
         Plan = gson.fromJson(StrPlan, PlanModel.class);
         setContentView(R.layout.activity_plan_accion_edit);
+        myCalendar = Calendar.getInstance();
         if(!(Plan.CodAccion.contains("-1")||Plan.CodAccion.equals("0"))) {
             CardView cv_edit = (CardView) findViewById(R.id.plan_edit);
             cv_edit.setVisibility(View.VISIBLE);
@@ -80,7 +85,9 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             CodAccion.setText(Plan.CodAccion);
             CodEstado.setText(GlobalVariables.getDescripcion(GlobalVariables.Estado_Plan,Plan.CodEstadoAccion));
         }
-
+        subresponsables=findViewById(R.id.subresponsables);
+        String mensaje="<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Responsables";
+        subresponsables.setText(Html.fromHtml(mensaje));
         FechaSolic = (TextView)findViewById(R.id.txt_fecha);
         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dt = new SimpleDateFormat("dd 'de' MMMM");
@@ -93,20 +100,20 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         spinnerArea = (Spinner) findViewById(R.id.sp_areahsec);
         spTipoAccion = (Spinner) findViewById(R.id.sp_tipoaccion);
 
-        ArrayAdapter adapterTipoObs = new ArrayAdapter(this,android.R.layout.simple_spinner_item,GlobalVariables.Actividad_obs);
-        adapterTipoObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterTipoObs = new ArrayAdapter(this,R.layout.custom_spinner_item,GlobalVariables.Actividad_obs);
+        adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spActRelacionada.setAdapter(adapterTipoObs);
 
-        ArrayAdapter adapterNivelR = new ArrayAdapter(this,android.R.layout.simple_spinner_item,GlobalVariables.NivelRiesgo_obs);
-        adapterTipoObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterNivelR = new ArrayAdapter(this,R.layout.custom_spinner_item,GlobalVariables.NivelRiesgo_obs);
+        adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spNivelRiesgo.setAdapter(adapterNivelR);
 
-        ArrayAdapter adapterArea = new ArrayAdapter(this,android.R.layout.simple_spinner_item,GlobalVariables.Area_obs);
-        adapterTipoObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterArea = new ArrayAdapter(this,R.layout.custom_spinner_item,GlobalVariables.Area_obs);
+        adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerArea.setAdapter(adapterArea);
 
-        ArrayAdapter adapterTipoacc = new ArrayAdapter(this,android.R.layout.simple_spinner_item,GlobalVariables.Tipo_Plan);
-        adapterTipoObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterTipoacc = new ArrayAdapter(this,R.layout.custom_spinner_item,GlobalVariables.Tipo_Plan);
+        adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spTipoAccion.setAdapter(adapterTipoacc);
 
 //buttons
@@ -180,7 +187,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
 
         }
         else{
-            myCalendar = Calendar.getInstance();
+
             Date actual = myCalendar.getTime();
 
             //btnFechaInicio.setText(dt.format(actual));
@@ -232,7 +239,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     }
 
 
-    public boolean ValifarFormulario(){
+    public boolean ValifarFormulario(View view){
         String ErrorForm="";
         if(StringUtils.isEmpty(Plan.CodSolicitadoPor)) ErrorForm+=" ->Solicitante\n";
         if(StringUtils.isEmpty(Plan.CodActiRelacionada)) ErrorForm+=" ->Actividad Relacionada\n";
@@ -246,6 +253,8 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
 
         if(ErrorForm.isEmpty()) return true;
         else{
+
+/*
             String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setCancelable(false);
@@ -259,6 +268,14 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
                 }
             });
             alertDialog.show();
+*/
+            Snackbar.make(view, "Complete los siguientes campos obligatorios:\n"+ErrorForm, Snackbar.LENGTH_LONG).show();
+
+
+
+
+
+
             return false;
         }
     }
@@ -297,7 +314,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
            finish();
        }
        else{
-           if(ValifarFormulario()){
+           if(ValifarFormulario(view)){
                if(edit||Plan.NroDocReferencia!=null){
                    String url= GlobalVariables.Url_base+"PlanAccion/Post";
                    final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);

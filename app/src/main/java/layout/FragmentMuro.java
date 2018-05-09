@@ -51,7 +51,7 @@ import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.pango.hsec.hsec.GlobalVariables.paginacion;
-import static com.pango.hsec.hsec.MainActivity.jsonMuro;
+//import static com.pango.hsec.hsec.MainActivity.jsonMuro;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -161,7 +161,8 @@ public class FragmentMuro extends Fragment implements IActivity{
         url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+"7";
 
         //GlobalVariables.count=5;
-
+        success(GlobalVariables.jsonMuro,"");
+/*
         if(GlobalVariables.listaGlobal.size()==0){
             final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentMuro.this,getActivity());
             obj.execute("");
@@ -169,13 +170,10 @@ public class FragmentMuro extends Fragment implements IActivity{
 
         }else{
            //jsonMuro"
-            success(jsonMuro,"");
-/*
-            MuroAdapter ca = new MuroAdapter(getContext(),GlobalVariables.listaGlobal);
-            List_muro.setAdapter(ca);
-*/
-        }
+            success(GlobalVariables.jsonMuro,"");
 
+        }
+*/
 
         Gson gson = new Gson();
         getUsuarioModel = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
@@ -469,7 +467,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     @Override
     public void success(String data1,String Tipo) {
 
-        jsonMuro=data1;
+        GlobalVariables.jsonMuro=data1;
 
 
         if(flagpopup){

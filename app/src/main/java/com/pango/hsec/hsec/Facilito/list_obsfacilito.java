@@ -41,7 +41,7 @@ import java.util.List;
 import layout.FragmentMuro;
 
 import static com.pango.hsec.hsec.GlobalVariables.paginacion;
-import static com.pango.hsec.hsec.MainActivity.jsonMuro;
+//import static com.pango.hsec.hsec.MainActivity.jsonMuro;
 
 public class list_obsfacilito extends AppCompatActivity implements IActivity {
     ImageButton close;
@@ -241,7 +241,7 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
     @Override
     public void success(String data, String Tipo) {
 
-        jsonMuro=data;
+        //jsonMuro=data;
         if(flagpopup){
             popupWindow.dismiss();
             flagpopup=false;

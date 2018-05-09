@@ -218,6 +218,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
                 }
             });
+
             nombre.setText(tempNombre);
             fecha.setText(Obtenerfecha(tempFecha));
 
@@ -482,6 +483,21 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         .into(img_det);
             }
 
+
+            img_det.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), Galeria_detalle.class);
+                    //intent.putExtra(ActImagDet.EXTRA_PARAM_ID, a);
+                    intent.putExtra("post", tempImgDet);
+                    intent.putExtra("codigo", "G"+data.get(position).Codigo);
+                    v.getContext().startActivity(intent);
+                    //GlobalVariables.desdeBusqueda=true;
+                }
+            });
+
+
+
             if(tempRiesgo.length==0){
                 riesgo1.setVisibility(View.GONE);
                 riesgo2.setVisibility(View.GONE);
@@ -679,6 +695,18 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             });
 
 
+            img_preview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), Galeria_detalle.class);
+                    //intent.putExtra(ActImagDet.EXTRA_PARAM_ID, a);
+                    intent.putExtra("post", tempImgDet);
+                    intent.putExtra("codigo", "G"+data.get(position).Codigo);
+                    v.getContext().startActivity(intent);
+                    //GlobalVariables.desdeBusqueda=true;
+                }
+            });
+
             return rowView;
 
         }else if(positem == 3){//facilito
@@ -734,6 +762,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             //area.setText(tempUbicacion);
 //        accion.setText(tempAccion);
             tx_det.setText(tempObservacion);
+
+            /*
             if (tempTipo == null) {
                 riesgo.setVisibility(View.INVISIBLE);
             } else if (tempTipo.equals("A")) {
@@ -742,7 +772,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             } else if (tempTipo.equals("C")) {
                 riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
             }
-
+*/
             if (tempimg_perfil == null) {
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
@@ -770,6 +800,18 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         .into(img_det);
             }
 
+
+            img_det.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), Galeria_detalle.class);
+                    //intent.putExtra(ActImagDet.EXTRA_PARAM_ID, a);
+                    intent.putExtra("post", tempImgDet);
+                    intent.putExtra("codigo", "G"+data.get(position).Codigo);
+                    v.getContext().startActivity(intent);
+                    //GlobalVariables.desdeBusqueda=true;
+                }
+            });
 
 
 

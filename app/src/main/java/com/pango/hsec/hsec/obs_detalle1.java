@@ -54,28 +54,28 @@ public class obs_detalle1 extends Fragment implements IActivity{
         spinnerEstado = (Spinner) mView.findViewById(R.id.sp_estado);
         spinnerError = (Spinner) mView.findViewById(R.id.sp_error);
 
-        ArrayAdapter adapterActividadObs = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Actividad_obs);
-        adapterActividadObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterActividadObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Actividad_obs);
+        adapterActividadObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinneActividad.setAdapter(adapterActividadObs);
 
-        ArrayAdapter adapterHHA = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.HHA_obs);
-        adapterHHA.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterHHA = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.HHA_obs);
+        adapterHHA.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerHHA.setAdapter(adapterHHA);
 
-        ArrayAdapter adapterActo = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Acto_obs);
-        adapterActo.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterActo = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Acto_obs);
+        adapterActo.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerActo.setAdapter(adapterActo);
 
-        ArrayAdapter adapterCondicion = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Condicion_obs);
-        adapterCondicion.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterCondicion = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Condicion_obs);
+        adapterCondicion.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerCondicion.setAdapter(adapterCondicion);
 
-        ArrayAdapter adapterEstado = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Estado_obs);
-        adapterEstado.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterEstado = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Estado_obs);
+        adapterEstado.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerEstado.setAdapter(adapterEstado);
 
-        ArrayAdapter adapterError = new ArrayAdapter(getActivity().getBaseContext(),android.R.layout.simple_spinner_item,GlobalVariables.Error_obs);
-        adapterError.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterError = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Error_obs);
+        adapterError.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerError.setAdapter(adapterError);
 
 

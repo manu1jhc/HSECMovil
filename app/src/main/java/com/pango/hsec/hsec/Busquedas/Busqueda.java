@@ -94,8 +94,8 @@ public class Busqueda extends AppCompatActivity implements IActivity {
         sp_busqueda=(Spinner) findViewById(R.id.sp_busqueda);
         tx_mensajeb=findViewById(R.id.tx_mensajeb);
 
-        ArrayAdapter adapterBusObs = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, busqueda_tipo);
-        adapterBusObs.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        ArrayAdapter adapterBusObs = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, busqueda_tipo);
+        adapterBusObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         sp_busqueda.setAdapter(adapterBusObs);
 
         sp_busqueda.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

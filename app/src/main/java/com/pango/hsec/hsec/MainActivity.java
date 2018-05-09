@@ -67,8 +67,8 @@ public class MainActivity extends AppCompatActivity
     private BottomNavigationView bottomNavigationView; // menu inferior
     private FragmentManager fragmentManager;
     public static Context contextOfApplication;
-    public static String jsonMuro="";
     public static String jsonObs="";
+    public static String jsonInsp="";
 
     DrawerLayout drawerLayout;
     ImageView buscar;

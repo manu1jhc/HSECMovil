@@ -123,8 +123,15 @@ public class GlobalVariables  {
     public static ArrayList<PlanMinModel> listaPlanMin = new  ArrayList<PlanMinModel>();
 
     public static ArrayList<PublicacionModel> listaGlobalFiltro = new  ArrayList<PublicacionModel>();
+    public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
+
+    public static ArrayList<PublicacionModel> listaGlobalInspeccion=new ArrayList<>();//data del fragment de inspecciones
+
+
     public static ArrayList<ObsFacilitoModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoModel>();
     public static  ArrayList<Maestro> ObsFacilito_tiempo = new ArrayList<>();
+
+    public static String jsonMuro="";
 
     public static String json_user="";
 
