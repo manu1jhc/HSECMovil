@@ -20,15 +20,13 @@
             android:id="@+id/card_codigo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
         >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+
                 android:weightSum="1"
                 >
 
@@ -36,13 +34,19 @@
                     android:id="@+id/txcod"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Código"
-                    android:gravity="center_vertical"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Codigo" />
+                    android:layout_weight="0.72"
+                    tools:text="Codigo"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <TextView
                     android:id="@+id/edit_codigo"
@@ -51,12 +55,17 @@
                     android:drawablePadding="0dp"
                     android:inputType="text"
                     android:text="INS0000000XYZ"
-                    android:gravity="center"
                     android:singleLine="true"
-                    android:textSize="14sp"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:textSize="16sp"
+                    android:layout_weight="0.28"
                     android:editable="false"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -66,7 +75,6 @@
             android:id="@+id/card_gerencia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -80,22 +88,32 @@
                     android:id="@+id/tx_gerencia"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Gerencia"
-                    android:gravity="center_vertical"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Gerencia" />
+                    android:layout_weight="0.72"
+                    tools:text="Gerencia"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_gerencia"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
-                    android:gravity="center"
+                    android:layout_weight="0.28"
 
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
 
@@ -106,7 +124,6 @@
             android:id="@+id/card_superint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -120,21 +137,32 @@
                     android:id="@+id/tx_superint"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Super-intendencia"
-                    android:gravity="center_vertical"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Super-intendencia" />
+                    android:layout_weight="0.72"
+                    tools:text="Super-intendencia"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_superint"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
-                    android:gravity="center"
+                    android:layout_weight="0.28"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
 
@@ -145,7 +173,6 @@
             android:id="@+id/id_contrata"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             >
 
             <LinearLayout
@@ -159,39 +186,49 @@
                     android:id="@+id/txtcontrata"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Contrata"
-                    android:gravity="center_vertical"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
                     tools:text="Contrata"
-                    android:layout_weight="0.65"
+                    android:layout_weight="0.72"
+
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
                     />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.35"
+                    android:layout_weight="0.28"
                     android:weightSum="1"
                     >
                 <TextView
                     android:id="@+id/insp_contrata"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:enabled="false"
                     android:text="xxxxxxxxxxxxxxxxx"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
+                    android:textSize="16sp"
                     android:layout_weight="0.16"
+
                     android:gravity="center"
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
                     />
 
                 <ImageButton
                     android:id="@+id/btn_buscar_c"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_weight="0.84"
                     android:src="@drawable/ic_contrata"
                     android:background="@drawable/transparent"
@@ -207,7 +244,6 @@
             android:id="@+id/id_fechaprog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
 >
 
             <LinearLayout
@@ -221,21 +257,35 @@
                     android:id="@+id/textViewdesde"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Fecha programada"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Fecha programada" />
+                    android:layout_weight="0.72"
+                    tools:text="Fecha programada"
+
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Button
                     android:id="@+id/btn_fecha_prog"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.35"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.28"
                     android:text="Seleccionar fecha"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center"
  />
                 <!-- android:onClick="escogerFecha" -->
             </LinearLayout>
@@ -246,7 +296,6 @@
             android:id="@+id/id_fechainsp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="1dp"
             >
 
             <LinearLayout
@@ -260,21 +309,35 @@
                     android:id="@+id/textinspeccion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Fecha de inspección"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Fecha de inspección" />
+                    android:layout_weight="0.72"
+                    tools:text="Fecha de inspección"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Button
                     android:id="@+id/btn_fechainsp"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.35"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.28"
                     android:text="Seleccionar fecha"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center"
+
                     />
 <!-- android:onClick="escogerFecha2"-->
 
@@ -298,24 +361,37 @@
                 <TextView
                     android:id="@+id/texthora"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
+                    android:layout_height="match_parent"
                     android:text="Hora"
-                    android:textSize="18sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
+                    android:layout_weight="0.72"
                     tools:text="Hora inspección"
-                    android:gravity="center_vertical"
+
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
                     />
 
                 <Button
                     android:id="@+id/btn_hora"
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="1dp"
-                    android:layout_weight="0.35"
+                    android:layout_height="40dp"
+                    android:layout_weight="0.28"
                     android:text="00:00"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center"
+
                     />
                 <!-- android:onClick="escogerHora"-->
 
@@ -326,7 +402,6 @@
             android:id="@+id/card_ubicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -340,20 +415,32 @@
                     android:id="@+id/tx_ubicacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Ubicación"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Ubicación" />
+                    android:layout_weight="0.72"
+                    tools:text="Ubicación"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_ubicacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:layout_weight="0.28"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -364,7 +451,6 @@
             android:id="@+id/card_sububicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -378,20 +464,32 @@
                     android:id="@+id/tx_sububicacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Sub ubicación"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Sub ubicación" />
+                    android:layout_weight="0.72"
+                    tools:text="Sub ubicación"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_sububicacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:layout_weight="0.28"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -402,7 +500,6 @@
             android:id="@+id/card_tipoinsp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -416,20 +513,32 @@
                     android:id="@+id/tx_tipoinsp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Tipo de inspección"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Tipo de inspección" />
+                    android:layout_weight="0.72"
+                    tools:text="Tipo de inspección"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_tipoinsp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:layout_weight="0.28"
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
+
                     />
 
             </LinearLayout>

@@ -21,15 +21,13 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_codigo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
+
                 android:weightSum="1"
                 >
 
@@ -37,13 +35,20 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:id="@+id/txcod"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Código"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Codigo" />
+                    android:layout_weight="0.72"
+                    tools:text="Codigo"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+
+                    />
 
                 <TextView
                     android:id="@+id/edit_codigo"
@@ -52,11 +57,15 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:drawablePadding="0dp"
                     android:inputType="text"
                     android:text="INS0000000XYZ"
-                    android:gravity="center"
                     android:singleLine="true"
-                    android:textSize="14sp"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:textSize="16sp"
+                    android:layout_weight="0.28"
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -69,15 +78,12 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_ninspeccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
                 android:weightSum="1"
                 >
 
@@ -85,13 +91,18 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:id="@+id/txinsp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Nro Inspección"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Nro Inspección" />
+                    android:layout_weight="0.72"
+                    tools:text="Nro Inspección"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <TextView
                     android:id="@+id/edit_ninsp"
@@ -99,10 +110,14 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:layout_height="match_parent"
                     android:inputType="text"
                     android:text="1"
-                    android:gravity="center"
-                    android:textSize="14sp"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:textSize="16sp"
+                    android:layout_weight="0.28"
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -112,7 +127,6 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_ubicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -126,20 +140,31 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:id="@+id/tx_ubicacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Ubicación específica"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Ubicación específica" />
+                    android:layout_weight="0.72"
+                    tools:text="Ubicación específica"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_ubicacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:layout_weight="0.28"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -149,15 +174,12 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_lugar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
                 android:weightSum="1"
                 >
 
@@ -165,21 +187,35 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:id="@+id/txlugar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Lugar"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Lugar" />
+                    android:layout_weight="0.72"
+                    tools:text="Lugar"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <EditText
                     android:id="@+id/edit_lugar"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
-                    android:layout_weight="0.35"
-                    android:textSize="14sp" />
+                    android:layout_weight="0.28"
+                    android:textSize="16sp"
+                    android:inputType="textMultiLine"
+                    android:background="@android:color/transparent"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/colorNegro"
+                    />
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -190,7 +226,6 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_asp_obs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -204,22 +239,31 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:id="@+id/tx_aspecto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Aspecto observado"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Aspecto observado" />
+                    android:layout_weight="0.72"
+                    tools:text="Aspecto observado"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_aspecto"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
-                    android:gravity="center"
+                    android:layout_weight="0.28"
 
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
 
@@ -230,7 +274,6 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_actividad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -244,21 +287,31 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:id="@+id/tx_actividad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Actividad relacionada"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Actividad relacionada" />
+                    android:layout_weight="0.72"
+                    tools:text="Actividad relacionada"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_actividad"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
-                    android:gravity="center"
+                    android:layout_weight="0.28"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
 
@@ -269,7 +322,6 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_riesgo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
@@ -283,20 +335,31 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
                     android:id="@+id/tx_riesgo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Nivel de riesgo"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    android:layout_weight="0.65"
-                    tools:text="Nivel de riesgo" />
+                    android:layout_weight="0.72"
+                    tools:text="Nivel de riesgo"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <Spinner
                     android:id="@+id/spinner_riesgo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.35"
-                    android:layout_margin="4dp"
+                    android:layout_weight="0.28"
+
+                    android:textColor="@color/colorNegro"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:gravity="center_vertical"
                     />
 
             </LinearLayout>
@@ -307,37 +370,51 @@ tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentObsInsAdd"
             android:id="@+id/card_observacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:weightSum="1"
                 >
 
                 <TextView
                     android:id="@+id/tx_obs"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="4dp"
                     android:text="Observación"
-                    android:gravity="center_vertical"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"
-                    tools:text="Observación" />
+                    tools:text="Observación"
+                    android:layout_weight="0.72"
+
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    />
 
                 <EditText
                     android:id="@+id/edit_observacion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginRight="4dp"
-                    android:layout_marginBottom="2dp"
+                    android:textSize="16sp"
+                    android:layout_weight="0.28"
                     android:ems="10"
                     android:scrollbars="vertical"
+                    android:background="@android:color/transparent"
+                    android:inputType="textMultiLine"
 
+                    android:layout_marginTop="2dp"
+                    android:layout_marginBottom="2dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/colorNegro"
                     />
 
 

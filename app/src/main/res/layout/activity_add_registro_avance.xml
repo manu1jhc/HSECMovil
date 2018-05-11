@@ -31,30 +31,30 @@
 
             <ImageView
                 android:id="@+id/imageView20"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="8dp"
-                android:cropToPadding="false"
-                android:src="@drawable/ic_minero"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
+                android:layout_width="50dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
-                android:gravity="center_vertical"
-
-                android:text="HSEC"
-                android:textColor="@color/colorBlanco"
-                android:textSize="24sp"
+                android:onClick="guardarData"
+                android:cropToPadding="false"
+                android:src="@drawable/cwac_cam2_ic_check_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/tx_titulo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+
+                android:gravity="center"
+                android:text="HSEC"
+                android:textColor="@color/colorBlanco"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imageView20"
+                app:layout_constraintHorizontal_bias="0.6"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
 
@@ -76,7 +76,6 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="50dp"
         >
 
 
@@ -92,7 +91,7 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/colorBtnBeige"
+                app:cardBackgroundColor="@color/ColorPlomo4"
                 android:layout_marginBottom="1dp"
                 >
 
@@ -100,12 +99,12 @@
                     android:id="@+id/titulo_reg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/colorBtnBeige"
-                    android:text="Agregar registro de atención"
+                    android:background="@color/ColorPlomo4"
+                    android:padding="5dp"
+                    android:text="Registro de atención"
+                    android:textSize="16dp"
                     android:textAlignment="center"
-                    android:textColor="@color/colorBlanco"
-                    android:layout_margin="5dp"
-                    />
+                    android:textStyle="bold" />
 
             </android.support.v7.widget.CardView>
 
@@ -113,37 +112,35 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
 
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
                     android:weightSum="1">
 
                     <TextView
                         android:id="@+id/sp2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.65"
-                        android:text="Responsables"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_margin="5dp"
-                        android:gravity="center_vertical"
-                        />
+                        android:layout_weight="0.72"
 
+
+                        android:text="Responsable"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"/>
 
                     <Spinner
                         android:id="@+id/sp_persona"
-                        android:layout_weight="0.35"
+                        android:layout_weight="0.28"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="4dp"
-                        android:layout_marginTop="4dp"
-
                         android:gravity="center"
                         />
 
@@ -167,26 +164,28 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
 
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
                     android:weightSum="1">
 
                     <TextView
                         android:id="@+id/tx2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.65"
+                        android:layout_weight="0.72"
                         android:text="Fecha"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
-android:gravity="center_vertical"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
                         />
 <!--
                     <TextView
@@ -206,10 +205,9 @@ android:gravity="center_vertical"
                         android:id="@+id/btn_fecha"
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.35"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.28"
 
-                        android:layout_margin="5dp"
                         android:onClick="escogerFecha"
 
                         android:text="Seleccionar fecha"
@@ -221,25 +219,28 @@ android:gravity="center_vertical"
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
 
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
                     android:weightSum="1">
 
                     <TextView
                         android:id="@+id/tx3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.65"
+                        android:layout_weight="0.72"
                         android:text="Porcentaje de avance"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
 
                         />
 <!--
@@ -261,7 +262,7 @@ android:gravity="center_vertical"
                         xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="0.35"
+                        android:layout_weight="0.28"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal"
                         android:background="@android:color/white">
@@ -331,25 +332,29 @@ android:gravity="center_vertical"
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="3dp"
-
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:orientation="vertical"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:weightSum="1"
                     >
 
                     <TextView
                         android:id="@+id/tx4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.72"
                         android:text="Tarea realizada"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        android:layout_margin="5dp"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
                         />
 <!--
                     <TextView
@@ -364,9 +369,23 @@ android:gravity="center_vertical"
                     <EditText
                         android:id="@+id/et_mensaje"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
+                        android:layout_height="match_parent"
                         android:ems="10"
+                        android:layout_weight="0.28"
+
+                        android:scrollbars="vertical"
+                        android:background="@android:color/transparent"
+                        android:inputType="textMultiLine"
+
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="@color/colorNegro"
+
+
  />
 
                 </LinearLayout>
@@ -376,31 +395,36 @@ android:gravity="center_vertical"
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                app:cardBackgroundColor="@color/colorBtnBeige">
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/ColorPlomo4"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+
+                    >
 
                     <TextView
-                        android:layout_width="300dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="0.15"
                         android:gravity="center"
-                        android:paddingBottom="10dp"
                         android:text="Galeria de Fotos\Videos"
-                        android:textColor="@color/alter_album_name_text_color"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        />
 
                     <ImageButton
                         android:id="@+id/btn_addfotos"
                         style="@style/Widget.AppCompat.ImageButton"
-                        android:layout_width="45dp"
+                        android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.85"
                         android:background="@android:color/transparent"
                         android:padding="0dp"
                         android:src="@drawable/ic_add_circle_outline_black_24dp" />
@@ -416,31 +440,31 @@ android:gravity="center_vertical"
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                app:cardBackgroundColor="@color/colorBtnBeige">
+                app:cardBackgroundColor="@color/ColorPlomo4">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="1"
+                    >
 
                     <TextView
-                        android:layout_width="300dp"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_weight="0.15"
                         android:gravity="center"
-                        android:paddingBottom="10dp"
-                        android:paddingTop="10dp"
+
                         android:text="Otros Documentos"
-                        android:textColor="@color/alter_album_name_text_color"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
                     <ImageButton
                         android:id="@+id/btn_addfiles"
                         style="@style/Widget.AppCompat.ImageButton"
-                        android:layout_width="45dp"
+                        android:layout_width="match_parent"
                         android:layout_height="45dp"
-                        android:layout_weight="1"
+                        android:layout_weight="0.85"
                         android:background="@android:color/transparent"
                         android:padding="0dp"
                         android:src="@drawable/ic_add_circle_outline_black_24dp" />
@@ -474,6 +498,7 @@ android:gravity="center_vertical"
             android:id="@+id/btn_guardar"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:visibility="gone"
             android:layout_marginBottom="0dp"
             android:layout_marginLeft="1dp"
             android:layout_marginRight="0dp"
@@ -482,6 +507,7 @@ android:gravity="center_vertical"
             android:text="Guardar"
             android:textColor="@color/colorBlanco"
             android:textSize="12sp"
+            android:onClick="guardarData"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/btn_deleteAm"
             app:layout_constraintRight_toRightOf="parent"

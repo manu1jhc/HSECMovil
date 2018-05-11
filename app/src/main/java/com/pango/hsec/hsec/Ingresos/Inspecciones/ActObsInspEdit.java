@@ -15,6 +15,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -65,6 +66,7 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     String Errores="";
     Button btn_Salvar;
     Gson gson;
+    TextView tx_titulo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +98,13 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
            GlobalVariables.ObserbacionPlan=obsInspAddModel.obsInspDetModel.CodInspeccion;
        }
 
+        tx_titulo=findViewById(R.id.tx_titulo);
+        if(GlobalVariables.ObjectEditable){
+            tx_titulo.setText("Editar Observación");
+        }else{
+            tx_titulo.setText("Añadir Observación");
+
+        }
         initialiseTabHost();
 
         // Fragments and ViewPager Initialization
@@ -295,7 +304,7 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                              Actives.set(0,-1);
                              Errores+="\nOcurrio un error interno de servidor";
                          }
-                         if(!Actives.contains(0)) FinishSave();
+                         if(!Actives.contains(0)) FinishSave();///////
                          progressBar.setVisibility(View.GONE);
                      }
 
@@ -303,7 +312,7 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                      public void onFailure(Call<String> call, Throwable t) {
                          Actives.set(0,-1);
                          Errores+="\nFallo la subida de archivos";
-                         if(!Actives.contains(0)) FinishSave();
+                         if(!Actives.contains(0)) FinishSave();////////
                          progressBar.setVisibility(View.GONE);
                      }
                  });

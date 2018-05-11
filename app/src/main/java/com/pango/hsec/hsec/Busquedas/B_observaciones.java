@@ -87,7 +87,7 @@ public class B_observaciones extends AppCompatActivity {
         id_persona=(TextView) findViewById(R.id.id_persona);
 
         area_data= new ArrayList<>();
-        area_data.add(new Maestro(null,"-  Seleccione  -"));
+        //area_data.add(new Maestro(null,"-  Seleccione  -"));
         area_data.addAll(GlobalVariables.Area_obs);
 
         tipo_data= new ArrayList<>();
@@ -95,11 +95,11 @@ public class B_observaciones extends AppCompatActivity {
         tipo_data.addAll(GlobalVariables.Tipo_obs2);
 
         nivel_data= new ArrayList<>();
-        nivel_data.add(new Maestro(null,"-  Seleccione  -"));
+        //nivel_data.add(new Maestro(null,"-  Seleccione  -"));
         nivel_data.addAll(GlobalVariables.NivelRiesgo_obs);
 
         gerenciadata= new ArrayList<>();
-        gerenciadata.add(new Maestro(null,"-  Seleccione  -"));
+        //gerenciadata.add(new Maestro(null,"-  Seleccione  -"));
         gerenciadata.addAll(GlobalVariables.Gerencia);
 
         superintdata=new ArrayList<>();

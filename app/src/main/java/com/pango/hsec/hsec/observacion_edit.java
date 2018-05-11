@@ -53,6 +53,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     private TabHost mTabHost;
     ImageButton close;
     Button btn_Salvar;
+    TextView tx_titulo;
     ProgressBar progressBar;
     HorizontalScrollView horizontalsv;
     int pos=0;
@@ -76,6 +77,14 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         CodTipo=datos.getString("tipoObs");
         pos=datos.getInt("posTab");
         //if(GlobalVariables.ObjectEditable) CodObservacion=datos.getString("Observacion");
+        tx_titulo=findViewById(R.id.tx_titulo);
+        if(GlobalVariables.ObjectEditable){
+            tx_titulo.setText("Editar Observación");
+        }else{
+            tx_titulo.setText("Añadir Observación");
+
+        }
+
 
         initialiseTabHost();
 

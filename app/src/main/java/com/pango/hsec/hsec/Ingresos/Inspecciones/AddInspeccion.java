@@ -13,6 +13,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -66,7 +67,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
     ProgressBar progressBar;
     ArrayList<Integer> Actives=new ArrayList();
     String CodInspeccion,Errores="";
-
+    TextView tx_titulo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +85,16 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
         GlobalVariables.ListAtendidos=new ArrayList<>();
         GlobalVariables.ListobsInspAddModel=new ArrayList<>();
         GlobalVariables.countObsInsp=1;
+        tx_titulo=findViewById(R.id.tx_titulo);
+        if(GlobalVariables.ObjectEditable){
+            tx_titulo.setText("Editar Inspección");
+        }else{
+            tx_titulo.setText("Añadir Inspección");
+
+        }
+
+
+
 
         initialiseTabHost();
 

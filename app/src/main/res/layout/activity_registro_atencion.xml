@@ -78,53 +78,60 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorBtnBeige"
+        app:cardBackgroundColor="@color/ColorPlomo4"
         android:layout_marginBottom="1dp"
         >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorBtnBeige"
+            android:background="@color/ColorPlomo4"
             android:text="Registro de atención"
             android:textAlignment="center"
-            android:textColor="@color/colorBlanco"
             android:layout_margin="5dp"
+            android:textStyle="bold"
             />
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:weightSum="1">
 
             <TextView
                 android:id="@+id/tx1"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.65"
+                android:layout_weight="0.72"
                 android:text="Responsable"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_margin="5dp"
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 />
 
             <TextView
                 android:id="@+id/tx_responsable"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="0.35"
+                android:layout_weight="0.28"
                 android:text="TextView"
                 android:textSize="16sp"
-                android:layout_margin="5dp"
-
+                android:textColor="@color/colorNegro"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+                android:gravity="center_vertical"
                 />
 
         </LinearLayout>
@@ -133,38 +140,42 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:weightSum="1">
 
             <TextView
                 android:id="@+id/tx2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.65"
+                android:layout_weight="0.72"
                 android:text="Fecha"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_margin="5dp"
-
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 />
 
             <TextView
                 android:id="@+id/tx_fecha"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="0.35"
+                android:layout_weight="0.28"
                 android:text="TextView"
                 android:textSize="16sp"
-                android:layout_margin="5dp"
-
+                android:textColor="@color/colorNegro"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+                android:gravity="center_vertical"
                 />
 
         </LinearLayout>
@@ -173,38 +184,42 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:weightSum="1">
 
             <TextView
                 android:id="@+id/tx3"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.65"
+                android:layout_weight="0.72"
                 android:text="Porcentaje de avance"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_margin="5dp"
-
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 />
 
             <TextView
                 android:id="@+id/tx_avance"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="0.35"
+                android:layout_weight="0.28"
                 android:text="TextView"
                 android:textSize="16sp"
-                android:layout_margin="5dp"
-
+                android:textColor="@color/colorNegro"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+                android:gravity="center_vertical"
                 />
 
         </LinearLayout>
@@ -213,36 +228,43 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="3dp"
 
         >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
             android:weightSum="1">
 
             <TextView
                 android:id="@+id/tx4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="0.65"
+                android:layout_weight="0.72"
                 android:text="Tarea realizada"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_margin="5dp"
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 />
 
             <TextView
                 android:id="@+id/tx_tarea"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_weight="0.35"
+                android:layout_weight="0.28"
                 android:text="TextView"
                 android:textSize="16sp"
-                android:layout_margin="5dp"
+                android:textColor="@color/colorNegro"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="2dp"
+                android:paddingTop="2dp"
+                android:gravity="center_vertical"
                 />
 
         </LinearLayout>
@@ -260,7 +282,7 @@
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorBtnBeige"
+        app:cardBackgroundColor="@color/ColorPlomo4"
         >
         <TextView
             android:id="@+id/tx6"
@@ -271,8 +293,7 @@
             android:textStyle="bold"
             android:layout_margin="5dp"
             android:gravity="center"
-            android:background="@color/colorBtnBeige"
-            android:textColor="@color/colorBlanco"
+            android:background="@color/ColorPlomo4"
             />
     </android.support.v7.widget.CardView>
 
@@ -322,32 +343,26 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginBottom="1dp"
                 >
                 <android.support.constraint.ConstraintLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/cl_otros"
-                    android:background="@color/colorBtnBeige"
-                    android:textColor="@color/colorBlanco"
+                    android:background="@color/ColorPlomo4"
 
                     >
 
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:background="@color/colorBtnBeige"
-                        android:textColor="@color/colorBlanco"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
                         android:text="Documentos"
-                        android:textSize="18sp"
+                        android:textSize="16sp"
                         android:textStyle="bold"
-
+                        android:gravity="center"
+                        android:padding="4dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -369,7 +384,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:background="@color/colorBtnBeige"
+                    android:background="@color/ColorPlomo4"
                     android:weightSum="1"
 >
 
@@ -377,29 +392,26 @@
                         android:id="@+id/textView19"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.20"
                         android:text="Nombre del documento"
                         android:textAlignment="center"
-                        android:textColor="@color/colorBlanco"
-                        android:layout_weight="0.20"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.40"
                         android:text="Tamaño"
                         android:textAlignment="center"
-                        android:textColor="@color/colorBlanco"
-                        android:layout_weight="0.40"
-                        />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="0.40"
                         android:text="Enlace"
                         android:textAlignment="center"
-                        android:textColor="@color/colorBlanco"
-                        android:layout_weight="0.40"
-                        />
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>

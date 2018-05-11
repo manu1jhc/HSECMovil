@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
@@ -91,7 +93,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     String CodResponsable="",Responsable="",StrAccionmejora="", Errores="";
     ArrayList<Integer> Actives=new ArrayList();
     ArrayList<Maestro> usuario_data;
-
+    TextView tx_titulo,sp2,tx3,tx4;
     final String[] ACCEPT_MIME_TYPES = {
             "application/pdf",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -127,6 +129,19 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         spinnerUsuario=(Spinner) findViewById(R.id.sp_persona);
         gridView = (RecyclerView)  findViewById(R.id.grid);
         listView = (RecyclerView) findViewById(R.id.list);
+        tx_titulo=findViewById(R.id.tx_titulo);
+
+        sp2=findViewById(R.id.sp2);
+        sp2.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Responsable"));
+        //textView23.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Fecha Comprometida"));
+
+        tx3=findViewById(R.id.tx3);
+        tx3.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Porcentaje de avance"));
+
+        tx4=findViewById(R.id.tx4);
+        tx4.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Tarea realizada"));
+
+
         DataImg = new ArrayList<>();
         DataFiles = new ArrayList<>();
         Data = new ArrayList<>();
@@ -138,13 +153,18 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         CodResponsable=datos.getString("CodResponsable");
         Responsable=datos.getString("Responsable");
         Editable=datos.getBoolean("Edit");
+        if(Editable){
+            tx_titulo.setText("Editar registro de atención");
+        }else{
+            tx_titulo.setText("Añadir registro de atención");
+        }
         usuario_data= new ArrayList<>();
         String[] cod_Responsables=CodResponsable.split(";");
         String[] nom_Responsables=Responsable.split(";");
-
         for(int i=0;i<cod_Responsables.length;i++){
             usuario_data.add(new Maestro(cod_Responsables[i],nom_Responsables[i].split(":")[0]));
         }
+
         if(usuario_data.size()>1)usuario_data.add(0,new Maestro("-1","-  Seleccione  -"));
         ArrayAdapter adapterUsuario = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, usuario_data);
         adapterUsuario.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
@@ -226,7 +246,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 btnFechaInicio.setText(dt.format(actual));
             }
         };
-
+/*
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -260,7 +280,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 }
             }
         });
-
+*/
         if(Editable){
             btn_eliminar.setVisibility(View.VISIBLE);
             String url= GlobalVariables.Url_base+"AccionMejora/GetId/"+AddAccionMejora.Correlativo;
@@ -304,13 +324,17 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         });
     }
 
-    public boolean ValifarFormulario(){
+    public boolean ValifarFormulario(View view){
         String ErrorForm="";
-        if(StringUtils.isEmpty(AddAccionMejora.CodResponsable) || AddAccionMejora.CodResponsable.equals("-1")) ErrorForm+=" ->Responsable\n";
-        if(StringUtils.isEmpty(AddAccionMejora.PorcentajeAvance)||AddAccionMejora.PorcentajeAvance.equals("0") ) ErrorForm+=" ->Porcentaje de avance invalido\n";
-        if(StringUtils.isEmpty(AddAccionMejora.Descripcion)) ErrorForm+=" ->Tarea realizada";
+        if(StringUtils.isEmpty(AddAccionMejora.CodResponsable) || AddAccionMejora.CodResponsable.equals("-1")) {ErrorForm+="*Responsable";}
+        else if(StringUtils.isEmpty(AddAccionMejora.PorcentajeAvance)||AddAccionMejora.PorcentajeAvance.equals("0") ) {ErrorForm+="*Porcentaje de avance invalido";}
+        else if(StringUtils.isEmpty(AddAccionMejora.Descripcion)) {ErrorForm+="*Tarea realizada";}
+
         if(ErrorForm.isEmpty()) return true;
         else{
+
+
+/*
             String Mensaje="Complete los siguientes campos obligatorios:\n\n"+ErrorForm;
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setCancelable(false);
@@ -324,6 +348,12 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 }
             });
             alertDialog.show();
+*/
+
+            Snackbar.make(view, "El campo "+ErrorForm+" no puede estar vacío", Snackbar.LENGTH_LONG).show();
+
+
+
             return false;
         }
     }
@@ -762,5 +792,38 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     @Override
     public void onFinish() {
         progressBar.setProgress(100);
+    }
+
+    public void guardarData(View view) {
+
+        Utils.closeSoftKeyBoard(AddRegistroAvance.this);
+        AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
+        AddAccionMejora.PorcentajeAvance=tx_avance.getText().toString();
+        AddAccionMejora.Descripcion=et_mensaje.getText().toString();
+        if(ValifarFormulario(view))
+        {
+            Actives.clear();
+            Errores="";
+            if(Editable){
+                String newJson=gson.toJson(AddAccionMejora);
+                if(!StrAccionmejora.equals(newJson))  {
+                    Actives.add(0);
+                    String url= GlobalVariables.Url_base+"AccionMejora/post";
+                    ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                    obj.execute(gson.toJson(AddAccionMejora),"1");
+                }
+                else {
+                    Actives.add(1);
+                    UpdateFiles(true);
+                }
+            }
+            else{
+                Actives.add(0);
+                String url= GlobalVariables.Url_base+"AccionMejora/post";
+                ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                obj.execute(gson.toJson(AddAccionMejora),"1");
+            }
+        }
+
     }
 }

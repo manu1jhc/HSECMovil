@@ -25,5 +25,8 @@
 
     <dimen name="espacio_grilla">1dp</dimen>
     <dimen name="item_offset">1dp</dimen>
+<!-- dimen para fragment de edicion -->
+    <dimen name="pad_topbottom_der">3dp</dimen>
+
 
 </resources>

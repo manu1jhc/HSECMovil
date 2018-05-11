@@ -2,7 +2,9 @@ package com.pango.hsec.hsec;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,7 @@ import com.pango.hsec.hsec.model.ObsDetalleModel;
 import org.apache.commons.lang3.StringUtils;
 
 public class obs_detalle1 extends Fragment implements IActivity{
-
+    TextView textView6,textView4,textView14,textView15,textView16,textView35,textView25;
     private static View mView;
     Spinner spinneActividad, spinnerHHA, spinnerActo,spinnerCondicion,spinnerEstado, spinnerError;
     EditText txtObservacion,txtAccion;
@@ -46,6 +48,22 @@ public class obs_detalle1 extends Fragment implements IActivity{
         String Tipo = getArguments().getString("bTipo");
         txtObservacion=(EditText) mView.findViewById(R.id.txt_observacion);
         txtAccion=(EditText) mView.findViewById(R.id.txt_accion);
+
+        textView6=mView.findViewById(R.id.textView6);
+        textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Observación:"));
+
+        textView4=mView.findViewById(R.id.textView4);
+        textView4.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Accion:"));
+        textView14=mView.findViewById(R.id.textView14);
+        textView14.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Actividad Relacionada:"));
+        textView15=mView.findViewById(R.id.textView15);
+        textView15.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"HHA Relacionada:"));
+        textView16=mView.findViewById(R.id.textView16);
+        textView16.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Acto Sub-Estándar:"));
+        textView35=mView.findViewById(R.id.textView35);
+        textView35.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Estado:"));
+        textView25=mView.findViewById(R.id.textView25);
+        textView25.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Error:"));
 
         spinneActividad = (Spinner) mView.findViewById(R.id.sp_actividad);
         spinnerHHA = (Spinner) mView.findViewById(R.id.sp_hha);

@@ -56,7 +56,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     DateFormat formatoRender;
     EditText txtTarea;
     Gson gson;
-    TextView subresponsables;
+    TextView subresponsables,textView23,textView,subsolicitado,subactrelacionada,subnivelriesgo,subareahsec,subtipoaccion,textView24;
     boolean edit=false;
     private RecyclerView listView;
     private ListPersonEditAdapter listPersonAdapter;
@@ -70,6 +70,14 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         StrPlan=datos.getString("Plan");
         Plan = gson.fromJson(StrPlan, PlanModel.class);
         setContentView(R.layout.activity_plan_accion_edit);
+        textView=findViewById(R.id.textView);
+        if(edit){
+            textView.setText("Editar plan de acción");
+        }else{
+            textView.setText("Añadir plan de acción");
+
+        }
+
         myCalendar = Calendar.getInstance();
         if(!(Plan.CodAccion.contains("-1")||Plan.CodAccion.equals("0"))) {
             CardView cv_edit = (CardView) findViewById(R.id.plan_edit);
@@ -88,6 +96,21 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         subresponsables=findViewById(R.id.subresponsables);
         String mensaje="<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Responsables";
         subresponsables.setText(Html.fromHtml(mensaje));
+        textView23=findViewById(R.id.textView23);
+        textView23.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Fecha Comprometida"));
+        subsolicitado=findViewById(R.id.subsolicitado);
+        subsolicitado.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Solicitado Por:"));
+        subactrelacionada=findViewById(R.id.subactrelacionada);
+        subactrelacionada.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Actividad Relacionada:"));
+        subnivelriesgo=findViewById(R.id.subnivelriesgo);
+        subnivelriesgo.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Nivel Riesgo:"));
+        subareahsec=findViewById(R.id.subareahsec);
+        subareahsec.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Área HSEC:"));
+        subtipoaccion=findViewById(R.id.subtipoaccion);
+        subtipoaccion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Tipo Accion:"));
+        textView24=findViewById(R.id.textView24);
+        textView24.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Tarea:"));
+
         FechaSolic = (TextView)findViewById(R.id.txt_fecha);
         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dt = new SimpleDateFormat("dd 'de' MMMM");
@@ -241,15 +264,15 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
 
     public boolean ValifarFormulario(View view){
         String ErrorForm="";
-        if(StringUtils.isEmpty(Plan.CodSolicitadoPor)) ErrorForm+=" ->Solicitante\n";
-        if(StringUtils.isEmpty(Plan.CodActiRelacionada)) ErrorForm+=" ->Actividad Relacionada\n";
-        if(StringUtils.isEmpty(Plan.CodNivelRiesgo)) ErrorForm+=" ->Nivel de riesgo\n";
-        if(StringUtils.isEmpty(Plan.CodAreaHSEC)) ErrorForm+=" ->Area HSEC\n";
-        if(StringUtils.isEmpty(Plan.CodTipoAccion)) ErrorForm+=" ->Tipo de accion\n";
-        if(StringUtils.isEmpty(Plan.FecComprometidaInicial)) ErrorForm+=" ->Fecha Inicial\n";
-        if(StringUtils.isEmpty(Plan.FecComprometidaFinal)) ErrorForm+=" ->Fecha Final\n";
-        if(StringUtils.isEmpty(Plan.DesPlanAccion)) ErrorForm+=" ->Tarea\n";
-        if(StringUtils.isEmpty(Plan.CodResponsables)) ErrorForm+=" ->Responsables\n";
+        if(StringUtils.isEmpty(Plan.CodSolicitadoPor)) {ErrorForm+="*Solicitante";}
+        else if(StringUtils.isEmpty(Plan.CodActiRelacionada)) {ErrorForm+="*Actividad Relacionada";}
+        else if(StringUtils.isEmpty(Plan.CodNivelRiesgo)) {ErrorForm+="*Nivel de riesgo";}
+        else if(StringUtils.isEmpty(Plan.CodAreaHSEC)) {ErrorForm+="*Area HSEC";}
+        else if(StringUtils.isEmpty(Plan.CodTipoAccion)) {ErrorForm+="*Tipo de accion";}
+        else if(StringUtils.isEmpty(Plan.FecComprometidaInicial)) {ErrorForm+=" *Fecha Inicial";}
+        else if(StringUtils.isEmpty(Plan.FecComprometidaFinal)) {ErrorForm+=" *Fecha Final";}
+        else if(StringUtils.isEmpty(Plan.DesPlanAccion)) {ErrorForm+=" *Tarea";}
+        else if(StringUtils.isEmpty(Plan.CodResponsables)) {ErrorForm+=" *Responsables";}
 
         if(ErrorForm.isEmpty()) return true;
         else{
@@ -269,16 +292,32 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             });
             alertDialog.show();
 */
-            Snackbar.make(view, "Complete los siguientes campos obligatorios:\n"+ErrorForm, Snackbar.LENGTH_LONG).show();
 
 
+            Snackbar.make(view, "El campo "+ErrorForm+" no puede estar vacío", Snackbar.LENGTH_LONG).show();
 
+
+            //showSnackBar("El campo "+ErrorForm+" no puede estar vacío",view);
 
 
 
             return false;
         }
     }
+
+/*
+    public void showSnackBar(String txt,View view2){
+        Snackbar snackbar = null;
+
+        final Snackbar finalSnackbar = snackbar;
+        snackbar=Snackbar.make(view2,txt,Snackbar.LENGTH_LONG);
+
+        View view=snackbar.getView();
+        TextView textView = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setMaxLines(5);
+        snackbar.show();
+    }
+*/
 
     public void SalvarPlan(View view){
 
@@ -453,5 +492,13 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     @Override
     public void error(String mensaje, String Tipo) {
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
+    }
+
+    public void sel_fec_inicial(View view) {
+        EscogerFechainicial(this.findViewById(android.R.id.content));
+    }
+
+    public void sel_fec_final(View view) {
+        EscogerFechafinal(this.findViewById(android.R.id.content));
     }
 }

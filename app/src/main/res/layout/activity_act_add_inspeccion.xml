@@ -36,27 +36,29 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="80dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginTop="8dp"
                 android:cropToPadding="false"
-                android:src="@drawable/ic_minero"
+                android:onClick="SaveInspeccion"
+                android:src="@drawable/cwac_cam2_ic_check_white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tx_titulo"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center_vertical"
 
+                android:gravity="center_vertical"
                 android:text="HSEC"
+                android:textAlignment="center"
                 android:textColor="@color/colorBlanco"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintEnd_toStartOf="@+id/imageView20"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
@@ -75,8 +77,6 @@
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="45dp"
-
     >
 
     <LinearLayout
@@ -125,6 +125,7 @@
         android:onClick="SaveInspeccion"
         android:textStyle="bold"
         android:text="Guardar"
+        android:visibility="gone"
         />
 
 </LinearLayout>

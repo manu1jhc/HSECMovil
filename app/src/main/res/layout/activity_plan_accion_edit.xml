@@ -115,7 +115,7 @@
                 <android.support.v7.widget.CardView
                     android:id="@+id/Fecha"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp">
+                    android:layout_height="match_parent">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
@@ -123,12 +123,19 @@
 
                         <TextView
                             android:id="@+id/subFecha"
-                            android:layout_width="140dp"
-                            android:layout_height="0dp"
-                            android:layout_marginStart="8dp"
-                            android:gravity="center_vertical"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+
+                            android:paddingBottom="2dp"
+                            android:paddingTop="2dp"
+
+
                             android:text="Fecha de Solicitud:"
-                            android:textSize="16sp"
+                            android:textSize="12sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -139,6 +146,13 @@
                             android:layout_width="0dp"
                             android:layout_height="0dp"
                             android:gravity="center_vertical"
+                            android:textSize="14sp"
+                            android:textColor="@color/colorNegro"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="2dp"
+                            android:paddingTop="2dp"
+
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/subFecha"
@@ -168,13 +182,17 @@
 
                                 <TextView
                                     android:id="@+id/subareferencia"
-                                    android:layout_width="140dp"
-                                    android:layout_height="33dp"
-                                    android:layout_marginStart="8dp"
-                                    android:gravity="center_vertical"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/ColorPlomo4"
+                                    android:gravity="right|center_vertical"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
                                     android:text="Referencia:"
-                                    android:textSize="18sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold"
+                                    android:paddingBottom="2dp"
+                                    android:paddingTop="2dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -182,9 +200,15 @@
                                 <TextView
                                     android:id="@+id/txt_referencia"
                                     android:layout_width="0dp"
-                                    android:layout_height="0dp"
+                                    android:layout_height="match_parent"
                                     android:gravity="center_vertical"
+                                    android:paddingBottom="2dp"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingTop="2dp"
                                     android:text="TextView"
+                                    android:textSize="14dp"
+                                    android:textColor="@color/colorNegro"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/subareferencia"
@@ -196,7 +220,7 @@
                         <android.support.v7.widget.CardView
                             android:id="@+id/CodReferencia"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp">
+                            android:layout_height="match_parent">
 
                             <android.support.constraint.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -204,12 +228,16 @@
 
                                 <TextView
                                     android:id="@+id/subreferencia"
-                                    android:layout_width="140dp"
-                                    android:layout_height="0dp"
-                                    android:layout_marginStart="8dp"
-                                    android:gravity="center_vertical"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/ColorPlomo4"
+                                    android:gravity="right|center_vertical"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="2dp"
+                                    android:paddingTop="2dp"
                                     android:text="Nro. Documento:"
-                                    android:textSize="18sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
@@ -221,6 +249,12 @@
                                     android:layout_height="0dp"
                                     android:gravity="center_vertical"
                                     android:text="TextView"
+                                    android:textColor="@color/colorNegro"
+                                    android:textSize="14sp"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="2dp"
+                                    android:paddingTop="2dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/subreferencia"
@@ -231,7 +265,7 @@
                         <android.support.v7.widget.CardView
                             android:id="@+id/CodAccion"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp">
+                            android:layout_height="match_parent">
 
                             <android.support.constraint.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -239,13 +273,17 @@
 
                                 <TextView
                                     android:id="@+id/subtitle"
-                                    android:layout_width="140dp"
-                                    android:layout_height="0dp"
-                                    android:layout_marginStart="8dp"
-                                    android:gravity="center_vertical"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/ColorPlomo4"
+                                    android:gravity="right|center_vertical"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
                                     android:text="Codigo Accion:"
-                                    android:textSize="18sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold"
+                                    android:paddingBottom="2dp"
+                                    android:paddingTop="2dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -253,9 +291,15 @@
                                 <TextView
                                     android:id="@+id/txt_codaccion"
                                     android:layout_width="0dp"
-                                    android:layout_height="0dp"
+                                    android:layout_height="match_parent"
                                     android:gravity="center_vertical"
                                     android:text="TextView"
+                                    android:textColor="@color/colorNegro"
+                                    android:textSize="14sp"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="2dp"
+                                    android:paddingTop="2dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/subtitle"
@@ -266,7 +310,7 @@
                         <android.support.v7.widget.CardView
                             android:id="@+id/Estado"
                             android:layout_width="match_parent"
-                            android:layout_height="40dp">
+                            android:layout_height="match_parent">
 
                             <android.support.constraint.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -274,13 +318,18 @@
 
                                 <TextView
                                     android:id="@+id/subestado"
-                                    android:layout_width="140dp"
-                                    android:layout_height="0dp"
-                                    android:layout_marginStart="8dp"
-                                    android:gravity="center_vertical"
+                                    android:layout_width="100dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/ColorPlomo4"
+                                    android:gravity="right|center_vertical"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
                                     android:text="Estado:"
-                                    android:textSize="18sp"
+                                    android:textSize="12sp"
                                     android:textStyle="bold"
+                                    android:paddingBottom="2dp"
+                                    android:paddingTop="2dp"
+
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintStart_toStartOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
@@ -291,6 +340,13 @@
                                     android:layout_height="0dp"
                                     android:gravity="center_vertical"
                                     android:text="TextView"
+                                    android:textSize="14sp"
+                                    android:textColor="@color/colorNegro"
+                                    android:paddingLeft="8dp"
+                                    android:paddingRight="8dp"
+                                    android:paddingBottom="2dp"
+                                    android:paddingTop="2dp"
+
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintStart_toEndOf="@+id/subestado"
@@ -306,7 +362,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/title2"
                 android:layout_width="match_parent"
-                android:layout_height="5dp"
+                android:layout_height="2dp"
                 app:cardBackgroundColor="@color/place_autocomplete_prediction_secondary_text"></android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -320,12 +376,15 @@
 
                     <TextView
                         android:id="@+id/subsolicitado"
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Solicitado Por:"
-                        android:textSize="18sp"
+
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -336,6 +395,10 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
+                        android:textSize="14sp"
+                        android:textColor="@color/colorNegro"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btn_solcitadopor"
                         app:layout_constraintStart_toEndOf="@+id/subsolicitado"
@@ -366,12 +429,14 @@
 
                     <TextView
                         android:id="@+id/subactrelacionada"
-                        android:layout_width="140dp"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Actividad Relacionada:"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -381,6 +446,9 @@
                         android:id="@+id/sp_actrelacionada"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subactrelacionada"
@@ -399,12 +467,15 @@
 
                     <TextView
                         android:id="@+id/subnivelriesgo"
-                        android:layout_width="140dp"
+                        android:layout_width="100dp"
                         android:layout_height="33dp"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Nivel Riesgo:"
-                        android:textSize="18sp"
+
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -414,6 +485,9 @@
                         android:id="@+id/sp_nivelriesgo"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subnivelriesgo"
@@ -432,12 +506,14 @@
 
                     <TextView
                         android:id="@+id/subareahsec"
-                        android:layout_width="140dp"
+                        android:layout_width="100dp"
                         android:layout_height="33dp"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Área HSEC:"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -447,6 +523,9 @@
                         android:id="@+id/sp_areahsec"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subareahsec"
@@ -465,12 +544,14 @@
 
                     <TextView
                         android:id="@+id/subtipoaccion"
-                        android:layout_width="140dp"
+                        android:layout_width="100dp"
                         android:layout_height="33dp"
-                        android:layout_marginStart="8dp"
-                        android:gravity="center_vertical"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Tipo Accion:"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -480,6 +561,9 @@
                         android:id="@+id/sp_tipoaccion"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/subtipoaccion"
@@ -490,11 +574,15 @@
             <TextView
                 android:id="@+id/textView23"
                 android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_marginLeft="8dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:background="@color/ColorPlomo4"
                 android:gravity="bottom"
+                android:paddingLeft="8dp"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
                 android:text="Fecha Comprometida"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <android.support.v7.widget.CardView
@@ -502,6 +590,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/id_NivelRiesgo">
@@ -512,14 +601,14 @@
 
                     <TextView
                         android:id="@+id/textView8"
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Inicial:"
-                        android:textAlignment="center"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -532,11 +621,26 @@
                         android:layout_height="35dp"
                         android:gravity="top"
                         android:onClick="EscogerFechainicial"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Seleccionar fecha inicial"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+                        app:layout_constraintStart_toEndOf="@+id/textView8"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_calendary"
+                        android:onClick="sel_fec_inicial"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/textView8"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -558,15 +662,15 @@
 
                     <TextView
                         android:id="@+id/textView9"
-                        android:layout_width="140dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
                         android:text="Final:"
-                        android:textAlignment="center"
-                        android:textSize="18sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -578,13 +682,28 @@
                         android:layout_height="35dp"
                         android:gravity="top"
                         android:onClick="EscogerFechafinal"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
                         android:text="Seleccionar fecha final"
-                        android:textSize="12sp"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView7"
+                        app:layout_constraintStart_toEndOf="@+id/textView9"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.6" />
+
+                    <ImageView
+                        android:id="@+id/imageView7"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_calendary"
+                        android:onClick="sel_fec_final"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/textView9"
                         app:layout_constraintTop_toTopOf="parent" />
-
                 </android.support.constraint.ConstraintLayout>
 
             </android.support.v7.widget.CardView>
@@ -593,22 +712,27 @@
                 android:id="@+id/textView24"
                 android:layout_width="match_parent"
                 android:layout_height="25dp"
-                android:layout_marginLeft="8dp"
+                android:layout_marginLeft="0dp"
+                android:background="@color/ColorPlomo4"
                 android:gravity="bottom"
+                android:paddingBottom="4dp"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
                 android:text="Tarea:"
-                android:textSize="18sp"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/txt_tarea"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="-8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="-8dp"
+                android:layout_height="40dp"
                 android:ems="10"
                 android:gravity="top"
+                android:textSize="14sp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:background="@android:color/transparent"
+
                 android:inputType="textMultiLine"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -623,7 +747,8 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige">
+                    android:background="@color/ColorPlomo4"
+                    >
 
                     <TextView
                         android:id="@+id/subresponsables"
@@ -632,9 +757,9 @@
                         android:layout_marginStart="8dp"
                         android:gravity="center_vertical"
                         android:text="Responsables"
-                        android:textColor="@color/colorBlanco"
-                        android:textSize="18sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
+                        android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

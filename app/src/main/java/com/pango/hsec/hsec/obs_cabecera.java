@@ -6,7 +6,9 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,6 +58,7 @@ public class obs_cabecera extends Fragment implements IActivity{
     TextView txtObservado;
     TextView Codigo;
     String Ubicacion="";
+    TextView textView6, textView7,textView9;
 
     public ArrayAdapter adapterUbicEspc,adapterSubN;
 
@@ -84,6 +87,16 @@ public class obs_cabecera extends Fragment implements IActivity{
         spinnerSububic = (Spinner) mView.findViewById(R.id.spinner_sububic);
         spinnerUbicEspec = (Spinner) mView.findViewById(R.id.spinner_ubicespc);
         spinnerTipoObs = (Spinner) mView.findViewById(R.id.spinner_tipobs);
+        textView6=mView.findViewById(R.id.textView6);
+        textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Area"));
+        //sp2.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Responsable"));
+        textView7=mView.findViewById(R.id.textView7);
+        textView7.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Nivel de Riesgo:"));
+
+        textView9=mView.findViewById(R.id.textView9);
+        textView9.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Ubicacion:"));
+
+
 
 
         ArrayAdapter adapterTipoObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Tipo_obs);

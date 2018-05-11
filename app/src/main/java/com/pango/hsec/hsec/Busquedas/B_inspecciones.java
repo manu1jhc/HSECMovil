@@ -93,7 +93,7 @@ public class B_inspecciones extends AppCompatActivity {
         sububicacion_data.addAll(GlobalVariables.SubUbicacion_obs);
 
         gerenciadata= new ArrayList<>();
-        gerenciadata.add(new Maestro(null,"-  Seleccione  -"));
+        //gerenciadata.add(new Maestro(null,"-  Seleccione  -"));
         gerenciadata.addAll(GlobalVariables.Gerencia);
 
         superintdata=new ArrayList<>();
@@ -153,8 +153,6 @@ public class B_inspecciones extends AppCompatActivity {
                     sububic="";
                     sububic_pos="0";
                 }
-
-
 
 
             }

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.CardView;
@@ -145,6 +146,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                     popupWindow.setFocusable(true);
                     popupWindow.setOutsideTouchable(true);
                     popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
                     Button button1=(Button) popupView.findViewById(R.id.btn_editartv);
                     Button button2=(Button) popupView.findViewById(R.id.btn_aprobartv);
                     Button button3=(Button) popupView.findViewById(R.id.btn_eliminartv);
@@ -366,6 +368,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                     popupWindow.setFocusable(true);
                     popupWindow.setOutsideTouchable(true);
                     popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+
                     Button button1=(Button) popupView.findViewById(R.id.btn_editartv);
                     Button button2=(Button) popupView.findViewById(R.id.btn_aprobartv);
                     Button button3=(Button) popupView.findViewById(R.id.btn_eliminartv);

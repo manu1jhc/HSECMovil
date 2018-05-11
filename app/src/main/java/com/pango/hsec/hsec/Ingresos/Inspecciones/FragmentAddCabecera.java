@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,7 +78,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
     public final Calendar c = Calendar.getInstance();
     int hora = c.get(Calendar.HOUR_OF_DAY);
     int minuto = c.get(Calendar.MINUTE);
-
+    TextView tx_gerencia,textViewdesde,textinspeccion,tx_ubicacion,tx_tipoinsp;
 
     public FragmentAddCabecera() {
         // Required empty public constructor
@@ -102,6 +104,18 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
 
         boolean[] pass = {false,false},passGer={false};
         Integer[] itemSel = {0,0},itemSelGer={0};
+        tx_gerencia=mView.findViewById(R.id.tx_gerencia);
+        tx_gerencia.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Gerencia:"));
+        textViewdesde=mView.findViewById(R.id.textViewdesde);
+        textViewdesde.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Fecha programada"));
+        textinspeccion=mView.findViewById(R.id.textinspeccion);
+        textinspeccion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Fecha de inspección"));
+        tx_ubicacion=mView.findViewById(R.id.tx_ubicacion);
+        tx_ubicacion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Ubicación"));
+        tx_tipoinsp=mView.findViewById(R.id.tx_tipoinsp);
+        tx_tipoinsp.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Tipo de inspección"));
+
+
 
         spinnerGerencia=(Spinner) mView.findViewById(R.id.spinner_gerencia);
         spinnerSuperInt=(Spinner) mView.findViewById(R.id.spinner_superint);
