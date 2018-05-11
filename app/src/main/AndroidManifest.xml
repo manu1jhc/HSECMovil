@@ -80,7 +80,7 @@
             android:name=".Busquedas.B_personasM"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Busquedas.B_personas"
             android:screenOrientation="portrait"
@@ -195,6 +195,15 @@
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Facilito.obsfacilitoAprobar"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".Facilito.addAtencionFHistorial"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity android:name=".Facilito.ObsFHistorialAtencionDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />

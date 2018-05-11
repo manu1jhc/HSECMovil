@@ -7,6 +7,6 @@ import java.util.ArrayList;
  */
 
 public class GetObsFacilitoModel {
-    public ArrayList<ObsFacilitoModel> Data;
+    public ArrayList<ObsFacilitoMinModel> Data;
     public int Count;
 }

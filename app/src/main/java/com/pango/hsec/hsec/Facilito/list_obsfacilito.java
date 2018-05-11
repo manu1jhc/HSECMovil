@@ -88,37 +88,25 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
             @Override
             public void onRefresh() {
                 GlobalVariables.istabs=false;// para que no entre al flag de tabs
-
-                //is_swipe=false;
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
                 upFlag=false;
                 downFlag=false;
-
-                // (new Handler()).postDelayed(new Runnable() {
-                //    @Override
-                //    public void run() {
                 swipeRefreshLayout.setRefreshing(true);
                 loadingTop=true;
                 tx_texto.setVisibility(View.VISIBLE);
-                //GlobalVariables.u.clear();
 
                 GlobalVariables.listaGlobalObsFacilito.clear();
-                //GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
                 GlobalVariables.isFragment=false;
                 paginacion2=1;
                 url=GlobalVariables.Url_base+"ObsFacilito/GetObservacionFacilito/"+paginacion2+"/"+"7";
                 Utils.isActivity=true;
-                //success(datos,"");
                 GlobalVariables.istabs=false;
                 //GlobalVariables.count=5;//para que no entre al flag
                 final ActivityController obj = new ActivityController("get-0", url, list_obsfacilito.this,list_obsfacilito.this);
                 obj.execute("");
-                // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
-
-                //  } },0);
 
             } }
         );
@@ -134,20 +122,13 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
                 }
                 if (upFlag && scrollState == SCROLL_STATE_IDLE) {
                     upFlag = false;
-
-                    // Toast.makeText(rootView.getContext(), "ACEPTO UPFLAG", Toast.LENGTH_SHORT).show();
                     swipeRefreshLayout.setEnabled(true);
 
                 }
                 if (downFlag && scrollState == SCROLL_STATE_IDLE) {
                     downFlag = false;
-                    // GlobalVariables.FDown=true;
-                    //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
-                    /// cambiar el 100 por el total de publicaciones
                     if (GlobalVariables.listaGlobalObsFacilito.size() != contPublicacion && flag_enter) {
                         GlobalVariables.istabs=false;// para que no entre al flag de tabs
-
-                        //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
                         GlobalVariables.isFragment=false;
@@ -172,7 +153,6 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
                     swipeRefreshLayout.setEnabled(false);
                     Log.d("started", "comenzo");
                 }
-                //  }
 
             }
 
@@ -185,14 +165,10 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
                 if (listenerFlag && !view.canScrollVertically(1)) {
                     downFlag = true;
                     upFlag = false;
-                    // Toast.makeText(rootView.getContext(), "canscroll abajo", Toast.LENGTH_SHORT).show();
-                    // swipeRefreshLayout.setEnabled( false );
-
                 }
                 if (listenerFlag && !view.canScrollVertically(-1)) {
                     upFlag = true;
                     downFlag = false;
-                    //  Toast.makeText(rootView.getContext(), "canscroll arriba" + upFlag + downFlag, Toast.LENGTH_SHORT).show();
                 }  }
         });
 
@@ -205,32 +181,6 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
                 Intent intent = new Intent(list_obsfacilito.this, obsFacilitoDet.class);
                 intent.putExtra("codObs",Codigo);
                 startActivity(intent);
-//                switch (Codigo.substring(0,3)){
-//                    case "OBS":
-//                        String tipoObs=GlobalVariables.listaGlobal.get(position).Tipo;
-//                        intent = new Intent(getActivity(), ActMuroDet.class);
-//                        intent.putExtra("codObs",Codigo);
-//                        intent.putExtra("posTab",0);
-//                        intent.putExtra("tipoObs",tipoObs);
-//                        startActivity(intent);
-//                        break;
-//                    case "INS":
-//                        intent = new Intent(getActivity(), ActInspeccionDet.class);
-//                        intent.putExtra("codObs",Codigo);
-//                        intent.putExtra("posTab",0);
-//                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-//                        startActivity(intent);
-//                        break;
-//                    case "NOT":
-//                        intent = new Intent(getActivity(), ActNoticiaDet.class);
-//                        intent.putExtra("codObs",Codigo);
-//                        intent.putExtra("posTab",0);
-//                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-//                        startActivity(intent);
-//
-//                        break;
-//                }
-                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
             }
         });
     }
@@ -260,30 +210,7 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
         list_Obs.setAdapter(ca);
         ca.notifyDataSetChanged();
 
-//        if(GlobalVariables.flagUpSc==true){
-//            list_Obs.setSelection(0);
-//            GlobalVariables.flagUpSc=false;
-//        }else
-//            //reemplazar el 100
-//            if(GlobalVariables.listaGlobalObsFacilito.size()>6&&GlobalVariables.listaGlobalObsFacilito.size()<contPublicacion) {
-//                //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-//                list_Obs.setSelection(GlobalVariables.listaGlobalObsFacilito.size()-7);
-//
-//            }else if(GlobalVariables.listaGlobalObsFacilito.size()==contPublicacion){
-//                list_Obs.setSelection(GlobalVariables.listaGlobalObsFacilito.size()-1);
-//            }
-//        constraintLayout.setVisibility(View.GONE);
-
         flag_enter=true;
-//
-//        if(loadingTop)
-//        {
-//            loadingTop=false;
-//            swipeRefreshLayout.setRefreshing(false);
-//            tx_texto.setVisibility(View.GONE);
-//            //popupWindow.dismiss();
-//            swipeRefreshLayout.setEnabled( false );
-//        }
     }
 
     @Override

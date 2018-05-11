@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,26 +59,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/mp_nombre" />
 
             <TextView
-                android:id="@+id/mp_tipo"
+                android:id="@+id/mp_estado"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="-3dp"
+                android:layout_marginLeft="10dp"
                 android:text="TextView"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/textView27"
-                app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
-
-            <TextView
-                android:id="@+id/mp_area"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:paddingTop="-3dp"
-                android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@+id/img_riesgo"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/mp_tipo"
+                app:layout_constraintStart_toEndOf="@+id/mp_profile"
                 app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
             <ImageView
@@ -86,32 +74,11 @@
                 android:layout_width="35dp"
                 android:layout_height="28dp"
                 android:layout_marginEnd="4dp"
+                android:visibility="visible"
                 android:background="@color/colorBlanco"
                 android:src="@drawable/ic_3puntos"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/img_riesgo"
-                android:layout_width="20dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_editar"
-                app:srcCompat="@drawable/ic_alertaverde" />
-
-            <TextView
-                android:id="@+id/textView27"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Reporte facilito"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/mp_profile"
-                app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
         </android.support.constraint.ConstraintLayout>
 
@@ -122,7 +89,7 @@
 
 
             <TextView
-                android:id="@+id/mp_txdet"
+                android:id="@+id/mp_txcoment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -138,18 +105,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Descripcion de la observacion" />
-
-            <ImageView
-                android:id="@+id/mp_imgdet"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:layout_marginTop="4dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mp_txdet"
-                app:srcCompat="@drawable/ic_launcher_background" />
 
         </android.support.constraint.ConstraintLayout>
 

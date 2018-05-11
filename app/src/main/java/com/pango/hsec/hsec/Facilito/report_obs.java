@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
+import com.pango.hsec.hsec.PlanAccionEdit;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.GridViewAdapter;
@@ -48,6 +51,7 @@ import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.ImageEntry;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
+import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.obs_archivos;
 import com.pango.hsec.hsec.util.Compressor;
 import com.pango.hsec.hsec.util.Picker;
@@ -80,11 +84,14 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
     String codObs;
     ProgressBar progressBar;
     ArrayList<Integer> Actives=new ArrayList();
+    ArrayList<Maestro> ObsFacilito_estado;
     MyPageAdapter pageAdapter;
     String CodObservacion,CodTipo;
     ArrayAdapter adapterGerencia,adapterSuperInt;
-    private EditText txvResult,txvUbicacion,dt_accion;
-    private ImageButton mbtnmicrofono;
+    private EditText txvResult,txvUbicacion,dt_accion,txv_gerencia,txv_superintendencia,dt_respaux;
+    private TextView aspa1,textViewtitle;
+    private ImageButton mbtnmicrofono,mButtonGuardar,btn_user,btn_deleteusr;
+    public static final int REQUEST_CODE = 1;
     private ImageButton btnFotos,mbtn_microaccion,mbtn_microubi;
     private RecyclerView gridView;
     private ArrayList<GaleriaModel> DataImg;
@@ -94,9 +101,10 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
     private ArrayList<ImageEntry> mSelectedImages;
     private static View mView;
     private Button mbtn_acto,mbtn_condicion,mbtn_enviar;
+    private CardView cv_respaux,cv_estado;
     SwipeRefreshLayout swipeRefreshLayout;
-    Spinner spinnerGerencia,spinnerSuperInt;
-    String flag="",superint,gerencia,tipo="A";
+    Spinner spinnerGerencia,spinnerSuperInt,spinner_estado;
+    String flag="",superint,gerencia,tipo="A",estado;
     private static final int REQ_CODE_SPEECH_INPUT = 100;
     Gson gson;
     String url;
@@ -118,21 +126,31 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         DataImg = new ArrayList<>();
         DataImgList=new ArrayList<>();
         gridView = (RecyclerView)  findViewById(R.id.grid);
-        Data = new ArrayList<>();
 
         mbtn_acto=(Button) findViewById(R.id.btn_acto);
         mbtn_condicion=(Button) findViewById(R.id.btn_condicion);
         mbtnmicrofono=(ImageButton) findViewById(R.id.btnmicrofono);
         contenedor=(ConstraintLayout) findViewById(R.id.contenedor);
-        mbtn_enviar=(Button) findViewById(R.id.btn_enviar);
-        if (GlobalVariables.flagFacilito==false){
-            contenedor.setVisibility(View.VISIBLE);
-            mbtn_enviar.setText("ENVIAR");
-        }
+        mButtonGuardar=(ImageButton) findViewById(R.id.ButtonGuardar);
+//        mbtn_enviar=(Button) findViewById(R.id.btn_enviar);
+//        if (GlobalVariables.flagFacilito==false){
+//            contenedor.setVisibility(View.VISIBLE);
+//            mbtn_enviar.setText("ENVIAR");
+//        }
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         txvResult=(EditText) findViewById(R.id.txvResult);
         txvUbicacion=(EditText) findViewById(R.id.txvUbicacion);
         dt_accion=(EditText) findViewById(R.id.dt_accion);
+        txv_gerencia=(EditText) findViewById(R.id.txv_gerencia);
+        txv_superintendencia=(EditText) findViewById(R.id.txv_superintendencia);
+        aspa1=(TextView) findViewById(R.id.aspa1);
+        textViewtitle=(TextView) findViewById(R.id.textViewtitle);
+        dt_respaux=(EditText) findViewById(R.id.dt_respaux);
+        cv_respaux=(CardView) findViewById(R.id.cv_respaux);
+        cv_estado=(CardView) findViewById(R.id.cv_estado);
+        btn_user=(ImageButton) findViewById(R.id.btn_user);
+        btn_deleteusr=(ImageButton) findViewById(R.id.btn_deleteusr);
+
         btnFotos=(ImageButton) findViewById(R.id.btn_galeria);
         mbtn_microubi=(ImageButton) findViewById(R.id.btn_microubi);
         mbtn_microaccion=(ImageButton) findViewById(R.id.btn_microaccion);
@@ -142,19 +160,50 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         superintdata.add(new Maestro("","-  Seleccione  -"));
         spinnerGerencia=(Spinner) findViewById(R.id.sp_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.sp_superint);
-        adapterGerencia = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.Gerencia);
-        adapterGerencia.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
+        spinner_estado=(Spinner) findViewById(R.id.spinner_estado);
+
+        adapterGerencia = new ArrayAdapter(this.getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.Gerencia);
+        adapterGerencia.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
 
         ArrayList<Maestro> dataSuper=new ArrayList<>();
-        adapterSuperInt = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, superintdata);
-        adapterSuperInt.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
+        adapterSuperInt = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, superintdata);
+        adapterSuperInt.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
+        ObsFacilito_estado= new ArrayList<>();
+        ObsFacilito_estado.addAll(GlobalVariables.ObsFacilito_estado);
+        ArrayAdapter adapterNivelR = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, ObsFacilito_estado);
+        adapterNivelR.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
+        spinner_estado.setAdapter(adapterNivelR);
+        spinner_estado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(itemSel[0]!=position) {
+                    itemSel[0] = position;
+
+                    Maestro ubica = (Maestro) ((Spinner) findViewById(R.id.spinner_estado)).getSelectedItem();
+                    estado = ubica.CodTipo;
+                    estado = ObsFacilito_estado.get(position).CodTipo;
+                    Obs.Estado = estado;
+                    adapterNivelR.notifyDataSetChanged();
+                    if (pass[0]) {
+                        pass[0] = false;
+                    } else {
+                        Obs.Estado = estado;
+                        spinner_estado.setSelection(position);
+                    }
+
+                }
+
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                estado="";
+            }
+        });
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//
-//
 
                 if(itemSel[0]!=position) {
                     itemSel[0] = position;
@@ -162,6 +211,11 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
 
                     Maestro ubica = (Maestro) ((Spinner) findViewById(R.id.sp_gerencia)).getSelectedItem();
                     gerencia = ubica.CodTipo;
+                    txv_gerencia.setText(ubica.Descripcion.replace("=","").replace("->","").replace("-","").trim());
+                    if(!txv_gerencia.equals(null)&&!gerencia.equals(null)){
+                        aspa1.setVisibility(View.INVISIBLE);
+                    }
+                    txv_superintendencia.setText("");
                     Obs.CodPosicionGer = gerencia;
                     superintdata.clear();
                     for (Maestro item : GlobalVariables.loadSuperInt(gerencia)
@@ -192,6 +246,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                 if(position!=0) {
                     superint = superintdata.get(position).CodTipo.split("\\.")[1];
                     Obs.CodPosicionSup=superint;
+                    txv_superintendencia.setText(superintdata.get(position).Descripcion);
                 }else{
                     superint="";
                 }
@@ -247,9 +302,22 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                                             loadImage();
                                         }
                                     });
-
+        btn_user.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(report_obs.this, B_personas.class);
+                startActivityForResult(intent , REQUEST_CODE);
+            }
+        });
+        btn_deleteusr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dt_respaux.setText("");
+                Obs.RespAuxiliar="";
+            }
+        });
         //enviar reporte de observacion
-        mbtn_enviar.setOnClickListener(new View.OnClickListener() {
+        mButtonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
@@ -263,7 +331,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                             Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
                             Obs.Observacion=String.valueOf(txvResult.getText());
                             Obs.Accion=String.valueOf(dt_accion.getText());
-                            if(!ValifarFormulario()) return;
+                            if(!ValifarFormulario(v)) return;
                             String url= GlobalVariables.Url_base+"ObsFacilito/Insertar";
                             final ActivityController obj = new ActivityController("post", url, report_obs.this,report_obs.this);
                             obj.execute(gson.toJson(Obs));
@@ -306,8 +374,22 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
 
             }
         });
+        if(GlobalVariables.flagFacilito==true) {
+            textViewtitle.setText("Editar reporte Observacion");
+        }
+        if(GlobalVariables.flagFacilito==false) {
+            textViewtitle.setText("Agregar reporte Observacion");
+        }
 
         if(GlobalVariables.flagFacilito==true){
+            textViewtitle.setText("Editar reporte Observacion");
+            String editable;
+            Bundle data0 = this.getIntent().getExtras();
+            editable=data0.getString("editable");
+            if(editable.equals("3")){
+                cv_respaux.setVisibility(View.VISIBLE);
+                cv_estado.setVisibility(View.VISIBLE);
+            }
             try{
                 Bundle data1 = this.getIntent().getExtras();
                 codObs=data1.getString("codObs");
@@ -318,7 +400,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                 obj.execute("2");
                 Actives.add(0);
 
-                String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs;
+                String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs+"-1";
                 final ActivityController obj1 = new ActivityController("get", url1, report_obs.this,this);
                 obj1.execute("1");
 
@@ -332,7 +414,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
             GlobalVariables.StrFiles.clear();
             setdata();}
     }
-    public boolean ValifarFormulario(){
+    public boolean ValifarFormulario(View view){
         String ErrorForm="Detalle:\n";
         if(ErrorForm.equals("Detalle:\n")) ErrorForm="";
         if(StringUtils.isEmpty(Obs.UbicacionExacta)) ErrorForm+=" ->Ubicacion exacta\n";
@@ -341,19 +423,20 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         if(StringUtils.isEmpty(Obs.CodPosicionGer)) ErrorForm+=" ->Gerencia\n";
         if(ErrorForm.isEmpty()) return true;
         else{
-            String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle("Datos incorrectos");
-            alertDialog.setIcon(R.drawable.warninicon);
-            alertDialog.setMessage(Mensaje);
-
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-
-                }
-            });
-            alertDialog.show();
+            Snackbar.make(view, "Complete los siguientes campos obligatorios:\n"+ErrorForm, Snackbar.LENGTH_LONG).show();
+//            String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
+//            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+//            alertDialog.setCancelable(false);
+//            alertDialog.setTitle("Datos incorrectos");
+//            alertDialog.setIcon(R.drawable.warninicon);
+//            alertDialog.setMessage(Mensaje);
+//
+//            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                }
+//            });
+//            alertDialog.show();
             return false;
         }
     }
@@ -415,6 +498,19 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
 
             }
         }
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == 1  && resultCode  == RESULT_OK) { // seleccion de solicitado por
+                String name=data.getStringExtra("nombreP");
+
+                dt_respaux.setText(name);
+                Obs.RespAuxiliar=data.getStringExtra("codpersona");
+            }
+        } catch (Exception ex) {
+            Toast.makeText(report_obs.this, ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
     @SuppressLint("NewApi")
     public void loadImage(){
@@ -449,6 +545,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         gridViewAdapter = new GridViewAdapter(this, DataImg);
         gridView.setAdapter(gridViewAdapter);
         if(GlobalVariables.flagFacilito==true){
+                if(!StringUtils.isEmpty(Obs.Estado))spinner_estado.setSelection(GlobalVariables.indexOf(GlobalVariables.ObsFacilito_estado,Obs.Estado));
                 if(!StringUtils.isEmpty(Obs.CodPosicionGer))spinnerGerencia.setSelection(GlobalVariables.indexOf(GlobalVariables.Gerencia,Obs.CodPosicionGer));
                 txvUbicacion.setText(Obs.UbicacionExacta);
                 txvResult.setText(Obs.Observacion);
@@ -608,7 +705,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                 Actives.set(1,1);
                 Gson gson = new Gson();
                 Obs = gson.fromJson(data, ObsFacilitoModel.class);
-                mbtn_enviar.setText("ENVIAR MODIFICACIÓN");
+//                mbtn_enviar.setText("ENVIAR MODIFICACIÓN");
                 obsFacilitoModel = gson.toJson(Obs);
 
             }

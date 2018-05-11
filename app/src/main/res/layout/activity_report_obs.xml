@@ -18,7 +18,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             >
-
             <ImageButton
                 android:id="@+id/imageButton"
                 android:layout_width="50dp"
@@ -30,54 +29,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/imageView20"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="8dp"
-                android:cropToPadding="false"
-                android:src="@drawable/ic_minero"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
             <TextView
-                android:id="@+id/textView"
-                android:layout_width="0dp"
+                android:id="@+id/textViewtitle"
+                android:layout_width="271dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
                 android:gravity="center_vertical"
-
-                android:text="HSEC"
                 android:textColor="@color/colorBlanco"
-                android:textSize="24sp"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/ButtonGuardar"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <ImageButton
+                android:id="@+id/ButtonGuardar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:shape="oval"
+                android:background="@drawable/transparent"
+                android:tint="@color/colorBlanco"
+                android:src="@drawable/ic_check_black_24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintStart_toEndOf="@+id/textView"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/colorBtnBeige"
-        android:layout_marginBottom="1dp"
-        >
-
-        <TextView
-            android:id="@+id/titulo_reg"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorBtnBeige"
-            android:text="Reporte de Observaciones"
-            android:textAlignment="center"
-            android:textColor="@color/colorBlanco"
-            android:layout_margin="5dp"
-            />
-
     </android.support.v7.widget.CardView>
     <ProgressBar
         android:id="@+id/progressBar2"
@@ -98,7 +76,7 @@
             android:id="@+id/contenedor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="invisible"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -107,8 +85,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_buttons"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,20 +94,30 @@
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
+                    <TextView
+                        android:id="@+id/txtipo"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:text="Tipo: "
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Tipo: " />
                     <Button
                         android:id="@+id/btn_acto"
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="10dp"
                         android:background="@color/colorverde"
                         android:text="Acto"
                         android:textColor="@color/colorBlanco"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.3"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <Button
@@ -138,14 +125,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
                         android:layout_marginBottom="5dp"
-                        android:layout_marginTop="8dp"
                         android:background="@color/colorRojoOsc"
                         android:text="Condición"
                         android:textColor="@color/colorBlanco"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.7"
+                        app:layout_constraintHorizontal_bias="0.898"
                         app:layout_constraintStart_toStartOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
@@ -153,8 +139,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_gerencia"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="2dp"
+                android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -166,31 +151,62 @@
 
                     <TextView
                         android:id="@+id/txgerencia"
-                        android:layout_width="120dp"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:text="Gerencia: "
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="spread_inside"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Gerencia: " />
+                    <TextView
+                        android:id="@+id/aspa1"
+                        android:layout_width="35dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="8dp"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Gerencia:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:text="*"
+                        android:textColor="@color/colorRojo"
+                        android:textSize="14sp"
+                        android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Gerencia:" />
+                        tools:text="*" />
 
-                    <Spinner
-                        android:id="@+id/sp_gerencia"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
+                    <EditText
+                        android:id="@+id/txv_gerencia"
+                        android:layout_width="224dp"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/txgerencia"
                         app:layout_constraintTop_toTopOf="parent" />
+                    <Spinner
+                        android:id="@+id/sp_gerencia"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="9dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginTop="2dp"
+                        android:textSize="10sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txv_gerencia"
+                        app:layout_constraintTop_toTopOf="parent" />
+
 
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
@@ -198,8 +214,7 @@
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_superint"
                 android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginTop="2dp"
+                android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -211,19 +226,30 @@
 
                     <TextView
                         android:id="@+id/txsuperint"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Superintendencia:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:gravity="right|center_vertical"
+                        android:text="Superintendencia: "
+                        android:textSize="12sp"
+                        android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Superintendencia:" />
+                        tools:text="Superintendencia: " />
 
+                    <EditText
+                        android:id="@+id/txv_superintendencia"
+                        android:layout_width="224dp"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        android:ems="10"
+                        android:gravity="top"
+                        android:enabled="false"
+                        android:inputType="textMultiLine"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txsuperint"
+                        app:layout_constraintTop_toTopOf="parent" />
                     <Spinner
                         android:id="@+id/sp_superint"
                         android:layout_width="0dp"
@@ -232,9 +258,10 @@
                         android:layout_marginLeft="8dp"
                         android:layout_marginRight="8dp"
                         android:layout_marginTop="8dp"
+                        android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txsuperint"
+                        app:layout_constraintStart_toEndOf="@+id/txv_superintendencia"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -244,7 +271,6 @@
                 android:id="@+id/cv_ubicacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_superint">
@@ -253,24 +279,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
+
                     <TextView
                         android:id="@+id/txubicacion"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Ubicación:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:gravity="right|center_vertical"
+                        android:text="Ubicación: "
+                        android:textSize="12sp"
+                        android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Ubicación:" />
-
+                        tools:text="Ubicación: " />
+                    <TextView
+                        android:id="@+id/aspa2"
+                        android:layout_width="30dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical"
+                        android:text="*"
+                        android:textColor="@color/colorRojo"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="*" />
                     <EditText
                         android:id="@+id/txvUbicacion"
-                        android:layout_width="0dp"
+                        android:layout_width="224dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -278,7 +318,6 @@
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/txubicacion"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -287,12 +326,14 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/colorBlanco"
                         android:src="@drawable/ic_mic_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/txvUbicacion"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txvUbicacion"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
@@ -301,7 +342,6 @@
                 android:id="@+id/cv_observacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_ubicacion">
@@ -310,24 +350,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
                     <TextView
                         android:id="@+id/txobs"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Observación:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:gravity="right|center_vertical"
+                        android:text="Observación: "
+                        android:textSize="12sp"
+                        android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Observación:" />
-
+                        tools:text="Observación: " />
+                    <TextView
+                        android:id="@+id/aspa3"
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical"
+                        android:text="*"
+                        android:textColor="@color/colorRojo"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="*" />
                     <EditText
                         android:id="@+id/txvResult"
-                        android:layout_width="0dp"
+                        android:layout_width="224dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -335,21 +388,33 @@
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/txobs"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    android:id="@+id/txvUbicacion"
+                    android:layout_width="224dp"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="0dp"
+                    android:ems="10"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:textSize="14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txubicacion"
+                    app:layout_constraintTop_toTopOf="parent"
                     <ImageButton
                         android:id="@+id/btnmicrofono"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/colorBlanco"
                         android:src="@drawable/ic_mic_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/txvResult"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txvResult"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -360,7 +425,6 @@
                 android:id="@+id/cv_accion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -370,24 +434,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
+
                     <TextView
                         android:id="@+id/txfoto"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Acción:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:gravity="right|center_vertical"
+                        android:text="Acción: "
+                        android:textSize="12sp"
+                        android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Acción:" />
-
+                        tools:text="Acción: " />
+                    <TextView
+                        android:id="@+id/aspa4"
+                        android:layout_width="47dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right|center_vertical"
+                        android:text="*"
+                        android:textColor="@color/colorRojo"
+                        android:textSize="14sp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="*" />
                     <EditText
                         android:id="@+id/dt_accion"
-                        android:layout_width="0dp"
+                        android:layout_width="224dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -395,7 +472,6 @@
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/txfoto"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -404,24 +480,134 @@
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
-                        android:layout_marginEnd="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/colorBlanco"
                         android:src="@drawable/ic_mic_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/dt_accion"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/dt_accion"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-
             <android.support.v7.widget.CardView
-                android:id="@+id/cv_fotografia"
+                android:id="@+id/cv_respaux"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cv_accion">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+
+                    <TextView
+                        android:id="@+id/txuser"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:gravity="right|center_vertical"
+                        android:text="Responsable Auxiliar: "
+                        android:textSize="12sp"
+                        android:background="@color/ColorPlomo4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Responsable Auxiliar: " />
+
+                    <EditText
+                        android:id="@+id/dt_respaux"
+                        android:layout_width="175dp"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="0dp"
+                        android:ems="10"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/txuser"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/btn_user"
+                        android:layout_width="40dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/colorBlanco"
+                        android:src="@drawable/ic_person_black_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/dt_respaux"
+                        app:layout_constraintTop_toTopOf="parent"/>
+                    <ImageButton
+                        android:id="@+id/btn_deleteusr"
+                        android:layout_width="40dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="2dp"
+                        android:background="@color/colorBlanco"
+                        android:src="@drawable/ic_delete_forever_black_24dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/btn_user"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_estado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_respaux">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TextView
+                        android:id="@+id/tx_estado"
+                        android:layout_width="100dp"
+                        android:layout_height="0dp"
+                        android:gravity="right|center_vertical"
+                        android:text="Estado: "
+                        android:textSize="12sp"
+                        android:background="@color/ColorPlomo4"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Estado: " />
+                    <Spinner
+                        android:id="@+id/spinner_estado"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tx_estado"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cv_fotografia"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="2dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cv_estado">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -429,51 +615,51 @@
 
                     <TextView
                         android:id="@+id/txaccion"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="360dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="2dp"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="center"
                         android:text="Fotografia:"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_galeria"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Fotografia:" />
 
-                    <EditText
-                        android:id="@+id/dt_foto"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="0dp"
-                        android:ems="10"
-                        android:enabled="false"
-                        android:gravity="top"
-                        android:inputType="number"
-                        android:numeric="integer"
-                        android:text="Seleccione fotos:"
-                        android:textSize="14sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txaccion"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Seleccione fotos:" />
+                    <!--<EditText-->
+                        <!--android:id="@+id/dt_foto"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:drawablePadding="0dp"-->
+                        <!--android:ems="10"-->
+                        <!--android:enabled="false"-->
+                        <!--android:gravity="top"-->
+                        <!--android:inputType="number"-->
+                        <!--android:numeric="integer"-->
+                        <!--android:text="Seleccione fotos:"-->
+                        <!--android:textSize="14sp"-->
+                        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                        <!--app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--app:layout_constraintStart_toEndOf="@+id/txaccion"-->
+                        <!--app:layout_constraintTop_toTopOf="parent"-->
+                        <!--tools:text="Seleccione fotos:" />-->
 
                     <ImageButton
                         android:id="@+id/btn_galeria"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:layout_marginBottom="2dp"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@color/colorBlanco"
+                        android:background="@color/ColorPlomo4"
                         android:src="@drawable/ic_fotos"
+                        android:tint="@color/colorNegro"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/dt_foto"
+                        app:layout_constraintEnd_toEndOf="@+id/txaccion"
+                        app:layout_constraintStart_toEndOf="@+id/txaccion"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
 
 
             <android.support.v7.widget.CardView
@@ -496,35 +682,22 @@
                         android:layout_height="wrap_content" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/cv_enviarbtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv_grid">
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
 
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>
-    <Button
-        android:id="@+id/btn_enviar"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="-50dp"
-        android:background="@color/ColorbtnVerdoso"
-        android:textColor="@color/colorBlanco"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+    <!--<Button-->
+        <!--android:id="@+id/btn_enviar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginTop="-50dp"-->
+        <!--android:background="@color/ColorbtnVerdoso"-->
+        <!--android:textColor="@color/colorBlanco"-->
+        <!--android:textSize="12sp"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.5"-->
+        <!--app:layout_constraintStart_toStartOf="parent" />-->
 
 </LinearLayout>

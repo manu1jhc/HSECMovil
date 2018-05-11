@@ -14,9 +14,11 @@ public class ObsFacilitoModel {
     public String Accion;
     public int Plazo;
     public String FecCreacion;
+    public String Fecha;
     public String UsuCreacion;
     public String FecModifica;
     public String UsuModifica ;
+    public String RespAuxiliar;
     public String Estado;
     public String Editable;
     public String CodPersona;

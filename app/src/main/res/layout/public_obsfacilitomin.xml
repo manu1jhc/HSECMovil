@@ -63,22 +63,34 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:paddingTop="-3dp"
+                android:layout_marginLeft="10dp"
                 android:text="TextView"
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/textView27"
+                app:layout_constraintStart_toEndOf="@+id/mp_profile"
                 app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
-
             <TextView
-                android:id="@+id/mp_area"
+                android:id="@+id/mp_estadotext"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingTop="-3dp"
+                android:layout_marginLeft="10dp"
+                android:text="   "
+                tools:text="   "
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@+id/mp_tipo"
+                app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
+            <TextView
+                android:id="@+id/mp_estado"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
+                android:layout_marginLeft="10dp"
                 android:paddingTop="-3dp"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/img_riesgo"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/mp_tipo"
+                app:layout_constraintStart_toEndOf="@+id/mp_estadotext"
                 app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
             <ImageView
@@ -101,17 +113,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_editar"
                 app:srcCompat="@drawable/ic_alertaverde" />
-
-            <TextView
-                android:id="@+id/textView27"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Reporte facilito"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/mp_profile"
-                app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
 
         </android.support.constraint.ConstraintLayout>
 

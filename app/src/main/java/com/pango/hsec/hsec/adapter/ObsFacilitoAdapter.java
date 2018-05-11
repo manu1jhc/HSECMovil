@@ -7,6 +7,8 @@ import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
@@ -36,6 +38,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,17 +52,18 @@ import static com.pango.hsec.hsec.Utils.Obtenerfecha;
  * Created by jcila on 20/04/2018.
  */
 
-public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
+public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
 //    LayoutInflater layoutInflater;
     View popupView;
     PopupWindow popupWindow;
     private Context context;
-    private ArrayList<ObsFacilitoModel> data = new ArrayList<ObsFacilitoModel>();
+    ArrayList<Maestro> ObsFacilito_estado;
+    private ArrayList<ObsFacilitoMinModel> data = new ArrayList<ObsFacilitoMinModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public ObsFacilitoAdapter(Context context, ArrayList<ObsFacilitoModel> data) {
-        super(context, R.layout.public_obsfacilito, data);
+    public ObsFacilitoAdapter(Context context, ArrayList<ObsFacilitoMinModel> data) {
+        super(context, R.layout.public_obsfacilitomin, data);
         this.data = data;
         this.context = context;
     }
@@ -69,26 +74,23 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
         LayoutInflater layoutInflater;
         ListView list_Obs;
         final View rowView;
-        rowView = inflater.inflate(R.layout.public_obsfacilito, null, true);
-        list_Obs = (ListView) rowView.findViewById(R.id.list_Obs);
+        rowView = inflater.inflate(R.layout.public_obsfacilitomin, null, true);
         ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
         ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
         TextView nombre = rowView.findViewById(R.id.mp_nombre);
         TextView fecha = rowView.findViewById(R.id.mp_fecha);
         ImageView riesgo = rowView.findViewById(R.id.img_riesgo);
         TextView tipo = rowView.findViewById(R.id.mp_tipo);
-        TextView area = rowView.findViewById(R.id.mp_area);
-//        TextView accion=rowView.findViewById(R.id.mp_txaccion);
+        TextView estado = rowView.findViewById(R.id.mp_estado);
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
         ImageView editar = rowView.findViewById(R.id.btn_editar);
 
         final String tempimg_perfil = data.get(position).UrlObs;
         final String tempNombre = data.get(position).Persona;
-        final String tempFecha = data.get(position).FecCreacion;
-        final String tempUbicacion = data.get(position).UbicacionExacta;
+        final String tempFecha = data.get(position).Fecha;
+        final String tempEstado = data.get(position).Estado;
         final String tempTipo = data.get(position).Tipo;
         final String tempObservacion = data.get(position).Observacion;
-        final String tempAccion = data.get(position).Accion;
         final String tempImgDet=data.get(position).UrlPrew;
         final String editable = data.get(position).Editable;
         if(editable.equals("0")){
@@ -138,6 +140,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
 
                                 Intent intent = new Intent(getContext(),report_obs.class);
                                 intent.putExtra("codObs", data.get(position).CodObsFacilito);
+                                intent.putExtra("editable",data.get(position).Editable);
                                 v.getContext().startActivity(intent);
                         }
                     });
@@ -147,6 +150,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
 
                             Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
                             intent.putExtra("codObs", data.get(position).CodObsFacilito);
+                            intent.putExtra("editable",data.get(position).Editable);
                             v.getContext().startActivity(intent);
                         }
                     });
@@ -175,17 +179,17 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
             });
         nombre.setText(tempNombre);
         fecha.setText(Obtenerfecha(tempFecha));
-        tipo.setText(tempTipo);
-        area.setText(tempUbicacion);
-//        accion.setText(tempAccion);
+        estado.setText(ObtenerDet(tempEstado));
         tx_det.setText(tempObservacion);
         if (tempTipo == null) {
             riesgo.setVisibility(View.INVISIBLE);
         } else if (tempTipo.equals("A")) {
             riesgo.setImageResource(R.drawable.ic_alertaroja);
+            tipo.setText("Acto");
 
         } else if (tempTipo.equals("C")) {
             riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
+            tipo.setText("Condicion");
         }
 
         if (tempimg_perfil == null) {
@@ -225,6 +229,17 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoModel> {
             fecha=tempcom_fecha;
         }
         return fecha;
+    }
+    public String ObtenerDet(String dataestado){
+        String estado="";
+        ObsFacilito_estado= new ArrayList<>();
+        ObsFacilito_estado.addAll(GlobalVariables.ObsFacilito_estado);
+        for(int i=0;i<ObsFacilito_estado.size();i++){
+            if(ObsFacilito_estado.get(i).CodTipo.equals(dataestado)){
+                estado= ObsFacilito_estado.get(i).Descripcion;
+            }
+        }
+        return estado;
     }
 
 }

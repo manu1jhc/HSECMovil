@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+tools:context="com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet">
+
+<android.support.v7.widget.CardView
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@color/ColorVerdoso">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        >
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/transparent"
+            android:onClick="close"
+            android:src="@drawable/ic_flecha_retroceder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewtitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewtitle"
+            android:layout_width="304dp"
+            android:layout_height="50dp"
+            android:gravity="center|center_vertical"
+            android:text="Detalle de Atención"
+            android:textColor="@color/colorBlanco"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/imageButton" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>
+<ProgressBar
+    android:id="@+id/progressBar2"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    android:visibility="gone"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent" />
+
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/contenedor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_buttons"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txcodhis"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:text="Código Obs: "
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Código Obs: " />
+
+                <TextView
+                    android:id="@+id/tx_codigohistorial"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="0.35"
+                    android:gravity="left|center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txcodhis"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="TextView " />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_gerencia"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_buttons">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txatendido"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:text="Atendido por: "
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Atendido por: " />
+                <TextView
+                    android:id="@+id/tx_atendidopor"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="0.35"
+                    android:gravity="left|center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txatendido"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="TextView " />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_superint"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_gerencia">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txfechaatendido"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:gravity="right|center_vertical"
+                    android:text="Fecha Atención: "
+                    android:textSize="12sp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Fecha Atención: " />
+
+                <TextView
+                    android:id="@+id/tx_fechaatendido"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="0.35"
+                    android:gravity="left|center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txfechaatendido"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="TextView " />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_ubicacion"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_superint">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+
+                <TextView
+                    android:id="@+id/txestado"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:gravity="right|center_vertical"
+                    android:text="Estado: "
+                    android:textSize="12sp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Estado: " />
+                <TextView
+                    android:id="@+id/tx_txestado"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="0.35"
+                    android:gravity="left|center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txestado"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="TextView " />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_fechafin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_ubicacion">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:id="@+id/txfechafin"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:gravity="right|center_vertical"
+                    android:text="Fecha Ejecutarse: "
+                    android:textSize="12sp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Fecha Ejecutarse: " />
+                <TextView
+                    android:id="@+id/tx_fechafin"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="0.35"
+                    android:gravity="left|center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txfechafin"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="TextView " />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_observacion"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_fechafin">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+                <TextView
+                    android:id="@+id/txcoments"
+                    android:layout_width="100dp"
+                    android:layout_height="0dp"
+                    android:gravity="right|center_vertical"
+                    android:text="Comentario: "
+                    android:textSize="12sp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Comentario: " />
+                <TextView
+                    android:id="@+id/tx_coments"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_weight="0.35"
+                    android:gravity="left|center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/txcoments"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="TextView " />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_fotografia"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_observacion">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/txaccion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="2dp"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="center"
+                    android:text="Galeria de Imagenes:"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/btn_galeria"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Galeria de Imagenes:" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_grid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cv_fotografia">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/gridGaleria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>
+
+</LinearLayout>
