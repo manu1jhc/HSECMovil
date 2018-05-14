@@ -105,12 +105,4 @@ public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
 
         return rowView;
     }
-
-
-
-
-
-
-
-
 }

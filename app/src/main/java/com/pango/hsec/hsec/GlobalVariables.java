@@ -163,7 +163,7 @@ public class GlobalVariables  {
     public static ArrayList<ObsFHistorialModel> listaGlobalObsHistorial = new  ArrayList<ObsFHistorialModel>();
     public static String codObsHistorial;
     public static ArrayList<ObsFHistorialModel> listaHistorial = new  ArrayList<ObsFHistorialModel>();
-    public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
+   // public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
 
     //public static ArrayList<ObsFacilitoModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoModel>();
     public static  ArrayList<Maestro> ObsFacilito_tiempo = new ArrayList<>();
@@ -194,7 +194,6 @@ public class GlobalVariables  {
         }
         return descripcion;
     }
-
 
     public static int  CodRol=3;
     public static boolean desdeBusqueda=false;

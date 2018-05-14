@@ -164,7 +164,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 GlobalVariables.lista_Personas=new ArrayList<>();
 
                 filtro= Utils.ChangeUrl(String.valueOf(String.valueOf(id_nombre.getText())+"@"+id_apellidos.getText())+"@"+String.valueOf(id_dni.getText())
-                +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
+                        +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
 
                 url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
                 //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
