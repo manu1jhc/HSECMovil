@@ -70,7 +70,7 @@ public class EstadisticaDetAdapter extends ArrayAdapter<EstadisticaDetModel> {
 
         if(tempNombre==null||tempImgProf==null){
 
-            Nombre.setText(GlobalVariables.nombre);
+            Nombre.setText(GlobalVariables.userLoaded.Nombres);
 
                 String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + GlobalVariables.dniUser + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";

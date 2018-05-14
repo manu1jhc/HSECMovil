@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -42,16 +44,13 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.MuroAdapter;
-import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
+import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.observacion_edit;
-import com.pango.hsec.hsec.utilitario.CircleTransform;
-
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.pango.hsec.hsec.GlobalVariables.paginacion;
-//import static com.pango.hsec.hsec.MainActivity.jsonMuro;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -104,9 +103,9 @@ public class FragmentMuro extends Fragment implements IActivity{
         }
     }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ListView List_muro;
+    public ListView List_muro;
     View rootView;
-
+    public MuroAdapter ca;
     //boolean flagFiltro=true;
     //ArrayList<PublicacionModel> listaPublicaciones = new  ArrayList<PublicacionModel>();
     boolean upFlag;
@@ -115,7 +114,6 @@ public class FragmentMuro extends Fragment implements IActivity{
     SwipeRefreshLayout swipeRefreshLayout;
     boolean flag_enter=true;
     ConstraintLayout constraintLayout;
-    boolean loadingTop=false;
     String url;
     TextView tx_texto;
     //ImageButton btn_galeria;
@@ -133,24 +131,23 @@ public class FragmentMuro extends Fragment implements IActivity{
     LayoutInflater layoutInflater;
     View popupView;
     PopupWindow popupWindow;
+    Parcelable status;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,   Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView=inflater.inflate(R.layout.fragment_muro, container, false);
         GlobalVariables.view_fragment=rootView;
         GlobalVariables.isFragment=true;
         List_muro=rootView.findViewById(R.id.List_muro);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
-        constraintLayout=(ConstraintLayout) getActivity().findViewById(R.id.const_main);
+        constraintLayout=(ConstraintLayout) rootView.findViewById(R.id.const_main2);
         tx_texto =(TextView)rootView.findViewById(R.id.tx_texto);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
 
         btn_facilito=rootView.findViewById(R.id.btn_facilito);
         btn_obs=rootView.findViewById(R.id.btn_obs);
         btn_insp=rootView.findViewById(R.id.btn_insp);
-
         //buscar=(ImageButton) rootView.findViewById(R.id.btn_buscar);
         //btn_usuario=(ImageButton) rootView.findViewById(R.id.btn_usuario);
         //btn_galeria=(ImageButton) rootView.findViewById(R.id.btn_galeria);
@@ -158,22 +155,9 @@ public class FragmentMuro extends Fragment implements IActivity{
         //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
        // navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
 
-        url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+"7";
-
         //GlobalVariables.count=5;
-        success(GlobalVariables.jsonMuro,"");
-/*
-        if(GlobalVariables.listaGlobal.size()==0){
-            final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentMuro.this,getActivity());
-            obj.execute("");
 
-
-        }else{
-           //jsonMuro"
-            success(GlobalVariables.jsonMuro,"");
-
-        }
-*/
+        success("","0");
 
         Gson gson = new Gson();
         getUsuarioModel = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
@@ -318,7 +302,6 @@ public class FragmentMuro extends Fragment implements IActivity{
                 //    @Override
                 //    public void run() {
                         swipeRefreshLayout.setRefreshing(true);
-                        loadingTop=true;
                         tx_texto.setVisibility(View.VISIBLE);
                         //GlobalVariables.u.clear();
 
@@ -334,7 +317,7 @@ public class FragmentMuro extends Fragment implements IActivity{
 
                         //GlobalVariables.count=5;//para que no entre al flag
                         final ActivityController obj = new ActivityController("get-0", url, FragmentMuro.this,getActivity());
-                        obj.execute("");
+                        obj.execute("1");
                        // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 
                   //  } },0);
@@ -369,22 +352,14 @@ public class FragmentMuro extends Fragment implements IActivity{
                             //progressBarMain.setVisibility(View.VISIBLE);
                             flag_enter = false;
                             constraintLayout.setVisibility(View.VISIBLE);
-                            GlobalVariables.isFragment=true;
                             Utils.isActivity=false;
 
                             paginacion+=1;
                             url = GlobalVariables.Url_base + "Muro/GetMuro/" + paginacion + "/" + "7";
-                            GlobalVariables.count=5;
+                            //GlobalVariables.count=5;
 
                             final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentMuro.this,getActivity());
-                            obj.execute("");
-
-                            layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                            popupView = layoutInflater.inflate(R.layout.popup_blanco, null);
-
-                            popupWindow = new PopupWindow(popupView,RadioGroup.LayoutParams.MATCH_PARENT ,580,false);
-                            popupWindow.showAtLocation(List_muro, Gravity.CENTER, 0, 0);
-                            flagpopup=true;
+                            obj.execute("2");
                         }
                     }
                     if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
@@ -401,44 +376,25 @@ public class FragmentMuro extends Fragment implements IActivity{
 
                     Log.d("+1:", "" + view.canScrollVertically(1));
                     Log.d("-1:", "" + view.canScrollVertically(-1));
+                   // GlobalVariables.stateMuro=List_muro.onSaveInstanceState();
                     // Log.d("x:",""+view.getScrollX());
                     if (listenerFlag && !view.canScrollVertically(1)) {
                         downFlag = true;
                         upFlag = false;
-                       // Toast.makeText(rootView.getContext(), "canscroll abajo", Toast.LENGTH_SHORT).show();
-                        // swipeRefreshLayout.setEnabled( false );
 
                     }
                     if (listenerFlag && !view.canScrollVertically(-1)) {
                         upFlag = true;
                         downFlag = false;
-                      //  Toast.makeText(rootView.getContext(), "canscroll arriba" + upFlag + downFlag, Toast.LENGTH_SHORT).show();
+
                     }  }
             });
         listenerFlag = false;
-/*
-        TextView btn=(TextView) rootView.findViewById(R.id.btn_obs_new);
-        btn.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                GlobalVariables.ObjectEditable=false;
-                Intent obserbacion_edit = new Intent(getContext(),observacion_edit.class);
-                obserbacion_edit.putExtra("codObs", "OBS000000XYZ");
-                obserbacion_edit.putExtra("tipoObs","TO01");
-                obserbacion_edit.putExtra("posTab", 0);
-                startActivity(obserbacion_edit);
-            }
-        });
-*/
         return rootView;
     }
 
-
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -464,75 +420,52 @@ public class FragmentMuro extends Fragment implements IActivity{
         mListener = null;
     }
 
+    public void DeleteObject(String Url, int index){
+        String url= GlobalVariables.Url_base+Url;
+        ActivityController obj = new ActivityController("get", url, FragmentMuro.this,getActivity());
+        obj.execute(""+index);
+    }
+
     @Override
     public void success(String data1,String Tipo) {
 
-        GlobalVariables.jsonMuro=data1;
-
-
-        if(flagpopup){
-        popupWindow.dismiss();
-            flagpopup=false;
+    //data add
+    if(Tipo.equals("0")){ // from login
+        ca = new MuroAdapter(getContext(),GlobalVariables.listaGlobal,this);
+        List_muro.setAdapter(ca);
+        if(GlobalVariables.stateMuro != null&&GlobalVariables.passHome) {
+            swipeRefreshLayout.setEnabled(false);
+            List_muro.onRestoreInstanceState(GlobalVariables.stateMuro);
+            GlobalVariables.passHome=false;
         }
-
-
-
+    }
+    else if(Tipo.equals("1")){ //from refresh data
         Gson gson = new Gson();
-        //List<PublicacionModel> getPublicacionModel= Arrays.asList(gson.fromJson(data1, PublicacionModel.class));
-        //List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
-        //UsuarioModel getUsuarioModel = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-
-
         GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
-        contPublicacion=getPublicacionModel.Count;
-        if(GlobalVariables.listaGlobal.size()==0) {
-            GlobalVariables.listaGlobal = getPublicacionModel.Data;
-            //GlobalVariables.listaGlobal=listaPublicaciones;
-        }else  //{
-
-            if(!(GlobalVariables.listaGlobal.get(GlobalVariables.listaGlobal.size()-1).Codigo.equals(getPublicacionModel.Data.get(getPublicacionModel.Data.size()-1).Codigo))){
-            //listaPublicaciones.addAll(getPublicacionModel.Data);
-            GlobalVariables.listaGlobal.addAll(getPublicacionModel.Data);
-        }
-
-       // String a=data1;
-
-        MuroAdapter ca = new MuroAdapter(getContext(),GlobalVariables.listaGlobal);
+        GlobalVariables.listaGlobal=getPublicacionModel.Data;
+        ca = new MuroAdapter(getContext(),GlobalVariables.listaGlobal,this);
         List_muro.setAdapter(ca);
 
-
-        ca.notifyDataSetChanged();
-        if(GlobalVariables.flagUpSc==true){
-            List_muro.setSelection(0);
-            GlobalVariables.flagUpSc=false;
-        }else
-            //reemplazar el 100
-        if(GlobalVariables.listaGlobal.size()>7&&GlobalVariables.listaGlobal.size()<contPublicacion) {
-            //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-            List_muro.setSelection(GlobalVariables.listaGlobal.size()-8);
-
-        }else if(GlobalVariables.listaGlobal.size()==contPublicacion){
-            List_muro.setSelection(GlobalVariables.listaGlobal.size()-1);
-        }
-
+        swipeRefreshLayout.setRefreshing(false);
+        tx_texto.setVisibility(View.GONE);
+        swipeRefreshLayout.setEnabled( false );
+    }
+    else if(Tipo.equals("2")){ // addd more data
+        Gson gson = new Gson();
         constraintLayout.setVisibility(View.GONE);
-
-
         flag_enter=true;
-        //GlobalVariables.contpublic += 1;
-        // progressDialog.dismiss();
-       // progressBar.setVisibility(View.GONE);
+        GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
+        contPublicacion=getPublicacionModel.Count;
+        for(PublicacionModel item:getPublicacionModel.Data)
+            ca.add(item);
+        ca.notifyDataSetChanged();
 
-        if(loadingTop)
-        {
-            loadingTop=false;
-            swipeRefreshLayout.setRefreshing(false);
-            tx_texto.setVisibility(View.GONE);
-            //popupWindow.dismiss();
-            swipeRefreshLayout.setEnabled( false );
-        }
-
-       // GlobalVariables.FDown=false;
+    }
+    // data remove
+    else
+    {   if(data1.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+        else ca.remove(Integer.parseInt(Tipo)-3);
+    }
 
     }
 

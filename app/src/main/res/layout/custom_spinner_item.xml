@@ -2,9 +2,9 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
-    android:singleLine="false"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="0dp"
     android:ellipsize="end"
-    android:textAlignment="center"/>
+    android:padding="0dp"
+    android:singleLine="false"
+    android:textAlignment="textEnd" />

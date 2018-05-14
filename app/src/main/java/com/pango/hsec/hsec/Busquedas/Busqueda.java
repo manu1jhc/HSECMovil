@@ -48,6 +48,9 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import layout.FragmentInspecciones;
+import layout.FragmentObservaciones;
+
 import static com.pango.hsec.hsec.GlobalVariables.*;
 
 public class Busqueda extends AppCompatActivity implements IActivity {
@@ -480,13 +483,13 @@ public class Busqueda extends AppCompatActivity implements IActivity {
 
         if(tipo_busqueda==1) {
 
-            PublicacionAdapter ca = new PublicacionAdapter(this, GlobalVariables.listaGlobalFiltro);
+            PublicacionAdapter ca = new PublicacionAdapter(this, GlobalVariables.listaGlobalFiltro,new FragmentObservaciones());
             list_busqueda.setAdapter(ca);
             ca.notifyDataSetChanged();
 
         }else if(tipo_busqueda==2){
 
-            InspeccionAdapter ca = new InspeccionAdapter(this, GlobalVariables.listaGlobalFiltro);
+            InspeccionAdapter ca = new InspeccionAdapter(this, GlobalVariables.listaGlobalFiltro,new FragmentInspecciones());
             list_busqueda.setAdapter(ca);
             ca.notifyDataSetChanged();
         }else if(tipo_busqueda==3){

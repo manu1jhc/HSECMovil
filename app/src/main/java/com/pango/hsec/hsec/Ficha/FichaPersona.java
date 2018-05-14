@@ -27,9 +27,6 @@ public class FichaPersona extends AppCompatActivity {
 
         //GlobalVariables.dniUser
 
-
-
-
     }
 
     public void close(View view){

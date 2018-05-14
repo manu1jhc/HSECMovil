@@ -43,7 +43,7 @@ public class EstadisticaAdicional extends AppCompatActivity {
         tx_descripcion.setText(GlobalVariables.dataAdicional.get(position).Descripcion);
 
         if (GlobalVariables.dataAdicional.get(position).Responsable==null){
-            tx_autor.setText(GlobalVariables.nombre);
+            tx_autor.setText(GlobalVariables.userLoaded.Nombres);
         }else {
             tx_autor.setText(GlobalVariables.dataAdicional.get(position).Responsable);
         }

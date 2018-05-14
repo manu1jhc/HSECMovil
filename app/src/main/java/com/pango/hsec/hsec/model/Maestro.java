@@ -20,6 +20,12 @@ public class Maestro {
         Descripcion = nombre;
     }
 
+    public Maestro(int Codigo,String codTipo, String nombre) {
+        this.Codigo=Codigo+"";
+        CodTipo = codTipo;
+        Descripcion = nombre;
+    }
+
     public Maestro(String nombre) {
         Descripcion = nombre;
     }

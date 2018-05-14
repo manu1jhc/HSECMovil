@@ -1,61 +1,60 @@
 package com.pango.hsec.hsec.adapter;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.Activity;
+        import android.app.AlertDialog;
+        import android.content.Context;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.graphics.drawable.ColorDrawable;
+        import android.support.constraint.ConstraintLayout;
+        import android.support.v7.widget.CardView;
+        import android.util.DisplayMetrics;
+        import android.view.Gravity;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.ImageView;
+        import android.widget.PopupWindow;
+        import android.widget.RadioGroup;
+        import android.widget.RelativeLayout;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
-import com.pango.hsec.hsec.Facilito.report_obs;
-import com.pango.hsec.hsec.Ficha.FichaPersona;
-import com.pango.hsec.hsec.GlobalVariables;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
-import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
-import com.pango.hsec.hsec.MainActivity;
-import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
-import com.pango.hsec.hsec.Observaciones.ActMuroDet;
-import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
-import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.model.PublicacionModel;
-import com.pango.hsec.hsec.observacion_edit;
-import com.pango.hsec.hsec.utilitario.CircleTransform;
+        import com.bumptech.glide.Glide;
+        import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
+        import com.pango.hsec.hsec.Facilito.report_obs;
+        import com.pango.hsec.hsec.Ficha.FichaPersona;
+        import com.pango.hsec.hsec.GlobalVariables;
+        import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
+        import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+        import com.pango.hsec.hsec.MainActivity;
+        import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
+        import com.pango.hsec.hsec.Observaciones.ActMuroDet;
+        import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
+        import com.pango.hsec.hsec.R;
+        import com.pango.hsec.hsec.Utils;
+        import com.pango.hsec.hsec.model.PublicacionModel;
+        import com.pango.hsec.hsec.observacion_edit;
+        import com.pango.hsec.hsec.utilitario.CircleTransform;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+        import java.text.DateFormat;
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
 
-import layout.FragmentFichaPersonal;
-import layout.FragmentMuro;
+        import layout.FragmentFichaPersonal;
+        import layout.FragmentMuro;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+        import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by Andre on 12/02/2018.
  */
 
-public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
+public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
     private Context context;
 
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
@@ -63,8 +62,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
     View popupView;
     public PopupWindow popupWindow;
-    FragmentMuro fragmentMuro;
-    public MuroAdapter(Context context, ArrayList<PublicacionModel> data,FragmentMuro fragmentMuro) {
+    MainActivity fragmentMuro;
+    public SearchAdapter(Context context, ArrayList<PublicacionModel> data,MainActivity fragmentMuro) {
         super(context,  R.layout.publicalist, data);
         this.data = data;
         this.context = context;
@@ -150,17 +149,19 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    fragmentMuro.searchView.clearFocus();
                     String edit=data.get(position).Editable;
+                    fragmentMuro.searchView.clearFocus();
                     GlobalVariables.ObjectEditable=true;
                     LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);//getSystemService(LAYOUT_INFLATER_SERVICE);
                     popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
 
                     popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
-                    popupWindow.showAtLocation(editar, Gravity.BOTTOM, 0, 0);
+                    popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
                     popupWindow.setFocusable(true);
                     popupWindow.setOutsideTouchable(true);
                     popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
+                    popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
                     Button button1=(Button) popupView.findViewById(R.id.btn_editartv);
                     Button button2=(Button) popupView.findViewById(R.id.btn_aprobartv);
                     Button button3=(Button) popupView.findViewById(R.id.btn_eliminartv);
@@ -311,7 +312,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 @Override
                 public void onClick(View v) {
                     GlobalVariables.dniUser=data.get(position).UrlObs;
-                    ((MainActivity)fragmentMuro.getActivity()).openFichaPersona();
+                    fragmentMuro.openFichaPersona();
                    /* //GlobalVariables.desdeBusqueda=true;
                     GlobalVariables.barTitulo=false;
                     GlobalVariables.dniUser=tempimg_perfil;
@@ -378,19 +379,17 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             btn_editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    fragmentMuro.searchView.clearFocus();
                     String edit=data.get(position).Editable;
                     GlobalVariables.ObjectEditable=true;
                     LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);//getSystemService(LAYOUT_INFLATER_SERVICE);
                     popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
 
                     popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
-                    popupWindow.showAtLocation(btn_editar, Gravity.BOTTOM, 0, 0);
+                    popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
                     popupWindow.setFocusable(true);
                     popupWindow.setOutsideTouchable(true);
                     popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-
                     Button button1=(Button) popupView.findViewById(R.id.btn_editartv);
                     Button button2=(Button) popupView.findViewById(R.id.btn_aprobartv);
                     Button button3=(Button) popupView.findViewById(R.id.btn_eliminartv);
@@ -504,7 +503,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 img_det.setVisibility(View.GONE);
 
             }else{
-                String Url_prev=Utils.ChangeUrl(GlobalVariables.Url_base + "media/getImagepreview/"+tempImgDet+"/loco.jpg");
+                String Url_prev= Utils.ChangeUrl(GlobalVariables.Url_base + "media/getImagepreview/"+tempImgDet+"/loco.jpg");
                 Glide.with(context)
                         .load(Url_prev)
                         .override(width, width)
@@ -632,7 +631,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 public void onClick(View v) {
 
                     GlobalVariables.dniUser=data.get(position).UrlObs;
-                    ((MainActivity)fragmentMuro.getActivity()).openFichaPersona();
+                    fragmentMuro.openFichaPersona();
                 }
             });
 
@@ -722,7 +721,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 @Override
                 public void onClick(View v) {
                     GlobalVariables.dniUser=data.get(position).UrlObs;
-                    ((MainActivity)fragmentMuro.getActivity()).openFichaPersona();
+                    fragmentMuro.openFichaPersona();
                 }
             });
             return rowView;
@@ -757,13 +756,14 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             editar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    fragmentMuro.searchView.clearFocus();
                     String edit=data.get(position).Editable;
                     GlobalVariables.ObjectEditable=true;
                     LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);//getSystemService(LAYOUT_INFLATER_SERVICE);
                     popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
 
                     popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
-                    popupWindow.showAtLocation(editar, Gravity.BOTTOM, 0, 0);
+                    popupWindow.showAtLocation(popupView, Gravity.BOTTOM, 0, 0);
                     popupWindow.setFocusable(true);
                     popupWindow.setOutsideTouchable(true);
                     popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -903,13 +903,13 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 @Override
                 public void onClick(View v) {
                     GlobalVariables.dniUser=data.get(position).UrlObs;
-                    ((MainActivity)fragmentMuro.getActivity()).openFichaPersona();
+                    fragmentMuro.openFichaPersona();
                 }
             });
 
             return rowView;
         }else
-            {
+        {
             return null;
         }
     }

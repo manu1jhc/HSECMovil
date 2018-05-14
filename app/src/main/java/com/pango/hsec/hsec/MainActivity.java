@@ -1,12 +1,16 @@
 package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.internal.BottomNavigationItemView;
 import android.support.design.internal.BottomNavigationMenuView;
 import android.support.design.widget.BottomNavigationView;
@@ -16,24 +20,54 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.SearchView;
+import android.util.DisplayMetrics;
+import android.widget.AbsListView;
+import android.widget.Adapter;
+import android.widget.AdapterView;
+
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.pango.hsec.hsec.Busquedas.Busqueda;
+import com.google.android.gms.vision.text.Line;
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.Facilito.list_obsfacilito;
+import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
+import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
+import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
+import com.pango.hsec.hsec.Observaciones.ActMuroDet;
+import com.pango.hsec.hsec.adapter.SearchAdapter;
+import com.pango.hsec.hsec.adapter.SpinnerAdapter;
+import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.GetPublicacionModel;
+import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
+import com.pango.hsec.hsec.util.Util;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
-import layout.FragmentAprobaciones;
 import layout.FragmentConfiguracion;
 import layout.FragmentContactenos;
 import layout.FragmentFichaPersonal;
@@ -41,8 +75,9 @@ import layout.FragmentInspecciones;
 import layout.FragmentMuro;
 import layout.FragmentObservaciones;
 import layout.FragmentPlanPendiente;
-import layout.FragmentRegistroIO;
 import layout.FragmentAvanzado;
+
+import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 
 
 public class MainActivity extends AppCompatActivity
@@ -59,19 +94,42 @@ public class MainActivity extends AppCompatActivity
         FragmentAvanzado.OnFragmentInteractionListener,
         FragmentConfiguracion.OnFragmentInteractionListener,
         FragmentContactenos.OnFragmentInteractionListener,
-        FragmentPlanPendiente.OnFragmentInteractionListener
-
+        FragmentPlanPendiente.OnFragmentInteractionListener,
+        SearchView.OnQueryTextListener
 {
 
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView; // menu inferior
     private FragmentManager fragmentManager;
     public static Context contextOfApplication;
-    public static String jsonObs="";
-    public static String jsonInsp="";
-
+    LayoutInflater layoutInflater;
+    View popupView;
+    PopupWindow popupWindow;
     DrawerLayout drawerLayout;
-    ImageView buscar;
+    ImageButton buscar;
+    String lastTag;
+
+    ArrayList<Maestro> spdatasearch = new ArrayList<>();
+    ArrayList<PublicacionModel> dataSeach = new ArrayList<>();
+    CardView card_result;
+    TextView txt_result;
+    ListView list_result;
+    SearchAdapter adSearch;
+    ConstraintLayout constraintLayout;
+    RelativeLayout rl1;
+    LinearLayout Lrly;
+    public SearchView searchView;
+    boolean upFlag;
+    boolean downFlag;
+    boolean listenerFlag;
+    int contPublicacion;
+    boolean flag_enter=true;
+    int pagination;
+    String TipoSearch;
+    String txtSearch;
+    String oldTipo="";
+    String oldtxtSearch="";
+
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
@@ -82,10 +140,223 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void lupaBuscar(View view) {
-        Intent busquedas = new Intent(this,Busqueda.class);
-        startActivity(busquedas);
+
+        layoutInflater =(LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        popupView = layoutInflater.inflate(R.layout.popup_search, null);
+
+        popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, true);
+        popupWindow.showAtLocation(buscar, Gravity.TOP, 0, 0);
+        popupWindow.setFocusable(true);
+        popupWindow.update();
+        popupWindow.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
+        dataSeach.clear();
+        pagination=1;
+        TipoSearch="0";
+        txtSearch="";
+        oldTipo="";
+        oldtxtSearch="";
+
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                if(adSearch!=null && adSearch.popupWindow!=null)adSearch.popupWindow.dismiss();
+            }
+        });
+
+        ImageButton btn_closep=(ImageButton) popupView.findViewById(R.id.btn_closep);
+        ImageButton btn_filtro=(ImageButton) popupView.findViewById(R.id.btn_filtro);
+        searchView=(SearchView) popupView.findViewById(R.id.searchView);
+
+        card_result=(CardView) popupView.findViewById(R.id.cardSearch);
+        txt_result=(TextView) popupView.findViewById(R.id.txt_mensaje);
+        list_result=(ListView) popupView.findViewById(R.id.list_result);
+        constraintLayout=(ConstraintLayout) popupView.findViewById(R.id.const_main2);
+        Spinner sptipo= (Spinner) popupView.findViewById(R.id.spinnerTipo);
+        rl1=(RelativeLayout) popupView.findViewById(R.id.rl1);
+        Lrly=(LinearLayout)  popupView.findViewById(R.id.linearLayout2);
+        card_result.setVisibility(View.GONE);
+
+        list_result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
+                String Codigo=dataSeach.get(position).Codigo;
+                Intent intent;
+                switch (Codigo.substring(0,3)){
+                    case "OBS":
+                        String tipoObs=GlobalVariables.listaGlobal.get(position).Tipo;
+                        intent = new Intent(MainActivity.this, ActMuroDet.class);
+                        intent.putExtra("codObs",Codigo);
+                        intent.putExtra("posTab",0);
+                        intent.putExtra("tipoObs",tipoObs);
+                        startActivity(intent);
+                        break;
+                    case "INS":
+                        intent = new Intent(MainActivity.this, ActInspeccionDet.class);
+                        intent.putExtra("codObs",Codigo);
+                        intent.putExtra("posTab",0);
+                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                        startActivity(intent);
+                        break;
+                    case "NOT":
+                        intent = new Intent(MainActivity.this, ActNoticiaDet.class);
+                        intent.putExtra("codObs",Codigo);
+                        intent.putExtra("posTab",0);
+                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                        startActivity(intent);
+
+                        break;
+                    case "OBF":
+                        intent = new Intent(MainActivity.this, obsFacilitoDet.class);
+                        intent.putExtra("codObs",Codigo);
+                        //intent.putExtra("posTab",0);
+                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                        startActivity(intent);
+                        break;
+                }
+                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+            }
+        });
+
+        list_result.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                //     if(is_swipe) {
+
+                if (scrollState == SCROLL_STATE_IDLE) {
+                    listenerFlag = false;
+                }
+                if (upFlag && scrollState == SCROLL_STATE_IDLE) {
+                    upFlag = false;
+                   // swipeRefreshLayout.setEnabled(true);
+                }
+                if (downFlag && scrollState == SCROLL_STATE_IDLE) {
+                    downFlag = false;
+                    if (adSearch.getCount() != contPublicacion && flag_enter) {
+                        GlobalVariables.istabs=false;// para que no entre al flag de tabs
+
+                        //progressBarMain.setVisibility(View.VISIBLE);
+                        flag_enter = false;
+                        constraintLayout.setVisibility(View.VISIBLE);
+                        Utils.isActivity=false;
+
+                        pagination+=1;
+                        String url = GlobalVariables.Url_base + "Muro/Search/" +txtSearch+"/"+TipoSearch+"/"+ pagination + "/" + "7";
+
+                        ActivityController obj = new ActivityController("get-"+pagination, url, MainActivity.this,MainActivity.this);
+                        obj.execute("1");
+                    }
+                }
+                if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
+                    listenerFlag = true;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                if (listenerFlag && !view.canScrollVertically(1)) {
+                    downFlag = true;
+                    upFlag = false;
+                }
+                if (listenerFlag && !view.canScrollVertically(-1)) {
+                    upFlag = true;
+                    downFlag = false;
+                }  }
+        });
+
+
+            SpinnerAdapter adapter=new SpinnerAdapter(this, R.layout.item_spinner,R.id.txt,spdatasearch);
+            sptipo.setAdapter(adapter);
+
+        if(lastTag.equals("A"))  {
+            sptipo.setVisibility(View.VISIBLE);
+            btn_filtro.setVisibility(View.GONE);
+        }
+        else {
+            sptipo.setVisibility(View.GONE);
+            btn_filtro.setVisibility(View.VISIBLE);
+            if(lastTag.equals("C")) TipoSearch="2";
+            else TipoSearch="3";
+        }
+
+            sptipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) popupView.findViewById(R.id.spinnerTipo) ).getSelectedItem();
+                TipoSearch=Tipo.CodTipo;
+                if(!txtSearch.isEmpty()&&(!txtSearch.equals(oldtxtSearch)||!oldTipo.equals(TipoSearch))){
+                    oldTipo=TipoSearch;
+                    oldtxtSearch=txtSearch;
+                    String url = GlobalVariables.Url_base + "Muro/Search/" +txtSearch+"/"+TipoSearch+"/1/" + "7";
+                    ActivityController obj = new ActivityController("get", url, MainActivity.this,MainActivity.this);
+                    obj.execute("0");
+                    searchView.clearFocus();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
+
+            searchView.setOnQueryTextListener(this);
+                rl1.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        popupWindow.dismiss();
+                    }
+                });
+                btn_closep.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        popupWindow.dismiss();
+                    }
+                });
+                btn_filtro.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+
+                        if(lastTag.equals("C")) // observacion
+                        {
+                            FragmentObservaciones temp =(FragmentObservaciones)GlobalVariables.fragmentSave.get(0);
+                            temp.Filtro_Obs();
+                            popupWindow.dismiss();
+                        }
+                        else if(lastTag.equals("D")) // inspe
+                        {
+                            FragmentInspecciones temp =(FragmentInspecciones)GlobalVariables.fragmentSave.get(1);
+                            temp.Filtro_Insp();
+                            popupWindow.dismiss();
+                        }
+                    }
+                });
+
+        }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        txtSearch=query.trim();
+        if(!txtSearch.isEmpty()&&(!txtSearch.equals(oldtxtSearch)||!oldTipo.equals(TipoSearch))){
+            oldTipo=TipoSearch;
+            oldtxtSearch=txtSearch;
+            String url = GlobalVariables.Url_base + "Muro/Search/" +txtSearch+"/"+TipoSearch+"/1/" + "7";
+            ActivityController obj = new ActivityController("get", url, MainActivity.this,MainActivity.this);
+            obj.execute("0");
+            searchView.clearFocus();
+            return true;
+        }
+        return false;
     }
 
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        txtSearch=newText;
+        return false;
+    }
 
     public enum NavigationFragment{
         Muro,
@@ -110,14 +381,21 @@ public class MainActivity extends AppCompatActivity
         buscar=findViewById(R.id.btn_buscar);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
+        GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //0
+        GlobalVariables.fragmentSave.push(new FragmentInspecciones()); //1
 
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
+        spdatasearch.add(new Maestro(R.drawable.ic_equalizer,"0","Todos"));
+        spdatasearch.add(new Maestro(R.drawable.ic_facilito,"1","Facilito"));
+        spdatasearch.add(new Maestro(R.drawable.ic_iobservacion,"2","Observación"));
+        spdatasearch.add(new Maestro(R.drawable.ic_iinspeccion,"3","Inspección"));
+        spdatasearch.add(new Maestro(R.drawable.ic_inoticia,"4","Noticia"));
+
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
 
         if(!GlobalVariables.desdeBusqueda){
             ChangeFragment(NavigationFragment.Muro);
@@ -125,16 +403,14 @@ public class MainActivity extends AppCompatActivity
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
             GlobalVariables.desdeBusqueda=false;
         }else{
-
             ChangeFragment(NavigationFragment.FichaPersonal);
             uncheckItemsMenu();
             bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
         }
-
-
-
-
-
+        //GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //2
+        Gson gson = new Gson();
+        GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+        GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
     }
 
 
@@ -144,39 +420,55 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-
-        //DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        boolean passdismis=true;
         try {
-
-            /*if (drawer.isDrawerOpen(GravityCompat.START)) {
-                drawer.closeDrawer(GravityCompat.START);
-
-            }else */
-
             if (GlobalVariables.fragmentStack.size() == 2) {
-                fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                GlobalVariables.fragmentStack.lastElement().onPause();
-                ft.remove(GlobalVariables.fragmentStack.pop());
-                GlobalVariables.fragmentStack.lastElement().onResume();
-                uncheckItemsMenu();
 
-                //Fragment fra=GlobalVariables.fragmentStack.lastElement();
-                bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
-
-                ft.show(GlobalVariables.fragmentStack.lastElement());
-
-                ft.commit();
-
-
-                //bottomNavigationView.setVisibility(View.GONE);
-                //toolbar.setVisibility(View.VISIBLE);
+                if(lastTag.equals("C")) // Obs
+                {
+                    FragmentObservaciones temp =(FragmentObservaciones)GlobalVariables.fragmentSave.get(0);
+                    if(adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
+                    else  if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())  temp.ca.popupWindow.dismiss();
+                    else passdismis=false;
+                }
+                else if(lastTag.equals("D")) // inspe
+                {
+                    FragmentInspecciones temp =(FragmentInspecciones)GlobalVariables.fragmentSave.get(1);
+                    if(adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
+                    else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
 
 
-                // ChangeFragment(NavigationFragment.Inicio);
+                    else passdismis=false;
+
+                }
+
+                if(!passdismis){
+                    fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction ft = fragmentManager.beginTransaction();
+                    GlobalVariables.fragmentStack.get(1).onPause();
+
+                    ft.remove(GlobalVariables.fragmentStack.get(1));
+                    GlobalVariables.fragmentStack.remove(1);
+                    GlobalVariables.fragmentStack.get(0).onResume();
+                    uncheckItemsMenu();
+
+                    //Fragment fra=GlobalVariables.fragmentStack.lastElement();
+                    bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+                    buscar.setVisibility(View.VISIBLE);
+                    ft.show(GlobalVariables.fragmentStack.lastElement());
+                    lastTag="A";
+                    ft.commit();
+                }
             }else {
                 //super.onBackPressed();
-                if (exit) {
+                FragmentMuro temp =(FragmentMuro)GlobalVariables.fragmentStack.get(0);
+
+                if(adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
+                else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
+                else if (exit) {
                     GlobalVariables.fragmentStack.clear();
                     super.onBackPressed(); // finish activity
                 } else {
@@ -188,21 +480,12 @@ public class MainActivity extends AppCompatActivity
                             exit = false;
                         }
                     }, 3 * 1000);
-
                 }
-
             }
         }catch (Throwable e){
             Log.d("error_frag", e.getLocalizedMessage());
         }
     }
-
-
-
-
-
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -220,6 +503,39 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    public void DeleteObject(String Url, int index){
+        String url= GlobalVariables.Url_base+Url;
+        ActivityController obj = new ActivityController("get", url, this,this);
+        obj.execute(""+index);
+    }
+
+    public void openFichaPersona(){
+
+        ChangeFragment(NavigationFragment.FichaPersonal);
+        buscar.setVisibility(View.INVISIBLE);
+        GlobalVariables.isUserlogin=false;
+        uncheckItemsMenu();
+        ClickMenuFicha();
+        if(popupWindow!=null)popupWindow.dismiss();
+    }
+    public void SelectFragmenSpecific(String Tipo,Fragment fragment){
+        uncheckItemsMenu();
+        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("C"))
+            buscar.setVisibility(View.VISIBLE);
+        else buscar.setVisibility(View.INVISIBLE);
+
+        showFragment(R.id.content,fragment,Tipo,false);
+        GlobalVariables.apilarFrag(fragment,Tipo);
+        /*
+        switch (Tipo){
+            //case "A": ChangeFragment(NavigationFragment.Muro); break;
+            case "B": ChangeFragment(NavigationFragment.FichaPersonal); break;
+            //case "C": ChangeFragment(NavigationFragment.Observaciones); break;
+            //case "D": ChangeFragment(NavigationFragment.Inspecciones); break;
+            //case "E": ChangeFragment(NavigationFragment.Avanzado); break;
+        }*/
+
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -228,19 +544,21 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.nav_reporte) {
 
-            Toast.makeText(this, "nav_reporte",
-                    Toast.LENGTH_SHORT).show();
+            GlobalVariables.flagFacilito=false;
+            Intent myIntent = new Intent(this, report_obs.class);
+            startActivity(myIntent);
 
-        } else if (id == R.id.nav_aprobaciones) {
+        }
+        /*
+        else if (id == R.id.nav_aprobaciones) {
 
             Toast.makeText(this, "nav_Aprobaciones", Toast.LENGTH_SHORT).show();
-
-        }else if (id == R.id.nav_listaobs) {
+        }*/
+        else if (id == R.id.nav_listaobs) {
             GlobalVariables.flagFacilito=true;
             Intent addObsReport = new Intent(this,list_obsfacilito.class);
             startActivity(addObsReport);
 
-            Toast.makeText(this, "nav_listaobs", Toast.LENGTH_SHORT).show();
         }
         else if (id == R.id.nav_observacion) {
 
@@ -262,17 +580,12 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_ficha) {
             buscar.setVisibility(View.INVISIBLE);
-
-            GlobalVariables.isUserlogin=true;
-            GlobalVariables.barTitulo=true;
-
+            Gson gson = new Gson();
+            GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+            GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
             ClickMenuFicha();
             uncheckItemsMenu();
             bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
-
-            Toast.makeText(this, "nav_ficha",
-                    Toast.LENGTH_SHORT).show();
-
 
 
         }else if (id == R.id.nav_pendientes){
@@ -284,8 +597,6 @@ public class MainActivity extends AppCompatActivity
             ClickPendientes();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
 
-            Toast.makeText(this, "nav_pendientes",
-                    Toast.LENGTH_SHORT).show();
 
         }else if (id == R.id.nav_Contactenos){
             buscar.setVisibility(View.INVISIBLE);
@@ -295,10 +606,6 @@ public class MainActivity extends AppCompatActivity
             ClickMenuContactenos();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
 
-
-
-            Toast.makeText(this, "nav_Contactenos",
-                    Toast.LENGTH_SHORT).show();
         }else if (id == R.id.nav_configuracion){
             buscar.setVisibility(View.INVISIBLE);
             Menu menu = navigationView.getMenu();
@@ -307,9 +614,6 @@ public class MainActivity extends AppCompatActivity
             ClickMenuConfiguracion();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
 
-
-            Toast.makeText(this, "nav_configuracion",
-                    Toast.LENGTH_SHORT).show();
 
         }else if(id == R.id.nav_cerrar){
             buscar.setVisibility(View.INVISIBLE);
@@ -327,10 +631,11 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
     //menu inferior
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -357,7 +662,6 @@ public class MainActivity extends AppCompatActivity
 
                     GlobalVariables.isUserlogin=true;
                     GlobalVariables.barTitulo=true;
-
                     uncheckItemsMenu();
                     ClickMenuFicha();
 
@@ -371,7 +675,7 @@ public class MainActivity extends AppCompatActivity
                     return true;
                     */
                 case R.id.navigation_observacion:
-                    buscar.setVisibility(View.INVISIBLE);
+                    buscar.setVisibility(View.VISIBLE);
 
                     uncheckItemsMenu();
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
@@ -379,7 +683,7 @@ public class MainActivity extends AppCompatActivity
                     return true;
 
                 case R.id.navigation_inspeccion:
-                    buscar.setVisibility(View.INVISIBLE);
+                    buscar.setVisibility(View.VISIBLE);
 
                     uncheckItemsMenu();
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
@@ -400,7 +704,6 @@ public class MainActivity extends AppCompatActivity
 
     };
 
-
     public void ClickMenuObservacion() {
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_observacion).setChecked(true);
@@ -416,15 +719,6 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.Inspecciones);
     }
 
-    /*
-        public void ClickMenuAprobaciones() {
-            uncheckItemsMenu();
-            bottomNavigationView.getMenu().findItem(R.id.navigation_aprob).setChecked(true);
-            bottomNavigationView.setVisibility(View.VISIBLE);
-            ChangeFragment(NavigationFragment.Aprobaciones);
-
-        }
-    */
     public void ClickMenuFicha() {
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
@@ -500,27 +794,49 @@ public class MainActivity extends AppCompatActivity
 
     public void ChangeFragment(NavigationFragment value){
         Fragment fragment = null;
+        String Tipo="A";
         switch (value) {
             case Muro:    fragment = new FragmentMuro(); break;
             //case Aprobaciones:    fragment = new FragmentAprobaciones(); break;
-            case FichaPersonal: fragment = new FragmentFichaPersonal(); break;
+            case FichaPersonal: fragment = new FragmentFichaPersonal(); Tipo="B"; break;
             //case RegistroOI: fragment = new FragmentRegistroIO(); break;
-            case Observaciones: fragment = new FragmentObservaciones(); break;
+            case Observaciones: fragment = new FragmentObservaciones(); Tipo="C"; break;
 
-            case Inspecciones: fragment = new FragmentInspecciones(); break;
+            case Inspecciones: fragment = new FragmentInspecciones();  Tipo="D";break;
 
-            case Avanzado: fragment = new FragmentAvanzado(); break;// configuracion
-            case Configuracion: fragment = new FragmentConfiguracion(); break;
-            case Contactenos: fragment = new FragmentContactenos(); break;
-            case PlanPendiente: fragment = new FragmentPlanPendiente(); break;
+            case Avanzado: fragment = new FragmentAvanzado(); Tipo="E"; break;// configuracion
+            case Configuracion: fragment = new FragmentConfiguracion();  Tipo="F";break;
+            case Contactenos: fragment = new FragmentContactenos();  Tipo="G";break;
+            case PlanPendiente: fragment = new FragmentPlanPendiente();  Tipo="H";break;
         }
+        lastTag=Tipo;
+        if(!Tipo.equals("A")) {
+            GlobalVariables.passHome=true;
+            FragmentMuro temp= (FragmentMuro)GlobalVariables.fragmentStack.get(0);
+            if(temp.List_muro!=null)
+            GlobalVariables.stateMuro=temp.List_muro.onSaveInstanceState();
+        }
+        if(!Tipo.equals("B")){
+            GlobalVariables.isUserlogin=false;
+        }
+        if(!Tipo.equals("C")){
+            GlobalVariables.passObs=true;
+            FragmentObservaciones temp= (FragmentObservaciones)GlobalVariables.fragmentSave.get(0);
+            if(temp.list_busqueda!=null)
+                GlobalVariables.stateObs=temp.list_busqueda.onSaveInstanceState();
+        }
+        if(!Tipo.equals("D")){
+            GlobalVariables.passInsp=true;
+            FragmentInspecciones temp= (FragmentInspecciones)GlobalVariables.fragmentSave.get(1);
+            if(temp.list_busqueda!=null)
+                GlobalVariables.stateInsp=temp.list_busqueda.onSaveInstanceState();
+        }
+       //showFragment(R.id.content,fragment,Tipo,false);
         if(fragment!=null&&GlobalVariables.fragmentStack.size()==0){
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.content, fragment)
-
                     .commit();
-            GlobalVariables.apilarFrag(fragment);
 
        }else if(fragment!=null){
             getSupportFragmentManager()
@@ -528,15 +844,73 @@ public class MainActivity extends AppCompatActivity
                     .add(R.id.content, fragment)
                     .hide(GlobalVariables.fragmentStack.lastElement())
                     .commit();
-            GlobalVariables.apilarFrag(fragment);
+        }
+        GlobalVariables.apilarFrag(fragment,Tipo);
+    }
+
+
+    protected void showFragment( int resId, Fragment fragment, String tag, boolean addToBackStack ) {
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+
+        if ( lastTag != null ) {
+            Fragment lastFragment = fragmentManager.findFragmentByTag( lastTag );
+            if ( lastFragment != null ) {
+                transaction.hide( lastFragment );
+            }
         }
 
+        if ( fragment.isAdded() ) {
+            transaction.show( fragment );
+        }
+        else {
+            lastTag=tag;
+            transaction.add( resId, fragment, tag ).setBreadCrumbShortTitle( tag );
+        }
+
+        if ( addToBackStack ) {
+            transaction.addToBackStack( tag );
+        }
+
+        transaction.commit();
     }
 
 
     @Override
     public void success(String data,String Tipo) {
+//data add
+        Gson gson = new Gson();
+        GetPublicacionModel getPublicacionModel = gson.fromJson(data, GetPublicacionModel.class);
+        if(Tipo.equals("0")){ // from login
+            String sms="";
+            if(getPublicacionModel.Count==0)sms="No hubo ocurrencias";
+            else sms="Total registros encontrados: "+getPublicacionModel.Count;
+            dataSeach=getPublicacionModel.Data;
+            contPublicacion=getPublicacionModel.Count;
+            txt_result.setText(sms);
+            adSearch = new SearchAdapter(this,dataSeach,this);
+            list_result.setAdapter(adSearch);
+            rl1.setVisibility(View.GONE);
+            card_result.setVisibility(View.VISIBLE);
+            DisplayMetrics dm = new DisplayMetrics();
+            this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+            Lrly.setMinimumHeight(dm.heightPixels);
+            //popupWindow.setHeight(dm.heightPixels);
+            //popupWindow.update();
+        }
+        else if(Tipo.equals("1")){ //from refresh data
 
+            constraintLayout.setVisibility(View.GONE);
+            flag_enter=true;
+            for(PublicacionModel item:getPublicacionModel.Data)
+                adSearch.add(item);
+            adSearch.notifyDataSetChanged();
+        }
+        else
+        {   if(data.contains("-1")) Toast.makeText(this, "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+        else adSearch.remove(Integer.parseInt(Tipo)-3);
+        }
     }
 
     @Override

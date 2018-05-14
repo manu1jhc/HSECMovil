@@ -434,7 +434,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                             //Formateo el hora obtenido: antepone el 0 si son menores de 10
-                            String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+
                             //Formateo el minuto obtenido: antepone el 0 si son menores de 10
                             //String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
                             //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
@@ -454,9 +454,9 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                             }
                             //Muestro la hora con el formato deseado
                             String minutoFormateado = (minutoFinal < 10)? String.valueOf(CERO + minutoFinal):String.valueOf(minutoFinal);
-
+                            String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                             String [] fecha=GlobalVariables.AddInspeccion.Fecha.split("T");
-                            GlobalVariables.AddInspeccion.Fecha=fecha[0]+"T"+hourOfDay+":"+minutoFormateado+":00";
+                            GlobalVariables.AddInspeccion.Fecha=fecha[0]+"T"+horaFormateada+":"+minutoFormateado+":00";
 
                             //AddInspeccion.hora=horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM;
                             btn_hora.setText(horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM);

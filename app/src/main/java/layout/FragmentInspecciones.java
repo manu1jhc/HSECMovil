@@ -35,6 +35,7 @@ import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
+import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.observacion_edit;
 
 import java.util.ArrayList;
@@ -42,8 +43,6 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.pango.hsec.hsec.GlobalVariables.paginacion;
-import static com.pango.hsec.hsec.MainActivity.jsonInsp;
-import static com.pango.hsec.hsec.MainActivity.jsonObs;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -73,7 +72,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     public static final int REQUEST_CODE = 1;
     String url="";
     int contPublicacion;
-    ListView list_busqueda;
+    public ListView list_busqueda;
     int paginacion2=1;
     boolean flagObsFiltro=true;
     boolean upFlag;
@@ -91,7 +90,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     View popupView;
     PopupWindow popupWindow;
     boolean flagpopup=false;
-
+    public InspeccionAdapter ca;
 
 
 
@@ -165,16 +164,13 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             Utils.isActivity = true;
             //GlobalVariables.listaGlobalInspeccion = new ArrayList<>();
 
-            final ActivityController obj = new ActivityController("post-" + paginacion2, url, FragmentInspecciones.this, getActivity());
+            final ActivityController obj = new ActivityController("post", url, FragmentInspecciones.this, getActivity());
             obj.execute(json);
 
         }else{
-            successpost(jsonInsp,"");
+            successpost("","-1");
 
         }
-
-
-
 
         add_obs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,41 +182,11 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             }
         });
 
-
-
-
-
         btn_filtro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), B_inspecciones.class);
                 startActivityForResult(intent , REQUEST_CODE);
-
-                /*
-                if(tipo_filtro.equals(busqueda_tipo[0])) {
-
-                    Utils.observacionModel=new ObservacionModel();
-
-                    Intent intent = new Intent(getActivity(), B_observaciones.class);
-                    startActivityForResult(intent , REQUEST_CODE);
-
-
-                }else if(tipo_filtro.equals(busqueda_tipo[1])){
-
-
-                    Intent intent = new Intent(getActivity(), B_inspecciones.class);
-                    startActivityForResult(intent , REQUEST_CODE);
-
-
-                }else if(tipo_filtro.equals(busqueda_tipo[2])){
-                    Intent intent = new Intent(getActivity(), B_noticias.class);
-                    startActivityForResult(intent , REQUEST_CODE);
-                }
-*/
-
-
-
-
             }
         });
 
@@ -249,46 +215,22 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 GlobalVariables.isFragment=false;
 
                 String json = "";
-
-                //Utils.inspeccionModel=new InspeccionModel();
                 Utils.inspeccionModel.Elemperpage = "5";
                 Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion2);
                 Gson gson = new Gson();
                 json = gson.toJson(Utils.inspeccionModel);
 
-                /*
-                if(tipo_busqueda==1) {
-                    //Utils.observacionModel=new ObservacionModel();
-                    Utils.observacionModel.CodUbicacion = "5";
-                    Utils.observacionModel.Lugar = String.valueOf(paginacion2);
-                    Gson gson = new Gson();
-                    json = gson.toJson(Utils.observacionModel);
-                }else if(tipo_busqueda==2){
-                    //Utils.inspeccionModel=new InspeccionModel();
-                    Utils.inspeccionModel.Elemperpage = "5";
-                    Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion2);
-                    Gson gson = new Gson();
-                    json = gson.toJson(Utils.inspeccionModel);
-                }else if(tipo_busqueda==3){
-                    //Utils.noticiasModel=new NoticiasModel();
-                    Utils.noticiasModel.Elemperpage = "5";
-                    Utils.noticiasModel.Pagenumber = String.valueOf(paginacion2);
-                    Gson gson = new Gson();
-                    json = gson.toJson(Utils.noticiasModel);
-                }
-*/
 
                 //Utils.isActivity=true;
                 GlobalVariables.istabs=false;
                 final ActivityController obj = new ActivityController("post-0", url, FragmentInspecciones.this,getActivity());
-                obj.execute(json);
+                obj.execute(json,"1");
 
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 
                 //  } },0);
 
             } });
-
 
         list_busqueda.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -357,16 +299,16 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
 
                         GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                        final ActivityController obj = new ActivityController("post-"+paginacion2, url, FragmentInspecciones.this,getActivity());
-                        obj.execute(json2);
+                        final ActivityController obj = new ActivityController("post-2", url, FragmentInspecciones.this,getActivity());
+                        obj.execute(json2,"2");
 
-                        layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                       /* layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                         popupView = layoutInflater.inflate(R.layout.popup_blanco, null);
 
                         popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT ,580,false);
                         popupWindow.showAtLocation(list_busqueda, Gravity.CENTER, 0, 0);
                         flagpopup=true;
-
+*/
 
 
                     }
@@ -413,38 +355,6 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 intent.putExtra("posTab",0);
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                 startActivity(intent);
-
-
-/*
-                if(tipo_busqueda==1) {
-                    String CodObservacion=GlobalVariables.listaGlobalFiltro.get(position).Codigo;
-                    String tipoObs=GlobalVariables.listaGlobalFiltro.get(position).Tipo;
-
-                    Intent intent = new Intent(getActivity(), ActMuroDet.class);
-                    intent.putExtra("codObs",CodObservacion);
-                    intent.putExtra("posTab",0);
-                    intent.putExtra("tipoObs",tipoObs);
-
-                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-                    startActivity(intent);
-                }else if(tipo_busqueda==2){
-                    String CodInspeccion= GlobalVariables.listaGlobalFiltro.get(position).Codigo;
-                    Intent intent = new Intent(getActivity(), ActInspeccionDet.class);
-                    intent.putExtra("codObs",CodInspeccion);
-                    intent.putExtra("posTab",0);
-                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-                    startActivity(intent);
-
-                }else if(tipo_busqueda==3){
-                    String CodNoticia= GlobalVariables.listaGlobalFiltro.get(position).Codigo;
-                    Intent intent = new Intent(getActivity(), ActNoticiaDet.class);
-                    intent.putExtra("codObs",CodNoticia);
-                    intent.putExtra("posTab",0);
-                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-                    startActivity(intent);
-
-                }
-*/
 
             }
         });
@@ -534,19 +444,27 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             }
         });
 
-
-
-
-
         return rootView;
     }
 
+    public void Filtro_Insp(){
+        Intent intent = new Intent(getActivity(), B_inspecciones.class);
+        startActivityForResult(intent , REQUEST_CODE);
+    }
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
     }
+
+
+    public void DeleteObject(String Url, int index){
+        String url= GlobalVariables.Url_base+Url;
+        ActivityController obj = new ActivityController("get", url, FragmentInspecciones.this,getActivity());
+        obj.execute(""+index);
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -567,10 +485,168 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
     @Override
     public void success(String data, String Tipo) {
-
+        if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+        else ca.remove(Integer.parseInt(Tipo)-2);
     }
 
     @Override
+    public void successpost(String data1, String Tipo) {
+
+        //data add
+        if(Tipo.equals("")){
+            Gson gson = new Gson();
+            GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
+            GlobalVariables.listaGlobalInspeccion=getPublicacionModel.Data;
+            ca = new  InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalInspeccion,this);
+            list_busqueda.setAdapter(ca);
+
+            if(getPublicacionModel.Data.size()==0){
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                tx_mensajeb.setVisibility(View.VISIBLE);
+            }else{
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                tx_mensajeb.setVisibility(View.GONE);
+            }
+        }
+        else if(Tipo.equals("-1")){ // load data preview load
+            ca = new  InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalInspeccion,this);
+            list_busqueda.setAdapter(ca);
+            if(GlobalVariables.stateInsp != null&&GlobalVariables.passInsp) {
+                swipeRefreshLayout.setEnabled(false);
+                list_busqueda.onRestoreInstanceState(GlobalVariables.stateInsp);
+                GlobalVariables.passInsp=false;
+            }
+        }
+        else if(Tipo.equals("0")){ //from refresh data
+            Gson gson = new Gson();
+            GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
+            GlobalVariables.listaGlobalInspeccion=getPublicacionModel.Data;
+            ca = new InspeccionAdapter(getContext(),GlobalVariables.listaGlobalInspeccion,this);
+            list_busqueda.setAdapter(ca);
+
+            swipeRefreshLayout.setRefreshing(false);
+            tx_texto.setVisibility(View.GONE);
+            swipeRefreshLayout.setEnabled( false );
+        }
+        else if(Tipo.equals("2")){ // addd more data
+            Gson gson = new Gson();
+            GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
+            for(PublicacionModel item:getPublicacionModel.Data)
+                ca.add(item);
+            ca.notifyDataSetChanged();
+            constraintLayout.setVisibility(View.GONE);
+            flag_enter=true;
+        }
+
+      /*  jsonObs=data1;
+        if(flagpopup){
+            popupWindow.dismiss();
+            flagpopup=false;
+        }
+*//*
+        if(!data1.equals(jsonObs)){
+            jsonObs=data1;
+        }else{
+            //GlobalVariables.listaGlobalFiltro=new ArrayList<PublicacionModel>();
+        }
+        *//*
+        Gson gson = new Gson();
+        GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
+        contPublicacion=getPublicacionModel.Count;
+
+
+        if(GlobalVariables.listaGlobalObservacion.size()==0) {
+            GlobalVariables.listaGlobalObservacion = getPublicacionModel.Data;
+            if(getPublicacionModel.Data.size()==0){
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                tx_mensajeb.setVisibility(View.VISIBLE);
+            }else{
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                tx_mensajeb.setVisibility(View.GONE);
+            }
+            //swipeRefreshLayout.setVisibility(View.VISIBLE);
+
+            //GlobalVariables.listaGlobal=listaPublicaciones;
+        }else if(!(GlobalVariables.listaGlobalObservacion.get(GlobalVariables.listaGlobalObservacion.size()-1).Codigo.equals(getPublicacionModel.Data.get(getPublicacionModel.Data.size()-1).Codigo))){
+
+                //listaPublicaciones.addAll(getPublicacionModel.Data);
+            GlobalVariables.listaGlobalObservacion.addAll(getPublicacionModel.Data);
+            //swipeRefreshLayout.setVisibility(View.VISIBLE);
+
+        }*//*else{
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+
+            }*//*
+
+        PublicacionAdapter ca = new PublicacionAdapter(getActivity(), GlobalVariables.listaGlobalObservacion);
+        list_busqueda.setAdapter(ca);
+        //ca.notifyDataSetChanged();
+        *//*
+        if(tipo_busqueda==1) {
+
+            PublicacionAdapter ca = new PublicacionAdapter(getActivity(), GlobalVariables.listaGlobalFiltro);
+            list_busqueda.setAdapter(ca);
+            ca.notifyDataSetChanged();
+
+        }else if(tipo_busqueda==2){
+
+            InspeccionAdapter ca = new InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalFiltro);
+            list_busqueda.setAdapter(ca);
+            ca.notifyDataSetChanged();
+        }else if(tipo_busqueda==3){
+
+            NoticiasAdapter ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalFiltro);
+            list_busqueda.setAdapter(ca);
+            ca.notifyDataSetChanged();
+        }
+
+*//*
+
+        if(GlobalVariables.flagUpSc==true){
+            list_busqueda.setSelection(0);
+            GlobalVariables.flagUpSc=false;
+        }else
+            //reemplazar el 100
+            if(GlobalVariables.listaGlobalObservacion.size()>5&&GlobalVariables.listaGlobalObservacion.size()<contPublicacion) {
+                //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
+                if(GlobalVariables.listaGlobalObservacion.size()%5==0) {
+                    list_busqueda.setSelection(GlobalVariables.listaGlobalObservacion.size() - 6);
+                }else{
+                    list_busqueda.setSelection(GlobalVariables.listaGlobalObservacion.size()-1 );
+                    //- GlobalVariables.listaGlobalObservacion.size()%5+1
+                }
+
+                flagObsFiltro=true;
+
+            }else if(GlobalVariables.listaGlobalObservacion.size()==contPublicacion){
+                list_busqueda.setSelection(GlobalVariables.listaGlobalObservacion.size());
+                flagObsFiltro=false;
+
+            }
+
+        constraintLayout.setVisibility(View.GONE);
+        lupabuscar.setEnabled(true);
+
+        flag_enter=true;
+        //GlobalVariables.contpublic += 1;
+        // progressDialog.dismiss();
+        // progressBar.setVisibility(View.GONE);
+
+        if(loadingTop)
+        {
+            loadingTop=false;
+            swipeRefreshLayout.setRefreshing(false);
+            tx_texto.setVisibility(View.GONE);
+            swipeRefreshLayout.setEnabled( false );
+        }
+
+        // GlobalVariables.FDown=false;
+*/
+    }
+
+
+
+    /* @Override
     public void successpost(String data, String Tipo) {
 
         jsonInsp=data;
@@ -578,13 +654,13 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             popupWindow.dismiss();
             flagpopup=false;
         }
-/*
+*//*
         if(!data1.equals(jsonObs)){
             jsonObs=data1;
         }else{
             //GlobalVariables.listaGlobalFiltro=new ArrayList<PublicacionModel>();
         }
-        */
+        *//*
         Gson gson = new Gson();
         GetPublicacionModel getPublicacionModel = gson.fromJson(data, GetPublicacionModel.class);
         contPublicacion=getPublicacionModel.Count;
@@ -613,7 +689,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
         InspeccionAdapter ca = new InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalInspeccion);
         list_busqueda.setAdapter(ca);
         ca.notifyDataSetChanged();
-        /*
+        *//*
         if(tipo_busqueda==1) {
 
             PublicacionAdapter ca = new PublicacionAdapter(getActivity(), GlobalVariables.listaGlobalFiltro);
@@ -632,7 +708,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             ca.notifyDataSetChanged();
         }
 
-*/
+*//*
 
         if(GlobalVariables.flagUpSc==true){
             list_busqueda.setSelection(0);
@@ -678,7 +754,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
 
     }
-
+*/
     @Override
     public void error(String mensaje, String Tipo) {
         if(flagpopup){

@@ -1,19 +1,33 @@
 package com.pango.hsec.hsec.adapter;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.CardView;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
+import com.pango.hsec.hsec.Observaciones.FragmentObs;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.observacion_edit;
@@ -24,21 +38,34 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import layout.FragmentFichaPersonal;
+import layout.FragmentObservaciones;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 /**
  * Created by Andre on 15/12/2017.
  */
 
 public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     private Context context;
-
+    private FragmentObservaciones FragObs;
+    View popupView;
+    public PopupWindow popupWindow;
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public PublicacionAdapter(Context context, ArrayList<PublicacionModel> data) {
+    public PublicacionAdapter(Context context, ArrayList<PublicacionModel> data, FragmentObservaciones FragObs) {
         super(context, R.layout.publicalist, data);
         this.data = data;
         this.context = context;
+        this.FragObs=FragObs;
+    }
+
+    public void remove(int index){
+        data.remove(index);
+        notifyDataSetChanged();
     }
 
     //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -46,6 +73,12 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
     public View getView(final int position, final View convertView, final ViewGroup parent) {
         //ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(context);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int width = dm.widthPixels;
+        int height= dm.heightPixels;
+        if(width>height)width=height;
 
         View rowView = inflater.inflate(R.layout.publicalist, null, true);
 
@@ -79,17 +112,93 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         if(editable.equals("0")||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
             editar.setVisibility(View.GONE);
         }
+
+
         editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String edit=data.get(position).Editable;
                 GlobalVariables.ObjectEditable=true;
-                GlobalVariables.isFragment=false;
-                Intent intent = new Intent(getContext(),observacion_edit.class);
-                intent.putExtra("codObs", data.get(position).Codigo);
-                intent.putExtra("tipoObs", data.get(position).Tipo);
-                intent.putExtra("posTab", 0);
-                v.getContext().startActivity(intent);
+                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);//getSystemService(LAYOUT_INFLATER_SERVICE);
+                popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
+
+                popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
+                popupWindow.showAtLocation(editar, Gravity.BOTTOM, 0, 0);
+                popupWindow.setFocusable(true);
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Button button1=(Button) popupView.findViewById(R.id.btn_editartv);
+                Button button2=(Button) popupView.findViewById(R.id.btn_aprobartv);
+                Button button3=(Button) popupView.findViewById(R.id.btn_eliminartv);
+                RelativeLayout rl1=(RelativeLayout) popupView.findViewById(R.id.rl1);
+                CardView cv1=(CardView) popupView.findViewById(R.id.cv1);
+                CardView cv2=(CardView) popupView.findViewById(R.id.cv2);
+                CardView cv3=(CardView) popupView.findViewById(R.id.cv3);
+                rl1.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        popupWindow.dismiss();
+                    }
+                });
+
+                button1.setText("  Editar Observación");
+                button3.setText("  Eliminar Observación");
+                if(edit.equals("1")){
+                    cv1.setVisibility(View.VISIBLE);
+                    cv3.setVisibility(View.VISIBLE);
+                }
+                else if(edit.equals("2")){
+                    cv2.setVisibility(View.VISIBLE);
+                }
+                else if(edit.equals("3")){
+                    cv1.setVisibility(View.VISIBLE);
+                   // cv2.setVisibility(View.VISIBLE);
+                    cv3.setVisibility(View.VISIBLE);
+                }
+                button1.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        popupWindow.dismiss();
+                        GlobalVariables.ObjectEditable=true;
+                        Intent intent = new Intent(getContext(),observacion_edit.class);
+                        intent.putExtra("codObs", data.get(position).Codigo);
+                        intent.putExtra("tipoObs", data.get(position).Tipo);
+                        intent.putExtra("posTab", 0);
+                        v.getContext().startActivity(intent);
+                    }
+                });
+                button2.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                       /* popupWindow.dismiss();
+                        Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
+                        intent.putExtra("codObs", data.get(position).Codigo);
+                        v.getContext().startActivity(intent);*/
+                    }
+                });
+//                    }
+                button3.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
+                        alertDialog.setTitle("Desea Eliminar Observacion?")
+                                .setMessage(tempDetalle)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        popupWindow.dismiss();
+                                        FragObs.DeleteObject("Observaciones/Delete/"+ data.get(position).Codigo,position+2);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
+                });
+
             }
         });
         nombre.setText(tempNombre);
@@ -138,8 +247,6 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
                 v.getContext().startActivity(intent);
 
-
-
             }
         });
 
@@ -167,7 +274,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
                     .load(Url_prev)
-                    //.override(50, 50)
+                    .override(width, width)
                     .into(img_det);
         }
 
@@ -175,16 +282,10 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
         img_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //GlobalVariables.desdeBusqueda=true;
-                GlobalVariables.barTitulo=false;
-                GlobalVariables.dniUser=tempimg_perfil;
-                Intent intent=new Intent(context,FichaPersona.class);
-                //intent.putExtra("codUsuario",tempimg_perfil);
-                context.startActivity(intent);
+                GlobalVariables.dniUser=data.get(position).UrlObs;
+                ((MainActivity)FragObs.getActivity()).openFichaPersona();
             }
         });
-
-
 
 
         return rowView;

@@ -130,7 +130,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
                 //activity.success(respstring);
         }
-        progressDialog.setVisibility(View.GONE);
+        progressDialog.setVisibility(View.INVISIBLE);
         //mainActivity.success();
 
     }
@@ -158,8 +158,6 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     public void LoadDataMuro() {
 
        String url=GlobalVariables.Url_base+"Muro/GetMuro/"+"1"+"/"+"7";
-
-
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(url);
@@ -171,22 +169,12 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
             response = httpClient.execute(get);
             String respstring2 = EntityUtils.toString(response.getEntity());
             int con_status = response.getStatusLine().getStatusCode();
-            GlobalVariables.jsonMuro=respstring2;
             Gson gson = new Gson();
-            GetPublicacionModel getPublicacionModel = gson.fromJson(respstring2, GetPublicacionModel.class);
-            GlobalVariables.listaGlobal=getPublicacionModel.Data;
+            GlobalVariables.listaGlobal = gson.fromJson(respstring2, GetPublicacionModel.class).Data;
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
-
-
     }
-
-
 
 
     public void LoadData(){

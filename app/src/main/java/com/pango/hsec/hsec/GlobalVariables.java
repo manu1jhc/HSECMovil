@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
@@ -23,11 +24,15 @@ import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
+
+import layout.FragmentMuro;
+import layout.FragmentObservaciones;
 
 /**
  * Created by Andre on 12/12/2017.
@@ -89,22 +94,52 @@ public class GlobalVariables  {
 
     //public static InspeccionModel Inspeccion=new InspeccionModel();
 
-
     public static boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
 
     public static Stack<Fragment> fragmentStack= new Stack<Fragment>();
+    public static Stack<Fragment> fragmentSave= new Stack<Fragment>();
 
-    public static void apilarFrag(Fragment fragment){
-        if (GlobalVariables.fragmentStack.size()<=1) {
+    public static void apilarFrag(Fragment fragment,String Tipo) {
+
+        if(Tipo.equals("C")) //Fragmen Obs
+        {   GlobalVariables.fragmentSave.remove(0);
+            GlobalVariables.fragmentSave.add(0,fragment);
+        }
+        else if(Tipo.equals("D"))//Fragmen Insp
+        {
+            GlobalVariables.fragmentSave.remove(1);
+            GlobalVariables.fragmentSave.add(1,fragment);
+        }
+
+        if (Tipo.equals("A")) {
+            GlobalVariables.fragmentStack.clear();
             GlobalVariables.fragmentStack.push(fragment);
-        }else{
+        }
+        else if (GlobalVariables.fragmentStack.size()>1) {
             GlobalVariables.fragmentStack.pop();
             GlobalVariables.fragmentStack.push(fragment);
         }
+        else   GlobalVariables.fragmentStack.push(fragment);
     }
+
+    //flag of muro
+    public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<>();
+    public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
+    public static ArrayList<PublicacionModel> listaGlobalInspeccion=new ArrayList<>();//data del fragment de inspecciones
+    public static ArrayList<PublicacionModel> listaGlobalFacilito= new  ArrayList<>();
+
+    public static Parcelable stateMuro;
+    public static Parcelable stateObs;
+    public static Parcelable stateInsp;
+    public static Parcelable stateFac;
+
+    public static boolean passHome=false;
+    public static boolean passObs=false;
+    public static boolean passInsp=false;
+    public static boolean passFac=false;
 
     public static View view_fragment;
     public static boolean isFragment=false;
@@ -120,11 +155,9 @@ public class GlobalVariables  {
    public static int count=5;
     public static boolean flag_up_toast=false;
 
-    public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<PublicacionModel>();
+    //variables used in Ficha
     public static ArrayList<PersonaModel> lista_Personas=new ArrayList<>();
-
     public static ArrayList<PlanMinModel> listaPlanMin = new  ArrayList<PlanMinModel>();
-
     public static ArrayList<PublicacionModel> listaGlobalFiltro = new  ArrayList<PublicacionModel>();
     public static ArrayList<ObsFacilitoMinModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoMinModel>();
     public static ArrayList<ObsFHistorialModel> listaGlobalObsHistorial = new  ArrayList<ObsFHistorialModel>();
@@ -132,17 +165,13 @@ public class GlobalVariables  {
     public static ArrayList<ObsFHistorialModel> listaHistorial = new  ArrayList<ObsFHistorialModel>();
     public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
 
-    public static ArrayList<PublicacionModel> listaGlobalInspeccion=new ArrayList<>();//data del fragment de inspecciones
-
-
-//    public static ArrayList<ObsFacilitoModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoModel>();
+    //public static ArrayList<ObsFacilitoModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoModel>();
     public static  ArrayList<Maestro> ObsFacilito_tiempo = new ArrayList<>();
     public static  ArrayList<Maestro> ObsFacilito_estado = new ArrayList<>();
     public static  ArrayList<Maestro> ObsFacilito_estadoHistoria=new ArrayList<>();
 
-    public static String jsonMuro="";
-
     public static String json_user="";
+    public static UsuarioModel userLoaded;
 
     public static String nombre="";
 
@@ -437,7 +466,6 @@ public class GlobalVariables  {
         return Super;
     }
 
-
     //autenticacion
     public static String reemplazar(String cadena, String busqueda, String reemplazo) {
         return cadena.replaceAll(busqueda, reemplazo);
@@ -449,166 +477,4 @@ public class GlobalVariables  {
         return cadena3;
     }
 
-
-
-  /*  public static void LoadData() {
-        if(Ubicaciones_obs.isEmpty())GetMaestroLocal("UBIC");
-        if(Gerencia.isEmpty())GetMaestroLocal("GERE");
-        if(SuperIntendencia.isEmpty())GetMaestroLocal("SUPE");
-        if(Contrata.isEmpty())GetMaestroLocal("PROV");
-        //observacion
-        if(HHA_obs.isEmpty())GetMaestroLocal("HHAR");
-        if(Actividad_obs.isEmpty())GetMaestroLocal("ACTR");
-        if(Error_obs.isEmpty())GetMaestroLocal("EROB");
-        if(Estado_obs.isEmpty())GetMaestroLocal("ESOB");
-        if(Tipo_obs2.isEmpty())GetMaestroLocal("TPOB");
-
-        //inspecciones
-        if(Aspecto_Obs.isEmpty())GetMaestroLocal("ASPO");
-        if(Tipo_insp.isEmpty())GetMaestroLocal("TPIN");
-
-        //Plan de Accion
-        if(Area_obs.isEmpty())GetMaestroLocal("AREA");
-        if(Tipo_Plan.isEmpty())GetMaestroLocal("TPAC");
-
-        Ubicacion_obs=loadUbicacion("",1);
-    }
-
-    public  static void GetMaestroLocal(String Tipo){
-        String data1 = Recuperar_data(Tipo);
-        String url=Url_base+"Maestro/GetTipoMaestro/"+Tipo;
-        Gson gson = new Gson();
-
-        if(data1=="" || data1.contains("Count\":-1")){
-            GlobalVariables Objeto= new GlobalVariables();
-            final ActivityController obj = new ActivityController("get", url,Objeto);
-            obj.execute(Tipo);
-        }
-        else {
-            GetMaestroModel getMaestroModel = gson.fromJson(data1, GetMaestroModel.class);
-            switch (Tipo){
-                case "UBIC":
-                    Ubicaciones_obs=getMaestroModel.Data;
-                    break;
-                case "GERE":
-                    Gerencia=getMaestroModel.Data;
-                    break;
-                case "SUPE":
-                    SuperIntendencia=getMaestroModel.Data;
-                    break;
-                case "PROV":
-                    Contrata=getMaestroModel.Data;
-                    break;
-                //observacion
-                case "HHAR":
-                    HHA_obs=getMaestroModel.Data;
-                    break;
-                case "ACTR":
-                    Actividad_obs=getMaestroModel.Data;
-                    break;
-                case "TPOB":
-                    Tipo_obs2=getMaestroModel.Data;
-                    break;
-                case "ESOB":
-                    Estado_obs=getMaestroModel.Data;
-                    break;
-                case "EROB":
-                    Error_obs=getMaestroModel.Data;
-                    break;
-                //inspecciones
-                case "ASPO":
-                    Aspecto_Obs=getMaestroModel.Data;
-                    break;
-                case "TPIN":
-                    Tipo_insp=getMaestroModel.Data;
-                    break;
-                //Plan de Accion
-                case "AREA":
-                    Area_obs=getMaestroModel.Data;
-                    break;
-                case "TPAC":
-                    Tipo_Plan=getMaestroModel.Data;
-                    break;
-                *//*default:
-                    break;*//*
-            }
-        }
-    }
-
-    @Override
-    public void success(String data, String Tipo) {
-        Gson gson = new Gson();
-        GetMaestroModel getMaestroModel = gson.fromJson(data, GetMaestroModel.class);
-        if (getMaestroModel.Count > 0){
-            switch (Tipo) {
-                case "UBIC":
-                    Ubicaciones_obs = getMaestroModel.Data;
-                    break;
-                case "GERE":
-                    Gerencia = getMaestroModel.Data;
-                    break;
-                case "SUPE":
-                    SuperIntendencia = getMaestroModel.Data;
-                    break;
-                case "PROV":
-                    Contrata = getMaestroModel.Data;
-                    break;
-                //observacion
-                case "HHAR":
-                    HHA_obs = getMaestroModel.Data;
-                    break;
-                case "ACTR":
-                    Actividad_obs = getMaestroModel.Data;
-                    break;
-                case "TPOB":
-                    Tipo_obs2 = getMaestroModel.Data;
-                    break;
-                case "ESOB":
-                    Estado_obs = getMaestroModel.Data;
-                    break;
-                case "EROB":
-                    Error_obs = getMaestroModel.Data;
-                    break;
-                //inspecciones
-                case "ASPO":
-                    Aspecto_Obs = getMaestroModel.Data;
-                    break;
-                case "TPIN":
-                    Tipo_insp = getMaestroModel.Data;
-                    break;
-                //Plan de Accion
-                case "AREA":
-                    Area_obs = getMaestroModel.Data;
-                    break;
-                case "TPAC":
-                    Tipo_Plan = getMaestroModel.Data;
-                    break;
-                *//*default:
-                    break;*//*
-            }
-                Context applicationContext = MainActivity.getContextOfApplication();
-                SharedPreferences VarMaestros = applicationContext.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = VarMaestros.edit();
-                editor.putString(Tipo, String.valueOf(data));
-                editor.commit();
-            }
-            else  Toast.makeText(MainActivity.getContextOfApplication(),"Ocurrio un error al sicronizar datos",Toast.LENGTH_SHORT).show();
-    }
-
-    public static String Recuperar_data(String Variable) {
-       // Context applicationContext = MainActivity.getContextOfApplication() ;
-        SharedPreferences VarMaestros =  activity.getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
-        String ListaMaestro = VarMaestros.getString(Variable,"");
-        return ListaMaestro;
-    }
-
-    @Override
-    public void successpost(String data, String Tipo) {
-
-    }
-
-    @Override
-    public void error(String mensaje, String Tipo) {
-
-    }*/
-}
+   }

@@ -379,9 +379,7 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
             GlobalVariables.cal_sd_hd=".";
         }else{
             GlobalVariables.cal_sd_hd="_SD.";
-
         }
-
     }
 */
 }

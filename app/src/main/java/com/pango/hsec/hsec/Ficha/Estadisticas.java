@@ -128,27 +128,8 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String mes_position;
-
-
-                if(getEstadisticaModel.Data.get(position).Codigo.equals("00")) {//planes de accion
-
-                    if(mes_pos.isEmpty()){
-                        mes_position="0";
-                    }else{
-                        mes_position=mes_pos;
-                    }
-
-                    Intent intent = new Intent(Estadisticas.this, BusqEstadistica.class);
-
-                    intent.putExtra("anio", anio_sel);
-                    intent.putExtra("mes", mes_position);
-                    intent.putExtra("codiPersona", codPersona);
-                    intent.putExtra("descripcion", getEstadisticaModel.Data.get(position).Descripcion);
-
-                    startActivity(intent);
-
-
-                }else if(getEstadisticaModel.Data.get(position).Codigo.equals("01")) {//observaciones
+                int CodSelected=Integer.parseInt(getEstadisticaModel.Data.get(position).Codigo);
+               if(CodSelected <3){ //inspecciones, Observacion, planes, porte facilito
 
                     if(mes_pos.isEmpty()){
                         mes_position="0";
@@ -161,33 +142,10 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
                     intent.putExtra("anio", anio_sel);
                     intent.putExtra("mes", mes_position);
                     intent.putExtra("codiPersona", codPersona);
+                    intent.putExtra("codselected", CodSelected);
                     intent.putExtra("descripcion", getEstadisticaModel.Data.get(position).Descripcion);
 
                     startActivity(intent);
-
-
-                }else if(getEstadisticaModel.Data.get(position).Codigo.equals("02")){ //inspecciones
-
-
-
-
-                    if(mes_pos.isEmpty()){
-                        mes_position="0";
-                    }else{
-                        mes_position=mes_pos;
-                    }
-
-                    Intent intent = new Intent(Estadisticas.this, BusqEstadistica.class);
-
-                    intent.putExtra("anio", anio_sel);
-                    intent.putExtra("mes", mes_position);
-                    intent.putExtra("codiPersona", codPersona);
-                    intent.putExtra("descripcion", getEstadisticaModel.Data.get(position).Descripcion);
-
-                    startActivity(intent);
-
-
-
 
                 }else {
 

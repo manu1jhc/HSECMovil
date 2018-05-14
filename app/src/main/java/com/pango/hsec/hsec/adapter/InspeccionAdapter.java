@@ -1,13 +1,23 @@
 package com.pango.hsec.hsec.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.CardView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +26,7 @@ import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.PublicacionModel;
@@ -26,20 +37,34 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import layout.FragmentFichaPersonal;
+import layout.FragmentInspecciones;
+import layout.FragmentMuro;
+
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
 
     private Context context;
-
+    View popupView;
+    public PopupWindow popupWindow;
+    FragmentInspecciones fragmentMuro;
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public InspeccionAdapter(Context context, ArrayList<PublicacionModel> data) {
+    public InspeccionAdapter(Context context, ArrayList<PublicacionModel> data,FragmentInspecciones fragmentMuro) {
         super(context, R.layout.public_inspeccion, data);
         this.data = data;
         this.context = context;
+        this.fragmentMuro=fragmentMuro;
     }
 
+
+    public void remove(int index){
+        data.remove(index);
+        notifyDataSetChanged();
+    }
     //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
@@ -97,17 +122,92 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         if(editable.equals("0")){
             btn_editar.setVisibility(View.GONE);
         }
-        
+
         btn_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                String edit=data.get(position).Editable;
                 GlobalVariables.ObjectEditable=true;
-                Intent intent = new Intent(getContext(),AddInspeccion.class);
-                intent.putExtra("codObs", data.get(position).Codigo);
-                intent.putExtra("posTab", 0);
-                v.getContext().startActivity(intent);
+                LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);//getSystemService(LAYOUT_INFLATER_SERVICE);
+                popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
 
+                popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
+                popupWindow.showAtLocation(btn_editar, Gravity.BOTTOM, 0, 0);
+                popupWindow.setFocusable(true);
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                Button button1=(Button) popupView.findViewById(R.id.btn_editartv);
+                Button button2=(Button) popupView.findViewById(R.id.btn_aprobartv);
+                Button button3=(Button) popupView.findViewById(R.id.btn_eliminartv);
+                RelativeLayout rl1=(RelativeLayout) popupView.findViewById(R.id.rl1);
+                CardView cv1=(CardView) popupView.findViewById(R.id.cv1);
+                CardView cv2=(CardView) popupView.findViewById(R.id.cv2);
+                CardView cv3=(CardView) popupView.findViewById(R.id.cv3);
+                rl1.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        popupWindow.dismiss();
+                    }
+                });
+                button1.setText("  Editar Inspeción");
+                button3.setText("  Eliminar Inspeción");
+                if(edit.equals("1")){
+                    cv1.setVisibility(View.VISIBLE);
+                    cv3.setVisibility(View.VISIBLE);
+                }
+                else if(edit.equals("2")){
+                    cv2.setVisibility(View.VISIBLE);
+                }
+                else if(edit.equals("3")){
+                    cv1.setVisibility(View.VISIBLE);
+                    cv2.setVisibility(View.VISIBLE);
+                    cv3.setVisibility(View.VISIBLE);
+                }
+                button1.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+
+                        GlobalVariables.ObjectEditable=true;
+                        Intent intent = new Intent(getContext(),AddInspeccion.class);
+                        intent.putExtra("codObs", data.get(position).Codigo);
+                        intent.putExtra("posTab", 0);
+                        v.getContext().startActivity(intent);
+                        popupWindow.dismiss();
+                    }
+                });
+                button2.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+/*
+                        Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
+                        intent.putExtra("codObs", data.get(position).Codigo);
+                        v.getContext().startActivity(intent);
+                        popupWindow.dismiss();*/
+                    }
+                });
+//                    }
+                button3.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
+                        alertDialog.setTitle("Desea Eliminar Inspeccion?")
+                                .setMessage(data.get(position).Obs)
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        popupWindow.dismiss();
+                                        fragmentMuro.DeleteObject("Inspecciones/Delete/"+ data.get(position).Codigo,position+3);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
+                });
 
             }
         });
@@ -340,12 +440,8 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         img_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //GlobalVariables.desdeBusqueda=true;
-                GlobalVariables.barTitulo=false;
                 GlobalVariables.dniUser=data.get(position).UrlObs;
-                Intent intent=new Intent(context,FichaPersona.class);
-                //intent.putExtra("codUsuario",tempimg_perfil);
-                context.startActivity(intent);
+                ((MainActivity) fragmentMuro.getActivity()).openFichaPersona();
             }
         });
 

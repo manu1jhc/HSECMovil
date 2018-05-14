@@ -50,8 +50,6 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
     Button btn_estadistica,btn_capacita,btn_buscaruser;
     String url="";
     ImageView ficha_avatar;
-    CardView cardView3;
-    UsuarioModel getUsuarioModel;
     public static final int REQUEST_CODE = 1;
     private BottomNavigationView bottomNavigationView;
     private OnFragmentInteractionListener mListener;
@@ -108,33 +106,18 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         btn_buscaruser=rootView.findViewById(R.id.btn_buscaruser);
         ficha_avatar=rootView.findViewById(R.id.ficha_avatar);
         tx_sexo=rootView.findViewById(R.id.tx_sexo);
-        //cardView3=rootView.findViewById(R.id.cardView3);
-
-/*
-        if(GlobalVariables.barTitulo){
-            cardView3.setVisibility(View.VISIBLE);
-        }else{
-            cardView3.setVisibility(View.GONE);
-
-        }
-*/
-
 
         GlobalVariables.view_fragment=rootView;
         GlobalVariables.isFragment=true;
         Utils.isActivity=false;
 
 
-        if(GlobalVariables.isUserlogin) {
-            //cardView3.setVisibility(View.VISIBLE);
-            GlobalVariables.isUserlogin=false;
-            success(GlobalVariables.json_user,"");
+        if(GlobalVariables.userLoaded.NroDocumento.equals(GlobalVariables.dniUser)) {
+            setdata();
         }else {
             //GlobalVariables.dniUser
-
-
+            //GlobalVariables.userLoaded.NroDocumento=GlobalVariables.dniUser;
             url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral/"+GlobalVariables.dniUser;
-
             final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this,getActivity());
             obj.execute("");
         }
@@ -145,9 +128,8 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
                 GlobalVariables.isFragment=true;
 
                 Intent intent = new Intent(getActivity(),Capacitaciones.class );
-                intent.putExtra("CodPersona",getUsuarioModel.CodPersona);
+                intent.putExtra("CodPersona",GlobalVariables.userLoaded.CodPersona);
                 startActivity(intent);
-
             }
         });
 
@@ -155,28 +137,10 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),Estadisticas.class );
-                intent.putExtra("CodPersona",getUsuarioModel.CodPersona);
+                intent.putExtra("CodPersona",GlobalVariables.userLoaded.CodPersona);
                 startActivity(intent);
             }
         });
-
-
-
-
-/*
-        btn_buscar_p.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // Intent intent = new Intent(B_observaciones.this, B_personas.class);
-                //startActivity(intent);
-
-                Intent intent = new Intent(B_observaciones.this, B_personas.class);
-                startActivityForResult(intent , REQUEST_CODE);
-            }
-        });
-        */
-
 
         btn_buscaruser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -186,46 +150,38 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
             }
         });
 
-
         return rootView;
     }
 
-    @Override
-    public void success(String data, String Tipo) {
+    public void setdata(){
+        ficha_user.setText( GlobalVariables.userLoaded.Codigo_Usuario);
+        ficha_nombre.setText( GlobalVariables.userLoaded.Nombres);
+        ficha_dni.setText( GlobalVariables.userLoaded.NroDocumento);
+        tx_sexo.setText(GlobalVariables.getDescripcion(GlobalVariables.Sexo,GlobalVariables.userLoaded.Sexo.trim()));
+        ficha_correo.setText( GlobalVariables.userLoaded.Email);
+        ficha_empresa.setText( GlobalVariables.userLoaded.Empresa);
+        ficha_rol.setText( GlobalVariables.userLoaded.Rol);
+        ficha_area.setText( GlobalVariables.userLoaded.Area);
 
-
-        Gson gson = new Gson();
-        getUsuarioModel = gson.fromJson(data, UsuarioModel.class);
-
-        GlobalVariables.nombre=getUsuarioModel.Nombres;
-
-        ficha_user.setText(getUsuarioModel.Codigo_Usuario);
-        ficha_nombre.setText(getUsuarioModel.Nombres);
-        ficha_dni.setText(getUsuarioModel.NroDocumento);
-        tx_sexo.setText(GlobalVariables.getDescripcion(GlobalVariables.Sexo,getUsuarioModel.Sexo.trim()));
-        ficha_correo.setText(getUsuarioModel.Email);
-        ficha_empresa.setText(getUsuarioModel.Empresa);
-        ficha_rol.setText(getUsuarioModel.Rol);
-        ficha_area.setText(getUsuarioModel.Area);
-
-
-
-        if(getUsuarioModel.Tipo_Autenticacion==null) {
+        if( GlobalVariables.userLoaded.Tipo_Autenticacion==null) {
             ficha_tipo.setText("");
-
         }else{
-            ficha_tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.TipoAutenticacion, getUsuarioModel.Tipo_Autenticacion.trim()));
+            ficha_tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.TipoAutenticacion,  GlobalVariables.userLoaded.Tipo_Autenticacion.trim()));
         }
 
-
-        String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+getUsuarioModel.NroDocumento+"/fotocarnet.jpg";
-
+        String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+ GlobalVariables.userLoaded.NroDocumento+"/fotocarnet.jpg";
         // String url_avatar="https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/media/getAvatar/43054695/fotocarnet.jpg";
         Glide.with(getContext())
                 .load(url_avatar) // add your image url
                 .transform(new CircleTransform(getContext())) // applying the image transformer
                 .into(ficha_avatar);
+    }
 
+    @Override
+    public void success(String data, String Tipo) {
+        Gson gson = new Gson();
+        GlobalVariables.userLoaded=gson.fromJson(data, UsuarioModel.class);
+        setdata();
     }
 
     @Override
@@ -255,36 +211,13 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
 
                 String nombre_obs = data.getStringExtra("nombreP");
-                //dni de la persona
                 String codpersona_obs = data.getStringExtra("codpersona");
                 String dniPersona=data.getStringExtra("dni");
-                //id_persona.setText(nombre_obs);
-                //Utils.observacionModel.ObservadoPor=codpersona_obs;
-
                 GlobalVariables.dniUser=dniPersona;
-
-                Fragment nuevoFragmento = new FragmentFichaPersonal();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.add(R.id.content, nuevoFragmento);
-                //transaction.replace(R.id.content, nuevoFragmento);
-                transaction.hide(GlobalVariables.fragmentStack.lastElement());
-
-                //transaction.addToBackStack(null);
-                // Commit a la transacción
-                transaction.commit();
-                GlobalVariables.apilarFrag(nuevoFragmento);
-                //bottomNavigationView.setVisibility(View.VISIBLE);
-                //bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
-
-/*
-                url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral/"+dniPersona;
-
-                final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this);
+                url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral/"+GlobalVariables.dniUser;
+                final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this,getActivity());
                 obj.execute("");
-*/
             }
-
-
 
         } catch (Exception ex) {
             Toast.makeText(getContext(), ex.toString(),

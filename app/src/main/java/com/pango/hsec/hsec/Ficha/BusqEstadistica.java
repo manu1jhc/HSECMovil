@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_observaciones;
 import com.pango.hsec.hsec.Busquedas.Busqueda;
+import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
@@ -32,14 +33,19 @@ import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.InspeccionAdapter;
+import com.pango.hsec.hsec.adapter.ObsFacilitoAdapter;
 import com.pango.hsec.hsec.adapter.PlanMinAdapter;
 import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.GetObsFacilitoModel;
 import com.pango.hsec.hsec.model.GetPlanMinModel;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
+import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
+import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
+import com.pango.hsec.hsec.model.PlanModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,12 +53,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import layout.FragmentInspecciones;
+import layout.FragmentObservaciones;
+
 import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 import static com.pango.hsec.hsec.Utils.inspeccionModel;
 
 public class BusqEstadistica extends AppCompatActivity implements IActivity {
     Spinner sp_anio, sp_mes;
     String anio,mes,codPersona,descripcion;
+    int codselected;
     int tipo_busqueda;
     int contPublicacion;
     String url="";
@@ -79,6 +89,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     boolean flagpopup=false;
     TextView tipo_estadistica;
     PlanMinAdapter pma;
+    ObsFacilitoAdapter obfa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +101,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         mes= (mesActual < 10 ? "0" : "")+mesActual;
         codPersona=datos.getString("codiPersona");
         descripcion=datos.getString("descripcion");
+        codselected=datos.getInt("codselected");
 
         tipo_estadistica=findViewById(R.id.tipo_estadistica);
         tipo_estadistica.setText(descripcion);
@@ -109,7 +121,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             }
         });
 */
-
         sp_anio=findViewById(R.id.spinner_anio);
         sp_mes=findViewById(R.id.spinner_mes);
 
@@ -157,7 +168,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
 
         String json = "";
-        if(descripcion.equals("Observaciones")) {
+        if(codselected==1) {
 
             Utils.observacionModel = new ObservacionModel();
             ObservacionModel observacionModel = new ObservacionModel();
@@ -185,7 +196,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
             obj.execute(json);
 
-        }else if(descripcion.equals("Inspecciones")){
+        }else if(codselected==2){
             inspeccionModel = new InspeccionModel();
             InspeccionModel inspeccionModel = new InspeccionModel();
             //tipo_busqueda=1;
@@ -215,7 +226,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
 
 
-        }else{//PLANES DE ACCION
+        }else if(codselected==0){//PLANES DE ACCION
             //aqui va planes
 
             if(mesActual==0) {
@@ -225,6 +236,19 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             }
 
             GlobalVariables.listaPlanMin=new ArrayList<>();
+            final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
+            obj.execute("");
+        }
+        else{// codselected==-1  Reporte facilito
+            //aqui va planes
+
+            if(mesActual==0) {
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            }else{
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            }
+
+            GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
             final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
             obj.execute("");
         }
@@ -250,7 +274,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                 String jsonR = "";
                 Utils.isActivity=false;
-                if(descripcion.equals("Observaciones")) {
+                if(codselected==1) {
                     flagObsFiltro=true;
 
                     Utils.observacionModel.CodUbicacion = "5";
@@ -274,7 +298,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
                     obj.execute(jsonR);
 
-                }else if(descripcion.equals("Inspecciones")){
+                }else if(codselected==2){
 
                     inspeccionModel.Elemperpage = "5";
                     inspeccionModel.Pagenumber = "1";
@@ -298,7 +322,8 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
                     obj.execute(jsonR);
 
-                }else {
+                }else if(codselected==0)
+                    {
                     // aqui va plaqn de accion
 
                     if(Integer.parseInt(mes)==0) {
@@ -309,7 +334,19 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                     final ActivityController obj = new ActivityController("get-0", url, BusqEstadistica.this,BusqEstadistica.this);
                     obj.execute("");
+                }
+                else{// codselected==-1  Reporte facilito
+                    //aqui va planes
 
+                    if(mesActual==0) {
+                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+                    }else{
+                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+                    }
+
+                    GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
+                    final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
+                    obj.execute("");
                 }
 
             } });
@@ -346,7 +383,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         //GlobalVariables.count=5;
                         paginacion2+=1;
 
-                        if(descripcion.equals("Observaciones")) {
+                        if(codselected==1) {
 
                         Utils.observacionModel.CodUbicacion = "5";
                         Utils.observacionModel.Lugar = String.valueOf(paginacion2);
@@ -364,9 +401,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                             GlobalVariables.istabs=false;// para que no entre al flag de tabs
                             final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
-                            obj.execute(json2);
+                            obj.execute(json2,"1");
 
-                    }else if(descripcion.equals("Inspecciones")){
+                    }else if(codselected==2){
 
                         inspeccionModel.Elemperpage = "5";
                         inspeccionModel.Pagenumber = String.valueOf(paginacion2);
@@ -385,9 +422,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                             GlobalVariables.istabs=false;// para que no entre al flag de tabs
                             final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
-                            obj.execute(json2);
+                            obj.execute(json2,"1");
 
-                    }else {
+                    }else if(codselected==0){
                         // aqui va plaqn de accion
 
                         if(Integer.parseInt(mes)==0) {
@@ -395,17 +432,24 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         }else{
                             url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                         }
-
-                        //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
-                        //GlobalVariables.flagUpSc=true;
-                        //GlobalVariables.istabs=false;
-                        //Utils.isActivity = true;
-                        //GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-                            GlobalVariables.isFragment=true;
-                            //Utils.isActivity=true;
                         final ActivityController obj = new ActivityController("get-"+paginacion2, url, BusqEstadistica.this,BusqEstadistica.this);
-                        obj.execute("");
+                        obj.execute("1");
                         }
+                      else{// codselected==-1  Reporte facilito
+                            //aqui va planes
+
+                            if(Integer.parseInt(mes)==0) {
+                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                            }else{
+                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                            }
+
+                            GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
+                            final ActivityController obj = new ActivityController("get-"+paginacion2, url, BusqEstadistica.this,BusqEstadistica.this);
+                            obj.execute("1");
+                        }
+
+
                     }
                 }
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
@@ -443,7 +487,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
                 //GlobalVariables.istabs=false;
 
-                if(descripcion.equals("Observaciones")) {
+                if(codselected==1) {
                     String CodObservacion=GlobalVariables.listaGlobalFiltro.get(position).Codigo;
                     String tipoObs=GlobalVariables.listaGlobalFiltro.get(position).Tipo;
 
@@ -454,7 +498,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                 startActivity(intent);
-                }else if(descripcion.equals("Inspecciones")){
+                }else if(codselected==2){
                     String CodInspeccion= GlobalVariables.listaGlobalFiltro.get(position).Codigo;
                     Intent intent = new Intent(BusqEstadistica.this, ActInspeccionDet.class);
                     intent.putExtra("codObs",CodInspeccion);
@@ -462,15 +506,25 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                     startActivity(intent);
 
-                }else {
+                }else if(codselected==0){
 
                     boolean  pass=Integer.parseInt(GlobalVariables.listaPlanMin.get(position).Editable)>1?true:false;
-
                     String CodAccion= GlobalVariables.listaPlanMin.get(position).CodAccion;
                     Intent intent = new Intent(BusqEstadistica.this, PlanAccionDet.class);
                     intent.putExtra("codAccion",CodAccion);
                     intent.putExtra("jsonPlan","");
                     intent.putExtra("verBoton",pass);
+                    startActivity(intent);
+                }
+                else{
+                    boolean  pass=Integer.parseInt(GlobalVariables.listaPlanMin.get(position).Editable)>1?true:false;
+
+                    Intent intent = new Intent(BusqEstadistica.this, obsFacilitoDet.class);
+                    String Codigo= GlobalVariables.listaGlobalObsFacilito.get(position).CodObsFacilito;
+                    intent.putExtra("codObs",Codigo);
+                    intent.putExtra("verBoton",pass);
+                    //intent.putExtra("posTab",0);
+                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                     startActivity(intent);
                 }
             }
@@ -497,7 +551,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 String json = "";
 
 
-                if(descripcion.equals("Observaciones")) {
+                if(codselected==1) {
                     Utils.observacionModel=new ObservacionModel();
                     ObservacionModel observacionModel=new ObservacionModel();
                     Utils.observacionModel.CodUbicacion = "5";
@@ -523,7 +577,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     final ActivityController obj2 = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
                     obj2.execute(json);
 
-                }else if(descripcion.equals("Inspecciones")){
+                }else if(codselected==2){
                     Utils.inspeccionModel=new InspeccionModel();
                     //InspeccionModel inspeccionModel=new InspeccionModel();
 
@@ -554,19 +608,33 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     Intent intent = new Intent(Busqueda.this, B_inspecciones.class);
                     startActivityForResult(intent , REQUEST_CODE);
 */
-                }else { //pland e accion
+                }else if(codselected==0){ //pland e accion
                     paginacion2=1;
                     anio=anio_sel;
                     int mesbuscar=Integer.parseInt(mes);
                     if(mesbuscar==0) {
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
                     }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
                     }
                     GlobalVariables.listaPlanMin=new ArrayList<>();
                     final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
                     obj.execute("");
+                }
+                else{// codselected==-1  Reporte facilito
+                    //aqui va planes
+                    paginacion2=1;
+                    anio=anio_sel;
+                    int mesbuscar=Integer.parseInt(mes);
+                    if(mesbuscar==0) {
+                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+                    }else{
+                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+                    }
 
+                    GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
+                    final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
+                    obj.execute("");
                 }
             }});
     }
@@ -588,7 +656,70 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     @Override
     public void success(String data, String Tipo) {
         Gson gson = new Gson();
-        GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
+        if(Tipo.equals("1")) // adapter add
+        {
+            if(codselected==0){
+                GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
+                for(PlanMinModel item:getPlanMinModel.Data)
+                    pma.add(item);
+                pma.notifyDataSetChanged();
+            }
+            else{
+                GetObsFacilitoModel getPlanMinModel = gson.fromJson(data, GetObsFacilitoModel.class);
+                for(ObsFacilitoMinModel item:getPlanMinModel.Data)
+                    obfa.add(item);
+                obfa.notifyDataSetChanged();
+            }
+        }
+        else{ // re create adapter and reset pagination
+            paginacion2=0;
+            boolean passcount=true;
+            if(codselected==0){ // pland de accion
+                GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
+                contPublicacion=getPlanMinModel.Count;
+                GlobalVariables.listaPlanMin.clear();
+                GlobalVariables.listaPlanMin=getPlanMinModel.Data;
+                if(getPlanMinModel.Count>0){
+                    pma = new PlanMinAdapter(this, GlobalVariables.listaPlanMin);
+                    list_estadistica.setAdapter(pma);
+                }
+                else passcount=false;
+            }
+            else{  // observacion facilito
+                GetObsFacilitoModel getPlanMinModel = gson.fromJson(data, GetObsFacilitoModel.class);
+                GlobalVariables.listaGlobalObsFacilito.clear();
+                GlobalVariables.listaGlobalObsFacilito=getPlanMinModel.Data;
+                if(getPlanMinModel.Count>0){
+                    obfa = new ObsFacilitoAdapter(this, GlobalVariables.listaGlobalObsFacilito);
+                    list_estadistica.setAdapter(obfa);
+                }
+                else passcount=false;
+            }
+
+            if(passcount){
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                tx_mensajeb.setVisibility(View.GONE);
+            }
+            else {
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                tx_mensajeb.setVisibility(View.VISIBLE);
+            }
+
+        }
+        constraintLayout.setVisibility(View.GONE);
+        btn_buscar_e.setEnabled(true);
+
+        flag_enter=true;
+
+        if(loadingTop)
+        {
+            loadingTop=false;
+            swipeRefreshLayout.setRefreshing(false);
+            tx_texto.setVisibility(View.GONE);
+            swipeRefreshLayout.setEnabled( false );
+        }
+
+        /*
         contPublicacion=getPlanMinModel.Count;
         tipo_estadistica.setText(descripcion+" ("+getPlanMinModel.Count+")");
         if(GlobalVariables.listaPlanMin.size()==0) {
@@ -635,23 +766,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 list_estadistica.setSelection((GlobalVariables.listaPlanMin.size()/7)*7-1);
                 flagObsFiltro=false;
 
-            }
-
-        constraintLayout.setVisibility(View.GONE);
-        btn_buscar_e.setEnabled(true);
-
-        flag_enter=true;
-        //GlobalVariables.contpublic += 1;
-        // progressDialog.dismiss();
-        // progressBar.setVisibility(View.GONE);
-
-        if(loadingTop)
-        {
-            loadingTop=false;
-            swipeRefreshLayout.setRefreshing(false);
-            tx_texto.setVisibility(View.GONE);
-            swipeRefreshLayout.setEnabled( false );
-        }
+            }*/
         //listaPlanMin
     }
 
@@ -681,12 +796,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             swipeRefreshLayout.setVisibility(View.VISIBLE);
         }
 
-       if(descripcion.equals("Observaciones")) {
-           PublicacionAdapter ca = new PublicacionAdapter(this, GlobalVariables.listaGlobalFiltro);
+       if(codselected==1) {
+           PublicacionAdapter ca = new PublicacionAdapter(this, GlobalVariables.listaGlobalFiltro,new FragmentObservaciones());
            list_estadistica.setAdapter(ca);
 
-       }else if(descripcion.equals("Inspecciones")){
-           InspeccionAdapter ca = new InspeccionAdapter(this, GlobalVariables.listaGlobalFiltro);
+       }else if(codselected==2){
+           InspeccionAdapter ca = new InspeccionAdapter(this, GlobalVariables.listaGlobalFiltro,new FragmentInspecciones());
            list_estadistica.setAdapter(ca);
 
        }

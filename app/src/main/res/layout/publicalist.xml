@@ -106,7 +106,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_editar"
-            app:srcCompat="@drawable/ic_alertaverde" />
+            app:srcCompat="@drawable/ic_alertaverde"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/textView2"
@@ -156,7 +157,8 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mp_txdet"
-            app:srcCompat="@drawable/ic_launcher_background" />
+            app:srcCompat="@drawable/ic_launcher_background"
+            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/tx_comentario"
