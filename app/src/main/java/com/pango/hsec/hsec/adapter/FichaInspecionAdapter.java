@@ -1,66 +1,63 @@
+
 package com.pango.hsec.hsec.adapter;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+        import android.app.AlertDialog;
+        import android.content.Context;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.graphics.drawable.ColorDrawable;
+        import android.support.constraint.ConstraintLayout;
+        import android.support.v7.widget.CardView;
+        import android.view.Gravity;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.ImageView;
+        import android.widget.PopupWindow;
+        import android.widget.RadioGroup;
+        import android.widget.RelativeLayout;
+        import android.widget.TextView;
+        import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.pango.hsec.hsec.Ficha.FichaPersona;
-import com.pango.hsec.hsec.GlobalVariables;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
-import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
-import com.pango.hsec.hsec.MainActivity;
-import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
-import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.model.PublicacionModel;
-import com.pango.hsec.hsec.utilitario.CircleTransform;
+        import com.bumptech.glide.Glide;
+        import com.pango.hsec.hsec.Ficha.BusqEstadistica;
+        import com.pango.hsec.hsec.Ficha.FichaPersona;
+        import com.pango.hsec.hsec.GlobalVariables;
+        import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
+        import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+        import com.pango.hsec.hsec.MainActivity;
+        import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
+        import com.pango.hsec.hsec.R;
+        import com.pango.hsec.hsec.Utils;
+        import com.pango.hsec.hsec.model.PublicacionModel;
+        import com.pango.hsec.hsec.utilitario.CircleTransform;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+        import java.text.DateFormat;
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
 
-import layout.FragmentFichaPersonal;
-import layout.FragmentInspecciones;
-import layout.FragmentMuro;
+        import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-
-public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
+public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
 
     private Context context;
     View popupView;
     public PopupWindow popupWindow;
-    FragmentInspecciones fragmentMuro;
+    BusqEstadistica ActContent;
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public InspeccionAdapter(Context context, ArrayList<PublicacionModel> data,FragmentInspecciones fragmentMuro) {
+    public FichaInspecionAdapter(BusqEstadistica context, ArrayList<PublicacionModel> data) {
         super(context, R.layout.public_inspeccion, data);
         this.data = data;
         this.context = context;
-        this.fragmentMuro=fragmentMuro;
+        this.ActContent=context;
     }
-
 
     public void remove(int index){
         data.remove(index);
@@ -93,7 +90,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         TextView txdetcompleta=rowView.findViewById(R.id.txdetcompleta);
 
 
-        ConstraintLayout  const1=rowView.findViewById(R.id.constrain1);
+        ConstraintLayout const1=rowView.findViewById(R.id.constrain1);
         //media/getAvatar/30642172/Carnet.jpg
 
         final String tempimg_perfil=data.get(position).UrlObs;
@@ -111,8 +108,8 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         String editable = data.get(position).Editable;
 
         if(data.get(position).NivelR!=null){
-        tempRiesgo = data.get(position).NivelR.split(";");
-        tempDetalle = data.get(position).Obs.split(";");
+            tempRiesgo = data.get(position).NivelR.split(";");
+            tempDetalle = data.get(position).Obs.split(";");
         }
 
         //final String[] tempRiesgo = data.get(position).NivelR.split(";");
@@ -162,7 +159,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
                 }
                 else if(edit.equals("3")){
                     cv1.setVisibility(View.VISIBLE);
-                    cv2.setVisibility(View.VISIBLE);
+                   // cv2.setVisibility(View.VISIBLE);
                     cv3.setVisibility(View.VISIBLE);
                 }
                 button1.setOnClickListener(new View.OnClickListener(){
@@ -177,16 +174,6 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
                         popupWindow.dismiss();
                     }
                 });
-                button2.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-/*
-                        Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
-                        intent.putExtra("codObs", data.get(position).Codigo);
-                        v.getContext().startActivity(intent);
-                        popupWindow.dismiss();*/
-                    }
-                });
 //                    }
                 button3.setOnClickListener(new View.OnClickListener(){
                     @Override
@@ -197,7 +184,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         popupWindow.dismiss();
-                                        fragmentMuro.DeleteObject("Inspecciones/Delete/"+ data.get(position).Codigo,position+3);
+                                        ActContent.DeleteObject("Inspecciones/Delete/"+ data.get(position).Codigo,position+2);
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -254,7 +241,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             img_det.setVisibility(View.GONE);
 
         }else{
-            String Url_prev=Utils.ChangeUrl(GlobalVariables.Url_base + "media/getImagepreview/"+tempImgDet+"/loco.jpg");
+            String Url_prev= Utils.ChangeUrl(GlobalVariables.Url_base + "media/getImagepreview/"+tempImgDet+"/loco.jpg");
 
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
@@ -351,7 +338,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
                 case "AL":
                     riesgo2.setImageResource(R.drawable.ic_alertaroja);
                     break;
-        }
+            }
             switch (tempRiesgo[2]) {
                 case "BA":
                     riesgo3.setImageResource(R.drawable.ic_alertaverde);
@@ -364,8 +351,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
                     break;
 
             }
-            }
-
+        }
         img_det.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -382,7 +368,11 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
             @Override
             public void onClick(View v) {
                 GlobalVariables.dniUser=data.get(position).UrlObs;
-                ((MainActivity) fragmentMuro.getActivity()).openFichaPersona();
+                if(GlobalVariables.dniUser!=null)
+                {
+                    Intent intent=new Intent(context,FichaPersona.class);
+                    context.startActivity(intent);
+                }
             }
         });
 

@@ -634,9 +634,6 @@ public class MainActivity extends AppCompatActivity
     //menu inferior
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-
-
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
@@ -728,15 +725,7 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.FichaPersonal);
 
     }
-/*
-    public void ClickMenuRegistro() {
-        uncheckItemsMenu();
-        bottomNavigationView.getMenu().findItem(R.id.navigation_registro).setChecked(true);
-        bottomNavigationView.setVisibility(View.VISIBLE);
-        ChangeFragment(NavigationFragment.RegistroOI);
 
-    }
-    */
     public void ClickMenuAvanzado() {
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_avanzado).setChecked(true);

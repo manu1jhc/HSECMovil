@@ -81,6 +81,9 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         Bundle data1 = this.getIntent().getExtras();
 
         codObs=data1.getString("codObs");
+        int AddView=data1.getInt("verBoton");
+        if(AddView>1) btn_historial.setVisibility(View.GONE);
+
         GlobalVariables.codObsHistorial=codObs;
         url= GlobalVariables.Url_base+"ObsFacilito/GetObsFacilitoID/"+codObs;
         final ActivityController obj = new ActivityController("get", url, obsFacilitoDet.this,this);

@@ -32,6 +32,10 @@ import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.adapter.FichaInspecionAdapter;
+import com.pango.hsec.hsec.adapter.FichaObsFacilitoAdapter;
+import com.pango.hsec.hsec.adapter.FichaObservacionAdapter;
+import com.pango.hsec.hsec.adapter.FichaPlanAdapter;
 import com.pango.hsec.hsec.adapter.InspeccionAdapter;
 import com.pango.hsec.hsec.adapter.ObsFacilitoAdapter;
 import com.pango.hsec.hsec.adapter.PlanMinAdapter;
@@ -46,6 +50,7 @@ import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.model.PlanModel;
+import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -88,8 +93,10 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     PopupWindow popupWindow;
     boolean flagpopup=false;
     TextView tipo_estadistica;
-    PlanMinAdapter pma;
-    ObsFacilitoAdapter obfa;
+    FichaPlanAdapter pma;
+    FichaObsFacilitoAdapter obfa;
+    FichaInspecionAdapter inspa;
+    FichaObservacionAdapter obsa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,13 +121,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         tx_texto =(TextView) findViewById(R.id.tx_texto);
 
         list_estadistica=findViewById(R.id.list_estadistica);
-       /* list_estadistica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(),"Click en "+position,Toast.LENGTH_SHORT).show();
-            }
-        });
-*/
+
         sp_anio=findViewById(R.id.spinner_anio);
         sp_mes=findViewById(R.id.spinner_mes);
 
@@ -159,195 +160,19 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         });
 
         //Date fechaFin;
-        Calendar calFin = Calendar.getInstance();
-        calFin.set(Integer.parseInt(anio), mesActual-1, 1);
-        calFin.set(Integer.parseInt(anio),mesActual-1 , calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
-        //fechaFin = calFin.getTime();
-        diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
-
-
-
-        String json = "";
-        if(codselected==1) {
-
-            Utils.observacionModel = new ObservacionModel();
-            ObservacionModel observacionModel = new ObservacionModel();
-            //tipo_busqueda=1;
-            observacionModel.CodUbicacion = "5";
-            observacionModel.Lugar = "1";
-            observacionModel.ObservadoPor = codPersona;
-
-            if (mes.equals("00")) {
-                observacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                observacionModel.FechaFin = anio + "-" + "12" + "-" + "31";
-            } else {
-                observacionModel.FechaInicio = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                observacionModel.FechaFin = anio + "-" + mes + "-" + diaFin;
-            }
-
-
-            Gson gson = new Gson();
-            json = gson.toJson(observacionModel);
-            url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
-            GlobalVariables.flagUpSc=true;
-            Utils.isActivity = true;
-            GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
-            obj.execute(json);
-
-        }else if(codselected==2){
-            inspeccionModel = new InspeccionModel();
-            InspeccionModel inspeccionModel = new InspeccionModel();
-            //tipo_busqueda=1;
-            inspeccionModel.Elemperpage = "5";
-            inspeccionModel.Pagenumber = "1";
-            inspeccionModel.CodTipo = codPersona;
-
-            if (mes.equals("00")) {
-                inspeccionModel.FechaP = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                inspeccionModel.Fecha = anio + "-" + "12" + "-" + "31";
-            } else {
-                inspeccionModel.FechaP = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                inspeccionModel.Fecha = anio + "-" + mes + "-" + diaFin;
-            }
-
-            Gson gson = new Gson();
-            json = gson.toJson(inspeccionModel);
-
-            url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-
-           // GlobalVariables.flagUpSc=true;
-           // Utils.isActivity = true;
-            GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
-            obj.execute(json);
-
-
-
-        }else if(codselected==0){//PLANES DE ACCION
-            //aqui va planes
-
-            if(mesActual==0) {
-                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-            }else{
-                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-            }
-
-            GlobalVariables.listaPlanMin=new ArrayList<>();
-            final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
-            obj.execute("");
-        }
-        else{// codselected==-1  Reporte facilito
-            //aqui va planes
-
-            if(mesActual==0) {
-                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-            }else{
-                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-            }
-
-            GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
-            final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
-            obj.execute("");
-        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
 
             public void onRefresh() {
-                GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                GlobalVariables.isFragment=true;
-                //is_swipe=false;
+
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
-                paginacion2=1;
-
                 loadingTop=true;
-                GlobalVariables.listaGlobalFiltro.clear(); //crear segun el formato
-                GlobalVariables.listaPlanMin.clear(); //crear segun el formato
-                //GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
                 flagObsFiltro=true;
-
-                String jsonR = "";
-                Utils.isActivity=false;
-                if(codselected==1) {
-                    flagObsFiltro=true;
-
-                    Utils.observacionModel.CodUbicacion = "5";
-                    Utils.observacionModel.Lugar = "1";
-                    Utils.observacionModel.ObservadoPor = codPersona;
-
-                    if (mes.equals("00")) {
-                        Utils.observacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                        Utils.observacionModel.FechaFin = anio + "-" + "12" + "-" + "31";
-                    } else {
-                        Utils.observacionModel.FechaInicio = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                        Utils.observacionModel.FechaFin = anio + "-" + mes + "-" + diaFin;
-                    }
-
-                    Gson gson = new Gson();
-                    jsonR = gson.toJson(Utils.observacionModel);
-                    //Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
-
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-                    final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj.execute(jsonR);
-
-                }else if(codselected==2){
-
-                    inspeccionModel.Elemperpage = "5";
-                    inspeccionModel.Pagenumber = "1";
-                    inspeccionModel.CodTipo = codPersona;
-
-                    if (mes.equals("00")) {
-                        Utils.inspeccionModel.FechaP = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                        Utils.inspeccionModel.Fecha = anio + "-" + "12" + "-" + "31";
-                    } else {
-                        Utils.inspeccionModel.FechaP = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                        Utils.inspeccionModel.Fecha = anio + "-" + mes + "-" + diaFin;
-                    }
-
-                    Gson gson = new Gson();
-                    jsonR = gson.toJson(Utils.inspeccionModel);
-
-                    //Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-                    final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj.execute(jsonR);
-
-                }else if(codselected==0)
-                    {
-                    // aqui va plaqn de accion
-
-                    if(Integer.parseInt(mes)==0) {
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                    }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                    }
-
-                    final ActivityController obj = new ActivityController("get-0", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj.execute("");
-                }
-                else{// codselected==-1  Reporte facilito
-                    //aqui va planes
-
-                    if(mesActual==0) {
-                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-                    }else{
-                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-                    }
-
-                    GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
-                    final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj.execute("");
-                }
+                getdada();
 
             } });
 
@@ -369,22 +194,17 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 if (downFlag && scrollState == SCROLL_STATE_IDLE) {
                     downFlag = false;
                     GlobalVariables.istabs=false;
-                    // GlobalVariables.FDown=true;
-                    //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
-                    /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalFiltro.size() != contPublicacion && flag_enter&&flagObsFiltro) {
+                    int totalData=0;
+                    if(codselected>0) totalData=GlobalVariables.listaGlobalFiltro.size();
+                    else if(codselected==0)totalData=GlobalVariables.listaPlanMin.size();
+                    else totalData=GlobalVariables.listaGlobalObsFacilito.size();
 
-                        //progressBarMain.setVisibility(View.VISIBLE);
+                    if (flag_enter && totalData != contPublicacion  ) {
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
-
                         String json2 = "";
-
-                        //GlobalVariables.count=5;
                         paginacion2+=1;
-
                         if(codselected==1) {
-
                         Utils.observacionModel.CodUbicacion = "5";
                         Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                         Utils.observacionModel.ObservadoPor=codPersona;
@@ -439,17 +259,14 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                             //aqui va planes
 
                             if(Integer.parseInt(mes)==0) {
-                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C/"+paginacion2+"/5";
                             }else{
-                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C"+mes+"/"+paginacion2+"/5";
                             }
 
-                            GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
                             final ActivityController obj = new ActivityController("get-"+paginacion2, url, BusqEstadistica.this,BusqEstadistica.this);
                             obj.execute("1");
                         }
-
-
                     }
                 }
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
@@ -517,14 +334,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     startActivity(intent);
                 }
                 else{
-                    boolean  pass=Integer.parseInt(GlobalVariables.listaPlanMin.get(position).Editable)>1?true:false;
+                    boolean  pass=Integer.parseInt(GlobalVariables.listaGlobalObsFacilito.get(position).Editable)>1?true:false;
 
                     Intent intent = new Intent(BusqEstadistica.this, obsFacilitoDet.class);
                     String Codigo= GlobalVariables.listaGlobalObsFacilito.get(position).CodObsFacilito;
                     intent.putExtra("codObs",Codigo);
                     intent.putExtra("verBoton",pass);
-                    //intent.putExtra("posTab",0);
-                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                     startActivity(intent);
                 }
             }
@@ -536,112 +351,126 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 //Utils.isActivity=true;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
-                flagObsFiltro=true;
-
                 mes= (mes_pos < 10 ? "0" : "")+mes_pos;
-
-                Calendar calFin = Calendar.getInstance();
-                calFin.set(Integer.parseInt(anio), mes_pos-1, 1);
-                calFin.set(Integer.parseInt(anio),mes_pos -1, calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
-                //fechaFin = calFin.getTime();
-                diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
-
-
-
-                String json = "";
-
-
-                if(codselected==1) {
-                    Utils.observacionModel=new ObservacionModel();
-                    ObservacionModel observacionModel=new ObservacionModel();
-                    Utils.observacionModel.CodUbicacion = "5";
-                    Utils.observacionModel.Lugar = "1";
-                    Utils.observacionModel.ObservadoPor=codPersona;
-
-                    if(mes.equals("00")) {
-                        Utils.observacionModel.FechaInicio = anio_sel + "-" + "01" + "-" + "01";   //"2018-02-02"
-                        Utils.observacionModel.FechaFin = anio_sel + "-" + "12" + "-" + "31";
-                    }else{
-                        Utils.observacionModel.FechaInicio = anio_sel + "-" + mes + "-" + "01";   //"2018-02-02"
-                        Utils.observacionModel.FechaFin = anio_sel + "-" + mes + "-" + diaFin;
-                    }
-                    anio=anio_sel;
-                    Gson gson = new Gson();
-                    json = gson.toJson(Utils.observacionModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
-
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-                    final ActivityController obj2 = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj2.execute(json);
-
-                }else if(codselected==2){
-                    Utils.inspeccionModel=new InspeccionModel();
-                    //InspeccionModel inspeccionModel=new InspeccionModel();
-
-                    Utils.inspeccionModel.Elemperpage="5";
-                    Utils.inspeccionModel.Pagenumber="1";
-                    Utils.inspeccionModel.CodTipo = codPersona;
-                    if(mes.equals("00")) {
-                        Utils.inspeccionModel.FechaP = anio_sel + "-" + "01" + "-" + "01";   //"2018-02-02"
-                        Utils.inspeccionModel.Fecha = anio_sel + "-" + "12" + "-" + "31";
-                    }else{
-                        Utils.inspeccionModel.FechaP = anio_sel + "-" + mes + "-" + "01";   //"2018-02-02"
-                        Utils.inspeccionModel.Fecha = anio_sel + "-" + mes + "-" + diaFin;
-                    }
-                    anio=anio_sel;
-
-                    Gson gson = new Gson();
-                    json = gson.toJson(inspeccionModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-
-
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-                    final ActivityController obj2 = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj2.execute(json);
-
-/*
-                    Intent intent = new Intent(Busqueda.this, B_inspecciones.class);
-                    startActivityForResult(intent , REQUEST_CODE);
-*/
-                }else if(codselected==0){ //pland e accion
-                    paginacion2=1;
-                    anio=anio_sel;
-                    int mesbuscar=Integer.parseInt(mes);
-                    if(mesbuscar==0) {
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-                    }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-                    }
-                    GlobalVariables.listaPlanMin=new ArrayList<>();
-                    final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj.execute("");
-                }
-                else{// codselected==-1  Reporte facilito
-                    //aqui va planes
-                    paginacion2=1;
-                    anio=anio_sel;
-                    int mesbuscar=Integer.parseInt(mes);
-                    if(mesbuscar==0) {
-                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-                    }else{
-                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha?CodPersonaF="+codPersona+"&&Filtro=" + anio + "%7C" + mesbuscar + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-                    }
-
-                    GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
-                    final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,BusqEstadistica.this);
-                    obj.execute("");
-                }
+                anio=anio_sel;
+                getdada();
             }});
+
+        getdada();
+
+    }
+
+    public void getdada(){
+        String json = "";
+        GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+        GlobalVariables.listaPlanMin=new ArrayList<>();
+        GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
+        if(codselected==1) {
+
+            Utils.observacionModel = new ObservacionModel();
+            ObservacionModel observacionModel = new ObservacionModel();
+            //tipo_busqueda=1;
+            observacionModel.CodUbicacion = "5";
+            observacionModel.Lugar = "1";
+            observacionModel.ObservadoPor = codPersona;
+
+            int mesActual=Integer.parseInt(mes);
+            Calendar calFin = Calendar.getInstance();
+            calFin.set(Integer.parseInt(anio), mesActual-1, 1);
+            calFin.set(Integer.parseInt(anio),mesActual-1 , calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
+            diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
+
+            if (mes.equals("00")) {
+                observacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
+                observacionModel.FechaFin = anio + "-" + "12" + "-" + "31";
+            } else {
+                observacionModel.FechaInicio = anio + "-" + mes + "-" + "01";   //"2018-02-02"
+                observacionModel.FechaFin = anio + "-" + mes + "-" + diaFin;
+            }
+
+
+            Gson gson = new Gson();
+            json = gson.toJson(observacionModel);
+            url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
+            GlobalVariables.flagUpSc=true;
+            Utils.isActivity = true;
+
+            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
+            obj.execute(json);
+
+        }else if(codselected==2){
+            inspeccionModel = new InspeccionModel();
+            InspeccionModel inspeccionModel = new InspeccionModel();
+            //tipo_busqueda=1;
+            inspeccionModel.Elemperpage = "5";
+            inspeccionModel.Pagenumber = "1";
+            inspeccionModel.CodTipo = codPersona;
+
+            int mesActual=Integer.parseInt(mes);
+            Calendar calFin = Calendar.getInstance();
+            calFin.set(Integer.parseInt(anio), mesActual-1, 1);
+            calFin.set(Integer.parseInt(anio),mesActual-1 , calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
+            diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
+
+            if (mes.equals("00")) {
+                inspeccionModel.FechaP = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
+                inspeccionModel.Fecha = anio + "-" + "12" + "-" + "31";
+            } else {
+                inspeccionModel.FechaP = anio + "-" + mes + "-" + "01";   //"2018-02-02"
+                inspeccionModel.Fecha = anio + "-" + mes + "-" + diaFin;
+            }
+
+            Gson gson = new Gson();
+            json = gson.toJson(inspeccionModel);
+
+            url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
+
+            // GlobalVariables.flagUpSc=true;
+            // Utils.isActivity = true;
+            GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
+            obj.execute(json);
+
+
+
+        }else if(codselected==0){//PLANES DE ACCION
+            //aqui va planes
+
+            if(mes.equals("00")) {
+                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            }else{
+                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            }
+
+            final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
+            obj.execute("");
+        }
+        else{// codselected==-1  Reporte facilito
+            //aqui va planes
+
+            if(mes.equals("00")) {
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C/1/5";
+            }else{
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C"+mes+"/1/5";
+            }
+
+            final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
+            obj.execute("");
+        }
     }
 
     public void close(View view){
         finish();
     }
+
+
+    public void DeleteObject(String Url, int index){
+        String url= GlobalVariables.Url_base+Url;
+        ActivityController obj = new ActivityController("get", url, this,this);
+        obj.execute(""+index);
+    }
+
 
     public int find(String anio){
         int pdata=0;
@@ -671,32 +500,31 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 obfa.notifyDataSetChanged();
             }
         }
-        else{ // re create adapter and reset pagination
-            paginacion2=0;
-            boolean passcount=true;
+        else if(Tipo.equals("")){ // re create adapter and reset pagination
+            paginacion2=1;
+
             if(codselected==0){ // pland de accion
                 GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
                 contPublicacion=getPlanMinModel.Count;
                 GlobalVariables.listaPlanMin.clear();
                 GlobalVariables.listaPlanMin=getPlanMinModel.Data;
-                if(getPlanMinModel.Count>0){
-                    pma = new PlanMinAdapter(this, GlobalVariables.listaPlanMin);
+                if(contPublicacion>0){
+                    pma = new FichaPlanAdapter(this, GlobalVariables.listaPlanMin);
                     list_estadistica.setAdapter(pma);
                 }
-                else passcount=false;
             }
             else{  // observacion facilito
                 GetObsFacilitoModel getPlanMinModel = gson.fromJson(data, GetObsFacilitoModel.class);
+                contPublicacion=getPlanMinModel.Count;
                 GlobalVariables.listaGlobalObsFacilito.clear();
                 GlobalVariables.listaGlobalObsFacilito=getPlanMinModel.Data;
-                if(getPlanMinModel.Count>0){
-                    obfa = new ObsFacilitoAdapter(this, GlobalVariables.listaGlobalObsFacilito);
+                if(contPublicacion>0){
+                    obfa = new FichaObsFacilitoAdapter(this, GlobalVariables.listaGlobalObsFacilito);
                     list_estadistica.setAdapter(obfa);
                 }
-                else passcount=false;
             }
 
-            if(passcount){
+            if(contPublicacion>0){
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 tx_mensajeb.setVisibility(View.GONE);
             }
@@ -704,7 +532,27 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 tx_mensajeb.setVisibility(View.VISIBLE);
             }
-
+            tipo_estadistica.setText(descripcion+" ("+contPublicacion+")");
+        }
+        else
+        {   if(data.contains("-1")) Toast.makeText(this, "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+            else {
+                int index=Integer.parseInt(Tipo)-2;
+                switch (codselected){
+                    case -1:
+                        obfa.remove(index);
+                    break;
+                    case 0:
+                        pma.remove(index);
+                        break;
+                    case 1:
+                        obsa.remove(index);
+                        break;
+                    case 2:
+                        inspa.remove(index);
+                        break;
+                }
+            }
         }
         constraintLayout.setVisibility(View.GONE);
         btn_buscar_e.setEnabled(true);
@@ -719,116 +567,53 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             swipeRefreshLayout.setEnabled( false );
         }
 
-        /*
-        contPublicacion=getPlanMinModel.Count;
-        tipo_estadistica.setText(descripcion+" ("+getPlanMinModel.Count+")");
-        if(GlobalVariables.listaPlanMin.size()==0) {
-            GlobalVariables.listaPlanMin = getPlanMinModel.Data;
-            if(getPlanMinModel.Data.size()==0){
-                swipeRefreshLayout.setVisibility(View.INVISIBLE);
-                tx_mensajeb.setVisibility(View.VISIBLE);
-            }else{
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
-                tx_mensajeb.setVisibility(View.GONE);
-            }
-            //swipeRefreshLayout.setVisibility(View.VISIBLE);
-
-            //GlobalVariables.listaGlobal=listaPublicaciones;
-        }else{
-            //listaPublicaciones.addAll(getPublicacionModel.Data);
-            GlobalVariables.listaPlanMin.addAll(getPlanMinModel.Data);
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
-        }
-
-        pma = new PlanMinAdapter(this, GlobalVariables.listaPlanMin);
-        list_estadistica.setAdapter(pma);
-
-
-        if(GlobalVariables.flagUpSc==true){
-            list_estadistica.setSelection(0);
-            GlobalVariables.flagUpSc=false;
-        }else
-            //reemplazar el 100
-            if(GlobalVariables.listaPlanMin.size()==7){
-                list_estadistica.setSelection(0);
-            }else if(GlobalVariables.listaPlanMin.size()>7&&GlobalVariables.listaPlanMin.size()<contPublicacion) {
-                //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-                if(GlobalVariables.listaPlanMin.size()%7==0) {
-                    list_estadistica.setSelection(GlobalVariables.listaPlanMin.size() - 8);
-                }else{
-                    list_estadistica.setSelection(GlobalVariables.listaPlanMin.size()-1 );
-                    //- GlobalVariables.listaGlobalFiltro.size()%5+1
-                }
-
-                flagObsFiltro=true;
-
-            }else if(GlobalVariables.listaPlanMin.size()==contPublicacion){
-                list_estadistica.setSelection((GlobalVariables.listaPlanMin.size()/7)*7-1);
-                flagObsFiltro=false;
-
-            }*/
-        //listaPlanMin
     }
 
     @Override
     public void successpost(String data, String Tipo) {
 
-      //  data="{"+data+"}";
         Gson gson = new Gson();
         GetPublicacionModel getPublicacionModel = gson.fromJson(data, GetPublicacionModel.class);
         contPublicacion=getPublicacionModel.Count;
+        if(Tipo.equals("1")) // adapter add
+        {
 
-        if(GlobalVariables.listaGlobalFiltro.size()==0) {
-            GlobalVariables.listaGlobalFiltro = getPublicacionModel.Data;
-            if(getPublicacionModel.Data.size()==0){
-                swipeRefreshLayout.setVisibility(View.INVISIBLE);
-                tx_mensajeb.setVisibility(View.VISIBLE);
-            }else{
+                for(PublicacionModel item:getPublicacionModel.Data)
+                {
+                    if(codselected==1)  obsa.add(item);
+                    else inspa.add(item);
+                }
+            obsa.notifyDataSetChanged();
+            inspa.notifyDataSetChanged();
+        }
+        else{ // re create adapter and reset pagination
+            paginacion2=1;
+            boolean passcount=true;
+            GlobalVariables.listaGlobalFiltro.clear();
+            GlobalVariables.listaGlobalFiltro=getPublicacionModel.Data;
+
+            if(contPublicacion>0){
+                if(codselected==1)   {
+                    obsa = new FichaObservacionAdapter(this, GlobalVariables.listaGlobalFiltro);
+                    list_estadistica.setAdapter(obsa);
+                }
+                else {
+                    inspa = new FichaInspecionAdapter(this, GlobalVariables.listaGlobalFiltro);
+                    list_estadistica.setAdapter(inspa);
+                }
+            }
+
+            if(contPublicacion>0){
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 tx_mensajeb.setVisibility(View.GONE);
             }
-            //swipeRefreshLayout.setVisibility(View.VISIBLE);
-
-            //GlobalVariables.listaGlobal=listaPublicaciones;
-        }else{
-            //listaPublicaciones.addAll(getPublicacionModel.Data);
-            GlobalVariables.listaGlobalFiltro.addAll(getPublicacionModel.Data);
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
-        }
-
-       if(codselected==1) {
-           PublicacionAdapter ca = new PublicacionAdapter(this, GlobalVariables.listaGlobalFiltro,new FragmentObservaciones());
-           list_estadistica.setAdapter(ca);
-
-       }else if(codselected==2){
-           InspeccionAdapter ca = new InspeccionAdapter(this, GlobalVariables.listaGlobalFiltro,new FragmentInspecciones());
-           list_estadistica.setAdapter(ca);
-
-       }
-
-        tipo_estadistica.setText(descripcion+" ("+getPublicacionModel.Count+")");
-        if(GlobalVariables.flagUpSc==true){
-            list_estadistica.setSelection(0);
-            GlobalVariables.flagUpSc=false;
-        }else
-            //reemplazar el 100
-            if(GlobalVariables.listaGlobalFiltro.size()>5&&GlobalVariables.listaGlobalFiltro.size()<contPublicacion) {
-                //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-                if(GlobalVariables.listaGlobalFiltro.size()%5==0) {
-                    list_estadistica.setSelection(GlobalVariables.listaGlobalFiltro.size() - 6);
-                }else{
-                    list_estadistica.setSelection(GlobalVariables.listaGlobalFiltro.size()-1 );
-                    //- GlobalVariables.listaGlobalFiltro.size()%5+1
-                }
-
-                flagObsFiltro=true;
-
-            }else if(GlobalVariables.listaGlobalFiltro.size()==contPublicacion){
-                list_estadistica.setSelection(GlobalVariables.listaGlobalFiltro.size());
-                flagObsFiltro=false;
-
+            else {
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                tx_mensajeb.setVisibility(View.VISIBLE);
             }
+            tipo_estadistica.setText(descripcion+" ("+contPublicacion+")");
 
+        }
         constraintLayout.setVisibility(View.GONE);
         btn_buscar_e.setEnabled(true);
 
@@ -841,7 +626,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             tx_texto.setVisibility(View.GONE);
             swipeRefreshLayout.setEnabled( false );
         }
-
     }
 
     @Override

@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Ficha.BusqEstadistica;
@@ -34,6 +35,7 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPlanMinModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
+import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
 import java.util.ArrayList;
@@ -142,12 +144,8 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         list_estadistica=rootView.findViewById(R.id.list_estadistica);
         tipo_estadistica=rootView.findViewById(R.id.tipo_estadistica);
 
-
         sp_anio=rootView.findViewById(R.id.spinner_anio);
         sp_mes=rootView.findViewById(R.id.spinner_mes);
-
-
-
 
         Gson gson = new Gson();
         getUsuarioModel = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
@@ -160,26 +158,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         mesActual=fechaHoy.get(Calendar.MONTH);
         mes= (mesActual < 10 ? "0" : "")+mesActual;
 
-        //diaActual=fechaHoy.get(Calendar.DAY_OF_MONTH);
-
-
-
-
-
-        //anio= fechaHoy;
-        //final int mesActual=Integer.parseInt(datos.getString("mes"));
         codPersona=getUsuarioModel.CodPersona;
-
-
-
-
-
-        //Date fechaFin;
-        Calendar calFin = Calendar.getInstance();
-        calFin.set(Integer.parseInt(anio), mesActual-1, 1);
-        calFin.set(Integer.parseInt(anio),mesActual-1 , calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
-        //fechaFin = calFin.getTime();
-        diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
 
         if(Integer.parseInt(anio)<2018) {
             anio=2018+"";
@@ -216,7 +195,6 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //mes_sel
-
                 mes_pos=position;
 
             }
@@ -226,54 +204,18 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             }
         });
 
-
-        if(mesActual==0) {
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-        }else{
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + mesActual + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
-        }
-
-        GlobalVariables.listaPlanMin=new ArrayList<>();
-        final ActivityController obj = new ActivityController("get", url, FragmentPlanPendiente.this,getActivity());
-        obj.execute("");
-
-
-
-
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
 
             public void onRefresh() {
-                GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                GlobalVariables.isFragment=true;
-                //is_swipe=false;
+
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
-                paginacion2=1;
-
                 loadingTop=true;
-                GlobalVariables.listaGlobalFiltro.clear(); //crear segun el formato
-                GlobalVariables.listaPlanMin.clear(); //crear segun el formato
-                //GlobalVariables.contpublic=2;
+
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
-                flagObsFiltro=true;
-
-                String jsonR = "";
-                Utils.isActivity=false;
-
-                    // aqui va plaqn de accion
-
-                    if(Integer.parseInt(mes)==0) {
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                    }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                    }
-
-                    final ActivityController obj = new ActivityController("get-0", url, FragmentPlanPendiente.this,getActivity());
-                    obj.execute("");
-
-              // }
+                getdata();
 
             } });
 
@@ -298,32 +240,21 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalFiltro.size() != contPublicacion && flag_enter&&flagObsFiltro) {
+                    if (GlobalVariables.listaPlanMin.size() != contPublicacion && flag_enter) {
 
-                        //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
 
-                        String json2 = "";
-
-                        //GlobalVariables.count=5;
                         paginacion2+=1;
 
-                            if(Integer.parseInt(mes)==0) {
+                            if(mes.equals("00")) {
                                 url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                             }else{
-                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + Integer.parseInt(mes) + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + mes + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                             }
-
-                            //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/PlanAccion/GetPlanes?CodPersonaF=0020069922&Fecha=2017%7C12&Pagenumber=2&Elemperpage=5";
-                            //GlobalVariables.flagUpSc=true;
-                            //GlobalVariables.istabs=false;
-                            //Utils.isActivity = true;
-                            //GlobalVariables.listaGlobalFiltro = new ArrayList<>();
                             GlobalVariables.isFragment=true;
-                            //Utils.isActivity=true;
                             final ActivityController obj = new ActivityController("get-"+paginacion2, url, FragmentPlanPendiente.this,getActivity());
-                            obj.execute("");
+                            obj.execute("1");
                        // }
                     }
                 }
@@ -380,39 +311,27 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
                 //Utils.isActivity=true;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
-                flagObsFiltro=true;
                 mes= (mes_pos < 10 ? "0" : "")+mes_pos;
-
-                Calendar calFin = Calendar.getInstance();
-                calFin.set(Integer.parseInt(anio), mes_pos-1, 1);
-                calFin.set(Integer.parseInt(anio),mes_pos -1, calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
-                //fechaFin = calFin.getTime();
-                diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
-
-                paginacion2=1;
-                    anio=anio_sel;
-                    int mesbuscar=Integer.parseInt(mes);
-                    if(mesbuscar==0) {
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                    }else{
-                        url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + mesbuscar + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                    }
-                    GlobalVariables.listaPlanMin=new ArrayList<>();
-                    final ActivityController obj = new ActivityController("get", url, FragmentPlanPendiente.this,getActivity());
-                    obj.execute("");
-
-                //}
+                anio=anio_sel;
+                getdata();
             }});
-
-
-
-
-
-
-
-
-
+        getdata();
         return rootView;
+
+    }
+
+    public void getdata(){
+        GlobalVariables.listaPlanMin.clear();
+        paginacion2=1;
+        if(anio.equals("00")) {
+            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+        }else{
+            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + anio + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+        }
+
+        GlobalVariables.listaPlanMin=new ArrayList<>();
+        final ActivityController obj = new ActivityController("get", url, FragmentPlanPendiente.this,getActivity());
+        obj.execute("");
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -437,14 +356,49 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         mListener = null;
     }
 
+    public void DeleteObject(String Url, int index){
+        String url= GlobalVariables.Url_base+Url;
+        ActivityController obj = new ActivityController("get", url, FragmentPlanPendiente.this,getActivity());
+        obj.execute(""+index);
+    }
+
     @Override
     public void success(String data, String Tipo) {
 
         Gson gson = new Gson();
-        GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
-        contPublicacion=getPlanMinModel.Count;
-        tipo_estadistica.setText("Planes de acción pendientes"+" ("+getPlanMinModel.Count+")");
-        if(GlobalVariables.listaPlanMin.size()==0) {
+        if(Tipo.equals("")){  // new adapter
+            GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
+            contPublicacion=getPlanMinModel.Count;
+            tipo_estadistica.setText("Planes de acción pendientes"+" ("+contPublicacion+")");
+
+            pma = new PlanMinAdapter(getActivity(), GlobalVariables.listaPlanMin,this);
+            list_estadistica.setAdapter(pma);
+            constraintLayout.setVisibility(View.GONE);
+            btn_buscar_e.setEnabled(true);
+
+            flag_enter=true;
+            if(loadingTop)
+            {
+                loadingTop=false;
+                swipeRefreshLayout.setRefreshing(false);
+                tx_texto.setVisibility(View.GONE);
+                swipeRefreshLayout.setEnabled( false );
+            }
+        }
+        else if(Tipo.equals("1")){  // add adapter
+            GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
+            for(PlanMinModel item:getPlanMinModel.Data)
+                pma.add(item);
+            pma.notifyDataSetChanged();
+        }
+        else{
+            if(data.contains("-1")) Toast.makeText(getActivity(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+            else pma.remove(Integer.parseInt(Tipo)-2);
+        }
+
+
+
+       /* if(GlobalVariables.listaPlanMin.size()==0) {
             GlobalVariables.listaPlanMin = getPlanMinModel.Data;
             if(getPlanMinModel.Data.size()==0){
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
@@ -461,10 +415,6 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             GlobalVariables.listaPlanMin.addAll(getPlanMinModel.Data);
             swipeRefreshLayout.setVisibility(View.VISIBLE);
         }
-
-        pma = new PlanMinAdapter(getActivity(), GlobalVariables.listaPlanMin);
-        list_estadistica.setAdapter(pma);
-
 
         if(GlobalVariables.flagUpSc==true){
             list_estadistica.setSelection(0);
@@ -486,26 +436,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             list_estadistica.setSelection((GlobalVariables.listaPlanMin.size()/7)*7-1);
                 flagObsFiltro=false;
 
-            }
-
-        constraintLayout.setVisibility(View.GONE);
-        btn_buscar_e.setEnabled(true);
-
-        flag_enter=true;
-        //GlobalVariables.contpublic += 1;
-        // progressDialog.dismiss();
-        // progressBar.setVisibility(View.GONE);
-
-        if(loadingTop)
-        {
-            loadingTop=false;
-            swipeRefreshLayout.setRefreshing(false);
-            tx_texto.setVisibility(View.GONE);
-            swipeRefreshLayout.setEnabled( false );
-        }
-        //listaPlanMin
-
-
+            }*/
     }
 
     @Override

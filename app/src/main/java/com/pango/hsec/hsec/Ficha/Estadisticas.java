@@ -167,10 +167,6 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             }
         });
 
-
-
-
-
     }
 
     public void close(View view){

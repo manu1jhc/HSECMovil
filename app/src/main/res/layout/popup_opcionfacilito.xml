@@ -49,7 +49,7 @@
                 android:layout_weight="0.85"
                 android:background="@color/colorBlanco"
                 android:gravity="center"
-                android:text="OPCIONES DE REPORTE"
+                android:text="OPCIONES"
                 android:textColor="@color/ColorPlomo3"
                 android:textSize="14sp"
                 android:textStyle="bold" />

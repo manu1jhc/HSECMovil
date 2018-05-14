@@ -122,16 +122,8 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                             popupWindow.dismiss();
                         }
                     });
-                    if(edit.equals("1")){
+                    if(edit.equals("1") || edit.equals("3") ){
                         cv1.setVisibility(View.VISIBLE);
-                        cv3.setVisibility(View.VISIBLE);
-                    }
-                    else if(edit.equals("2")){
-                        cv2.setVisibility(View.VISIBLE);
-                    }
-                    else if(edit.equals("3")){
-                        cv1.setVisibility(View.VISIBLE);
-                        cv2.setVisibility(View.VISIBLE);
                         cv3.setVisibility(View.VISIBLE);
                     }
                     button1.setOnClickListener(new View.OnClickListener(){
@@ -144,7 +136,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                                 v.getContext().startActivity(intent);
                         }
                     });
-                    button2.setOnClickListener(new View.OnClickListener(){
+                    /*button2.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v){
 
@@ -153,7 +145,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                             intent.putExtra("editable",data.get(position).Editable);
                             v.getContext().startActivity(intent);
                         }
-                    });
+                    });*/
 //                    }
                     button3.setOnClickListener(new View.OnClickListener(){
                         @Override

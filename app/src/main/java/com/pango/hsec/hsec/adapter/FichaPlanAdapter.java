@@ -1,65 +1,63 @@
 package com.pango.hsec.hsec.adapter;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
+        import android.app.Activity;
+        import android.app.AlertDialog;
+        import android.content.Context;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.CardView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.PopupWindow;
-import android.widget.RadioGroup;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+        import android.content.DialogInterface;
+        import android.content.Intent;
+        import android.graphics.Color;
+        import android.graphics.drawable.ColorDrawable;
+        import android.support.v7.widget.CardView;
+        import android.view.Gravity;
+        import android.view.LayoutInflater;
+        import android.view.View;
+        import android.view.ViewGroup;
+        import android.widget.ArrayAdapter;
+        import android.widget.Button;
+        import android.widget.ImageView;
+        import android.widget.PopupWindow;
+        import android.widget.RadioGroup;
+        import android.widget.RelativeLayout;
+        import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+        import com.bumptech.glide.Glide;
 
-import com.google.gson.Gson;
-import com.pango.hsec.hsec.Ficha.BusqEstadistica;
-import com.pango.hsec.hsec.Ficha.FichaPersona;
-import com.pango.hsec.hsec.GlobalVariables;
-import com.pango.hsec.hsec.PlanAccionEdit;
-import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.PlanMinModel;
-import com.pango.hsec.hsec.utilitario.CircleTransform;
+        import com.google.gson.Gson;
+        import com.pango.hsec.hsec.Ficha.BusqEstadistica;
+        import com.pango.hsec.hsec.Ficha.FichaPersona;
+        import com.pango.hsec.hsec.GlobalVariables;
+        import com.pango.hsec.hsec.PlanAccionEdit;
+        import com.pango.hsec.hsec.R;
+        import com.pango.hsec.hsec.model.PlanMinModel;
+        import com.pango.hsec.hsec.utilitario.CircleTransform;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
+        import java.text.DateFormat;
+        import java.text.ParseException;
+        import java.text.SimpleDateFormat;
+        import java.util.ArrayList;
 
-import layout.FragmentPlanPendiente;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+        import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * Created by Andre on 12/03/2018.
  */
 
-public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
+public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
 
     private Activity context;
     private ArrayList<PlanMinModel> data = new ArrayList<PlanMinModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
-    FragmentPlanPendiente ActContent;
+    BusqEstadistica ActContent;
     View popupView;
     PopupWindow popupWindow;
 
-    public PlanMinAdapter( Activity context, ArrayList<PlanMinModel> data,FragmentPlanPendiente ActContent) {
+    public FichaPlanAdapter(BusqEstadistica context, ArrayList<PlanMinModel> data) {
         super(context, R.layout.public_planmin, data);
         this.data = data;
         this.context = context;
-        this.ActContent=ActContent;
+        ActContent=context;
     }
     public void replace(PlanMinModel replacedata){
         data.get(indexOf(replacedata.CodAccion)).CodNivelRiesgo=replacedata.CodNivelRiesgo;
