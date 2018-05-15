@@ -121,9 +121,10 @@
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
-                    android:id="@+id/cv_resolucion"
+                    android:id="@+id/cv_fecha"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -173,7 +174,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cv_resolucion">
+                    app:layout_constraintTop_toBottomOf="@+id/cv_fecha">
 
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"

@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet;
 import com.pango.hsec.hsec.Facilito.addAtencionFHistorial;
+import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Ficha.AddRegistroAvance;
 import com.pango.hsec.hsec.Ficha.RegistroAtencion;
 import com.pango.hsec.hsec.GlobalVariables;
@@ -51,21 +52,26 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
     private List<ObsFHistorialModel> items;
     View popupView;
     PopupWindow popupWindow;
+    obsFacilitoDet obsFacilito;
     private Context context;
     private Button btn_editarhistorial,btn_eliminarhistorial;
     private ArrayList<ObsFHistorialModel> data = new ArrayList<ObsFHistorialModel>();
     ArrayList<Maestro> ObsFacilito_estado;
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
-    public ObsFHistorialAdapter(Activity activity, List<ObsFHistorialModel> items) {
+    public ObsFHistorialAdapter(obsFacilitoDet activity, List<ObsFHistorialModel> items) {
         this.activity = activity;
         this.items = items;
+        this.obsFacilito=activity;
     }
     public void add(ObsFHistorialModel newdata){
         items.add(newdata);
         notifyDataSetChanged();
     }
-
+    public void remove(int index){
+        items.remove(index);
+        notifyDataSetChanged();
+    }
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = activity.getLayoutInflater();
@@ -130,11 +136,12 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity,android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Observacion")
-                                .setMessage(viewHolder.tempComent)
+                        alertDialog.setTitle("Desea Eliminar Inspeccion?")
+                                .setMessage(items.get(position).Comentario)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // continue with delete
+                                        popupWindow.dismiss();
+                                        obsFacilito.DeleteObject("ObsFacilito/DeleteHistorial/"+ items.get(position).Correlativo,position+4);
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -199,14 +206,14 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
         public void onClick(View v) {
 
             Gson gson = new Gson();
-            String codObs=GlobalVariables.listaGlobalObsHistorial.get(idposition).CodObsFacilito;
             String persona=GlobalVariables.listaGlobalObsHistorial.get(idposition).Persona;
             String fecha=GlobalVariables.listaGlobalObsHistorial.get(idposition).Fecha;
             String fechafin=GlobalVariables.listaGlobalObsHistorial.get(idposition).FechaFin;
             String estado=GlobalVariables.listaGlobalObsHistorial.get(idposition).Estado;
             String comentario=GlobalVariables.listaGlobalObsHistorial.get(idposition).Comentario;
+            String correlativo=GlobalVariables.listaGlobalObsHistorial.get(idposition).Correlativo;
             Intent intent = new Intent(activity, ObsFHistorialAtencionDet.class);
-            intent.putExtra("CodObsFacilito",codObs);
+            intent.putExtra("correlativo",correlativo);
             intent.putExtra("Persona",persona);
             intent.putExtra("Fecha",fecha);
             intent.putExtra("Estado",estado);

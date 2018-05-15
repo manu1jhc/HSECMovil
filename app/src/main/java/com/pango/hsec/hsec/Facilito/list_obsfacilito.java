@@ -80,6 +80,7 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
         tx_mensajeb=(TextView) findViewById(R.id.tx_mensajeb);
+        constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
         paginacion2+=1;
         url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacilito/" + paginacion2+ "/" + "7";
         final ActivityController obj = new ActivityController("get-"+paginacion2, url, list_obsfacilito.this,this);
@@ -133,7 +134,6 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
                         constraintLayout.setVisibility(View.VISIBLE);
                         GlobalVariables.isFragment=false;
                         Utils.isActivity=true;
-
                         paginacion2+=1;
                         url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacilito/" + paginacion2+ "/" + "7";
                         GlobalVariables.count=5;
@@ -184,6 +184,11 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
             }
         });
     }
+//    public void DeleteObject(String Url, int index){
+//        String url= GlobalVariables.Url_base+Url;
+//        ActivityController obj = new ActivityController("get", url, list_obsfacilito.this,this);
+//        obj.execute(""+index);
+//    }
     public void close(View view){
         finish();
     }

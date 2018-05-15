@@ -325,8 +325,10 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                     Actives.clear();
                     Gson gson = new Gson();
                     Utils.closeSoftKeyBoard(report_obs.this);
+                    mButtonGuardar.setClickable(false);
                     if(GlobalVariables.flagFacilito==false){
                         try {
+                            Actives.add(0);
                             Obs.Tipo=tipo;
                             Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
                             Obs.Observacion=String.valueOf(txvResult.getText());
@@ -424,19 +426,6 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         if(ErrorForm.isEmpty()) return true;
         else{
             Snackbar.make(view, "Complete los siguientes campos obligatorios:\n"+ErrorForm, Snackbar.LENGTH_LONG).show();
-//            String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
-//            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-//            alertDialog.setCancelable(false);
-//            alertDialog.setTitle("Datos incorrectos");
-//            alertDialog.setIcon(R.drawable.warninicon);
-//            alertDialog.setMessage(Mensaje);
-//
-//            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-//                public void onClick(DialogInterface dialog, int which) {
-//
-//                }
-//            });
-//            alertDialog.show();
             return false;
         }
     }

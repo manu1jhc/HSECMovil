@@ -13,6 +13,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -35,6 +36,7 @@ import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.controller.WebServiceAPI;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetObsFHistorialModel;
 import com.pango.hsec.hsec.model.ImageEntry;
 import com.pango.hsec.hsec.model.Maestro;
@@ -67,6 +69,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     DatePickerDialog.OnDateSetListener date;
     public ObsFHistorialModel ObsHist;
     String fecha_inicio="-";
+    String fecha_real="";
     Button btnFechaInicio;
     String fechaEscogida;
     Spinner spinner_estado;
@@ -74,14 +77,16 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     ProgressBar progressBar;
     private RecyclerView gridView;
     private GridViewAdapter gridViewAdapter;
+    private CardView cv_fecha;
     private ArrayList<GaleriaModel> DataImg;
+    private ArrayList<GaleriaModel> DataImgList;
     private ImageButton btnFotos,ButtonGuardar;
     private TextView txv_comentario;
     ArrayList<Integer> Actives=new ArrayList();
     private TextView textViewtitle;
-    String obsFHistorialModel;
+    public String obsFHistorialModel;
     String Errores,estado;
-    String codObs,codObsEdit,correEdit;
+    String codObs,correEdit;
     Gson gson;
     String url;
     SimpleDateFormat df,dt;
@@ -99,6 +104,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         gridView = (RecyclerView)  findViewById(R.id.grid);
         txv_comentario=(TextView) findViewById(R.id.txv_comentario);
         textViewtitle=(TextView) findViewById(R.id.textViewtitle);
+        cv_fecha=(CardView) findViewById(R.id.cv_fecha);
         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dt = new SimpleDateFormat("dd 'de' MMMM");
         progressBar = findViewById(R.id.progressBar2);
@@ -106,9 +112,8 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         Integer[] itemSel = {0,0,0};
         gson = new Gson();
         DataImg = new ArrayList<>();
+        DataImgList=new ArrayList<>();
         ObsHist = new ObsFHistorialModel();
-
-
         ObsFacilito_estadoHistoria= new ArrayList<>();
         ObsFacilito_estadoHistoria.addAll(GlobalVariables.ObsFacilito_estadoHistoria);
         ArrayAdapter adapterNivelR = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, ObsFacilito_estadoHistoria);
@@ -123,7 +128,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     Maestro ubica = (Maestro) ((Spinner) findViewById(R.id.spinner_estado)).getSelectedItem();
                     estado = ubica.CodTipo;
                     ObsHist.Estado = estado;
-
+                    if(ObsHist.Estado.equals("S")){
+                        cv_fecha.setVisibility(View.VISIBLE);
+                    }
                     adapterNivelR.notifyDataSetChanged();
                     if (pass[0]) {
                         pass[0] = false;
@@ -144,11 +151,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             textViewtitle.setText("Agregar Atención");
             ObsHist.Correlativo="-1";
             Bundle data1 = this.getIntent().getExtras();
-
             codObs=data1.getString("codObs");
 
         }
-
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
@@ -160,10 +165,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 Date actual = myCalendar.getTime();
 
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
-                SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
-                Utils.observacionModel.FechaInicio= String.valueOf(fecha_envio.format(actual));
-
-                fecha_inicio=dt.format(actual);
+                fecha_real=df.format(actual);
                 btnFechaInicio.setText(dt.format(actual));
                 dt = new SimpleDateFormat("yyyyMMdd");
                 fechaEscogida = dt.format(actual);
@@ -186,22 +188,26 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     Utils.closeSoftKeyBoard(addAtencionFHistorial.this);
                     if(GlobalVariables.flaghistorial==true) {
                         try {
+                            Actives.add(0);
                             ObsHist.CodObsFacilito = codObs;
-
                             if (estado.equals("S")) {
-                                ObsHist.FechaFin = String.valueOf(btnFechaInicio.getText());
+                                ObsHist.FechaFin=fecha_real;
+//                                ObsHist.FechaFin = String.valueOf(btnFechaInicio.getText());
                             } else {
+                                ObsHist.FechaFin=null;
                             }
                             ObsHist.Comentario = String.valueOf(txv_comentario.getText());
                             if (!ValifarFormulario(v)) return;
                             String url = GlobalVariables.Url_base + "ObsFacilito/AprobarObsFaci";
                             final ActivityController obj = new ActivityController("post", url, addAtencionFHistorial.this, addAtencionFHistorial.this);
                             obj.execute(gson.toJson(ObsHist));
+
                         } catch (Exception ex) {
                             ex.printStackTrace();
                         }
                     }
-                    if(GlobalVariables.flagFacilito==false){
+                    if(GlobalVariables.flaghistorial==false){
+
                         try {
                             ObsHist.CodObsFacilito = codObs;
                             if (estado.equals("S")) {
@@ -238,11 +244,17 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             textViewtitle.setText("Editar Atención");
             Bundle data1 = this.getIntent().getExtras();
 
-            codObsEdit=GlobalVariables.codObsHistorial;
+            codObs=GlobalVariables.codObsHistorial;
             correEdit=data1.getString("correlativo");
-            String url2=GlobalVariables.Url_base+"ObsFacilito/GetHistorialAtencion/"+codObsEdit;
+            Actives.add(0);
+            String url2=GlobalVariables.Url_base+"ObsFacilito/GetHistorialAtencion/"+codObs;
             final ActivityController obj2 = new ActivityController("get", url2, addAtencionFHistorial.this,this);
             obj2.execute("1");
+            Actives.add(0);
+            String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs+"-"+correEdit;
+            final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
+            obj1.execute("2");
+
         }
         else {
             setdata();
@@ -270,13 +282,21 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             if(!StringUtils.isEmpty(ObsHist.Estado))spinner_estado.setSelection(GlobalVariables.indexOf(GlobalVariables.ObsFacilito_estadoHistoria,ObsHist.Estado));
             txv_comentario.setText(ObsHist.Comentario);
             try {
-                Date fecha = df.parse(ObsHist.FechaFin);
-                btnFechaInicio.setText(formatoRender.format(fecha));
-                if(ObsHist.FechaFin!=null)
-                {
-                    fecha = df.parse(ObsHist.FechaFin);
-                    btnFechaInicio.setText(dt.format(fecha));
+                String data=ObsHist.FechaFin;
+
+                if(data==null){
+
                 }
+                else {
+                    Date fecha = df.parse(ObsHist.FechaFin);
+                    btnFechaInicio.setText(formatoRender.format(fecha));
+                    if(ObsHist.FechaFin!=null)
+                    {
+                        fecha = df.parse(ObsHist.FechaFin);
+                        btnFechaInicio.setText(dt.format(fecha));
+                    }
+                }
+
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -521,7 +541,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
 
     @Override
     public void success(String data, String Tipo) throws CloneNotSupportedException {
+
         if (Tipo.equals("1")){
+            Actives.set(0,1);
             Gson gson = new Gson();
             int contPublicacion;
             GetObsFHistorialModel getObsFHistorialModel = gson.fromJson(data, GetObsFHistorialModel.class);
@@ -536,18 +558,47 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 }
             }
         }
-        setdata();
+        if(Tipo.equals("2")){
+            Actives.set(1,1);
+            Gson gson = new Gson();
+            DataImg=gson.fromJson(data, GetGaleriaModel.class).Data;
+            DataImgList=gson.fromJson(data, GetGaleriaModel.class).Data;
+            GlobalVariables.StrFiles=DataImgList;
+        }
+        else if(Tipo.equals("3")){
+            if(data.contains("false")){
+                Actives.set(1,-1);
+                Errores+="\nNo se pudo eliminar algunas imagenes";
+            }
+            else {
+                Actives.set(1,1);
+                ArrayList<GaleriaModel> temp= new ArrayList<>(GlobalVariables.StrFiles);
+
+                for (GaleriaModel item : GlobalVariables.StrFiles) {
+                    if(!StringUtils.isEmpty(item.Estado)&&item.Estado.equals("E"))
+                        temp.remove(item);
+                }
+                GlobalVariables.StrFiles=temp;
+            }
+            if(!Actives.contains(0)) FinishSave();
+        }
+        if(!Actives.contains(0)){
+            setdata();
+        }
     }
 
     @Override
     public void successpost(String data, String Tipo) throws CloneNotSupportedException {
-        Gson gson = new Gson();
-        ObsHist.Correlativo = data.substring(1, data.length() - 1);
+       if(GlobalVariables.flaghistorial==true){
 
+           Gson gson = new Gson();
+           ObsHist.Correlativo = data.substring(1, data.length() - 1);
+
+       }
         if(data.equals("-1")){
 //            UpdateFiles(false);
             Errores+="\nOcurrio un error al guardar cabezera";
-//            Actives.set(0,-1);
+            Actives.set(0,-1);
         }
         else{
             UpdateFiles(false);

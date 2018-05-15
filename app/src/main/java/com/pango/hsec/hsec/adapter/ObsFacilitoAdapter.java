@@ -1,12 +1,14 @@
 package com.pango.hsec.hsec.adapter;
 
 import com.bumptech.glide.Glide;
+import com.pango.hsec.hsec.Facilito.list_obsfacilito;
 import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
 import com.pango.hsec.hsec.Facilito.opcionfacilito;
 import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
@@ -56,6 +58,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
 //    LayoutInflater layoutInflater;
     View popupView;
     PopupWindow popupWindow;
+    list_obsfacilito obsfacilitolist;
     private Context context;
     ArrayList<Maestro> ObsFacilito_estado;
     private ArrayList<ObsFacilitoMinModel> data = new ArrayList<ObsFacilitoMinModel>();
@@ -122,7 +125,15 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                             popupWindow.dismiss();
                         }
                     });
-                    if(edit.equals("1") || edit.equals("3") ){
+                    if(edit.equals("1")){
+                        cv1.setVisibility(View.VISIBLE);
+                        cv3.setVisibility(View.VISIBLE);
+                    }
+                    else if(edit.equals("2")){
+                        cv1.setVisibility(View.VISIBLE);
+                        cv3.setVisibility(View.VISIBLE);
+                    }
+                    else if(edit.equals("3")){
                         cv1.setVisibility(View.VISIBLE);
                         cv3.setVisibility(View.VISIBLE);
                     }
@@ -136,28 +147,29 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                                 v.getContext().startActivity(intent);
                         }
                     });
-                    /*button2.setOnClickListener(new View.OnClickListener(){
-                        @Override
-                        public void onClick(View v){
-
-                            Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
-                            intent.putExtra("codObs", data.get(position).CodObsFacilito);
-                            intent.putExtra("editable",data.get(position).Editable);
-                            v.getContext().startActivity(intent);
-                        }
-                    });*/
+//                    button2.setOnClickListener(new View.OnClickListener(){
+//                        @Override
+//                        public void onClick(View v){
+//
+//                            Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
+//                            intent.putExtra("codObs", data.get(position).CodObsFacilito);
+//                            intent.putExtra("editable",data.get(position).Editable);
+//                            v.getContext().startActivity(intent);
+//                        }
+//                    });
 //                    }
                     button3.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                            alertDialog.setTitle("Desea Eliminar Observacion")
-                            .setMessage(tempObservacion)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // continue with delete
-                                }
-                            })
+                            alertDialog.setTitle("Desea Eliminar Inspeccion?")
+                                    .setMessage(data.get(position).CodObsFacilito)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            popupWindow.dismiss();
+//                                            obsfacilitolist.DeleteObject("ObsFacilito/DeleteHistorial/"+ data.get(position).CodObsFacilito,position+3);
+                                        }
+                                    })
                                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             // do nothing

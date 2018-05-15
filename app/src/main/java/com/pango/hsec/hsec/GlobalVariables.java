@@ -149,7 +149,7 @@ public class GlobalVariables  {
     //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
 
     public static boolean flagUpSc=false;
-    public  static boolean flagFacilito=false;
+    public  static boolean flagFacilito=true;
     public  static boolean flaghistorial=true;
    // public static boolean FDown=false;
    public static int count=5;

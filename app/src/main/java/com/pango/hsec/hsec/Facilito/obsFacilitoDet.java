@@ -49,6 +49,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
     private RecyclerView gridView;
     private GridViewAdapter gridViewAdapter;
     private ArrayList<GaleriaModel> DataImg;
+    ObsFHistorialAdapter ca;
     ArrayList<Maestro> ObsFacilito_estado;
 //    ListView list_ObsHistorial;
     RecyclerView list_ObsHistorial;
@@ -104,25 +105,6 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
                 v.getContext().startActivity(intent);
         }
         });
-//        list_ObsHistorial.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                String persona=GlobalVariables.listaGlobalObsHistorial.get(position).Persona;
-//                String fecha=GlobalVariables.listaGlobalObsHistorial.get(position).Fecha;
-//                String fechafin=GlobalVariables.listaGlobalObsHistorial.get(position).FechaFin;
-//                String estado=GlobalVariables.listaGlobalObsHistorial.get(position).Estado;
-//                String comentario=GlobalVariables.listaGlobalObsHistorial.get(position).Comentario;
-//                Intent intent = new Intent(obsFacilitoDet.this, ObsFHistorialAtencionDet.class);
-//                intent.putExtra("CodObsFacilito",codObs);
-//                intent.putExtra("Persona",persona);
-//                intent.putExtra("Fecha",fecha);
-//                intent.putExtra("Estado",estado);
-//                intent.putExtra("Comentario",comentario);
-//                intent.putExtra("fechafin",fechafin);
-//                startActivity(intent);
-//            }
-//        });
     }
     public void close(View view){
         DataImg.clear();
@@ -137,6 +119,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
     }
     @Override
     public void success(String data, String Tipo) {
+
         if(Tipo.equals("2")){
 //            Actives.set(0,1);
             Gson gson = new Gson();
@@ -178,10 +161,14 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
                 }
             LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             list_ObsHistorial.setLayoutManager(horizontalManager);
-            ObsFHistorialAdapter ca = new ObsFHistorialAdapter(this,getObsFHistorialModel.Data);
+            ca = new ObsFHistorialAdapter(this,getObsFHistorialModel.Data);
             list_ObsHistorial.setAdapter(ca);
             ca.notifyDataSetChanged();
 
+        }
+        else {
+            if(data.contains("-1")) Toast.makeText(this, "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+            else ca.remove(Integer.parseInt(Tipo)-4);
         }
         setdata();
 
@@ -218,6 +205,11 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
             }
         }
         return estado;
+    }
+        public void DeleteObject(String Url, int index){
+        String url= GlobalVariables.Url_base+Url;
+        ActivityController obj = new ActivityController("get", url, obsFacilitoDet.this,this);
+        obj.execute(""+index);
     }
 }
 

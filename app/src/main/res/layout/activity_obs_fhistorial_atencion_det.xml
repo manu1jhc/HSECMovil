@@ -72,6 +72,7 @@ tools:context="com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet">
             android:id="@+id/cv_buttons"
             android:layout_width="0dp"
             android:layout_height="50dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
