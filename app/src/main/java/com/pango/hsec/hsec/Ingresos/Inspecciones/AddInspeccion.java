@@ -1,7 +1,9 @@
 package com.pango.hsec.hsec.Ingresos.Inspecciones;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -121,15 +123,15 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
         GlobalVariables.InspeccionObserbacion=null;
     }
 
-    public boolean ValifarFormulario(){
+    public boolean ValifarFormulario(View view){
              String ErrorForm="";
-        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.Gerencia)) ErrorForm+=" ->Gerencia\n";
-        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.FechaP)) ErrorForm+=" ->Fecha Programada\n";
-        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.Fecha)) ErrorForm+=" ->Fecha Inspeccion\n";
-        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodUbicacion)) ErrorForm+=" ->Ubicación\n";
-        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodTipo)) ErrorForm+=" ->Tipo de inspección\n";
+        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.Gerencia)) {ErrorForm+="Gerencia";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.FechaP)) {ErrorForm+="Fecha Programada";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.Fecha)) {ErrorForm+="Fecha Inspeccion";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodUbicacion)) {ErrorForm+="Ubicación";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodTipo)) {ErrorForm+="Tipo de inspección";pos=0;}
 
-        if(GlobalVariables.ListResponsables.size()==0) ErrorForm+=" ->Personal responsables\n";
+        else if(GlobalVariables.ListResponsables.size()==0) {ErrorForm+="Personal responsables";pos=1;}
         else{
             boolean passlider=true;
             for (EquipoModel item: GlobalVariables.ListResponsables)
@@ -144,6 +146,8 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
 
         if(ErrorForm.isEmpty()) return true;
         else{
+
+/*
             String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setCancelable(false);
@@ -156,6 +160,25 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                 }
             });
             alertDialog.show();
+*/
+
+
+            Snackbar.make(view, "El campo "+ErrorForm+" no puede estar vacío", Snackbar.LENGTH_LONG).setActionTextColor(Color.CYAN).setAction("Ver pestaña", new View.OnClickListener() {
+                //public TabHost mTabHost;
+
+                @Override
+                public void onClick(View v) {
+                    //initialiseTabHost();
+                    //pos=1;
+                    mTabHost.setCurrentTab(pos);
+
+                    //onPageScrolled(1, 0, 0);
+
+                }
+            }).show();
+
+
+
             return false;
         }
     }
@@ -164,7 +187,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
 
         Gson gson = new Gson();
         Utils.closeSoftKeyBoard(this);
-        if(!ValifarFormulario()) return;
+        if(!ValifarFormulario(view)) return;
         btn_Salvar.setEnabled(false);
         String Inspeccion=  gson.toJson(GlobalVariables.AddInspeccion);
         Errores="";

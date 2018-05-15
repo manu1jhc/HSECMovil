@@ -3,7 +3,9 @@ package com.pango.hsec.hsec;
 
         import android.content.DialogInterface;
         import android.content.Intent;
+        import android.graphics.Color;
         import android.support.annotation.NonNull;
+        import android.support.design.widget.Snackbar;
         import android.support.v4.app.Fragment;
         import android.support.v4.app.FragmentActivity;
         import android.support.v4.view.ViewPager;
@@ -50,7 +52,7 @@ package com.pango.hsec.hsec;
 public class observacion_edit extends FragmentActivity implements IActivity,TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener, ProgressRequestBody.UploadCallbacks{
     MyPageAdapter pageAdapter;
     private ViewPager mViewPager;
-    private TabHost mTabHost;
+    public TabHost mTabHost;
     ImageButton close;
     Button btn_Salvar;
     TextView tx_titulo;
@@ -153,7 +155,7 @@ public void reiniciadata(){
             this.mTabHost.setCurrentTab(pos);
             pos=0;
         }else{
-           int posi = this.mViewPager.getCurrentItem();
+            int posi = this.mViewPager.getCurrentItem();
             this.mTabHost.setCurrentTab(posi);
         }
 
@@ -290,27 +292,32 @@ public void reiniciadata(){
         else finish();
 
     }
-    public boolean ValifarFormulario(){
-        String ErrorForm="Cabecera:\n";
-        if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodObservadoPor)) ErrorForm+=" ->Observado Por\n";
-        if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodAreaHSEC)) ErrorForm+=" ->Area HSEC\n";
-        if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodNivelRiesgo)) ErrorForm+=" ->Nivel de riesgo\n";
-        if(StringUtils.isEmpty(GlobalVariables.Obserbacion.Fecha)) ErrorForm+=" ->Fecha\n";
-        if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodUbicacion)) ErrorForm+=" ->Ubicación\n";
-        if(ErrorForm.equals("Cabecera:\n")) ErrorForm="";
-        ErrorForm+="Detalle:\n";
-        if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Observacion.trim())) ErrorForm+=" ->Observacion\n";
-        if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) ErrorForm+=" ->Accion\n";
-        if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel)) ErrorForm+=" ->Actividad Relacionada\n";
-        if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA)) ErrorForm+=" ->HHA Relacionada\n";
-        if(GlobalVariables.Obserbacion.CodTipo.equals("TO01")){
-            if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) ErrorForm+=" ->Acto SubEstandar\n";
-            if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado)) ErrorForm+=" ->Estado\n";
-            if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError)) ErrorForm+=" ->Error\n";
-        }else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) ErrorForm+=" ->Condicion SubEstandar\n";
-        if(ErrorForm.equals("Detalle:\n")) ErrorForm="";
+    public boolean ValifarFormulario(View view){
+        //String ErrorForm="Cabecera: ";
+        String ErrorForm="";
+        if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodObservadoPor)) {ErrorForm+="Observado Por";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodAreaHSEC)) {ErrorForm+="Area HSEC";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodNivelRiesgo)) {ErrorForm+="Nivel de riesgo";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.Fecha)) {ErrorForm+="Fecha";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodUbicacion)) {ErrorForm+="Ubicación";pos=0;}
+        //else if(ErrorForm.equals("Cabecera: ")) {ErrorForm=""; ErrorForm+="Detalle: ";}
+
+        else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Observacion.trim())) {ErrorForm+="Observacion";pos=1;}
+        else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) {ErrorForm+="Accion";pos=1;}
+        else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel)) {ErrorForm+="Actividad Relacionada";pos=1;}
+        else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA)) {ErrorForm+="HHA Relacionada";pos=1;}
+        else if(GlobalVariables.Obserbacion.CodTipo.equals("TO01")){
+            if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Acto SubEstandar";pos=1;}
+            else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado)) {ErrorForm+="Estado";pos=1;}
+            else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError)) {ErrorForm+="Error";pos=1;}
+        }else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Condicion SubEstandar";pos=1;}
+        //else if(ErrorForm.equals("Detalle: ")) {ErrorForm="";}
+
         if(ErrorForm.isEmpty()) return true;
         else{
+
+
+            /*
             String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setCancelable(false);
@@ -324,6 +331,25 @@ public void reiniciadata(){
                 }
             });
             alertDialog.show();
+*/
+
+
+            Snackbar.make(view, "El campo "+ErrorForm+" no puede estar vacío", Snackbar.LENGTH_LONG).setActionTextColor(Color.CYAN).setAction("Ver pestaña", new View.OnClickListener() {
+                //public TabHost mTabHost;
+
+                @Override
+                public void onClick(View v) {
+                    //initialiseTabHost();
+                    //pos=1;
+                    mTabHost.setCurrentTab(pos);
+
+                    //onPageScrolled(1, 0, 0);
+
+                }
+            }).show();
+
+
+
             return false;
         }
     }
@@ -332,7 +358,7 @@ public void reiniciadata(){
 
         Gson gson = new Gson();
         Utils.closeSoftKeyBoard(this);
-        if(!ValifarFormulario()) return;
+        if(!ValifarFormulario(view)) return;
         btn_Salvar.setEnabled(false);
         String Observacion=  gson.toJson(GlobalVariables.Obserbacion);
         if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO02")){

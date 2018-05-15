@@ -49,4 +49,9 @@
         <item name="android:textColor">@color/colorRojo</item>
     </style>
 
+
+    <!-- http://stackoverflow.com/questions/1883425/android-borderless-dialog -->
+    <style name="Theme_Dialog_Translucent" parent="android:Theme.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

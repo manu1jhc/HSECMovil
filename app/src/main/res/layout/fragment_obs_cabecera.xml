@@ -148,8 +148,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorNegro"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
                     android:gravity="center_vertical"
@@ -197,8 +196,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorNegro"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
                     android:gravity="center_vertical"
@@ -248,8 +246,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorNegro"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
                     android:gravity="center_vertical"
@@ -305,7 +302,7 @@
                     android:paddingRight="8dp"
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
-                    android:gravity="center"
+                    android:gravity="left|center_vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -332,8 +329,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorNegro"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
                     android:gravity="center_vertical"
@@ -502,8 +498,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/colorNegro"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
                     android:gravity="center_vertical"
@@ -553,11 +547,11 @@
                     android:layout_height="wrap_content"
 
                     android:textColor="@color/colorNegro"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+
                     android:paddingBottom="2dp"
                     android:paddingTop="2dp"
                     android:gravity="center_vertical"
+
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView13"

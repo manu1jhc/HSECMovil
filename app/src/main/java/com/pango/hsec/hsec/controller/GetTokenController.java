@@ -34,6 +34,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     IActivity activity;
     String url_token;
     ProgressBar progressDialog;
+    String Tipo="";
 
     //int con_status;
     String token_auth;
@@ -58,7 +59,10 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
     @Override
     protected Void doInBackground(String... strings) {
+        String json=strings[0];
+
         try {
+            Tipo=json;
             HttpClient httpClient = new DefaultHttpClient();
             HttpGet get = new HttpGet(url_token);
             get.setHeader("Content-type", "application/json");
@@ -114,7 +118,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
             default:
                 if(GlobalVariables.token_auth.length()>40){
                     try {
-                        activity.success(""+GlobalVariables.con_status,"");
+                        activity.success(""+GlobalVariables.con_status,Tipo);
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
                     }

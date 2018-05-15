@@ -56,6 +56,12 @@ public class Login extends AppCompatActivity implements IActivity{
         setContentView(R.layout.activity_login);
         GlobalVariables.isFragment=false;
 
+        final ActivityController objVersion = new ActivityController("get", url, Login.this,this);
+        objVersion.execute("2");
+
+
+
+
         et_User = (TextInputEditText) findViewById(R.id.et_User);
         et_Password = (TextInputEditText) findViewById(R.id.et_Password);
         ti_User = (TextInputLayout) findViewById(R.id.ti_User);
@@ -127,7 +133,7 @@ public class Login extends AppCompatActivity implements IActivity{
             //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/usuario/getdata/
 
             final GetTokenController objT = new GetTokenController(url_token,Login.this,progresbar);
-            objT.execute();
+            objT.execute("1");
 /*
             final Handler h = new Handler();
             h.postDelayed(new Runnable() {
@@ -180,50 +186,98 @@ public class Login extends AppCompatActivity implements IActivity{
 
     @Override
     public void success(String data1,String Tipo) {
+        if(Tipo=="1") {
+            if (GlobalVariables.con_status == 200) {
 
-        if(GlobalVariables.con_status==200){
-
-           if(check_rec.isChecked()){
-                //guardar estado del check, user pass
-                Save_status(true);
-                Save_Datalogin(et_User.getText().toString(),et_Password.getText().toString());
+                if (check_rec.isChecked()) {
+                    //guardar estado del check, user pass
+                    Save_status(true);
+                    Save_Datalogin(et_User.getText().toString(), et_Password.getText().toString());
 
 
+                } else {
+                    Save_status(false);
+                    Save_Datalogin("", "");
+                    //guarde el estado false ""en todos los campos
+                }
 
-            }else
-            {
-                Save_status(false);
-                Save_Datalogin("","");
-                //guarde el estado false ""en todos los campos
+            } else {
+                et_User.setText("");
+                et_Password.setText("");
+                check_rec.setChecked(false);
             }
-
-        }else{
-            et_User.setText("");
-            et_Password.setText("");
-            check_rec.setChecked(false);
-        }
-        ////////////////Toast.makeText(Login.this,"mensaje que se muestra despues de cargar",Toast.LENGTH_SHORT).show();
+            ////////////////Toast.makeText(Login.this,"mensaje que se muestra despues de cargar",Toast.LENGTH_SHORT).show();
 
 
-        //Gson gson = new Gson();
-        //List<UsuarioModel> Data=new ArrayList<UsuarioModel>();
-        //Data = Arrays.asList(gson.fromJson(data, UsuarioModel[].class));
+            //Gson gson = new Gson();
+            //List<UsuarioModel> Data=new ArrayList<UsuarioModel>();
+            //Data = Arrays.asList(gson.fromJson(data, UsuarioModel[].class));
 
-        //List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
-       // UsuarioModel getUsuarioModel = gson.fromJson(data1, UsuarioModel.class);
+            //List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
+            // UsuarioModel getUsuarioModel = gson.fromJson(data1, UsuarioModel.class);
 
 
-        //int contPasajeros= getUsuarioModel.Count;
+            //int contPasajeros= getUsuarioModel.Count;
        /*
         Intent data2 = new Intent();
         data2.setData(Uri.parse(gson.toJson(getUsuarioModel)));
         setResult(RESULT_OK, data2);
         */
-        //Toast.makeText(this,"O",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this,"O",Toast.LENGTH_SHORT).show();
 
-        Intent intent = new Intent(Login.this, MainActivity.class);
-        startActivity(intent);
-        finish();
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+
+        }else if(Tipo=="2"){
+            String version_app=obtener_version();
+
+
+
+            if(Float.parseFloat(GlobalVariables.versionApk)>=Float.parseFloat(GlobalVariables.versionFromServer))
+            {
+
+                Intent mainIntent = new Intent().setClass(Login.this, MainActivity.class);
+                // mainIntent.putExtra("respuesta", false); //Optional parameters
+                startActivity(mainIntent);
+                finish();
+            }else {
+
+                if (version_app == "") {
+                    version_app = GlobalVariables.versionFromServer;
+                    save_version(version_app);
+
+                    Intent mainIntent = new Intent().setClass(Login.this, ActActualizar.class);
+                    // mainIntent.putExtra("respuesta", false); //Optional parameters
+                    startActivity(mainIntent);
+                    finish();
+
+
+                } else if (Float.parseFloat(version_app) >= Float.parseFloat(GlobalVariables.versionFromServer)) {
+                    version_app = GlobalVariables.versionFromServer;
+                    save_version(version_app);
+                    Intent mainIntent = new Intent().setClass(Login.this, MainActivity.class);
+                    // mainIntent.putExtra("respuesta", false); //Optional parameters
+                    startActivity(mainIntent);
+                    finish();
+
+
+                } else {
+                    version_app = GlobalVariables.versionFromServer;
+                    save_version(version_app);
+                    ///////////////////
+
+                    Intent mainIntent = new Intent().setClass(Login.this, ActActualizar.class);
+                    // mainIntent.putExtra("respuesta", false); //Optional parameters
+                    startActivity(mainIntent);
+
+                    finish();
+
+                }
+
+            }
+
+            }
     }
 
     @Override
@@ -265,6 +319,24 @@ public class Login extends AppCompatActivity implements IActivity{
         String password = user_login.getString("password","");
         return password;
     }
+
+
+    public void save_version(String version){
+        SharedPreferences check_version = this.getSharedPreferences("versiones", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor_version = check_version.edit();
+        editor_version.putString("version", version);
+        editor_version.commit();
+    }
+
+
+
+    public String  obtener_version(){
+        SharedPreferences check_version = this.getSharedPreferences("versiones", Context.MODE_PRIVATE);
+        String version = check_version.getString("version","");
+        return version;
+    }
+
+
 
 
 }

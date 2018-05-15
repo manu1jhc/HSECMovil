@@ -79,7 +79,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
         constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
         contrainLayout=(ConstraintLayout) findViewById(R.id.contrainLayout);
         tx_mensajeP=findViewById(R.id.tx_mensajeP);
-        swipeRefreshLayout.setVisibility(View.INVISIBLE);
+       swipeRefreshLayout.setVisibility(View.INVISIBLE);
 
         GlobalVariables.lista_Personas.clear();
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);

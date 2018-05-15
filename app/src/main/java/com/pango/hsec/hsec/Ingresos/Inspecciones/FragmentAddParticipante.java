@@ -5,13 +5,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -47,6 +50,7 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
 
     private View mView;
     String codInsp,url,url2;
+    TextView tx_realizan_insp;
     // TODO: Rename and change types and number of parameters
     public static FragmentAddParticipante newInstance(String sampleText) {
         FragmentAddParticipante fragment = new FragmentAddParticipante();
@@ -62,6 +66,11 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_add_participante, container, false);
         codInsp=getArguments().getString("bString");
+        tx_realizan_insp=mView.findViewById(R.id.tx_realizan_insp);
+        tx_realizan_insp.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Personas que realizan la inspección:"));
+
+
+
         rec_listResponsables=mView.findViewById(R.id.rec_listParticipantes);
         rec_listAtendidos=mView.findViewById(R.id.rec_listAtendidos);
 
