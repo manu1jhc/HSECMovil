@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity implements IActivity{
     String user="";
     String pass="";
     String dom="";
-    String url="";
+    String url=GlobalVariables.Url_base+"membership/GetVersion";
     String url_token="";
     //String data;
     CheckBox check_rec;
@@ -56,11 +56,8 @@ public class Login extends AppCompatActivity implements IActivity{
         setContentView(R.layout.activity_login);
         GlobalVariables.isFragment=false;
 
-        final ActivityController objVersion = new ActivityController("get", url, Login.this,this);
+        final ActivityController objVersion = new ActivityController("get-2", url, Login.this,this);
         objVersion.execute("2");
-
-
-
 
         et_User = (TextInputEditText) findViewById(R.id.et_User);
         et_Password = (TextInputEditText) findViewById(R.id.et_Password);
@@ -72,6 +69,19 @@ public class Login extends AppCompatActivity implements IActivity{
         btn_entrar=findViewById(R.id.btn_entrar);
         constraintLayout4=findViewById(R.id.constraintLayout4);
         progresbar= findViewById(R.id.progressBar3);
+
+        tx_rec_pass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(Login.this, Recuperar_password.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    public void passVersion(){
         if(obtener_status()){
             check_rec.setChecked(true);
             String usuario_saved=obtener_usuario();
@@ -85,16 +95,6 @@ public class Login extends AppCompatActivity implements IActivity{
         }else{
             constraintLayout4.setVisibility(View.VISIBLE);
         }
-
-        tx_rec_pass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(Login.this, Recuperar_password.class);
-                startActivity(intent);
-            }
-        });
-
     }
 
     public void clearUser(View view){
@@ -231,16 +231,10 @@ public class Login extends AppCompatActivity implements IActivity{
 
         }else if(Tipo=="2"){
             String version_app=obtener_version();
-
-
-
+            GlobalVariables.versionFromServer=data1.substring(1, data1.length() - 1);;
             if(Float.parseFloat(GlobalVariables.versionApk)>=Float.parseFloat(GlobalVariables.versionFromServer))
             {
-
-                Intent mainIntent = new Intent().setClass(Login.this, MainActivity.class);
-                // mainIntent.putExtra("respuesta", false); //Optional parameters
-                startActivity(mainIntent);
-                finish();
+                passVersion();
             }else {
 
                 if (version_app == "") {
@@ -256,11 +250,7 @@ public class Login extends AppCompatActivity implements IActivity{
                 } else if (Float.parseFloat(version_app) >= Float.parseFloat(GlobalVariables.versionFromServer)) {
                     version_app = GlobalVariables.versionFromServer;
                     save_version(version_app);
-                    Intent mainIntent = new Intent().setClass(Login.this, MainActivity.class);
-                    // mainIntent.putExtra("respuesta", false); //Optional parameters
-                    startActivity(mainIntent);
-                    finish();
-
+                    passVersion();
 
                 } else {
                     version_app = GlobalVariables.versionFromServer;
@@ -272,7 +262,6 @@ public class Login extends AppCompatActivity implements IActivity{
                     startActivity(mainIntent);
 
                     finish();
-
                 }
 
             }
@@ -320,15 +309,12 @@ public class Login extends AppCompatActivity implements IActivity{
         return password;
     }
 
-
     public void save_version(String version){
         SharedPreferences check_version = this.getSharedPreferences("versiones", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor_version = check_version.edit();
         editor_version.putString("version", version);
         editor_version.commit();
     }
-
-
 
     public String  obtener_version(){
         SharedPreferences check_version = this.getSharedPreferences("versiones", Context.MODE_PRIVATE);

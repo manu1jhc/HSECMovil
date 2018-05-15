@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.ComentAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetComentModel;
@@ -114,7 +115,6 @@ public class FragmentComent extends Fragment implements IActivity {
 				json += jsonObject.toString();
 
 				url= GlobalVariables.Url_base+"Comentario/insert";
-				GlobalVariables.isFragment=true;
 				final ActivityController obj = new ActivityController("post", url, FragmentComent.this,getActivity());
 				obj.execute(json);
 
@@ -147,26 +147,20 @@ public class FragmentComent extends Fragment implements IActivity {
 
 	@Override
 	public void successpost(String data,String Tipo) {
-		closeSoftKeyBoard();
+		Utils.closeSoftKeyBoard(getActivity());
 		et_comentario.setText("");
-		switch (data) {
-			case "1":
-				Toast.makeText(getContext(),"Comentario enviado",Toast.LENGTH_SHORT).show();
-				GlobalVariables.count=5;
-				GlobalVariables.isFragment=true;
-				url= GlobalVariables.Url_base+"Comentario/getObs/"+codObs;
-				final ActivityController obj = new ActivityController("get", url, FragmentComent.this,getActivity());
-				obj.execute("");
+		if(data.contains("-1")){
+			Toast.makeText(getContext(),"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
+		}
+		else{
+			Toast.makeText(getContext(),"Comentario enviado",Toast.LENGTH_SHORT).show();
+			GlobalVariables.count=5;
+			GlobalVariables.isFragment=true;
+			url= GlobalVariables.Url_base+"Comentario/getObs/"+codObs;
+			final ActivityController obj = new ActivityController("get-2", url, FragmentComent.this,getActivity());
+			obj.execute("");
+		}
 
-
-				break;
-
-			case "-1":
-				Toast.makeText(getContext(),"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
-
-				break;
-			default:
-				Toast.makeText(getContext(),"Error"+data,Toast.LENGTH_SHORT).show();		}
 	}
 
 	@Override

@@ -100,7 +100,7 @@
         android:layout_marginTop="2dp"
         android:background="@color/colorBtnBeige"
         android:gravity="center"
-        android:text="CONTÁCTENOS"
+        android:text="Consultas"
         android:textAlignment="center"
         android:textColor="@color/colorBlanco"
         android:textSize="16sp"

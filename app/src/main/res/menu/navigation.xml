@@ -49,7 +49,7 @@
     <item
         android:id="@+id/navigation_avanzado"
         android:icon="@drawable/ic_opcavanzadas"
-        android:title="Configuración"
+        android:title="Consultas"
         app:showAsAction="ifRoom|withText"/>
 
 

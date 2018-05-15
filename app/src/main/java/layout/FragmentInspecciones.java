@@ -42,7 +42,6 @@ import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -499,7 +498,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             GlobalVariables.listaGlobalInspeccion=getPublicacionModel.Data;
             ca = new  InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalInspeccion,this);
             list_busqueda.setAdapter(ca);
-
+            contPublicacion= getPublicacionModel.Count;
             if(getPublicacionModel.Data.size()==0){
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 tx_mensajeb.setVisibility(View.VISIBLE);
@@ -762,7 +761,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             flagpopup=false;
         }
         constraintLayout.setVisibility(View.GONE);
-        paginacion-=1;
+        paginacion2-=1;
         flag_enter=true;
 
         Toast.makeText(getActivity(),mensaje,Toast.LENGTH_SHORT).show();

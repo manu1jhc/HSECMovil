@@ -144,23 +144,18 @@ public class FragmentComentIns extends Fragment implements IActivity {
     public void successpost(String data, String Tipo) {
         closeSoftKeyBoard();
         et_comentario.setText("");
-        switch (data) {
-            case "1":
-                Toast.makeText(getContext(),"Comentario enviado",Toast.LENGTH_SHORT).show();
-                GlobalVariables.count=5;
-                GlobalVariables.isFragment=true;
-                url= GlobalVariables.Url_base+"Comentario/getObs/"+codInsp;
-                final ActivityController obj = new ActivityController("get", url, FragmentComentIns.this,getActivity());
-                obj.execute("");
 
-                break;
-
-            case "-1":
-                Toast.makeText(getContext(),"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
-
-                break;
-            default:
-                Toast.makeText(getContext(),"Error"+data,Toast.LENGTH_SHORT).show();		}
+        if(data.contains("-1")){
+            Toast.makeText(getContext(),"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getContext(),"Comentario enviado",Toast.LENGTH_SHORT).show();
+            GlobalVariables.count=5;
+            GlobalVariables.isFragment=true;
+            url= GlobalVariables.Url_base+"Comentario/getObs/"+codInsp;
+            final ActivityController obj = new ActivityController("get-2", url, FragmentComentIns.this,getActivity());
+            obj.execute("");
+        }
     }
 
     @Override

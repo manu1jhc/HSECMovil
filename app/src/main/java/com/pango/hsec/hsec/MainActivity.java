@@ -1,11 +1,9 @@
 package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -20,14 +18,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.widget.AbsListView;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 
 import android.util.Log;
@@ -47,9 +43,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.vision.text.Line;
+
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Facilito.list_obsfacilito;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
@@ -63,11 +58,11 @@ import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
-import com.pango.hsec.hsec.util.Util;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import layout.FragmentObsFacilito;
 import layout.FragmentConfiguracion;
 import layout.FragmentContactenos;
 import layout.FragmentFichaPersonal;
@@ -76,8 +71,6 @@ import layout.FragmentMuro;
 import layout.FragmentObservaciones;
 import layout.FragmentPlanPendiente;
 import layout.FragmentAvanzado;
-
-import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 
 
 public class MainActivity extends AppCompatActivity
@@ -95,6 +88,7 @@ public class MainActivity extends AppCompatActivity
         FragmentConfiguracion.OnFragmentInteractionListener,
         FragmentContactenos.OnFragmentInteractionListener,
         FragmentPlanPendiente.OnFragmentInteractionListener,
+        FragmentObsFacilito.OnFragmentInteractionListener,
         SearchView.OnQueryTextListener
 {
 
@@ -362,7 +356,7 @@ public class MainActivity extends AppCompatActivity
         Muro,
         //Aprobaciones,
         FichaPersonal,
-        //RegistroOI,
+        ObsFacilito,
         Observaciones,
         Inspecciones,
         Avanzado,
@@ -383,6 +377,8 @@ public class MainActivity extends AppCompatActivity
         contextOfApplication = getApplicationContext();
         GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //0
         GlobalVariables.fragmentSave.push(new FragmentInspecciones()); //1
+        GlobalVariables.fragmentSave.push(new FragmentObsFacilito()); //2
+        GlobalVariables.fragmentSave.push(new FragmentPlanPendiente()); //3
 
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
@@ -427,21 +423,35 @@ public class MainActivity extends AppCompatActivity
                 if(lastTag.equals("C")) // Obs
                 {
                     FragmentObservaciones temp =(FragmentObservaciones)GlobalVariables.fragmentSave.get(0);
-                    if(adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
                     else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
                     else  if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())  temp.ca.popupWindow.dismiss();
                     else passdismis=false;
+
                 }
                 else if(lastTag.equals("D")) // inspe
                 {
                     FragmentInspecciones temp =(FragmentInspecciones)GlobalVariables.fragmentSave.get(1);
-                    if(adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
                     else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
                     else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
-
-
                     else passdismis=false;
-
+                }
+                else if(lastTag.equals("H")) // planes
+                {
+                    FragmentPlanPendiente temp =(FragmentPlanPendiente)GlobalVariables.fragmentSave.get(3);
+                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
+                    else if(temp.pma.popupWindow!=null&&temp.pma.popupWindow.isShowing())temp.pma.popupWindow.dismiss();
+                    else passdismis=false;
+                }
+                else if(lastTag.equals("I")) // obsFac
+                {
+                    FragmentObsFacilito temp =(FragmentObsFacilito)GlobalVariables.fragmentSave.get(2);
+                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
+                    else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
+                    else passdismis=false;
                 }
 
                 if(!passdismis){
@@ -465,7 +475,7 @@ public class MainActivity extends AppCompatActivity
                 //super.onBackPressed();
                 FragmentMuro temp =(FragmentMuro)GlobalVariables.fragmentStack.get(0);
 
-                if(adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                if(adSearch!=null && adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
                 else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
                 else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
                 else if (exit) {
@@ -486,7 +496,6 @@ public class MainActivity extends AppCompatActivity
             Log.d("error_frag", e.getLocalizedMessage());
         }
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -555,10 +564,12 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "nav_Aprobaciones", Toast.LENGTH_SHORT).show();
         }*/
         else if (id == R.id.nav_listaobs) {
-            GlobalVariables.flagFacilito=true;
-            Intent addObsReport = new Intent(this,list_obsfacilito.class);
-            startActivity(addObsReport);
+            buscar.setVisibility(View.INVISIBLE);
 
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickMenuObsFacilito();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
         }
         else if (id == R.id.nav_observacion) {
 
@@ -740,6 +751,11 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void ClickMenuObsFacilito() {
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.ObsFacilito);
+    }
+
     private void ClickMenuContactenos() {
         uncheckItemsMenu();
         ChangeFragment(NavigationFragment.Contactenos);
@@ -788,7 +804,6 @@ public class MainActivity extends AppCompatActivity
             case Muro:    fragment = new FragmentMuro(); break;
             //case Aprobaciones:    fragment = new FragmentAprobaciones(); break;
             case FichaPersonal: fragment = new FragmentFichaPersonal(); Tipo="B"; break;
-            //case RegistroOI: fragment = new FragmentRegistroIO(); break;
             case Observaciones: fragment = new FragmentObservaciones(); Tipo="C"; break;
 
             case Inspecciones: fragment = new FragmentInspecciones();  Tipo="D";break;
@@ -797,6 +812,7 @@ public class MainActivity extends AppCompatActivity
             case Configuracion: fragment = new FragmentConfiguracion();  Tipo="F";break;
             case Contactenos: fragment = new FragmentContactenos();  Tipo="G";break;
             case PlanPendiente: fragment = new FragmentPlanPendiente();  Tipo="H";break;
+            case ObsFacilito: fragment = new FragmentObsFacilito(); Tipo="I"; break;
         }
         lastTag=Tipo;
         if(!Tipo.equals("A")) {
@@ -819,6 +835,12 @@ public class MainActivity extends AppCompatActivity
             FragmentInspecciones temp= (FragmentInspecciones)GlobalVariables.fragmentSave.get(1);
             if(temp.list_busqueda!=null)
                 GlobalVariables.stateInsp=temp.list_busqueda.onSaveInstanceState();
+        }
+        if(!Tipo.equals("I")){
+            GlobalVariables.passFac=true;
+            FragmentObsFacilito temp= (FragmentObsFacilito)GlobalVariables.fragmentSave.get(2);
+            if(temp.list_busqueda!=null)
+                GlobalVariables.stateFac=temp.list_busqueda.onSaveInstanceState();
         }
        //showFragment(R.id.content,fragment,Tipo,false);
         if(fragment!=null&&GlobalVariables.fragmentStack.size()==0){

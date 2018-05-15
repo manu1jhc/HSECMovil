@@ -61,7 +61,6 @@ import java.util.Date;
 import layout.FragmentInspecciones;
 import layout.FragmentObservaciones;
 
-import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 import static com.pango.hsec.hsec.Utils.inspeccionModel;
 
 public class BusqEstadistica extends AppCompatActivity implements IActivity {
@@ -78,6 +77,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     String diaFin;
 
     int paginacion2=1;
+    int paginacion=1;
     boolean flagObsFiltro=true;
     boolean upFlag;
     boolean downFlag;
@@ -172,6 +172,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
                 flagObsFiltro=true;
+                paginacion=2;
                 getdada();
 
             } });
@@ -334,12 +335,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     startActivity(intent);
                 }
                 else{
-                    boolean  pass=Integer.parseInt(GlobalVariables.listaGlobalObsFacilito.get(position).Editable)>1?true:false;
+                    String Codigo= GlobalVariables.listaGlobalObsFacilito.get(position).CodObsFacilito;
+                    String Editable=GlobalVariables.listaGlobalObsFacilito.get(position).Editable;
 
                     Intent intent = new Intent(BusqEstadistica.this, obsFacilitoDet.class);
-                    String Codigo= GlobalVariables.listaGlobalObsFacilito.get(position).CodObsFacilito;
                     intent.putExtra("codObs",Codigo);
-                    intent.putExtra("verBoton",pass);
+                    intent.putExtra("verBoton",Editable);
                     startActivity(intent);
                 }
             }
@@ -353,6 +354,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 GlobalVariables.flag_up_toast=true;
                 mes= (mes_pos < 10 ? "0" : "")+mes_pos;
                 anio=anio_sel;
+                paginacion=1;
                 getdada();
             }});
 
@@ -395,7 +397,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             GlobalVariables.flagUpSc=true;
             Utils.isActivity = true;
 
-            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
+            final ActivityController obj = new ActivityController("post-"+paginacion, url, BusqEstadistica.this,this);
             obj.execute(json);
 
         }else if(codselected==2){
@@ -429,7 +431,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             // Utils.isActivity = true;
             GlobalVariables.listaGlobalFiltro = new ArrayList<>();
 
-            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,this);
+            final ActivityController obj = new ActivityController("post-"+paginacion, url, BusqEstadistica.this,this);
             obj.execute(json);
 
 
@@ -443,7 +445,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
             }
 
-            final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
+            final ActivityController obj = new ActivityController("get-"+paginacion, url, BusqEstadistica.this,this);
             obj.execute("");
         }
         else{// codselected==-1  Reporte facilito
@@ -455,7 +457,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C"+mes+"/1/5";
             }
 
-            final ActivityController obj = new ActivityController("get", url, BusqEstadistica.this,this);
+            final ActivityController obj = new ActivityController("get-"+paginacion, url, BusqEstadistica.this,this);
             obj.execute("");
         }
     }

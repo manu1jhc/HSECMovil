@@ -164,6 +164,7 @@ public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
                     cv3.setVisibility(View.VISIBLE);
                 }
                 button1.setText("  Editar plan de acción");
+                button3.setText("  Eliminar plan de acción");
                 button1.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){

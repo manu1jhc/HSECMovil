@@ -24,7 +24,6 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 
-import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 
 /**
  * Created by Andre on 13/12/2017.

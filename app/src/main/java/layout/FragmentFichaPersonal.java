@@ -33,8 +33,7 @@ import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import static android.app.Activity.RESULT_OK;
-import static com.pango.hsec.hsec.GlobalVariables.paginacion;
-//import static com.pango.hsec.hsec.MainActivity.jsonMuro;
+ //import static com.pango.hsec.hsec.MainActivity.jsonMuro;
 
 public class FragmentFichaPersonal extends Fragment implements IActivity {
     // TODO: Rename parameter arguments, choose names that match

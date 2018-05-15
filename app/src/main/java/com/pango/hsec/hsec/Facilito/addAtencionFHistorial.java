@@ -319,6 +319,8 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         tempCalendar.set(Calendar.MILLISECOND, 0);
 
         datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
+        tempCalendar.set(Calendar.MONTH, (new Date()).getMonth() + 1);
+        datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
         datePickerDialog.show();
     }
     @SuppressLint("NewApi")
@@ -379,9 +381,11 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     if (!pass) GlobalVariables.StrFiles.add(item);
                 }
             }
-            if (apt && DeleteFiles.equals("") && DataInsert.size() == 0) {
-                Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
-            } else {
+            if (DeleteFiles.equals("") && DataInsert.size() == 0) {
+                if(apt)Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
+                else FinishSave();
+            }
+            else {
 //Delete Files
                 if (!DeleteFiles.equals("")) {
                     Actives.add(0);
@@ -501,7 +505,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 if(ok&&!fail){
-                    finish();
+                    Intent intent = getIntent();
+                    intent.putExtra("historial",gson.toJson(ObsHist));
+                    setResult(RESULT_OK, intent);
                 }
 //                btn_Salvar.setEnabled(true);
             }

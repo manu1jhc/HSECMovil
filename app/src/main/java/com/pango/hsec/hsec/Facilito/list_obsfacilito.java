@@ -39,8 +39,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import layout.FragmentMuro;
+import layout.FragmentObsFacilito;
 
-import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 //import static com.pango.hsec.hsec.MainActivity.jsonMuro;
 
 public class list_obsfacilito extends AppCompatActivity implements IActivity {
@@ -211,7 +211,7 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
             if(!(GlobalVariables.listaGlobalObsFacilito.get(GlobalVariables.listaGlobalObsFacilito.size()-1).CodObsFacilito.equals(getObsFacilitoModel.Data.get(getObsFacilitoModel.Data.size()-1).CodObsFacilito))){
                 GlobalVariables.listaGlobalObsFacilito.addAll(getObsFacilitoModel.Data);
             }
-        ObsFacilitoAdapter ca = new ObsFacilitoAdapter(this,getObsFacilitoModel.Data);
+        ObsFacilitoAdapter ca = new ObsFacilitoAdapter(this,getObsFacilitoModel.Data,new FragmentObsFacilito());
         list_Obs.setAdapter(ca);
         ca.notifyDataSetChanged();
 
@@ -230,7 +230,7 @@ public class list_obsfacilito extends AppCompatActivity implements IActivity {
             flagpopup=false;
         }
         constraintLayout.setVisibility(View.GONE);
-        paginacion-=1;
+        paginacion2-=1;
         flag_enter=true;
 
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();

@@ -53,7 +53,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
     FragmentPlanPendiente ActContent;
     View popupView;
-    PopupWindow popupWindow;
+    public PopupWindow popupWindow;
 
     public PlanMinAdapter( Activity context, ArrayList<PlanMinModel> data,FragmentPlanPendiente ActContent) {
         super(context, R.layout.public_planmin, data);
@@ -231,41 +231,6 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
                 context.startActivity(intent);
             }
         });
-
-
-
-
-
-
-
-/*
-        comentario.setText(comentarios+" comentarios");
-
-        comentario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                String tipoObs=data.get(position).Tipo;
-
-                Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
-
-                GlobalVariables.istabs=true;
-
-                Intent intent = new Intent(v.getContext(), ActMuroDet.class);
-                intent.putExtra("codObs",data.get(position).Codigo);
-                intent.putExtra("posTab",4);
-                intent.putExtra("tipoObs",tipoObs);
-
-                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-
-                v.getContext().startActivity(intent);
-
-
-
-            }
-        });
-*/
-        // img_perfil.setImageResource(R.drawable.fotocarnet);
 
         return rowView;
     }

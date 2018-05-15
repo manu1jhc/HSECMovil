@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.Facilito;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -32,6 +33,7 @@ import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetObsFHistorialModel;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.ObsFHistorialModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 
 import java.text.DateFormat;
@@ -102,7 +104,8 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
                 GlobalVariables.flaghistorial=true;
                 Intent intent = new Intent(obsFacilitoDet.this,addAtencionFHistorial.class);
                 intent.putExtra("codObs",codObs);
-                v.getContext().startActivity(intent);
+                startActivityForResult(intent, 1);
+                //v.getContext().startActivity(intent);
         }
         });
     }
@@ -206,10 +209,32 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         }
         return estado;
     }
-        public void DeleteObject(String Url, int index){
+    public void DeleteObject(String Url, int index){
         String url= GlobalVariables.Url_base+Url;
         ActivityController obj = new ActivityController("get", url, obsFacilitoDet.this,this);
         obj.execute(""+index);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        //listViewAdapter.onActivityResult(requestCode, resultCode, data);
+        try{
+            Gson gson = new Gson();
+            if(requestCode == 1 && resultCode == Activity.RESULT_OK) { // new plan
+                ObsFHistorialModel plan= gson.fromJson(data.getStringExtra("historial"),ObsFHistorialModel.class);
+                ca.add(plan);
+            }
+            if(requestCode == 2 && resultCode == Activity.RESULT_OK) { // edit plan
+                ObsFHistorialModel plan= gson.fromJson(data.getStringExtra("historial"),ObsFHistorialModel.class);
+                ca.replace(plan);
+            }
+        }
+        catch (Exception ex) {
+            Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
 

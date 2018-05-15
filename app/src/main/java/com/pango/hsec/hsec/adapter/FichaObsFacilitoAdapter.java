@@ -140,11 +140,11 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
                 button1.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
-
                         Intent intent = new Intent(getContext(),report_obs.class);
                         intent.putExtra("codObs", data.get(position).CodObsFacilito);
                         intent.putExtra("editable",data.get(position).Editable);
                         v.getContext().startActivity(intent);
+                        popupWindow.dismiss();
                     }
                 });
                 button3.setOnClickListener(new View.OnClickListener(){

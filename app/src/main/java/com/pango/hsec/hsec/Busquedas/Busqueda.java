@@ -550,7 +550,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             flagpopup=false;
         }
         constraintLayout.setVisibility(View.GONE);
-        paginacion-=1;
+        paginacion2-=1;
         flag_enter=true;
 
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();

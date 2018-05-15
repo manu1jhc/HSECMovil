@@ -50,7 +50,6 @@ import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.observacion_edit;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static com.pango.hsec.hsec.GlobalVariables.paginacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -111,6 +110,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     boolean upFlag;
     boolean downFlag;
     boolean listenerFlag;
+    int paginacion=1;
     SwipeRefreshLayout swipeRefreshLayout;
     boolean flag_enter=true;
     ConstraintLayout constraintLayout;

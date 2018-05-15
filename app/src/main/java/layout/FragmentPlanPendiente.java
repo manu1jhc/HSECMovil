@@ -79,6 +79,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     String diaFin;
 
     int paginacion2=1;
+    int paginacion=1;
     boolean flagObsFiltro=true;
     boolean upFlag;
     boolean downFlag;
@@ -94,7 +95,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     PopupWindow popupWindow;
     boolean flagpopup=false;
     TextView tipo_estadistica;
-    PlanMinAdapter pma;
+    public PlanMinAdapter pma;
 
 
     public FragmentPlanPendiente() {
@@ -155,7 +156,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         anioActual=fechaHoy.get(Calendar.YEAR);
         anio= String.valueOf(anioActual);
 
-        mesActual=fechaHoy.get(Calendar.MONTH);
+        mesActual=fechaHoy.get(Calendar.MONTH)+ 1;
         mes= (mesActual < 10 ? "0" : "")+mesActual;
 
         codPersona=getUsuarioModel.CodPersona;
@@ -190,7 +191,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         ArrayAdapter adapterMes = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, GlobalVariables.busqueda_mes);
         adapterMes.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         sp_mes.setAdapter(adapterMes);
-        sp_mes.setSelection(Integer.parseInt(mes));
+        sp_mes.setSelection(mesActual);
         sp_mes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -212,7 +213,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
                 swipeRefreshLayout.setRefreshing(true);
                 tx_texto.setVisibility(View.VISIBLE);
                 loadingTop=true;
-
+                paginacion=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
                 getdata();
@@ -313,6 +314,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
                 GlobalVariables.flag_up_toast=true;
                 mes= (mes_pos < 10 ? "0" : "")+mes_pos;
                 anio=anio_sel;
+                paginacion=1;
                 getdata();
             }});
         getdata();
@@ -323,14 +325,14 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     public void getdata(){
         GlobalVariables.listaPlanMin.clear();
         paginacion2=1;
-        if(anio.equals("00")) {
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+        if(mes.equals("00")) {
+            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
         }else{
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + anio + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&Fecha=p" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
         }
 
         GlobalVariables.listaPlanMin=new ArrayList<>();
-        final ActivityController obj = new ActivityController("get", url, FragmentPlanPendiente.this,getActivity());
+        final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentPlanPendiente.this,getActivity());
         obj.execute("");
     }
 
@@ -370,10 +372,10 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
             contPublicacion=getPlanMinModel.Count;
             tipo_estadistica.setText("Planes de acción pendientes"+" ("+contPublicacion+")");
-
+            GlobalVariables.listaPlanMin=getPlanMinModel.Data;
             pma = new PlanMinAdapter(getActivity(), GlobalVariables.listaPlanMin,this);
             list_estadistica.setAdapter(pma);
-            constraintLayout.setVisibility(View.GONE);
+
             btn_buscar_e.setEnabled(true);
 
             flag_enter=true;
@@ -384,8 +386,18 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
                 tx_texto.setVisibility(View.GONE);
                 swipeRefreshLayout.setEnabled( false );
             }
+            if(contPublicacion>0){
+                swipeRefreshLayout.setVisibility(View.VISIBLE);
+                tx_mensajeb.setVisibility(View.GONE);
+            }
+            else {
+                swipeRefreshLayout.setVisibility(View.INVISIBLE);
+                tx_mensajeb.setVisibility(View.VISIBLE);
+            }
+
         }
         else if(Tipo.equals("1")){  // add adapter
+            constraintLayout.setVisibility(View.GONE);
             GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
             for(PlanMinModel item:getPlanMinModel.Data)
                 pma.add(item);
@@ -401,8 +413,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
        /* if(GlobalVariables.listaPlanMin.size()==0) {
             GlobalVariables.listaPlanMin = getPlanMinModel.Data;
             if(getPlanMinModel.Data.size()==0){
-                swipeRefreshLayout.setVisibility(View.INVISIBLE);
-                tx_mensajeb.setVisibility(View.VISIBLE);
+
             }else{
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 tx_mensajeb.setVisibility(View.GONE);

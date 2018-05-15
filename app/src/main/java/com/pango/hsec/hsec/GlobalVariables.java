@@ -125,11 +125,12 @@ public class GlobalVariables  {
         else   GlobalVariables.fragmentStack.push(fragment);
     }
 
+
     //flag of muro
     public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<>();
     public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
     public static ArrayList<PublicacionModel> listaGlobalInspeccion=new ArrayList<>();//data del fragment de inspecciones
-    public static ArrayList<PublicacionModel> listaGlobalFacilito= new  ArrayList<>();
+    public static ArrayList<ObsFacilitoMinModel> listaGlobalFacilito= new  ArrayList<>(); //data del fragment de Obs Facilito seguimiento
 
     public static Parcelable stateMuro;
     public static Parcelable stateObs;
@@ -185,7 +186,7 @@ public class GlobalVariables  {
     public static String[] busqueda_mes={"-","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
     public static String[] busqueda_anio;
     public static String versionFromServer="";
-    public static String versionApk="5.0";
+    public static String versionApk="1.9";
 
     public static String Obtener_Tipo(String tipo){
         String descripcion="";
@@ -252,7 +253,7 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> TipoAutenticacion = new ArrayList<>();
     public static  ArrayList<Maestro> Sexo = new ArrayList<>();
 
-    public static int paginacion=1;
+    //public static int paginacion=1;
 
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
         for (Maestro o : Obj  ) {

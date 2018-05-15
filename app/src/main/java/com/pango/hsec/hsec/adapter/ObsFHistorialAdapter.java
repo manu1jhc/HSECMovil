@@ -68,6 +68,15 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
         items.add(newdata);
         notifyDataSetChanged();
     }
+    public void replace(ObsFHistorialModel replacedata){
+        for(ObsFHistorialModel item:items)
+            if(replacedata.Correlativo.equals(item.Correlativo))
+            {
+                item=replacedata;
+                notifyDataSetChanged();
+                continue;
+            }
+    }
     public void remove(int index){
         items.remove(index);
         notifyDataSetChanged();
@@ -129,7 +138,8 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                         String correlativo=items.get(position).Correlativo;
                         Intent intent = new Intent(activity,addAtencionFHistorial.class);
                         intent.putExtra("correlativo",correlativo);
-                        v.getContext().startActivity(intent);
+                        activity.startActivityForResult(intent,2);
+                        //v.getContext().startActivity(intent);
                     }
                 });
                 btn_eliminarhistorial.setOnClickListener(new View.OnClickListener(){

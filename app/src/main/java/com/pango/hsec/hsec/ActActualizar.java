@@ -53,11 +53,7 @@ public class ActActualizar extends AppCompatActivity {
                     //Abre url de pagina.
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPlay)));
                 }
-
                 finish();
-
-
-
             }
         });
 
@@ -68,66 +64,14 @@ public class ActActualizar extends AppCompatActivity {
             {
                 //Toast.makeText(ActActualizar.this, "Recordar más tarde", Toast.LENGTH_SHORT).show();
 
-                Intent mainIntent = new Intent().setClass(ActActualizar.this, MainActivity.class);
-                // mainIntent.putExtra("respuesta", false); //Optional parameters
+                Intent mainIntent = new Intent().setClass(ActActualizar.this, Login.class);
                 startActivity(mainIntent);
-                //customDialog.dismiss();
                 finish();
             }
         });
 
         customDialog.show();
-
-
-
-
-
-/*
-        AlertDialog alertDialog = new AlertDialog.Builder(ActActualizar.this).create();
-        alertDialog.setCancelable(false);
-        alertDialog.setTitle("Actualización de aplicación");
-        alertDialog.setMessage("Estimado usuario es necesario actualizar la aplicación a la nueva versión para el correcto funcionamiento");
-        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "ACTUALIZAR", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-
-                try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPlay)));
-                } catch (Exception e) {
-                    Log.e(TAG, "Aplicación no instalada.");
-                    //Abre url de pagina.
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPlay)));
-                }
-
-
-                finish();
-                //startActivity(getIntent());
-
-
-
-            }
-        });
-
-        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cerrar", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-                //startActivity(getIntent());
-            }
-        });
-
-        alertDialog.show();
-
-        */
-
-
-
-
     }
-
-
-
-
-
-
 }
 
 
