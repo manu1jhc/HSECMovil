@@ -68,14 +68,9 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
         items.add(newdata);
         notifyDataSetChanged();
     }
-    public void replace(ObsFHistorialModel replacedata){
-        for(ObsFHistorialModel item:items)
-            if(replacedata.Correlativo.equals(item.Correlativo))
-            {
-                item=replacedata;
-                notifyDataSetChanged();
-                continue;
-            }
+    public void replace(ObsFHistorialModel replacedata,int index){
+        items.set(index,replacedata);
+        notifyDataSetChanged();
     }
     public void remove(int index){
         items.remove(index);
@@ -93,16 +88,15 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
 
         viewHolder.mp_nombre.setText(items.get(position).Persona);
         viewHolder.mp_fecha.setText(Obtenerfecha(items.get(position).Fecha));
-        viewHolder.mp_estado.setText(ObtenerDet(items.get(position).Persona));
-//        viewHolder.btn_editar_m.setVisibility(Boolean.parseBoolean(items.get(position).Editable)?View.VISIBLE:View.GONE);
+        viewHolder.mp_estado.setText(ObtenerDet(items.get(position).Estado));
         viewHolder.mp_txcoment.setText(items.get(position).Comentario);
         viewHolder.idposition=position;
         viewHolder.tempimg_perfil=items.get(position).UrlObs;
+
         if (viewHolder.tempimg_perfil == null) {
             viewHolder.mp_profile.setImageResource(R.drawable.ic_loginusuario);
         }else {
             String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + viewHolder.tempimg_perfil + "/Carnet.jpg";
-            //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(activity)
                     .load(Url_img)
                     .override(50, 50)
@@ -138,7 +132,9 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                         String correlativo=items.get(position).Correlativo;
                         Intent intent = new Intent(activity,addAtencionFHistorial.class);
                         intent.putExtra("correlativo",correlativo);
+                        intent.putExtra("index",position);
                         activity.startActivityForResult(intent,2);
+                        popupWindow.dismiss();
                         //v.getContext().startActivity(intent);
                     }
                 });
@@ -150,13 +146,14 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                                 .setMessage(items.get(position).Comentario)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        popupWindow.dismiss();
                                         obsFacilito.DeleteObject("ObsFacilito/DeleteHistorial/"+ items.get(position).Correlativo,position+4);
+                                        popupWindow.dismiss();
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         // do nothing
+                                        popupWindow.dismiss();
                                     }
                                 })
                                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -216,12 +213,12 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
         public void onClick(View v) {
 
             Gson gson = new Gson();
-            String persona=GlobalVariables.listaGlobalObsHistorial.get(idposition).Persona;
-            String fecha=GlobalVariables.listaGlobalObsHistorial.get(idposition).Fecha;
-            String fechafin=GlobalVariables.listaGlobalObsHistorial.get(idposition).FechaFin;
-            String estado=GlobalVariables.listaGlobalObsHistorial.get(idposition).Estado;
-            String comentario=GlobalVariables.listaGlobalObsHistorial.get(idposition).Comentario;
-            String correlativo=GlobalVariables.listaGlobalObsHistorial.get(idposition).Correlativo;
+            String persona=items.get(idposition).Persona;
+            String fecha=items.get(idposition).Fecha;
+            String fechafin=items.get(idposition).FechaFin;
+            String estado=items.get(idposition).Estado;
+            String comentario=items.get(idposition).Comentario;
+            String correlativo=items.get(idposition).Correlativo;
             Intent intent = new Intent(activity, ObsFHistorialAtencionDet.class);
             intent.putExtra("correlativo",correlativo);
             intent.putExtra("Persona",persona);
@@ -230,6 +227,7 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
             intent.putExtra("Comentario",comentario);
             intent.putExtra("fechafin",fechafin);
             intent.putExtra("Correlativo",items.get(idposition).Correlativo);
+
             activity.startActivity(intent);
         }
     }

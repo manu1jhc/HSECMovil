@@ -95,6 +95,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs+"-1";
         final ActivityController obj1 = new ActivityController("get", url1, obsFacilitoDet.this,this);
         obj1.execute("2");
+
         String url2=GlobalVariables.Url_base+"ObsFacilito/GetHistorialAtencion/"+codObs;
         final ActivityController obj2 = new ActivityController("get", url2, obsFacilitoDet.this,this);
         obj2.execute("3");
@@ -155,6 +156,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
             Gson gson = new Gson();
             GetObsFHistorialModel getObsFHistorialModel = gson.fromJson(data, GetObsFHistorialModel.class);
             contPublicacion=getObsFHistorialModel.Count;
+//            getObsFHistorialModel.Data.clear();
             if(GlobalVariables.listaGlobalObsHistorial.size()==0) {
                 GlobalVariables.listaGlobalObsHistorial = getObsFHistorialModel.Data;
             }else  //{
@@ -222,17 +224,29 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         //listViewAdapter.onActivityResult(requestCode, resultCode, data);
         try{
             Gson gson = new Gson();
-            if(requestCode == 1 && resultCode == Activity.RESULT_OK) { // new plan
-                ObsFHistorialModel plan= gson.fromJson(data.getStringExtra("historial"),ObsFHistorialModel.class);
-                ca.add(plan);
+            if(GlobalVariables.flaghistorial==true) {
+                if(!data.equals(null)){
+                    ObsFHistorialModel histlast = gson.fromJson(data.getStringExtra("historial"), ObsFHistorialModel.class);
+                    if(!histlast.equals(null)){
+                        ca.add(histlast);
+                    }
+                    else {}
+                }
             }
-            if(requestCode == 2 && resultCode == Activity.RESULT_OK) { // edit plan
-                ObsFHistorialModel plan= gson.fromJson(data.getStringExtra("historial"),ObsFHistorialModel.class);
-                ca.replace(plan);
+            if(GlobalVariables.flaghistorial==false){
+                if(!data.equals(null)){
+                    ObsFHistorialModel histlast = gson.fromJson(data.getStringExtra("historial"), ObsFHistorialModel.class);
+                    if(!histlast.equals(null)){
+                        int index=data.getIntExtra("index",-1);
+                        ca.replace(histlast,index);
+                    }else {}
+                }
             }
         }
         catch (Exception ex) {
-            Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show();
+//            if(!data.equals(null)) {
+//                Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show();
+//            }
         }
     }
 

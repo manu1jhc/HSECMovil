@@ -362,12 +362,10 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                                 Actives.add(1);
                                 UpdateFiles(true);
                             }
-
                         }
                         catch (Exception ex){
                             ex.printStackTrace();
                         }
-
                     }
                 }
                 catch (Exception ex){
@@ -658,6 +656,10 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                     });
 
                 }
+                else {
+                    FinishSave();
+                    progressBar.setVisibility(View.GONE);
+                }
 
             }
         }
@@ -753,7 +755,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
 //                    btn_Salvar.setEnabled(true);
                     GlobalVariables.ObjectEditable=true;
                 }
-            });
+        });
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 if(ok&&!fail){

@@ -28,7 +28,17 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
+                <Button
+                    android:id="@+id/btn_facilito"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/transparent"
+                    android:textColor="@color/colorBlanco"
+                    android:drawableStart="@drawable/ic_facilito"
+                    app:layout_constraintStart_toEndOf="@+id/imageButton"
+                    android:textSize="18dp" />
                 <TextView
                     android:id="@+id/textViewtitle"
                     android:layout_width="271dp"
@@ -39,7 +49,7 @@
                     android:text="Agregar Atención"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ButtonGuardar"
-                    app:layout_constraintStart_toEndOf="@+id/imageButton"
+                    app:layout_constraintStart_toEndOf="@+id/btn_facilito"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
 
@@ -48,6 +58,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:shape="oval"
+
                     android:background="@drawable/transparent"
                     android:tint="@color/colorBlanco"
                     android:src="@drawable/ic_check_black_24dp"

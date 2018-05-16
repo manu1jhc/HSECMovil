@@ -148,9 +148,8 @@ public class GlobalVariables  {
     public static int num_items=7;
     public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
     //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
-
     public static boolean flagUpSc=false;
-    public  static boolean flagFacilito=true;
+    public  static boolean flagFacilito=false;
     public  static boolean flaghistorial=true;
    // public static boolean FDown=false;
    public static int count=5;

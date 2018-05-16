@@ -41,6 +41,7 @@ import com.pango.hsec.hsec.model.GetObsFHistorialModel;
 import com.pango.hsec.hsec.model.ImageEntry;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsFHistorialModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.util.Compressor;
 import com.pango.hsec.hsec.util.Picker;
 import com.pango.hsec.hsec.util.ProgressRequestBody;
@@ -88,6 +89,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     String Errores,estado;
     String codObs,correEdit;
     Gson gson;
+    int indexObd,indexHist;
     String url;
     SimpleDateFormat df,dt;
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
@@ -131,6 +133,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     if(ObsHist.Estado.equals("S")){
                         cv_fecha.setVisibility(View.VISIBLE);
                     }
+                    else {
+                        cv_fecha.setVisibility(View.GONE);
+                    }
                     adapterNivelR.notifyDataSetChanged();
                     if (pass[0]) {
                         pass[0] = false;
@@ -153,6 +158,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             Bundle data1 = this.getIntent().getExtras();
             codObs=data1.getString("codObs");
 
+
         }
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -169,6 +175,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 btnFechaInicio.setText(dt.format(actual));
                 dt = new SimpleDateFormat("yyyyMMdd");
                 fechaEscogida = dt.format(actual);
+
             }
 
         };
@@ -192,7 +199,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                             ObsHist.CodObsFacilito = codObs;
                             if (estado.equals("S")) {
                                 ObsHist.FechaFin=fecha_real;
-//                                ObsHist.FechaFin = String.valueOf(btnFechaInicio.getText());
                             } else {
                                 ObsHist.FechaFin=null;
                             }
@@ -211,8 +217,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         try {
                             ObsHist.CodObsFacilito = codObs;
                             if (estado.equals("S")) {
-                                ObsHist.FechaFin = String.valueOf(btnFechaInicio.getText());
+                                ObsHist.FechaFin = fecha_real;
                             } else {
+                                ObsHist.FechaFin=null;
                             }
                             ObsHist.Comentario = String.valueOf(txv_comentario.getText());
                             if (!ValifarFormulario(v)) return;
@@ -240,12 +247,33 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 }
             }
         });
+        btnFechaInicio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(addAtencionFHistorial.this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                Calendar tempCalendar = Calendar.getInstance();
+                tempCalendar.set(Calendar.DAY_OF_MONTH,1);
+                tempCalendar.set(Calendar.HOUR, 0);
+                tempCalendar.set(Calendar.MINUTE, 0);
+                tempCalendar.set(Calendar.SECOND, 0);
+                tempCalendar.set(Calendar.MILLISECOND, 0);
+
+                datePickerDialog.getDatePicker().setMinDate(tempCalendar.getTimeInMillis());
+                tempCalendar.set(Calendar.DAY_OF_MONTH,tempCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
+                tempCalendar.set(Calendar.MONTH, (new Date()).getMonth());
+                datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
+                datePickerDialog.show();
+
+
+            }
+        });
         if(GlobalVariables.flaghistorial==false) {
             textViewtitle.setText("Editar Atención");
             Bundle data1 = this.getIntent().getExtras();
-
             codObs=GlobalVariables.codObsHistorial;
             correEdit=data1.getString("correlativo");
+            indexHist=data1.getInt("index");
             Actives.add(0);
             String url2=GlobalVariables.Url_base+"ObsFacilito/GetHistorialAtencion/"+codObs;
             final ActivityController obj2 = new ActivityController("get", url2, addAtencionFHistorial.this,this);
@@ -304,24 +332,12 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         }
     }
     public void close(View view){
+
         finish();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
-    public void escogerFecha(View view){
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
-        Calendar tempCalendar = Calendar.getInstance();
-        tempCalendar.set(Calendar.HOUR, 0);
-        tempCalendar.set(Calendar.MINUTE, 0);
-        tempCalendar.set(Calendar.SECOND, 0);
-        tempCalendar.set(Calendar.MILLISECOND, 0);
-
-        datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
-        tempCalendar.set(Calendar.MONTH, (new Date()).getMonth() + 1);
-        datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
-        datePickerDialog.show();
     }
     @SuppressLint("NewApi")
     public void loadImage(){
@@ -479,7 +495,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         String Mensaje="Se guardaron los datos correctamente";
         ok=false;
         fail=false;
-        if(Actives.contains(1))ok=true;
+        if(Actives.contains(0)){ok=true;}
+        if(Actives.contains(1)){ok=true;}
+        if(Actives.contains(2)){ok=true;}
         if(Actives.contains(-1)){
             fail=true;
             icon=R.drawable.erroricon;
@@ -505,11 +523,29 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 if(ok&&!fail){
-                    Intent intent = getIntent();
-                    intent.putExtra("historial",gson.toJson(ObsHist));
-                    setResult(RESULT_OK, intent);
+                    if(GlobalVariables.flaghistorial==true){
+                        Gson gson = new Gson();
+                        GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+                        ObsHist.Persona=GlobalVariables.userLoaded.Nombres;
+                        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+                        Date date = Calendar.getInstance().getTime();
+                        String formattedDate = formatoRender.format(date);
+                        ObsHist.Fecha=formattedDate;
+                        ObsHist.UrlObs=GlobalVariables.userLoaded.NroDocumento;
+                        Intent intent = getIntent();
+                        intent.putExtra("historial",gson.toJson(ObsHist));
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                    if(GlobalVariables.flaghistorial==false){
+
+                        Intent intent = getIntent();
+                        intent.putExtra("historial",gson.toJson(ObsHist));
+                        intent.putExtra("index",indexHist);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
                 }
-//                btn_Salvar.setEnabled(true);
             }
         });
 
@@ -595,14 +631,15 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
 
     @Override
     public void successpost(String data, String Tipo) throws CloneNotSupportedException {
+
        if(GlobalVariables.flaghistorial==true){
 
            Gson gson = new Gson();
+           ArrayList<String> CorrelativosNuevos=new ArrayList<>();
            ObsHist.Correlativo = data.substring(1, data.length() - 1);
-
+           CorrelativosNuevos.add(ObsHist.Correlativo);
        }
         if(data.equals("-1")){
-//            UpdateFiles(false);
             Errores+="\nOcurrio un error al guardar cabezera";
             Actives.set(0,-1);
         }
@@ -643,6 +680,11 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
 
         return fecha;
 
+    }
+    public void AgregarAtencion(View view){
+        Intent intent = getIntent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
 }

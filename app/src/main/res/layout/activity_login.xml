@@ -97,7 +97,7 @@
         android:layout_marginBottom="8dp"
         android:background="@color/colorBlanco"
         android:elevation="10dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/textView21"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">

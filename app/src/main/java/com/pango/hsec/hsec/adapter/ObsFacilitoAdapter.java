@@ -46,6 +46,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import layout.FragmentObsFacilito;
 
@@ -141,11 +143,12 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                     button1.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v){
-
+                            GlobalVariables.flagFacilito=true;
                             Intent intent = new Intent(getContext(),report_obs.class);
                             intent.putExtra("codObs", data.get(position).CodObsFacilito);
                             intent.putExtra("editable",data.get(position).Editable);
                             v.getContext().startActivity(intent);
+                            popupWindow.dismiss();
                         }
                     });
                     button3.setOnClickListener(new View.OnClickListener(){
@@ -156,13 +159,20 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                             .setMessage(tempObservacion)
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
-                                    popupWindow.dismiss();
                                     ActContent.DeleteObject("ObsFacilito/Delete/"+ data.get(position).CodObsFacilito,position+2);
+//                                    final Timer t = new Timer();
+//                                    t.schedule(new TimerTask() {
+//                                        public void run() {
+                                            popupWindow.dismiss();
+//                                            t.cancel();
+//                                        }
+//                                    }, 2000);
                                 }
                             })
                                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             // do nothing
+                                            popupWindow.dismiss();
                                         }
                                     })
                                     .setIcon(android.R.drawable.ic_dialog_alert)

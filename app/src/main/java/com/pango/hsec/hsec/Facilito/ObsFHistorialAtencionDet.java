@@ -2,6 +2,7 @@ package com.pango.hsec.hsec.Facilito;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -28,6 +29,7 @@ public class ObsFHistorialAtencionDet extends AppCompatActivity implements IActi
     TextView tx_codigohistorial,tx_atendidopor,tx_fechaatendido,tx_txestado,tx_coments,tx_fechafin;
     private ArrayList<GaleriaModel> DataImg;
     private RecyclerView gridView;
+    private CardView cv_fechafin;
     private GridViewAdapter gridViewAdapter;
     String codObs,persona,fecha,estado,comentario,fechafin,correlativo;
     ArrayList<Maestro> ObsFacilito_estado;
@@ -42,6 +44,7 @@ public class ObsFHistorialAtencionDet extends AppCompatActivity implements IActi
         tx_coments=(TextView) findViewById(R.id.tx_coments);
         tx_fechafin=(TextView) findViewById(R.id.tx_fechafin);
         gridView = (RecyclerView)  findViewById(R.id.gridGaleria);
+        cv_fechafin=(CardView) findViewById(R.id.cv_fechafin);
         DataImg = new ArrayList<>();
         Bundle data1 = this.getIntent().getExtras();
         correlativo=data1.getString("correlativo");
@@ -67,6 +70,9 @@ public class ObsFHistorialAtencionDet extends AppCompatActivity implements IActi
         tx_fechaatendido.setText(String.valueOf(Obtenerfecha(fecha)));
         tx_txestado.setText(ObtenerDet(estado));
         tx_coments.setText(String.valueOf(comentario));
+        if(estado.equals("S")){
+            cv_fechafin.setVisibility(View.VISIBLE);
+        }
         try
         {
             if(!fechafin.equals(null)){
@@ -128,4 +134,5 @@ public class ObsFHistorialAtencionDet extends AppCompatActivity implements IActi
         }
         return estado;
     }
+
 }

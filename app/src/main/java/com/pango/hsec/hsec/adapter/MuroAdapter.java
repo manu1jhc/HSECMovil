@@ -182,7 +182,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         cv3.setVisibility(View.VISIBLE);
                     }
                     else if(edit.equals("2")){
-                        cv2.setVisibility(View.VISIBLE);
+                        cv1.setVisibility(View.VISIBLE);
+                        cv3.setVisibility(View.VISIBLE);
                     }
                     else if(edit.equals("3")){
                         cv1.setVisibility(View.VISIBLE);
@@ -201,16 +202,16 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                             v.getContext().startActivity(intent);
                         }
                     });
-                    button2.setOnClickListener(new View.OnClickListener(){
-                        @Override
-                        public void onClick(View v){
-                            popupWindow.dismiss();
-                            Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
-                            intent.putExtra("codObs", data.get(position).Codigo);
-                            v.getContext().startActivity(intent);
-                        }
-                    });
-//                    }
+//                    button2.setOnClickListener(new View.OnClickListener(){
+//                        @Override
+//                        public void onClick(View v){
+//                            popupWindow.dismiss();
+//                            Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
+//                            intent.putExtra("codObs", data.get(position).Codigo);
+//                            v.getContext().startActivity(intent);
+//                        }
+//                    });
+//                  }
                     button3.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v) {

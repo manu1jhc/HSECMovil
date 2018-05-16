@@ -31,16 +31,32 @@ tools:context="com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet">
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/textViewtitle"
-            android:layout_width="304dp"
-            android:layout_height="50dp"
-            android:gravity="center|center_vertical"
-            android:text="Detalle de Atención"
+        <Button
+            android:id="@+id/btn_facilito"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/transparent"
             android:textColor="@color/colorBlanco"
-            android:textSize="16sp"
+            android:drawableEnd="@drawable/ic_facilito"
+            app:layout_constraintStart_toEndOf="@+id/imageButton"
+            android:textSize="18dp" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:text="Detalle facilito/Atención"
+            android:textColor="@color/colorBlanco"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageButton" />
+            app:layout_constraintStart_toEndOf="@+id/btn_facilito"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>
 <ProgressBar
@@ -240,6 +256,7 @@ tools:context="com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet">
             android:id="@+id/cv_fechafin"
             android:layout_width="match_parent"
             android:layout_height="50dp"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv_ubicacion">
@@ -337,7 +354,7 @@ tools:context="com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet">
                     android:layout_marginEnd="2dp"
                     android:background="@color/ColorPlomo4"
                     android:gravity="center"
-                    android:text="Galeria de Imagenes:"
+                    android:text="Galería de Imágenes:"
                     android:textSize="12sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/btn_galeria"

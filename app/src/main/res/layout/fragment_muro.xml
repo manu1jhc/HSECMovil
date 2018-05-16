@@ -42,7 +42,7 @@
                     android:background="@color/Colorbtncreate"
                     android:textColor="@color/colorBlanco"
                     android:drawableStart="@drawable/ic_facilito"
-                    android:text="Facilito"
+                    android:text="facilito"
 
                     android:textSize="10dp" />
 

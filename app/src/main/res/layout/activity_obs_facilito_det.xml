@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     tools:context="com.pango.hsec.hsec.Facilito.obsFacilitoDet">
 
@@ -29,33 +29,30 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/imageView20"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="8dp"
-                android:cropToPadding="false"
-                android:src="@drawable/ic_minero"
-                app:layout_constraintBottom_toBottomOf="parent"
+            <Button
+                android:id="@+id/btn_facilito"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/transparent"
+                android:textColor="@color/colorBlanco"
+                android:drawableEnd="@drawable/ic_facilito"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                android:textSize="18dp" />
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center_vertical"
-
-                android:text="HSEC"
+                android:layout_marginLeft="5dp"
+                android:text="Detalle facilito"
                 android:textColor="@color/colorBlanco"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintStart_toEndOf="@+id/btn_facilito"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
@@ -63,12 +60,12 @@
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/contenedor"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -76,36 +73,12 @@
         <!--android:visibility="invisible"-->
 
     <android.support.v7.widget.CardView
-        android:id="@+id/cv1"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        app:cardBackgroundColor="@color/colorplomosplash2"
-        >
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:paddingBottom="10dp"
-                android:text="Detalle Observacion"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
         android:id="@+id/cv2"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cv1"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,7 +92,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="0.65"
-                android:text="Codigo Obs"
+                android:text="Código Obs"
                 android:gravity="left|center"
                 android:textStyle="bold" />
 
@@ -196,7 +169,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="0.65"
-                android:text="Tipo Observacion"
+                android:text="Tipo Observación"
                 android:gravity="left|center"
                 android:textStyle="bold" />
 
@@ -348,7 +321,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="0.65"
-                android:text="Ubicacion Exacta"
+                android:text="Ubicación Exacta"
                 android:gravity="left|center"
                 android:textStyle="bold" />
 
@@ -386,7 +359,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
-                android:text="Observacion"
+                android:text="Observación"
                 android:gravity="left|center"
                 android:textStyle="bold" />
 
@@ -425,7 +398,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="0.65"
-                android:text="Accion a tomar"
+                android:text="Acción a tomar"
                 android:gravity="left|center"
                 android:textStyle="bold" />
 
@@ -464,7 +437,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_weight="0.65"
-                android:text="Fecha Creacion"
+                android:text="Fecha Creación"
                 android:gravity="left|center"
                 android:textStyle="bold" />
 
@@ -499,7 +472,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:paddingBottom="10dp"
-                android:text="Galeria Imagenes"
+                android:text="Galería Imágenes"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -542,15 +515,6 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_margin="2dp"
                 android:orientation="horizontal"
                 android:weightSum="1">
-
-                <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingBottom="10dp"-->
-                <!--android:text="Historial de Atención"-->
-                <!--android:textSize="18sp"-->
-                <!--android:textStyle="bold" />-->
                 <TextView
                     android:id="@+id/historial"
                     android:layout_width="0dp"
@@ -582,27 +546,35 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/cv12"/>
-        <!--<android.support.v7.widget.CardView-->
-            <!--android:id="@+id/cv13"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="2dp"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintHorizontal_bias="0.0"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/cv12">-->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/colorBlanco"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/list_ObsHistorial">
 
-            <!--<android.support.constraint.ConstraintLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="2dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <TextView
+                    android:id="@+id/historial1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/list_ObsHistorial"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content" />-->
-            <!--</android.support.constraint.ConstraintLayout>-->
-        <!--</android.support.v7.widget.CardView>-->
-
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
     </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

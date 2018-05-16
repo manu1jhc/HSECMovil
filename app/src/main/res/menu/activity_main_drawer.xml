@@ -31,7 +31,7 @@
         <item
             android:id="@+id/nav_listaobs"
             android:icon="@drawable/ic_format_list_numbered_black_24dp"
-            android:title="Seguimiento Observaciones"/>
+            android:title="Seguimiento reporte facilito"/>
     </group>
 
     <item android:title="Más Opciones">
