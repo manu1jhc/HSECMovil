@@ -141,8 +141,8 @@ public class FichaObservacionAdapter extends ArrayAdapter<PublicacionModel> {
                     }
                 });
 
-                button1.setText("  Editar Observación");
-                button3.setText("  Eliminar Observación");
+                button1.setText("  Editar observación");
+                button3.setText("  Eliminar observación");
                 if(edit.equals("1")){
                     cv1.setVisibility(View.VISIBLE);
                     cv3.setVisibility(View.VISIBLE);
@@ -181,7 +181,7 @@ public class FichaObservacionAdapter extends ArrayAdapter<PublicacionModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Observacion?")
+                        alertDialog.setTitle("Desea eliminar observacion?")
                                 .setMessage(tempDetalle)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

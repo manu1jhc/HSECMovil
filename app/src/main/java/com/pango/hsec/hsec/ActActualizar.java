@@ -23,7 +23,6 @@ public class ActActualizar extends AppCompatActivity {
         setContentView(R.layout.act_actualizar);
         final String urlPlay = "https://play.google.com/store/apps/details?id=com.pango.hsec.hsec";
 
-
         // con este tema personalizado evitamos los bordes por defecto
         customDialog = new Dialog(this,R.style.Theme_Dialog_Translucent);
         //deshabilitamos el título por defecto
@@ -38,7 +37,6 @@ public class ActActualizar extends AppCompatActivity {
 
         TextView contenido = (TextView) customDialog.findViewById(R.id.contenido);
         contenido.setText("Estimado usuario hay una nueva versión de Antapaccay Movil disponible, ¿Deseas instalarla ahora?");
-
         ((Button) customDialog.findViewById(R.id.aceptar)).setOnClickListener(new View.OnClickListener() {
 
             @Override

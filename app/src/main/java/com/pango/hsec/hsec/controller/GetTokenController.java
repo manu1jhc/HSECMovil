@@ -19,10 +19,15 @@ import com.pango.hsec.hsec.model.UsuarioModel;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 /**
@@ -33,7 +38,6 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     IActivity activity;
     String url_token;
     ProgressBar progressDialog;
-    String Tipo="";
 
     //int con_status;
     String token_auth;
@@ -42,6 +46,16 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
         this.activity = activity;
         this.url_token = url_token;
         this.progressDialog=prog;
+    }
+
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+        inputStream.close();
+        return result;
     }
 
     @Override
@@ -59,30 +73,32 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     @Override
     protected Void doInBackground(String... strings) {
         String json=strings[0];
+        HttpClient httpclient = new DefaultHttpClient();
+        InputStream inputStream = null;
+        String result = "";
 
         try {
-            Tipo=json;
-            HttpClient httpClient = new DefaultHttpClient();
-            HttpGet get = new HttpGet(url_token);
-            get.setHeader("Content-type", "application/json");
-            HttpResponse response = httpClient.execute(get);
-            String respstring2 = EntityUtils.toString(response.getEntity());
-            GlobalVariables.con_status = response.getStatusLine().getStatusCode();
-            if (respstring2.equals("")) {
-                GlobalVariables.token_auth = "";
-                // GlobalVariables.con_status =0;
-            } else {
-                GlobalVariables.token_auth = respstring2.substring(1, respstring2.length() - 1);
-                //Utils.token=respstring2.substring(1, respstring2.length() - 1);
+            HttpPost httpPost = new HttpPost (url_token);
 
-            }
+            StringEntity se = new StringEntity(json,"UTF-8");
+            httpPost.setEntity(se);
+            httpPost.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse = httpclient.execute(httpPost);
+            GlobalVariables.con_status=httpResponse.getStatusLine().getStatusCode();
+
+            inputStream = httpResponse.getEntity().getContent();
+            if(inputStream != null)
+                result = convertInputStreamToString(inputStream);
+            else  result = "Error al obtener token!";
+
+            String responsepost= GlobalVariables.reemplazarUnicode(result);
+            GlobalVariables.token_auth = responsepost.substring(1, responsepost.length() - 1);
+
             //conseguir la data de usuario
             if(GlobalVariables.token_auth.length()>40) {
                 Obtener_dataUser();
                 LoadData();
-
                 LoadDataMuro();
-
             }
 
         } catch (IOException e) {
@@ -117,7 +133,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
             default:
                 if(GlobalVariables.token_auth.length()>40){
                     try {
-                        activity.success(""+GlobalVariables.con_status,Tipo);
+                        activity.success(""+GlobalVariables.con_status,"1");
                     } catch (CloneNotSupportedException e) {
                         e.printStackTrace();
                     }
@@ -127,8 +143,6 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                     //Toast.makeText((Context) activity,GlobalVariables.token_auth,Toast.LENGTH_SHORT).show();
                     break;
                 }
-
-
 
                // activity.success(""+GlobalVariables.con_status,"");
 

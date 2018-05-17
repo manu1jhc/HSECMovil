@@ -148,8 +148,8 @@ public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
                         popupWindow.dismiss();
                     }
                 });
-                button1.setText("  Editar Inspeción");
-                button3.setText("  Eliminar Inspeción");
+                button1.setText("  Editar inspección");
+                button3.setText("  Eliminar inspección");
                 if(edit.equals("1")){
                     cv1.setVisibility(View.VISIBLE);
                     cv3.setVisibility(View.VISIBLE);
@@ -179,7 +179,7 @@ public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Inspeccion?")
+                        alertDialog.setTitle("Desea eliminar inspeccion?")
                                 .setMessage(data.get(position).Obs)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

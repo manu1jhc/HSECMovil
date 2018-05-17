@@ -35,6 +35,7 @@ import com.pango.hsec.hsec.Busquedas.Busqueda;
 import com.pango.hsec.hsec.Facilito.list_obsfacilito;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Facilito.report_obs;
+import com.pango.hsec.hsec.Ficha.BusqEstadistica;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
@@ -250,6 +251,7 @@ public class FragmentMuro extends Fragment implements IActivity{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
                 String Codigo=GlobalVariables.listaGlobal.get(position).Codigo;
+                String Editable=GlobalVariables.listaGlobal.get(position).Editable;
                 Intent intent;
                 switch (Codigo.substring(0,3)){
                     case "OBS":
@@ -278,9 +280,9 @@ public class FragmentMuro extends Fragment implements IActivity{
                     case "OBF":
                         intent = new Intent(getActivity(), obsFacilitoDet.class);
                         intent.putExtra("codObs",Codigo);
-                        //intent.putExtra("posTab",0);
-                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                        intent.putExtra("verBoton",Editable);
                         startActivity(intent);
+
                         break;
                 }
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);

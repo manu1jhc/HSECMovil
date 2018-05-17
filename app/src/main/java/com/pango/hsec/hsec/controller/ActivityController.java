@@ -137,7 +137,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
         inputStream.close();
         return result;
-
     }
 
     @Override

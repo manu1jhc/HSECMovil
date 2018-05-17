@@ -22,7 +22,7 @@
             android:id="@+id/Carview_New"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
+            app:cardBackgroundColor="@color/Colorbtncreate"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,11 +38,14 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
                     android:background="@color/Colorbtncreate"
+                    android:drawableStart="@drawable/ic_add_circle_outline_black_24dp"
+                    android:drawableEnd="@drawable/ic_facilito"
+                    android:text="Facilito"
                     android:textColor="@color/colorBlanco"
-                    android:drawableStart="@drawable/ic_facilito"
-                    android:text="facilito"
 
                     android:textSize="10dp" />
 
@@ -53,8 +56,9 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@color/Colorbtncreate"
-                    android:drawableLeft="@drawable/ic_iobservacion"
-                    android:text="Observaciones"
+                    android:drawableStart="@drawable/ic_add_circle_outline_black_24dp"
+                    android:drawableEnd="@drawable/ic_iobservacion"
+                    android:text="Observación"
                     android:textColor="@color/colorBlanco"
                     android:textSize="10dp" />
 
@@ -64,9 +68,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="7dp"
                     android:background="@color/Colorbtncreate"
-                    android:drawableLeft="@drawable/ic_iinspeccion"
-                    android:text="Inspecciones"
+                    android:drawableStart="@drawable/ic_add_circle_outline_black_24dp"
+                    android:drawableEnd="@drawable/ic_iinspeccion"
+                    android:text="Inspección"
                     android:textColor="@color/colorBlanco"
                     android:textSize="10dp" />
 

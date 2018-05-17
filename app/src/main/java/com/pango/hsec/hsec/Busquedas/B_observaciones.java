@@ -49,7 +49,8 @@ public class B_observaciones extends AppCompatActivity {
     Calendar myCalendar,myCalendar2;
     DatePickerDialog.OnDateSetListener date, datefin;
     DialogFragment newFragment;
-    Button btnFechaInicio,btnFechaFin,btnbuscar;
+    Button btnFechaInicio,btnFechaFin;
+    ImageButton btnbuscar;
     Spinner spinnerArea,spinnerTipoObs, spinnerNivel, spinnerGerencia,spinnerSuperInt;
     String Ubicacionfinal="",TipoObs;
     EditText codObs;
@@ -82,7 +83,7 @@ public class B_observaciones extends AppCompatActivity {
         codObs=(EditText) findViewById(R.id.id_CodObservacion);
         btnFechaInicio=(Button) findViewById(R.id.btn_fecha_desde);
         btnFechaFin=(Button) findViewById(R.id.btn_fecha_fin);
-        btnbuscar=(Button) findViewById(R.id.btn_buscar_obs);
+        btnbuscar=(ImageButton) findViewById(R.id.btn_buscar_obs);
         btn_buscar_p=(ImageView) findViewById(R.id.btn_buscar_p);
         id_persona=(TextView) findViewById(R.id.id_persona);
 

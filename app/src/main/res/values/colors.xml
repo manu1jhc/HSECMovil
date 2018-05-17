@@ -58,8 +58,8 @@
     <color name="colornegro">#000000</color>
 
 
-    <color name="button_normal">#929392</color>
-    <color name="button_pressed">#c0c1c0</color>
+    <color name="button_normal">#005792</color>
+    <color name="button_pressed">#005F92</color>
     <color name="dialog_divider">@android:color/black</color>
 
 </resources>

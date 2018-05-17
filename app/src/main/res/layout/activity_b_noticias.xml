@@ -35,10 +35,9 @@
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="80dp"
                 android:layout_marginTop="8dp"
                 android:cropToPadding="false"
-                android:src="@drawable/ic_minero"
+                android:src="@drawable/ic_iobservacion"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -47,36 +46,29 @@
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center_vertical"
 
-                android:text="HSEC"
+                android:gravity="center_vertical"
+                android:text="Noticias/Filtro"
                 android:textColor="@color/colorBlanco"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btn_buscar"
                 app:layout_constraintStart_toEndOf="@+id/imageView20"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <ImageButton
+                android:id="@+id/btn_buscar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/transparent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_search"
+                tools:ignore="VectorDrawableCompat" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Búsqueda de noticias"
-        android:gravity="center"
-        android:textColor="@color/colorBlanco"
-        android:background="@color/colorBtnBeige"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
-    <!--  code  -->
-
-
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -343,21 +335,6 @@
 
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-
-
-            <Button
-                android:id="@+id/btn_buscar"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/ColorVerdoso"
-                android:text="Buscar"
-                android:layout_marginBottom="-5dp"
-                android:textColor="@color/colorBlanco"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
 
         </android.support.constraint.ConstraintLayout>
 

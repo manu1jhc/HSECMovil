@@ -24,7 +24,8 @@ public class B_noticias extends AppCompatActivity {
     public static final int REQUEST_CODE = 1;
 
     DatePickerDialog.OnDateSetListener date, datefin;
-    Button btnFechaInicio,btnFechaFin,btnbuscar;
+    Button btnFechaInicio,btnFechaFin;
+    ImageButton btnbuscar;
     boolean escogioFecha;
     String fechaEscogida;
     EditText codNoticia,titulo;
@@ -42,7 +43,7 @@ public class B_noticias extends AppCompatActivity {
         titulo=(EditText) findViewById(R.id.id_titulo);
         btnFechaInicio=(Button) findViewById(R.id.btn_fecha_desde);
         btnFechaFin=(Button) findViewById(R.id.btn_fecha_fin);
-        btnbuscar=(Button) findViewById(R.id.btn_buscar);
+        btnbuscar=(ImageButton) findViewById(R.id.btn_buscar);
         id_persona=(TextView) findViewById(R.id.id_persona);
         btn_buscar_p=(ImageButton) findViewById(R.id.btn_buscar_p);
 

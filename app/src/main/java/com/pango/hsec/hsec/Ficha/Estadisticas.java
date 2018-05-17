@@ -53,10 +53,10 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             anio=2018;
         }
             //int inc=0;
-            GlobalVariables.busqueda_anio = new String[anio - 2014 + 1];
-
+            GlobalVariables.busqueda_anio = new String[anio - 2014 + 2];
+        GlobalVariables.busqueda_anio[0]="*";
             for (int i = 0; i <= anio - 2014; i++) {
-                GlobalVariables.busqueda_anio[i] = String.valueOf(anio - i);
+                GlobalVariables.busqueda_anio[i+1] = String.valueOf(anio - i);
                 //inc+=1;
             }
 
@@ -64,7 +64,7 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
         ArrayAdapter adapterAnio = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.busqueda_anio);
         adapterAnio.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         sp_anio.setAdapter(adapterAnio);
-
+        sp_anio.setSelection(find(anio+""));
         sp_anio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -191,5 +191,15 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
     @Override
     public void error(String mensaje, String Tipo) {
 
+    }
+
+    public int find(String anio){
+        int pdata=0;
+        for (int j=0;j<GlobalVariables.busqueda_anio.length;j++){
+            if(anio.equals(GlobalVariables.busqueda_anio[j])){
+                pdata=j;
+            }
+        }
+        return pdata;
     }
 }

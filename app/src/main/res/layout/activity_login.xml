@@ -97,7 +97,7 @@
         android:layout_marginBottom="8dp"
         android:background="@color/colorBlanco"
         android:elevation="10dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/textView21"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -193,7 +193,7 @@
                     android:drawableLeft="@drawable/ic_password"
                     android:drawablePadding="10dp"
                     android:drawableStart="@drawable/ic_password"
-                    android:hint="Password"
+                    android:hint="Contraseña"
                     android:inputType="textPassword"
                     android:theme="@style/EditText" />
 
@@ -289,7 +289,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:text="© Compañia Minera Antapaccay S.A 2018"
+        android:text="© Compañia Minera Antapaccay S.A. 2018"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -58,7 +58,7 @@ package com.pango.hsec.hsec.adapter;
 public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
     //    LayoutInflater layoutInflater;
     View popupView;
-    PopupWindow popupWindow;
+    public PopupWindow popupWindow;
     private Context context;
     ArrayList<Maestro> ObsFacilito_estado;
     BusqEstadistica ActContent;
@@ -151,7 +151,7 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Observacion")
+                        alertDialog.setTitle("Desea eliminar reporte facilito")
                                 .setMessage(tempObservacion)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
@@ -174,14 +174,20 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
         fecha.setText(Obtenerfecha(tempFecha));
         estado.setText(ObtenerDet(tempEstado));
         tx_det.setText(tempObservacion);
-        if (tempTipo == null) {
+        if (tempEstado == null) {
             riesgo.setVisibility(View.INVISIBLE);
-        } else if (tempTipo.equals("A")) {
+        } else if (tempEstado.equals("P")) {
             riesgo.setImageResource(R.drawable.ic_alertaroja);
             tipo.setText("Acto");
 
-        } else if (tempTipo.equals("C")) {
+        } else if (tempEstado.equals("A")) {
+            riesgo.setImageResource(R.drawable.ic_alertaverde);
+            tipo.setText("Condicion");
+        } else if (tempEstado.equals("S")) {
             riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
+            tipo.setText("Condicion");
+        } else if (tempEstado.equals("O")) {
+            riesgo.setImageResource(R.drawable.ic_interrogacion);
             tipo.setText("Condicion");
         }
 

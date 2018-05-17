@@ -101,6 +101,7 @@ public class MainActivity extends AppCompatActivity
     PopupWindow popupWindow;
     DrawerLayout drawerLayout;
     ImageButton buscar;
+    TextView Title_txt;
     String lastTag;
 
     ArrayList<Maestro> spdatasearch = new ArrayList<>();
@@ -298,6 +299,7 @@ public class MainActivity extends AppCompatActivity
         });
 
             searchView.setOnQueryTextListener(this);
+            searchView.setFocusable(false);
                 rl1.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
@@ -359,7 +361,7 @@ public class MainActivity extends AppCompatActivity
         ObsFacilito,
         Observaciones,
         Inspecciones,
-        Avanzado,
+        Feedback,
         Configuracion,
         Contactenos,
         PlanPendiente
@@ -373,6 +375,7 @@ public class MainActivity extends AppCompatActivity
         disableShiftMode(bottomNavigationView);
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         buscar=findViewById(R.id.btn_buscar);
+        Title_txt= (TextView)findViewById(R.id.txtTitleMain);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
         GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //0
@@ -382,7 +385,7 @@ public class MainActivity extends AppCompatActivity
 
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
-        spdatasearch.add(new Maestro(R.drawable.ic_equalizer,"0","Todos"));
+        spdatasearch.add(new Maestro(R.drawable.ic_all_options,"0","Todos"));
         spdatasearch.add(new Maestro(R.drawable.ic_facilito,"1","Facilito"));
         spdatasearch.add(new Maestro(R.drawable.ic_iobservacion,"2","Observación"));
         spdatasearch.add(new Maestro(R.drawable.ic_iinspeccion,"3","Inspección"));
@@ -453,6 +456,7 @@ public class MainActivity extends AppCompatActivity
                     else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
                     else passdismis=false;
                 }
+                else passdismis=false;
 
                 if(!passdismis){
                     fragmentManager = getSupportFragmentManager();
@@ -511,7 +515,6 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-
     public void DeleteObject(String Url, int index){
         String url= GlobalVariables.Url_base+Url;
         ActivityController obj = new ActivityController("get", url, this,this);
@@ -521,31 +524,11 @@ public class MainActivity extends AppCompatActivity
     public void openFichaPersona(){
 
         ChangeFragment(NavigationFragment.FichaPersonal);
-        buscar.setVisibility(View.INVISIBLE);
         GlobalVariables.isUserlogin=false;
         uncheckItemsMenu();
         ClickMenuFicha();
         if(popupWindow!=null)popupWindow.dismiss();
     }
-    public void SelectFragmenSpecific(String Tipo,Fragment fragment){
-        uncheckItemsMenu();
-        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("C"))
-            buscar.setVisibility(View.VISIBLE);
-        else buscar.setVisibility(View.INVISIBLE);
-
-        showFragment(R.id.content,fragment,Tipo,false);
-        GlobalVariables.apilarFrag(fragment,Tipo);
-        /*
-        switch (Tipo){
-            //case "A": ChangeFragment(NavigationFragment.Muro); break;
-            case "B": ChangeFragment(NavigationFragment.FichaPersonal); break;
-            //case "C": ChangeFragment(NavigationFragment.Observaciones); break;
-            //case "D": ChangeFragment(NavigationFragment.Inspecciones); break;
-            //case "E": ChangeFragment(NavigationFragment.Avanzado); break;
-        }*/
-
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -557,19 +540,6 @@ public class MainActivity extends AppCompatActivity
             Intent myIntent = new Intent(this, report_obs.class);
             startActivity(myIntent);
 
-        }
-        /*
-        else if (id == R.id.nav_aprobaciones) {
-
-            Toast.makeText(this, "nav_Aprobaciones", Toast.LENGTH_SHORT).show();
-        }*/
-        else if (id == R.id.nav_listaobs) {
-            buscar.setVisibility(View.INVISIBLE);
-
-            Menu menu = navigationView.getMenu();
-            uncheckItems(menu);
-            ClickMenuObsFacilito();
-            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
         }
         else if (id == R.id.nav_observacion) {
 
@@ -590,7 +560,6 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "nav_inspeccion", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.nav_ficha) {
-            buscar.setVisibility(View.INVISIBLE);
             Gson gson = new Gson();
             GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
             GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
@@ -600,34 +569,33 @@ public class MainActivity extends AppCompatActivity
 
 
         }else if (id == R.id.nav_pendientes){
-
-            buscar.setVisibility(View.INVISIBLE);
-
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
             ClickPendientes();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+        }
+        else if (id == R.id.nav_feedback) {
 
-
-        }else if (id == R.id.nav_Contactenos){
-            buscar.setVisibility(View.INVISIBLE);
-
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickMenuFeedBack();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+        }
+        else if (id == R.id.nav_Contactenos){
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
             ClickMenuContactenos();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
 
-        }else if (id == R.id.nav_configuracion){
-            buscar.setVisibility(View.INVISIBLE);
+        }
+        /*else if (id == R.id.nav_configuracion){
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
 
             ClickMenuConfiguracion();
-            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
-
-
-        }else if(id == R.id.nav_cerrar){
-            buscar.setVisibility(View.INVISIBLE);
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true)
+        }*/
+        else if(id == R.id.nav_cerrar){
 
             Save_status(false);
             Save_Datalogin("","");
@@ -649,16 +617,12 @@ public class MainActivity extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_muro:
-                    //setTitle("Antapaccay");
-                    buscar.setVisibility(View.VISIBLE);
-
                     ChangeFragment(NavigationFragment.Muro);
                     //bottomNavigationView.setVisibility(View.GONE);
                     uncheckItemsMenu();
                     return true;
 
                 /*case R.id.navigation_aprob:
-                    buscar.setVisibility(View.INVISIBLE);
 
                     uncheckItemsMenu();
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
@@ -666,8 +630,6 @@ public class MainActivity extends AppCompatActivity
                     return true;
                     */
                 case R.id.navigation_ficha:
-                    buscar.setVisibility(View.INVISIBLE);
-
                     GlobalVariables.isUserlogin=true;
                     GlobalVariables.barTitulo=true;
                     uncheckItemsMenu();
@@ -676,23 +638,18 @@ public class MainActivity extends AppCompatActivity
                     //navigationView.getMenu().findItem(R.id.nav_videos).setChecked(true);
                     return true;
             /*    case R.id.navigation_registro:
-                    buscar.setVisibility(View.INVISIBLE);
 
                     uncheckItemsMenu();
                     ClickMenuRegistro();
                     return true;
                     */
                 case R.id.navigation_observacion:
-                    buscar.setVisibility(View.VISIBLE);
-
                     uncheckItemsMenu();
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
                     ClickMenuObservacion();
                     return true;
 
                 case R.id.navigation_inspeccion:
-                    buscar.setVisibility(View.VISIBLE);
-
                     uncheckItemsMenu();
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
                     ClickMenuInspeccion();
@@ -700,8 +657,6 @@ public class MainActivity extends AppCompatActivity
 
 
                 case R.id.navigation_avanzado:
-                    buscar.setVisibility(View.INVISIBLE);
-
                     uncheckItemsMenu();
                     ClickMenuAvanzado();
                     return true;
@@ -741,7 +696,7 @@ public class MainActivity extends AppCompatActivity
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_avanzado).setChecked(true);
         bottomNavigationView.setVisibility(View.VISIBLE);
-        ChangeFragment(NavigationFragment.Avanzado);
+        ChangeFragment(NavigationFragment.ObsFacilito);
 
     }
 
@@ -751,9 +706,10 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void ClickMenuObsFacilito() {
+    private void ClickMenuFeedBack() {
         uncheckItemsMenu();
-        ChangeFragment(NavigationFragment.ObsFacilito);
+        ChangeFragment(NavigationFragment.Feedback);
+
     }
 
     private void ClickMenuContactenos() {
@@ -799,22 +755,29 @@ public class MainActivity extends AppCompatActivity
 
     public void ChangeFragment(NavigationFragment value){
         Fragment fragment = null;
-        String Tipo="A";
+        String Tipo="A",Title="HSEC";
         switch (value) {
             case Muro:    fragment = new FragmentMuro(); break;
             //case Aprobaciones:    fragment = new FragmentAprobaciones(); break;
-            case FichaPersonal: fragment = new FragmentFichaPersonal(); Tipo="B"; break;
-            case Observaciones: fragment = new FragmentObservaciones(); Tipo="C"; break;
+            case FichaPersonal: fragment = new FragmentFichaPersonal(); Tipo="B";  Title="Ficha"; break;
+            case Observaciones: fragment = new FragmentObservaciones(); Tipo="C"; Title="Observaciones"; break;
+            case Inspecciones: fragment = new FragmentInspecciones();  Tipo="D";Title="Inspecciones"; break;
+            case ObsFacilito: fragment = new FragmentObsFacilito(); Tipo="I"; Title="Reportes facilito"; break;
+            case Feedback: fragment = new FragmentAvanzado(); Tipo="E"; Title="Feedback"; break;
+            case Configuracion: fragment = new FragmentConfiguracion();  Tipo="F";Title="Configuración"; break;
+            case Contactenos: fragment = new FragmentContactenos();  Tipo="G";Title="Contactenos"; break;
+            case PlanPendiente: fragment = new FragmentPlanPendiente();  Tipo="H";Title="Planes de acción"; break;
 
-            case Inspecciones: fragment = new FragmentInspecciones();  Tipo="D";break;
-
-            case Avanzado: fragment = new FragmentAvanzado(); Tipo="E"; break;// configuracion
-            case Configuracion: fragment = new FragmentConfiguracion();  Tipo="F";break;
-            case Contactenos: fragment = new FragmentContactenos();  Tipo="G";break;
-            case PlanPendiente: fragment = new FragmentPlanPendiente();  Tipo="H";break;
-            case ObsFacilito: fragment = new FragmentObsFacilito(); Tipo="I"; break;
         }
         lastTag=Tipo;
+        // button Search
+        Title_txt.setText(Title);
+        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I"))
+            buscar.setVisibility(View.VISIBLE);
+        else buscar.setVisibility(View.INVISIBLE);
+
+        //changue values of menu title
+
         if(!Tipo.equals("A")) {
             GlobalVariables.passHome=true;
             FragmentMuro temp= (FragmentMuro)GlobalVariables.fragmentStack.get(0);

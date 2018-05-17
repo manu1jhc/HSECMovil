@@ -40,7 +40,8 @@ public class B_inspecciones extends AppCompatActivity {
     DatePickerDialog.OnDateSetListener date, datefin;
     DialogFragment newFragment;
 
-    Button btnFechaInicio,btnFechaFin,btnbuscar;
+    Button btnFechaInicio,btnFechaFin;
+    ImageButton btnbuscar;
     Spinner spinnerUbicacion,spinnerSubUbicacion, spinnerGerencia,spinnerSuperInt;
     String Ubicacionfinal="",TipoObs;
     boolean escogioFecha;
@@ -77,7 +78,7 @@ public class B_inspecciones extends AppCompatActivity {
         btnFechaInicio=(Button) findViewById(R.id.btn_fecha_desde);
         btnFechaFin=(Button) findViewById(R.id.btn_fecha_fin);
 
-        btnbuscar=(Button) findViewById(R.id.btn_buscar_insp);
+        btnbuscar=(ImageButton) findViewById(R.id.btn_buscar_insp);
 
         btn_buscar_p=(ImageButton) findViewById(R.id.btn_buscar_p);
         id_persona=(TextView) findViewById(R.id.id_persona);

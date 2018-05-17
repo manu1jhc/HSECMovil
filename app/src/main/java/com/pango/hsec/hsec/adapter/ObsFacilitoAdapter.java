@@ -185,14 +185,20 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         fecha.setText(Obtenerfecha(tempFecha));
         estado.setText(ObtenerDet(tempEstado));
         tx_det.setText(tempObservacion);
-        if (tempTipo == null) {
+        if (tempEstado == null) {
             riesgo.setVisibility(View.INVISIBLE);
-        } else if (tempTipo.equals("A")) {
+        } else if (tempEstado.equals("P")) {
             riesgo.setImageResource(R.drawable.ic_alertaroja);
             tipo.setText("Acto");
 
-        } else if (tempTipo.equals("C")) {
+        } else if (tempEstado.equals("A")) {
+            riesgo.setImageResource(R.drawable.ic_alertaverde);
+            tipo.setText("Condicion");
+        } else if (tempEstado.equals("S")) {
             riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
+            tipo.setText("Condicion");
+        } else if (tempEstado.equals("O")) {
+            riesgo.setImageResource(R.drawable.ic_interrogacion);
             tipo.setText("Condicion");
         }
 

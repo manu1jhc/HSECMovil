@@ -166,6 +166,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
                     cv3.setVisibility(View.VISIBLE);
                 }
                 button1.setText("  Editar plan de acción");
+                button3.setText("  Eliminar plan de acción");
                 button1.setOnClickListener(new View.OnClickListener(){
                     @Override
                     public void onClick(View v){
@@ -181,7 +182,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Observacion")
+                        alertDialog.setTitle("Desea eliminar plan de acción?")
                                 .setMessage(data.get(position).DesPlanAccion)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

@@ -165,10 +165,10 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             anio=2018+"";
         }
         //int inc=0;
-        GlobalVariables.busqueda_anio = new String[Integer.parseInt(anio) - 2014 + 1];
-
+        GlobalVariables.busqueda_anio = new String[Integer.parseInt(anio) - 2014 + 2];
+        GlobalVariables.busqueda_anio[0]="*";
         for (int i = 0; i <= Integer.parseInt(anio) - 2014; i++) {
-            GlobalVariables.busqueda_anio[i] = String.valueOf(Integer.parseInt(anio) - i);
+            GlobalVariables.busqueda_anio[i+1] = String.valueOf(Integer.parseInt(anio) - i);
             //inc+=1;
         }
 
@@ -249,9 +249,9 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
                         paginacion2+=1;
 
                             if(mes.equals("00")) {
-                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=P" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                             }else{
-                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=p" + anio + "%7C" + mes + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=P" + anio + "%7C" + mes + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
                             }
                             GlobalVariables.isFragment=true;
                             final ActivityController obj = new ActivityController("get-"+paginacion2, url, FragmentPlanPendiente.this,getActivity());
@@ -326,9 +326,9 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         GlobalVariables.listaPlanMin.clear();
         paginacion2=1;
         if(mes.equals("00")) {
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF=P"+codPersona+"&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
         }else{
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&Fecha=p" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF=P"+codPersona+"&Fecha=p" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
         }
 
         GlobalVariables.listaPlanMin=new ArrayList<>();
@@ -371,14 +371,13 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         if(Tipo.equals("")){  // new adapter
             GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
             contPublicacion=getPlanMinModel.Count;
-            tipo_estadistica.setText("Planes de acción pendientes"+" ("+contPublicacion+")");
+            tipo_estadistica.setText("("+contPublicacion+") Pendientes.");
             GlobalVariables.listaPlanMin=getPlanMinModel.Data;
             pma = new PlanMinAdapter(getActivity(), GlobalVariables.listaPlanMin,this);
             list_estadistica.setAdapter(pma);
 
             btn_buscar_e.setEnabled(true);
 
-            flag_enter=true;
             if(loadingTop)
             {
                 loadingTop=false;
@@ -402,6 +401,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             for(PlanMinModel item:getPlanMinModel.Data)
                 pma.add(item);
             pma.notifyDataSetChanged();
+            flag_enter=true;
         }
         else{
             if(data.contains("-1")) Toast.makeText(getActivity(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();

@@ -30,6 +30,9 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.controller.GetTokenController;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Login extends AppCompatActivity implements IActivity{
 
     private TextInputEditText et_User;
@@ -128,12 +131,20 @@ public class Login extends AppCompatActivity implements IActivity{
             user=et_User.getText().toString();
             pass=et_Password.getText().toString();
             dom="anyaccess";
-            url_token=GlobalVariables.Url_base+"membership/authenticate?"+"username="+user+"&password="+pass+"&domain="+dom;
+            url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
 
             //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/usuario/getdata/
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.accumulate("username",user);
+                jsonObject.accumulate("password",pass);
+                jsonObject.accumulate("domain",dom);
 
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             final GetTokenController objT = new GetTokenController(url_token,Login.this,progresbar);
-            objT.execute("1");
+            objT.execute(jsonObject.toString());
 /*
             final Handler h = new Handler();
             h.postDelayed(new Runnable() {
@@ -230,42 +241,18 @@ public class Login extends AppCompatActivity implements IActivity{
             finish();
 
         }else if(Tipo=="2"){
-            String version_app=obtener_version();
-            GlobalVariables.versionFromServer=data1.substring(1, data1.length() - 1);;
-            if(Float.parseFloat(GlobalVariables.versionApk)>=Float.parseFloat(GlobalVariables.versionFromServer))
-            {
-                passVersion();
-            }else {
-
-                if (version_app == "") {
-                    version_app = GlobalVariables.versionFromServer;
-                    save_version(version_app);
-
-                    Intent mainIntent = new Intent().setClass(Login.this, ActActualizar.class);
-                    // mainIntent.putExtra("respuesta", false); //Optional parameters
-                    startActivity(mainIntent);
-                    finish();
-
-
-                } else if (Float.parseFloat(version_app) >= Float.parseFloat(GlobalVariables.versionFromServer)) {
-                    version_app = GlobalVariables.versionFromServer;
-                    save_version(version_app);
+                String version_app=obtener_version();
+                String version_server=data1.substring(1, data1.length() - 1);
+                if (version_app == "" || Float.parseFloat(version_app) >= Float.parseFloat(version_server)) {
+                    save_version(version_server);
                     passVersion();
-
-                } else {
-                    version_app = GlobalVariables.versionFromServer;
+                }
+                else {
                     save_version(version_app);
-                    ///////////////////
-
                     Intent mainIntent = new Intent().setClass(Login.this, ActActualizar.class);
-                    // mainIntent.putExtra("respuesta", false); //Optional parameters
                     startActivity(mainIntent);
-
                     finish();
                 }
-
-            }
-
             }
     }
 

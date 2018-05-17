@@ -175,8 +175,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         }
                     });
 
-                    button1.setText("  Editar Observación");
-                    button3.setText("  Eliminar Observación");
+                    button1.setText("  Editar observación");
+                    button3.setText("  Eliminar observación");
                     if(edit.equals("1")){
                         cv1.setVisibility(View.VISIBLE);
                         cv3.setVisibility(View.VISIBLE);
@@ -216,7 +216,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                            alertDialog.setTitle("Desea Eliminar Observacion?")
+                            alertDialog.setTitle("Desea eliminar observacion?")
                                     .setMessage(tempDetalle)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -405,8 +405,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                             popupWindow.dismiss();
                         }
                     });
-                    button1.setText("  Editar Inspeción");
-                    button3.setText("  Eliminar Inspeción");
+                    button1.setText("  Editar inspección");
+                    button3.setText("  Eliminar inspección");
                     if(edit.equals("1")){
                         cv1.setVisibility(View.VISIBLE);
                         cv3.setVisibility(View.VISIBLE);
@@ -446,7 +446,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                            alertDialog.setTitle("Desea Eliminar Inspeccion?")
+                            alertDialog.setTitle("Desea eliminar inspección?")
                                     .setMessage(data.get(position).Obs)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -782,8 +782,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         }
                     });
 
-                    button1.setText("  Editar Reporte Facilito");
-                    button3.setText("  Eliminar Reporte Facilito");
+                    button1.setText("  Editar reporte facilito");
+                    button3.setText("  Eliminar reporte facilito");
                     if(edit.equals("1")){
                         cv1.setVisibility(View.VISIBLE);
                         cv3.setVisibility(View.VISIBLE);
@@ -820,7 +820,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                            alertDialog.setTitle("Desea Eliminar Observacion?")
+                            alertDialog.setTitle("Desea eliminar reporte facilito?")
                                     .setMessage(tempObservacion)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {

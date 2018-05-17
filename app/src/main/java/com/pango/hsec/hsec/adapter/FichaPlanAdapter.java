@@ -51,7 +51,7 @@ public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
     BusqEstadistica ActContent;
     View popupView;
-    PopupWindow popupWindow;
+    public PopupWindow popupWindow;
 
     public FichaPlanAdapter(BusqEstadistica context, ArrayList<PlanMinModel> data) {
         super(context, R.layout.public_planmin, data);
@@ -180,7 +180,7 @@ public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Observacion")
+                        alertDialog.setTitle("Desea eliminar plan de acción?")
                                 .setMessage(data.get(position).DesPlanAccion)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

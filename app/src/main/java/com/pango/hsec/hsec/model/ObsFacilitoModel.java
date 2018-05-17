@@ -14,16 +14,16 @@ public class ObsFacilitoModel {
     public String Accion;
     public int Plazo;
     public String FecCreacion;
-    public String Fecha;
-    public String UsuCreacion;
+    public String FechaFin;
+    /*public String UsuCreacion;
     public String FecModifica;
-    public String UsuModifica ;
+    public String UsuModifica ;*/
     public String RespAuxiliar;
     public String Estado;
-    public String Editable;
-    public String CodPersona;
+    //public String Editable;
+   // public String CodPersona;
     public String Persona;
-    public String UrlObs;
-    public String UrlPrew;
+    /*public String UrlObs;
+    public String UrlPrew;*/
 
 }

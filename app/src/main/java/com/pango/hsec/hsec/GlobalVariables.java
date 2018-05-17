@@ -113,6 +113,16 @@ public class GlobalVariables  {
             GlobalVariables.fragmentSave.remove(1);
             GlobalVariables.fragmentSave.add(1,fragment);
         }
+        else if(Tipo.equals("H"))//Fragmen planes
+        {
+            GlobalVariables.fragmentSave.remove(3);
+            GlobalVariables.fragmentSave.add(3,fragment);
+        }
+        else if(Tipo.equals("I"))//Fragmen reporte facilito
+        {
+            GlobalVariables.fragmentSave.remove(2);
+            GlobalVariables.fragmentSave.add(2,fragment);
+        }
 
         if (Tipo.equals("A")) {
             GlobalVariables.fragmentStack.clear();
@@ -182,7 +192,7 @@ public class GlobalVariables  {
     public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Actividad relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
 
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
-    public static String[] busqueda_mes={"-","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
+    public static String[] busqueda_mes={"*","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
     public static String[] busqueda_anio;
     public static String versionFromServer="";
     public static String versionApk="1.9";

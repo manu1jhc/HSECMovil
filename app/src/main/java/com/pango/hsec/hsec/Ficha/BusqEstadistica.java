@@ -369,20 +369,18 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         GlobalVariables.listaPlanMin=new ArrayList<>();
         GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
         if(codselected==1) {
-
+            if(anio.equals("*")) anio="2014";
             Utils.observacionModel = new ObservacionModel();
             ObservacionModel observacionModel = new ObservacionModel();
             //tipo_busqueda=1;
             observacionModel.CodUbicacion = "5";
             observacionModel.Lugar = "1";
             observacionModel.ObservadoPor = codPersona;
-
             int mesActual=Integer.parseInt(mes);
             Calendar calFin = Calendar.getInstance();
             calFin.set(Integer.parseInt(anio), mesActual-1, 1);
             calFin.set(Integer.parseInt(anio),mesActual-1 , calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
             diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
-
             if (mes.equals("00")) {
                 observacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
                 observacionModel.FechaFin = anio + "-" + "12" + "-" + "31";
@@ -402,6 +400,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             obj.execute(json);
 
         }else if(codselected==2){
+            if(anio.equals("*")) anio="2014";
             inspeccionModel = new InspeccionModel();
             InspeccionModel inspeccionModel = new InspeccionModel();
             //tipo_busqueda=1;
@@ -466,7 +465,20 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     public void close(View view){
         finish();
     }
-
+    @Override
+    public void onBackPressed() {
+        boolean passdismis=true;
+        try {
+           if(obsa!=null && obsa.popupWindow!=null && obsa.popupWindow.isShowing()) obsa.popupWindow.dismiss();
+           else if(inspa!=null && inspa.popupWindow!=null && inspa.popupWindow.isShowing()) inspa.popupWindow.dismiss();
+           else if(obfa!=null && obfa.popupWindow!=null && obfa.popupWindow.isShowing()) obfa.popupWindow.dismiss();
+           else if(pma!=null && pma.popupWindow!=null && pma.popupWindow.isShowing()) pma.popupWindow.dismiss();
+           else passdismis=false;
+           if(!passdismis) finish();
+        }catch (Throwable e){
+            Log.d("error_frag", e.getLocalizedMessage());
+        }
+    }
 
     public void DeleteObject(String Url, int index){
         String url= GlobalVariables.Url_base+Url;

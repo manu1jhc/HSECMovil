@@ -1,23 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/transparent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="@color/colorBlanco"
         android:elevation="100dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -33,12 +29,10 @@
 
                 <ImageButton
                     android:id="@+id/btn_closep"
-                    android:layout_width="50dp"
+                    android:layout_width="45dp"
                     android:layout_height="50dp"
                     android:background="@drawable/transparent"
-                    android:paddingStart="-10dp"
                     android:src="@drawable/ic_back_black"
-                    android:textAlignment="viewStart"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -46,14 +40,15 @@
 
                 <android.support.v7.widget.SearchView
                     android:id="@+id/searchView"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:paddingEnd="-22dp"
-                    android:paddingStart="42dp"
                     app:defaultQueryHint="Buscar..."
                     app:iconifiedByDefault="false"
+                    android:paddingEnd="-22dp"
+                    android:paddingStart="-10dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/spinnerTipo"
+                    app:layout_constraintStart_toEndOf="@+id/btn_closep"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0"
                     app:searchIcon="@null">
@@ -71,8 +66,8 @@
 
                 <ImageButton
                     android:id="@+id/btn_filtro"
-                    android:layout_width="60dp"
-                    android:layout_height="0dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:background="@drawable/transparent"
                     android:onClick="SalvarPlan"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -175,7 +170,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
     </RelativeLayout>
-
-
 
 </android.support.constraint.ConstraintLayout>

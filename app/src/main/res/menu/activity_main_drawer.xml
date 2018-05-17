@@ -28,23 +28,25 @@
             android:id="@+id/nav_pendientes"
             android:icon="@drawable/ic_pendiente"
             android:title="Planes de acción pendientes" />
-        <item
-            android:id="@+id/nav_listaobs"
-            android:icon="@drawable/ic_format_list_numbered_black_24dp"
-            android:title="Seguimiento reporte facilito"/>
     </group>
 
     <item android:title="Más Opciones">
         <menu>
+
+            <item
+                android:id="@+id/nav_feedback"
+                android:icon="@drawable/ic_format_list_numbered_black_24dp"
+                android:title="Feefback"/>
             <item
                 android:id="@+id/nav_Contactenos"
                 android:icon="@drawable/ic_contactanos_prueba"
                 android:title="Contáctenos" />
-
+<!--
             <item
                 android:id="@+id/nav_configuracion"
                 android:icon="@drawable/ic_menu_configuracion"
                 android:title="Configuración" />
+            -->
 
             <item
                 android:id="@+id/nav_cerrar"
