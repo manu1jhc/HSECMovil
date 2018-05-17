@@ -5,9 +5,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pango.hsec.hsec.Busquedas.B_inspecciones"
     android:orientation="vertical"
-    >
+    tools:context="com.pango.hsec.hsec.Busquedas.B_facilito">
+
     <android.support.v7.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
@@ -31,31 +31,31 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/imageView20"
+                android:id="@+id/img_guardar"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="80dp"
+                android:layout_marginEnd="4dp"
                 android:layout_marginTop="8dp"
                 android:cropToPadding="false"
-                android:src="@drawable/ic_minero"
+                android:src="@drawable/cwac_cam2_ic_check_white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginEnd="8dp"
-                android:gravity="center_vertical"
 
-                android:text="HSEC"
+                android:gravity="center_vertical"
+                android:text="Filtro de reportes facilito"
                 android:textColor="@color/colorBlanco"
-                android:textSize="24sp"
+                android:textSize="@dimen/titulo_det"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/imageView20"
+                app:layout_constraintEnd_toStartOf="@+id/img_guardar"
+                app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
         </android.support.constraint.ConstraintLayout>
@@ -63,24 +63,11 @@
 
 
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:text="Búsqueda de inspecciones"
-        android:background="@color/colorBtnBeige"
-        android:gravity="center"
-        android:textColor="@color/colorBlanco"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="45dp">
+        >
 
 
         <android.support.constraint.ConstraintLayout
@@ -103,30 +90,39 @@
                     <TextView
                         android:id="@+id/textView5"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="0dp"
                         android:text="Codigo"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+
+
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Código de inspección" />
+                        tools:text="Código" />
 
                     <EditText
-                        android:id="@+id/id_CodInspeccion"
+                        android:id="@+id/id_CodFacilito"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
                         android:ems="10"
                         android:inputType="textPersonName"
-                        android:textSize="18sp"
                         android:textStyle="bold"
+                        android:textSize="@dimen/size_text_der"
+                        android:textColor="@color/colorNegro"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="6dp"
+                        android:paddingTop="6dp"
+                        android:gravity="center_vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView5"
@@ -142,7 +138,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_Codigo">
+                app:layout_constraintTop_toBottomOf="@+id/id_sububicacion">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -151,14 +147,18 @@
                     <TextView
                         android:id="@+id/textViewdesde"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_height="match_parent"
 
-                        android:layout_marginTop="8dp"
                         android:text="Fecha inicio"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -169,12 +169,15 @@
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
-
                         android:onClick="escogerFecha"
                         android:text="Seleccionar fecha"
+                        android:textSize="@dimen/size_text_der"
+                        android:textColor="@color/colorNegro"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="2dp"
+                        android:gravity="center_vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textViewdesde"
@@ -199,14 +202,18 @@
                     <TextView
                         android:id="@+id/textView8"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="match_parent"
 
                         android:text="Fecha fin"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -217,12 +224,17 @@
                         style="@style/Widget.AppCompat.Button.Borderless"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
                         android:onClick="escogerFecha2"
                         android:text="Seleccionar fecha"
+
+                        android:textSize="@dimen/size_text_der"
+                        android:textColor="@color/colorNegro"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="2dp"
+                        android:gravity="center_vertical"
+
 
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -237,9 +249,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_fecha">
+                app:layout_constraintTop_toBottomOf="@+id/id_contrata">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -248,13 +260,17 @@
                     <TextView
                         android:id="@+id/textView9"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
                         android:text="Gerencia"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -264,10 +280,6 @@
                         android:id="@+id/spinner_gerencia"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView9"
@@ -291,13 +303,17 @@
                     <TextView
                         android:id="@+id/textView10"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="match_parent"
                         android:text="SuperIntendencia"
-                        android:textSize="18sp"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -307,10 +323,6 @@
                         android:id="@+id/spinner_superint"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView10"
@@ -319,6 +331,51 @@
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_tip"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Codigo">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Spinner
+                        android:id="@+id/spinner_tipo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView66"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView66"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:text="Tipo"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Tipo" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+
             <android.support.v7.widget.CardView
                 android:id="@+id/id_Obs"
                 android:layout_width="0dp"
@@ -326,20 +383,16 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_sububicacion">
+                app:layout_constraintTop_toBottomOf="@+id/id_tip">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <Spinner
-                        android:id="@+id/spinner_ubicacion"
+                        android:id="@+id/spinner_estado"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView6"
@@ -348,59 +401,21 @@
                     <TextView
                         android:id="@+id/textView6"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Ubicación"
-                        android:textSize="18sp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:text="Estado"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Ubicación" />
-                </android.support.constraint.ConstraintLayout>
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/id_Tipo"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_Obs">
-
-                <android.support.constraint.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <Spinner
-                        android:id="@+id/spinner_sububic"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/textView13"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
-                        android:text="Sub Ubicación"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Sub Ubicación" />
+                        tools:text="Estado" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
@@ -411,7 +426,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_Tipo">
+                app:layout_constraintTop_toBottomOf="@+id/id_ubicEspecifica">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -420,32 +435,37 @@
                     <TextView
                         android:id="@+id/txtcontrata"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="match_parent"
 
-                        android:text="Contrata"
-                        android:textSize="18sp"
+                        android:text="Creador"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingTop="@dimen/pad_topbottom_der"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Contrata" />
+                        tools:text="Creador" />
 
 
                     <TextView
-                        android:id="@+id/insp_contrata"
+                        android:id="@+id/id_creador"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:enabled="false"
                         android:text="xxxxxxxxxxxxxxxxx"
-                        android:textSize="18sp"
                         android:textStyle="bold"
+                        android:textSize="@dimen/size_text_der"
+                        android:textColor="@color/colorNegro"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="2dp"
+                        android:paddingTop="2dp"
+                        android:gravity="center_vertical"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btn_buscar_c"
                         app:layout_constraintStart_toEndOf="@+id/txtcontrata"
@@ -455,14 +475,12 @@
                         android:id="@+id/btn_buscar_c"
                         android:layout_width="50dp"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginEnd="6dp"
-                        android:layout_marginTop="8dp"
                         android:background="@drawable/transparent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_contrata"
+                        app:srcCompat="@drawable/ic_usuario"
                         tools:ignore="VectorDrawableCompat" />
 
 
@@ -476,7 +494,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_contrata">
+                app:layout_constraintTop_toBottomOf="@+id/id_Obs">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -485,31 +503,37 @@
                     <TextView
                         android:id="@+id/textView11"
                         android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="match_parent"
 
-                        android:text="Observado por"
-                        android:textSize="18sp"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:text="Responsable"
+                        android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
+
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="Observado por" />
+                        tools:text="Responsable" />
 
 
                     <TextView
-                        android:id="@+id/id_persona"
+                        android:id="@+id/id_persona_res"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginEnd="2dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="8dp"
                         android:enabled="false"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:paddingTop="2dp"
                         android:text="xxxxxxxxxxxxxxxxx"
-                        android:textSize="18sp"
+                        android:textColor="@color/colorNegro"
+                        android:textSize="@dimen/size_text_der"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btn_buscar_p"
@@ -520,9 +544,7 @@
                         android:id="@+id/btn_buscar_p"
                         android:layout_width="50dp"
                         android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
                         android:layout_marginEnd="6dp"
-                        android:layout_marginTop="8dp"
                         android:background="@drawable/transparent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -538,16 +560,7 @@
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/btn_buscar_insp"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="-50dp"
-        android:background="@color/ColorVerdoso"
-        android:text="Buscar"
-        android:textColor="@color/colorBlanco"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
+
+
 </LinearLayout>

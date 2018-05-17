@@ -137,7 +137,7 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
                         mes_position=mes_pos;
                     }
 
-                    Intent intent = new Intent(Estadisticas.this, BusqEstadistica.class);
+                    Intent intent = new Intent(Estadisticas.this, BusqEstadistica.class);//plan de accion
 
                     intent.putExtra("anio", anio_sel);
                     intent.putExtra("mes", mes_position);

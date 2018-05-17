@@ -26,7 +26,7 @@ public class ActObsInspDet extends FragmentActivity implements TabHost.OnTabChan
     ImageButton close;
     String codObs, correlativo;
     String urlObs;
-    int pos=0;
+    int pos=0,proviene;
     HorizontalScrollView horizontalscroll;
 
    /* public static String jsonObsdet="";
@@ -51,8 +51,6 @@ public class ActObsInspDet extends FragmentActivity implements TabHost.OnTabChan
         correlativo=datos.getString("correlativo");
         //urlObs=datos.getString("UrlObs");
         //GlobalVariables.CodObs=codObs;
-
-
 
         initialiseTabHost();
 
@@ -147,7 +145,7 @@ public class ActObsInspDet extends FragmentActivity implements TabHost.OnTabChan
         FragmentGaleria f2=FragmentGaleria.newInstance(codObs);
         //FragmentGaleriaDet f2 = FragmentGaleriaDet.newInstance(codObs);
 
-        FragmentPlan f3 = FragmentPlan.newInstance(codObs);
+        FragmentPlan f3 = FragmentPlan.newInstance(codObs,2);
         //FragmentPlandet f3 = FragmentPlandet.newInstance(codObs);
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
         //FragmentComentIns f4=FragmentComentIns.newInstance(codObs);

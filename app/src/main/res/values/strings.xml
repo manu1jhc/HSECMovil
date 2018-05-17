@@ -46,4 +46,6 @@
     <string name="btn_pick_multiple_image_infinite">Pick multiple images (No limit)</string>
     <string name="btn_pick_with_videos">Pick multiple images (with video)</string>
 
+
+    @font/asap
 </resources>

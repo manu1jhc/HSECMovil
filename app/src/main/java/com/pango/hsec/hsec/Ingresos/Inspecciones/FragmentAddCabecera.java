@@ -109,11 +109,11 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         textViewdesde=mView.findViewById(R.id.textViewdesde);
         textViewdesde.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Fecha programada"));
         textinspeccion=mView.findViewById(R.id.textinspeccion);
-        textinspeccion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Fecha de inspección"));
+        textinspeccion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Fecha de Inspección"));
         tx_ubicacion=mView.findViewById(R.id.tx_ubicacion);
         tx_ubicacion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Ubicación"));
         tx_tipoinsp=mView.findViewById(R.id.tx_tipoinsp);
-        tx_tipoinsp.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Tipo de inspección"));
+        tx_tipoinsp.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Tipo de Inspección"));
 
 
 

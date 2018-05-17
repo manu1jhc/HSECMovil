@@ -277,6 +277,16 @@ public class Login extends AppCompatActivity implements IActivity{
     @Override
     public void error(String mensaje,String Tipo) {
 
+        constraintLayout4.setVisibility(View.VISIBLE);
+        Save_status(false);
+        Save_Datalogin("", "");
+
+        et_User.setText("");
+        et_Password.setText("");
+        check_rec.setChecked(false);
+
+        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
+
     }
 
     public void Save_status(boolean ischecked){

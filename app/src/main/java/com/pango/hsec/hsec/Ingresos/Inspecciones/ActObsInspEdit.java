@@ -100,9 +100,9 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
 
         tx_titulo=findViewById(R.id.tx_titulo);
         if(GlobalVariables.ObjectEditable){
-            tx_titulo.setText("Editar Observación");
+            tx_titulo.setText("Editar Insp/Observación");
         }else{
-            tx_titulo.setText("Añadir Observación");
+            tx_titulo.setText("Nuevo Insp/Observación");
 
         }
         initialiseTabHost();

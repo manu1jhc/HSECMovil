@@ -11,8 +11,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -64,7 +66,9 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
     PlanModel planModel;
     GetAccionMejoraModel getAccionMejoraModel;
     RecyclerView rec_mejora;
-
+    int proviene;
+    ImageView imageView20;
+    TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +77,29 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         ll_levantar=findViewById(R.id.ll_levantar);
         btn_agregar=findViewById(R.id.btn_agregar);
         rec_mejora = (RecyclerView) findViewById(R.id.rec_lev_obs);
-
+        imageView20=findViewById(R.id.imageView20);
+        textView=findViewById(R.id.textView);
         Bundle datos = this.getIntent().getExtras();
         codAccion=datos.getString("codAccion");
         jsonPlan=datos.getString("jsonPlan");
         verBoton=datos.getBoolean("verBoton");
+
+
+        proviene=datos.getInt("proviene");
+
+        if(proviene==1){//proviene de una observacion
+            imageView20.setImageResource(R.drawable.ic_iobservacion);
+            textView.setText("Obs/Plan de acción");
+        }else if(proviene==2)// proviene de una Inspeccion
+        {
+            imageView20.setImageResource(R.drawable.ic_iinspeccion);
+            textView.setText("Insp/Obs/Plan de acción");
+        }else{//proviene del listado de plan de accion
+            imageView20.setImageResource(R.drawable.ic_4_registro);
+            textView.setText("Plan de acción");
+        }
+
+
         ListMejoras= new ArrayList<>();
         if(jsonPlan.isEmpty()) {
             //GlobalVariables.istabs=true;

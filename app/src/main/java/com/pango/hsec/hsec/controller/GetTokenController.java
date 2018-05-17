@@ -123,7 +123,8 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                     }
 
                 }else{
-                    Toast.makeText((Context) activity,GlobalVariables.token_auth,Toast.LENGTH_SHORT).show();
+                    activity.error(GlobalVariables.token_auth,"");
+                    //Toast.makeText((Context) activity,GlobalVariables.token_auth,Toast.LENGTH_SHORT).show();
                     break;
                 }
 

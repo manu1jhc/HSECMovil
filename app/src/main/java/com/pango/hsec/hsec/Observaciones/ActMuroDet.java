@@ -143,7 +143,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         FragmentObs f1 = FragmentObs.newInstance(codObs);
 
         FragmentGaleria f3 = FragmentGaleria.newInstance(codObs);
-        FragmentPlan f4 = FragmentPlan.newInstance(codObs);//cambiar a codObs
+        FragmentPlan f4 = FragmentPlan.newInstance(codObs,1);//cambiar a codObs
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
         FragmentComent f5=FragmentComent.newInstance(codObs);
 

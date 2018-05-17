@@ -41,11 +41,13 @@ public class FragmentPlan extends Fragment implements IActivity {
 	PlandetAdapter plandetAdapter;
 	String jsonPlan="";
 	TextView tx_msj_plan;
-	public static final FragmentPlan newInstance(String sampleText) {
+	int proviene;
+	public static final FragmentPlan newInstance(String sampleText,int proviene2) {
 		FragmentPlan f = new FragmentPlan();
 
 		Bundle b = new Bundle();
 		b.putString("bString", sampleText);
+		b.putInt("proviene",proviene2);
 		f.setArguments(b);
 
 		return f;
@@ -61,6 +63,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 		listPlan=(ListView) mView.findViewById(R.id.list_plan);
 		tx_msj_plan=mView.findViewById(R.id.tx_msj_plan);
 		codObs=getArguments().getString("bString");
+		proviene=getArguments().getInt("proviene");
 		//GlobalVariables.count=1;
 		GlobalVariables.view_fragment=mView;
 		GlobalVariables.isFragment=true;
@@ -159,6 +162,7 @@ public class FragmentPlan extends Fragment implements IActivity {
 				intent.putExtra("codAccion","");
 				intent.putExtra("jsonPlan",json);
 				intent.putExtra("verBoton",false);
+				intent.putExtra("proviene",proviene);
 
 
 				//intent.putExtra("posTab",0);

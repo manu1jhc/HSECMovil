@@ -176,4 +176,14 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>
+
+
+    <Button
+        android:id="@+id/btn_facilito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ver reporte facilito"
+        />
+
+
 </LinearLayout>

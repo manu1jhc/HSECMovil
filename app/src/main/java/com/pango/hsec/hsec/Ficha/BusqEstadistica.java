@@ -332,6 +332,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     intent.putExtra("codAccion",CodAccion);
                     intent.putExtra("jsonPlan","");
                     intent.putExtra("verBoton",pass);
+                    intent.putExtra("proviene",3);
                     startActivity(intent);
                 }
                 else{

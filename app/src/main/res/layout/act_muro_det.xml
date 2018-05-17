@@ -32,27 +32,30 @@
 
             <ImageView
                 android:id="@+id/imageView20"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+                android:layout_width="@dimen/dim_icon_t"
+                android:layout_height="@dimen/dim_icon_t"
                 android:layout_marginBottom="8dp"
-                android:layout_marginStart="80dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:cropToPadding="false"
-                android:src="@drawable/ic_minero"
+                android:src="@drawable/ic_iobservacion"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
-                android:gravity="center_vertical"
+                android:layout_marginStart="8dp"
 
-                android:text="HSEC"
+                android:fontFamily="@font/asap"
+                android:gravity="center_vertical"
+                android:text="Observación"
                 android:textColor="@color/colorBlanco"
-                android:textSize="24sp"
+                android:textSize="@dimen/titulo_det"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageView20"

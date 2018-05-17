@@ -53,7 +53,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
         textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Observación:"));
 
         textView4=mView.findViewById(R.id.textView4);
-        textView4.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Accion:"));
+        textView4.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Acción:"));
         textView14=mView.findViewById(R.id.textView14);
         textView14.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Actividad Relacionada:"));
         textView15=mView.findViewById(R.id.textView15);

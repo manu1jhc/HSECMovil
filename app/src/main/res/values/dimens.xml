@@ -28,5 +28,22 @@
 <!-- dimen para fragment de edicion -->
     <dimen name="pad_topbottom_der">5dp</dimen>
 
+    <dimen name="titulo_det">16dp</dimen>
+    <dimen name="dim_icon_t">35dp</dimen>
+
+
+    <dimen name="size_text_izq">14dp</dimen><!-- tamaño de letra de lado izquierdo-->
+    <dimen name="size_text_der">16dp</dimen><!-- tamaño de letra de lado derecho-->
+
+<!--   plan de accion edit   -->
+    <dimen name="size_izq_planedit">12dp</dimen><!-- tamaño de letra de lado izquierdo-->
+    <dimen name="size_der_planedit">14dp</dimen><!-- tamaño de letra de lado izquierdo-->
+
+    <dimen name="pad_left_right">4dp</dimen><!-- tamaño de letra de lado izquierdo-->
+
+    <dimen name="pad_bottom_top">2dp</dimen><!-- tamaño de letra de lado izquierdo-->
+
+
+
 
 </resources>

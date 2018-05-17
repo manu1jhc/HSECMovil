@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TabHost;
+import android.widget.TextView;
 
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
@@ -24,8 +26,9 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
     ImageButton close;
     String codObs;
     String urlObs;
-    int pos;
+    int pos,proviene;
     HorizontalScrollView horizontalscroll;
+
 /*
     public static String jsonInspeccion="";
     public static String jsonEquipo="";
@@ -45,6 +48,7 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
 
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
+
         //GlobalVariables loaddata = new GlobalVariables();
         //loaddata.LoadData();
         horizontalscroll=findViewById(R.id.horizontalscroll);

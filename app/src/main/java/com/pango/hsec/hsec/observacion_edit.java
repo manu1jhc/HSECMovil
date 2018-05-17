@@ -1,7 +1,7 @@
 
 package com.pango.hsec.hsec;
 
-        import android.content.DialogInterface;
+   import android.content.DialogInterface;
         import android.content.Intent;
         import android.graphics.Color;
         import android.support.annotation.NonNull;
@@ -83,7 +83,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         if(GlobalVariables.ObjectEditable){
             tx_titulo.setText("Editar Observación");
         }else{
-            tx_titulo.setText("Añadir Observación");
+            tx_titulo.setText("Nuevo Observación");
 
         }
 

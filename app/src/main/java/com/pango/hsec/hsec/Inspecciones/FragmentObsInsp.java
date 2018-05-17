@@ -76,7 +76,6 @@ public class FragmentObsInsp extends Fragment implements IActivity {
                 Intent intent = new Intent(getActivity(), ActObsInspDet.class);
                 intent.putExtra("codObs",CodInspeccion);
                 intent.putExtra("correlativo",correlativo);
-
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
 
                 startActivity(intent);

@@ -20,6 +20,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     EditText txtTarea;
     Gson gson;
     TextView subresponsables,textView23,textView,subsolicitado,subactrelacionada,subnivelriesgo,subareahsec,subtipoaccion,textView24;
+    ImageView icon_tipo;
     boolean edit=false;
     private RecyclerView listView;
     private ListPersonEditAdapter listPersonAdapter;
@@ -71,10 +73,34 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         Plan = gson.fromJson(StrPlan, PlanModel.class);
         setContentView(R.layout.activity_plan_accion_edit);
         textView=findViewById(R.id.textView);
+        icon_tipo=findViewById(R.id.icon_tipo);
+
         if(edit){
-            textView.setText("Editar plan de acción");
+            if(Plan.CodTabla.equals("TOBS")){
+                textView.setText("Editar Obs/Plan de acción");
+                icon_tipo.setImageResource(R.drawable.ic_iobservacion);
+            }else if(Plan.CodTabla.equals("TINS")){
+                textView.setText("Editar Insp/Obs/Plan de acción");
+                icon_tipo.setImageResource(R.drawable.ic_iinspeccion);
+
+            }else {
+                textView.setText("Editar plan de acción");
+                icon_tipo.setImageResource(R.drawable.ic_pendiente);
+            }
+
         }else{
-            textView.setText("Añadir plan de acción");
+            if(Plan.CodTabla.equals("TOBS")){
+                textView.setText("Nuevo Obs/Plan de acción");
+                icon_tipo.setImageResource(R.drawable.ic_iobservacion);
+
+            }else if(Plan.CodTabla.equals("TINS")){
+                textView.setText("Nuevo Insp/Obs/Plan de acción");
+                icon_tipo.setImageResource(R.drawable.ic_iinspeccion);
+
+            }else {
+                textView.setText("Nuevo plan de acción");
+                icon_tipo.setImageResource(R.drawable.ic_pendiente);
+            }
 
         }
 
