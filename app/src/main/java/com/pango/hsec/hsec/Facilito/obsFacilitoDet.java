@@ -65,7 +65,6 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_obs_facilito_det);
         gridView = (RecyclerView)  findViewById(R.id.grid);
-//        list_ObsHistorial=(ListView) findViewById(R.id.list_ObsHistorial);
         list_ObsHistorial=(RecyclerView) findViewById(R.id.list_ObsHistorial);
         btn_historial=(ImageButton) findViewById(R.id.btn_historial);
         DataImg = new ArrayList<>();

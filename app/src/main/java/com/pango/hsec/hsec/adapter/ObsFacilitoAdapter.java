@@ -48,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 
 import layout.FragmentObsFacilito;
 
@@ -97,6 +98,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         TextView tipo = rowView.findViewById(R.id.mp_tipo);
         TextView estado = rowView.findViewById(R.id.mp_estado);
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
+        TextView timediff=rowView.findViewById(R.id.mp_timediff);
         ImageView editar = rowView.findViewById(R.id.btn_editar);
 
         final String tempimg_perfil = data.get(position).UrlObs;
@@ -107,6 +109,8 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         final String tempObservacion = data.get(position).Observacion;
         final String tempImgDet=data.get(position).UrlPrew;
         final String editable = data.get(position).Editable;
+        final int tiempoDiff=data.get(position).TiempoDiffMin;
+
         if(editable.equals("0")){
             editar.setVisibility(View.GONE);
         }
@@ -181,25 +185,43 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
                     });
                 }
             });
+
         nombre.setText(tempNombre);
         fecha.setText(Obtenerfecha(tempFecha));
         estado.setText(ObtenerDet(tempEstado));
         tx_det.setText(tempObservacion);
+        tipo.setText(GlobalVariables.Obtener_Tipo(tempTipo));
         if (tempEstado == null) {
             riesgo.setVisibility(View.INVISIBLE);
         } else if (tempEstado.equals("P")) {
             riesgo.setImageResource(R.drawable.ic_alertaroja);
-            tipo.setText("Acto");
+//            tipo.setText("Acto");
 
         } else if (tempEstado.equals("A")) {
             riesgo.setImageResource(R.drawable.ic_alertaverde);
-            tipo.setText("Condicion");
+//            tipo.setText("Condicion");
         } else if (tempEstado.equals("S")) {
-            riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
-            tipo.setText("Condicion");
+            riesgo.setImageResource(R.drawable.ic_hourglass_full_black_24dp);
+            if(tiempoDiff>0){
+                timediff.setText(TimeDiffM(tiempoDiff));
+                timediff.setTextColor(Color.parseColor("#22b14c"));
+                riesgo.setColorFilter(Color.parseColor("#22b14c"));
+            }
+            if(tiempoDiff==0){
+                timediff.setText(TimeDiffM(tiempoDiff));
+                timediff.setTextColor(Color.parseColor("#22b14c"));
+                riesgo.setColorFilter(Color.parseColor("#22b14c"));
+            }
+            if(tiempoDiff<0){
+                int datetime=tiempoDiff*-1;
+                timediff.setText(TimeDiffM(datetime));
+                timediff.setTextColor(Color.parseColor("#ff2222"));
+                riesgo.setColorFilter(Color.parseColor("#ff2222"));
+            }
+//            tipo.setText("Condicion");
         } else if (tempEstado.equals("O")) {
             riesgo.setImageResource(R.drawable.ic_interrogacion);
-            tipo.setText("Condicion");
+//            tipo.setText("Condicion");
         }
 
         if (tempimg_perfil == null) {
@@ -276,6 +298,27 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         }
         return estado;
     }
+
+    public String TimeDiffM(int timediff){
+        String diferencia="",dias="",horas="",min="";
+        int minutes=timediff;
+        int day = (int) TimeUnit.MINUTES.toDays(minutes);
+        long hours = TimeUnit.MINUTES.toHours(minutes)- (day *24);
+        long minute = TimeUnit.MINUTES.toMinutes(minutes)-(TimeUnit.MINUTES.toHours(minutes)* 60);
+        if(day>0){
+            dias=day +" Dia(s)";
+        }
+        else if(hours>0){
+            horas=hours +" Hora(s)";
+        }
+        else if(minute>0){
+            min=minute +" Minuto(s)";
+        }
+
+        diferencia=dias+horas+min;
+        return diferencia;
+    }
+
 
 }
 

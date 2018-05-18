@@ -3,6 +3,7 @@ package com.pango.hsec.hsec.Facilito;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -25,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -71,7 +73,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     public ObsFHistorialModel ObsHist;
     String fecha_inicio="-";
     String fecha_real="";
-    Button btnFechaInicio;
+    Button btnFechaInicio,btn_hora;
     String fechaEscogida;
     Spinner spinner_estado;
     ArrayList<Maestro> ObsFacilito_estadoHistoria;
@@ -88,12 +90,19 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     public String obsFHistorialModel;
     String Errores,estado;
     String codObs,correEdit;
+    String fecha_fin="-";
+    private static final String CERO = "0";
+    private static final String DOS_PUNTOS = ":";
+    public final Calendar c = Calendar.getInstance();
+    int hora = c.get(Calendar.HOUR_OF_DAY);
+    int minuto = c.get(Calendar.MINUTE);
     Gson gson;
     int indexObd,indexHist;
     String url;
     SimpleDateFormat df,dt;
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM");
+    SimpleDateFormat dh = new SimpleDateFormat("h:mm a");
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,6 +116,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         txv_comentario=(TextView) findViewById(R.id.txv_comentario);
         textViewtitle=(TextView) findViewById(R.id.textViewtitle);
         cv_fecha=(CardView) findViewById(R.id.cv_fecha);
+
+        btn_hora=(Button) findViewById(R.id.btn_hora);
+        btn_hora.setText("SELECCIONAR HORA");
         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dt = new SimpleDateFormat("dd 'de' MMMM");
         progressBar = findViewById(R.id.progressBar2);
@@ -169,16 +181,27 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                 Date actual = myCalendar.getTime();
+                SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                String FechaEnvio="";
+                FechaEnvio= fecha_envio.format(actual);
 
+                if(ObsHist.FechaFin==null)
+                    btn_hora.setText("00:00:00");
+                else{
+                    String [] hora=ObsHist.FechaFin.split("T");
+                    FechaEnvio=FechaEnvio.split("T")[0]+"T"+hora[1];
+                }
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
+                ObsHist.FechaFin=FechaEnvio;
                 fecha_real=df.format(actual);
+                fecha_fin=dt.format(actual);
                 btnFechaInicio.setText(dt.format(actual));
                 dt = new SimpleDateFormat("yyyyMMdd");
                 fechaEscogida = dt.format(actual);
-
             }
 
         };
+
         btnFotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -268,6 +291,52 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
 
             }
         });
+        btn_hora.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(ObsHist.FechaFin!=null){
+                    TimePickerDialog recogerHora = new TimePickerDialog(addAtencionFHistorial.this, new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                            //Formateo el hora obtenido: antepone el 0 si son menores de 10
+
+                            //Formateo el minuto obtenido: antepone el 0 si son menores de 10
+                            //String minutoFormateado = (minute < 10)? String.valueOf(CERO + minute):String.valueOf(minute);
+                            //Obtengo el valor a.m. o p.m., dependiendo de la selección del usuario
+                            String AM_PM;
+                            int horaFinal;
+                            int minutoFinal;
+                            //GlobalVariables.AddInspeccion.Fecha=GlobalVariables.AddInspeccion.Fecha+"'"+"T"+"'"+String.valueOf(hourOfDay)+":"+minute;
+
+                            if(hourOfDay < 12) {
+                                AM_PM = "a.m.";
+                                horaFinal=hourOfDay;
+                                minutoFinal=minute;
+                            } else {
+                                AM_PM = "p.m.";
+                                horaFinal=hourOfDay-12;
+                                minutoFinal=minute;
+                            }
+                            //Muestro la hora con el formato deseado
+                            String minutoFormateado = (minutoFinal < 10)? String.valueOf(CERO + minutoFinal):String.valueOf(minutoFinal);
+                            String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                            String [] fecha=ObsHist.FechaFin.split("T");
+                            ObsHist.FechaFin=fecha[0]+"T"+horaFormateada+":"+minutoFormateado+":00";
+
+                            //AddInspeccion.hora=horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM;
+                            btn_hora.setText(horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                            hora=hourOfDay;
+                            minuto=minute;
+
+                        }
+                        //Estos valores deben ir en ese orden
+                        //Al colocar en false se muestra en formato 12 horas y true en formato 24 horas
+                        //Pero el sistema devuelve la hora en formato 24 horas
+                    }, hora, minuto, false);
+                    recogerHora.show();
+                }
+            }
+        });
         if(GlobalVariables.flaghistorial==false) {
             textViewtitle.setText("Editar Atención");
             Bundle data1 = this.getIntent().getExtras();
@@ -318,6 +387,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 else {
                     Date fecha = df.parse(ObsHist.FechaFin);
                     btnFechaInicio.setText(formatoRender.format(fecha));
+                    btn_hora.setText(dh.format(fecha));
                     if(ObsHist.FechaFin!=null)
                     {
                         fecha = df.parse(ObsHist.FechaFin);
