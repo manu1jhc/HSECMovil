@@ -122,7 +122,12 @@ public class GlobalVariables  {
         {
             GlobalVariables.fragmentSave.remove(2);
             GlobalVariables.fragmentSave.add(2,fragment);
+        }else if(Tipo.equals("N"))//fragment noticias
+        {
+            GlobalVariables.fragmentSave.remove(4);
+            GlobalVariables.fragmentSave.add(4,fragment);
         }
+
 
         if (Tipo.equals("A")) {
             GlobalVariables.fragmentStack.clear();
@@ -140,6 +145,8 @@ public class GlobalVariables  {
     public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<>();
     public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
     public static ArrayList<PublicacionModel> listaGlobalInspeccion=new ArrayList<>();//data del fragment de inspecciones
+    public static ArrayList<PublicacionModel> listaGlobalNoticias=new ArrayList<>();//data del fragment de inspecciones
+
     public static ArrayList<ObsFacilitoMinModel> listaGlobalFacilito= new  ArrayList<>(); //data del fragment de Obs Facilito seguimiento
 
     public static Parcelable stateMuro;
@@ -175,7 +182,8 @@ public class GlobalVariables  {
     public static ArrayList<ObsFHistorialModel> listaHistorial = new  ArrayList<ObsFHistorialModel>();
    // public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
 
-    //public static ArrayList<ObsFacilitoModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoModel>();
+    public static ArrayList<ObsFacilitoModel> listaObsFacilito = new  ArrayList<ObsFacilitoModel>();
+
     public static  ArrayList<Maestro> ObsFacilito_tiempo = new ArrayList<>();
     public static  ArrayList<Maestro> ObsFacilito_estado = new ArrayList<>();
     public static  ArrayList<Maestro> ObsFacilito_estadoHistoria=new ArrayList<>();

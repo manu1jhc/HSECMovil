@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +34,8 @@ import java.util.ArrayList;
 
 public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
     private Context context;
+    public PopupWindow popupWindow;
+
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
@@ -42,7 +45,10 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
         this.data = data;
         this.context = context;
     }
-
+    public void remove(int index){
+        data.remove(index);
+        notifyDataSetChanged();
+    }
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {

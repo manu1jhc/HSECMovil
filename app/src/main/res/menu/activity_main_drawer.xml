@@ -24,6 +24,12 @@
             android:id="@+id/nav_ficha"
             android:icon="@drawable/ic_3_ficha"
             android:title="Ficha personal" />
+
+        <item
+            android:id="@+id/nav_noticias"
+            android:icon="@drawable/ic_inoticia"
+            android:title="Noticias" />
+
         <item
             android:id="@+id/nav_pendientes"
             android:icon="@drawable/ic_pendiente"

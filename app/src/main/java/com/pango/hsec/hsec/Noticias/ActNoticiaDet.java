@@ -126,7 +126,7 @@ public class ActNoticiaDet extends FragmentActivity implements TabHost.OnTabChan
 
         // TODO Put here your Fragments
         FragmentDetalle f1 = FragmentDetalle.newInstance(codNot);
-        FragmentGaleria f2 = FragmentGaleria.newInstance(codNot);
+        //FragmentGaleria f2 = FragmentGaleria.newInstance(codNot);
         FragmentComent f3 = FragmentComent.newInstance(codNot);
 
         //MySampleFragment f4 = MySampleFragment.newInstance("Sample Fragment 4");
@@ -135,7 +135,7 @@ public class ActNoticiaDet extends FragmentActivity implements TabHost.OnTabChan
         //ObsFragment f4 = ObsFragment.newInstance("","");
 
         fList.add(f1);
-        fList.add(f2);
+        //fList.add(f2);
         fList.add(f3);
         //fList.add(f4);
 
@@ -153,9 +153,9 @@ public class ActNoticiaDet extends FragmentActivity implements TabHost.OnTabChan
         ActNoticiaDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab1").setIndicator("Detalle"));
         ActNoticiaDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("Archivos"));
-        ActNoticiaDet.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab3").setIndicator("Comentarios"));
+                this.mTabHost.newTabSpec("Tab2").setIndicator("Comentarios"));
+        //ActNoticiaDet.AddTab(this, this.mTabHost,
+          //      this.mTabHost.newTabSpec("Tab3").setIndicator("Comentarios"));
        /*
         ActInspeccionDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab4").setIndicator("Comentarios"));

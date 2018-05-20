@@ -21,6 +21,7 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.ObsFacilitoModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class B_facilito extends AppCompatActivity {
-    //ArrayList<Maestro> gerenciadata;
+    ArrayList<Maestro> estadodata;
     ArrayList<Maestro> superintdata;
     ArrayList<Maestro> tipodata;
 
@@ -72,12 +73,22 @@ public class B_facilito extends AppCompatActivity {
         id_creador=(TextView) findViewById(R.id.id_creador);
         img_guardar=findViewById(R.id.img_guardar);
         tipodata= new ArrayList<>();
-        //ubicaciondata.add(new Maestro(null,"-  Seleccione  -"));
+        tipodata.add(new Maestro(null,"-  Seleccione  -"));
         tipodata.add(new Maestro("c","Condición"));
         tipodata.add(new Maestro("a","Acción"));
 
         superintdata=new ArrayList<>();
         superintdata.add(new Maestro(null,"-  Seleccione  -"));
+
+        estadodata=new ArrayList<>();
+        estadodata.add(new Maestro(null,"-  Seleccione  -"));
+        estadodata.addAll(GlobalVariables.ObsFacilito_estado);
+
+        GlobalVariables.FacilitoList =new ObsFacilitoModel();
+
+
+
+
 
         //aqui va spinner gerencia y superintendencia
         ArrayAdapter adapterGerencia = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.Gerencia);
@@ -93,7 +104,7 @@ public class B_facilito extends AppCompatActivity {
         adapterTipo.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_tipo.setAdapter(adapterTipo);
 
-        ArrayAdapter adapterEstado = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.ObsFacilito_estado);
+        ArrayAdapter adapterEstado = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, estadodata);
         adapterEstado.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_estado.setAdapter(adapterEstado);
 
@@ -104,6 +115,13 @@ public class B_facilito extends AppCompatActivity {
 
                 Maestro Tipo = (Maestro) ( (Spinner) findViewById(R.id.spinner_tipo) ).getSelectedItem();
                 //GlobalVariables.Obserbacion.CodAreaHSEC=Tipo.CodTipo;
+                if(position!=0){
+                GlobalVariables.FacilitoList.Tipo=Tipo.CodTipo;
+                }else{
+                    GlobalVariables.FacilitoList.Tipo="";
+                }
+
+
             }
 
             @Override
@@ -119,6 +137,7 @@ public class B_facilito extends AppCompatActivity {
 
                 Maestro estado = (Maestro) ( (Spinner) findViewById(R.id.spinner_estado) ).getSelectedItem();
                 //GlobalVariables.Obserbacion.CodAreaHSEC=Tipo.CodTipo;
+                GlobalVariables.FacilitoList.Estado=estado.CodTipo;
             }
 
             @Override
@@ -133,10 +152,14 @@ public class B_facilito extends AppCompatActivity {
         img_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 //Utils.inspeccionModel.CodInspeccion=String.valueOf(codInsp.getText());
                 //inspeccionModel=Utils.inspeccionModel;
+                GlobalVariables.FacilitoList.CodObsFacilito=String.valueOf(et_CodFacilito.getText());
+
                 Intent intent = getIntent();
-                intent.putExtra("Tipo_Busqueda",2);
+                //intent.putExtra("Tipo_Busqueda",2);
                 //intent.putExtra("codpersona",CodPersona);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -153,6 +176,7 @@ public class B_facilito extends AppCompatActivity {
                 gerencia=Geren.CodTipo;*/
                     //superint=null;
                     String gerencia = GlobalVariables.Gerencia.get(position).CodTipo;
+                    GlobalVariables.FacilitoList.CodPosicionGer=GlobalVariables.Gerencia.get(position).CodTipo;
                     //Utils.inspeccionModel.Gerencia = gerenciadata.get(position).CodTipo;
                     gerencia_pos = String.valueOf(position);
                     superintdata.clear();
@@ -184,6 +208,7 @@ public class B_facilito extends AppCompatActivity {
                 String superint;
                 if(position!=0) {
                     superint = superintdata.get(position).CodTipo.split("\\.")[1];
+                    GlobalVariables.FacilitoList.CodPosicionSup=superintdata.get(position).CodTipo.split("\\.")[1];
                     //Utils.inspeccionModel.SuperInt=superintdata.get(position).CodTipo.split("\\.")[1];
                     superint_pos=String.valueOf(position);
                 }else{
@@ -235,10 +260,12 @@ public class B_facilito extends AppCompatActivity {
 
                 Date actual = myCalendar.getTime();
 
+                //Utils.observacionModel.Fecha_fin= String.valueOf(actual);
+
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
                 SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
                 /////////////Utils.inspeccionModel.FechaP= String.valueOf(fecha_envio.format(actual));
-
+                GlobalVariables.FacilitoList.FecCreacion= String.valueOf(fecha_envio.format(actual));
                 fecha_inicio=dt.format(actual);
                 btnFechaInicio.setText(dt.format(actual));
                 // btnFechaFin.setText(dt.format(actual));
@@ -271,6 +298,7 @@ public class B_facilito extends AppCompatActivity {
                 SimpleDateFormat fecha_envio = new SimpleDateFormat("yyyy-MM-dd");
 
                 ///////////////////////Utils.inspeccionModel.Fecha= String.valueOf(fecha_envio.format(actual));
+                GlobalVariables.FacilitoList.FechaFin=String.valueOf(fecha_envio.format(actual));
 
                 fecha_fin=dt.format(actual);
                 btnFechaFin.setText(dt.format(actual));
@@ -333,12 +361,14 @@ public class B_facilito extends AppCompatActivity {
                     String nombre_obs = data.getStringExtra("nombreP");
                     String codpersona_obs = data.getStringExtra("codpersona");
                     id_persona_res.setText(nombre_obs);
+                    GlobalVariables.FacilitoList.RespAuxiliar=codpersona_obs;
                     //Utils.inspeccionModel.CodTipo = codpersona_obs;
                 }else{
 
                     String nombre_obs = data.getStringExtra("nombreP");
                     String codpersona_obs = data.getStringExtra("codpersona");
                     id_creador.setText(nombre_obs);
+                    GlobalVariables.FacilitoList.Persona=codpersona_obs;
                     //Utils.inspeccionModel.CodContrata = cod_contrata;
                 }
 

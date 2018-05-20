@@ -71,6 +71,7 @@ import layout.FragmentMuro;
 import layout.FragmentObservaciones;
 import layout.FragmentPlanPendiente;
 import layout.FragmentAvanzado;
+import layout.FragmentNoticias;
 
 
 public class MainActivity extends AppCompatActivity
@@ -89,6 +90,7 @@ public class MainActivity extends AppCompatActivity
         FragmentContactenos.OnFragmentInteractionListener,
         FragmentPlanPendiente.OnFragmentInteractionListener,
         FragmentObsFacilito.OnFragmentInteractionListener,
+        FragmentNoticias.OnFragmentInteractionListener,
         SearchView.OnQueryTextListener
 {
 
@@ -328,6 +330,18 @@ public class MainActivity extends AppCompatActivity
                             temp.Filtro_Insp();
                             popupWindow.dismiss();
                         }
+                        else if(lastTag.equals("I")) // obsFac
+                        {
+                            FragmentObsFacilito temp =(FragmentObsFacilito)GlobalVariables.fragmentSave.get(2);
+                            temp.Filtro_Facilito();
+                            popupWindow.dismiss();
+                        }else if(lastTag.equals("N"))//noticias
+                        {
+                            FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(3);
+                            temp.Filtro_Noticias();
+                            popupWindow.dismiss();
+                        }
+
                     }
                 });
 
@@ -364,7 +378,8 @@ public class MainActivity extends AppCompatActivity
         Feedback,
         Configuracion,
         Contactenos,
-        PlanPendiente
+        PlanPendiente,
+        Noticias
     }
 
     @Override
@@ -382,6 +397,8 @@ public class MainActivity extends AppCompatActivity
         GlobalVariables.fragmentSave.push(new FragmentInspecciones()); //1
         GlobalVariables.fragmentSave.push(new FragmentObsFacilito()); //2
         GlobalVariables.fragmentSave.push(new FragmentPlanPendiente()); //3
+        GlobalVariables.fragmentSave.push(new FragmentNoticias()); //4
+
 
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
@@ -456,6 +473,17 @@ public class MainActivity extends AppCompatActivity
                     else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
                     else passdismis=false;
                 }
+
+                else if(lastTag.equals("N")) // noticias
+                {
+                    FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(4);
+                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
+                    else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
+                    else passdismis=false;
+                }
+
+
                 else passdismis=false;
 
                 if(!passdismis){
@@ -568,7 +596,18 @@ public class MainActivity extends AppCompatActivity
             bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
 
 
-        }else if (id == R.id.nav_pendientes){
+        }   else if (id == R.id.nav_noticias){
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickNoticias();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+
+            //bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+        }
+
+
+
+        else if (id == R.id.nav_pendientes){
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
             ClickPendientes();
@@ -608,6 +647,7 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 
 
     //menu inferior
@@ -716,6 +756,11 @@ public class MainActivity extends AppCompatActivity
         uncheckItemsMenu();
         ChangeFragment(NavigationFragment.Contactenos);
     }
+    private void ClickNoticias() {
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.Noticias);
+
+    }
 
     public void ClickPendientes(){
         uncheckItemsMenu();
@@ -767,6 +812,8 @@ public class MainActivity extends AppCompatActivity
             case Configuracion: fragment = new FragmentConfiguracion();  Tipo="F";Title="Configuración"; break;
             case Contactenos: fragment = new FragmentContactenos();  Tipo="G";Title="Contactenos"; break;
             case PlanPendiente: fragment = new FragmentPlanPendiente();  Tipo="H";Title="Planes de acción"; break;
+            case Noticias: fragment = new FragmentNoticias();  Tipo="N";Title="Noticias"; break;
+
 
         }
         lastTag=Tipo;

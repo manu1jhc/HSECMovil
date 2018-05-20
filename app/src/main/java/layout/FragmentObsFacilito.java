@@ -22,6 +22,7 @@ package layout;
         import android.widget.Toast;
 
         import com.google.gson.Gson;
+        import com.pango.hsec.hsec.Busquedas.B_facilito;
         import com.pango.hsec.hsec.Busquedas.B_inspecciones;
         import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
         import com.pango.hsec.hsec.GlobalVariables;
@@ -37,6 +38,7 @@ package layout;
         import com.pango.hsec.hsec.model.GetPublicacionModel;
         import com.pango.hsec.hsec.model.InspeccionModel;
         import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
+        import com.pango.hsec.hsec.model.ObsFacilitoModel;
         import com.pango.hsec.hsec.model.PublicacionModel;
 
         import java.util.ArrayList;
@@ -144,14 +146,41 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         //sp_busqueda=(Spinner) rootView.findViewById(R.id.sp_busqueda);
         tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
 
+
+        url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
+
+
         if(GlobalVariables.listaGlobalFacilito.size()==0) {
+            /*
             url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacilito/1/5";
             final ActivityController obj = new ActivityController("get-0", url, this,getActivity());
             obj.execute("-1");
+            */
+            GlobalVariables.FacilitoList =new ObsFacilitoModel();
+
+
+            GlobalVariables.FacilitoList.Accion="5";
+            GlobalVariables.FacilitoList.Observacion="1";
+
+            //ObsFacilitoModel obsFacilitoModel = new ObsFacilitoModel();
+            //tipo_busqueda = 2;
+
+            GlobalVariables.FacilitoList.Accion = "5";
+            GlobalVariables.FacilitoList.Observacion = "1";
+            String json = "";
+
+            Gson gson = new Gson();
+            json = gson.toJson(GlobalVariables.FacilitoList);
+
+
+            final ActivityController obj = new ActivityController("post", url, FragmentObsFacilito.this, getActivity());
+            obj.execute(json,"-1");
+
+
+
 
         }else{
-            successpost("","-1");
-
+            success("","-1");
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -173,10 +202,22 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                 GlobalVariables.flag_up_toast=true;
 
                 //Utils.isActivity=true;
-                GlobalVariables.istabs=false;
-                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacilito/1/5";
-                final ActivityController obj = new ActivityController("get-2", url, FragmentObsFacilito.this,getActivity());
-                obj.execute("0");
+
+                url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
+
+                GlobalVariables.FacilitoList.Accion="5";
+                GlobalVariables.FacilitoList.Observacion="1";
+
+                //ObsFacilitoModel obsFacilitoModel = new ObsFacilitoModel();
+                //tipo_busqueda = 2;
+
+                String json = "";
+
+                Gson gson = new Gson();
+                json = gson.toJson(GlobalVariables.FacilitoList);
+
+                final ActivityController obj = new ActivityController("post-2", url, FragmentObsFacilito.this, getActivity());
+                obj.execute(json,"0");
 
             } });
 
@@ -207,11 +248,36 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                         constraintLayout.setVisibility(View.VISIBLE);
                         //lupabuscar.setEnabled(false);
                         GlobalVariables.isFragment=false;
-
                         paginacion2+=1;
-                        url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacilito/"+paginacion2+"/5";
-                        final ActivityController obj = new ActivityController("get-2", url, FragmentObsFacilito.this,getActivity());
-                        obj.execute("1");
+
+                        url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
+
+
+                        GlobalVariables.FacilitoList.Accion="5";
+                        GlobalVariables.FacilitoList.Observacion=String.valueOf(paginacion2);
+
+
+                        //url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
+
+                        //ObsFacilitoModel obsFacilitoModel = new ObsFacilitoModel();
+                        //tipo_busqueda = 2;
+
+                        //obsFacilitoModel.Accion = "5";
+                        //obsFacilitoModel.Observacion = String.valueOf(paginacion2);
+                        String json = "";
+
+                        Gson gson = new Gson();
+                        json = gson.toJson(GlobalVariables.FacilitoList);
+
+
+                        final ActivityController obj = new ActivityController("post-2", url, FragmentObsFacilito.this, getActivity());
+                        obj.execute(json,"1");
+
+
+
+
+                        //final ActivityController obj = new ActivityController("get-2", url, FragmentObsFacilito.this,getActivity());
+                        //obj.execute("1");
                     }
 
                 }
@@ -294,6 +360,22 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
 
     @Override
     public void success(String data, String Tipo) {
+        //data add
+        if (Tipo.equals("-1")) { // load data preview load
+            ca = new ObsFacilitoAdapter(getActivity(), GlobalVariables.listaGlobalFacilito, this);
+            list_busqueda.setAdapter(ca);
+            if (GlobalVariables.stateFac != null && GlobalVariables.passFac) {
+                swipeRefreshLayout.setEnabled(false);
+                list_busqueda.onRestoreInstanceState(GlobalVariables.stateFac);
+                GlobalVariables.passFac = false;
+            }
+        }
+
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) {
+
 
         if (Tipo.equals("-1")) { // load first data
             Gson gson = new Gson();
@@ -332,21 +414,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
             if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
             else ca.remove(Integer.parseInt(Tipo)-2);
         }
-    }
 
-    @Override
-    public void successpost(String data1, String Tipo) {
-
-        //data add
-      if (Tipo.equals("-1")) { // load data preview load
-            ca = new ObsFacilitoAdapter(getActivity(), GlobalVariables.listaGlobalFacilito, this);
-            list_busqueda.setAdapter(ca);
-            if (GlobalVariables.stateFac != null && GlobalVariables.passFac) {
-                swipeRefreshLayout.setEnabled(false);
-                list_busqueda.onRestoreInstanceState(GlobalVariables.stateFac);
-                GlobalVariables.passFac = false;
-            }
-        }
 
     }
     @Override
@@ -361,6 +429,14 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
 
         Toast.makeText(getActivity(),mensaje,Toast.LENGTH_SHORT).show();
     }
+
+    public void Filtro_Facilito(){
+        Intent intent = new Intent(getActivity(), B_facilito.class);
+        startActivityForResult(intent , REQUEST_CODE);
+    }
+
+
+
 
     /**
      * This interface must be implemented by activities that contain this
@@ -378,4 +454,56 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
     }
 
 
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+
+
+
+
+                GlobalVariables.FacilitoList.Accion="5";
+                GlobalVariables.FacilitoList.Observacion="1";
+                String json = "";
+
+                Gson gson = new Gson();
+                json = gson.toJson(GlobalVariables.FacilitoList);
+
+                url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
+                GlobalVariables.listaGlobalFacilito = new ArrayList<>();
+
+                final ActivityController obj = new ActivityController("post", url, FragmentObsFacilito.this,getActivity());
+                obj.execute(json,"-1");
+
+
+                /*
+                String tipo_dato=data.getStringExtra("tipo");
+
+                if(tipo_persona.equals("responsable")) {
+                    String nombre_obs = data.getStringExtra("nombreP");
+                    String codpersona_obs = data.getStringExtra("codpersona");
+                    id_persona_res.setText(nombre_obs);
+                    //Utils.inspeccionModel.CodTipo = codpersona_obs;
+                }else{
+
+                    String cod_contrata = data.getStringExtra("codContrata");
+                    String des_contrata = data.getStringExtra("desContrata");
+                    id_creador.setText(des_contrata);
+                    //Utils.inspeccionModel.CodContrata = cod_contrata;
+                }
+
+
+*/
+            }
+        } catch (Exception ex) {
+            Toast.makeText(getActivity(), ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
 }
