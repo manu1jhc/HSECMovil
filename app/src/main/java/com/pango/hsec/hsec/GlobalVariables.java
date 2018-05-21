@@ -63,8 +63,8 @@ public class GlobalVariables  {
     public static int con_status_post=0;
 
     public static String token_auth="";
-
-
+    public static boolean token_ok=true;
+    public static boolean token_refresh=false;
 
     public static String CodObs="";
 

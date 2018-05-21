@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputEditText;
@@ -28,10 +29,18 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.controller.GetTokenController;
+import com.pango.hsec.hsec.controller.WebServiceAPI;
+import com.pango.hsec.hsec.firebase.DeleteTokenService;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Login extends AppCompatActivity implements IActivity{
 
@@ -145,28 +154,6 @@ public class Login extends AppCompatActivity implements IActivity{
             }
             final GetTokenController objT = new GetTokenController(url_token,Login.this,progresbar);
             objT.execute(jsonObject.toString());
-/*
-            final Handler h = new Handler();
-            h.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if (objT.getStatus() == AsyncTask.Status.FINISHED) {
-                        if(GlobalVariables.token_auth.length()<40) {
-                            Toast.makeText(Login.this,GlobalVariables.token_auth,Toast.LENGTH_SHORT).show();
-                        }
-                        else{
-                            final ActivityController obj = new ActivityController("get", url, Login.this);
-                            obj.execute();
-                        }
-
-                    } else {
-                        h.postDelayed(this, 50);
-                    }
-
-
-                }
-            }, 50);*/
-
         }
     }
 
@@ -197,6 +184,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
     @Override
     public void success(String data1,String Tipo) {
+
         if(Tipo=="1") {
             if (GlobalVariables.con_status == 200) {
 
@@ -217,28 +205,54 @@ public class Login extends AppCompatActivity implements IActivity{
                 et_Password.setText("");
                 check_rec.setChecked(false);
             }
-            ////////////////Toast.makeText(Login.this,"mensaje que se muestra despues de cargar",Toast.LENGTH_SHORT).show();
+            String token_movil=getTokenFromPrefs();
+            if(token_movil.equals("")){
+                GlobalVariables.token_refresh=true;
+                Intent intentService = new Intent(Login.this, DeleteTokenService.class);
+                startService(intentService);
+                finish();
+            }
+            else if(!GlobalVariables.token_ok)
+            {
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(GlobalVariables.Url_base)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+
+                Call<String> request = service.updateToken("Bearer "+GlobalVariables.token_auth,token_movil);
+                request.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+
+                        if(response.isSuccessful()){
+                            String respt  = response.body();
+                            if(respt.contains("-1")){
+                                Toast.makeText(Login.this,"Ocurrio un error al guardar token de instalacion",Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                Intent intent = new Intent(Login.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        }else{
+                            Toast.makeText(Login.this,"Ocurrio un error al guardar token de instalacion",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(Login.this,"Ocurrio un error al guardar token de instalacion",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
-            //Gson gson = new Gson();
-            //List<UsuarioModel> Data=new ArrayList<UsuarioModel>();
-            //Data = Arrays.asList(gson.fromJson(data, UsuarioModel[].class));
-
-            //List<Post> posts = Arrays.asList(gson.fromJson(response, Post[].class));
-            // UsuarioModel getUsuarioModel = gson.fromJson(data1, UsuarioModel.class);
-
-
-            //int contPasajeros= getUsuarioModel.Count;
-       /*
-        Intent data2 = new Intent();
-        data2.setData(Uri.parse(gson.toJson(getUsuarioModel)));
-        setResult(RESULT_OK, data2);
-        */
-            //Toast.makeText(this,"O",Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(Login.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            }
+            else{
+                Intent intent = new Intent(Login.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
 
         }else if(Tipo=="2"){
                 String version_app=obtener_version();
@@ -274,6 +288,12 @@ public class Login extends AppCompatActivity implements IActivity{
 
         Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
 
+    }
+
+    private String getTokenFromPrefs()
+    {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("registration_id", "");
     }
 
     public void Save_status(boolean ischecked){

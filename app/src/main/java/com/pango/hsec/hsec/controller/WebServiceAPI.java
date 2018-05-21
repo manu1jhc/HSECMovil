@@ -1,10 +1,13 @@
 package com.pango.hsec.hsec.controller;
 
+import android.support.annotation.RawRes;
+
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -48,5 +51,8 @@ public interface WebServiceAPI {
     @Multipart
     @POST("Inspecciones/Insertar")
     Call<String> insertarInspeccion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody responsables,@Part("3") RequestBody atendidos, @Part("4") RequestBody observaciones,@Part("5") RequestBody planes,  @Part List<MultipartBody.Part> files);
+
+    @POST("usuario/updatetoken")
+    Call<String> updateToken(@Header("Authorization") String token, @Body String token_device);
 
 }

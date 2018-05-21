@@ -219,7 +219,6 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 Gson gson = new Gson();
                 json = gson.toJson(Utils.inspeccionModel);
 
-
                 //Utils.isActivity=true;
                 GlobalVariables.istabs=false;
                 final ActivityController obj = new ActivityController("post-0", url, FragmentInspecciones.this,getActivity());

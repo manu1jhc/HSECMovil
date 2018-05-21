@@ -151,27 +151,13 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
 
 
         if(GlobalVariables.listaGlobalFacilito.size()==0) {
-            /*
-            url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacilito/1/5";
-            final ActivityController obj = new ActivityController("get-0", url, this,getActivity());
-            obj.execute("-1");
-            */
+
             GlobalVariables.FacilitoList =new ObsFacilitoModel();
-
-
             GlobalVariables.FacilitoList.Accion="5";
             GlobalVariables.FacilitoList.Observacion="1";
 
-            //ObsFacilitoModel obsFacilitoModel = new ObsFacilitoModel();
-            //tipo_busqueda = 2;
-
-            GlobalVariables.FacilitoList.Accion = "5";
-            GlobalVariables.FacilitoList.Observacion = "1";
-            String json = "";
-
             Gson gson = new Gson();
-            json = gson.toJson(GlobalVariables.FacilitoList);
-
+            String json = gson.toJson(GlobalVariables.FacilitoList);
 
             final ActivityController obj = new ActivityController("post", url, FragmentObsFacilito.this, getActivity());
             obj.execute(json,"-1");
@@ -370,7 +356,10 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                 GlobalVariables.passFac = false;
             }
         }
-
+        else {
+            if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+            else ca.remove(Integer.parseInt(Tipo)-2);
+        }
     }
 
     @Override
@@ -410,12 +399,6 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
             constraintLayout.setVisibility(View.GONE);
             flag_enter = true;
         }
-        else {
-            if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
-            else ca.remove(Integer.parseInt(Tipo)-2);
-        }
-
-
     }
     @Override
     public void error(String mensaje, String Tipo) {

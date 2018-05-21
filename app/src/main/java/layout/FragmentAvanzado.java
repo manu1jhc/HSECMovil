@@ -214,7 +214,7 @@ public class FragmentAvanzado extends Fragment implements IActivity {
     @Override
     public void successpost(String data, String Tipo) {
 
-        int resul=Integer.parseInt(data);
+        int resul=Integer.parseInt(data.substring(1,data.length()-1));
 
         if ( GlobalVariables.con_status_post!=200||resul==-1||resul==0) {
 

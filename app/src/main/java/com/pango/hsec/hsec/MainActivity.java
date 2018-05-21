@@ -648,8 +648,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-
     //menu inferior
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
