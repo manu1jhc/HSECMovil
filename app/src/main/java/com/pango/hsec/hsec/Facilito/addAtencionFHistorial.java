@@ -80,7 +80,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     ProgressBar progressBar;
     private RecyclerView gridView;
     private GridViewAdapter gridViewAdapter;
-    private CardView cv_fecha;
+    private CardView cv_fecha,cv_hora;
     private ArrayList<GaleriaModel> DataImg;
     private ArrayList<GaleriaModel> DataImgList;
     private ImageButton btnFotos,ButtonGuardar;
@@ -116,6 +116,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         txv_comentario=(TextView) findViewById(R.id.txv_comentario);
         textViewtitle=(TextView) findViewById(R.id.textViewtitle);
         cv_fecha=(CardView) findViewById(R.id.cv_fecha);
+        cv_hora=(CardView) findViewById(R.id.cv_hora);
 
         btn_hora=(Button) findViewById(R.id.btn_hora);
         btn_hora.setText("SELECCIONAR HORA");
@@ -144,9 +145,11 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     ObsHist.Estado = estado;
                     if(ObsHist.Estado.equals("S")){
                         cv_fecha.setVisibility(View.VISIBLE);
+                        cv_hora.setVisibility(View.VISIBLE);
                     }
                     else {
                         cv_fecha.setVisibility(View.GONE);
+                        cv_hora.setVisibility(View.GONE);
                     }
                     adapterNivelR.notifyDataSetChanged();
                     if (pass[0]) {
