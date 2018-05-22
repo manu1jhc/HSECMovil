@@ -273,6 +273,9 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "TPAC":
                     GlobalVariables.Tipo_Plan.add(item);
                     break;
+                case "TROL":
+                    GlobalVariables.Roles.add(item);
+                    break;
                 /*default:
                     break;*/
             }

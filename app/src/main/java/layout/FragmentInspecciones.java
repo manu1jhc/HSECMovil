@@ -28,6 +28,7 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.InspeccionAdapter;
@@ -70,7 +71,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     Button add_obs;
     public static final int REQUEST_CODE = 1;
     String url="";
-    int contPublicacion;
+    //int contPublicacion;
     public ListView list_busqueda;
     int paginacion2=1;
     boolean flagObsFiltro=true;
@@ -91,6 +92,9 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     boolean flagpopup=false;
     public InspeccionAdapter ca;
 
+    ConstraintLayout linear_total;
+    Button btn_eliminarf;
+    TextView tx_filtro;
 
 
 
@@ -145,6 +149,9 @@ public class FragmentInspecciones extends Fragment implements IActivity {
         //sp_busqueda=(Spinner) rootView.findViewById(R.id.sp_busqueda);
         tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
         btn_filtro=(Button) rootView.findViewById(R.id.btn_filtro);
+        linear_total=rootView.findViewById(R.id.linear_total);
+        btn_eliminarf=rootView.findViewById(R.id.btn_eliminarf);
+        tx_filtro=rootView.findViewById(R.id.tx_filtro);
 
         url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
 
@@ -171,6 +178,30 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
         }
 
+        btn_eliminarf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear_total.setVisibility(View.GONE);
+                MainActivity.flag_inspeccion =false;
+                GlobalVariables.listaGlobalInspeccion.clear();
+
+                Utils.inspeccionModel = new InspeccionModel();
+                InspeccionModel inspeccionModel = new InspeccionModel();
+                tipo_busqueda = 2;
+                inspeccionModel.Elemperpage = "5";
+                inspeccionModel.Pagenumber = "1";
+                String json = "";
+
+                Gson gson = new Gson();
+                json = gson.toJson(inspeccionModel);
+
+                Utils.isActivity = true;
+                //GlobalVariables.listaGlobalInspeccion = new ArrayList<>();
+
+                final ActivityController obj = new ActivityController("post", url, FragmentInspecciones.this, getActivity());
+                obj.execute(json);
+            }
+        });
         add_obs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -250,7 +281,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalInspeccion.size() != contPublicacion && flag_enter&&flagObsFiltro) {
+                    if (GlobalVariables.listaGlobalInspeccion.size() != MainActivity.countInspeccion && flag_enter&&flagObsFiltro) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -497,7 +528,8 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             GlobalVariables.listaGlobalInspeccion=getPublicacionModel.Data;
             ca = new  InspeccionAdapter(getActivity(), GlobalVariables.listaGlobalInspeccion,this);
             list_busqueda.setAdapter(ca);
-            contPublicacion= getPublicacionModel.Count;
+
+            MainActivity.countInspeccion= getPublicacionModel.Count;
             if(getPublicacionModel.Data.size()==0){
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 tx_mensajeb.setVisibility(View.VISIBLE);
@@ -536,6 +568,11 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             flag_enter=true;
         }
 
+
+        if(MainActivity.flag_inspeccion){
+            linear_total.setVisibility(View.VISIBLE);
+            tx_filtro.setText("("+ MainActivity.countInspeccion+")"+" resultados");
+        }else {linear_total.setVisibility(View.GONE);}
       /*  jsonObs=data1;
         if(flagpopup){
             popupWindow.dismiss();
@@ -791,7 +828,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
 
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
                 GlobalVariables.flagUpSc=true;
-
+                MainActivity.flag_inspeccion=true;
                 tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
 
               /*  String nombre_obs = data.getStringExtra("nombreP");

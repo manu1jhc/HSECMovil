@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,12 +21,14 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.SelectDateFragment;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObservacionModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,7 +65,7 @@ public class B_observaciones extends AppCompatActivity {
     String codUser;
     ArrayAdapter adapterSuperInt;
     TextView id_persona;
-
+    CardView id_obspor;
 
     String fecha_inicio="-";
     String fecha_fin="-";
@@ -71,7 +74,7 @@ public class B_observaciones extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_observaciones);
-
+        Utils.observacionModel=new ObservacionModel();
 
         spinnerArea = (Spinner) findViewById(R.id.spinner_area);
         spinnerTipoObs=(Spinner) findViewById(R.id.spinner_tipobs);
@@ -86,6 +89,15 @@ public class B_observaciones extends AppCompatActivity {
         btnbuscar=(ImageButton) findViewById(R.id.btn_buscar_obs);
         btn_buscar_p=(ImageView) findViewById(R.id.btn_buscar_p);
         id_persona=(TextView) findViewById(R.id.id_persona);
+        id_obspor=findViewById(R.id.id_obspor);
+
+
+        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+            id_obspor.setVisibility(View.VISIBLE);
+        }else{
+            Utils.observacionModel.ObservadoPor=GlobalVariables.userLoaded.CodPersona;
+
+        }
 
         area_data= new ArrayList<>();
         //area_data.add(new Maestro(null,"-  Seleccione  -"));

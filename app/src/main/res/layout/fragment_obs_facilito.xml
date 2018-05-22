@@ -41,20 +41,66 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+<android.support.constraint.ConstraintLayout
+    android:id="@+id/linear_total"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="@color/colorBtnBeige"
+    android:visibility="gone"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    >
+
+    <TextView
+        android:id="@+id/tx_filtro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:layout_marginStart="50dp"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text=" Resultados"
+        android:textColor="@color/colorBlanco"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_eliminarf"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_eliminarf"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginEnd="4dp"
+        android:background="@color/colorBtnBeige"
+        android:drawableLeft="@drawable/ic_tacho"
+        android:text="Quitar filtro"
+        android:textSize="9dp"
+        android:textColor="@color/colorBlanco"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+</android.support.constraint.ConstraintLayout>
+
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipelayout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="1dp"
+
         android:layout_marginTop="1dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
 
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/carviewTitle"
+        app:layout_constraintTop_toBottomOf="@+id/linear_total">
 
-        >
         <android.support.constraint.ConstraintLayout
             android:id="@+id/constraintLayout5"
             android:layout_width="match_parent"
@@ -85,7 +131,7 @@
             <ListView
                 android:id="@+id/list_busqueda"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
 
                 android:layout_marginBottom="2dp"
                 android:layout_marginEnd="2dp"
@@ -104,13 +150,14 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/const_main"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@color/colorBlanco"
-        android:visibility="invisible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/swipelayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent">
 
         <ProgressBar

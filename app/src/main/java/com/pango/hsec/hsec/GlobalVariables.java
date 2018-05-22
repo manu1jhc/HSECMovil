@@ -60,7 +60,7 @@ public class GlobalVariables  {
 
     //public static String Urlbase2 = "entrada/getpaginated/";
     public static int con_status=0;
-    public static int con_status_post=0;
+    //public static int con_status_post=0;
 
     public static String token_auth="";
     public static boolean token_ok=true;
@@ -271,6 +271,9 @@ public class GlobalVariables  {
 
     public static  ArrayList<Maestro> TipoAutenticacion = new ArrayList<>();
     public static  ArrayList<Maestro> Sexo = new ArrayList<>();
+
+    //roles
+    public static  ArrayList<Maestro> Roles = new ArrayList<>();
 
     //public static int paginacion=1;
 

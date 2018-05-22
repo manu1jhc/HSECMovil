@@ -16,6 +16,7 @@ package layout;
         import android.widget.AdapterView;
         import android.widget.Button;
         import android.widget.ImageView;
+        import android.widget.LinearLayout;
         import android.widget.ListView;
         import android.widget.PopupWindow;
         import android.widget.TextView;
@@ -29,6 +30,7 @@ package layout;
         import com.pango.hsec.hsec.IActivity;
         import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
         import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+        import com.pango.hsec.hsec.MainActivity;
         import com.pango.hsec.hsec.R;
         import com.pango.hsec.hsec.Utils;
         import com.pango.hsec.hsec.adapter.InspeccionAdapter;
@@ -44,6 +46,7 @@ package layout;
         import java.util.ArrayList;
 
         import static android.app.Activity.RESULT_OK;
+        import static com.pango.hsec.hsec.MainActivity.flag_Facilito;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +75,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
     Button add_obs;
     public static final int REQUEST_CODE = 1;
     String url="";
-    int contPublicacion;
+    //int contPublicacion;
     public ListView list_busqueda;
     int paginacion2=1;
     boolean flagObsFiltro=true;
@@ -92,10 +95,10 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
     PopupWindow popupWindow;
     boolean flagpopup=false;
     public ObsFacilitoAdapter ca;
-
-
-
-
+    TextView tx_filtro;
+    //boolean flag_filtro=false;
+    ConstraintLayout linear_total;
+    Button btn_eliminarf;
     private OnFragmentInteractionListener mListener;
 
     public FragmentObsFacilito() {
@@ -135,7 +138,8 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         // Inflate the layout for this fragment
         // Inflate the layout for this fragment
         rootView=inflater.inflate(R.layout.fragment_obs_facilito, container, false);
-
+        tx_filtro=rootView.findViewById(R.id.tx_filtro);
+        linear_total=rootView.findViewById(R.id.linear_total);
         tx_texto =(TextView) rootView.findViewById(R.id.tx_texto);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) rootView.findViewById(R.id.const_main);
@@ -145,6 +149,9 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         list_busqueda=(ListView) rootView.findViewById(R.id.list_busqueda);
         //sp_busqueda=(Spinner) rootView.findViewById(R.id.sp_busqueda);
         tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
+        btn_eliminarf=rootView.findViewById(R.id.btn_eliminarf);
+
+
 
 
         url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
@@ -168,6 +175,28 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         }else{
             success("","-1");
         }
+
+
+        btn_eliminarf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear_total.setVisibility(View.GONE);
+                flag_Facilito=false;
+                GlobalVariables.listaGlobalFacilito.clear();
+
+                GlobalVariables.FacilitoList =new ObsFacilitoModel();
+                GlobalVariables.FacilitoList.Accion="5";
+                GlobalVariables.FacilitoList.Observacion="1";
+
+                Gson gson = new Gson();
+                String json = gson.toJson(GlobalVariables.FacilitoList);
+
+                final ActivityController obj = new ActivityController("post", url, FragmentObsFacilito.this, getActivity());
+                obj.execute(json,"-1");
+            }
+        });
+
+
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -227,7 +256,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalFacilito.size() != contPublicacion && flag_enter) {
+                    if (GlobalVariables.listaGlobalFacilito.size() != MainActivity.countFacilito && flag_enter) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -354,12 +383,19 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                 swipeRefreshLayout.setEnabled(false);
                 list_busqueda.onRestoreInstanceState(GlobalVariables.stateFac);
                 GlobalVariables.passFac = false;
-            }
+        }
         }
         else {
             if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
             else ca.remove(Integer.parseInt(Tipo)-2);
         }
+
+
+        if(flag_Facilito){
+            linear_total.setVisibility(View.VISIBLE);
+            tx_filtro.setText("("+MainActivity.countFacilito+")"+" resultados");
+        }else {linear_total.setVisibility(View.GONE);}
+
     }
 
     @Override
@@ -372,8 +408,9 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
             GlobalVariables.listaGlobalFacilito = getPublicacionModel.Data;
             ca = new ObsFacilitoAdapter(getActivity(), GlobalVariables.listaGlobalFacilito, this);
             list_busqueda.setAdapter(ca);
-            contPublicacion= getPublicacionModel.Count;
-            if (contPublicacion == 0) {
+            MainActivity.countFacilito= getPublicacionModel.Count;
+
+            if (MainActivity.countFacilito == 0) {
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 tx_mensajeb.setVisibility(View.VISIBLE);
             } else {
@@ -384,6 +421,8 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
             Gson gson = new Gson();
             GetObsFacilitoModel getPublicacionModel = gson.fromJson(data, GetObsFacilitoModel.class);
             GlobalVariables.listaGlobalFacilito = getPublicacionModel.Data;
+            MainActivity.countFacilito= getPublicacionModel.Count;
+
             ca = new ObsFacilitoAdapter(getContext(), GlobalVariables.listaGlobalFacilito, this);
             list_busqueda.setAdapter(ca);
 
@@ -393,13 +432,22 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         } else if (Tipo.equals("1")) { // addd more data
             Gson gson = new Gson();
             GetObsFacilitoModel getPublicacionModel = gson.fromJson(data, GetObsFacilitoModel.class);
+
             for (ObsFacilitoMinModel item : getPublicacionModel.Data)
                 ca.add(item);
             ca.notifyDataSetChanged();
             constraintLayout.setVisibility(View.GONE);
             flag_enter = true;
         }
+
+
+        if(flag_Facilito){
+            linear_total.setVisibility(View.VISIBLE);
+            tx_filtro.setText("("+MainActivity.countFacilito+")"+" resultados");
+        }else {linear_total.setVisibility(View.GONE);}
+
     }
+
     @Override
     public void error(String mensaje, String Tipo) {
         if(flagpopup){
@@ -449,7 +497,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
 
 
 
-
+                flag_Facilito=true;
                 GlobalVariables.FacilitoList.Accion="5";
                 GlobalVariables.FacilitoList.Observacion="1";
                 String json = "";

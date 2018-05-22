@@ -123,6 +123,19 @@ public class MainActivity extends AppCompatActivity
     int contPublicacion;
     boolean flag_enter=true;
     int pagination;
+    public static int countFacilito;
+    public static boolean flag_Facilito=false;
+
+    public static int countObservacion;
+    public static boolean flag_observacion=false;
+
+    public static int countInspeccion;
+    public static boolean flag_inspeccion=false;
+
+    public static int countNoticia;
+    public static boolean flag_noticia=false;
+
+
     String TipoSearch;
     String txtSearch;
     String oldTipo="";
@@ -338,7 +351,7 @@ public class MainActivity extends AppCompatActivity
                             popupWindow.dismiss();
                         }else if(lastTag.equals("N"))//noticias
                         {
-                            FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(3);
+                            FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(4);
                             temp.Filtro_Noticias();
                             popupWindow.dismiss();
                         }
@@ -820,7 +833,7 @@ public class MainActivity extends AppCompatActivity
         lastTag=Tipo;
         // button Search
         Title_txt.setText(Title);
-        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I"))
+        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I")||Tipo.equals("N"))
             buscar.setVisibility(View.VISIBLE);
         else buscar.setVisibility(View.INVISIBLE);
 

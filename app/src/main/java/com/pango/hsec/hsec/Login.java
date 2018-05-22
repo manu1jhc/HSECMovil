@@ -285,16 +285,20 @@ public class Login extends AppCompatActivity implements IActivity{
     @Override
     public void error(String mensaje,String Tipo) {
 
-        constraintLayout4.setVisibility(View.VISIBLE);
-        Save_status(false);
-        Save_Datalogin("", "");
+        if(mensaje.equals("Se perdio la conexión a internet")){
+            Utils.cargar_alerta(this,Login.this);
+        }else {
 
-        et_User.setText("");
-        et_Password.setText("");
-        check_rec.setChecked(false);
+            constraintLayout4.setVisibility(View.VISIBLE);
+            Save_status(false);
+            Save_Datalogin("", "");
 
-        Toast.makeText(this,mensaje,Toast.LENGTH_SHORT).show();
+            et_User.setText("");
+            et_Password.setText("");
+            check_rec.setChecked(false);
 
+            Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+        }
     }
 
     private String getTokenFromPrefs()

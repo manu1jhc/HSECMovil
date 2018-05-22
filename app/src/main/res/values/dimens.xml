@@ -28,7 +28,7 @@
 <!-- dimen para fragment de edicion -->
     <dimen name="pad_topbottom_der">5dp</dimen>
 
-    <dimen name="titulo_det">16dp</dimen>
+    <dimen name="titulo_det">18dp</dimen>
     <dimen name="dim_icon_t">35dp</dimen>
 
 

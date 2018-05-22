@@ -1,8 +1,10 @@
 package com.pango.hsec.hsec;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -571,6 +573,34 @@ public class Utils {
             InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+
+
+
+
+    public static void cargar_alerta(Context context,Activity activity){
+
+            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+            alertDialog.setCancelable(false);
+            alertDialog.setTitle("Error en la Conexión");
+            alertDialog.setMessage("Revisa tu conexión a internet e inténtalo de nuevo");
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Inténtalo de nuevo", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    activity.finish();
+                    activity.startActivity(activity.getIntent());
+                }
+            });
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cerrar Aplicación", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    activity.finish();
+                    //startActivity(getIntent());
+                }
+            });
+
+            alertDialog.show();
+
     }
 
 }

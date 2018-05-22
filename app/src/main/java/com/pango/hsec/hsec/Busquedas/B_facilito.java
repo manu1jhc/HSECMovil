@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -52,11 +53,13 @@ public class B_facilito extends AppCompatActivity {
     TextView id_persona_res,id_creador;
     String tipo_persona="";
     public static final int REQUEST_CODE = 1;
+    CardView id_obspor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_facilito);
+        //GlobalVariables.FacilitoList =new ObsFacilitoModel();
 
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.spinner_superint);
@@ -72,6 +75,14 @@ public class B_facilito extends AppCompatActivity {
         btn_buscar_c=(ImageButton) findViewById(R.id.btn_buscar_c);
         id_creador=(TextView) findViewById(R.id.id_creador);
         img_guardar=findViewById(R.id.img_guardar);
+        id_obspor=findViewById(R.id.id_obspor);
+        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+            id_obspor.setVisibility(View.VISIBLE);
+        }else{
+            GlobalVariables.FacilitoList.Persona=GlobalVariables.userLoaded.CodPersona;
+
+        }
+
         tipodata= new ArrayList<>();
         tipodata.add(new Maestro(null,"-  Seleccione  -"));
         tipodata.add(new Maestro("c","Condición"));
@@ -84,7 +95,6 @@ public class B_facilito extends AppCompatActivity {
         estadodata.add(new Maestro(null,"-  Seleccione  -"));
         estadodata.addAll(GlobalVariables.ObsFacilito_estado);
 
-        GlobalVariables.FacilitoList =new ObsFacilitoModel();
 
 
 

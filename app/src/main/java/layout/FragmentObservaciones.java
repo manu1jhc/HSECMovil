@@ -32,6 +32,7 @@ import com.pango.hsec.hsec.Busquedas.Busqueda;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
@@ -43,6 +44,7 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
+import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.observacion_edit;
@@ -52,6 +54,7 @@ import java.util.ArrayList;
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static com.pango.hsec.hsec.GlobalVariables.busqueda_tipo;
+import static com.pango.hsec.hsec.MainActivity.flag_observacion;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -77,7 +80,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
     Button add_obs;
     public static final int REQUEST_CODE = 1;
     String url="";
-    int contPublicacion;
+    //int contPublicacion;
     public ListView list_busqueda;
     int paginacion2=1;
     boolean flagObsFiltro=true;
@@ -97,6 +100,10 @@ public class FragmentObservaciones extends Fragment implements IActivity {
     PopupWindow popupWindow;
     boolean flagpopup=false;
     public PublicacionAdapter ca;
+
+    ConstraintLayout linear_total;
+    Button btn_eliminarf;
+    TextView tx_filtro;
 
     private OnFragmentInteractionListener mListener;
 
@@ -148,6 +155,9 @@ public class FragmentObservaciones extends Fragment implements IActivity {
         //sp_busqueda=(Spinner) rootView.findViewById(R.id.sp_busqueda);
         tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
         btn_filtro=(Button) rootView.findViewById(R.id.btn_filtro);
+        linear_total=rootView.findViewById(R.id.linear_total);
+        btn_eliminarf=rootView.findViewById(R.id.btn_eliminarf);
+        tx_filtro=rootView.findViewById(R.id.tx_filtro);
 
         url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
 
@@ -179,6 +189,28 @@ public class FragmentObservaciones extends Fragment implements IActivity {
             list_busqueda.setAdapter(ca);
         }
 */
+
+        btn_eliminarf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear_total.setVisibility(View.GONE);
+                flag_observacion=false;
+                GlobalVariables.listaGlobalObservacion.clear();
+
+                Utils.observacionModel = new ObservacionModel();
+                ObservacionModel observacionModel = new ObservacionModel();
+                tipo_busqueda = 1;
+                observacionModel.CodUbicacion = "5";
+                observacionModel.Lugar = "1";
+                String json = "";
+                Gson gson = new Gson();
+                json = gson.toJson(observacionModel);
+
+                Utils.isActivity = true;
+                final ActivityController obj = new ActivityController("post-" + paginacion2, url, FragmentObservaciones.this, getActivity());
+                obj.execute(json,"0");
+            }
+        });
 
         add_obs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +287,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalObservacion.size() != contPublicacion && flag_enter&&flagObsFiltro) {
+                    if (GlobalVariables.listaGlobalObservacion.size() != MainActivity.countObservacion && flag_enter&&flagObsFiltro) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -467,6 +499,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
         if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
         else ca.remove(Integer.parseInt(Tipo)-2);
 
+
     }
 
     @Override
@@ -477,9 +510,9 @@ public class FragmentObservaciones extends Fragment implements IActivity {
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
             GlobalVariables.listaGlobalObservacion=getPublicacionModel.Data;
+            MainActivity.countObservacion=getPublicacionModel.Count;
             ca = new  PublicacionAdapter(getActivity(), GlobalVariables.listaGlobalObservacion,this);
             list_busqueda.setAdapter(ca);
-            contPublicacion= getPublicacionModel.Count;
             if(getPublicacionModel.Data.size()==0){
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 tx_mensajeb.setVisibility(View.VISIBLE);
@@ -501,6 +534,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
             GlobalVariables.listaGlobalObservacion=getPublicacionModel.Data;
+            MainActivity.countObservacion=getPublicacionModel.Count;
             ca = new PublicacionAdapter(getContext(),GlobalVariables.listaGlobalObservacion,this);
             list_busqueda.setAdapter(ca);
 
@@ -517,6 +551,13 @@ public class FragmentObservaciones extends Fragment implements IActivity {
             constraintLayout.setVisibility(View.GONE);
             flag_enter=true;
         }
+
+
+
+        if(flag_observacion){
+            linear_total.setVisibility(View.VISIBLE);
+            tx_filtro.setText("("+ MainActivity.countObservacion+")"+" resultados");
+        }else {linear_total.setVisibility(View.GONE);}
 
       /*  jsonObs=data1;
         if(flagpopup){
@@ -658,6 +699,8 @@ public class FragmentObservaciones extends Fragment implements IActivity {
         try {
             super.onActivityResult(requestCode, resultCode, data);
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+                flag_observacion=true;
+
                 GlobalVariables.flagUpSc=true;
                 tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
 

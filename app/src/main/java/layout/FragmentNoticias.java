@@ -25,6 +25,7 @@ import com.pango.hsec.hsec.Busquedas.B_noticias;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
@@ -35,6 +36,8 @@ import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +66,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
     Button btn_filtro;
     Button add_obs;
     String url="";
-    int contPublicacion;
+    //int contPublicacion;
     public ListView list_busqueda;
     int paginacion2=1;
     boolean flagObsFiltro=true;
@@ -85,7 +88,9 @@ public class FragmentNoticias extends Fragment implements IActivity {
     public NoticiasAdapter ca;
 
 
-
+    ConstraintLayout linear_total;
+    Button btn_eliminarf;
+    TextView tx_filtro;
 
 
     private OnFragmentInteractionListener mListener;
@@ -146,6 +151,9 @@ public class FragmentNoticias extends Fragment implements IActivity {
         //sp_busqueda=(Spinner) rootView.findViewById(R.id.sp_busqueda);
         tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
         btn_filtro=(Button) rootView.findViewById(R.id.btn_filtro);
+        linear_total=rootView.findViewById(R.id.linear_total);
+        btn_eliminarf=rootView.findViewById(R.id.btn_eliminarf);
+        tx_filtro=rootView.findViewById(R.id.tx_filtro);
 
         url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
 
@@ -172,6 +180,35 @@ public class FragmentNoticias extends Fragment implements IActivity {
             successpost("","-1");
 
         }
+
+
+        btn_eliminarf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                linear_total.setVisibility(View.GONE);
+                MainActivity.flag_noticia =false;
+                GlobalVariables.listaGlobalNoticias.clear();
+
+                Utils.noticiasModel = new NoticiasModel();
+                tipo_busqueda = 2;
+                Utils.noticiasModel.Elemperpage="5";
+                Utils.noticiasModel.Pagenumber="1";
+
+
+                String json = "";
+
+                Gson gson = new Gson();
+                json = gson.toJson(Utils.noticiasModel);
+
+                //Utils.isActivity = true;
+                //GlobalVariables.listaGlobalInspeccion = new ArrayList<>();
+
+                final ActivityController obj = new ActivityController("post", url, FragmentNoticias.this, getActivity());
+                obj.execute(json);
+            }
+        });
+
+
 
         /////PREGUNTAR-----------------------------------------------------------------
         add_obs.setOnClickListener(new View.OnClickListener() {
@@ -256,7 +293,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalNoticias.size() != contPublicacion && flag_enter&&flagObsFiltro) {
+                    if (GlobalVariables.listaGlobalNoticias.size() != MainActivity.countNoticia && flag_enter&&flagObsFiltro) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -510,7 +547,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
 
             ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias);
             list_busqueda.setAdapter(ca);
-            contPublicacion= getPublicacionModel.Count;
+            MainActivity.countNoticia= getPublicacionModel.Count;
             if(getPublicacionModel.Data.size()==0){
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
                 tx_mensajeb.setVisibility(View.VISIBLE);
@@ -532,6 +569,8 @@ public class FragmentNoticias extends Fragment implements IActivity {
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data, GetPublicacionModel.class);
             GlobalVariables.listaGlobalInspeccion=getPublicacionModel.Data;
+            MainActivity.countNoticia= getPublicacionModel.Count;
+
             ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias);
             list_busqueda.setAdapter(ca);
 
@@ -549,7 +588,10 @@ public class FragmentNoticias extends Fragment implements IActivity {
             flag_enter=true;
         }
 
-
+        if(MainActivity.flag_noticia){
+            linear_total.setVisibility(View.VISIBLE);
+            tx_filtro.setText("("+ MainActivity.countNoticia+")"+" resultados");
+        }else {linear_total.setVisibility(View.GONE);}
 
 
 
@@ -578,4 +620,105 @@ public class FragmentNoticias extends Fragment implements IActivity {
         Intent intent = new Intent(getActivity(), B_noticias.class);//cambiar a B_noticias
         startActivityForResult(intent , REQUEST_CODE);
     }
+
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            //Bundle datos = this.getIntent().getExtras();
+            //tipo_busqueda=datos.getInt("Tipo_Busqueda");
+
+            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+                MainActivity.flag_noticia=true;
+
+                GlobalVariables.flagUpSc=true;
+                MainActivity.flag_inspeccion=true;
+                tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
+
+              /*  String nombre_obs = data.getStringExtra("nombreP");
+                String codpersona_obs = data.getStringExtra("codpersona");
+                id_persona.setText(nombre_obs);
+                Utils.observacionModel.ObservadoPor=codpersona_obs;
+                */
+
+                Utils.noticiasModel.Elemperpage="5";
+                Utils.noticiasModel.Pagenumber="1";
+                String json = "";
+
+                Gson gson = new Gson();
+                json = gson.toJson(Utils.noticiasModel);
+
+                GlobalVariables.isFragment=false;
+                Utils.isActivity = true;
+                url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
+                GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                final ActivityController obj = new ActivityController("post", url, FragmentNoticias.this,getActivity());
+                obj.execute(json);
+
+              /*
+                if(tipo_busqueda==1) {
+                    Utils.observacionModel.CodUbicacion = "5";
+                    Utils.observacionModel.Lugar = "1";
+                    String json = "";
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.observacionModel);
+                    GlobalVariables.isFragment=false;
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, FragmentObservaciones.this,getActivity());
+                    obj.execute(json);
+
+                }else if(tipo_busqueda==2){
+                    Utils.inspeccionModel.Elemperpage="5";
+                    Utils.inspeccionModel.Pagenumber="1";
+                    String json = "";
+
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.inspeccionModel);
+                    GlobalVariables.isFragment=false;
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, FragmentObservaciones.this,getActivity());
+                    obj.execute(json);
+
+
+
+                }else if(tipo_busqueda==3){
+                    Utils.noticiasModel.Elemperpage="5";
+                    Utils.noticiasModel.Pagenumber="1";
+                    String json = "";
+
+                    Gson gson = new Gson();
+                    json = gson.toJson(Utils.noticiasModel);
+
+                    GlobalVariables.isFragment=false;
+                    Utils.isActivity = true;
+                    url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
+                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
+
+                    final ActivityController obj = new ActivityController("post", url, FragmentObservaciones.this,getActivity());
+                    obj.execute(json);
+
+                }
+*/
+            }
+
+
+
+        } catch (Exception ex) {
+            Toast.makeText(getActivity(), ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+
 }

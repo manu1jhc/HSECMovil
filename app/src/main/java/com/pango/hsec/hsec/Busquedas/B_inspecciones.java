@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -64,11 +65,13 @@ public class B_inspecciones extends AppCompatActivity {
     String superint_pos="0";
     String ubic_pos="0";
     String sububic_pos="0";
+    CardView id_obspor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_inspecciones);
-
+        Utils.inspeccionModel=new InspeccionModel();
         spinnerUbicacion = (Spinner) findViewById(R.id.spinner_ubicacion);
         spinnerSubUbicacion=(Spinner) findViewById(R.id.spinner_sububic);
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
@@ -84,6 +87,13 @@ public class B_inspecciones extends AppCompatActivity {
         id_persona=(TextView) findViewById(R.id.id_persona);
         btn_buscar_c=(ImageButton) findViewById(R.id.btn_buscar_c);
         insp_contrata=(TextView) findViewById(R.id.insp_contrata);
+        id_obspor=findViewById(R.id.id_obspor);
+        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+            id_obspor.setVisibility(View.VISIBLE);
+        }else{
+            Utils.inspeccionModel.CodTipo = GlobalVariables.userLoaded.CodPersona;
+
+        }
 
         ubicaciondata= new ArrayList<>();
         //ubicaciondata.add(new Maestro(null,"-  Seleccione  -"));

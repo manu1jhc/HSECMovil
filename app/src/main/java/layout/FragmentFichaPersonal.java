@@ -110,6 +110,13 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         GlobalVariables.isFragment=true;
         Utils.isActivity=false;
 
+        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+            btn_buscaruser.setVisibility(View.VISIBLE);
+        }
+
+        //btn_buscaruser
+
+
 
         if(GlobalVariables.userLoaded.NroDocumento.equals(GlobalVariables.dniUser)) {
             setdata();
@@ -159,7 +166,9 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         tx_sexo.setText(GlobalVariables.getDescripcion(GlobalVariables.Sexo,GlobalVariables.userLoaded.Sexo.trim()));
         ficha_correo.setText( GlobalVariables.userLoaded.Email);
         ficha_empresa.setText( GlobalVariables.userLoaded.Empresa);
-        ficha_rol.setText( GlobalVariables.userLoaded.Rol);
+
+        ficha_rol.setText( GlobalVariables.getDescripcion(GlobalVariables.Roles,GlobalVariables.userLoaded.Rol));
+
         ficha_area.setText( GlobalVariables.userLoaded.Area);
 
         if( GlobalVariables.userLoaded.Tipo_Autenticacion==null) {

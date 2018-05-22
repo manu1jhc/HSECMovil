@@ -1,8 +1,12 @@
 package com.pango.hsec.hsec.controller;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
@@ -72,60 +76,76 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
     @Override
     protected Void doInBackground(String... strings) {
-        try {
-            String json=strings[0];
+        ConnectivityManager cmanager = (ConnectivityManager) ActContext.getSystemService(ActContext.CONNECTIVITY_SERVICE);
+        final NetworkInfo info= cmanager.getActiveNetworkInfo();
 
-            if(opcion.contains("get")) {
+        if(info!=null&&info.isConnected()) {
 
-                Tipo=json;
-                //generarToken(url_token);
-                HttpResponse response;
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpGet get = new HttpGet(url);
-                //GlobalVariables.token_auth=token_auth;
-                //if (opcion == "get" && GlobalVariables.token_auth.length() > 40) {
-                get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
-                get.setHeader("Content-type", "application/json");
+            try {
+                String json = strings[0];
 
-                //}
-                //get.abort();
-                response = httpClient.execute(get);
-                GlobalVariables.con_status = response.getStatusLine().getStatusCode();
-                respstring = EntityUtils.toString(response.getEntity());
-                //JSONObject respJSON = new JSONObject(respstring);
+                if (opcion.contains("get")) {
 
-            }else if(opcion.contains("post")){
+                    Tipo = json;
+                    //generarToken(url_token);
+                    HttpResponse response;
+                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpGet get = new HttpGet(url);
+                    //GlobalVariables.token_auth=token_auth;
+                    //if (opcion == "get" && GlobalVariables.token_auth.length() > 40) {
+                    get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
+                    get.setHeader("Content-type", "application/json");
 
-                Tipo= strings.length>1? Tipo=strings[1]:"";
-                HttpResponse response;
-                InputStream inputStream = null;
-                String result = "";
+                    //}
+                    //get.abort();
+                    response = httpClient.execute(get);
+                    GlobalVariables.con_status = response.getStatusLine().getStatusCode();
+                    respstring = EntityUtils.toString(response.getEntity());
+                    //JSONObject respJSON = new JSONObject(respstring);
 
-                HttpClient httpclient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost (url);
+                } else if (opcion.contains("post")) {
 
-                StringEntity se = new StringEntity(json,"UTF-8");
-                httpPost.setEntity(se);
-                httpPost.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
-                httpPost.setHeader("Content-type", "application/json");
-                HttpResponse httpResponse = httpclient.execute(httpPost);
+                    Tipo = strings.length > 1 ? Tipo = strings[1] : "";
+                    HttpResponse response;
+                    InputStream inputStream = null;
+                    String result = "";
 
-                GlobalVariables.con_status_post=httpResponse.getStatusLine().getStatusCode();
+                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpPost httpPost = new HttpPost(url);
 
-                inputStream = httpResponse.getEntity().getContent();
-                if(inputStream != null)
-                    result = convertInputStreamToString(inputStream);
-                else
-                    result = "Did not work!";
-                String responsepost= GlobalVariables.reemplazarUnicode(result);
-                Resultado=responsepost;
+                    StringEntity se = new StringEntity(json, "UTF-8");
+                    httpPost.setEntity(se);
+                    httpPost.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
+                    httpPost.setHeader("Content-type", "application/json");
+                    HttpResponse httpResponse = httpclient.execute(httpPost);
+
+                    GlobalVariables.con_status = httpResponse.getStatusLine().getStatusCode();
+
+                    inputStream = httpResponse.getEntity().getContent();
+                    if (inputStream != null)
+                        result = convertInputStreamToString(inputStream);
+                    else
+                        result = "Did not work!";
+                    String responsepost = GlobalVariables.reemplazarUnicode(result);
+                    Resultado = responsepost;
+                }
+
+            } catch (Throwable e) {
+                Log.d("InputStream", e.getLocalizedMessage());
+                cargaData = false;
+
             }
 
-        } catch (Throwable e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-            cargaData=false;
+        }else {
+
+            GlobalVariables.con_status=0;
+            //Toast.makeText(ActContext, "Not connected",Toast.LENGTH_LONG).show();
+
 
         }
+
+
+
         return null;
     }
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
@@ -160,6 +180,13 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 case 500:
                     //Toast.makeText((Context) activity,"Ocurrio un error interno en el servidor",Toast.LENGTH_SHORT).show();
                     activity.error("Ocurrio un error interno en el servidor", Tipo);
+                    break;
+                case 0:
+                    //IActivity activity, Activity ActContext
+                    //Utils.cargar_alerta(ActContext.getApplicationContext(),ActContext);
+
+                    activity.error("Se perdio la conexión a internet", Tipo);
+
                     break;
                 default:
                     if(opcion.contains("post"))

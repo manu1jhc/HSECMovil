@@ -216,7 +216,7 @@ public class FragmentAvanzado extends Fragment implements IActivity {
 
         int resul=Integer.parseInt(data.substring(1,data.length()-1));
 
-        if ( GlobalVariables.con_status_post!=200||resul==-1||resul==0) {
+        if ( GlobalVariables.con_status!=200||resul==-1||resul==0) {
 
             //Toast.makeText(contactar,Resultado,Toast.LENGTH_SHORT).show();
 
