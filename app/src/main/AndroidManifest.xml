@@ -26,6 +26,20 @@
             android:name=".util.OfflineSpiceService"
             android:exported="false" />
 
+        <!-- firebase service -->
+        <activity android:name=".firebase.MessageShowActivity"></activity>
+        <service android:name=".firebase.MiFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".firebase.MiFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:exported="false" android:name=".firebase.DeleteTokenService" />
+
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait"
@@ -192,7 +206,12 @@
             android:name=".Facilito.obsFacilitoDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+        <intent-filter>
+            <action android:name="ACT_COM_DET" />
+            <category android:name="android.intent.category.DEFAULT" />
+        </intent-filter>
+        </activity>
         <activity
             android:name=".Facilito.obsfacilitoAprobar"
             android:screenOrientation="portrait"
@@ -218,20 +237,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize"
 
             ></activity>
-
-        <!-- firebase service -->
-
-        <service android:name=".firebase.MiFirebaseMessagingService">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".firebase.MiFirebaseInstanceIdService">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:exported="false" android:name=".firebase.DeleteTokenService" />
 
     </application>
 

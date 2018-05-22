@@ -140,7 +140,9 @@ public class GlobalVariables  {
         else   GlobalVariables.fragmentStack.push(fragment);
     }
 
-
+// notification mejoras
+    public static boolean pasnotification=false;
+    public static String codFacilito="";
     //flag of muro
     public static ArrayList<PublicacionModel> listaGlobal = new  ArrayList<>();
     public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones

@@ -29,32 +29,35 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <Button
-                android:id="@+id/btn_facilito"
-                style="@style/Widget.AppCompat.Button.Borderless"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/transparent"
-                android:textColor="@color/colorBlanco"
-                android:drawableEnd="@drawable/ic_facilito"
+
+            <ImageView
+                android:id="@+id/imageView20"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:cropToPadding="false"
+                android:src="@drawable/ic_facilito"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
-                android:textSize="18dp" />
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginEnd="8dp"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:text="Detalle facilito"
+
+                android:text="Rep. Facilito/Detalle"
                 android:textColor="@color/colorBlanco"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/btn_facilito"
+                app:layout_constraintStart_toEndOf="@+id/imageView20"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
 

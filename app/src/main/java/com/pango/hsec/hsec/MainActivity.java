@@ -44,6 +44,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Facilito.report_obs;
@@ -409,7 +410,7 @@ public class MainActivity extends AppCompatActivity
         spdatasearch.add(new Maestro(R.drawable.ic_inoticia,"4","Noticia"));
 
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
-
+        FirebaseMessaging.getInstance().subscribeToTopic("/topics/noticias");
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -426,7 +427,9 @@ public class MainActivity extends AppCompatActivity
         //GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //2
         Gson gson = new Gson();
         GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+
         GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
+
     }
 
 

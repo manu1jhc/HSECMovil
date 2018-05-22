@@ -1,7 +1,9 @@
 package com.pango.hsec.hsec.Facilito;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Login;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
@@ -29,12 +32,17 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.adapter.ObsFHistorialAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.controller.GetTokenController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetObsFHistorialModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsFHistorialModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
+
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -86,6 +94,48 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         int AddView=data1.getInt("verBoton");
         if(AddView>1) btn_historial.setVisibility(View.GONE);
 
+        if(AddView<0){ // loaded data of notification
+            if(StringUtils.isEmpty(GlobalVariables.token_auth)){
+                if(obtener_status()){
+
+                    String url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.accumulate("username",obtener_usuario());
+                        jsonObject.accumulate("password",obtener_pass());
+                        jsonObject.accumulate("domain","anyaccess");
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    final ActivityController obj1 = new ActivityController("post-2", url_token, obsFacilitoDet.this,this);
+                    obj1.execute(jsonObject.toString());
+                }
+                else {
+                    GlobalVariables.pasnotification=true;
+                    Intent intent = new Intent(obsFacilitoDet.this,Login.class);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        }
+        else loadData();
+
+
+        btn_historial.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalVariables.flaghistorial=true;
+                Intent intent = new Intent(obsFacilitoDet.this,addAtencionFHistorial.class);
+                intent.putExtra("codObs",codObs);
+                startActivityForResult(intent, 1);
+                //v.getContext().startActivity(intent);
+        }
+        });
+    }
+
+    public void loadData(){
+
         GlobalVariables.codObsHistorial=codObs;
         url= GlobalVariables.Url_base+"ObsFacilito/GetObsFacilitoID/"+codObs;
         final ActivityController obj = new ActivityController("get", url, obsFacilitoDet.this,this);
@@ -98,17 +148,23 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         String url2=GlobalVariables.Url_base+"ObsFacilito/GetHistorialAtencion/"+codObs;
         final ActivityController obj2 = new ActivityController("get", url2, obsFacilitoDet.this,this);
         obj2.execute("3");
-        btn_historial.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GlobalVariables.flaghistorial=true;
-                Intent intent = new Intent(obsFacilitoDet.this,addAtencionFHistorial.class);
-                intent.putExtra("codObs",codObs);
-                startActivityForResult(intent, 1);
-                //v.getContext().startActivity(intent);
-        }
-        });
     }
+    public boolean obtener_status(){
+        SharedPreferences check_status = this.getSharedPreferences("checked", Context.MODE_PRIVATE);
+        Boolean status = check_status.getBoolean("check",false);
+        return status;
+    }
+    public String obtener_usuario(){
+        SharedPreferences user_login = this.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        String usuario = user_login.getString("user","");
+        return usuario;
+    }
+    public String obtener_pass(){
+        SharedPreferences user_login = this.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        String password = user_login.getString("password","");
+        return password;
+    }
+
     public void close(View view){
         DataImg.clear();
 
@@ -180,7 +236,11 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
 
     @Override
     public void successpost(String data, String Tipo) {
-
+        data= data.substring(1,data.length()-1);
+        if(data.length()>40){
+            GlobalVariables.token_auth=data;
+            loadData();
+        }
     }
     @Override
     public void error(String mensaje, String Tipo) {

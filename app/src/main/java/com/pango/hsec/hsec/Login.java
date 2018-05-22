@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.controller.GetTokenController;
 import com.pango.hsec.hsec.controller.WebServiceAPI;
@@ -106,6 +107,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
         }else{
             constraintLayout4.setVisibility(View.VISIBLE);
+            progresbar.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -136,7 +138,7 @@ public class Login extends AppCompatActivity implements IActivity{
         }else if (et_Password.getText().length()<5||et_Password.getText().length()>20){
             Toast.makeText(Login.this,"La contraseña debe tener entre 5 a 20 caracteres",Toast.LENGTH_SHORT).show();
         }else {
-
+            constraintLayout4.setVisibility(View.GONE);
             user=et_User.getText().toString();
             pass=et_Password.getText().toString();
             dom="anyaccess";
@@ -181,6 +183,19 @@ public class Login extends AppCompatActivity implements IActivity{
         }
     }
 
+    public void inicialiceApp(){
+        if(GlobalVariables.pasnotification){
+            Intent intent = new Intent(Login.this, obsFacilitoDet.class);
+            intent.putExtra("codObs", GlobalVariables.codFacilito);
+            intent.putExtra("verBoton", "-1");
+            startActivity(intent);
+        }
+        else{
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            startActivity(intent);
+        }
+        finish();
+    }
 
     @Override
     public void success(String data1,String Tipo) {
@@ -230,11 +245,7 @@ public class Login extends AppCompatActivity implements IActivity{
                             if(respt.contains("-1")){
                                 Toast.makeText(Login.this,"Ocurrio un error al guardar token de instalacion",Toast.LENGTH_SHORT).show();
                             }
-                            else {
-                                Intent intent = new Intent(Login.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
+                            else inicialiceApp();
                         }else{
                             Toast.makeText(Login.this,"Ocurrio un error al guardar token de instalacion",Toast.LENGTH_SHORT).show();
                         }
@@ -248,11 +259,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
 
             }
-            else{
-                Intent intent = new Intent(Login.this, MainActivity.class);
-                startActivity(intent);
-                finish();
-            }
+            else inicialiceApp();
 
         }else if(Tipo=="2"){
                 String version_app=obtener_version();
