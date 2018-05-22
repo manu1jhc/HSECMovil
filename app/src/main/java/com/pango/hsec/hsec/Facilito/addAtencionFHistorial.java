@@ -666,6 +666,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             if(GlobalVariables.listaHistorial.size()==0) {
                 GlobalVariables.listaHistorial = getObsFHistorialModel.Data;
             }
+            if(GlobalVariables.listaHistorial.size()!=0){
+                GlobalVariables.listaHistorial = getObsFHistorialModel.Data;
+            }
             for(int i=0;i<GlobalVariables.listaHistorial.size();i++){
                 if (GlobalVariables.listaHistorial.get(i).Correlativo.equals(correEdit)) {
                     ObsHist=GlobalVariables.listaHistorial.get(i);
