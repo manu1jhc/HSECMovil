@@ -417,6 +417,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 tx_mensajeb.setVisibility(View.GONE);
             }
+
         } else if (Tipo.equals("0")) { //from refresh data
             Gson gson = new Gson();
             GetObsFacilitoModel getPublicacionModel = gson.fromJson(data, GetObsFacilitoModel.class);
@@ -445,6 +446,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
             linear_total.setVisibility(View.VISIBLE);
             tx_filtro.setText("("+MainActivity.countFacilito+")"+" resultados");
         }else {linear_total.setVisibility(View.GONE);}
+
 
     }
 
@@ -495,7 +497,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
 
             if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
 
-
+                paginacion2=1;
 
                 flag_Facilito=true;
                 GlobalVariables.FacilitoList.Accion="5";

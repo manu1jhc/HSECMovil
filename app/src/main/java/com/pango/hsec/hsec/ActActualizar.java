@@ -36,7 +36,7 @@ public class ActActualizar extends AppCompatActivity {
         titulo.setText("Nueva Actualización");
 
         TextView contenido = (TextView) customDialog.findViewById(R.id.contenido);
-        contenido.setText("Estimado usuario hay una nueva versión de Antapaccay Movil disponible, ¿Deseas instalarla ahora?");
+        contenido.setText("Estimado usuario hay una nueva versión de HSEC Móvil disponible, ¿Deseas instalarla ahora?");
         ((Button) customDialog.findViewById(R.id.aceptar)).setOnClickListener(new View.OnClickListener() {
 
             @Override
