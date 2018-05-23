@@ -364,7 +364,7 @@ public class PickerActivity extends AppCompatActivity {
     private void initCaptureMenuItem(final Menu menu) {
         if (CameraSupport.isEnabled()) {
             getMenuInflater().inflate(R.menu.menu_take_photo, menu);
-            Drawable captureIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_action_camera_white);
+            Drawable captureIconDrawable = ContextCompat.getDrawable(this, R.drawable.ic_fotos);
             captureIconDrawable = DrawableCompat.wrap(captureIconDrawable);
 
             DrawableCompat.setTint(captureIconDrawable, mPickOptions.captureItemIconTintColor);

@@ -204,8 +204,6 @@ public class GlobalVariables  {
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
     public static String[] busqueda_mes={"*","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
     public static String[] busqueda_anio;
-    public static String versionFromServer="";
-    public static String versionApk="1.9";
 
     public static String Obtener_Tipo(String tipo){
         String descripcion="";

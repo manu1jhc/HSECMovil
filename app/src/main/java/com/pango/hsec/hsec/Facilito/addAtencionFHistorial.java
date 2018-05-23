@@ -708,11 +708,12 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     @Override
     public void successpost(String data, String Tipo) throws CloneNotSupportedException {
 
+        String [] values=data.substring(1, data.length() - 1).split(";");
        if(GlobalVariables.flaghistorial==true){
 
            Gson gson = new Gson();
            ArrayList<String> CorrelativosNuevos=new ArrayList<>();
-           ObsHist.Correlativo = data.substring(1, data.length() - 1);
+           ObsHist.Correlativo = values[0];
            CorrelativosNuevos.add(ObsHist.Correlativo);
        }
         if(data.equals("-1")){
@@ -720,8 +721,12 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             Actives.set(0,-1);
         }
         else{
+            if(values.length>1){
+                Errores+=values[1];
+                Actives.set(0,-1);
+            }
+            else Actives.set(0,1);
             UpdateFiles(false);
-            Actives.set(0,1);
         }
     }
 

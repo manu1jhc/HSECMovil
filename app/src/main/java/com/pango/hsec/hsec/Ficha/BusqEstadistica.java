@@ -258,11 +258,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         }
                       else{// codselected==-1  Reporte facilito
                             //aqui va planes
-
+                            String anho="-";
+                            if(!anio.equals("*")) anho=anio;
                             if(Integer.parseInt(mes)==0) {
-                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C/"+paginacion2+"/5";
+                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C/"+paginacion2+"/5";
                             }else{
-                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C"+mes+"/"+paginacion2+"/5";
+                                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C"+mes+"/"+paginacion2+"/5";
                             }
 
                             final ActivityController obj = new ActivityController("get-"+paginacion2, url, BusqEstadistica.this,BusqEstadistica.this);
@@ -450,11 +451,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         }
         else{// codselected==-1  Reporte facilito
             //aqui va planes
-
+            String anho="-";
+            if(!anio.equals("*")) anho=anio;
             if(mes.equals("00")) {
-                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C/1/5";
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C/1/5";
             }else{
-                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anio + "%7C"+mes+"/1/5";
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C"+mes+"/1/5";
             }
 
             final ActivityController obj = new ActivityController("get-"+paginacion, url, BusqEstadistica.this,this);
