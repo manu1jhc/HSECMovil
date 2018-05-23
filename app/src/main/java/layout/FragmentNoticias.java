@@ -599,7 +599,15 @@ public class FragmentNoticias extends Fragment implements IActivity {
 
     @Override
     public void error(String mensaje, String Tipo) {
+        if(flagpopup){
+            popupWindow.dismiss();
+            flagpopup=false;
+        }
+        constraintLayout.setVisibility(View.GONE);
+        paginacion2-=1;
+        flag_enter=true;
 
+        Toast.makeText(getActivity(),mensaje,Toast.LENGTH_SHORT).show();
     }
 
     /**
