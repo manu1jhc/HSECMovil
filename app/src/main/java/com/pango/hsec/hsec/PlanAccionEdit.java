@@ -56,6 +56,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     SimpleDateFormat df,dt;
     DateFormat formatoRender;
     EditText txtTarea;
+    String title="";
     Gson gson;
     TextView subresponsables,textView23,textView,subsolicitado,subactrelacionada,subnivelriesgo,subareahsec,subtipoaccion,textView24;
     ImageView icon_tipo;
@@ -76,34 +77,33 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         icon_tipo=findViewById(R.id.icon_tipo);
 
         if(edit){
-            if(Plan.CodTabla.equals("TOBS")){
-                textView.setText("Editar Obs/Plan de acción");
+            if(GlobalVariables.ObjectEditable&&Plan.CodTabla.equals("TOBS")){
+                title="Editar Obs/Plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_iobservacion);
-            }else if(Plan.CodTabla.equals("TINS")){
-                textView.setText("Editar Insp/Obs/Plan de acción");
+            }else if(GlobalVariables.ObjectEditable&&Plan.CodTabla.equals("TINS")){
+                title="Editar Insp/Obs/Plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_iinspeccion);
 
             }else {
-                textView.setText("Editar plan de acción");
+                title="Editar plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_pendiente);
             }
 
         }else{
             if(Plan.CodTabla.equals("TOBS")){
-                textView.setText("Nuevo Obs/Plan de acción");
+                title="Nuevo Obs/Plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_iobservacion);
 
             }else if(Plan.CodTabla.equals("TINS")){
-                textView.setText("Nuevo Insp/Obs/Plan de acción");
+                title="Nuevo Insp/Obs/Plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_iinspeccion);
 
-            }else {
-                textView.setText("Nuevo plan de acción");
+            }/*else {
+                title="Nuevo plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_pendiente);
-            }
-
+            }*/
         }
-
+        textView.setText(title);
         myCalendar = Calendar.getInstance();
         if(!(Plan.CodAccion.contains("-1")||Plan.CodAccion.equals("0"))) {
             CardView cv_edit = (CardView) findViewById(R.id.plan_edit);
@@ -181,6 +181,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanAccionEdit.this, B_personas.class);
+                intent.putExtra("title",title+"/Solicitante");
                 startActivityForResult(intent , 1);
             }
         });

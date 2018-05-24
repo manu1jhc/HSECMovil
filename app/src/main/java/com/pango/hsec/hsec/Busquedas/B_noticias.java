@@ -120,6 +120,7 @@ public class B_noticias extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(B_noticias.this, B_personas.class);
+                intent.putExtra("title","Noticias/Filtro/Autor");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });

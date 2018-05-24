@@ -87,6 +87,7 @@
             app:cardBackgroundColor="@color/colorBlanco">
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/constrainSearch"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

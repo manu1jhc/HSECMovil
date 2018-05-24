@@ -109,7 +109,6 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         codPersona=datos.getString("codiPersona");
         descripcion=datos.getString("descripcion");
         codselected=datos.getInt("codselected");
-
         tipo_estadistica=findViewById(R.id.tipo_estadistica);
         tipo_estadistica.setText(descripcion);
 

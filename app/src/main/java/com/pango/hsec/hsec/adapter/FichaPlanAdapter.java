@@ -137,7 +137,7 @@ public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
             @Override
             public void onClick(View v) {
                 String edit=data.get(position).Editable;
-                GlobalVariables.ObjectEditable=true;
+                GlobalVariables.ObjectEditable=false;
                 LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);//getSystemService(LAYOUT_INFLATER_SERVICE);
                 popupView = layoutInflater.inflate(R.layout.popup_opcionfacilito, null);
 

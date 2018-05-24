@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity
     TextView txt_result;
     ListView list_result;
     SearchAdapter adSearch;
-    ConstraintLayout constraintLayout;
+    ConstraintLayout constraintLayout,constrainSearch;
     RelativeLayout rl1;
     LinearLayout Lrly;
     public SearchView searchView;
@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity
         txt_result=(TextView) popupView.findViewById(R.id.txt_mensaje);
         list_result=(ListView) popupView.findViewById(R.id.list_result);
         constraintLayout=(ConstraintLayout) popupView.findViewById(R.id.const_main2);
+        constrainSearch=(ConstraintLayout) popupView.findViewById(R.id.constrainSearch);
         Spinner sptipo= (Spinner) popupView.findViewById(R.id.spinnerTipo);
         rl1=(RelativeLayout) popupView.findViewById(R.id.rl1);
         Lrly=(LinearLayout)  popupView.findViewById(R.id.linearLayout2);
@@ -280,7 +281,6 @@ public class MainActivity extends AppCompatActivity
                 }  }
         });
 
-
             SpinnerAdapter adapter=new SpinnerAdapter(this, R.layout.item_spinner,R.id.txt,spdatasearch);
             sptipo.setAdapter(adapter);
 
@@ -291,8 +291,10 @@ public class MainActivity extends AppCompatActivity
         else {
             sptipo.setVisibility(View.GONE);
             btn_filtro.setVisibility(View.VISIBLE);
-            if(lastTag.equals("C")) TipoSearch="2";
-            else TipoSearch="3";
+            if(lastTag.equals("I")) TipoSearch="1";
+            else if(lastTag.equals("C")) TipoSearch="2";
+            else if(lastTag.equals("D")) TipoSearch="3";
+            else TipoSearch="4";
         }
 
             sptipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -719,7 +721,6 @@ public class MainActivity extends AppCompatActivity
                     ClickMenuInspeccion();
                     return true;
 
-
                 case R.id.navigation_avanzado:
                     uncheckItemsMenu();
                     ClickMenuAvanzado();
@@ -941,6 +942,9 @@ public class MainActivity extends AppCompatActivity
             DisplayMetrics dm = new DisplayMetrics();
             this.getWindowManager().getDefaultDisplay().getMetrics(dm);
             Lrly.setMinimumHeight(dm.heightPixels);
+            list_result.setMinimumHeight(dm.heightPixels);
+            card_result.setMinimumHeight(dm.heightPixels);
+            constrainSearch.setMinimumHeight(dm.heightPixels);
             //popupWindow.setHeight(dm.heightPixels);
             //popupWindow.update();
         }
@@ -968,8 +972,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-
     @SuppressLint("RestrictedApi")
     public static void disableShiftMode(BottomNavigationView view) {
         BottomNavigationMenuView menuView = (BottomNavigationMenuView) view.getChildAt(0);
@@ -990,8 +992,6 @@ public class MainActivity extends AppCompatActivity
             //Timber.e(e, "Unable to change value of shift mode");
         }
     }
-
-
 
 
     public void Save_status(boolean ischecked){

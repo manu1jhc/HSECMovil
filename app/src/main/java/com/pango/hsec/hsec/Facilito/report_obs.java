@@ -305,7 +305,11 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         btn_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String title="Nuevo reporte facilito/Resp Auxiliar";
+                if(GlobalVariables.flagFacilito)
+                    title="Editar reporte facilito/Resp Auxiliar";
                 Intent intent = new Intent(report_obs.this, B_personas.class);
+                intent.putExtra("title",title);
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });
@@ -374,15 +378,12 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
 
             }
         });
-        if(GlobalVariables.flagFacilito==true) {
-            textViewtitle.setText("Editar reporte Observacion");
-        }
         if(GlobalVariables.flagFacilito==false) {
-            textViewtitle.setText("Agregar reporte Observacion");
+            textViewtitle.setText("Nuevo reporte facilito");
         }
 
         if(GlobalVariables.flagFacilito==true){
-            textViewtitle.setText("Editar reporte Observacion");
+            textViewtitle.setText("Editar reporte facilito");
             String editable;
             Bundle data0 = this.getIntent().getExtras();
             editable=data0.getString("editable");

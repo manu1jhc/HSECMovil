@@ -83,8 +83,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         if(GlobalVariables.ObjectEditable){
             tx_titulo.setText("Editar Observación");
         }else{
-            tx_titulo.setText("Nuevo Observación");
-
+            tx_titulo.setText("Nueva Observación");
         }
 
 

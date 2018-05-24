@@ -342,6 +342,7 @@ public class B_observaciones extends AppCompatActivity {
                 //startActivity(intent);
 
                 Intent intent = new Intent(B_observaciones.this, B_personas.class);
+                intent.putExtra("title","Observaciones/Filtro/Observador");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });

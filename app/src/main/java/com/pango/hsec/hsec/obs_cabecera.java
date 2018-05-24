@@ -314,7 +314,12 @@ public class obs_cabecera extends Fragment implements IActivity{
         btnSelectObservador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String title="Nueva Observación/Observador";
+                if(GlobalVariables.ObjectEditable)
+                    title="Editar Observación/Observador";
+
                 Intent intent = new Intent(getContext(), B_personas.class);
+                intent.putExtra("title",title);
                 startActivityForResult(intent , 1);
             }
         });

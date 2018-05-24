@@ -152,6 +152,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), B_personas.class);
+                intent.putExtra("title","Ficha/Usuario");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });

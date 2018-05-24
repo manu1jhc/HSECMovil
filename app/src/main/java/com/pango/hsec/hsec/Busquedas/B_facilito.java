@@ -242,6 +242,7 @@ public class B_facilito extends AppCompatActivity {
             public void onClick(View v) {
                 tipo_persona="responsable";
                 Intent intent = new Intent(B_facilito.this, B_personas.class);
+                intent.putExtra("title","Reporte facilito/Filtro/Resp");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });
@@ -252,6 +253,7 @@ public class B_facilito extends AppCompatActivity {
             public void onClick(View v) {
                 tipo_persona="creador";
                 Intent intent = new Intent(B_facilito.this, B_personas.class);
+                intent.putExtra("title","Reporte facilito/Filtro/Creador");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });

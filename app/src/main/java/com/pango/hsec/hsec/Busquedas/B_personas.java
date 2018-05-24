@@ -65,6 +65,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle datos = this.getIntent().getExtras();
         setContentView(R.layout.activity_b_personas);
         tx_b_persona=(TextView) findViewById(R.id.tx_b_persona);
         const_persona=(ConstraintLayout) findViewById(R.id.const_persona);
@@ -74,11 +75,12 @@ public class B_personas extends AppCompatActivity implements IActivity {
         id_dni=(EditText) findViewById(R.id.id_dni);
         List_personas=findViewById(R.id.listView);
         tx_texto =(TextView) findViewById(R.id.tx_texto);
+        TextView tx_titulo =(TextView) findViewById(R.id.textView);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
         tx_mensajeP=findViewById(R.id.tx_mensajeP);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
-
+        tx_titulo.setText(datos.getString("title"));
 
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.spinner_superint);

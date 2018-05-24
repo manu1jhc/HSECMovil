@@ -316,6 +316,7 @@ public class B_inspecciones extends AppCompatActivity {
                 //startActivity(intent);
 
                 Intent intent = new Intent(B_inspecciones.this, B_personas.class);
+                intent.putExtra("title","Inspecciones/Filtro/Observador");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });

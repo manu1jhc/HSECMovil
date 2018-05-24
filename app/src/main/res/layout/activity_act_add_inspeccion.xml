@@ -31,16 +31,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/imageView20"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:cropToPadding="false"
                 android:onClick="SaveInspeccion"
                 android:src="@drawable/cwac_cam2_ic_check_white"
+                android:background="@drawable/transparent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

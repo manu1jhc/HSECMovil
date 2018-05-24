@@ -158,7 +158,6 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
 
         mesActual=fechaHoy.get(Calendar.MONTH)+ 1;
         mes= (mesActual < 10 ? "0" : "")+mesActual;
-
         codPersona=getUsuarioModel.CodPersona;
 
         if(Integer.parseInt(anio)<2018) {

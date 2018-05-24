@@ -91,8 +91,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
         if(GlobalVariables.ObjectEditable){
             tx_titulo.setText("Editar Inspección");
         }else{
-            tx_titulo.setText("Nuevo Inspección");
-
+            tx_titulo.setText("Nueva Inspección");
         }
 
 

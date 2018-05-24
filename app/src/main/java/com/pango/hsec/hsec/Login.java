@@ -107,7 +107,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
         }else{
             constraintLayout4.setVisibility(View.VISIBLE);
-            progresbar.setVisibility(View.INVISIBLE);
+            progresbar.setVisibility(View.GONE);
         }
     }
 
