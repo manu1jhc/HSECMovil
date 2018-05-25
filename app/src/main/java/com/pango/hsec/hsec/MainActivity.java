@@ -74,6 +74,8 @@ import layout.FragmentPlanPendiente;
 import layout.FragmentAvanzado;
 import layout.FragmentNoticias;
 
+import static android.content.ContentValues.TAG;
+
 
 public class MainActivity extends AppCompatActivity
         implements
@@ -442,11 +444,27 @@ public class MainActivity extends AppCompatActivity
         //GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //2
         Gson gson = new Gson();
         GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-
+        GlobalVariables.userLogin=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
         GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
 
-    }
+        String versionName = BuildConfig.VERSION_NAME;
 
+
+        if(Float.parseFloat(obtener_version())<=Float.parseFloat(versionName)){
+            hideItem();
+
+        }
+
+
+
+
+    }
+    private void hideItem()
+    {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_actualizar).setVisible(false);
+    }
 
     public static Context getContextOfApplication(){ return contextOfApplication; }
     //int  backpress=0;
@@ -669,8 +687,19 @@ public class MainActivity extends AppCompatActivity
             Intent intent=new Intent(this, Login.class);
             startActivity(intent);
             finish();
-        }
+        }else if(id == R.id.nav_actualizar){
+            final String urlPlay = "https://play.google.com/store/apps/details?id=com.pango.hsec.hsec";
 
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPlay)));
+            } catch (Exception e) {
+                Log.e(TAG, "Aplicación no instalada.");
+                //Abre url de pagina.
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(urlPlay)));
+            }
+
+            finish();
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -1008,6 +1037,11 @@ public class MainActivity extends AppCompatActivity
         editor_user.commit();
     }
 
+    public  String  obtener_version(){
+        SharedPreferences check_version = this.getSharedPreferences("versiones", Context.MODE_PRIVATE);
+        String version = check_version.getString("version","");
+        return version;
+    }
 
 
 }

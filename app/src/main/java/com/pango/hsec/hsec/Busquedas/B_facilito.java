@@ -76,10 +76,10 @@ public class B_facilito extends AppCompatActivity {
         id_creador=(TextView) findViewById(R.id.id_creador);
         img_guardar=findViewById(R.id.img_guardar);
         id_obspor=findViewById(R.id.id_obspor);
-        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+        if(GlobalVariables.userLogin.Rol.equals("1")||GlobalVariables.userLogin.Rol.equals("4")){
             id_obspor.setVisibility(View.VISIBLE);
         }else{
-            GlobalVariables.FacilitoList.Persona=GlobalVariables.userLoaded.CodPersona;
+            GlobalVariables.FacilitoList.Persona=GlobalVariables.userLogin.CodPersona;
 
         }
 

@@ -220,7 +220,8 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
             }
 //            tipo.setText("Condicion");
         } else if (tempEstado.equals("O")) {
-            riesgo.setImageResource(R.drawable.ic_interrogacion);
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            riesgo.setImageResource(R.drawable.ic_alertaverde);
 //            tipo.setText("Condicion");
         }
 

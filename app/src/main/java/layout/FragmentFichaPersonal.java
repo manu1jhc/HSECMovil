@@ -110,7 +110,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         GlobalVariables.isFragment=true;
         Utils.isActivity=false;
 
-        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+        if(GlobalVariables.userLogin.Rol.equals("1")||GlobalVariables.userLogin.Rol.equals("4")){
             btn_buscaruser.setVisibility(View.VISIBLE);
         }
 

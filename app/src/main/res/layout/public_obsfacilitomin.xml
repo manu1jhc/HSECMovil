@@ -119,7 +119,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_editar"
-                app:srcCompat="@drawable/ic_alertaverde" />
+                app:srcCompat="@drawable/ic_alertaverde"
+                tools:ignore="VectorDrawableCompat" />
                 <!--<ImageView-->
                 <!--android:id="@+id/img_riesgotiempo"-->
                 <!--android:layout_width="20dp"-->

@@ -193,6 +193,8 @@ public class GlobalVariables  {
     public static String json_user="";
     public static UsuarioModel userLoaded;
 
+    public static UsuarioModel userLogin;
+
     public static String nombre="";
 
     public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};

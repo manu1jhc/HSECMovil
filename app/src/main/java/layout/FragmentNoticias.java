@@ -56,10 +56,11 @@ public class FragmentNoticias extends Fragment implements IActivity {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+
+
     public static final int REQUEST_CODE = 1;
-
-
-
     View rootView;
     //Spinner sp_busqueda;
     String tipo_filtro="";
@@ -86,7 +87,6 @@ public class FragmentNoticias extends Fragment implements IActivity {
     PopupWindow popupWindow;
     boolean flagpopup=false;
     public NoticiasAdapter ca;
-
 
     ConstraintLayout linear_total;
     Button btn_eliminarf;

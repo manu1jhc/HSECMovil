@@ -88,10 +88,10 @@ public class B_inspecciones extends AppCompatActivity {
         btn_buscar_c=(ImageButton) findViewById(R.id.btn_buscar_c);
         insp_contrata=(TextView) findViewById(R.id.insp_contrata);
         id_obspor=findViewById(R.id.id_obspor);
-        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+        if(GlobalVariables.userLogin.Rol.equals("1")||GlobalVariables.userLogin.Rol.equals("4")){
             id_obspor.setVisibility(View.VISIBLE);
         }else{
-            Utils.inspeccionModel.CodTipo = GlobalVariables.userLoaded.CodPersona;
+            Utils.inspeccionModel.CodTipo = GlobalVariables.userLogin.CodPersona;
 
         }
 

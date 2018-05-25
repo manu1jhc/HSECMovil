@@ -269,7 +269,7 @@ public class Login extends AppCompatActivity implements IActivity{
                     passVersion();
                 }
                 else {
-                    save_versionAnt(version_app);
+                    //save_versionAnt(version_app);
                     save_version(version_server);
                     Intent mainIntent = new Intent().setClass(Login.this, ActActualizar.class);
                     startActivity(mainIntent);
@@ -345,16 +345,16 @@ public class Login extends AppCompatActivity implements IActivity{
         editor_version.commit();
     }
 
-
+/*
     public void save_versionAnt(String version){
         SharedPreferences check_versionA = this.getSharedPreferences("versionAnt", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor_versionA = check_versionA.edit();
         editor_versionA.putString("versionA", version);
         editor_versionA.commit();
     }
+*/
 
-
-    public String  obtener_version(){
+    public  String  obtener_version(){
         SharedPreferences check_version = this.getSharedPreferences("versiones", Context.MODE_PRIVATE);
         String version = check_version.getString("version","");
         return version;

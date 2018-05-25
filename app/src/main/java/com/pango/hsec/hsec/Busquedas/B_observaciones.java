@@ -92,7 +92,7 @@ public class B_observaciones extends AppCompatActivity {
         id_obspor=findViewById(R.id.id_obspor);
 
 
-        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")){
+        if(GlobalVariables.userLogin.Rol.equals("1")||GlobalVariables.userLogin.Rol.equals("4")){
             id_obspor.setVisibility(View.VISIBLE);
         }else{
             Utils.observacionModel.ObservadoPor=GlobalVariables.userLoaded.CodPersona;

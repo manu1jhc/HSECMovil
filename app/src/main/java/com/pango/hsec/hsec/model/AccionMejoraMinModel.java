@@ -10,4 +10,9 @@ public class AccionMejoraMinModel {
     public String Descripcion;
     public String PorcentajeAvance;
     public String Editable;
+
+
+    public String UrlObs;
+    public String Fecha;
+    public String Persona;
 }

@@ -13,15 +13,21 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,15 +35,23 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.Observaciones.FragmentGaleria;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.Adap_Img;
+import com.pango.hsec.hsec.adapter.ComentAdapter;
+import com.pango.hsec.hsec.adapter.ComentRecAdapter;
 import com.pango.hsec.hsec.adapter.DocumentoAdapter;
 import com.pango.hsec.hsec.adapter.GaleriaAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetComentModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -78,7 +92,16 @@ public class FragmentDetalle extends Fragment implements IActivity {
     RelativeLayout rel_otros;
     LinearLayout galeria_foto;
     RecyclerView gridView,listView;
+    //comentarios
 
+    //private static View mView;
+    //String codObs;
+    String url3, url4;
+    //String UrlObs;
+    String jsonComentario="";
+    ImageButton btn_send;
+    EditText et_comentario;
+    ComentRecAdapter comentAdapter;
 
 
     // TODO: Rename and change types and number of parameters
@@ -99,6 +122,7 @@ public class FragmentDetalle extends Fragment implements IActivity {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_detalle, container, false);
         codNot=getArguments().getString("bString");
+
         GlobalVariables.view_fragment=mView;
         GlobalVariables.isFragment=true;
 
@@ -114,12 +138,14 @@ public class FragmentDetalle extends Fragment implements IActivity {
         rel_otros=(RelativeLayout) mView.findViewById(R.id.rel_otros);
         galeria_foto=(LinearLayout) mView.findViewById(R.id.galeria_foto);
         mensaje=(TextView) mView.findViewById(R.id.mensaje);
+
+        btn_send=(ImageButton) mView.findViewById(R.id.btn_send);
+        et_comentario=(EditText) mView.findViewById(R.id.et_comentario);
         //GlobalVariables.count=1;
         GlobalVariables.view_fragment=mView;
         GlobalVariables.isFragment=true;
 
         ////------
-
 
         url= GlobalVariables.Url_base+"Noticia/Get/"+codNot;
 
@@ -169,6 +195,65 @@ public class FragmentDetalle extends Fragment implements IActivity {
             }
         });
 
+
+/////comentarios
+
+        url3= GlobalVariables.Url_base+"Comentario/getObs/"+codNot;
+
+
+        if(jsonComentario.isEmpty()){
+            GlobalVariables.istabs=true;
+            final ActivityController obj = new ActivityController("get", url3, FragmentDetalle.this,getActivity());
+            obj.execute("3");
+        }else {
+            success(jsonComentario,"3");
+        }
+
+
+        btn_send.setEnabled(false);
+        et_comentario.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                String a=s.toString().trim();
+                if(a.equals("")) {
+                    btn_send.setEnabled(false);
+                }else{
+                    btn_send.setEnabled(true);
+                }
+            }
+        });
+
+
+        btn_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comentario= String.valueOf(et_comentario.getText());
+
+                String json = "";
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.accumulate("CodComentario",codNot);
+                    jsonObject.accumulate("Comentario",comentario);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                json += jsonObject.toString();
+
+                url3= GlobalVariables.Url_base+"Comentario/insert";
+                final ActivityController obj = new ActivityController("post", url, FragmentDetalle.this,getActivity());
+                obj.execute(json);
+
+
+
+            }
+        });
 
 
         return mView;
@@ -254,7 +339,7 @@ public class FragmentDetalle extends Fragment implements IActivity {
             notDetalle.loadDataWithBaseURL("", getNoticiaModel.Descripcion, "text/html", "UTF-8", "");
             WebSettings settings = notDetalle.getSettings();
             settings.setJavaScriptEnabled(true);
-        }else{
+        }else if(Tipo=="2"){
             jsonGaleria = data;
             DataDocs.clear();
             DataImg.clear();
@@ -315,6 +400,29 @@ public class FragmentDetalle extends Fragment implements IActivity {
                 rel_otros.setVisibility(View.GONE);
                 galeria_foto.setVisibility(View.GONE);
             }
+        }else if(Tipo=="3"){
+            jsonComentario =data;
+            Gson gson = new Gson();
+            GetComentModel getComentModel= gson.fromJson(data, GetComentModel.class);
+            comentAdapter=new ComentRecAdapter(getComentModel.Data, getActivity());
+
+            //ListView listaComentarios = (ListView) mView.findViewById(R.id.list_coment);
+
+            final RecyclerView listaComentarios = (RecyclerView) mView.findViewById(R.id.list_coment);
+            listaComentarios.setHasFixedSize(true);
+            LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+            llm.setOrientation(LinearLayoutManager.VERTICAL);
+            listaComentarios.setLayoutManager(llm);
+
+            listaComentarios.setAdapter(comentAdapter);
+
+            //listaComentarios.setSelection(getComentModel.Data.size()-1);
+
+
+
+
+
+
         }
 
 
@@ -325,6 +433,24 @@ public class FragmentDetalle extends Fragment implements IActivity {
 
     @Override
     public void successpost(String data, String Tipo) {
+
+        Utils.closeSoftKeyBoard(getActivity());
+        et_comentario.setText("");
+        if(data.contains("-1")){
+            Toast.makeText(getContext(),"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(getContext(),"Comentario enviado",Toast.LENGTH_SHORT).show();
+            GlobalVariables.count=5;
+            GlobalVariables.isFragment=true;
+            url= GlobalVariables.Url_base+"Comentario/getObs/"+codObs;
+            final ActivityController obj = new ActivityController("get-2", url, FragmentDetalle.this,getActivity());
+            obj.execute("");
+        }
+
+
+
+
 
     }
 
@@ -343,4 +469,9 @@ public class FragmentDetalle extends Fragment implements IActivity {
         }
     }
 
+    public void closeSoftKeyBoard() {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getActivity().getSystemService(getContext().INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+    }
 }

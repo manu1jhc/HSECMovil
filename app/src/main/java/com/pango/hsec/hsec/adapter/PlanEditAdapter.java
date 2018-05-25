@@ -87,6 +87,7 @@ public class PlanEditAdapter extends RecyclerView.Adapter<PlanEditAdapter.ViewHo
         @Override
         public void onClick(View v) {
             Intent i = new Intent(fragment.getActivity(), PlanAccionEdit.class);
+            i.putExtra("editplan",true);
             Gson gson = new Gson();
             items.get(idposition).Editable=idposition+"";
             i.putExtra("Plan", gson.toJson(items.get(idposition)));

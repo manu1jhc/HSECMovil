@@ -34,6 +34,8 @@ public class FragmentComent extends Fragment implements IActivity {
 	String url;
 	String UrlObs;
 	String jsonComentario="";
+	ImageButton btn_send;
+	EditText et_comentario;
 	public static final FragmentComent newInstance(String sampleText) {
 		FragmentComent f = new FragmentComent();
 
@@ -45,8 +47,7 @@ public class FragmentComent extends Fragment implements IActivity {
 		return f;
 	}
 
-	ImageButton btn_send;
-	EditText et_comentario;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -75,8 +76,6 @@ public class FragmentComent extends Fragment implements IActivity {
 		}
 
 
-
-
 		btn_send.setEnabled(false);
 		et_comentario.addTextChangedListener(new TextWatcher() {
 			@Override
@@ -95,7 +94,6 @@ public class FragmentComent extends Fragment implements IActivity {
 				}
 			}
 		});
-
 
 
 		btn_send.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +120,6 @@ public class FragmentComent extends Fragment implements IActivity {
 
 			}
 		});
-
-
 
 		return mView;
 	}
@@ -160,14 +156,12 @@ public class FragmentComent extends Fragment implements IActivity {
 			final ActivityController obj = new ActivityController("get-2", url, FragmentComent.this,getActivity());
 			obj.execute("");
 		}
-
 	}
 
 	@Override
 	public void error(String mensaje,String Tipo) {
 
 	}
-
 
 	public void closeSoftKeyBoard() {
 		InputMethodManager inputMethodManager =

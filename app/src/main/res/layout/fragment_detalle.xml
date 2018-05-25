@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,11 +16,12 @@ android:background="@color/colorBlanco"
 
     android:id="@+id/card_ndet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="4dp"
     android:layout_alignParentTop="true"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
+    android:layout_marginBottom="50dp"
     >
 
 
@@ -187,11 +190,11 @@ android:background="@color/colorBlanco"
             <android.support.v7.widget.RecyclerView
 
                 android:id="@+id/list_docs"
-                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/frame_otros"
-                />
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:visibility="visible" />
 
 
 
@@ -200,6 +203,30 @@ android:background="@color/colorBlanco"
         </RelativeLayout>
         <!--               -->
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comentarios"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@color/colorBtnBeige"
+            android:textColor="@color/colorBlanco"
+            android:padding="4dp"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_coment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:focusable="true"
+
+            />
+
+
 
     </LinearLayout>
 
@@ -207,4 +234,42 @@ android:background="@color/colorBlanco"
         </RelativeLayout>
     </FrameLayout>
 </android.support.v4.widget.NestedScrollView>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:weightSum="1"
+        android:layout_below="@+id/list_coment"
+        android:layout_marginTop="-45dp"
+        >
+
+
+
+        <EditText
+            android:id="@+id/et_comentario"
+            android:layout_weight="0.8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Escribe un comentario"
+            android:imeOptions="actionUnspecified"
+            android:inputType="text"
+
+            />
+
+        <ImageButton
+            android:id="@+id/btn_send"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_send"
+
+            />
+
+
+    </LinearLayout>
 </LinearLayout>
