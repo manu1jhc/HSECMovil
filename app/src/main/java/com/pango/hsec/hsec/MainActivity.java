@@ -605,6 +605,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         }
+        /*
         if(id==R.id.nav_sisap){
             try{
                 Intent intent = new Intent("com.base.app.donnyadrian.sisap008.ANOTHER_ACTIVITY");
@@ -614,7 +615,7 @@ public class MainActivity extends AppCompatActivity
 
             }
 
-        }
+        }*/
         else if (id == R.id.nav_observacion) {
 
             GlobalVariables.ObjectEditable=false;

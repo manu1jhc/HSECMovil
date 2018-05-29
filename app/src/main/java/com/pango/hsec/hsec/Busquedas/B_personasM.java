@@ -15,13 +15,16 @@ package com.pango.hsec.hsec.Busquedas;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
         import android.widget.EditText;
+        import android.widget.ImageButton;
         import android.widget.ListView;
         import android.widget.Spinner;
         import android.widget.TextView;
+        import android.widget.Toast;
 
         import com.google.gson.Gson;
         import com.pango.hsec.hsec.GlobalVariables;
         import com.pango.hsec.hsec.IActivity;
+        import com.pango.hsec.hsec.Login;
         import com.pango.hsec.hsec.R;
         import com.pango.hsec.hsec.Utils;
         import com.pango.hsec.hsec.adapter.BuscarPersonaAdapter;
@@ -56,18 +59,22 @@ public class B_personasM extends AppCompatActivity implements IActivity {
     boolean flagPersonaFiltro=true;
     //ConstraintLayout constraintLayout;
     boolean loadingTop=false;
-    Button btn_Agregar;
-    TextView tx_texto;
+    //Button btn_Agregar;
+    TextView tx_texto,tx_titulo;
     int paginacion=1;
     BuscarPersonaAdapter ca;
-
+    ImageButton btn_addpersona;
+    String titulo="";
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_personas);
+        Bundle datos = this.getIntent().getExtras();
+        titulo=datos.getString("titulo");
+
         tx_b_persona=(TextView) findViewById(R.id.tx_b_persona);
-        btn_Agregar=(Button)findViewById(R.id.btn_Agregar);
+        //btn_Agregar=(Button)findViewById(R.id.btn_Agregar);
         const_persona=(ConstraintLayout) findViewById(R.id.const_persona);
         btn_busqueda=(Button) findViewById(R.id.btn_busqueda);
         id_apellidos=(EditText) findViewById(R.id.id_apellidos);
@@ -80,6 +87,10 @@ public class B_personasM extends AppCompatActivity implements IActivity {
         contrainLayout=(ConstraintLayout) findViewById(R.id.contrainLayout);
         tx_mensajeP=findViewById(R.id.tx_mensajeP);
        swipeRefreshLayout.setVisibility(View.INVISIBLE);
+        btn_addpersona=findViewById(R.id.btn_addpersona);
+        btn_addpersona.setEnabled(false);
+        tx_titulo=findViewById(R.id.tx_titulo);
+        tx_titulo.setText(titulo);
 
         GlobalVariables.lista_Personas.clear();
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
@@ -170,7 +181,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
             }
         });*/
 
-
+/*
         final View activityRootView = findViewById(R.id.contrainLayout);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -186,6 +197,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 else btn_Agregar.setVisibility(View.GONE);
             }
         });
+*/
 
         tx_b_persona.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,6 +214,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
         btn_busqueda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                btn_addpersona.setEnabled(true);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 ArrayList<PersonaModel> Select=new ArrayList<>();
                 for(PersonaModel item:GlobalVariables.lista_Personas)
@@ -330,7 +343,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
         });
         listenerFlag = false;
 
-        ca= new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,btn_Agregar);
+        ca= new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,true);
         List_personas.setAdapter(ca);
     }
     public void close(View view){
@@ -339,9 +352,27 @@ public class B_personasM extends AppCompatActivity implements IActivity {
     }
 
     public void AgregarLista(View view){
-        Intent intent = getIntent();
-        setResult(RESULT_OK, intent);
-        finish();
+
+boolean isCheck=false;
+                    //int flag=View.GONE;
+                    //btntrue=false;
+                    for(PersonaModel item:GlobalVariables.lista_Personas)
+                    {
+                        if(item.Check){
+                            isCheck=true;
+                            btn_addpersona.setEnabled(true);
+                            Intent intent = getIntent();
+                            setResult(RESULT_OK, intent);
+                            finish();
+
+                        }
+                    }
+
+        if(!isCheck) {
+            Toast.makeText(this, "No se selecciono ningún campo", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
     @Override
     public void success(String data,String Tipo) {

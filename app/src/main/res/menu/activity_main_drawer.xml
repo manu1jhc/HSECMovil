@@ -7,12 +7,15 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_reporte"
-            android:icon="@drawable/ic_ireporte"
+            android:icon="@drawable/ic_facilito"
             android:title="Ingresar reporte facilito" />
+        <!--
         <item
             android:id="@+id/nav_sisap"
             android:icon="@drawable/ic_aprobacion"
             android:title="Sisap "/>
+
+            -->
         <item
             android:id="@+id/nav_observacion"
             android:icon="@drawable/ic_iobservacion"
@@ -23,7 +26,7 @@
             android:title="Ingresar inspección" />
         <item
             android:id="@+id/nav_ficha"
-            android:icon="@drawable/ic_3_ficha"
+            android:icon="@drawable/ic_ficha"
             android:title="Ficha personal" />
 
         <item

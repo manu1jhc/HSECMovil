@@ -47,7 +47,7 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
     public FragmentAddParticipante() {
         // Required empty public constructor
     }
-
+    String titulo="";
     private View mView;
     String codInsp,url,url2;
     TextView tx_realizan_insp;
@@ -79,7 +79,7 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
 
         if(GlobalVariables.ObjectEditable){ // load data of server
             //GlobalVariables.ListAtendidos
-
+            titulo="Editar inspección/";
             if(codInsp!="") {
                 url = GlobalVariables.Url_base + "Inspecciones/GetEquipoInspeccion/" + codInsp;
                 final ActivityController obj = new ActivityController("get", url, FragmentAddParticipante.this, getActivity());
@@ -93,6 +93,8 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
         }
         else // new inspeccion
         {
+            titulo="Nueva inspección/";
+
             if(GlobalVariables.AddInspeccion.CodInspeccion==null){ //||!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ")
                 GlobalVariables.ListResponsables= new ArrayList<>();
                 GlobalVariables.ListAtendidos= new ArrayList<>();
@@ -105,6 +107,7 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), B_personasM.class);
+                intent.putExtra("titulo",titulo+"Responsables");
                 startActivityForResult(intent , 1);
             }
         });
@@ -113,6 +116,8 @@ public class FragmentAddParticipante extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(), B_personasM.class);
+                intent.putExtra("titulo",titulo+"Atendidos");
+
                 startActivityForResult(intent , 2);
             }
         });

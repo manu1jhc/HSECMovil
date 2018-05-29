@@ -174,6 +174,8 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(PlanAccionEdit.this, B_personasM.class);
+                //itle
+                intent.putExtra("titulo",title+"/Responsables");
                 startActivityForResult(intent , 2);
             }
         });

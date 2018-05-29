@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -60,7 +61,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
     boolean loadingTop=false;
     TextView tx_texto;
     int paginacion=1;
-
+    ImageButton btn_addpersona;
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +82,8 @@ public class B_personas extends AppCompatActivity implements IActivity {
         tx_mensajeP=findViewById(R.id.tx_mensajeP);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
         tx_titulo.setText(datos.getString("title"));
-
+        btn_addpersona=findViewById(R.id.btn_addpersona);
+        btn_addpersona.setVisibility(View.GONE);
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
         spinnerSuperInt=(Spinner) findViewById(R.id.spinner_superint);
         //spinnerGerencia.setOnItemSelectedListener(this);
@@ -315,7 +317,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
             swipeRefreshLayout.setVisibility(View.VISIBLE);
 
         }
-        BuscarPersonaAdapter ca = new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,null);
+        BuscarPersonaAdapter ca = new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,false);
         List_personas.setAdapter(ca);
 
         ca.notifyDataSetChanged();

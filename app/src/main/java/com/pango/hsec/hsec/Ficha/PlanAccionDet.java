@@ -45,6 +45,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import layout.FragmentObservaciones;
+
 public class PlanAccionDet extends AppCompatActivity implements IActivity {
     public static final int REQUEST_CODE = 1;
     String codAccion;
@@ -222,9 +224,14 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
 
             LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             rec_mejora.setLayoutManager(horizontalManager);
-            accionMejoraAdapter= new AccionMejoraAdapter(this,ListMejoras,planModel.Responsables,planModel.CodResponsables);
+            accionMejoraAdapter= new AccionMejoraAdapter(this,ListMejoras,planModel.Responsables,planModel.CodResponsables,PlanAccionDet.this);
             rec_mejora.setAdapter(accionMejoraAdapter);
+        }else{
+            if(data.contains("-1")) Toast.makeText(this, "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
+            else accionMejoraAdapter.remove(Integer.parseInt(Tipo)-3);
         }
+
+
     }
 
     @Override
@@ -234,6 +241,15 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
     @Override
     public void error(String mensaje, String Tipo) {
     }
+
+
+    public void DeleteObject(String Url, int index){
+        String url= GlobalVariables.Url_base+Url;
+        ActivityController obj = new ActivityController("get", url, PlanAccionDet.this,this);
+        obj.execute(""+index);
+    }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

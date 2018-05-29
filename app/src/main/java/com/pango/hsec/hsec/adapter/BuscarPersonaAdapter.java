@@ -32,10 +32,10 @@ import java.util.ArrayList;
 public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
     private Context context;
     private ArrayList<PersonaModel> data = new ArrayList<PersonaModel>();
-    public Button botonAgregar;
+    public boolean botonAgregar;
     public boolean btntrue;
 
-    public BuscarPersonaAdapter(@NonNull Context context, ArrayList<PersonaModel> data,Button botonAgregar) {
+    public BuscarPersonaAdapter(@NonNull Context context, ArrayList<PersonaModel> data,boolean botonAgregar) {
         super(context, R.layout.public_buscarp, data);
         this.data = data;
         this.context = context;
@@ -72,7 +72,7 @@ public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
 
         final View finalConvertView = rowView;
 
-        if(botonAgregar!= null){
+        if(botonAgregar){
             CheckBox personaCheckSeleccionar = (CheckBox) rowView.findViewById(R.id.checkBoxListaPersonas);
             personaCheckSeleccionar.setVisibility(View.VISIBLE);
             personaCheckSeleccionar.setChecked(data.get(position).Check);
@@ -88,7 +88,7 @@ public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
                     String BackgrColor= "#FFFFFF";
                     if(data.get(position).Check)  BackgrColor= "#D6EAF8";
                     finalConvertView.setBackgroundColor(Color.parseColor(BackgrColor));
-
+/*
                     int flag=View.GONE;
                     btntrue=false;
                     for(PersonaModel item:data)
@@ -98,7 +98,7 @@ public class BuscarPersonaAdapter extends ArrayAdapter<PersonaModel> {
                             btntrue=true;
                         }
                     }
-                    botonAgregar.setVisibility(flag);
+                    //botonAgregar.setVisibility(flag);*/
                 }
             });
         }

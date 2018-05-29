@@ -54,4 +54,17 @@
     <style name="Theme_Dialog_Translucent" parent="android:Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
+
+
+
+    <style name="MyProgressBarTwo" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorButtonNormal">#f50057</item>
+
+        <item name="colorControlActivated">#5cad3d</item>
+        <item name="colorControlHighlight">#b71c1c</item>
+
+        <item name="android:progressDrawable">@drawable/custom_progressbar_horizontal</item>
+        <item name="android:minWidth">200dp</item>
+
+    </style>
 </resources>

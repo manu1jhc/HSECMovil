@@ -282,7 +282,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         });
 */
         if(Editable){
-            btn_eliminar.setVisibility(View.VISIBLE);
+            //btn_eliminar.setVisibility(View.VISIBLE);
             String url= GlobalVariables.Url_base+"AccionMejora/GetId/"+AddAccionMejora.Correlativo;
             ActivityController obj = new ActivityController("get", url, AddRegistroAvance.this,this);
             obj.execute("0");
