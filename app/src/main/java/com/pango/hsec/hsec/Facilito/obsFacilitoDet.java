@@ -91,8 +91,8 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         Bundle data1 = this.getIntent().getExtras();
 
         codObs=data1.getString("codObs");
-        int AddView=data1.getInt("verBoton");
-        if(AddView>1) btn_historial.setVisibility(View.GONE);
+        int AddView= Integer.parseInt(data1.getString("verBoton"));
+        if(AddView<2) btn_historial.setVisibility(View.GONE);
 
         if(AddView<0){ // loaded data of notification
             if(StringUtils.isEmpty(GlobalVariables.token_auth)){

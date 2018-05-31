@@ -238,10 +238,11 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                             ex.printStackTrace();
                         }
                     }
-                    if(GlobalVariables.flaghistorial==false){
+                    if(GlobalVariables.flaghistorial==false){  //edit historial de atencion
 
                         try {
                             ObsHist.CodObsFacilito = codObs;
+                            ObsHist.Correlativo=correEdit;
                             if (estado.equals("S")) {
                                 ObsHist.FechaFin = fecha_real;
                             } else {
@@ -439,6 +440,12 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             ex.printStackTrace();
         }
     }
+
+    public void Notification(){
+        String url1=GlobalVariables.Url_base+"ObsFacilito/SendNotification/"+correEdit+(GlobalVariables.flaghistorial?"-0":"-1");
+        final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
+        obj1.execute("4");
+    }
     public void UpdateFiles(boolean apt){
         try {
             gridViewAdapter.ProcesarImagens();
@@ -472,7 +479,12 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             }
             if (DeleteFiles.equals("") && DataInsert.size() == 0) {
                 if(apt)Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
-                else FinishSave();
+                else {
+                    Actives.add(1);
+                    Actives.add(1);
+                    Actives.add(1);
+                    Notification();
+                }
             }
             else {
 //Delete Files
@@ -495,7 +507,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         Files.add(createPartFromFile(item));
                     }
                     Toast.makeText(addAtencionFHistorial.this, "Guardando Atención, Espere...", Toast.LENGTH_SHORT).show();
-                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(codObs), createPartFromString("OBF"), createPartFromString(ObsHist.Correlativo), Files);
+                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(codObs), createPartFromString("TOBF"), createPartFromString(ObsHist.Correlativo), Files);
                    progressBar.setVisibility(View.VISIBLE);
                     request.enqueue(new Callback<String>() {
                         @Override
@@ -531,7 +543,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                                 Actives.set(2,-1);
                                 Errores += "\nOcurrio un error interno de servidor";
                             }
-                            if (!Actives.contains(0)) FinishSave();
+                            if (!Actives.contains(0))  Notification();
                             progressBar.setVisibility(View.GONE);
                         }
 
@@ -539,7 +551,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         public void onFailure(Call<String> call, Throwable t) {
                             Actives.set(2,-1);
                             Errores += "\nFallo la subida de archivos";
-                            if (!Actives.contains(0)) FinishSave();
+                            if (!Actives.contains(0))  Notification();
                             progressBar.setVisibility(View.GONE);
                         }
                     });
@@ -623,7 +635,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         });
 
         alertDialog.show();
-
+        if(GlobalVariables.flaghistorial)GlobalVariables.flaghistorial=false;
         DataImg.clear();
         for (GaleriaModel item: GlobalVariables.StrFiles) {
             DataImg.add(item);
@@ -656,7 +668,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
 
     @Override
     public void success(String data, String Tipo) throws CloneNotSupportedException {
-
+        data= data.substring(1,data.length()-1);
         if (Tipo.equals("1")){
             Actives.set(0,1);
             Gson gson = new Gson();
@@ -676,7 +688,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 }
             }
         }
-        if(Tipo.equals("2")){
+        else if(Tipo.equals("2")){
             Actives.set(1,1);
             Gson gson = new Gson();
             DataImg=gson.fromJson(data, GetGaleriaModel.class).Data;
@@ -700,6 +712,17 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             }
             if(!Actives.contains(0)) FinishSave();
         }
+        else if(Tipo.equals("4")){
+            if(!data.isEmpty()){
+                Actives.set(3,-1);
+                for(String err:data.split(";"))
+                    Errores+="\n"+err;
+            }
+            else
+                Actives.set(3,1);
+            FinishSave();
+        }
+
         if(!Actives.contains(0)){
             setdata();
         }
@@ -708,24 +731,22 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     @Override
     public void successpost(String data, String Tipo) throws CloneNotSupportedException {
 
-        String [] values=data.substring(1, data.length() - 1).split(";");
-       if(GlobalVariables.flaghistorial==true){
-
-           Gson gson = new Gson();
-           ArrayList<String> CorrelativosNuevos=new ArrayList<>();
-           ObsHist.Correlativo = values[0];
-           CorrelativosNuevos.add(ObsHist.Correlativo);
-       }
+        data=data.substring(1, data.length() - 1);
         if(data.equals("-1")){
             Errores+="\nOcurrio un error al guardar cabezera";
             Actives.set(0,-1);
         }
         else{
-            if(values.length>1){
-                Errores+=values[1];
-                Actives.set(0,-1);
+
+            if(GlobalVariables.flaghistorial==true){
+/*
+                Gson gson = new Gson();
+                ArrayList<String> CorrelativosNuevos=new ArrayList<>();
+                CorrelativosNuevos.add(ObsHist.Correlativo);*/
+                ObsHist.Correlativo = data;
+                correEdit= data;
             }
-            else Actives.set(0,1);
+            Actives.set(0,1);
             UpdateFiles(false);
         }
     }

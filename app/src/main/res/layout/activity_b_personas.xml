@@ -535,7 +535,7 @@
             android:text="Agregar"
             android:textColor="@color/colorBlanco"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

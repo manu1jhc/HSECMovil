@@ -76,7 +76,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
         id_dni=(EditText) findViewById(R.id.id_dni);
         List_personas=findViewById(R.id.listView);
         tx_texto =(TextView) findViewById(R.id.tx_texto);
-        TextView tx_titulo =(TextView) findViewById(R.id.textView);
+        TextView tx_titulo =(TextView) findViewById(R.id.tx_titulo);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) findViewById(R.id.const_main);
         tx_mensajeP=findViewById(R.id.tx_mensajeP);

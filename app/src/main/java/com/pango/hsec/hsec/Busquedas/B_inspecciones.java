@@ -173,10 +173,6 @@ public class B_inspecciones extends AppCompatActivity {
             }
         });
 
-
-
-
-
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -208,7 +204,6 @@ public class B_inspecciones extends AppCompatActivity {
             }
         });
 
-
         spinnerSuperInt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -231,7 +226,6 @@ public class B_inspecciones extends AppCompatActivity {
                 // superint="";
             }
         });
-
 
         /////////////Fechas//////////////////////////////////////////////////////
         myCalendar = Calendar.getInstance();
@@ -295,25 +289,9 @@ public class B_inspecciones extends AppCompatActivity {
 
         };
 
-
-
         btn_buscar_p.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /*   Utils.observacionModel.CodObservacion=String.valueOf(codObs.getText());
-
-                Utils.tempObs.add(String.valueOf(codObs.getText()));
-                //Utils.tempObs.add(String.valueOf(spinnerArea.get));
-                Utils.tempObs.add(area_pos);
-                Utils.tempObs.add(tipo_pos);
-                Utils.tempObs.add(nivel_pos);
-                Utils.tempObs.add(fecha_inicio);
-                Utils.tempObs.add(fecha_fin);
-                Utils.tempObs.add(gerencia_pos);
-                Utils.tempObs.add(superint_pos);
-*/
-                // Intent intent = new Intent(B_observaciones.this, B_personas.class);
-                //startActivity(intent);
 
                 Intent intent = new Intent(B_inspecciones.this, B_personas.class);
                 intent.putExtra("title","Inspecciones/Filtro/Observador");

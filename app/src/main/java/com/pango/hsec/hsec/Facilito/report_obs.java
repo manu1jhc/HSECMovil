@@ -607,7 +607,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                         Files.add(createPartFromFile(item));
                     }
                     Toast.makeText(report_obs.this, "Guardando Reporte Observacion, Espere...", Toast.LENGTH_SHORT).show();
-                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(ObsPost.CodObsFacilito), createPartFromString("OBF"), createPartFromString("1"), Files);
+                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(ObsPost.CodObsFacilito), createPartFromString("TOBF"), createPartFromString("1"), Files);
                     progressBar.setVisibility(View.VISIBLE);
                     request.enqueue(new Callback<String>() {
                         @Override
