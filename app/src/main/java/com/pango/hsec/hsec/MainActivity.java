@@ -2,6 +2,7 @@ package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -18,6 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity
     ImageButton buscar;
     TextView Title_txt;
     String lastTag;
+    //NavigationView navigation_drawer_container;
 
     ArrayList<Maestro> spdatasearch = new ArrayList<>();
     ArrayList<PublicacionModel> dataSeach = new ArrayList<>();
@@ -386,6 +389,55 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
+    public void LogOut(View view) {
+        //navigation_drawer_container.setVisibility(View.GONE);
+        //drawerLayout.closeDrawers();
+        Save_status(false);
+        Save_Datalogin("","");
+
+
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        //alertDialog.setCancelable(false);
+        alertDialog.setTitle("Cerrar sesión");
+        alertDialog.setIcon(R.drawable.warninicon);
+        alertDialog.setMessage("¿Seguro que quieres salir?");
+
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+
+                Intent intent=new Intent(MainActivity.this, Login.class);
+                startActivity(intent);
+                finish();
+
+
+            }
+        });
+        alertDialog.show();
+
+
+
+
+
+
+    }
+
+    public void FichaPersonal(View view) {
+        //drawerLayout.openDrawer(GravityCompat.END);
+        drawerLayout.closeDrawers();
+        //navigation_drawer_container.setVisibility(View.GONE);
+        Gson gson = new Gson();
+        GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+        GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
+        ClickMenuFicha();
+        uncheckItemsMenu();
+        bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
+    }
+
     public enum NavigationFragment{
         Muro,
         //Aprobaciones,
@@ -409,6 +461,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         buscar=findViewById(R.id.btn_buscar);
         Title_txt= (TextView)findViewById(R.id.txtTitleMain);
+        //navigation_drawer_container=findViewById(R.id.navigation_drawer_container);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
         GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //0
@@ -605,17 +658,17 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
 
         }
-        /*
+
         if(id==R.id.nav_sisap){
             try{
-                Intent intent = new Intent("com.base.app.donnyadrian.sisap008.ANOTHER_ACTIVITY");
+                Intent intent = new Intent("com.base.app.donnyadrian.sisap008.CATEGS_ACTIVITY");
                 startActivity(intent);
             }
             catch (Throwable e){
 
             }
 
-        }*/
+        }
         else if (id == R.id.nav_observacion) {
 
             GlobalVariables.ObjectEditable=false;
@@ -634,7 +687,9 @@ public class MainActivity extends AppCompatActivity
 
             Toast.makeText(this, "nav_inspeccion", Toast.LENGTH_SHORT).show();
 
-        } else if (id == R.id.nav_ficha) {
+        }
+        /*
+        else if (id == R.id.nav_ficha) {
             Gson gson = new Gson();
             GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
             GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
@@ -643,7 +698,8 @@ public class MainActivity extends AppCompatActivity
             bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
 
 
-        }   else if (id == R.id.nav_noticias){
+        }*/
+            else if (id == R.id.nav_noticias){
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
             ClickNoticias();
@@ -681,6 +737,7 @@ public class MainActivity extends AppCompatActivity
             ClickMenuConfiguracion();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true)
         }*/
+        /*
         else if(id == R.id.nav_cerrar){
 
             Save_status(false);
@@ -688,7 +745,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent=new Intent(this, Login.class);
             startActivity(intent);
             finish();
-        }else if(id == R.id.nav_actualizar){
+        }*/
+        else if(id == R.id.nav_actualizar){
             final String urlPlay = "https://play.google.com/store/apps/details?id=com.pango.hsec.hsec";
 
             try {
@@ -781,7 +839,7 @@ public class MainActivity extends AppCompatActivity
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
         bottomNavigationView.setVisibility(View.VISIBLE);
-        navigationView.getMenu().findItem(R.id.nav_ficha).setChecked(true);
+        //navigationView.getMenu().findItem(R.id.nav_ficha).setChecked(true);
 
         ChangeFragment(NavigationFragment.FichaPersonal);
 
