@@ -93,6 +93,15 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         codObs=data1.getString("codObs",GlobalVariables.codFacilito);
         String addViews=data1.getString("verBoton","-1");
         int AddView= Integer.parseInt(addViews);
+
+        if(codObs.equals("")&&AddView<0){
+            Intent startingIntent = getIntent();
+            if (startingIntent != null) {
+                codObs = startingIntent.getStringExtra("codigo"); // Retrieve the id
+            }
+
+        }
+
         if(AddView<2) btn_historial.setVisibility(View.GONE);
 
         if(AddView<0&&StringUtils.isEmpty(GlobalVariables.token_auth)){ // open app in OBF

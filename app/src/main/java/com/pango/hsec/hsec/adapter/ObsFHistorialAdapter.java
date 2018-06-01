@@ -103,6 +103,7 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                     .transform(new CircleTransform(activity)) // applying the image transformer
                     .into(viewHolder.mp_profile);
         }
+        if(items.get(position).CodObsFacilito.equals("0")) viewHolder.btn_editar.setVisibility(View.GONE);
         viewHolder.btn_editar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
