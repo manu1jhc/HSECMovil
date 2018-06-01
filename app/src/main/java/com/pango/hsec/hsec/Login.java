@@ -95,6 +95,14 @@ public class Login extends AppCompatActivity implements IActivity{
     }
 
     public void passVersion(){
+        String token_movil=getTokenFromPrefs();
+        if(token_movil.equals("")){
+            //GlobalVariables.token_refresh=true;
+            Toast.makeText(Login.this,"Generando token Movil,",Toast.LENGTH_SHORT).show();
+            Intent intentService = new Intent(Login.this, DeleteTokenService.class);
+            startService(intentService);
+            finish();
+        }
         if(obtener_status()){
             check_rec.setChecked(true);
             String usuario_saved=obtener_usuario();
@@ -143,13 +151,13 @@ public class Login extends AppCompatActivity implements IActivity{
             pass=et_Password.getText().toString();
             dom="anyaccess";
             url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
-
-            //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/usuario/getdata/
+            String token_movil=getTokenFromPrefs();
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.accumulate("username",user);
                 jsonObject.accumulate("password",pass);
                 jsonObject.accumulate("domain",dom);
+                jsonObject.accumulate("token",token_movil);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -207,20 +215,19 @@ public class Login extends AppCompatActivity implements IActivity{
                     //guardar estado del check, user pass
                     Save_status(true);
                     Save_Datalogin(et_User.getText().toString(), et_Password.getText().toString());
-
-
                 } else {
                     Save_status(false);
                     Save_Datalogin("", "");
                     //guarde el estado false ""en todos los campos
                 }
+                inicialiceApp();
 
             } else {
                 et_User.setText("");
                 et_Password.setText("");
                 check_rec.setChecked(false);
             }
-            String token_movil=getTokenFromPrefs();
+           /* String token_movil=getTokenFromPrefs();
             if(token_movil.equals("")){
                 GlobalVariables.token_refresh=true;
                 Intent intentService = new Intent(Login.this, DeleteTokenService.class);
@@ -259,7 +266,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
 
             }
-            else inicialiceApp();
+            else */
 
         }else if(Tipo=="2"){
                 String version_app=obtener_version();

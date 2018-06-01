@@ -27,6 +27,7 @@ import java.util.List;
 public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHolder> {
     private List<GaleriaModel> items;
     private Activity activity;
+    public  Boolean tacho=false;
 
     public GridViewAdapter(Activity activity, List<GaleriaModel> items) {
         this.activity = activity;
@@ -181,6 +182,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
             imageView = (ImageView) view.findViewById(R.id.image);
             btn_play=(ImageView) view.findViewById(R.id.btn_playGrid);
             btn_Delete= (ImageButton) view.findViewById(R.id.button_r);
+            if(tacho)btn_Delete.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }
 

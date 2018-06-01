@@ -90,12 +90,12 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         contenedor=(ConstraintLayout) findViewById(R.id.contenedor);
         Bundle data1 = this.getIntent().getExtras();
 
-        codObs=data1.getString("codObs");
-        int AddView= Integer.parseInt(data1.getString("verBoton"));
+        codObs=data1.getString("codObs",GlobalVariables.codFacilito);
+        String addViews=data1.getString("verBoton","-1");
+        int AddView= Integer.parseInt(addViews);
         if(AddView<2) btn_historial.setVisibility(View.GONE);
 
-        if(AddView<0){ // loaded data of notification
-            if(StringUtils.isEmpty(GlobalVariables.token_auth)){
+        if(AddView<0&&StringUtils.isEmpty(GlobalVariables.token_auth)){ // open app in OBF
                 if(obtener_status()){
 
                     String url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
@@ -117,7 +117,6 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
                     startActivity(intent);
                     finish();
                 }
-            }
         }
         else loadData();
 
@@ -174,6 +173,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
         gridView.setLayoutManager(layoutManager);
         gridViewAdapter = new GridViewAdapter(this, DataImg);
+        gridViewAdapter.tacho=true;
         gridView.setAdapter(gridViewAdapter);
     }
     @Override
@@ -188,43 +188,47 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
             jsonObsCond =data;
             Gson gson = new Gson();
             ObsFacilitoModel obsFacilitoModel = gson.fromJson(data, ObsFacilitoModel.class);
-            String gerencia=GlobalVariables.getDescripcion(GlobalVariables.Gerencia,obsFacilitoModel.CodPosicionGer).trim().replace("=","").replace("-","").replace("->","");
-            String superint=GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,obsFacilitoModel.CodPosicionGer +"."+obsFacilitoModel.CodPosicionSup).trim().replace("=","");
-            tx_codigo.setText(String.valueOf(obsFacilitoModel.CodObsFacilito));
-            tx_persona.setText(String.valueOf(obsFacilitoModel.Persona));
-            if(obsFacilitoModel.Tipo.equals("A")){
-                tx_tipo.setText("Ácto");
+            if(obsFacilitoModel!=null)
+            {
+                String gerencia=GlobalVariables.getDescripcion(GlobalVariables.Gerencia,obsFacilitoModel.CodPosicionGer).trim().replace("=","").replace("-","").replace("->","");
+                String superint=GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,obsFacilitoModel.CodPosicionGer +"."+obsFacilitoModel.CodPosicionSup).trim().replace("=","");
+                tx_codigo.setText(String.valueOf(obsFacilitoModel.CodObsFacilito));
+                tx_persona.setText(String.valueOf(obsFacilitoModel.Persona));
+                if(obsFacilitoModel.Tipo.equals("A")){
+                    tx_tipo.setText("Ácto");
+                }
+                if (obsFacilitoModel.Tipo.equals("C")){
+                    tx_tipo.setText("Condición");
+                }
+                tx_estadofac.setText(ObtenerDet(obsFacilitoModel.Estado));
+                tx_geren.setText(String.valueOf(gerencia));
+                tx_superint.setText(String.valueOf(superint));
+                tx_ubicacion.setText(String.valueOf(obsFacilitoModel.UbicacionExacta));
+                tx_observacion.setText(String.valueOf(obsFacilitoModel.Observacion));
+                tx_accion.setText(String.valueOf(obsFacilitoModel.Accion));
+                tx_fecha.setText(String.valueOf(Obtenerfecha(obsFacilitoModel.FecCreacion)));
+                contenedor.setVisibility(View.VISIBLE);
             }
-            if (obsFacilitoModel.Tipo.equals("C")){
-                tx_tipo.setText("Condición");
-            }
-            tx_estadofac.setText(ObtenerDet(obsFacilitoModel.Estado));
-            tx_geren.setText(String.valueOf(gerencia));
-            tx_superint.setText(String.valueOf(superint));
-            tx_ubicacion.setText(String.valueOf(obsFacilitoModel.UbicacionExacta));
-            tx_observacion.setText(String.valueOf(obsFacilitoModel.Observacion));
-            tx_accion.setText(String.valueOf(obsFacilitoModel.Accion));
-            tx_fecha.setText(String.valueOf(Obtenerfecha(obsFacilitoModel.FecCreacion)));
-            contenedor.setVisibility(View.VISIBLE);
+            else  Toast.makeText(this, "Ocurrio un error al cargar reporte facilito",    Toast.LENGTH_SHORT).show();
         }
         else if(Tipo.equals("3")){
             Gson gson = new Gson();
             GetObsFHistorialModel getObsFHistorialModel = gson.fromJson(data, GetObsFHistorialModel.class);
             contPublicacion=getObsFHistorialModel.Count;
-//            getObsFHistorialModel.Data.clear();
-            if(GlobalVariables.listaGlobalObsHistorial.size()==0) {
-                GlobalVariables.listaGlobalObsHistorial = getObsFHistorialModel.Data;
-            }else  //{
+            GlobalVariables.listaGlobalObsHistorial.clear();
+            if(contPublicacion>0){
+                GlobalVariables.listaGlobalObsHistorial.clear();
+            }
 
-                if(!(GlobalVariables.listaGlobalObsHistorial.get(GlobalVariables.listaGlobalObsHistorial.size()-1).CodObsFacilito.equals(getObsFHistorialModel.Data.get(getObsFHistorialModel.Data.size()-1).CodObsFacilito))){
-                    GlobalVariables.listaGlobalObsHistorial.addAll(getObsFHistorialModel.Data);
-                }
+            //if(GlobalVariables.listaGlobalObsHistorial.size()==0)
+            GlobalVariables.listaGlobalObsHistorial = getObsFHistorialModel.Data;
+          /*  else if(!(GlobalVariables.listaGlobalObsHistorial.get(GlobalVariables.listaGlobalObsHistorial.size()-1).CodObsFacilito.equals(getObsFHistorialModel.Data.get(getObsFHistorialModel.Data.size()-1).CodObsFacilito))){
+                    GlobalVariables.listaGlobalObsHistorial.addAll(getObsFHistorialModel.Data);}*/
             LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             list_ObsHistorial.setLayoutManager(horizontalManager);
-            ca = new ObsFHistorialAdapter(this,getObsFHistorialModel.Data);
+            ca = new ObsFHistorialAdapter(this,GlobalVariables.listaGlobalObsHistorial);
             list_ObsHistorial.setAdapter(ca);
             ca.notifyDataSetChanged();
-
         }
         else {
             if(data.contains("-1")) Toast.makeText(this, "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
@@ -239,6 +243,9 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         data= data.substring(1,data.length()-1);
         if(data.length()>40){
             GlobalVariables.token_auth=data;
+
+            GetTokenController objT = new GetTokenController("",obsFacilitoDet.this,null);
+            objT.LoadData();
             loadData();
         }
     }

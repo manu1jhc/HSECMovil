@@ -19,6 +19,7 @@ import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.firebase.MessageShowActivity;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,7 +46,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
         if (remoteMessage.getNotification() != null) {
             String titulo = remoteMessage.getNotification().getTitle();
             String texto = remoteMessage.getNotification().getBody();
-            remoteMessage.getData().get("codigo");
+            GlobalVariables.codFacilito=remoteMessage.getData().get("codigo");
 
             Log.d("notificacion", remoteMessage.getData().toString());
             Log.d("notificacion", remoteMessage.getData().get("codigo"));
@@ -56,11 +57,11 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
             String Codigo=remoteMessage.getData().get("codigo");
             String imageUri = remoteMessage.getData().get("image");
-            //Log.d(TAG, "Notificación: " + remoteMessage.getNotification().getBody());
-            // showNotification(titulo, texto);
-            bitmap = getBitmapfromUrl(imageUri);
-            sendNotification(titulo, texto,Codigo,bitmap);
-           // mostrarNotificacion(titulo, texto);
+            if(StringUtils.isEmpty(imageUri)) mostrarNotificacion(titulo, texto,Codigo);
+            else {
+                bitmap = getBitmapfromUrl(imageUri);
+                sendNotification(titulo, texto,Codigo,bitmap);
+            }
         }
 
         if (remoteMessage.getData().size() > 0) {
@@ -69,9 +70,15 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-    private void mostrarNotificacion(String title, String body) {
+    private void mostrarNotificacion(String title, String body, String Codigo) {
+        //GlobalVariables.codFacilito=Codigo;
         Intent intent = new Intent(this.getApplicationContext(), obsFacilitoDet.class);
+        intent.putExtra("codObs", Codigo);
+        intent.putExtra("verBoton", "-1");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+       /* intent.putExtra("codObs", Codigo);
+        intent.putExtra("verBoton", "-1");*/
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -87,7 +94,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
     private void sendNotification(String title, String body, String Codigo,Bitmap image) {
 
-        GlobalVariables.codFacilito=Codigo;
+        //GlobalVariables.codFacilito=Codigo;
         Intent intent = new Intent(this, obsFacilitoDet.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("codObs", Codigo);
@@ -102,7 +109,7 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(body)
                 .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(image))/*Notification with Image*/
+                .bigPicture(image))/*Notification with Image*/
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);

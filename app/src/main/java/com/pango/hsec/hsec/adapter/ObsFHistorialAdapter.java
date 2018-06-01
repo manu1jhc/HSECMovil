@@ -131,7 +131,7 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                         GlobalVariables.flaghistorial=false;
                         String correlativo=items.get(position).Correlativo;
                         Intent intent = new Intent(activity,addAtencionFHistorial.class);
-                        intent.putExtra("correlativo",correlativo);
+                        //intent.putExtra("correlativo",correlativo);
                         intent.putExtra("index",position);
                         activity.startActivityForResult(intent,2);
                         popupWindow.dismiss();

@@ -76,7 +76,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     Button btnFechaInicio,btn_hora;
     String fechaEscogida;
     Spinner spinner_estado;
-    ArrayList<Maestro> ObsFacilito_estadoHistoria;
     ProgressBar progressBar;
     private RecyclerView gridView;
     private GridViewAdapter gridViewAdapter;
@@ -89,7 +88,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     private TextView textViewtitle;
     public String obsFHistorialModel;
     String Errores,estado;
-    String codObs,correEdit;
     String fecha_fin="-";
     private static final String CERO = "0";
     private static final String DOS_PUNTOS = ":";
@@ -129,9 +127,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         DataImg = new ArrayList<>();
         DataImgList=new ArrayList<>();
         ObsHist = new ObsFHistorialModel();
-        ObsFacilito_estadoHistoria= new ArrayList<>();
-        ObsFacilito_estadoHistoria.addAll(GlobalVariables.ObsFacilito_estadoHistoria);
-        ArrayAdapter adapterNivelR = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, ObsFacilito_estadoHistoria);
+        ArrayAdapter adapterNivelR = new ArrayAdapter(getBaseContext(),android.R.layout.simple_spinner_item, GlobalVariables.ObsFacilito_estadoHistoria);
         adapterNivelR.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spinner_estado.setAdapter(adapterNivelR);
         spinner_estado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -160,25 +156,22 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     }
 
                 }
-
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 estado="";
             }
         });
-        if(GlobalVariables.flaghistorial==true) {
+        if(GlobalVariables.flaghistorial) {
             textViewtitle.setText("Agregar Atención");
             ObsHist.Correlativo="-1";
+            ObsHist.CodObsFacilito=GlobalVariables.codObsHistorial;
             Bundle data1 = this.getIntent().getExtras();
-            codObs=data1.getString("codObs");
-
-
+           // codObs=data1.getString("codObs");
         }
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear,
-                                  int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int monthOfYear,  int dayOfMonth) {
                 myCalendar.set(Calendar.YEAR, year);
                 myCalendar.set(Calendar.MONTH, monthOfYear);
                 myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -188,15 +181,18 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 String FechaEnvio="";
                 FechaEnvio= fecha_envio.format(actual);
 
-                if(ObsHist.FechaFin==null)
+                if(StringUtils.isEmpty(ObsHist.FechaFin))
+                {
+                    FechaEnvio=FechaEnvio.split("T")[0]+"T00:00:00";
                     btn_hora.setText("00:00:00");
+                }
                 else{
                     String [] hora=ObsHist.FechaFin.split("T");
                     FechaEnvio=FechaEnvio.split("T")[0]+"T"+hora[1];
                 }
                 SimpleDateFormat dt = new SimpleDateFormat("dd 'de' MMMM");
-                ObsHist.FechaFin=FechaEnvio;
-                fecha_real=df.format(actual);
+                //ObsHist.FechaFin=FechaEnvio;
+                fecha_real=FechaEnvio;
                 fecha_fin=dt.format(actual);
                 btnFechaInicio.setText(dt.format(actual));
                 dt = new SimpleDateFormat("yyyyMMdd");
@@ -219,10 +215,10 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     Actives.clear();
                     Gson gson = new Gson();
                     Utils.closeSoftKeyBoard(addAtencionFHistorial.this);
-                    if(GlobalVariables.flaghistorial==true) {
+                    if(GlobalVariables.flaghistorial==true) { // save new Historial de atencion
                         try {
                             Actives.add(0);
-                            ObsHist.CodObsFacilito = codObs;
+                            //ObsHist.CodObsFacilito = codObs;
                             if (estado.equals("S")) {
                                 ObsHist.FechaFin=fecha_real;
                             } else {
@@ -241,8 +237,8 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     if(GlobalVariables.flaghistorial==false){  //edit historial de atencion
 
                         try {
-                            ObsHist.CodObsFacilito = codObs;
-                            ObsHist.Correlativo=correEdit;
+                          //  ObsHist.CodObsFacilito = codObs;
+                            //ObsHist.Correlativo=correEdit;
                             if (estado.equals("S")) {
                                 ObsHist.FechaFin = fecha_real;
                             } else {
@@ -291,14 +287,12 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 tempCalendar.set(Calendar.MONTH, (new Date()).getMonth());
                 datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
                 datePickerDialog.show();
-
-
             }
         });
         btn_hora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(ObsHist.FechaFin!=null){
+                if(StringUtils.isEmpty(ObsHist.FechaFin)){
                     TimePickerDialog recogerHora = new TimePickerDialog(addAtencionFHistorial.this, new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -325,7 +319,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                             String minutoFormateado = (minutoFinal < 10)? String.valueOf(CERO + minutoFinal):String.valueOf(minutoFinal);
                             String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
                             String [] fecha=ObsHist.FechaFin.split("T");
-                            ObsHist.FechaFin=fecha[0]+"T"+horaFormateada+":"+minutoFormateado+":00";
+                            fecha_real=fecha[0]+"T"+horaFormateada+":"+minutoFormateado+":00";
 
                             //AddInspeccion.hora=horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM;
                             btn_hora.setText(horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
@@ -344,18 +338,13 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         if(GlobalVariables.flaghistorial==false) {
             textViewtitle.setText("Editar Atención");
             Bundle data1 = this.getIntent().getExtras();
-            codObs=GlobalVariables.codObsHistorial;
-            correEdit=data1.getString("correlativo");
             indexHist=data1.getInt("index");
-            Actives.add(0);
-            String url2=GlobalVariables.Url_base+"ObsFacilito/GetHistorialAtencion/"+codObs;
-            final ActivityController obj2 = new ActivityController("get", url2, addAtencionFHistorial.this,this);
-            obj2.execute("1");
-            Actives.add(0);
-            String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+codObs+"-"+correEdit;
-            final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
-            obj1.execute("2");
+            ObsHist=GlobalVariables.listaGlobalObsHistorial.get(indexHist);
+            ObsHist.CodObsFacilito=GlobalVariables.codObsHistorial;
 
+            String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+ObsHist.CodObsFacilito+"-"+ObsHist.Correlativo;
+            final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
+            obj1.execute("1");
         }
         else {
             setdata();
@@ -363,13 +352,13 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
 
     }
     public boolean ValifarFormulario(View view){
-        String ErrorForm="Detalle:\n";
-        if(ErrorForm.equals("Detalle:\n")) ErrorForm="";
-        if(StringUtils.isEmpty(ObsHist.Estado)) ErrorForm+=" ->Estado\n";
-        if(StringUtils.isEmpty(ObsHist.Comentario)) ErrorForm+=" ->Comentario\n";
+        String ErrorForm="";
+        if(StringUtils.isEmpty(ObsHist.Estado)) ErrorForm+=" Estado";
+        else if(ObsHist.Estado.equals("S")&&StringUtils.isEmpty(ObsHist.FechaFin))ErrorForm+=" Fecha y Hora";
+        else if(StringUtils.isEmpty(ObsHist.Comentario)) ErrorForm+=" Acción";
         if(ErrorForm.isEmpty()) return true;
         else{
-            Snackbar.make(view, "Complete los siguientes campos obligatorios:\n"+ErrorForm, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(view, "El campo "+ErrorForm+" no puede estar vacio\n"+ErrorForm, Snackbar.LENGTH_LONG).show();
             return false;
         }
     }
@@ -379,16 +368,11 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         gridViewAdapter = new GridViewAdapter(this, DataImg);
         gridView.setAdapter(gridViewAdapter);
 
-        if(GlobalVariables.flaghistorial==false){
+        if(GlobalVariables.flaghistorial==false){ // editar historial de atencion
             if(!StringUtils.isEmpty(ObsHist.Estado))spinner_estado.setSelection(GlobalVariables.indexOf(GlobalVariables.ObsFacilito_estadoHistoria,ObsHist.Estado));
             txv_comentario.setText(ObsHist.Comentario);
             try {
-                String data=ObsHist.FechaFin;
-
-                if(data==null){
-
-                }
-                else {
+                if(ObsHist.FechaFin!=null) {
                     Date fecha = df.parse(ObsHist.FechaFin);
                     btnFechaInicio.setText(formatoRender.format(fecha));
                     btn_hora.setText(dh.format(fecha));
@@ -402,7 +386,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            String s="";
         }
     }
     public void close(View view){
@@ -442,9 +425,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     }
 
     public void Notification(){
-        String url1=GlobalVariables.Url_base+"ObsFacilito/SendNotification/"+correEdit+(GlobalVariables.flaghistorial?"-0":"-1");
+        String url1=GlobalVariables.Url_base+"ObsFacilito/SendNotification/"+ObsHist.Correlativo+(GlobalVariables.flaghistorial?"-0":"-1");
         final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
-        obj1.execute("4");
+        obj1.execute("3");
     }
     public void UpdateFiles(boolean apt){
         try {
@@ -492,7 +475,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     Actives.add(0);
                     String url = GlobalVariables.Url_base + "media/deleteAll/" + DeleteFiles.substring(0, DeleteFiles.length() - 1);
                     ActivityController obj = new ActivityController("get", url, addAtencionFHistorial.this, this);
-                    obj.execute("3");
+                    obj.execute("2");
                 }
                 else Actives.add(1);
                 if(DataInsert.size()>0){
@@ -507,7 +490,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         Files.add(createPartFromFile(item));
                     }
                     Toast.makeText(addAtencionFHistorial.this, "Guardando Atención, Espere...", Toast.LENGTH_SHORT).show();
-                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(codObs), createPartFromString("TOBF"), createPartFromString(ObsHist.Correlativo), Files);
+                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(ObsHist.CodObsFacilito), createPartFromString("TOBF"), createPartFromString(ObsHist.Correlativo), Files);
                    progressBar.setVisibility(View.VISIBLE);
                     request.enqueue(new Callback<String>() {
                         @Override
@@ -668,34 +651,15 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
 
     @Override
     public void success(String data, String Tipo) throws CloneNotSupportedException {
-        data= data.substring(1,data.length()-1);
-        if (Tipo.equals("1")){
-            Actives.set(0,1);
-            Gson gson = new Gson();
-            int contPublicacion;
-            GetObsFHistorialModel getObsFHistorialModel = gson.fromJson(data, GetObsFHistorialModel.class);
-            contPublicacion=getObsFHistorialModel.Count;
-            if(GlobalVariables.listaHistorial.size()==0) {
-                GlobalVariables.listaHistorial = getObsFHistorialModel.Data;
-            }
-            if(GlobalVariables.listaHistorial.size()!=0){
-                GlobalVariables.listaHistorial = getObsFHistorialModel.Data;
-            }
-            for(int i=0;i<GlobalVariables.listaHistorial.size();i++){
-                if (GlobalVariables.listaHistorial.get(i).Correlativo.equals(correEdit)) {
-                    ObsHist=GlobalVariables.listaHistorial.get(i);
-                    obsFHistorialModel = gson.toJson(ObsHist);
-                }
-            }
-        }
-        else if(Tipo.equals("2")){
-            Actives.set(1,1);
+
+        if(Tipo.equals("1")){
             Gson gson = new Gson();
             DataImg=gson.fromJson(data, GetGaleriaModel.class).Data;
             DataImgList=gson.fromJson(data, GetGaleriaModel.class).Data;
             GlobalVariables.StrFiles=DataImgList;
+            setdata();
         }
-        else if(Tipo.equals("3")){
+        else if(Tipo.equals("2")){
             if(data.contains("false")){
                 Actives.set(1,-1);
                 Errores+="\nNo se pudo eliminar algunas imagenes";
@@ -710,9 +674,10 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 }
                 GlobalVariables.StrFiles=temp;
             }
-            if(!Actives.contains(0)) FinishSave();
+            //if(!Actives.contains(0)) FinishSave();
         }
-        else if(Tipo.equals("4")){
+        else if(Tipo.equals("3")){//noticiones
+            data= data.substring(1,data.length()-1);
             if(!data.isEmpty()){
                 Actives.set(3,-1);
                 for(String err:data.split(";"))
@@ -721,10 +686,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             else
                 Actives.set(3,1);
             FinishSave();
-        }
-
-        if(!Actives.contains(0)){
-            setdata();
         }
     }
 
@@ -744,7 +705,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 ArrayList<String> CorrelativosNuevos=new ArrayList<>();
                 CorrelativosNuevos.add(ObsHist.Correlativo);*/
                 ObsHist.Correlativo = data;
-                correEdit= data;
+                //correEdit= data;
             }
             Actives.set(0,1);
             UpdateFiles(false);
