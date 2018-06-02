@@ -1,7 +1,9 @@
 package com.pango.hsec.hsec.Ingresos.Inspecciones;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +45,7 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
     EditText edit_lugar,edit_observacion;
     Spinner spinner_ubicacionEsp,spinner_aspecto,spinner_actividad,spinner_riesgo;
     String correlativo;
+    TextView tx_aspecto, tx_actividad,tx_riesgo,tx_obs;
     public FragmentObsInsAdd() {
         // Required empty public constructor
     }
@@ -77,6 +80,20 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
         spinner_aspecto=mView.findViewById(R.id.spinner_aspecto);
         spinner_actividad=mView.findViewById(R.id.spinner_actividad);
         spinner_riesgo=mView.findViewById(R.id.spinner_riesgo);
+        tx_aspecto=mView.findViewById(R.id.tx_aspecto);
+        tx_aspecto.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Aspecto observado"));
+        tx_actividad=mView.findViewById(R.id.tx_actividad);
+        tx_actividad.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Actividad relacionada"));
+        tx_riesgo=mView.findViewById(R.id.tx_riesgo);
+        tx_riesgo.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Nivel de riesgo"));
+        tx_obs=mView.findViewById(R.id.tx_obs);
+        tx_obs.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Observación"));
+
+/*
+        textView9=mView.findViewById(R.id.textView9);
+        textView9.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Ubicación:"));
+*/
+
 
 
         edit_lugar.setText(GlobalVariables.obsInspDetModel.Lugar);

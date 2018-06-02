@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
     PopupWindow popupWindow;
     DrawerLayout drawerLayout;
     ImageButton buscar;
-    TextView Title_txt;
+    TextView Title_txt,user_data;
     String lastTag;
     //NavigationView navigation_drawer_container;
 
@@ -392,10 +392,6 @@ public class MainActivity extends AppCompatActivity
     public void LogOut(View view) {
         //navigation_drawer_container.setVisibility(View.GONE);
         //drawerLayout.closeDrawers();
-        Save_status(false);
-        Save_Datalogin("","");
-
-
 
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         //alertDialog.setCancelable(false);
@@ -409,20 +405,15 @@ public class MainActivity extends AppCompatActivity
         });
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-
+                Save_status(false);
+                Save_Datalogin("","");
                 Intent intent=new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
                 finish();
 
-
             }
         });
         alertDialog.show();
-
-
-
-
-
 
     }
 
@@ -461,6 +452,7 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
         buscar=findViewById(R.id.btn_buscar);
         Title_txt= (TextView)findViewById(R.id.txtTitleMain);
+        user_data=findViewById(R.id.user_data);
         //navigation_drawer_container=findViewById(R.id.navigation_drawer_container);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
@@ -500,9 +492,23 @@ public class MainActivity extends AppCompatActivity
         GlobalVariables.userLogin=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
         GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
 
+        String nom_user=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class).Nombres;
+
+        String[] DataUser= new String[0];
+        String[] nombre = new String[0];
+        String[] apellido=new String[0];
+        //String[] a = new String[0];
+        DataUser = nom_user.split(",");
+
+        apellido=DataUser[0].trim().split(" ");
+        nombre=DataUser[1].trim().split(" ");
+
+        user_data.setText(nombre[0]+" "+apellido[0]);
+
+
+
+
         String versionName = BuildConfig.VERSION_NAME;
-
-
         if(Float.parseFloat(obtener_version())<=Float.parseFloat(versionName)){
             hideItem();
 
@@ -527,7 +533,15 @@ public class MainActivity extends AppCompatActivity
     public void onBackPressed() {
         boolean passdismis=true;
         try {
-            if (GlobalVariables.fragmentStack.size() == 2) {
+
+            //drawerLayout.closeDrawers();
+            //drawerLayout.openDrawer(GravityCompat.START);
+            //drawerLayout.isDrawerOpen();
+
+            if(drawerLayout.isDrawerOpen(GravityCompat.START)) {//detecta si el menu lateral esta abierto
+                //drawer is open
+                drawerLayout.closeDrawers();
+            }else if (GlobalVariables.fragmentStack.size() == 2) {
 
                 if(lastTag.equals("C")) // Obs
                 {
@@ -656,7 +670,6 @@ public class MainActivity extends AppCompatActivity
             GlobalVariables.flagFacilito=false;
             Intent myIntent = new Intent(this, report_obs.class);
             startActivity(myIntent);
-
         }
 
         if(id==R.id.nav_sisap){

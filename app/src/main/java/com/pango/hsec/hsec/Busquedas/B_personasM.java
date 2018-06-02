@@ -396,7 +396,18 @@ boolean isCheck=false;
 
         }else{
             //listaPublicaciones.addAll(getPublicacionModel.Data);
-            GlobalVariables.lista_Personas.addAll(getPersonaModel.Data);
+            ArrayList<PersonaModel> addPersonas = new ArrayList<>();
+            for(PersonaModel item:getPersonaModel.Data)
+            {   boolean pass=true;
+                for(PersonaModel item2:GlobalVariables.lista_Personas)
+                    if(item.equals(item2)){
+                        pass=false;
+                        continue;
+                    }
+                if(pass) addPersonas.add(item);
+            }
+
+            GlobalVariables.lista_Personas.addAll(addPersonas);
             swipeRefreshLayout.setVisibility(View.VISIBLE);
 
         }
