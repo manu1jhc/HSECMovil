@@ -1,10 +1,12 @@
 package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Handler;
@@ -590,6 +592,8 @@ public class MainActivity extends AppCompatActivity
                 else passdismis=false;
 
                 if(!passdismis){
+                    Title_txt.setText("HSEC");
+
                     fragmentManager = getSupportFragmentManager();
                     FragmentTransaction ft = fragmentManager.beginTransaction();
                     GlobalVariables.fragmentStack.get(1).onPause();
@@ -674,8 +678,25 @@ public class MainActivity extends AppCompatActivity
 
         if(id==R.id.nav_sisap){
             try{
+                /*
                 Intent intent = new Intent("com.base.app.donnyadrian.sisap008.CATEGS_ACTIVITY");
+                //intent.putExtra("fromApk",true);
                 startActivity(intent);
+*/
+
+/*
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.setComponent(new ComponentName("com.base.app.donnyadrian.sisap008","com.base.app.donnyadrian.sisap008.PendisActivity"));
+                startActivity(intent);
+*/
+
+
+
+                Intent sendIntent =   getPackageManager().getLaunchIntentForPackage("com.base.app.donnyadrian.sisap008");
+                sendIntent.putExtra("dataApp", true);
+                startActivity(sendIntent);
+
+
             }
             catch (Throwable e){
 
