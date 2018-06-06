@@ -38,14 +38,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cabecera"
+            android:background="@color/ColorVerdoso"
             android:text="Datos del usuario"
+            android:layout_marginTop="1dp"
+            android:paddingLeft="20dp"
+            android:textColor="@color/colorBlanco"
 
-            android:background="@color/ColorVerdeClarito"
-            android:gravity="center"
-            android:textColor="@color/ColorPlomo3"
-            android:textSize="16sp"
-
-            />
+            android:textSize="16sp" />
 
 
     <android.support.design.widget.NavigationView

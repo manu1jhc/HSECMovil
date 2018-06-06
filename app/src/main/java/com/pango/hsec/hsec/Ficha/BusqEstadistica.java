@@ -65,7 +65,7 @@ import static com.pango.hsec.hsec.Utils.inspeccionModel;
 
 public class BusqEstadistica extends AppCompatActivity implements IActivity {
     Spinner sp_anio, sp_mes;
-    String anio,mes,codPersona,descripcion;
+    String anio,mes,codPersona,descripcion,aniop;
     int codselected;
     int tipo_busqueda;
     int contPublicacion;
@@ -210,17 +210,17 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         Utils.observacionModel.ObservadoPor=codPersona;
                         if(mes.equals("00")) {
                             Utils.observacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                            Utils.observacionModel.FechaFin = anio + "-" + "12" + "-" + "31";
+                            Utils.observacionModel.FechaFin = aniop + "-" + "12" + "-" + "31";
                         }else{
                             Utils.observacionModel.FechaInicio = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                            Utils.observacionModel.FechaFin = anio + "-" + mes + "-" + diaFin;
+                            Utils.observacionModel.FechaFin = aniop + "-" + mes + "-" + diaFin;
                         }
 
                         Gson gson = new Gson();
                         json2 = gson.toJson(Utils.observacionModel);
 
                             GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
+                            final ActivityController obj = new ActivityController("post-2", url, BusqEstadistica.this,BusqEstadistica.this);
                             obj.execute(json2,"1");
 
                     }else if(codselected==2){
@@ -231,17 +231,17 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
                         if (mes.equals("00")) {
                             Utils.inspeccionModel.FechaP = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                            Utils.inspeccionModel.Fecha = anio + "-" + "12" + "-" + "31";
+                            Utils.inspeccionModel.Fecha = aniop + "-" + "12" + "-" + "31";
                         } else {
                             Utils.inspeccionModel.FechaP = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                            Utils.inspeccionModel.Fecha = anio + "-" + mes + "-" + diaFin;
+                            Utils.inspeccionModel.Fecha = aniop + "-" + mes + "-" + diaFin;
                         }
 
                         Gson gson = new Gson();
                         json2 = gson.toJson(Utils.inspeccionModel);
 
                             GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                            final ActivityController obj = new ActivityController("post", url, BusqEstadistica.this,BusqEstadistica.this);
+                            final ActivityController obj = new ActivityController("post-2", url, BusqEstadistica.this,BusqEstadistica.this);
                             obj.execute(json2,"1");
 
                     }else if(codselected==0){
@@ -368,8 +368,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         GlobalVariables.listaGlobalFiltro = new ArrayList<>();
         GlobalVariables.listaPlanMin=new ArrayList<>();
         GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
-        if(codselected==1) {
-            if(anio.equals("*")) anio="2014";
+        if(codselected==1) {  // Observcacion
+            aniop=anio;
+            if(anio.equals("*")) {
+                anio="2000";
+                aniop=GlobalVariables.busqueda_anio[1];
+            }
             Utils.observacionModel = new ObservacionModel();
             ObservacionModel observacionModel = new ObservacionModel();
             //tipo_busqueda=1;
@@ -383,10 +387,10 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
             if (mes.equals("00")) {
                 observacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                observacionModel.FechaFin = anio + "-" + "12" + "-" + "31";
+                observacionModel.FechaFin = aniop + "-" + "12" + "-" + "31";
             } else {
                 observacionModel.FechaInicio = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                observacionModel.FechaFin = anio + "-" + mes + "-" + diaFin;
+                observacionModel.FechaFin = aniop + "-" + mes + "-" + diaFin;
             }
 
 
@@ -399,8 +403,12 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             final ActivityController obj = new ActivityController("post-"+paginacion, url, BusqEstadistica.this,this);
             obj.execute(json);
 
-        }else if(codselected==2){
-            if(anio.equals("*")) anio="2014";
+        }else if(codselected==2){  // Inspeccion
+            aniop=anio;
+            if(anio.equals("*")) {
+                anio="2000";
+                aniop=GlobalVariables.busqueda_anio[1];
+            }
             inspeccionModel = new InspeccionModel();
             InspeccionModel inspeccionModel = new InspeccionModel();
             //tipo_busqueda=1;
@@ -416,10 +424,10 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
 
             if (mes.equals("00")) {
                 inspeccionModel.FechaP = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
-                inspeccionModel.Fecha = anio + "-" + "12" + "-" + "31";
+                inspeccionModel.Fecha = aniop + "-" + "12" + "-" + "31";
             } else {
                 inspeccionModel.FechaP = anio + "-" + mes + "-" + "01";   //"2018-02-02"
-                inspeccionModel.Fecha = anio + "-" + mes + "-" + diaFin;
+                inspeccionModel.Fecha = aniop + "-" + mes + "-" + diaFin;
             }
 
             Gson gson = new Gson();
@@ -599,8 +607,8 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     if(codselected==1)  obsa.add(item);
                     else inspa.add(item);
                 }
-            obsa.notifyDataSetChanged();
-            inspa.notifyDataSetChanged();
+            if(codselected==1)  obsa.notifyDataSetChanged();
+            else inspa.notifyDataSetChanged();
         }
         else{ // re create adapter and reset pagination
             paginacion2=1;

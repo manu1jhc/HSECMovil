@@ -678,20 +678,6 @@ public class MainActivity extends AppCompatActivity
 
         if(id==R.id.nav_sisap){
             try{
-                /*
-                Intent intent = new Intent("com.base.app.donnyadrian.sisap008.CATEGS_ACTIVITY");
-                //intent.putExtra("fromApk",true);
-                startActivity(intent);
-*/
-
-/*
-                Intent intent = new Intent(Intent.ACTION_MAIN);
-                intent.setComponent(new ComponentName("com.base.app.donnyadrian.sisap008","com.base.app.donnyadrian.sisap008.PendisActivity"));
-                startActivity(intent);
-*/
-
-
-
                 Intent sendIntent =   getPackageManager().getLaunchIntentForPackage("com.base.app.donnyadrian.sisap008");
                 sendIntent.putExtra("dataApp", true);
                 startActivity(sendIntent);

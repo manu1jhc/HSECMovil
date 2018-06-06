@@ -216,10 +216,6 @@ public class B_personasM extends AppCompatActivity implements IActivity {
             public void onClick(View v) {
                 btn_addpersona.setEnabled(true);
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
-                ArrayList<PersonaModel> Select=new ArrayList<>();
-                for(PersonaModel item:GlobalVariables.lista_Personas)
-                    if(item.Check)Select.add(item);
-                GlobalVariables.lista_Personas=Select;
 
                 filtro= Utils.ChangeUrl(String.valueOf(String.valueOf(id_nombre.getText())+"@"+id_apellidos.getText())+"@"+String.valueOf(id_dni.getText())
                         +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
@@ -230,7 +226,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 GlobalVariables.istabs=false;
                 Utils.isActivity=true;
                 final ActivityController obj = new ActivityController("get", url, B_personasM.this,B_personasM.this);
-                obj.execute("");
+                obj.execute("1");
             }
         });
 
@@ -254,11 +250,6 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 tx_texto.setVisibility(View.VISIBLE);
                 //GlobalVariables.lista_Personas.clear();
 
-                ArrayList<PersonaModel> Select=new ArrayList<>();
-                for(PersonaModel item:GlobalVariables.lista_Personas)
-                    if(item.Check)Select.add(item);
-                GlobalVariables.lista_Personas=Select;
-
                 GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
@@ -269,7 +260,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
                 GlobalVariables.count=5;
                 final ActivityController obj = new ActivityController("get-0", url, B_personasM.this,B_personasM.this);
-                obj.execute("");
+                obj.execute("1");
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 
                 //  } },0);
@@ -295,7 +286,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.lista_Personas.size() != contPublicacion && flag_enter&&flagPersonaFiltro) {
+                    if (GlobalVariables.lista_Personas.size() != contPublicacion && flag_enter) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -309,7 +300,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
 
                         GlobalVariables.count=5;
                         final ActivityController obj = new ActivityController("get-"+paginacion, url, B_personasM.this,B_personasM.this);
-                        obj.execute("");
+                        obj.execute("2");
                     }
                 }
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
@@ -343,8 +334,6 @@ public class B_personasM extends AppCompatActivity implements IActivity {
         });
         listenerFlag = false;
 
-        ca= new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,true);
-        List_personas.setAdapter(ca);
     }
     public void close(View view){
         Utils.closeSoftKeyBoard(this);
@@ -379,68 +368,64 @@ boolean isCheck=false;
         Utils.closeSoftKeyBoard(this);
         Gson gson = new Gson();
         getPersonaModel = gson.fromJson(data, GetPersonaModel.class);
-        contPublicacion=getPersonaModel.Count;
         for(PersonaModel item:getPersonaModel.Data)
             item.Check=false;
-        if(GlobalVariables.lista_Personas.size()==0) {
-            GlobalVariables.lista_Personas = getPersonaModel.Data;
-            //GlobalVariables.listaGlobal=listaPublicaciones;
-            //tx_mensajeP
-            if(getPersonaModel.Data.size()==0){
-                swipeRefreshLayout.setVisibility(View.INVISIBLE);
-                tx_mensajeP.setVisibility(View.VISIBLE);
-            }else{
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
-                tx_mensajeP.setVisibility(View.GONE);
-            }
 
-        }else{
-            //listaPublicaciones.addAll(getPublicacionModel.Data);
-            ArrayList<PersonaModel> addPersonas = new ArrayList<>();
+        if(Tipo.equals("1")){
+
+            ArrayList<PersonaModel> Select=new ArrayList<>();  //recuperando seleccionados
+            for(PersonaModel item:GlobalVariables.lista_Personas)
+                if(item.Check)Select.add(item);
+
+            contPublicacion=Select.size()+getPersonaModel.Count;
+
+            ArrayList<PersonaModel> addPersonas = new ArrayList<>(); // nuevas personas de busqueda
             for(PersonaModel item:getPersonaModel.Data)
             {   boolean pass=true;
-                for(PersonaModel item2:GlobalVariables.lista_Personas)
+                for(PersonaModel item2:Select)
                     if(item.equals(item2)){
                         pass=false;
                         continue;
                     }
                 if(pass) addPersonas.add(item);
             }
-
+            GlobalVariables.lista_Personas.clear();
+            GlobalVariables.lista_Personas.addAll(Select);
             GlobalVariables.lista_Personas.addAll(addPersonas);
+
+            ca= new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,true);
+            List_personas.setAdapter(ca);
+
             swipeRefreshLayout.setVisibility(View.VISIBLE);
-
         }
-       /* BuscarPersonaAdapter ca = new BuscarPersonaAdapter(this,GlobalVariables.lista_Personas,btn_Agregar);
-        List_personas.setAdapter(ca);
-*/
 
-       for(PersonaModel item:GlobalVariables.lista_Personas)
-           ca.add(item);
-        ca.notifyDataSetChanged();
-        if(GlobalVariables.flagUpSc==true){
-            List_personas.setSelection(0);
-            GlobalVariables.flagUpSc=false;
-        }else
-            //reemplazar el 100
-            if(GlobalVariables.lista_Personas.size()>7&&GlobalVariables.lista_Personas.size()<contPublicacion) {
-                //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-                List_personas.setSelection(GlobalVariables.lista_Personas.size()-8);
-                flagPersonaFiltro=true;
+        if(Tipo.equals("2")){
 
-            }else if(GlobalVariables.lista_Personas.size()==contPublicacion){
-                List_personas.setSelection(GlobalVariables.lista_Personas.size()-1);
-                flagPersonaFiltro=false;
+            ArrayList<PersonaModel> Select=new ArrayList<>();  //recuperando seleccionados
+            for(PersonaModel item:GlobalVariables.lista_Personas)
+                if(item.Check)Select.add(item);
 
+            for(PersonaModel item:getPersonaModel.Data)// nuevas personas de busqueda
+            {   boolean pass=true;
+                for(PersonaModel item2:Select)
+                    if(item.equals(item2)){
+                        pass=false;
+                        continue;
+                    }
+                if(pass) ca.add(item);
             }
+            ca.notifyDataSetChanged();
 
-        constraintLayout.setVisibility(View.GONE);
-
-
-        flag_enter=true;
-        GlobalVariables.contpublic += 1;
-        // progressDialog.dismiss();
-        // progressBar.setVisibility(View.GONE);
+            flag_enter=true;
+            constraintLayout.setVisibility(View.GONE);
+        }
+        if(GlobalVariables.lista_Personas.size()==0){
+            swipeRefreshLayout.setVisibility(View.INVISIBLE);
+            tx_mensajeP.setVisibility(View.VISIBLE);
+        }else{
+            swipeRefreshLayout.setVisibility(View.VISIBLE);
+            tx_mensajeP.setVisibility(View.GONE);
+        }
 
         if(loadingTop)
         {
