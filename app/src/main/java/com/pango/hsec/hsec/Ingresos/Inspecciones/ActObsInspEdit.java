@@ -2,8 +2,10 @@ package com.pango.hsec.hsec.Ingresos.Inspecciones;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -128,15 +130,19 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
 
     }
 
-    public boolean ValifarFormulario(){
+    public boolean ValifarFormulario(View view){
+        //        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.Gerencia)) {ErrorForm+="Gerencia";pos=0;}
+
+
         String ErrorForm="";
-        if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.CodAspectoObs)) ErrorForm+=" ->Aspecto observado\n";
-        if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.CodActividadRel)) ErrorForm+=" ->Actividad relacionada\n";
-        if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.CodNivelRiesgo)) ErrorForm+=" ->Nivel de riesgo\n";
-        if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.Observacion)) ErrorForm+=" ->Observación\n";
+        if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.CodAspectoObs)) {ErrorForm+=" Aspecto observado";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.CodActividadRel)) {ErrorForm+=" Actividad relacionada";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.CodNivelRiesgo)) {ErrorForm+=" Nivel de riesgo";pos=0;}
+        else if(StringUtils.isEmpty(GlobalVariables.obsInspDetModel.Observacion)) {ErrorForm+=" Observación";pos=0;}
 
         if(ErrorForm.isEmpty()) return true;
         else{
+            /*
             String Mensaje="Complete los siguientes campos obligatorios:\n"+ErrorForm;
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setCancelable(false);
@@ -150,13 +156,30 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                 }
             });
             alertDialog.show();
+            */
+            Snackbar.make(view, "El campo "+ErrorForm+" no puede estar vacío", Snackbar.LENGTH_LONG).setActionTextColor(Color.CYAN).setAction("Ver pestaña", new View.OnClickListener() {
+                //public TabHost mTabHost;
+
+                @Override
+                public void onClick(View v) {
+                    //initialiseTabHost();
+                    //pos=1;
+                    mTabHost.setCurrentTab(pos);
+
+                    //onPageScrolled(1, 0, 0);
+
+                }
+            }).show();
+
+
+
             return false;
         }
     }
 
     public void SalvarInspDetalle(View view){
         Utils.closeSoftKeyBoard(this);
-        if(!ValifarFormulario()) return;
+        if(!ValifarFormulario(view)) return;
         btn_Salvar.setEnabled(false);
         String Observacion=  gson.toJson(GlobalVariables.obsInspDetModel);
 

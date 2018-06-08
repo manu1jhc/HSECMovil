@@ -62,4 +62,7 @@
     <color name="button_pressed">#005F92</color>
     <color name="dialog_divider">@android:color/black</color>
 
+    <color name="icon_sisap">#4f81bd</color>
+
+    4f81bd
 </resources>

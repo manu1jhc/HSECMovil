@@ -407,6 +407,15 @@ public class MainActivity extends AppCompatActivity
         });
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
+                GlobalVariables.listaGlobalObservacion.clear();;
+                GlobalVariables.listaGlobal.clear();
+                GlobalVariables.listaGlobalInspeccion.clear();
+                GlobalVariables.listaGlobalNoticias.clear();
+                GlobalVariables.listaGlobalFacilito.clear();
+                GlobalVariables.listaPlanMin.clear();
+
+
+
                 Save_status(false);
                 Save_Datalogin("","");
                 Intent intent=new Intent(MainActivity.this, Login.class);
@@ -477,6 +486,8 @@ public class MainActivity extends AppCompatActivity
         FirebaseMessaging.getInstance().subscribeToTopic("/topics/noticias");
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //navigationView.setItemIconTintList(null);
 
         if(!GlobalVariables.desdeBusqueda){
             ChangeFragment(NavigationFragment.Muro);
@@ -750,13 +761,13 @@ public class MainActivity extends AppCompatActivity
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
 
         }
-        /*else if (id == R.id.nav_configuracion){
+        else if (id == R.id.nav_configuracion){
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
 
             ClickMenuConfiguracion();
-            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true)
-        }*/
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+        }
         /*
         else if(id == R.id.nav_cerrar){
 
