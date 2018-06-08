@@ -276,6 +276,26 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "TROL":
                     GlobalVariables.Roles.add(item);
                     break;
+
+                case "CEMP":
+                    GlobalVariables.C_Empresa.add(item);
+                    break;
+
+                case "CLUG":
+                    GlobalVariables.C_Lugar.add(item);
+                    break;
+
+                case "CTEM":
+                    GlobalVariables.C_Tema.add(item);
+                    break;
+                case "CTIP":
+                    GlobalVariables.C_Tipo.add(item);
+                    break;
+                case "CSAL":
+                    GlobalVariables.C_Tipo.add(item);
+                    break;
+
+
                 /*default:
                     break;*/
             }

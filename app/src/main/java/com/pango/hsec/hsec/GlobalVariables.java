@@ -275,6 +275,15 @@ public class GlobalVariables  {
     //roles
     public static  ArrayList<Maestro> Roles = new ArrayList<>();
 
+
+    public static ArrayList<Maestro> C_Empresa=new ArrayList<>();
+    public static ArrayList<Maestro> C_Lugar=new ArrayList<>();
+    public static ArrayList<Maestro> C_Tema=new ArrayList<>();
+    public static ArrayList<Maestro> C_Tipo=new ArrayList<>();
+    public static ArrayList<Maestro> C_Sala=new ArrayList<>();
+
+
+
     //public static int paginacion=1;
 
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
