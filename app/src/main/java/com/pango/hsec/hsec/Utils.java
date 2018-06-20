@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.pango.hsec.hsec.model.CapCursoModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
@@ -270,6 +271,64 @@ public class Utils {
         }
 
 
+    }
+
+    public static String getCurso(CapCursoModel cursoModel, String s) {
+
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE, d MMM yyyy, h:mm a");
+        Date tempIn= null;
+        Date tempFin= null;
+        if(s.contains("Fecha")){
+
+            try {
+                tempIn=formatoInicial.parse(cursoModel.Fecha);
+                long t= tempIn.getTime();
+                final long AddMillis=60000*cursoModel.Duracion;//millisecs
+                tempFin=new Date(t + AddMillis);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else if(s.equals("Vigencia")){
+
+        }
+
+
+        switch (s){
+            case "CodCurso":
+                return cursoModel.CodCurso;
+            case "Empresa":
+                return GlobalVariables.getDescripcion(GlobalVariables.C_Empresa,cursoModel.Empresa);
+            case "CodTema":
+                return GlobalVariables.getDescripcion(GlobalVariables.C_Tema,cursoModel.CodTema);
+            case "Tipo":
+                return GlobalVariables.getDescripcion(GlobalVariables.C_Tipo,cursoModel.Tipo);
+            case "Area":
+                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,cursoModel.Area);
+            case "Lugar":
+                return GlobalVariables.getDescripcion(GlobalVariables.C_Lugar,cursoModel.Lugar);
+            case "Fecha":
+                return formatoRender.format(tempIn);
+            case "FechaF":
+                return formatoRender.format(tempFin);
+            case "PuntajeTotal":
+                return cursoModel.PuntajeTotal;
+            case "PuntajeP":
+                return cursoModel.PuntajeP+"%";
+            case "Vigencia":
+                String Vigencia="";
+                String[] val=cursoModel.Vigencia.split("-");
+                if(!val[1].equals("5")) Vigencia= val[0]+" ";
+                Vigencia+=GlobalVariables.getDescripcion(GlobalVariables.C_Vigencia,val[1]);
+                return Vigencia;
+            case "Capacidad":
+                return cursoModel.Capacidad;
+            case "Duracion":
+                return cursoModel.Duracion+"";
+            default:
+                return "";
+        }
     }
 
     public static String getInspeccionData(InspeccionModel inspeccionModel, String s) {

@@ -166,7 +166,6 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
     public void success(String data, String Tipo) {
         //jsonPlanEnviar=data;
         Gson gson = new Gson();
-
         if(Tipo=="1"){
         planModel = gson.fromJson(data, PlanModel.class);
         //ListView list_popup=(ListView) findViewById(R.id.list_plan);

@@ -7,8 +7,10 @@ package com.pango.hsec.hsec.model;
 public class PersonaModel {
     public String CodPersona;
     public String Nombres;
+    public String Email;
     public String NroDocumento;
     public String Cargo;
+    public String Estado;
     public Boolean Check;
 
     public PersonaModel(){}

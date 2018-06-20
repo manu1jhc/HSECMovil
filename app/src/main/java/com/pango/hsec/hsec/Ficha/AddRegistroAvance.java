@@ -793,7 +793,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 StrAccionmejora=gson.toJson(AddAccionMejora);
                 UpdateFiles(false);
             }
-
         }
     }
 

@@ -70,6 +70,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/Colorbtncreate"
         >
 
 <LinearLayout
@@ -84,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.21"
-        android:background="@color/colorBtnBeige"
+        android:background="@color/Colorbtncreate"
         android:gravity="center"
         android:text="Año"
         android:textColor="@color/colorBlanco"
@@ -105,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="0.21"
-        android:background="@color/colorBtnBeige"
+        android:background="@color/Colorbtncreate"
         android:gravity="center"
         android:text="Mes"
         android:textColor="@color/colorBlanco"
@@ -125,7 +126,7 @@
         android:id="@+id/btn_buscar_e"
         android:layout_width="50dp"
         android:layout_height="40dp"
-        android:background="@color/colorBtnBeige"
+        android:background="@drawable/transparent"
         android:src="@drawable/ic_search"
         tools:layout_editor_absoluteX="318dp"
         tools:layout_editor_absoluteY="0dp" />

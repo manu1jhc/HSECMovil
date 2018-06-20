@@ -25,12 +25,10 @@
             android:id="@+id/nav_inspeccion"
             android:icon="@drawable/ic_iinspeccion"
             android:title="Ingresar inspección" />
-       <!--
         <item
-            android:id="@+id/nav_ficha"
-            android:icon="@drawable/ic_ficha"
-            android:title="Ficha personal" />
-        -->
+            android:id="@+id/nav_capacitacion"
+            android:icon="@drawable/ic_curso_capacitaciones"
+            android:title="Capacitaciones Curso" />
         <item
             android:id="@+id/nav_noticias"
             android:icon="@drawable/ic_inoticia"

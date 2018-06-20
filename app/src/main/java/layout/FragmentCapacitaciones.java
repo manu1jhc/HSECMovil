@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Capacitacion.CapCurso;
 import com.pango.hsec.hsec.Ficha.BusqEstadistica;
 import com.pango.hsec.hsec.Ficha.PlanAccionDet;
 import com.pango.hsec.hsec.GlobalVariables;
@@ -30,8 +31,11 @@ import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.adapter.CapCursosAdapter;
 import com.pango.hsec.hsec.adapter.PlanMinAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.CapCursoMinModel;
+import com.pango.hsec.hsec.model.GetCapCursoMinModel;
 import com.pango.hsec.hsec.model.GetPlanMinModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
@@ -52,7 +56,7 @@ import static com.pango.hsec.hsec.Utils.inspeccionModel;
  * Use the {@link FragmentPlanPendiente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentPlanPendiente extends Fragment implements IActivity {
+public class FragmentCapacitaciones extends Fragment implements IActivity {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -95,10 +99,10 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     PopupWindow popupWindow;
     boolean flagpopup=false;
     TextView tipo_estadistica;
-    public PlanMinAdapter pma;
+    public CapCursosAdapter pma;
 
 
-    public FragmentPlanPendiente() {
+    public FragmentCapacitaciones() {
         // Required empty public constructor
     }
 
@@ -111,8 +115,8 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
      * @return A new instance of fragment Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentPlanPendiente newInstance(String param1, String param2) {
-        FragmentPlanPendiente fragment = new FragmentPlanPendiente();
+    public static FragmentCapacitaciones newInstance(String param1, String param2) {
+        FragmentCapacitaciones fragment = new FragmentCapacitaciones();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -133,7 +137,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView=inflater.inflate(R.layout.fragment_planpendiente, container, false);
+        rootView=inflater.inflate(R.layout.fragment_capacitaciones, container, false);
 
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
         constraintLayout=(ConstraintLayout) rootView.findViewById(R.id.const_main);
@@ -240,22 +244,21 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaPlanMin.size() != contPublicacion && flag_enter) {
+                    if (GlobalVariables.CapaCursosMin.size() != contPublicacion && flag_enter) {
 
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
 
                         paginacion2+=1;
 
-                            if(mes.equals("00")) {
-                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=P" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                            }else{
-                                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=P" + anio + "%7C" + mes + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
-                            }
-                            GlobalVariables.isFragment=true;
-                            final ActivityController obj = new ActivityController("get-"+paginacion2, url, FragmentPlanPendiente.this,getActivity());
-                            obj.execute("1");
-                       // }
+                        if(mes.equals("00")) {
+                            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                        }else{
+                            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                        }
+                        final ActivityController obj = new ActivityController("get-"+paginacion2, url, FragmentCapacitaciones.this,getActivity());
+                        obj.execute("1");
+                        // }
                     }
                 }
                 if (scrollState == SCROLL_STATE_TOUCH_SCROLL) {
@@ -290,18 +293,12 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         list_estadistica.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
-                //GlobalVariables.istabs=false;
+                
+                String CodCurso= GlobalVariables.CapaCursosMin.get(position).CodCurso;
+                Intent intent = new Intent(getActivity(), CapCurso.class);
+                intent.putExtra("CodCurso",CodCurso);
+                startActivity(intent);
 
-                    boolean  pass=Integer.parseInt(GlobalVariables.listaPlanMin.get(position).Editable)>1?true:false;
-
-                    String CodAccion= GlobalVariables.listaPlanMin.get(position).CodAccion;
-                    Intent intent = new Intent(getActivity(), PlanAccionDet.class);
-                    intent.putExtra("codAccion",CodAccion);
-                    intent.putExtra("jsonPlan","");
-                    intent.putExtra("verBoton",pass);
-                    startActivity(intent);
-                //}
             }
         });
 
@@ -322,16 +319,16 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     }
 
     public void getdata(){
-        GlobalVariables.listaPlanMin.clear();
+        GlobalVariables.CapaCursosMin.clear();
         paginacion2=1;
         if(mes.equals("00")) {
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&Fecha=p" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
         }else{
-            url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&Fecha=p" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
         }
 
-        GlobalVariables.listaPlanMin=new ArrayList<>();
-        final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentPlanPendiente.this,getActivity());
+        GlobalVariables.CapaCursosMin=new ArrayList<>();
+        final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentCapacitaciones.this,getActivity());
         obj.execute("");
     }
 
@@ -359,7 +356,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
 
     public void DeleteObject(String Url, int index){
         String url= GlobalVariables.Url_base+Url;
-        ActivityController obj = new ActivityController("get", url, FragmentPlanPendiente.this,getActivity());
+        ActivityController obj = new ActivityController("get", url, FragmentCapacitaciones.this,getActivity());
         obj.execute(""+index);
     }
 
@@ -368,11 +365,11 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
 
         Gson gson = new Gson();
         if(Tipo.equals("")){  // new adapter
-            GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
-            contPublicacion=getPlanMinModel.Count;
-            tipo_estadistica.setText("("+contPublicacion+") Pendientes.");
-            GlobalVariables.listaPlanMin=getPlanMinModel.Data;
-            pma = new PlanMinAdapter(getActivity(), GlobalVariables.listaPlanMin,this);
+            GetCapCursoMinModel getCursonMinModel = gson.fromJson(data, GetCapCursoMinModel.class);
+            contPublicacion=getCursonMinModel.Count;
+            tipo_estadistica.setText("("+contPublicacion+") Cursos.");
+            GlobalVariables.CapaCursosMin=getCursonMinModel.Data;
+            pma = new CapCursosAdapter(getActivity(), GlobalVariables.CapaCursosMin);
             list_estadistica.setAdapter(pma);
 
             btn_buscar_e.setEnabled(true);
@@ -396,57 +393,17 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
         }
         else if(Tipo.equals("1")){  // add adapter
             constraintLayout.setVisibility(View.GONE);
-            GetPlanMinModel getPlanMinModel = gson.fromJson(data, GetPlanMinModel.class);
-            for(PlanMinModel item:getPlanMinModel.Data)
+            GetCapCursoMinModel getCursonMinModel = gson.fromJson(data, GetCapCursoMinModel.class);
+            for(CapCursoMinModel item:getCursonMinModel.Data)
                 pma.add(item);
             pma.notifyDataSetChanged();
             flag_enter=true;
-        }
+        }/*
         else{
             if(data.contains("-1")) Toast.makeText(getActivity(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
             else pma.remove(Integer.parseInt(Tipo)-2);
-        }
+        }*/
 
-
-
-       /* if(GlobalVariables.listaPlanMin.size()==0) {
-            GlobalVariables.listaPlanMin = getPlanMinModel.Data;
-            if(getPlanMinModel.Data.size()==0){
-
-            }else{
-                swipeRefreshLayout.setVisibility(View.VISIBLE);
-                tx_mensajeb.setVisibility(View.GONE);
-            }
-            //swipeRefreshLayout.setVisibility(View.VISIBLE);
-
-            //GlobalVariables.listaGlobal=listaPublicaciones;
-        }else{
-            //listaPublicaciones.addAll(getPublicacionModel.Data);
-            GlobalVariables.listaPlanMin.addAll(getPlanMinModel.Data);
-            swipeRefreshLayout.setVisibility(View.VISIBLE);
-        }
-
-        if(GlobalVariables.flagUpSc==true){
-            list_estadistica.setSelection(0);
-            GlobalVariables.flagUpSc=false;
-        }else if(GlobalVariables.listaPlanMin.size()==7){
-            list_estadistica.setSelection(0);
-        }else if(GlobalVariables.listaPlanMin.size()>7&&GlobalVariables.listaPlanMin.size()<contPublicacion) {
-                //recListImag.smoothScrollToPosition(GlobalVariables.imagen2.size()-3);
-                if(GlobalVariables.listaPlanMin.size()%7==0) {
-                    list_estadistica.setSelection(GlobalVariables.listaPlanMin.size() - 8);
-                }else{
-                    list_estadistica.setSelection(GlobalVariables.listaPlanMin.size()-1 );
-                    //- GlobalVariables.listaGlobalFiltro.size()%5+1
-                }
-
-                flagObsFiltro=true;
-
-            }else if(GlobalVariables.listaPlanMin.size()==contPublicacion){
-            list_estadistica.setSelection((GlobalVariables.listaPlanMin.size()/7)*7-1);
-                flagObsFiltro=false;
-
-            }*/
     }
 
     @Override

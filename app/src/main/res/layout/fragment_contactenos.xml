@@ -179,7 +179,7 @@
 
 
     <Button
-        android:id="@+id/btn_facilito"
+        android:id="@+id/btn_asistencia"
         android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

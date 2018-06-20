@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.pango.hsec.hsec.adapter.PlanEditAdapter;
+import com.pango.hsec.hsec.model.CapCursoMinModel;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
@@ -181,10 +182,12 @@ public class GlobalVariables  {
     //variables used in Ficha
     public static ArrayList<PersonaModel> lista_Personas=new ArrayList<>();
     public static ArrayList<PlanMinModel> listaPlanMin = new  ArrayList<PlanMinModel>();
+    public static ArrayList<CapCursoMinModel> CapaCursosMin = new  ArrayList<CapCursoMinModel>();
     public static ArrayList<PublicacionModel> listaGlobalFiltro = new  ArrayList<PublicacionModel>();
     public static ArrayList<ObsFacilitoMinModel> listaGlobalObsFacilito = new  ArrayList<ObsFacilitoMinModel>();
     public static ArrayList<ObsFHistorialModel> listaGlobalObsHistorial = new  ArrayList<ObsFHistorialModel>();
     public static String codObsHistorial;
+    public static ArrayList<Maestro> CapaCursoDias = new  ArrayList<>();
     public static ArrayList<ObsFHistorialModel> listaHistorial = new  ArrayList<ObsFHistorialModel>();
    // public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
 
@@ -206,6 +209,9 @@ public class GlobalVariables  {
 
     public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","SolicitadoPor","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
     public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Actividad relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
+
+    public static String[] cursoDetCab={"CodCurso","Empresa","CodTema", "Tipo","Area","Lugar","Fecha","FechaF","PuntajeTotal","PuntajeP", "Vigencia","Capacidad","Duracion"};
+    public static String[] cursoDetIzq={"Codigo","Empresa","Tema", "Tipo","Area HSEC","Lugar","Fecha Inicio","Fecha Fin","Puntaje Total","% de aprobaciòn", "Vigencia","Capacidad","Duracion"};
 
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
     public static String[] busqueda_mes={"*","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
@@ -285,7 +291,7 @@ public class GlobalVariables  {
     public static ArrayList<Maestro> C_Tema=new ArrayList<>();
     public static ArrayList<Maestro> C_Tipo=new ArrayList<>();
     public static ArrayList<Maestro> C_Sala=new ArrayList<>();
-
+    public static ArrayList<Maestro> C_Vigencia=new ArrayList<>();
 
 
     //public static int paginacion=1;
@@ -324,6 +330,12 @@ public class GlobalVariables  {
 
         if(!Area_obs.isEmpty()) return;
         InicialiceVar();
+
+        C_Vigencia.add(new Maestro("1","Dias"));
+        C_Vigencia.add(new Maestro("2","Semanas"));
+        C_Vigencia.add(new Maestro("3","Meses"));
+        C_Vigencia.add(new Maestro("4","Años"));
+        C_Vigencia.add(new Maestro("5","Nunca"));
         Aspectos_Obs.add(new Maestro("P001","EPP completos para la tarea"));
         Aspectos_Obs.add(new Maestro("P002","Orden y Limpieza"));
         Aspectos_Obs.add(new Maestro("P003","Estado de Herramientas"));

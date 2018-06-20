@@ -7,35 +7,23 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Busquedas.Busqueda;
-import com.pango.hsec.hsec.Facilito.list_obsfacilito;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Facilito.report_obs;
-import com.pango.hsec.hsec.Ficha.BusqEstadistica;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
@@ -50,7 +38,6 @@ import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.observacion_edit;
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -146,7 +133,7 @@ public class FragmentMuro extends Fragment implements IActivity{
         tx_texto =(TextView)rootView.findViewById(R.id.tx_texto);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
 
-        btn_facilito=rootView.findViewById(R.id.btn_facilito);
+        btn_facilito=rootView.findViewById(R.id.btn_asistencia);
         btn_obs=rootView.findViewById(R.id.btn_obs);
         btn_insp=rootView.findViewById(R.id.btn_insp);
         //buscar=(ImageButton) rootView.findViewById(R.id.btn_buscar);

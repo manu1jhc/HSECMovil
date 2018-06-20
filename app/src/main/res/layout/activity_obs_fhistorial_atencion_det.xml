@@ -32,7 +32,7 @@ tools:context="com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet">
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/btn_facilito"
+            android:id="@+id/btn_asistencia"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="50dp"
             android:layout_height="match_parent"
@@ -54,7 +54,7 @@ tools:context="com.pango.hsec.hsec.Facilito.ObsFHistorialAtencionDet">
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/btn_facilito"
+            app:layout_constraintStart_toEndOf="@+id/btn_asistencia"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0" />
     </android.support.constraint.ConstraintLayout>

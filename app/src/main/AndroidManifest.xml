@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -27,7 +29,8 @@
             android:exported="false" />
 
         <!-- firebase service -->
-        <activity android:name=".firebase.MessageShowActivity"></activity>
+        <activity android:name=".firebase.MessageShowActivity" />
+
         <service android:name=".firebase.MiFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -38,7 +41,9 @@
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service android:exported="false" android:name=".firebase.DeleteTokenService" />
+        <service
+            android:name=".firebase.DeleteTokenService"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
@@ -206,11 +211,12 @@
             android:name=".Facilito.obsFacilitoDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-        <intent-filter>
-            <action android:name="ACT_COM_DET" />
-            <category android:name="android.intent.category.DEFAULT" />
-        </intent-filter>
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="ACT_COM_DET" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".Facilito.obsfacilitoAprobar"
@@ -230,14 +236,21 @@
         <activity
             android:name=".ActActualizar"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Busquedas.B_facilito"
-
+        <activity
+            android:name=".Busquedas.B_facilito"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-
-            ></activity>
-
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".Capacitacion.CapCurso"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Capacitacion.AsistentesCurso"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".Capacitacion.ParticipantesCurso"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
     </application>
 
 </manifest>

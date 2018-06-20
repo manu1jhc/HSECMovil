@@ -294,7 +294,6 @@ public void reiniciadata(){
             alertDialog.show();
         }
         else finish();
-
     }
     public boolean ValifarFormulario(View view){
         //String ErrorForm="Cabecera: ";

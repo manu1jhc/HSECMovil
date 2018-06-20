@@ -67,6 +67,7 @@ import com.pango.hsec.hsec.model.UsuarioModel;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
+import layout.FragmentCapacitaciones;
 import layout.FragmentObsFacilito;
 import layout.FragmentConfiguracion;
 import layout.FragmentContactenos;
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         IActivity,
         NavigationView.OnNavigationItemSelectedListener,
         FragmentMuro.OnFragmentInteractionListener,
-        //FragmentAprobaciones.OnFragmentInteractionListener,
+        FragmentCapacitaciones.OnFragmentInteractionListener,
         FragmentFichaPersonal.OnFragmentInteractionListener,
         FragmentObservaciones.OnFragmentInteractionListener,
         FragmentInspecciones.OnFragmentInteractionListener,
@@ -442,7 +443,7 @@ public class MainActivity extends AppCompatActivity
 
     public enum NavigationFragment{
         Muro,
-        //Aprobaciones,
+        Capacitaciones,
         FichaPersonal,
         ObsFacilito,
         Observaciones,
@@ -692,13 +693,9 @@ public class MainActivity extends AppCompatActivity
                 Intent sendIntent =   getPackageManager().getLaunchIntentForPackage("com.base.app.donnyadrian.sisap008");
                 sendIntent.putExtra("dataApp", true);
                 startActivity(sendIntent);
-
-
             }
             catch (Throwable e){
-
             }
-
         }
         else if (id == R.id.nav_observacion) {
 
@@ -719,28 +716,18 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, "nav_inspeccion", Toast.LENGTH_SHORT).show();
 
         }
-        /*
-        else if (id == R.id.nav_ficha) {
-            Gson gson = new Gson();
-            GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-            GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
-            ClickMenuFicha();
-            uncheckItemsMenu();
-            bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
-
-
-        }*/
+        else if (id == R.id.nav_capacitacion) {
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickCursoCapacitacion();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+        }
             else if (id == R.id.nav_noticias){
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
             ClickNoticias();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
-
-            //bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
         }
-
-
-
         else if (id == R.id.nav_pendientes){
             Menu menu = navigationView.getMenu();
             uncheckItems(menu);
@@ -858,6 +845,7 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.Observaciones);
 
     }
+
     public void ClickMenuInspeccion() {
 
         uncheckItemsMenu();
@@ -910,6 +898,11 @@ public class MainActivity extends AppCompatActivity
         uncheckItemsMenu();
         ChangeFragment(NavigationFragment.PlanPendiente);
     }
+
+    public void ClickCursoCapacitacion(){
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.Capacitaciones);
+    }
     public void uncheckItemsMenu() {
 
         try {
@@ -947,7 +940,6 @@ public class MainActivity extends AppCompatActivity
         String Tipo="A",Title="HSEC";
         switch (value) {
             case Muro:    fragment = new FragmentMuro(); break;
-            //case Aprobaciones:    fragment = new FragmentAprobaciones(); break;
             case FichaPersonal: fragment = new FragmentFichaPersonal(); Tipo="B";  Title="Ficha"; break;
             case Observaciones: fragment = new FragmentObservaciones(); Tipo="C"; Title="Observaciones"; break;
             case Inspecciones: fragment = new FragmentInspecciones();  Tipo="D";Title="Inspecciones"; break;
@@ -956,6 +948,7 @@ public class MainActivity extends AppCompatActivity
             case Configuracion: fragment = new FragmentConfiguracion();  Tipo="F";Title="Configuración"; break;
             case Contactenos: fragment = new FragmentContactenos();  Tipo="G";Title="Contactenos"; break;
             case PlanPendiente: fragment = new FragmentPlanPendiente();  Tipo="H";Title="Planes de acción"; break;
+            case Capacitaciones: fragment = new FragmentCapacitaciones(); Tipo="J";  Title="Capacitaciones"; break;
             case Noticias: fragment = new FragmentNoticias();  Tipo="N";Title="Noticias"; break;
 
 

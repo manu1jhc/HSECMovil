@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.Busquedas.B_facilito;
-import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.R;
 
 import static android.app.Activity.RESULT_OK;
@@ -76,7 +75,7 @@ View mView;
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView=inflater.inflate(R.layout.fragment_contactenos, container, false);
-        btn_facilito=mView.findViewById(R.id.btn_facilito);
+        btn_facilito=mView.findViewById(R.id.btn_asistencia);
 
         btn_facilito.setOnClickListener(new View.OnClickListener() {
             @Override

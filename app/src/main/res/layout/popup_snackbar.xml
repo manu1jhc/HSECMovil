@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/card_content"
+        card_view:cardBackgroundColor="@color/ColorConfirm"
+        card_view:cardCornerRadius="5dp"
+        card_view:cardUseCompatPadding="true"
+        >
+
+        <ImageView
+            android:id="@+id/img_content"
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:tint="@color/colorBlanco"
+            app:srcCompat="@drawable/confirmicon"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:id="@+id/txt_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginStart="45dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/asap"
+            android:gravity="center_vertical"
+            android:text="Operación exitosa"
+            android:textColor="@color/colorBlanco"
+            android:textSize="16sp"
+        />
+    </android.support.v7.widget.CardView>

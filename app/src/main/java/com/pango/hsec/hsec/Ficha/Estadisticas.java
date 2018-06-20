@@ -87,7 +87,7 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //mes_sel
                 if(position!=0) {
-                    mes_pos = String.valueOf(position);
+                    mes_pos = String.valueOf(position); //position<10? "0"+position:
 
                 }else{
                     //revisar la posicion
