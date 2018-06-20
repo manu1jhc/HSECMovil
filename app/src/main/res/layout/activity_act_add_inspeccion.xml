@@ -73,6 +73,44 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/ll_bar_carga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:visibility="gone"
+        >
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.12"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="false"
+            android:max="100"
+            android:progressDrawable="@drawable/custom_progressbar"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageButton
+            android:id="@+id/cancel_upload"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_weight="0.88"
+            android:background="@drawable/borde_image"
+            android:backgroundTint="@color/colorBlanco"
+            android:onClick="cancelUpload"
+            android:src="@drawable/ic_equis" />
+
+    </LinearLayout>
+
+    <!--
     <ProgressBar
         android:id="@+id/progressBar2"
         style="?android:attr/progressBarStyleHorizontal"
@@ -83,6 +121,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
+
+    -->
+
 <TabHost
     android:id="@android:id/tabhost"
     android:layout_width="match_parent"

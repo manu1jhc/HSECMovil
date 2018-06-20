@@ -16,7 +16,8 @@ package com.pango.hsec.hsec;
         import android.widget.Button;
         import android.widget.HorizontalScrollView;
         import android.widget.ImageButton;
-        import android.widget.ProgressBar;
+   import android.widget.LinearLayout;
+   import android.widget.ProgressBar;
         import android.widget.TabHost;
         import android.widget.TextView;
         import android.widget.Toast;
@@ -61,7 +62,9 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     int pos=0;
     ArrayList<Integer> Actives=new ArrayList();
     String CodObservacion,CodTipo,Errores="";
-    ;
+    LinearLayout ll_bar_carga;
+    ActivityController activityTask;
+    Call<String> request;
     //TabHost tabHost;
     //
     @Override
@@ -74,6 +77,8 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         horizontalsv=findViewById(R.id.HorizontalObsedit);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         progressBar = findViewById(R.id.progressBar2);
+        ll_bar_carga=findViewById(R.id.ll_bar_carga);
+
         Bundle datos = this.getIntent().getExtras();
         CodObservacion=datos.getString("codObs");
         CodTipo=datos.getString("tipoObs");
@@ -371,15 +376,15 @@ public void reiniciadata(){
             if(!GlobalVariables.StrObservacion.equals(Observacion)){
                 Actives.add(0);
                 String url= GlobalVariables.Url_base+"Observaciones/Post";
-                final ActivityController obj = new ActivityController("post", url, observacion_edit.this,observacion_edit.this);
-                obj.execute(Observacion,"1");
+                activityTask = new ActivityController("post", url, observacion_edit.this,observacion_edit.this);
+                activityTask.execute(Observacion,"1");
             }
             else Actives.add(1);
             if(!GlobalVariables.StrObsDetalle.equals(DetalleObs)){
                 Actives.add(0);
                 String url= GlobalVariables.Url_base+"Observaciones/PostDetalle";
-                final ActivityController obj = new ActivityController("post", url, observacion_edit.this,this);
-                obj.execute(DetalleObs,"2");
+                activityTask = new ActivityController("post", url, observacion_edit.this,this);
+                activityTask.execute(DetalleObs,"2");
             }
             else Actives.add(1);
 
@@ -432,6 +437,7 @@ public void reiniciadata(){
 
             Call<String> request = service.insertarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(DetalleObs),createPartFromString(gson.toJson(GlobalVariables.Planes)),Files);
             progressBar.setVisibility(View.VISIBLE);
+            ll_bar_carga.setVisibility(View.VISIBLE);
             request.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -518,6 +524,8 @@ public void reiniciadata(){
                     }
                     if(!Actives.contains(0)) FinishSave();
                     progressBar.setVisibility(View.GONE);
+                    ll_bar_carga.setVisibility(View.GONE);
+
                 }
 
                 @Override
@@ -526,6 +534,8 @@ public void reiniciadata(){
                     Errores+="\nFallo la subida de archivos";
                     if(!Actives.contains(0)) FinishSave();
                     progressBar.setVisibility(View.GONE);
+                    ll_bar_carga.setVisibility(View.GONE);
+
                 }
             });
         }
@@ -598,8 +608,10 @@ public void reiniciadata(){
                 }
                 Toast.makeText(this, "Subiendo Archivos, Espere..." , Toast.LENGTH_SHORT).show();
 
-                Call<String> request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(CodObservacion),createPartFromString("TOBS"),createPartFromString("1"),Files);
+                request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(CodObservacion),createPartFromString("TOBS"),createPartFromString("1"),Files);
                 progressBar.setVisibility(View.VISIBLE);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+
                 request.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -634,6 +646,8 @@ public void reiniciadata(){
                         }
                         if(!Actives.contains(0)) FinishSave();
                         progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -642,6 +656,8 @@ public void reiniciadata(){
                         Errores+="\nFallo la subida de archivos";
                         if(!Actives.contains(0)) FinishSave();
                         progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
+
                     }
                 });
             }
@@ -804,4 +820,23 @@ public void reiniciadata(){
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Toast.makeText(this,"Su data fue actualizada "+ requestCode ,Toast.LENGTH_SHORT).show();
     }*/
+
+
+
+    public void cancelUpload(View view) {
+        //GlobalVariables.cambiarIcon=true;
+        if(activityTask!=null){
+            activityTask.cancel(true);
+            //progressBar.setProgress(100);
+            //ll_bar_carga.setVisibility(View.GONE);
+        }
+
+        if(request!=null){
+            request.cancel();
+        }
+
+
+
+    }
+
 }

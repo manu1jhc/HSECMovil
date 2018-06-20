@@ -247,9 +247,7 @@ public class FragmentConfiguracion extends Fragment implements IActivity {
 
             GlobalVariables.Ubicacion_obs = GlobalVariables.loadUbicacion("", 1);
         }else {
-
             Toast.makeText(getActivity(),"Ocurrio un error al cargar datos del sistemas",Toast.LENGTH_SHORT).show();
-
         }
     }
 

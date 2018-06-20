@@ -233,6 +233,9 @@ public class FragmentGaleria extends Fragment implements IActivity {
 
 		permiso=true;
 
+
+
+
 	}
 
 

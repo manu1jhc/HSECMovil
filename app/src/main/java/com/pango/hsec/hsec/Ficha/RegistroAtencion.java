@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -208,6 +209,8 @@ public class RegistroAtencion extends AppCompatActivity implements IActivity {
             listView.setLayoutManager(horizontalManager);
             documentoAdapter = new DocumentoAdapter(this, DataDocs,permiso);
             listView.setAdapter(documentoAdapter);
+            listView.addItemDecoration(new DividerItemDecoration(this,
+                    DividerItemDecoration.VERTICAL));
 
         }else{
             //mensaje.setVisibility(View.VISIBLE);

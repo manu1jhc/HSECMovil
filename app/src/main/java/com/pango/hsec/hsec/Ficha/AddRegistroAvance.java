@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -89,11 +90,13 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     private GridViewAdapter gridViewAdapter;
     private ArrayList<GaleriaModel> DataFiles;
     private ArrayList<GaleriaModel> DataImg;
+    ActivityController activityTask;
     Spinner spinnerUsuario;
     String CodResponsable="",Responsable="",StrAccionmejora="", Errores="";
     ArrayList<Integer> Actives=new ArrayList();
     ArrayList<Maestro> usuario_data;
     TextView tx_titulo,sp2,tx3,tx4;
+    LinearLayout ll_bar_carga;
     final String[] ACCEPT_MIME_TYPES = {
             "application/pdf",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -108,7 +111,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     Gson gson;
     SimpleDateFormat df,dt;
     ArrayList<GaleriaModel> Data;
-
+    Call<String> request;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,6 +125,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         btn_guardar=findViewById(R.id.btn_guardar);
         btn_eliminar=findViewById(R.id.btn_deleteAm);
         progressBar = findViewById(R.id.progressBar2);
+        ll_bar_carga=findViewById(R.id.ll_bar_carga);
         //////////////
         ImageButton btnFotos=(ImageButton) findViewById(R.id.btn_addfotos);
         ImageButton btnFiles=(ImageButton) findViewById(R.id.btn_addfiles);
@@ -460,8 +464,11 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 }
                 Toast.makeText(AddRegistroAvance.this, "Subiendo Archivos, Espere..." , Toast.LENGTH_SHORT).show();
 
-                Call<String> request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(AddAccionMejora.CodAccion),createPartFromString("TACME"),createPartFromString(AddAccionMejora.Correlativo+""),Files);
+                request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(AddAccionMejora.CodAccion),createPartFromString("TACME"),createPartFromString(AddAccionMejora.Correlativo+""),Files);
                 progressBar.setVisibility(View.VISIBLE);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+
+
                 request.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -471,6 +478,8 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                             if(respt.contains("-1")){
                                 Actives.set(2,-1);
                                 Errores+="\nOcurrio un error al subir algunos archivos";
+
+
                             }
                             else  Actives.set(2,1);
                             Utils.DeleteCache(new Compressor(AddRegistroAvance.this).destinationDirectoryPath); //delete cache Files;
@@ -496,6 +505,8 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                         }
                         if(!Actives.contains(0)) FinishSave();
                         progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -504,6 +515,14 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                         Errores+="\nFallo la subida de archivos";
                         if(!Actives.contains(0)) FinishSave();
                         progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
+
+
+                        for(GaleriaModel item:DataInsert){
+                            item.Estado="E";
+                        }
+
+
                     }
                 });
             }
@@ -758,6 +777,10 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
 
     @Override
     public void successpost(String data, String Tipo) {
+        //progressBar.setVisibility(View.GONE);
+        progressBar.setProgress(100);
+        ll_bar_carga.setVisibility(View.GONE);
+
         if(Tipo.equals("1")){
             if(data.contains("-1")){
                 Actives.set(0,-1);
@@ -808,9 +831,14 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 String newJson=gson.toJson(AddAccionMejora);
                 if(!StrAccionmejora.equals(newJson))  {
                     Actives.add(0);
+                    progressBar.setVisibility(View.VISIBLE);
+                    ll_bar_carga.setVisibility(View.VISIBLE);
                     String url= GlobalVariables.Url_base+"AccionMejora/post";
-                    ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
-                    obj.execute(gson.toJson(AddAccionMejora),"1");
+                    activityTask = new ActivityController("post-0", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                    activityTask.execute(gson.toJson(AddAccionMejora),"1");
+
+                    ///task = (Task) new Task().execute();
+
                 }
                 else {
                     Actives.add(1);
@@ -820,10 +848,24 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
             else{
                 Actives.add(0);
                 String url= GlobalVariables.Url_base+"AccionMejora/post";
-                ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
-                obj.execute(gson.toJson(AddAccionMejora),"1");
+                activityTask = new ActivityController("post-0", url, AddRegistroAvance.this,AddRegistroAvance.this);
+                activityTask.execute(gson.toJson(AddAccionMejora),"1");
             }
         }
+
+    }
+
+    public void cancelUpload(View view) {
+        //GlobalVariables.cambiarIcon=true;
+        if(activityTask!=null){
+            activityTask.cancel(true);
+        }
+
+        if(request!=null){
+            request.cancel();
+        }
+
+
 
     }
 }

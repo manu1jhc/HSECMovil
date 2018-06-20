@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -8,15 +10,72 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:weightSum="1">
-        <ImageView
-            android:id="@+id/btn_descargar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="2dp"
-            android:layout_weight="0.40"
-            android:src="@drawable/ic_pdf"
-            android:text="Enlace" />
+        android:weightSum="1"
+
+        >
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="0.80"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    >
+
+    <ImageView
+        android:id="@+id/btn_descargar"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="2dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_pdf"
+        android:text="Enlace"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="visible"
+
+        />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_cancelar"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_equis"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,27 +87,27 @@
             android:id="@+id/nombre_doc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_margin="1dp"
             android:text="Nombre del documento" />
 
         <TextView
                 android:id="@+id/tam_doc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp"
+                android:layout_margin="1dp"
                 android:text="Tamaño" />
 
         </LinearLayout>
+        <!--
         <TextView
             android:id="@+id/ref"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="2dp"
-            android:layout_weight="0.40"
             android:gravity="center"
-            android:visibility="invisible"
+            android:visibility="gone"
             android:text="Tamaño" />
-
+-->
 
     </LinearLayout>
 

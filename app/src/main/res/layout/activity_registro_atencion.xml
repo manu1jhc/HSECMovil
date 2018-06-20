@@ -386,6 +386,7 @@
                     android:orientation="horizontal"
                     android:background="@color/ColorPlomo4"
                     android:weightSum="1"
+                    android:visibility="gone"
 >
 
                     <TextView

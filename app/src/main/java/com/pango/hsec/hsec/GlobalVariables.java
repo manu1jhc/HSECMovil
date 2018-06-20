@@ -76,6 +76,10 @@ public class GlobalVariables  {
     public static boolean istabs=false;
     public static boolean isUserlogin=false;
 
+    public static boolean cancelDownload=false;
+
+    //public static boolean cambiarIcon=false;
+
     public static int countObsInsp=1;
     public static InspeccionModel AddInspeccion=new InspeccionModel(); //cabecera
     public static String StrInspeccion;

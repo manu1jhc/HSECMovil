@@ -2,7 +2,10 @@ package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -80,7 +84,15 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
             default:
                 idIcon = R.drawable.ic_contrata;
         }
-        viewHolder.imageView.setImageResource(idIcon);
+
+        if(items.get(position).Estado!=null&&items.get(position).Estado=="E"){
+            viewHolder.imageView.setImageResource(R.drawable.ic_broken);
+            //if(position==items.size()-1){GlobalVariables.cambiarIcon=false;}
+        }else {
+            viewHolder.imageView.setImageResource(idIcon);
+
+        }
+
         viewHolder.textView.setText(items.get(position).Descripcion);
         if(items.get(position).Tamanio!=null)viewHolder.textView2.setText(getReadableFileSize(Long.parseLong(items.get(position).Tamanio)));
         else viewHolder.textView2.setVisibility(View.GONE);
@@ -104,21 +116,44 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                                                      @Override
                                                      public void onClick(View v) {
+                                                         GlobalVariables.cancelDownload=false;
                                                          int Correlativo= items.get(position).Correlativo;
                                                          String nameFile= items.get(position).Descripcion;
                                                          if(Correlativo>0){
-                                                             DownloadManager downloadManager =(DownloadManager) v.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
+                                                             viewHolder.progressBar.setVisibility(View.VISIBLE);
+                                                             viewHolder.btn_cancelar.setVisibility(View.VISIBLE);
+                                                             viewHolder.imageView.setVisibility(View.GONE);
+
+                                                             viewHolder.downloadManager =(DownloadManager) v.getContext().getSystemService(Context.DOWNLOAD_SERVICE);
                                                              String url_serv= GlobalVariables.Url_base+ items.get(position).Url;
                                                              String cadMod= Utils.ChangeUrl(url_serv);
                                                              Uri uri=Uri.parse(cadMod);
                                                              DownloadManager.Request request= new DownloadManager.Request(uri);
                                                              request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-                                                             Long reference = downloadManager.enqueue(request);
+                                                             viewHolder.downloadReference = viewHolder.downloadManager.enqueue(request);
                                                              Toast.makeText(v.getContext(),"Descargando : " +nameFile,Toast.LENGTH_SHORT).show();
+
+                                                             IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+                                                             activity.registerReceiver(viewHolder.downloadReceiver, filter);
+
                                                          }
                                                      }
                                                  }
         );
+
+
+
+        viewHolder.btn_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GlobalVariables.cancelDownload=true;
+                viewHolder.downloadManager.remove(viewHolder.downloadReference);
+                viewHolder.progressBar.setVisibility(View.GONE);
+                viewHolder.btn_cancelar.setVisibility(View.GONE);
+                viewHolder.imageView.setVisibility(View.VISIBLE);
+            }
+        });
+
 
     }
 
@@ -139,25 +174,61 @@ public class ListViewAdapter extends RecyclerView.Adapter<ListViewAdapter.ViewHo
     /**
      * View holder to display each RecylerView item
      */
-    protected class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private ImageView imageView;
+    protected class ViewHolder extends RecyclerView.ViewHolder /*implements View.OnClickListener*/{
+        private ImageView imageView,btn_cancelar;
         private TextView textView, textView2;
         private ImageButton btn_Delete;
         public int idposition;
+
+        ProgressBar progressBar;
+        long downloadReference;
+        DownloadManager downloadManager;
+        //boolean cancelDownload=true;
 
         public ViewHolder(View view) {
             super(view);
             imageView = (ImageView) view.findViewById(R.id.image);
             textView = (TextView)view.findViewById(R.id.text);
             textView2 = (TextView)view.findViewById(R.id.text2);
-            btn_Delete= (ImageButton) view.findViewById(R.id.btn_delete);
-            itemView.setOnClickListener(this);
-        }
+            btn_cancelar=(ImageView) view.findViewById(R.id.btn_cancelar);
+            progressBar=(ProgressBar) view.findViewById(R.id.progressBar);
 
+            btn_Delete= (ImageButton) view.findViewById(R.id.btn_delete);
+            //itemView.setOnClickListener(this);
+        }
+/*
         @Override
         public void onClick(View v) {
            if(items.get(idposition).Correlativo>0)
             Toast.makeText(v.getContext(), "Descargando...", Toast.LENGTH_SHORT).show();
         }
+*/
+
+        private BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+                //check if the broadcast message is for our Enqueued download
+                long referenceId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+                if(GlobalVariables.cancelDownload){
+                    Toast toast = Toast.makeText(activity,"Descarga Cancelada", Toast.LENGTH_LONG);
+                    //toast.setGravity(Gravity.BOTTOM, 25, 400);
+                    toast.show();
+                    //GlobalVariables.cancelDownload=false;
+                }else {
+                    progressBar.setVisibility(View.GONE);
+                    btn_cancelar.setVisibility(View.GONE);
+                    imageView.setVisibility(View.VISIBLE);
+
+                    Toast toast = Toast.makeText(activity,"Descarga completada", Toast.LENGTH_LONG);
+                    //toast.setGravity(Gravity.TOP, 25, 400);
+                    toast.show();
+                }
+            }
+        };
+
+
+
     }
 }

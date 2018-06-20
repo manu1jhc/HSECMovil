@@ -9,7 +9,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
+<!--
         <ImageView
             android:id="@+id/image"
             android:layout_width="50dp"
@@ -22,6 +22,56 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+-->
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cons_imagen"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_pdf"
+                android:text="Enlace"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="visible"
+                />
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:background="@android:color/transparent"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/btn_cancelar"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:visibility="gone"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_equis"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
 
         <TextView
             android:id="@+id/text"
@@ -31,13 +81,13 @@
             android:layout_marginBottom="4dp"
             android:layout_marginTop="8dp"
             android:layout_toLeftOf="@+id/btn_delete"
-            android:layout_toRightOf="@+id/image"
+            android:layout_toRightOf="@+id/cons_imagen"
             android:gravity="center"
             android:text="Descripcion del arvhico"
             android:textAlignment="viewStart"
             app:layout_constraintBottom_toBottomOf="@+id/text2"
             app:layout_constraintEnd_toStartOf="@+id/btn_delete"
-            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintStart_toEndOf="@+id/cons_imagen"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -48,7 +98,7 @@
             android:layout_centerInParent="true"
             android:layout_marginBottom="4dp"
             android:layout_toLeftOf="@+id/btn_delete"
-            android:layout_toRightOf="@+id/image"
+            android:layout_toRightOf="@+id/cons_imagen"
             android:gravity="center"
             android:text="10 Mbs"
             android:textAlignment="viewEnd"
@@ -56,7 +106,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_delete"
             app:layout_constraintHorizontal_bias="0.333"
-            app:layout_constraintStart_toEndOf="@+id/image" />
+            app:layout_constraintStart_toEndOf="@+id/cons_imagen" />
 
         <ImageButton
             android:id="@+id/btn_delete"

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -70,6 +71,10 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
     ArrayList<Integer> Actives=new ArrayList();
     String CodInspeccion,Errores="";
     TextView tx_titulo;
+    ActivityController activityTask;
+    Call<String> request;
+    LinearLayout ll_bar_carga;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +85,8 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         horizontalscroll=findViewById(R.id.horizontalscroll);
         btn_Salvar=findViewById(R.id.btnguardar_insp);
+        ll_bar_carga=findViewById(R.id.ll_bar_carga);
+
         Bundle datos = this.getIntent().getExtras();
         codObs=datos.getString("codObs");
         progressBar = findViewById(R.id.progressBar2);
@@ -194,10 +201,13 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
         if(GlobalVariables.ObjectEditable){
         //update Inspeccion Cabecera
             if(!GlobalVariables.StrInspeccion.equals(Inspeccion)){
+                progressBar.setVisibility(View.VISIBLE);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+
                 Actives.add(0);
                 String url= GlobalVariables.Url_base+"Inspecciones/Post";
-                final ActivityController obj = new ActivityController("post", url, AddInspeccion.this,this);
-                obj.execute(Inspeccion,"1");
+                activityTask = new ActivityController("post-0", url, AddInspeccion.this,this);
+                activityTask.execute(Inspeccion,"1");
             }
             else Actives.add(1);
 
@@ -254,10 +264,12 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                 Lider.Lider=LiderPer;
                 Lider.Estado="L";
                 updateResponsables.Data.add(0,Lider);
+                progressBar.setVisibility(View.VISIBLE);
+                ll_bar_carga.setVisibility(View.VISIBLE);
 
                 String url= GlobalVariables.Url_base+"Inspecciones/PostEquipo";
-                final ActivityController obj = new ActivityController("post", url, AddInspeccion.this,this);
-                obj.execute(gson.toJson(updateResponsables),"2");
+                activityTask = new ActivityController("post-0", url, AddInspeccion.this,this);
+                activityTask.execute(gson.toJson(updateResponsables),"2");
             }
             else Actives.add(1);
 
@@ -293,9 +305,12 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
             if(updateAtentidos.size()>0){
                 updateAtentidos.Data.get(0).NroReferencia=GlobalVariables.InspeccionObserbacion;
                 Actives.add(0);
+                progressBar.setVisibility(View.VISIBLE);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+
                 String url= GlobalVariables.Url_base+"Inspecciones/PostAtendidos";
-                final ActivityController obj = new ActivityController("post", url, AddInspeccion.this,this);
-                obj.execute(gson.toJson(updateAtentidos),"3");
+                activityTask = new ActivityController("post-0", url, AddInspeccion.this,this);
+                activityTask.execute(gson.toJson(updateAtentidos),"3");
             }
             else Actives.add(1);
 
@@ -316,9 +331,10 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                 }
                 if(!DeleteObservaciones.equals("")){
                     Actives.add(0);
+
                     String url= GlobalVariables.Url_base+"Inspecciones/deleteAll/"+DeleteObservaciones.substring(0,DeleteObservaciones.length()-1);
-                    ActivityController obj = new ActivityController("get", url, AddInspeccion.this,this);
-                    obj.execute("1");
+                    activityTask = new ActivityController("get", url, AddInspeccion.this,this);
+                    activityTask.execute("1");
                 }
                 else Actives.add(1);
             }//else Actives.add(1);
@@ -361,8 +377,9 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
             }
             Toast.makeText(this, "Guardando Inspeccion, Espere..." , Toast.LENGTH_SHORT).show();
 
-            Call<String> request = service.insertarInspeccion("Bearer "+GlobalVariables.token_auth,createPartFromString(Inspeccion),createPartFromString(gson.toJson(GlobalVariables.ListResponsables)),createPartFromString(gson.toJson(GlobalVariables.ListAtendidos)),createPartFromString(gson.toJson(Observaciones)),createPartFromString(gson.toJson(Planes)),Files);
+            request = service.insertarInspeccion("Bearer "+GlobalVariables.token_auth,createPartFromString(Inspeccion),createPartFromString(gson.toJson(GlobalVariables.ListResponsables)),createPartFromString(gson.toJson(GlobalVariables.ListAtendidos)),createPartFromString(gson.toJson(Observaciones)),createPartFromString(gson.toJson(Planes)),Files);
             progressBar.setVisibility(View.VISIBLE);
+            ll_bar_carga.setVisibility(View.VISIBLE);
             request.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -507,6 +524,8 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                     }
                     if(!Actives.contains(0)) FinishSave();
                     progressBar.setVisibility(View.GONE);
+                    ll_bar_carga.setVisibility(View.GONE);
+
                 }
 
                 @Override
@@ -515,6 +534,8 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                     Errores+="\nFallo la subida de la inspección";
                     if(!Actives.contains(0)) FinishSave();
                     progressBar.setVisibility(View.GONE);
+                    ll_bar_carga.setVisibility(View.GONE);
+
                 }
             });
         }
@@ -667,6 +688,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
 
     @Override
     public void success(String data, String Tipo) {
+
         if(Tipo.equals("1")){ //delete Observaciones
             if(data.contains("-1")){
                 Actives.set(3,-1);
@@ -682,6 +704,8 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
 
     @Override
     public void successpost(String data, String Tipo) throws CloneNotSupportedException {
+        progressBar.setProgress(100);
+        ll_bar_carga.setVisibility(View.GONE);
 
         Gson gson = new Gson();
         if(Tipo.equals("1")){ // post inpeccion
@@ -808,5 +832,24 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
     public void onFinish() {
         progressBar.setProgress(100);
     }
+
+
+    public void cancelUpload(View view) {
+        //GlobalVariables.cambiarIcon=true;
+        if(activityTask!=null){
+            activityTask.cancel(true);
+            progressBar.setProgress(100);
+            ll_bar_carga.setVisibility(View.GONE);
+        }
+
+        if(request!=null){
+            request.cancel();
+        }
+
+
+
+    }
+
+
 
 }

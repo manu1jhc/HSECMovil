@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -69,6 +70,10 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     Button btn_Salvar;
     Gson gson;
     TextView tx_titulo;
+    ActivityController activityTask;
+    Call<String> request;
+    LinearLayout ll_bar_carga;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +88,8 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
         horizontalscroll=findViewById(R.id.horizontalscroll);
         progressBar = findViewById(R.id.progressBar2);
         btn_Salvar= findViewById(R.id.btnguardar_obs);
+        ll_bar_carga=findViewById(R.id.ll_bar_carga);
+
         Bundle datos = this.getIntent().getExtras();
         grupo=datos.getString("Grupo");
         codObs=GlobalVariables.InspeccionObserbacion+"-"+grupo;
@@ -188,8 +195,8 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                 if(!GlobalVariables.StrObservacion.equals(Observacion)){
                     Actives.add(0);
                     String url= GlobalVariables.Url_base+"Inspecciones/PostObservacion";
-                    final ActivityController obj = new ActivityController("post", url, ActObsInspEdit.this,this);
-                    obj.execute(Observacion,"1");
+                    activityTask = new ActivityController("post", url, ActObsInspEdit.this,this);
+                    activityTask.execute(Observacion,"1");
                 }
                 else Actives.add(1);
 
@@ -247,8 +254,9 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                  }
                  Toast.makeText(this, "Guardando Observacion, Espere..." , Toast.LENGTH_SHORT).show();
 
-                 Call<String> request = service.insertarInspeccionObs("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(gson.toJson(GlobalVariables.Planes)),Files);
+                 request = service.insertarInspeccionObs("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(gson.toJson(GlobalVariables.Planes)),Files);
                  progressBar.setVisibility(View.VISIBLE);
+                 ll_bar_carga.setVisibility(View.VISIBLE);
                  request.enqueue(new Callback<String>() {
                      @Override
                      public void onResponse(Call<String> call, Response<String> response) {
@@ -329,6 +337,7 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                          }
                          if(!Actives.contains(0)) FinishSave();///////
                          progressBar.setVisibility(View.GONE);
+                         ll_bar_carga.setVisibility(View.GONE);
                      }
 
                      @Override
@@ -337,6 +346,9 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                          Errores+="\nFallo la subida de archivos";
                          if(!Actives.contains(0)) FinishSave();////////
                          progressBar.setVisibility(View.GONE);
+                         ll_bar_carga.setVisibility(View.GONE);
+
+
                      }
                  });
              }
@@ -430,8 +442,10 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                 }
                 Toast.makeText(this, "Subiendo Archivos, Espere..." , Toast.LENGTH_SHORT).show();
 
-                Call<String> request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(GlobalVariables.InspeccionObserbacion),createPartFromString("TOBS"),createPartFromString(grupo),Files);
+                request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(GlobalVariables.InspeccionObserbacion),createPartFromString("TOBS"),createPartFromString(grupo),Files);
                 progressBar.setVisibility(View.VISIBLE);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+
                 request.enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -466,6 +480,8 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                         }
                         if(!Actives.contains(0)) FinishSave();
                         progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
+
                     }
 
                     @Override
@@ -474,6 +490,14 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                         Errores+="\nFallo la subida de archivos";
                         if(!Actives.contains(0)) FinishSave();
                         progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
+
+
+                        for(GaleriaModel item:DataInsert){
+                            item.Estado="E";
+                        }
+
+
                     }
                 });
             }
@@ -736,4 +760,20 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     public void onFinish() {
         progressBar.setProgress(100);
     }
+
+
+    public void cancelUpload(View view) {
+        //GlobalVariables.cambiarIcon=true;
+        if(activityTask!=null){
+            activityTask.cancel(true);
+        }
+
+        if(request!=null){
+            request.cancel();
+        }
+
+
+
+    }
+
 }
