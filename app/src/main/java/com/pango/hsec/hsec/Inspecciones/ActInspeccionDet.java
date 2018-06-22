@@ -107,7 +107,10 @@ public class ActInspeccionDet extends FragmentActivity implements TabHost.OnTabC
         if(pos==3){
             //pos = this.mViewPager.getCurrentItem();
             this.mTabHost.setCurrentTab(3);
+            horizontalscroll.smoothScrollTo(((int) (getResources().getDimensionPixelSize(R.dimen.tab_width) * (pos))), 0);
+
             pos=0;
+
         }else{
             pos = this.mViewPager.getCurrentItem();
             this.mTabHost.setCurrentTab(pos);

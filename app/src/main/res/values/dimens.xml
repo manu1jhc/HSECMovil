@@ -44,6 +44,7 @@
     <dimen name="pad_bottom_top">2dp</dimen><!-- tamaño de letra de lado izquierdo-->
 
 
+    <dimen name="tab_width">400sp</dimen>
 
 
 </resources>

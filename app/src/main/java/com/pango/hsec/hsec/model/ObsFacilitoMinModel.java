@@ -16,4 +16,5 @@ public class ObsFacilitoMinModel {
     public String UrlObs;
     public String UrlPrew;
     public int TiempoDiffMin;
+    public String Empresa;
 }

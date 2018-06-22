@@ -100,6 +100,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
         TextView timediff=rowView.findViewById(R.id.mp_timediff);
         ImageView editar = rowView.findViewById(R.id.btn_editar);
+        TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
 
         final String tempimg_perfil = data.get(position).UrlObs;
         final String tempNombre = data.get(position).Persona;
@@ -110,6 +111,8 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         final String tempImgDet=data.get(position).UrlPrew;
         final String editable = data.get(position).Editable;
         final int tiempoDiff=data.get(position).TiempoDiffMin;
+        final String tempEmpresa=data.get(position).Empresa;
+        tx_empresa.setText(tempEmpresa);
 
         if(editable.equals("0")){
             editar.setVisibility(View.GONE);

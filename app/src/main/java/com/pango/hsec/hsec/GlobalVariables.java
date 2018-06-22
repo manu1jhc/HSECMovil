@@ -220,7 +220,7 @@ public class GlobalVariables  {
     public static String Obtener_Tipo(String tipo){
         String descripcion="";
         if(tipo.equals("A")){
-            descripcion="Acción";
+            descripcion="Acto";
         }else if(tipo.equals("C")){
             descripcion="Condición";
         }

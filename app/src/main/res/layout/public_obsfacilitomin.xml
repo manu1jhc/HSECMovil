@@ -10,10 +10,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/mp_profile"
@@ -62,23 +62,24 @@
                 android:id="@+id/mp_tipo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="-3dp"
                 android:layout_marginLeft="10dp"
+                android:paddingTop="-3dp"
                 android:text="TextView"
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/mp_profile"
                 app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
+
             <TextView
                 android:id="@+id/mp_estadotext"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingTop="-3dp"
                 android:layout_marginLeft="10dp"
+                android:paddingTop="-3dp"
                 android:text="   "
-                tools:text="   "
                 android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@+id/mp_tipo"
-                app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
+                app:layout_constraintTop_toBottomOf="@+id/mp_fecha"
+                tools:text="   " />
 
             <TextView
                 android:id="@+id/mp_estado"
@@ -91,6 +92,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/mp_estadotext"
                 app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
+
             <TextView
                 android:id="@+id/mp_timediff"
                 android:layout_width="100dp"
@@ -98,9 +100,10 @@
                 android:paddingTop="-3dp"
                 android:text=" "
                 android:textSize="12sp"
-                app:layout_constraintStart_toEndOf="@+id/mp_estado"
                 app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/mp_estado"
                 app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
+
             <ImageView
                 android:id="@+id/btn_editar"
                 android:layout_width="35dp"
@@ -121,17 +124,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_editar"
                 app:srcCompat="@drawable/ic_alertaverde"
                 tools:ignore="VectorDrawableCompat" />
-                <!--<ImageView-->
-                <!--android:id="@+id/img_riesgotiempo"-->
-                <!--android:layout_width="20dp"-->
-                <!--android:layout_height="0dp"-->
-                    <!--android:layout_marginBottom="4dp"-->
-                <!--android:layout_marginEnd="6dp"-->
-                <!--android:tint="@color/colorRojo"-->
-                <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintEnd_toStartOf="@+id/img_riesgo"-->
-                <!--app:srcCompat="@drawable/ic_hourglass_full_black_24dp" />-->
+
+            <TextView
+                android:id="@+id/tx_empresa"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="TextView"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/img_riesgo"
+                app:layout_constraintStart_toEndOf="@+id/mp_profile"
+                app:layout_constraintTop_toBottomOf="@+id/mp_tipo" />
+            <!--<ImageView-->
+            <!--android:id="@+id/img_riesgotiempo"-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_marginBottom="4dp"-->
+            <!--android:layout_marginEnd="6dp"-->
+            <!--android:tint="@color/colorRojo"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintEnd_toEndOf="parent"-->
+            <!--app:layout_constraintEnd_toStartOf="@+id/img_riesgo"-->
+            <!--app:srcCompat="@drawable/ic_hourglass_full_black_24dp" />-->
         </android.support.constraint.ConstraintLayout>
 
 

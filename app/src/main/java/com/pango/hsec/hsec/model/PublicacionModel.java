@@ -18,5 +18,6 @@ public class PublicacionModel {
     public String UrlPrew;
     public String UrlObs;
     public String Estado;
+    public String Empresa;
 
 }

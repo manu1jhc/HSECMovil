@@ -132,6 +132,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             TextView comentario = rowView.findViewById(R.id.tx_comentario);
             TextView tx_det = rowView.findViewById(R.id.mp_txdet);
             ImageView editar = rowView.findViewById(R.id.btn_editar);
+            TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
 
             final String tempimg_perfil = data.get(position).UrlObs;
             final String tempNombre = data.get(position).ObsPor;
@@ -143,6 +144,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final int comentarios = data.get(position).Comentarios;
             final String tempImgDet = data.get(position).UrlPrew;
             final String editable = data.get(position).Editable;
+            final String tempEmpresa=data.get(positem).Empresa;
 
             if(editable=="0"||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
                 editar.setVisibility(View.GONE);
@@ -236,7 +238,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
                 }
             });
-
+            tx_empresa.setText(tempEmpresa);
             nombre.setText(tempNombre);
             fecha.setText(Obtenerfecha(tempFecha));
 
@@ -348,7 +350,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             TextView tx_det2 = rowView.findViewById(R.id.mp_txdet2);
             TextView tx_det3 = rowView.findViewById(R.id.mp_txdet3);
             TextView txdetcompleta=rowView.findViewById(R.id.txdetcompleta);
-
+            TextView tx_empresa= rowView.findViewById(R.id.tx_empresa);
 
             ConstraintLayout const1=rowView.findViewById(R.id.constrain1);
             //media/getAvatar/30642172/Carnet.jpg
@@ -362,6 +364,9 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final int comentarios=data.get(position).Comentarios;
             //final String tempImgDet="";
             final String tempImgDet=data.get(position).UrlPrew;
+
+            final String tempEmpresa=data.get(positem).Empresa;
+            tx_empresa.setText(tempEmpresa);
 
             String[] tempRiesgo = new String[0];
             String[] tempDetalle = new String[0];
@@ -468,7 +473,6 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             });
 
             tipo_insp.setText(GlobalVariables.getDescripcion(GlobalVariables.Tipo_insp,tempTipoInsp));
-
             nombre.setText(tempNombre);
             fecha.setText(Obtenerfecha(tempFecha));
 
@@ -648,6 +652,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             TextView titulo = rowView.findViewById(R.id.tx_titulo);
             TextView descripcion = rowView.findViewById(R.id.tx_descripcion);
             TextView comentario=rowView.findViewById(R.id.tx_comentario);
+            TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
 
             final String tempimg_perfil=data.get(position).UrlObs;
             final String tempNombre = data.get(position).ObsPor;
@@ -655,8 +660,9 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
             final String tempTitulo = data.get(position).Area;
             final String tempdescripcion = data.get(position).Obs;
-
             final String tempImgDet=data.get(position).UrlPrew;
+            final String tempEmpresa=data.get(positem).Empresa;
+            tx_empresa.setText(tempEmpresa);
 
             final int comentarios=data.get(position).Comentarios;
             nombre.setText(tempNombre);
@@ -741,6 +747,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 //        TextView accion=rowView.findViewById(R.id.mp_txaccion);
             TextView tx_det = rowView.findViewById(R.id.mp_txdet);
             ImageView editar = rowView.findViewById(R.id.btn_editar);
+            TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
 
             final String tempimg_perfil = data.get(position).UrlObs;
             final String tempNombre = data.get(position).ObsPor;
@@ -751,6 +758,10 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             //final String tempAccion = data.get(position).Accion;
             final String tempImgDet=data.get(position).UrlPrew;
             final String editable = data.get(position).Editable;
+
+            final String tempEmpresa=data.get(positem).Empresa;
+            tx_empresa.setText(tempEmpresa);
+
             if(editable.equals("0")){
                 editar.setVisibility(View.GONE);
             }

@@ -16,5 +16,6 @@ public class PlanMinModel {
     public String CodNivelRiesgo;
     public String Editable;
     public String Estado;
+    public String Empresa;
 
 }

@@ -166,10 +166,10 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                         try {
                             View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
                             //LinearLayout linearLayout5;
-                            TextView tx_fecha, tx_duracion, tx_tema, tx_tipo, tx_nota, tx_estado, tx_vencimiento;
+                            TextView tx_fecha, tx_duracion, tx_tema, tx_tipo, tx_nota, tx_estado, tx_vencimiento,tx_tipotema;
                             ConstraintLayout pop;
                             if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
-                                DateFormat formatoInicial = new SimpleDateFormat("dd/MM/yyyy");
+                                DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                                 DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
                                 int position = recyclerView.getChildAdapterPosition(child);
@@ -195,7 +195,7 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                                 tx_nota = popupView.findViewById(R.id.tx_nota);
                                 tx_estado = popupView.findViewById(R.id.tx_estado);
                                 tx_vencimiento = popupView.findViewById(R.id.tx_vencimiento);
-
+                                tx_tipotema=popupView.findViewById(R.id.tx_tipotema);
 
                                 tx_fecha.setText(formatoRender.format(formatoInicial.parse(getCapRecibidaModel.Data.get(position).Fecha)));
                                 tx_duracion.setText(getCapRecibidaModel.Data.get(position).Duracion + " hrs.");
@@ -203,7 +203,8 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                                 tx_tipo.setText(getCapRecibidaModel.Data.get(position).Tipo);
                                 tx_nota.setText(getCapRecibidaModel.Data.get(position).Nota);
                                 tx_estado.setText(getCapRecibidaModel.Data.get(position).Estado);
-                                tx_vencimiento.setText(getCapRecibidaModel.Data.get(position).Vencimiento);
+                                tx_vencimiento.setText(formatoRender.format(formatoInicial.parse(getCapRecibidaModel.Data.get(position).Vencimiento)));
+                                tx_tipotema.setText(getCapRecibidaModel.Data.get(position).TipoTema);
                                 popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
 
 /*
@@ -233,6 +234,7 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                                     @Override
                                     public void onClick(View v) {
                                         popupWindow.dismiss();
+                                        popupWindow=null;
 
                                     }
                                 });
@@ -349,6 +351,7 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                                     @Override
                                     public void onClick(View v) {
                                         popupWindow.dismiss();
+                                        popupWindow=null;
 
                                     }
                                 });

@@ -10,11 +10,7 @@
             android:icon="@drawable/ic_facilito"
             android:title="Ingresar reporte facilito" />
 
-        <item
-            android:id="@+id/nav_sisap"
-            android:icon="@drawable/ic_sisap"
-            android:iconTint="@color/icon_sisap"
-            android:title="Sisap "/>
+
 
 
         <item
@@ -38,6 +34,12 @@
             android:id="@+id/nav_pendientes"
             android:icon="@drawable/ic_pendiente"
             android:title="Planes de acción pendientes" />
+
+        <item
+            android:id="@+id/nav_sisap"
+            android:icon="@drawable/ic_sisap"
+            android:iconTint="@color/icon_sisap"
+            android:title="Aprobación (SISAP) "/>
     </group>
 
     <item android:title="Más Opciones">

@@ -91,6 +91,7 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         TextView tx_det2 = rowView.findViewById(R.id.mp_txdet2);
         TextView tx_det3 = rowView.findViewById(R.id.mp_txdet3);
         TextView txdetcompleta=rowView.findViewById(R.id.txdetcompleta);
+        TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
 
 
         ConstraintLayout  const1=rowView.findViewById(R.id.constrain1);
@@ -105,6 +106,8 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         final int comentarios=data.get(position).Comentarios;
         //final String tempImgDet="";
         final String tempImgDet=data.get(position).UrlPrew;
+        final String tempEmpresa=data.get(position).Empresa;
+        tx_empresa.setText(tempEmpresa);
 
         String[] tempRiesgo = new String[0];
         String[] tempDetalle = new String[0];

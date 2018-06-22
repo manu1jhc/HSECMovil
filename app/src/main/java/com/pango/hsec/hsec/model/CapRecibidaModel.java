@@ -10,6 +10,7 @@ public class CapRecibidaModel {
     public String Duracion;
     public String Tema;
     public String Tipo;
+    public String TipoTema;
     public String Nota;
     public String Estado;
     public String Vencimiento;

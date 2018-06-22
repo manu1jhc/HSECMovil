@@ -67,6 +67,7 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
         TextView titulo = rowView.findViewById(R.id.tx_titulo);
         TextView descripcion = rowView.findViewById(R.id.tx_descripcion);
         TextView comentario=rowView.findViewById(R.id.tx_comentario);
+        TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
 
         final String tempimg_perfil=data.get(position).UrlObs;
         final String tempNombre = data.get(position).ObsPor;
@@ -78,6 +79,9 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
         final String tempImgDet=data.get(position).UrlPrew;
 
         final int comentarios=data.get(position).Comentarios;
+
+        final String tempEmpresa=data.get(position).Empresa;
+        tx_empresa.setText(tempEmpresa);
 
 
         nombre.setText(tempNombre);

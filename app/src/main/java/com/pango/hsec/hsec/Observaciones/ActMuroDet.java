@@ -5,10 +5,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TabHost;
+import android.widget.TabWidget;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
@@ -81,7 +83,16 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         pos = this.mTabHost.getCurrentTab();
         this.mViewPager.setCurrentItem(pos);
 
-       // horizontalsv.scrollTo(pos, 0);
+
+/*
+        for (int i = 0; i < tablist.length; i++) {
+            if (tabId.contentEquals(tablist[i])) {
+                HorizontalScrollView scroll = (HorizontalScrollView) findViewById(R.id.horScrollView);
+                scroll.smoothScrollTo(((int) (getResources().getDimensionPixelSize(R.dimen.tab_width) * (i))), 0);
+            }
+        }
+        */
+            // horizontalsv.scrollTo(pos, 0);
       //  horizontalsv.refreshDrawableState();
 
     }
@@ -102,6 +113,8 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         if(pos==4){
             //pos = this.mViewPager.getCurrentItem();
             this.mTabHost.setCurrentTab(4);
+            horizontalsv.smoothScrollTo(((int) (getResources().getDimensionPixelSize(R.dimen.tab_width) * (pos))), 0);
+
             pos=0;
         }else{
         pos = this.mViewPager.getCurrentItem();
@@ -214,6 +227,7 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         ActMuroDet.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab5").setIndicator("Comentarios"));
         mTabHost.setOnTabChangedListener(this);
+
 
     }
 

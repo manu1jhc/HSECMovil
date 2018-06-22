@@ -21,8 +21,10 @@
                 android:id="@+id/mp_profile"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_usuario"
@@ -100,7 +102,6 @@
                     android:id="@+id/tabla_ref"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/asap"
                     android:text="TextView"
@@ -128,6 +129,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_editar"
                 app:srcCompat="@drawable/ic_alertaverde"
                 tools:ignore="VectorDrawableCompat" />
+
+            <TextView
+                android:id="@+id/tx_empresa"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="TextView"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/nivel_riesgo"
+                app:layout_constraintStart_toEndOf="@+id/mp_profile"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout10" />
 
         </android.support.constraint.ConstraintLayout>
 

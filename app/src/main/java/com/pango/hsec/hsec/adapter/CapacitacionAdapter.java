@@ -10,11 +10,15 @@ import android.widget.TextView;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.CapRecibidaModel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class CapacitacionAdapter extends RecyclerView.Adapter<CapacitacionAdapter.CapacitacionViewHolder> {
 
-
+    DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    DateFormat formatoRender = new SimpleDateFormat("dd-MM-yyyy");
     private ArrayList<CapRecibidaModel> capRecibidaModel;
 
     public CapacitacionAdapter(ArrayList<CapRecibidaModel> capRecibidaModel) {
@@ -29,6 +33,12 @@ public class CapacitacionAdapter extends RecyclerView.Adapter<CapacitacionAdapte
         capacitacionViewHolder.tema.setText(cm.Tema);
         //capacitacionViewHolder.duracion_nota.setText(cm.Duracion);
         capacitacionViewHolder.estado.setText(cm.Estado+"\n"+cm.Nota);
+
+        try {
+            capacitacionViewHolder.tx_fecha.setText(formatoRender.format(formatoInicial.parse(cm.Fecha)));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -59,6 +69,7 @@ public class CapacitacionAdapter extends RecyclerView.Adapter<CapacitacionAdapte
         protected TextView tema;
         //protected TextView duracion_nota;
         protected TextView estado;
+        protected TextView tx_fecha;
 
         //uniendo con los layouts
         public CapacitacionViewHolder(View v) {
@@ -66,7 +77,7 @@ public class CapacitacionAdapter extends RecyclerView.Adapter<CapacitacionAdapte
             tema = (TextView)  v.findViewById(R.id.tx_tema);
             //duracion_nota = (TextView)  v.findViewById(R.id.duracion_nota);
             estado = (TextView)  v.findViewById(R.id.tx_estado);
-
+            tx_fecha=(TextView) v.findViewById(R.id.tx_fecha);
         }
 
 

@@ -94,6 +94,7 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
         TextView tabla_ref = rowView.findViewById(R.id.tabla_ref);
         TextView estado = rowView.findViewById(R.id.estado);
         TextView desTarea = rowView.findViewById(R.id.tx_destarea);
+        TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
 
 
         final String tempimg_perfil=data.get(position).CodSolicitadoPor;
@@ -107,7 +108,9 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
         final String tempTabla_ref = data.get(position).CodTabla;
         final String tempEstado = data.get(position).CodEstadoAccion;
         final String tempDesTarea = data.get(position).DesPlanAccion;
+        final String tempEmpresa=data.get(position).Empresa;
 
+        tx_empresa.setText(tempEmpresa);
         nombre.setText(tempNombre);
 
         fecha.setText(Obtenerfecha(tempFecha));

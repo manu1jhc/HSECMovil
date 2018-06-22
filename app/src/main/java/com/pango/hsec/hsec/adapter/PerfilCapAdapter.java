@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.CapRecibidaModel;
 import com.pango.hsec.hsec.model.PerfilCapModel;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,8 @@ import java.util.ArrayList;
  */
 
 public class PerfilCapAdapter extends RecyclerView.Adapter<PerfilCapAdapter.PerfilCapViewHolder>{
-
+    DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    DateFormat formatoRender = new SimpleDateFormat("dd-MM-yyyy");
 
     private ArrayList<PerfilCapModel> perfilCapModel;
 
@@ -33,9 +36,17 @@ public class PerfilCapAdapter extends RecyclerView.Adapter<PerfilCapAdapter.Perf
         perfilCapViewHolder.tema.setText(cm.Tema);
         //capacitacionViewHolder.duracion_nota.setText(cm.Duracion);
         perfilCapViewHolder.estado.setText(cm.Estado+"\n"+cm.Nota);
+        //perfilCapViewHolder.tx_fecha.setText(cm.Cumplido);
+
+        if(cm.Cumplido!=null){
+            try {
+                perfilCapViewHolder.tx_fecha.setText(formatoRender.format(formatoInicial.parse(cm.Cumplido)));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
 
     }
-
 
 
     @Override
@@ -63,6 +74,7 @@ public class PerfilCapAdapter extends RecyclerView.Adapter<PerfilCapAdapter.Perf
         protected TextView tema;
         //protected TextView duracion_nota;
         protected TextView estado;
+        protected TextView tx_fecha;
 
         //uniendo con los layouts
         public PerfilCapViewHolder(View v) {
@@ -70,7 +82,7 @@ public class PerfilCapAdapter extends RecyclerView.Adapter<PerfilCapAdapter.Perf
             tema = (TextView)  v.findViewById(R.id.tx_tema);
             //duracion_nota = (TextView)  v.findViewById(R.id.duracion_nota);
             estado = (TextView)  v.findViewById(R.id.tx_estado);
-
+            tx_fecha=(TextView) v.findViewById(R.id.tx_fecha);
         }
 
 
