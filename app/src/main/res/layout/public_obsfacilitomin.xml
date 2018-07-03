@@ -37,8 +37,10 @@
                 android:text="TextView"
                 android:textColor="@color/colorNegro"
                 android:textSize="12sp"
+                android:maxLines="1"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/btn_editar"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/mp_profile"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="spread_inside" />

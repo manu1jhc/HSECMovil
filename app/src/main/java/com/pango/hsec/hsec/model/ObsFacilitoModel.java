@@ -15,8 +15,8 @@ public class ObsFacilitoModel {
     public int Plazo;
     public String FecCreacion;
     public String FechaFin;
-    /*public String UsuCreacion;
-    public String FecModifica;
+    public String RespAuxiliarDesc;
+    /*public String FecModifica;
     public String UsuModifica ;*/
     public String RespAuxiliar;
     public String Estado;

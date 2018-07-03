@@ -197,11 +197,11 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         if (tempEstado == null) {
             riesgo.setVisibility(View.INVISIBLE);
         } else if (tempEstado.equals("P")) {
-            riesgo.setImageResource(R.drawable.ic_alertaroja);
+            riesgo.setImageResource(R.drawable.ic_obfpendiente);
 //            tipo.setText("Acto");
 
         } else if (tempEstado.equals("A")) {
-            riesgo.setImageResource(R.drawable.ic_alertaverde);
+            riesgo.setImageResource(R.drawable.ic_obfatentido);
 //            tipo.setText("Condicion");
         } else if (tempEstado.equals("S")) {
             riesgo.setImageResource(R.drawable.ic_hourglass_full_black_24dp);
@@ -224,7 +224,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
 //            tipo.setText("Condicion");
         } else if (tempEstado.equals("O")) {
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            riesgo.setImageResource(R.drawable.ic_alertaverde);
+            riesgo.setImageResource(R.drawable.ic_obfobservado);
 //            tipo.setText("Condicion");
         }
 

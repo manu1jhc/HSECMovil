@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBlanco"
     tools:context="layout.FragmentObsFacilito"
     >
 <!--
@@ -136,8 +137,6 @@
                 android:layout_height="match_parent"
 
                 android:layout_marginBottom="2dp"
-                android:layout_marginEnd="2dp"
-                android:layout_marginStart="2dp"
                 android:layout_marginTop="2dp"
                 android:dividerHeight="5dp"
 

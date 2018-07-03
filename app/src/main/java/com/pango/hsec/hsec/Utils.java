@@ -42,6 +42,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -325,12 +326,32 @@ public class Utils {
             case "Capacidad":
                 return cursoModel.Capacidad;
             case "Duracion":
-                return cursoModel.Duracion+"";
+                return TimeDiffM(cursoModel.Duracion);
             default:
                 return "";
         }
     }
 
+
+    public static String TimeDiffM(int timediff){
+        String diferencia="",dias="",horas="",min="";
+        int minutes=timediff;
+        int day = (int) TimeUnit.MINUTES.toDays(minutes);
+        long hours = TimeUnit.MINUTES.toHours(minutes)- (day *24);
+        long minute = TimeUnit.MINUTES.toMinutes(minutes)-(TimeUnit.MINUTES.toHours(minutes)* 60);
+        if(day>0){
+            dias=day +" Dias";
+        }
+        else if(hours>0){
+            horas=hours +" Hora(s)";
+        }
+        else if(minute>0){
+            min=minute +" Minutos";
+        }
+
+        diferencia=dias+horas+min;
+        return diferencia;
+    }
     public static String getInspeccionData(InspeccionModel inspeccionModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
@@ -616,12 +637,14 @@ public class Utils {
 
     public static void DeleteCache(String DiRroot){
         File file = new File(DiRroot);
-        String[] files;
-        files = file.list();
-        for (int i=0; i<files.length; i++) {
-            File myFile = new File(file, files[i]);
-            myFile.delete();
-        }
+
+            String[] files;
+            files = file.list();
+        if(files!=null)
+            for (int i=0; i<files.length; i++) {
+                File myFile = new File(file, files[i]);
+                myFile.delete();
+            }
     }
 
     public static void closeSoftKeyBoard(Activity context) {

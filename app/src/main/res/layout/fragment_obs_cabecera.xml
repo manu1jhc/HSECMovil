@@ -452,7 +452,7 @@
                 <TextView
                     android:id="@+id/txt_observadopor"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:textSize="@dimen/size_text_der"
                     android:textColor="@color/colorNegro"

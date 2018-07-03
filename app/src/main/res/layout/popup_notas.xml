@@ -28,7 +28,7 @@
                 android:id="@+id/card_title"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                app:cardBackgroundColor="@color/ColorConfirm"
+                app:cardBackgroundColor="@color/Colorbtncreate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">

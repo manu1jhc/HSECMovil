@@ -209,7 +209,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
         if(pag==1) progressDialog.dismiss();
     }
     else {
-        progressDialog.dismiss();
+        if(progressDialog!=null)progressDialog.dismiss();
         activity.error("Ocurrio un error al intentar enviar peticion.", Tipo);
     }
 

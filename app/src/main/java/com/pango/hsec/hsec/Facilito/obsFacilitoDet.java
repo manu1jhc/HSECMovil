@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -63,6 +64,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
     ArrayList<Maestro> ObsFacilito_estado;
 //    ListView list_ObsHistorial;
     RecyclerView list_ObsHistorial;
+    CardView cv11;
     int contPublicacion;
     int pos;
     String jsonObsCond="";
@@ -88,6 +90,8 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         tx_geren=(TextView) findViewById(R.id.tx_geren);
         tx_superint=(TextView) findViewById(R.id.tx_superint);
         contenedor=(ConstraintLayout) findViewById(R.id.contenedor);
+
+        cv11= (CardView) findViewById(R.id.cv11);
         Bundle data1 = this.getIntent().getExtras();
 
         codObs=data1.getString("codObs",GlobalVariables.codFacilito);
@@ -128,7 +132,6 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
                 }
         }
         else loadData();
-
 
         btn_historial.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,6 +187,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         gridViewAdapter = new GridViewAdapter(this, DataImg);
         gridViewAdapter.tacho=true;
         gridView.setAdapter(gridViewAdapter);
+        if(DataImg.size()>0) cv11.setVisibility(View.VISIBLE);
     }
     @Override
     public void success(String data, String Tipo) {
@@ -299,7 +303,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         //listViewAdapter.onActivityResult(requestCode, resultCode, data);
         try{
             Gson gson = new Gson();
-            if(GlobalVariables.flaghistorial==true) {
+            if (requestCode == 1  && resultCode  == RESULT_OK) {
                 if(!data.equals(null)){
                     ObsFHistorialModel histlast = gson.fromJson(data.getStringExtra("historial"), ObsFHistorialModel.class);
                     if(!histlast.equals(null)){
@@ -308,7 +312,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
                     else {}
                 }
             }
-            if(GlobalVariables.flaghistorial==false){
+            if (requestCode == 2  && resultCode  == RESULT_OK) {
                 if(!data.equals(null)){
                     ObsFHistorialModel histlast = gson.fromJson(data.getStringExtra("historial"), ObsFHistorialModel.class);
                     if(!histlast.equals(null)){

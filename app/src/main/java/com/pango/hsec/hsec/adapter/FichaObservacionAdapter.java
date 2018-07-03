@@ -91,7 +91,7 @@ public class FichaObservacionAdapter extends ArrayAdapter<PublicacionModel> {
         TextView tipo = rowView.findViewById(R.id.mp_tipo);
         TextView area = rowView.findViewById(R.id.mp_area);
         TextView comentario=rowView.findViewById(R.id.tx_comentario);
-
+        TextView empresa = rowView.findViewById(R.id.tx_empresa);
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
 
         final String tempimg_perfil=data.get(position).UrlObs;
@@ -108,7 +108,8 @@ public class FichaObservacionAdapter extends ArrayAdapter<PublicacionModel> {
         final String editable = data.get(position).Editable;
 
         ImageView editar = rowView.findViewById(R.id.btn_editar);
-
+        final String Empresa = data.get(position).Empresa;
+        empresa.setText(Empresa);
         if(editable.equals("0")||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
             editar.setVisibility(View.GONE);
         }

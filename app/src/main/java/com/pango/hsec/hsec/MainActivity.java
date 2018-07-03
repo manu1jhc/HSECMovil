@@ -503,10 +503,10 @@ public class MainActivity extends AppCompatActivity
         //GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //2
         Gson gson = new Gson();
         GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-        GlobalVariables.userLogin=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-        GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
+        GlobalVariables.userLogin= GlobalVariables.userLoaded;
+        GlobalVariables.dniUser= GlobalVariables.userLoaded.NroDocumento;
 
-        String nom_user=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class).Nombres;
+        String nom_user=GlobalVariables.userLoaded.Nombres;
 
         String[] DataUser= new String[0];
         String[] nombre = new String[0];
@@ -520,16 +520,12 @@ public class MainActivity extends AppCompatActivity
         user_data.setText(nombre[0]+" "+apellido[0]);
 
 
-
-
         String versionName = BuildConfig.VERSION_NAME;
         if(Float.parseFloat(obtener_version())<=Float.parseFloat(versionName)){
             hideItem();
-
         }
-
-
-
+        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")||GlobalVariables.userLoaded.Rol.equals("5"))
+            showCapacitacion();
 
     }
     private void hideItem()
@@ -537,6 +533,14 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_actualizar).setVisible(false);
+    }
+
+    private void showCapacitacion()
+    {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_capacitacion).setVisible(true);
+        uncheckItems(nav_Menu);
     }
 
     public static Context getContextOfApplication(){ return contextOfApplication; }

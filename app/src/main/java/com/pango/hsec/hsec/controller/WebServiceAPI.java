@@ -45,12 +45,37 @@ public interface WebServiceAPI {
     Call<String> insertarObservacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody detalle, @Part("3") RequestBody planes, @Part List<MultipartBody.Part> files);
 
     @Multipart
+    @POST("Observaciones/Actualizar")
+    Call<String> actualizarObservacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody detalle, @Part("3") RequestBody planesDelete, @Part("4") RequestBody filesDelete, @Part("5") RequestBody codObservacion, @Part List<MultipartBody.Part> files);
+
+    @Multipart
     @POST("Inspecciones/InsertarObservacion")
     Call<String> insertarInspeccionObs(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody planes, @Part List<MultipartBody.Part> files);
 
     @Multipart
+    @POST("Inspecciones/ActualizarObservacion")
+    Call<String> actualizarInspeccionObs(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody planesDelete, @Part("3") RequestBody filesDelete, @Part("4") RequestBody codInspeccion, @Part("5") RequestBody nroDetInspeccion, @Part List<MultipartBody.Part> files);
+
+    @Multipart
     @POST("Inspecciones/Insertar")
     Call<String> insertarInspeccion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody responsables,@Part("3") RequestBody atendidos, @Part("4") RequestBody observaciones,@Part("5") RequestBody planes,  @Part List<MultipartBody.Part> files);
+
+    @Multipart
+    @POST("Inspecciones/Actualizar")
+    Call<String> actualizarInspeccion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody responsables,@Part("3") RequestBody atendidos, @Part("4") RequestBody DeleteObs);
+
+    @Multipart
+    @POST("AccionMejora/PutPost")
+    Call<String> PostAccionMejora(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody filesDelete, @Part("3") RequestBody CodAccion, @Part("4") RequestBody Correlativo, @Part List<MultipartBody.Part> files);
+
+    @Multipart
+    @POST("ObsFacilito/Post")
+    Call<String> PostObsFacilito(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody DeleteObs,@Part("3") RequestBody CodObsFacilito, @Part List<MultipartBody.Part> files);
+
+    @Multipart
+    @POST("ObsFacilito/PostAtencion")
+    Call<String> PostObfAtencion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody DeleteObs,@Part("3") RequestBody CodObsFacilito,  @Part("4") RequestBody Correlativo,@Part List<MultipartBody.Part> files);
+
 
     @POST("usuario/updatetoken")
     Call<String> updateToken(@Header("Authorization") String token, @Body String token_device);

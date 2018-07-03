@@ -117,10 +117,11 @@ tools:context="com.pango.hsec.hsec.Capacitacion.AsistentesCurso">
                 android:layout_marginTop="2dp"
                 android:background="@drawable/transparent"
                 android:tint="@color/colorBlanco"
+                android:onClick="scanCarnet"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/btn_addDNI"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_nfc"
+                android:src="@drawable/ic_nfc"
                 tools:ignore="VectorDrawableCompat" />
 
             <ImageButton
@@ -244,15 +245,6 @@ tools:context="com.pango.hsec.hsec.Capacitacion.AsistentesCurso">
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:scrollbars="vertical" />
-
-
-        <TextView
-            android:id="@+id/empty_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="No Records"
-            android:visibility="gone" />
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
 

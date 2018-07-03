@@ -253,7 +253,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 //Utils.isActivity=true;
                 GlobalVariables.istabs=false;
                 final ActivityController obj = new ActivityController("post-0", url, FragmentInspecciones.this,getActivity());
-                obj.execute(json,"1");
+                obj.execute(json,"0");
 
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
 

@@ -24,6 +24,7 @@
         <item
             android:id="@+id/nav_capacitacion"
             android:icon="@drawable/ic_curso_capacitaciones"
+            android:visible="false"
             android:title="Capacitaciones Curso" />
         <item
             android:id="@+id/nav_noticias"

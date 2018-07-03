@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -69,7 +70,7 @@ public class ParticipantesCurso extends AppCompatActivity implements IActivity {
     View popupView;
     PopupWindow popupWindow;
     protected Handler handler;
-
+    int alto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +91,9 @@ public class ParticipantesCurso extends AppCompatActivity implements IActivity {
                 paginacion=2;
                 getdata();
             } });
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        alto = metrics.heightPixels; // alto absoluto en pixels
 
         getdata();
     }
@@ -203,8 +207,8 @@ public class ParticipantesCurso extends AppCompatActivity implements IActivity {
         layoutInflater =(LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.popup_snackbar, null);
 
-        popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.showAtLocation(list_Personas, Gravity.BOTTOM, 0, 0);
+        popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.showAtLocation(list_Personas, Gravity.NO_GRAVITY, 0, alto-200);
         popupWindow.setFocusable(true);
         popupWindow.update();
         popupWindow.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT

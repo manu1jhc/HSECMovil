@@ -12,6 +12,7 @@ import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.model.GaleriaModel;
 
 import java.io.File;
@@ -42,7 +43,7 @@ public class ProgressRequestBody extends RequestBody {
     private static final int DEFAULT_BUFFER_SIZE = 4 * 1024;
 
     public interface UploadCallbacks {
-        void onProgressUpdate(int percentage);
+        void onProgressUpdate(long percentage);
         void onError();
         void onFinish();
     }
@@ -76,7 +77,6 @@ public class ProgressRequestBody extends RequestBody {
             try {
                 InputStream inputStream = mactivity.getContentResolver().openInputStream(mFileup.uri);
                 try {
-                    if(mFileup.Tamanio==null)fileLength =inputStream.available();
                     bytesAvailable = inputStream.available();
                     bufferSize = Math.min(bytesAvailable, DEFAULT_BUFFER_SIZE);
 
@@ -85,7 +85,7 @@ public class ProgressRequestBody extends RequestBody {
 
                     Handler handler = new Handler(Looper.getMainLooper());
                     while ((read = inputStream.read(buffer)) != -1) {
-                        handler.post(new ProgressUpdater(uploaded, fileLength));
+                        handler.post(new ProgressUpdater(uploaded,fileLength));
                         uploaded += read;
                         sink.write(buffer, 0, read);
                     }
@@ -108,7 +108,7 @@ public class ProgressRequestBody extends RequestBody {
         else{
             File mfile= new File(mFileup.Url);
             FileInputStream in = new FileInputStream(mfile);
-            long fileLength =fileLength =mfile.length();
+            long fileLength =mfile.length();
             bytesAvailable = in.available();
             bufferSize = Math.min(bytesAvailable, DEFAULT_BUFFER_SIZE);
             byte[] buffer = new byte[bufferSize];
@@ -119,7 +119,7 @@ public class ProgressRequestBody extends RequestBody {
                 while ((read = in.read(buffer)) != -1) {
 
                     // update progress on UI thread
-                    handler.post(new ProgressUpdater(uploaded, fileLength));
+                    handler.post(new ProgressUpdater(uploaded,fileLength)); //(GlobalVariables.progresbarPercent,GlobalVariables.progresbarSize));
 
                     uploaded += read;
                     sink.write(buffer, 0, read);
@@ -140,7 +140,7 @@ public class ProgressRequestBody extends RequestBody {
 
         @Override
         public void run() {
-            mListener.onProgressUpdate((int)(100 * mUploaded / mTotal));
+            mListener.onProgressUpdate(mUploaded);
         }
     }
 }

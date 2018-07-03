@@ -79,7 +79,6 @@ public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
         ImageView riesgo1=rowView.findViewById(R.id.img_riesgo1);
         ImageView riesgo2=rowView.findViewById(R.id.img_riesgo2);
         ImageView riesgo3=rowView.findViewById(R.id.img_riesgo3);
-        //CardView riesgo = rowView.findViewById(R.id.mp_nriesgo);
         TextView tipo_insp = rowView.findViewById(R.id.mp_tipoinsp);
         ImageView btn_editar=rowView.findViewById(R.id.btn_editar);
 
@@ -88,7 +87,7 @@ public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
         TextView tx_det2 = rowView.findViewById(R.id.mp_txdet2);
         TextView tx_det3 = rowView.findViewById(R.id.mp_txdet3);
         TextView txdetcompleta=rowView.findViewById(R.id.txdetcompleta);
-
+        TextView empresa = rowView.findViewById(R.id.tx_empresa);
 
         ConstraintLayout const1=rowView.findViewById(R.id.constrain1);
         //media/getAvatar/30642172/Carnet.jpg
@@ -100,12 +99,15 @@ public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
         final String tempTipoInsp = data.get(position).Tipo;
 
         final int comentarios=data.get(position).Comentarios;
-        //final String tempImgDet="";
+        final String Empresa = data.get(position).Empresa;
+
         final String tempImgDet=data.get(position).UrlPrew;
 
         String[] tempRiesgo = new String[0];
         String[] tempDetalle = new String[0];
         String editable = data.get(position).Editable;
+
+        empresa.setText(Empresa);
 
         if(data.get(position).NivelR!=null){
             tempRiesgo = data.get(position).NivelR.split(";");
@@ -114,8 +116,6 @@ public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
 
         //final String[] tempRiesgo = data.get(position).NivelR.split(";");
         //final String[] tempDetalle = data.get(position).Obs.split(";");
-
-
 
         if(editable.equals("0")){
             btn_editar.setVisibility(View.GONE);

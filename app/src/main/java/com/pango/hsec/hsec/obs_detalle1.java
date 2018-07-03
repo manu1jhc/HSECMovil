@@ -26,7 +26,7 @@ import com.pango.hsec.hsec.model.ObsDetalleModel;
 import org.apache.commons.lang3.StringUtils;
 
 public class obs_detalle1 extends Fragment implements IActivity{
-    TextView textView6,textView4,textView14,textView15,textView16,textView35,textView25;
+    TextView textView6,textView4,textView14,textView15,textView16,textView17,textView35,textView25;
     private static View mView;
     Spinner spinneActividad, spinnerHHA, spinnerActo,spinnerCondicion,spinnerEstado, spinnerError;
     EditText txtObservacion,txtAccion;
@@ -64,6 +64,8 @@ public class obs_detalle1 extends Fragment implements IActivity{
         textView35.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Estado:"));
         textView25=mView.findViewById(R.id.textView25);
         textView25.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Error:"));
+        textView17=mView.findViewById(R.id.textView17);
+        textView17.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Condición SubEstándar:"));
 
         spinneActividad = (Spinner) mView.findViewById(R.id.sp_actividad);
         spinnerHHA = (Spinner) mView.findViewById(R.id.sp_hha);

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -66,9 +67,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -81,7 +84,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     DatePickerDialog.OnDateSetListener date;
     EditText tx_avance,et_mensaje;
     Button decrement, increment,btnFechaInicio,btn_guardar,btn_eliminar;
-    ProgressBar progressBar;
     private ProgressDialog progress;
     boolean  Editable=false;
     private RecyclerView listView;
@@ -96,7 +98,16 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     ArrayList<Integer> Actives=new ArrayList();
     ArrayList<Maestro> usuario_data;
     TextView tx_titulo,sp2,tx3,tx4;
-    LinearLayout ll_bar_carga;
+
+
+    ConstraintLayout ll_bar_carga;
+    ProgressBar progressBar;
+    ImageButton btncancelar;
+    TextView txt_percent;
+    Boolean cancel, enableSave=true;
+    Call<String> request;
+    long L,G,T;
+
     final String[] ACCEPT_MIME_TYPES = {
             "application/pdf",
             "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -111,7 +122,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     Gson gson;
     SimpleDateFormat df,dt;
     ArrayList<GaleriaModel> Data;
-    Call<String> request;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,8 +135,13 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         et_mensaje=findViewById(R.id.et_mensaje);
         btn_guardar=findViewById(R.id.btn_guardar);
         btn_eliminar=findViewById(R.id.btn_deleteAm);
+
+
         progressBar = findViewById(R.id.progressBar2);
         ll_bar_carga=findViewById(R.id.ll_bar_carga);
+        ll_bar_carga.setVisibility(View.GONE);
+        btncancelar= (ImageButton)findViewById(R.id.cancel_upload);
+        txt_percent= (TextView)findViewById(R.id.txt_percent);
         //////////////
         ImageButton btnFotos=(ImageButton) findViewById(R.id.btn_addfotos);
         ImageButton btnFiles=(ImageButton) findViewById(R.id.btn_addfiles);
@@ -362,6 +378,195 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         }
     }
 
+    public void guardarData(View view) {
+
+        Utils.closeSoftKeyBoard(AddRegistroAvance.this);
+        AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
+        AddAccionMejora.PorcentajeAvance=tx_avance.getText().toString();
+        AddAccionMejora.Descripcion=et_mensaje.getText().toString();
+        if(ValifarFormulario(view))
+        {
+            Actives.clear();
+            Errores="";
+            enableSave=(false);
+            cancel=false;
+            btncancelar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(0);
+            txt_percent.setText("");
+
+            String Cabecera, FilesDelete;
+            Cabecera=FilesDelete="-";
+            String Accionmejoras=gson.toJson(AddAccionMejora);
+            if(!StrAccionmejora.equals(Accionmejoras)) Cabecera=Accionmejoras;
+            //edicion files
+            gridViewAdapter.ProcesarImagens();
+
+            ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+            ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+            DataAll.addAll(DataImg);
+            DataAll.addAll(DataFiles);
+
+
+            //delete files
+            if(Data.size()>0) {
+                String DeleteFiles = "";
+                for (GaleriaModel item : Data) {
+                    boolean pass = true;
+                    for (GaleriaModel item2 : DataAll) {
+                        if (item.Correlativo == item2.Correlativo) {
+                            pass = false;
+                            continue;
+                        }
+                    }
+                    if (pass) {
+                        DeleteFiles += item.Correlativo + ";";
+                        item.Estado = "E";
+                    }
+                }
+                if(!DeleteFiles.equals("")) FilesDelete= DeleteFiles.substring(0,DeleteFiles.length()-1);
+            }
+            //Insert Files
+            for (GaleriaModel item:DataAll) {
+                boolean pass=false;
+                for(GaleriaModel item2:Data)
+                    if(item.Descripcion.equals(item2.Descripcion))
+                        pass=true;
+                if(item.Correlativo==-1) {
+                    DataInsert.add(item);
+                    if(!pass)Data.add(item);
+                }
+            }
+
+            if(DataInsert.size()==0 && FilesDelete.equals("-")&& Cabecera.equals("-"))
+            {
+                enableSave=(true);
+                Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Actives.add(0);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+                final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .connectTimeout(20, TimeUnit.SECONDS)
+                        .writeTimeout(20, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .build();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(GlobalVariables.Url_base)
+                        .client(okHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+                G=T=L=0;
+                List<MultipartBody.Part> Files = new ArrayList<>();
+                for (GaleriaModel item:DataInsert) {
+                    T+=Long.parseLong(item.Tamanio);
+                    Files.add(createPartFromFile(item));
+                }
+                request = service.PostAccionMejora("Bearer "+GlobalVariables.token_auth,createPartFromString(Cabecera),createPartFromString(FilesDelete),createPartFromString(AddAccionMejora.CodAccion),createPartFromString(AddAccionMejora.Correlativo),Files);
+                if(T==0)onProgressUpdate();
+                request.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        onFinish();
+                        if(response.isSuccessful()){
+                            Actives.set(0,1);
+                            String respt[]  = response.body().split(";"); //
+                            for(int i =0;i<2;i++){
+                                String rpt=respt[i];
+                                if(!rpt.equals("-")){
+                                    if(rpt.contains("-1")){
+                                        Actives.add(-1);
+                                        switch (i){
+                                            case 0:
+                                                Errores+="\nOcurrio un error al guardar cabecera";
+                                                break;
+                                            case 1:
+                                                Errores+="\nOcurrio un error al eliminar imagenes/archivos";
+                                                break;
+                                        }
+                                    }
+                                    switch (i){
+                                        case 0:
+                                            if(AddAccionMejora.Correlativo.equals("-1"))
+                                                AddAccionMejora.Correlativo = rpt;
+                                            StrAccionmejora=gson.toJson(AddAccionMejora);
+                                            break;
+                                        case 1:
+                                            ArrayList<GaleriaModel> temp= new ArrayList<>(Data);
+                                            for (GaleriaModel item : Data) {
+                                                if(!StringUtils.isEmpty(item.Estado)&&item.Estado.equals("E"))
+                                                    temp.remove(item);
+                                            }
+                                            Data=temp;
+                                            break;
+                                    }
+                                }
+                            }
+
+                            if(!respt[2].equals("-")){
+                                Utils.DeleteCache(new Compressor(AddRegistroAvance.this).destinationDirectoryPath); //delete cache Files;
+                                for (String file:respt[2].split(",")) {
+                                    String[] datosf= file.split(":");
+                                    for (GaleriaModel item:Data) {
+                                        if(item.Descripcion.equals(datosf[0]))
+                                        {
+                                            item.Correlativo=Integer.parseInt(datosf[1]);
+                                            if(item.Correlativo==-1) item.Estado="E";
+                                            else {
+                                                item.Estado="A";
+                                                if(item.TipoArchivo.equals("TP01")) item.Url= "/Media/getImage/"+datosf[1]+"/Image.jpg";
+                                                else if(item.TipoArchivo.equals("TP02")) item.Url= "/Media/Play/"+datosf[1]+"/Video.mp4";
+                                                else item.Url= "/Media/Getfile/"+datosf[1]+"/"+datosf[0];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }else{
+                            Actives.set(0,-1);
+                            Errores+="\nOcurrio un error interno de servidor";
+                        }
+                        if(!Actives.contains(0)) FinishSave();
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        if(!cancel){
+                            Actives.set(0,-1);
+                            if(t.getMessage().equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
+                            else Errores+="\nOcurrio un error al intentar guardar los datos.";
+                            if(!Actives.contains(0)) FinishSave();
+                        }
+                        else{
+                            for(GaleriaModel item:Data)
+                                if(item.Correlativo==-1)item.Estado="E";
+                            loaddata();
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+    public void loaddata(){
+
+        if(Data.size()>0)
+        {
+            DataImg.clear();
+            DataFiles.clear();
+            for (int i = 0; i < Data.size(); i++) {
+                if (Data.get(i).TipoArchivo.equals("TP03")) {
+                    DataFiles.add(Data.get(i));
+                } else {
+                    DataImg.add(Data.get(i));
+                }
+            }
+         setdata();
+        }
+    }
+
     public void setdata(){
 
         if(!AddAccionMejora.CodResponsable.isEmpty()){
@@ -517,11 +722,9 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                         progressBar.setVisibility(View.GONE);
                         ll_bar_carga.setVisibility(View.GONE);
 
-
                         for(GaleriaModel item:DataInsert){
                             item.Estado="E";
                         }
-
 
                     }
                 });
@@ -567,13 +770,9 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
 
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                DataImg.clear();
-                DataFiles.clear();
-                for (GaleriaModel item: Data) {
-                    if(item.TipoArchivo.equals("TP03")) DataFiles.add(item);
-                    else DataImg.add(item);
-                }
-                setdata();
+                ll_bar_carga.setVisibility(View.GONE);
+                progressBar.setProgress(0);
+                enableSave=(true);
             }
         });
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
@@ -585,23 +784,14 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                     setResult(RESULT_OK, intent);
                     finish();
                 }
-                else if(Data.size()>0){
-                    DataImg.clear();
-                    DataFiles.clear();
-                    for (GaleriaModel item: Data) {
-                        if(item.TipoArchivo.equals("TP03")) DataFiles.add(item);
-                        else DataImg.add(item);
-                    }
-                    setdata();
-                }
+
+                ll_bar_carga.setVisibility(View.GONE);
+                progressBar.setProgress(0);
+                enableSave=(true);
             }
         });
+        loaddata();
         alertDialog.show();
-
-       /* Intent intent = getIntent();
-        intent.putExtra("AccionMejora",gson.toJson(AddAccionMejora));
-        setResult(RESULT_OK, intent);
-        finish();*/
     }
 
     public void close(View view){finish();}
@@ -706,7 +896,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         for (ImageEntry image:images) {
             gridViewAdapter.add(new GaleriaModel(image.path,image.isVideo?"TP02":"TP01",new File(image.path).length()+"",new File(image.path).getName())); //image.path.split("/")[image.path.split("/").length-1]
         }
-
     }
 
     @Override
@@ -714,7 +903,6 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         //Log.i(TAG, "User canceled picker activity");
         // Toast.makeText(getActivity(), "User canceld picker activtiy", Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     public void success(String data, String Tipo) {
@@ -791,7 +979,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 Actives.set(0,1);
                 AddAccionMejora.Correlativo = data.substring(1, data.length() - 1);
                 StrAccionmejora=gson.toJson(AddAccionMejora);
-                UpdateFiles(false);
+                //UpdateFiles(false);
             }
         }
     }
@@ -800,10 +988,22 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     public void error(String mensaje, String Tipo) {
 
     }
+    public void onProgressUpdate(){
 
+        progressBar.setProgress(50);
+        txt_percent.setText(50+"%");
+
+    }
     @Override
-    public void onProgressUpdate(int percentage) {
-        progressBar.setProgress(percentage);
+    public void onProgressUpdate(long percentage) {
+        if(percentage==0)L=G;
+        G=L + percentage;
+        int percent=(int)Math.round(100 * (double)G / (double)T);
+        progressBar.setProgress(percent);
+        txt_percent.setText(percent+"%");//String.format("%.2f", 100*(double)G / (double)T)+"%");
+        if(percent==100){
+            btncancelar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -813,58 +1013,16 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
 
     @Override
     public void onFinish() {
+        btncancelar.setVisibility(View.GONE);
         progressBar.setProgress(100);
-    }
-
-    public void guardarData(View view) {
-
-        Utils.closeSoftKeyBoard(AddRegistroAvance.this);
-        AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
-        AddAccionMejora.PorcentajeAvance=tx_avance.getText().toString();
-        AddAccionMejora.Descripcion=et_mensaje.getText().toString();
-        if(ValifarFormulario(view))
-        {
-            Actives.clear();
-            Errores="";
-            if(Editable){
-                String newJson=gson.toJson(AddAccionMejora);
-                if(!StrAccionmejora.equals(newJson))  {
-                    Actives.add(0);
-                    progressBar.setVisibility(View.VISIBLE);
-                    ll_bar_carga.setVisibility(View.VISIBLE);
-                    String url= GlobalVariables.Url_base+"AccionMejora/post";
-                    activityTask = new ActivityController("post-0", url, AddRegistroAvance.this,AddRegistroAvance.this);
-                    activityTask.execute(gson.toJson(AddAccionMejora),"1");
-
-                    ///task = (Task) new Task().execute();
-
-                }
-                else {
-                    Actives.add(1);
-                    UpdateFiles(true);
-                }
-            }
-            else{
-                Actives.add(0);
-                String url= GlobalVariables.Url_base+"AccionMejora/post";
-                activityTask = new ActivityController("post-0", url, AddRegistroAvance.this,AddRegistroAvance.this);
-                activityTask.execute(gson.toJson(AddAccionMejora),"1");
-            }
-        }
-
+        txt_percent.setText("100%");
     }
 
     public void cancelUpload(View view) {
-        //GlobalVariables.cambiarIcon=true;
-        if(activityTask!=null){
-            activityTask.cancel(true);
-        }
-
         if(request!=null){
             request.cancel();
+            ll_bar_carga.setVisibility(View.GONE); enableSave=true;
+            cancel=true;
         }
-
-
-
     }
 }

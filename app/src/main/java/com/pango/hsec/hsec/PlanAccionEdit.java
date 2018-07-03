@@ -228,7 +228,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         listView = (RecyclerView) findViewById(R.id.listResponsables);
 
         formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
-        if(!Plan.CodAccion.equals("0")){ //Edit plan
+        if(Integer.parseInt(Plan.CodAccion)>0){ //Edit plan
 
             if(edit){
                 String url= GlobalVariables.Url_base+"PlanAccion/Get/"+Plan.CodAccion;
@@ -236,7 +236,6 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
                 obj.execute("");
             }
             setData();
-
         }
         else{
 
@@ -255,7 +254,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         }
     }
     public void setData(){
-
+        ListResponsables.clear();
         try {
             Date fecha = df.parse(Plan.FechaSolicitud);
             FechaSolic.setText(formatoRender.format(fecha));
@@ -383,7 +382,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
        }
        else{
            if(ValifarFormulario(view)){
-               if(edit||Plan.NroDocReferencia!=null){
+               if(Integer.parseInt(Plan.CodAccion)>0){ //Edit plan//if(edit||Plan.NroDocReferencia!=null){
                    String url= GlobalVariables.Url_base+"PlanAccion/Post";
                    final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);
                    obj.execute(gson.toJson(Plan));

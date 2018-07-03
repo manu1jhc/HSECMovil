@@ -28,25 +28,25 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-                <Button
+                <ImageButton
                     android:id="@+id/btn_asistencia"
-                    style="@style/Widget.AppCompat.Button.Borderless"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:src="@drawable/ic_facilito"
                     android:background="@drawable/transparent"
                     android:textColor="@color/colorBlanco"
-                    android:drawableStart="@drawable/ic_facilito"
                     app:layout_constraintStart_toEndOf="@+id/imageButton"
-                    android:textSize="18dp" />
+                    />
+
                 <TextView
                     android:id="@+id/textViewtitle"
-                    android:layout_width="271dp"
+                    android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:gravity="center_vertical"
+                    android:text="Agregar Atención"
                     android:textColor="@color/colorBlanco"
                     android:textSize="16sp"
-                    android:text="Agregar Atención"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/ButtonGuardar"
                     app:layout_constraintStart_toEndOf="@+id/btn_asistencia"
@@ -58,7 +58,7 @@
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:shape="oval"
-
+                    android:onClick="guardarData"
                     android:background="@drawable/transparent"
                     android:tint="@color/colorBlanco"
                     android:src="@drawable/ic_check_black_24dp"
@@ -69,16 +69,50 @@
                     app:layout_constraintVertical_bias="0.0" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/ll_bar_carga"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
         <ProgressBar
             android:id="@+id/progressBar2"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/custom_progressbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cancel_upload"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            android:visibility="gone"
+        <TextView
+            android:id="@+id/txt_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/transparent"
+            android:text="50%"
+            android:textColor="@color/colorNegro"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/cancel_upload"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/cancel_upload"
+            android:layout_width="55dp"
+            android:layout_height="30dp"
+            android:background="@drawable/borde_image"
+            android:backgroundTint="@color/colorBlanco"
+            android:onClick="cancelUpload"
+            android:src="@drawable/ic_equis"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
         <ScrollView android:layout_width="match_parent"
             android:layout_height="match_parent"

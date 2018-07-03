@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -44,8 +45,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,7 +65,7 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     String codObs,grupo,correlativo;
     String json_osbinsp;
     public static boolean editar;
-    ProgressBar progressBar;
+
     int pos=0,indexObd;
     HorizontalScrollView horizontalscroll;
     ArrayList<Integer> Actives=new ArrayList();
@@ -71,8 +74,14 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     Gson gson;
     TextView tx_titulo;
     ActivityController activityTask;
+
     Call<String> request;
-    LinearLayout ll_bar_carga;
+    ConstraintLayout ll_bar_carga;
+    ProgressBar progressBar;
+    ImageButton btncancelar;
+    TextView txt_percent;
+    Boolean cancel, enableSave=true;
+    long L,G,T;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +95,13 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
         //GlobalVariables loaddata = new GlobalVariables();
         //loaddata.LoadData();
         horizontalscroll=findViewById(R.id.horizontalscroll);
+
         progressBar = findViewById(R.id.progressBar2);
         btn_Salvar= findViewById(R.id.btnguardar_obs);
         ll_bar_carga=findViewById(R.id.ll_bar_carga);
+        ll_bar_carga.setVisibility(View.GONE);
+        btncancelar= (ImageButton)findViewById(R.id.cancel_upload);
+        txt_percent= (TextView)findViewById(R.id.txt_percent);
 
         Bundle datos = this.getIntent().getExtras();
         grupo=datos.getString("Grupo");
@@ -185,21 +198,20 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     }
 
     public void SalvarInspDetalle(View view){
+        if(!enableSave)return;
         Utils.closeSoftKeyBoard(this);
         if(!ValifarFormulario(view)) return;
-        btn_Salvar.setEnabled(false);
+        enableSave=(false);
+        cancel=false;
+        btncancelar.setVisibility(View.VISIBLE);
+        progressBar.setProgress(0);
+        txt_percent.setText("");
         String Observacion=  gson.toJson(GlobalVariables.obsInspDetModel);
-
         if(editar){
             if(!correlativo.equals("-1")){ // edit Obsrvacion existente
-                if(!GlobalVariables.StrObservacion.equals(Observacion)){
-                    Actives.add(0);
-                    String url= GlobalVariables.Url_base+"Inspecciones/PostObservacion";
-                    activityTask = new ActivityController("post", url, ActObsInspEdit.this,this);
-                    activityTask.execute(Observacion,"1");
-                }
-                else Actives.add(1);
-
+                String Cabecera,PlanesDelete, FilesDelete;
+                Cabecera=PlanesDelete=FilesDelete="-";
+                if(!GlobalVariables.StrObservacion.equals(Observacion)) Cabecera=Observacion;
                 //delete planes
                 if(GlobalVariables.StrPlanes.size()>0){
                     String DeletePlanes="";
@@ -215,16 +227,162 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                             DeletePlanes+=item.CodAccion+";";
                         }
                     }
-                    if(!DeletePlanes.equals("")){
-                        Actives.add(0);
-                        String url= GlobalVariables.Url_base+"PlanAccion/deleteAll/"+DeletePlanes.substring(0,DeletePlanes.length()-1);
-                        ActivityController obj = new ActivityController("get", url, ActObsInspEdit.this,this);
-                        obj.execute("1");
-                    }
-                    else Actives.add(1);
-                }else Actives.add(1);
+                    if(!DeletePlanes.equals("")) PlanesDelete= DeletePlanes.substring(0,DeletePlanes.length()-1);
+                }
                 //edicion files
-                UpdateFiles();
+                obs_archivos archivos = (obs_archivos) pageAdapter.getItem(1);
+                archivos.gridViewAdapter.ProcesarImagens();
+                ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+                ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+                DataAll.addAll(GlobalVariables.listaGaleria);
+                DataAll.addAll(GlobalVariables.listaArchivos);
+
+                //delete files
+                if(GlobalVariables.StrFiles.size()>0){
+                    String DeleteFiles="";
+                    for (GaleriaModel item:GlobalVariables.StrFiles) {
+                        boolean pass=true;
+                        for (GaleriaModel item2:DataAll) {
+                            if(item.Correlativo==item2.Correlativo){
+                                pass=false;
+                                continue;
+                            }
+                        }
+                        if(pass && item.Correlativo>0){
+                            DeleteFiles+=item.Correlativo+";";
+                            item.Estado="E";
+                        }
+                    }
+                    if(!DeleteFiles.equals("")) FilesDelete= DeleteFiles.substring(0,DeleteFiles.length()-1);
+                }
+                //insert files
+                for (GaleriaModel item:DataAll) {
+                    boolean pass=false;
+                    for(GaleriaModel item2:GlobalVariables.StrFiles)
+                        if(item.Descripcion.equals(item2.Descripcion))
+                            pass=true;
+                    if(item.Correlativo==-1) {
+                        DataInsert.add(item);
+                        if(!pass)GlobalVariables.StrFiles.add(item);
+                    }
+                }
+
+                if(DataInsert.size()==0 && FilesDelete.equals("-")&& PlanesDelete.equals("-")&& Cabecera.equals("-"))
+                {
+                    enableSave=(true);
+                    Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    Actives.add(0);
+                    ll_bar_carga.setVisibility(View.VISIBLE);
+                    final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                            .connectTimeout(20, TimeUnit.SECONDS)
+                            .writeTimeout(20, TimeUnit.SECONDS)
+                            .readTimeout(30, TimeUnit.SECONDS)
+                            .build();
+
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(GlobalVariables.Url_base)
+                            .client(okHttpClient)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+                    G=T=L=0;
+                    List<MultipartBody.Part> Files = new ArrayList<>();
+                    for (GaleriaModel item:DataInsert) {
+                        T+=Long.parseLong(item.Tamanio);
+                        Files.add(createPartFromFile(item));
+                    }
+                    request = service.actualizarInspeccionObs("Bearer "+GlobalVariables.token_auth,createPartFromString(Cabecera),createPartFromString(PlanesDelete),createPartFromString(FilesDelete),createPartFromString(GlobalVariables.InspeccionObserbacion),createPartFromString(grupo),Files);
+                    if(T==0)onProgressUpdate();
+                    request.enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+                            onFinish();
+                            if(response.isSuccessful()){
+                                Actives.set(0,1);
+                                String respt[]  = response.body().split(";"); //"-;-;-;-;Carbones_de_Colombia9513.gif:57758"
+                                for(int i =0;i<3;i++){
+                                    String rpt=respt[i];
+                                    if(!rpt.equals("-")){
+                                        if(rpt.contains("-1")){
+                                            Actives.add(-1);
+                                            switch (i){
+                                                case 0:
+                                                    Errores+="\nOcurrio un error al guardar cabezera";
+                                                    break;
+                                                case 1:
+                                                    Errores+="\nOcurrio un error al eliminar planes de acción";
+                                                    break;
+                                                case 2:
+                                                    Errores+="\nOcurrio un error al eliminar imagenes/archivos";
+                                                    break;
+                                            }
+                                        }
+                                        switch (i){
+                                            case 0:
+                                                GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.Obserbacion);
+                                                break;
+                                            case 1:
+                                                GlobalVariables.StrPlanes=GlobalVariables.Planes;
+                                                break;
+                                            case 2:
+                                                ArrayList<GaleriaModel> temp= new ArrayList<>(GlobalVariables.StrFiles);
+
+                                                for (GaleriaModel item : GlobalVariables.StrFiles) {
+                                                    if(!StringUtils.isEmpty(item.Estado)&&item.Estado.equals("E"))
+                                                        temp.remove(item);
+                                                }
+                                                GlobalVariables.StrFiles=temp;
+                                                break;
+                                        }
+                                    }
+                                }
+
+                                if(!respt[3].equals("-")){
+                                    Utils.DeleteCache(new Compressor(ActObsInspEdit.this).destinationDirectoryPath); //delete cache Files;
+                                    for (String file:respt[3].split(",")) {
+                                        String[] datosf= file.split(":");
+                                        for (GaleriaModel item:GlobalVariables.StrFiles) {
+                                            if(item.Descripcion.equals(datosf[0]))
+                                            {
+                                                item.Correlativo=Integer.parseInt(datosf[1]);
+                                                if(item.Correlativo==-1) item.Estado="E";
+                                                else {
+                                                    item.Estado="A";
+                                                    if(item.TipoArchivo.equals("TP01")) item.Url= "/Media/getImage/"+datosf[1]+"/Image.jpg";
+                                                    else if(item.TipoArchivo.equals("TP02")) item.Url= "/Media/Play/"+datosf[1]+"/Video.mp4";
+                                                    else item.Url= "/Media/Getfile/"+datosf[1]+"/"+datosf[0];
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                            }else{
+                                Actives.set(0,-1);
+                                Errores+="\nOcurrio un error interno de servidor";
+                            }
+                            if(!Actives.contains(0)) FinishSave();
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            if(!cancel){
+                                Actives.set(0,-1);
+                                if(t.getMessage().equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
+                                else Errores+="\nOcurrio un error al intentar guardar los datos.";
+                                if(!Actives.contains(0)) FinishSave();
+                            }
+                            else{
+                                for(GaleriaModel item:GlobalVariables.StrFiles)
+                                    if(item.Correlativo==-1)item.Estado="E";
+                                loaddata();
+                            }
+                        }
+                    });
+                }
+
             }
             else // edit observacion without codInspeccion
             {
@@ -236,27 +394,35 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
             {
              if(!GlobalVariables.InspeccionObserbacion.equals("INSP000000XYZ")){ //new Observacion of CodInspeccion Existente
                  Actives.add(0);
+                 ll_bar_carga.setVisibility(View.VISIBLE);
                  obs_archivos archivos = (obs_archivos) pageAdapter.getItem(1);
                  archivos.gridViewAdapter.ProcesarImagens();
                  GlobalVariables.StrFiles= new ArrayList();
 
                  GlobalVariables.StrFiles.addAll(GlobalVariables.listaGaleria);
                  GlobalVariables.StrFiles.addAll(GlobalVariables.listaArchivos);
+                 final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                         .connectTimeout(20, TimeUnit.SECONDS)
+                         .writeTimeout(20, TimeUnit.SECONDS)
+                         .readTimeout(30, TimeUnit.SECONDS)
+                         .build();
 
                  Retrofit retrofit = new Retrofit.Builder()
                          .baseUrl(GlobalVariables.Url_base)
+                         .client(okHttpClient)
                          .addConverterFactory(GsonConverterFactory.create())
                          .build();
                  WebServiceAPI service = retrofit.create(WebServiceAPI.class);
                  List<MultipartBody.Part> Files = new ArrayList<>();
+                 G=T=L=0;
                  for (GaleriaModel item:GlobalVariables.StrFiles) {
                      Files.add(createPartFromFile(item));
+                     T+=Long.parseLong(item.Tamanio);
                  }
-                 Toast.makeText(this, "Guardando Observacion, Espere..." , Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "Guardando Observacion, Espere..." , Toast.LENGTH_SHORT).show();
 
                  request = service.insertarInspeccionObs("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(gson.toJson(GlobalVariables.Planes)),Files);
-                 progressBar.setVisibility(View.VISIBLE);
-                 ll_bar_carga.setVisibility(View.VISIBLE);
+                 if(T==0)onProgressUpdate();
                  request.enqueue(new Callback<String>() {
                      @Override
                      public void onResponse(Call<String> call, Response<String> response) {
@@ -342,13 +508,13 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
 
                      @Override
                      public void onFailure(Call<String> call, Throwable t) {
-                         Actives.set(0,-1);
-                         Errores+="\nFallo la subida de archivos";
-                         if(!Actives.contains(0)) FinishSave();////////
-                         progressBar.setVisibility(View.GONE);
-                         ll_bar_carga.setVisibility(View.GONE);
-
-
+                         if(!cancel)
+                         {
+                             Actives.set(0,-1);
+                             if(t.getMessage().equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
+                             else Errores+="\nOcurrio un error al intentar guardar los datos.";
+                             if(!Actives.contains(0)) FinishSave();
+                         }
                      }
                  });
              }
@@ -373,136 +539,6 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
         intent.putExtra("index", indexObd);
         setResult(RESULT_OK, intent);
         finish();
-    }
-    public void UpdateFiles (){
-
-        obs_archivos archivos = (obs_archivos) pageAdapter.getItem(1);
-        archivos.gridViewAdapter.ProcesarImagens();
-        ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
-        ArrayList<GaleriaModel> DataAll=new ArrayList<>();
-
-        DataAll.addAll(GlobalVariables.listaGaleria);
-        DataAll.addAll(GlobalVariables.listaArchivos);
-
-        //delete files
-        String DeleteFiles="";
-        for (GaleriaModel item:GlobalVariables.StrFiles) {
-            boolean pass=true;
-            for (GaleriaModel item2:DataAll) {
-                if(item.Correlativo==item2.Correlativo){
-                    pass=false;
-                    continue;
-                }
-            }
-            if(pass){
-                DeleteFiles+=item.Correlativo+";";
-                item.Estado="E";
-            }
-        }
-//Insert Files
-        for (GaleriaModel item:DataAll) {
-            boolean pass=false;
-            for(GaleriaModel item2:GlobalVariables.StrFiles)
-                if(item.Descripcion.equals(item2.Descripcion))
-                    pass=true;
-            if(item.Correlativo==-1) {
-                DataInsert.add(item);
-                if(!pass)GlobalVariables.StrFiles.add(item);
-            }
-        }
-
-        if(DeleteFiles.equals("")&&DataInsert.size()==0){
-            if(!Actives.contains(0)){ //no hubo ningun gambio
-                Actives.clear();
-                btn_Salvar.setEnabled(true);
-                Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
-            }
-        }
-        else{
-//Delete Files
-            if(!DeleteFiles.equals("")){
-                Actives.add(0);
-                String url= GlobalVariables.Url_base+"media/deleteAll/"+DeleteFiles.substring(0,DeleteFiles.length()-1);
-                ActivityController obj = new ActivityController("get", url, ActObsInspEdit.this,this);
-                obj.execute("2");
-            }
-            else Actives.add(1);
-//Insert Files
-            if(DataInsert.size()>0){
-
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl(GlobalVariables.Url_base)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                WebServiceAPI service = retrofit.create(WebServiceAPI.class);
-                Actives.add(0);
-                List<MultipartBody.Part> Files = new ArrayList<>();
-                for (GaleriaModel item:DataInsert) {
-                    Files.add(createPartFromFile(item));
-                }
-                Toast.makeText(this, "Subiendo Archivos, Espere..." , Toast.LENGTH_SHORT).show();
-
-                request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(GlobalVariables.InspeccionObserbacion),createPartFromString("TOBS"),createPartFromString(grupo),Files);
-                progressBar.setVisibility(View.VISIBLE);
-                ll_bar_carga.setVisibility(View.VISIBLE);
-
-                request.enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
-
-                        if(response.isSuccessful()){
-                            String respt  = response.body();
-                            if(respt.contains("-1")){
-                                Actives.set(3,-1);
-                                Errores+="\nOcurrio un error al subir algunos archivos";
-                            }
-                            else  Actives.set(3,1);
-                            Utils.DeleteCache(new Compressor(ActObsInspEdit.this).destinationDirectoryPath); //delete cache Files;
-                            for (String file:respt.split(";")) {
-                                String[] datosf= file.split(":");
-                                for (GaleriaModel item:GlobalVariables.StrFiles) {
-                                    if(item.Descripcion.equals(datosf[0]))
-                                    {
-                                        item.Correlativo=Integer.parseInt(datosf[1]);
-                                        if(item.Correlativo==-1) item.Estado="E";
-                                        else {
-                                            if(item.TipoArchivo.equals("TP01")) item.Url= "/Media/getImage/"+datosf[1]+"/Image.jpg";
-                                            else if(item.TipoArchivo.equals("TP02")) item.Url= "/Media/Play/"+datosf[1]+"/Video.mp4";
-                                            else item.Url= "/Media/Getfile/"+datosf[1]+"/"+datosf[0];
-                                        }
-                                    }
-                                }
-                            }
-
-                        }else{
-                            Actives.set(3,-1);
-                            Errores+="\nOcurrio un error interno de servidor";
-                        }
-                        if(!Actives.contains(0)) FinishSave();
-                        progressBar.setVisibility(View.GONE);
-                        ll_bar_carga.setVisibility(View.GONE);
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) {
-                        Actives.set(3,-1);
-                        Errores+="\nFallo la subida de archivos";
-                        if(!Actives.contains(0)) FinishSave();
-                        progressBar.setVisibility(View.GONE);
-                        ll_bar_carga.setVisibility(View.GONE);
-
-
-                        for(GaleriaModel item:DataInsert){
-                            item.Estado="E";
-                        }
-
-
-                    }
-                });
-            }
-            else  Actives.add(1);
-        }
     }
 
     @NonNull
@@ -546,7 +582,9 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
         if(ok&&!fail)
             alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    btn_Salvar.setEnabled(true);
+                    enableSave=(true);
+                    ll_bar_carga.setVisibility(View.GONE);
+                    progressBar.setProgress(0);
                     GlobalVariables.ObjectEditable=true;
                 }
             });
@@ -564,9 +602,16 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                     finish();
 
                 }
-                btn_Salvar.setEnabled(true);
+                enableSave=(true);
+                ll_bar_carga.setVisibility(View.GONE);
+                progressBar.setProgress(0);
+                GlobalVariables.ObjectEditable=true;
             }
         });
+        loaddata();
+        alertDialog.show();
+    }
+    public void loaddata(){
         if(GlobalVariables.StrFiles.size()>0)
         {
             GlobalVariables.listaGaleria.clear();
@@ -581,10 +626,7 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
             obs_archivos fragment = (obs_archivos) pageAdapter.getItem(1);
             fragment.setdata();
         }
-
-        alertDialog.show();
     }
-
 
     public void close(View view){
 
@@ -746,9 +788,22 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     public void error(String mensaje, String Tipo) {
 
     }
+    public void onProgressUpdate(){
+
+        progressBar.setProgress(50);
+        txt_percent.setText(50+"%");
+
+    }
     @Override
-    public void onProgressUpdate(int percentage) {
-        progressBar.setProgress(percentage);
+    public void onProgressUpdate(long percentage) {
+        if(percentage==0)L=G;
+        G=L + percentage;
+        int percent=(int)Math.round(100 * (double)G / (double)T);
+        progressBar.setProgress(percent);
+        txt_percent.setText(percent+"%");//String.format("%.2f", 100*(double)G / (double)T)+"%");
+        if(percent==100){
+            btncancelar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -758,22 +813,148 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
 
     @Override
     public void onFinish() {
+        btncancelar.setVisibility(View.GONE);
         progressBar.setProgress(100);
+        txt_percent.setText("100%");
     }
-
 
     public void cancelUpload(View view) {
-        //GlobalVariables.cambiarIcon=true;
-        if(activityTask!=null){
-            activityTask.cancel(true);
-        }
-
         if(request!=null){
             request.cancel();
+            ll_bar_carga.setVisibility(View.GONE); enableSave=true;
+            cancel=true;
+        }
+    }
+
+/*    public void UpdateFiles (){
+
+        obs_archivos archivos = (obs_archivos) pageAdapter.getItem(1);
+        archivos.gridViewAdapter.ProcesarImagens();
+        ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+        ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+
+        DataAll.addAll(GlobalVariables.listaGaleria);
+        DataAll.addAll(GlobalVariables.listaArchivos);
+
+        //delete files
+        String DeleteFiles="";
+        for (GaleriaModel item:GlobalVariables.StrFiles) {
+            boolean pass=true;
+            for (GaleriaModel item2:DataAll) {
+                if(item.Correlativo==item2.Correlativo){
+                    pass=false;
+                    continue;
+                }
+            }
+            if(pass){
+                DeleteFiles+=item.Correlativo+";";
+                item.Estado="E";
+            }
+        }
+//Insert Files
+        for (GaleriaModel item:DataAll) {
+            boolean pass=false;
+            for(GaleriaModel item2:GlobalVariables.StrFiles)
+                if(item.Descripcion.equals(item2.Descripcion))
+                    pass=true;
+            if(item.Correlativo==-1) {
+                DataInsert.add(item);
+                if(!pass)GlobalVariables.StrFiles.add(item);
+            }
         }
 
+        if(DeleteFiles.equals("")&&DataInsert.size()==0){
+            if(!Actives.contains(0)){ //no hubo ningun gambio
+                Actives.clear();
+                btn_Salvar.setEnabled(true);
+                Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
+            }
+        }
+        else{
+//Delete Files
+            if(!DeleteFiles.equals("")){
+                Actives.add(0);
+                String url= GlobalVariables.Url_base+"media/deleteAll/"+DeleteFiles.substring(0,DeleteFiles.length()-1);
+                ActivityController obj = new ActivityController("get", url, ActObsInspEdit.this,this);
+                obj.execute("2");
+            }
+            else Actives.add(1);
+//Insert Files
+            if(DataInsert.size()>0){
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(GlobalVariables.Url_base)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+                Actives.add(0);
+                List<MultipartBody.Part> Files = new ArrayList<>();
+                for (GaleriaModel item:DataInsert) {
+                    Files.add(createPartFromFile(item));
+                }
+                Toast.makeText(this, "Subiendo Archivos, Espere..." , Toast.LENGTH_SHORT).show();
+
+                request = service.uploadAllFile("Bearer "+GlobalVariables.token_auth,createPartFromString(GlobalVariables.InspeccionObserbacion),createPartFromString("TOBS"),createPartFromString(grupo),Files);
+                progressBar.setVisibility(View.VISIBLE);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+
+                request.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+
+                        if(response.isSuccessful()){
+                            String respt  = response.body();
+                            if(respt.contains("-1")){
+                                Actives.set(3,-1);
+                                Errores+="\nOcurrio un error al subir algunos archivos";
+                            }
+                            else  Actives.set(3,1);
+                            Utils.DeleteCache(new Compressor(ActObsInspEdit.this).destinationDirectoryPath); //delete cache Files;
+                            for (String file:respt.split(";")) {
+                                String[] datosf= file.split(":");
+                                for (GaleriaModel item:GlobalVariables.StrFiles) {
+                                    if(item.Descripcion.equals(datosf[0]))
+                                    {
+                                        item.Correlativo=Integer.parseInt(datosf[1]);
+                                        if(item.Correlativo==-1) item.Estado="E";
+                                        else {
+                                            if(item.TipoArchivo.equals("TP01")) item.Url= "/Media/getImage/"+datosf[1]+"/Image.jpg";
+                                            else if(item.TipoArchivo.equals("TP02")) item.Url= "/Media/Play/"+datosf[1]+"/Video.mp4";
+                                            else item.Url= "/Media/Getfile/"+datosf[1]+"/"+datosf[0];
+                                        }
+                                    }
+                                }
+                            }
+
+                        }else{
+                            Actives.set(3,-1);
+                            Errores+="\nOcurrio un error interno de servidor";
+                        }
+                        if(!Actives.contains(0)) FinishSave();
+                        progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Actives.set(3,-1);
+                        Errores+="\nFallo la subida de archivos";
+                        if(!Actives.contains(0)) FinishSave();
+                        progressBar.setVisibility(View.GONE);
+                        ll_bar_carga.setVisibility(View.GONE);
 
 
-    }
+                        for(GaleriaModel item:DataInsert){
+                            item.Estado="E";
+                        }
+
+
+                    }
+                });
+            }
+            else  Actives.add(1);
+        }
+    }*/
 
 }

@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.Capacitacion;
 
+import android.app.PendingIntent;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,8 +9,16 @@ import android.graphics.drawable.ColorDrawable;
 import android.hardware.Camera;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NdefRecord;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
+import android.nfc.tech.MifareClassic;
+import android.nfc.tech.MifareUltralight;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -20,6 +29,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -49,10 +59,13 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPersonaModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PersonaModel;
+import com.pango.hsec.hsec.parser.NdefMessageParser;
+import com.pango.hsec.hsec.record.ParsedNdefRecord;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.dm7.barcodescanner.core.ViewFinderView;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
@@ -82,7 +95,11 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
     PopupWindow popupWindow,popupWindow2,popupWindow3;
 
     protected Handler handler;
-
+//scan NFC
+    private NfcAdapter nfcAdapter;
+    private PendingIntent pendingIntent;
+    boolean activeNFC=false;
+    ImageButton btn_addNFC;
 //scar DNI
     LinearLayout ly;
     private static final int REQUEST_CAMERA = 1;
@@ -91,6 +108,7 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
 
     boolean activeSound,activeflash,activeScan;
     private MediaPlayer mp;
+    int alto;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,13 +121,23 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
         //scan DNI
         carAction=(CardView) findViewById(R.id.carViewTitle);
         carScan=(CardView) findViewById(R.id.card_title);
+        btn_addNFC=(ImageButton)findViewById(R.id.btn_addNFC);
         ImageView bntLinterna=(ImageView) findViewById(R.id.btn_linterna);
         ImageView btnSound=(ImageView) findViewById(R.id.btn_sound);
         ImageView btnClose=(ImageView) findViewById(R.id.btn_close);
         ly=(LinearLayout)   findViewById(R.id.idscanner);
         activeSound=true;
 
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(metrics);
+        alto = metrics.heightPixels; // alto absoluto en pixels
+
         spinnerDias=findViewById(R.id.sp_dia);
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if (nfcAdapter == null) {
+            btn_addNFC.setVisibility(View.GONE);
+        }
+        else nfcAdapter=null;
 
         handler = new Handler();
         Bundle datos = this.getIntent().getExtras();
@@ -179,6 +207,7 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
                 scannerView.setFlash(activeflash);
             }
         });
+
     }
     public void DeleteObject(String Url, int index){
         Url=GlobalVariables.Url_base+Url+"&CodCurso="+CodCurso+"&Fecha="+Indice;
@@ -233,6 +262,24 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
             });
             mp.start();
         }
+    }
+
+    public void scanCarnet(View view){
+        if(activeNFC) {
+            btn_addNFC.setImageResource(R.drawable.ic_nfc); //desactivar scaneo nfc
+            nfcAdapter=null;
+            pendingIntent=null;
+        }
+        else {
+            activeScan=true;
+            btn_addNFC.setImageResource(R.drawable.ic_activencf);
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            if(!nfcAdapter.isEnabled())
+               activarnfc();
+            pendingIntent= PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+            nfcAdapter.enableForegroundDispatch(this,pendingIntent,null,null);
+            }
+        activeNFC=!activeNFC;
     }
     public void addAsistente(View view)
     {
@@ -309,7 +356,7 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
         Gson gson = new Gson();
         if(Tipo.equals("1")){
             PersonaModel personaModel = gson.fromJson(data, PersonaModel.class);
-            scannerView.resumeCameraPreview(AsistentesCurso.this);
+            if(scannerView!=null)scannerView.resumeCameraPreview(AsistentesCurso.this);
           if(personaModel==null || personaModel.CodPersona==null) {
               activeScan=true;
               confirmUpdate("E","Ocurrio un error al registrar asistente.");
@@ -461,8 +508,8 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
         layoutInflater2 =(LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView2 = layoutInflater2.inflate(R.layout.popup_snackbar, null);
 
-        popupWindow2 = new PopupWindow(popupView2, RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow2.showAtLocation(list_Personas, Gravity.BOTTOM, 0, 0);
+        popupWindow2 = new PopupWindow(popupView2, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow2.showAtLocation(list_Personas, Gravity.BOTTOM, 0, alto-200);
         popupWindow2.setFocusable(true);
         popupWindow2.update();
         popupWindow2.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT
@@ -513,10 +560,70 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
         ActivityCompat.requestPermissions(this, new String[]{CAMERA}, REQUEST_CAMERA);
     }
 
+    private void activarnfc(){
+        Toast.makeText(this, "Se necesita activar NFC.", Toast.LENGTH_LONG).show();
+        Intent intent= new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+        startActivity(intent);
+    }
+    @Override
+    protected void onNewIntent(Intent intent){
+        if(activeScan) {
+            setIntent(intent);
+            resolveIntent(intent);
+        }
+    }
+
+    private void resolveIntent(Intent intent) {
+        String action = intent.getAction();
+        if(nfcAdapter.ACTION_TAG_DISCOVERED.equals(action) || nfcAdapter.ACTION_TECH_DISCOVERED.equals(action)|| nfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(nfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage[] msgs;
+            if(rawMsgs != null){
+                msgs= new NdefMessage[rawMsgs.length];
+                for(int i=0;i<rawMsgs.length;i++){
+                    msgs[i]=(NdefMessage) rawMsgs[i];
+                }
+            }
+            else{
+                byte[] empty = new byte[0];
+                byte[] id= intent.getByteArrayExtra(nfcAdapter.EXTRA_ID);
+                Tag tag = (Tag) intent.getParcelableExtra(nfcAdapter.EXTRA_TAG);
+                byte[] idnfc= tag.getId();
+                String[] code=toHex(idnfc).split(" ");
+                int len=code.length;
+                PersonaModel temp= new PersonaModel();
+                temp.CodPersona=":"+code[len-3]+code[len-2]+code[len-1];
+                temp.NroDocumento=CodCurso;
+                temp.Estado=Indice;
+                Gson gson = new Gson();
+                String url= GlobalVariables.Url_base+"Capacitacion/InsertAsistentente";
+                final ActivityController obj = new ActivityController("post", url, AsistentesCurso.this,this);
+                obj.execute(gson.toJson(temp),"1");
+            }
+
+        }
+    }
+
+    private String toHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for(int i= bytes.length-1;i>=0;--i){
+            int b= bytes[i] &0xff;
+            if(b<0x10) sb.append("0");
+            sb.append(Integer.toHexString(b));
+            if(i>0) sb.append(" ");
+        }
+        return sb.toString();
+    }
+
+
     @Override
     public void onResume() {
         super.onResume();
-
+        if(nfcAdapter!=null){
+            if(!nfcAdapter.isEnabled())
+                activarnfc();
+            nfcAdapter.enableForegroundDispatch(this,pendingIntent,null,null);
+        }
         int currentapiVersion = android.os.Build.VERSION.SDK_INT;
         if (currentapiVersion >= android.os.Build.VERSION_CODES.M) {
             if (checkPermission()) {
@@ -534,12 +641,21 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
                 requestPermission();
             }
         }
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(nfcAdapter!=null){
+            nfcAdapter.enableForegroundDispatch(this,pendingIntent,null,null);
+        }
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        scannerView.stopCamera();
+        if(scannerView!=null)scannerView.stopCamera();
     }
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

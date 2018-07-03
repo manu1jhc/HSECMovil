@@ -38,6 +38,7 @@ import com.pango.hsec.hsec.model.GetAccionMejoraModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetPlanModel;
 import com.pango.hsec.hsec.model.PlanModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -258,7 +259,10 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         try{
             if(requestCode == 1 && resultCode == this.RESULT_OK) { // new plan
                 AccionMejoraMinModel accionMejora= gson.fromJson(data.getStringExtra("AccionMejora"),AccionMejoraMinModel.class);
-                accionMejora.Editable="true";
+                UsuarioModel userLoad=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+                accionMejora.UrlObs= userLoad.NroDocumento;
+                accionMejora.Editable="1";
+                accionMejora.Persona=userLoad.Nombres;
                 accionMejoraAdapter.add(accionMejora);
             }
             if(requestCode == 2 && resultCode == this.RESULT_OK) { // edit plan

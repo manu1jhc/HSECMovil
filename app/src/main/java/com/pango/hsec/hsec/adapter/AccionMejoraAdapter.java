@@ -71,8 +71,11 @@ public class AccionMejoraAdapter extends RecyclerView.Adapter<AccionMejoraAdapte
             notifyItemRangeChanged(position,items.size());
         }
         else{
-            replacedata.Editable="true";
-            items.set(position,replacedata);
+            AccionMejoraMinModel temp= items.get(position) ;// .set(position,replacedata);
+            temp.Descripcion= replacedata.Descripcion;
+            temp.Fecha=replacedata.Fecha;
+            temp.PorcentajeAvance=replacedata.PorcentajeAvance;
+            temp.Editable="1";
             notifyDataSetChanged();
         }
     }

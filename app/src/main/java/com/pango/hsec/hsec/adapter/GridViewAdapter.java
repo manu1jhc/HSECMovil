@@ -144,6 +144,12 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
            // viewHolder.textView.setText(items.get(position).Descripcion);
         }
+
+        if(items.get(position).Estado!=null&&items.get(position).Estado=="E"){
+            viewHolder.btn_Error.setVisibility(View.VISIBLE);
+        }
+      //  else viewHolder.btn_Error.setVisibility(View.GONE);
+
         viewHolder.btn_Delete.setOnClickListener(new View.OnClickListener() {
                                                      @Override
                                                      public void onClick(View v) {
@@ -173,7 +179,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         private ImageView imageView;
        // private TextView textView;
         private ImageView btn_play;
-        private ImageButton btn_Delete ;
+        private ImageButton btn_Delete,btn_Error ;
         public int selectid;
 
         public ViewHolder(View view) {
@@ -182,6 +188,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
             imageView = (ImageView) view.findViewById(R.id.image);
             btn_play=(ImageView) view.findViewById(R.id.btn_playGrid);
             btn_Delete= (ImageButton) view.findViewById(R.id.button_r);
+            btn_Error= (ImageButton) view.findViewById(R.id.button_e);
             if(tacho)btn_Delete.setVisibility(View.GONE);
             itemView.setOnClickListener(this);
         }

@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -58,8 +59,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -76,7 +79,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     Button btnFechaInicio,btn_hora;
     String fechaEscogida;
     Spinner spinner_estado;
-    ProgressBar progressBar;
     private RecyclerView gridView;
     private GridViewAdapter gridViewAdapter;
     private CardView cv_fecha,cv_hora;
@@ -86,7 +88,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     private TextView txv_comentario;
     ArrayList<Integer> Actives=new ArrayList();
     private TextView textViewtitle;
-    public String obsFHistorialModel;
+    public String obsFHistorialModel="";
     String Errores,estado;
     String fecha_fin="-";
     private static final String CERO = "0";
@@ -101,6 +103,15 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM");
     SimpleDateFormat dh = new SimpleDateFormat("h:mm a");
+
+    ConstraintLayout ll_bar_carga;
+    ProgressBar progressBar;
+    ImageButton btncancelar;
+    TextView txt_percent;
+    Boolean cancel, enableSave=true, newAdd=false;
+    Call<String> request;
+    long L,G,T;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +131,13 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         btn_hora.setText("SELECCIONAR HORA");
         df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         dt = new SimpleDateFormat("dd 'de' MMMM");
+
         progressBar = findViewById(R.id.progressBar2);
+        ll_bar_carga=findViewById(R.id.ll_bar_carga);
+        ll_bar_carga.setVisibility(View.GONE);
+        btncancelar= (ImageButton)findViewById(R.id.cancel_upload);
+        txt_percent= (TextView)findViewById(R.id.txt_percent);
+
         boolean[] pass = {false,false};
         Integer[] itemSel = {0,0,0};
         gson = new Gson();
@@ -162,13 +179,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 estado="";
             }
         });
-        if(GlobalVariables.flaghistorial) {
-            textViewtitle.setText("Agregar Atención");
-            ObsHist.Correlativo="-1";
-            ObsHist.CodObsFacilito=GlobalVariables.codObsHistorial;
-            Bundle data1 = this.getIntent().getExtras();
-           // codObs=data1.getString("codObs");
-        }
+
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,  int dayOfMonth) {
@@ -185,6 +196,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 {
                     FechaEnvio=FechaEnvio.split("T")[0]+"T00:00:00";
                     btn_hora.setText("00:00:00");
+                    fecha_real=FechaEnvio;
                 }
                 else{
                     String [] hora=ObsHist.FechaFin.split("T");
@@ -207,69 +219,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 loadImage();
             }
         });
-        ButtonGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Errores="";
-                    Actives.clear();
-                    Gson gson = new Gson();
-                    Utils.closeSoftKeyBoard(addAtencionFHistorial.this);
-                    if(GlobalVariables.flaghistorial==true) { // save new Historial de atencion
-                        try {
-                            Actives.add(0);
-                            //ObsHist.CodObsFacilito = codObs;
-                            if (estado.equals("S")) {
-                                ObsHist.FechaFin=fecha_real;
-                            } else {
-                                ObsHist.FechaFin=null;
-                            }
-                            ObsHist.Comentario = String.valueOf(txv_comentario.getText());
-                            if (!ValifarFormulario(v)) return;
-                            String url = GlobalVariables.Url_base + "ObsFacilito/AprobarObsFaci";
-                            final ActivityController obj = new ActivityController("post", url, addAtencionFHistorial.this, addAtencionFHistorial.this);
-                            obj.execute(gson.toJson(ObsHist));
 
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-                    if(GlobalVariables.flaghistorial==false){  //edit historial de atencion
-
-                        try {
-                          //  ObsHist.CodObsFacilito = codObs;
-                            //ObsHist.Correlativo=correEdit;
-                            if (estado.equals("S")) {
-                                ObsHist.FechaFin = fecha_real;
-                            } else {
-                                ObsHist.FechaFin=null;
-                            }
-                            ObsHist.Comentario = String.valueOf(txv_comentario.getText());
-                            if (!ValifarFormulario(v)) return;
-                            String Obsstr=gson.toJson(ObsHist);
-                            if(!Obsstr.equals(obsFHistorialModel)){
-                                Actives.add(0);
-                                String url = GlobalVariables.Url_base + "ObsFacilito/AprobarObsFaci";
-                                final ActivityController obj = new ActivityController("post", url, addAtencionFHistorial.this, addAtencionFHistorial.this);
-                                obj.execute(gson.toJson(ObsHist));
-                            }
-                            else {
-                                Actives.add(1);
-                                UpdateFiles(true);
-                            }
-
-                        }
-                        catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-
-                    }
-                }
-                catch (Exception ex){
-                    ex.printStackTrace();
-                }
-            }
-        });
         btnFechaInicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -292,7 +242,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         btn_hora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(StringUtils.isEmpty(ObsHist.FechaFin)){
+                if(!StringUtils.isEmpty(fecha_real)){
                     TimePickerDialog recogerHora = new TimePickerDialog(addAtencionFHistorial.this, new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -318,7 +268,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                             //Muestro la hora con el formato deseado
                             String minutoFormateado = (minutoFinal < 10)? String.valueOf(CERO + minutoFinal):String.valueOf(minutoFinal);
                             String horaFormateada =  (hourOfDay < 10)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
-                            String [] fecha=ObsHist.FechaFin.split("T");
+                            String [] fecha=fecha_real.split("T");
                             fecha_real=fecha[0]+"T"+horaFormateada+":"+minutoFormateado+":00";
 
                             //AddInspeccion.hora=horaFinal + DOS_PUNTOS + minutoFormateado + " " + AM_PM;
@@ -333,23 +283,29 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     }, hora, minuto, false);
                     recogerHora.show();
                 }
+                else Toast.makeText(addAtencionFHistorial.this, "Seleccione una fecha", Toast.LENGTH_LONG).show();
             }
         });
-        if(GlobalVariables.flaghistorial==false) {
+
+        if(GlobalVariables.flaghistorial) {
+            textViewtitle.setText("Agregar Atención");
+            ObsHist.Correlativo="-1";
+            ObsHist.CodObsFacilito=GlobalVariables.codObsHistorial;
+            Bundle data1 = this.getIntent().getExtras();
+            newAdd=true;
+            setdata();
+        }
+        else {
             textViewtitle.setText("Editar Atención");
             Bundle data1 = this.getIntent().getExtras();
             indexHist=data1.getInt("index");
             ObsHist=GlobalVariables.listaGlobalObsHistorial.get(indexHist);
             ObsHist.CodObsFacilito=GlobalVariables.codObsHistorial;
-
             String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+ObsHist.CodObsFacilito+"-"+ObsHist.Correlativo;
             final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
             obj1.execute("1");
         }
-        else {
-            setdata();
-        }
-
+        obsFHistorialModel=gson.toJson(ObsHist);
     }
     public boolean ValifarFormulario(View view){
         String ErrorForm="";
@@ -374,18 +330,192 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             try {
                 if(ObsHist.FechaFin!=null) {
                     Date fecha = df.parse(ObsHist.FechaFin);
+                    fecha_real=ObsHist.FechaFin;
                     btnFechaInicio.setText(formatoRender.format(fecha));
                     btn_hora.setText(dh.format(fecha));
-                    if(ObsHist.FechaFin!=null)
-                    {
-                        fecha = df.parse(ObsHist.FechaFin);
-                        btnFechaInicio.setText(dt.format(fecha));
-                    }
+                    fecha = df.parse(ObsHist.FechaFin);
+                    btnFechaInicio.setText(dt.format(fecha));
                 }
 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void guardarData(View view) {
+
+        Utils.closeSoftKeyBoard(addAtencionFHistorial.this);
+        if (estado.equals("S")) {
+            ObsHist.FechaFin=fecha_real;
+        } else {
+            ObsHist.FechaFin=null;
+        }
+        ObsHist.Comentario = String.valueOf(txv_comentario.getText());
+
+        if(ValifarFormulario(view))
+        {
+            Actives.clear();
+            Errores="";
+            enableSave=(false);
+            cancel=false;
+            btncancelar.setVisibility(View.VISIBLE);
+            progressBar.setProgress(0);
+            txt_percent.setText("");
+
+            String Cabecera, FilesDelete;
+            Cabecera=FilesDelete="-";
+            String Obsstr=gson.toJson(ObsHist);
+              if(!obsFHistorialModel.equals(Obsstr)) Cabecera=Obsstr;
+            //edicion files
+            gridViewAdapter.ProcesarImagens();
+
+            ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+            ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+            DataAll.addAll(DataImg);
+
+
+            //delete files
+            if(GlobalVariables.StrFiles.size()>0) {
+                String DeleteFiles = "";
+                for (GaleriaModel item : GlobalVariables.StrFiles) {
+                    boolean pass = true;
+                    for (GaleriaModel item2 : DataAll) {
+                        if (item.Correlativo == item2.Correlativo) {
+                            pass = false;
+                            continue;
+                        }
+                    }
+                    if (pass) {
+                        DeleteFiles += item.Correlativo + ";";
+                        item.Estado = "E";
+                    }
+                }
+                if(!DeleteFiles.equals("")) FilesDelete= DeleteFiles.substring(0,DeleteFiles.length()-1);
+            }
+            //Insert Files
+            for (GaleriaModel item:DataAll) {
+                boolean pass=false;
+                for(GaleriaModel item2:GlobalVariables.StrFiles)
+                    if(item.Descripcion.equals(item2.Descripcion))
+                        pass=true;
+                if(item.Correlativo==-1) {
+                    DataInsert.add(item);
+                    if(!pass)GlobalVariables.StrFiles.add(item);
+                }
+            }
+
+            if(DataInsert.size()==0 && FilesDelete.equals("-")&& Cabecera.equals("-"))
+            {
+                enableSave=(true);
+                Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
+            }
+            else{
+                Actives.add(0);
+                ll_bar_carga.setVisibility(View.VISIBLE);
+                final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                        .connectTimeout(20, TimeUnit.SECONDS)
+                        .writeTimeout(20, TimeUnit.SECONDS)
+                        .readTimeout(30, TimeUnit.SECONDS)
+                        .build();
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(GlobalVariables.Url_base)
+                        .client(okHttpClient)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+                G=T=L=0;
+                List<MultipartBody.Part> Files = new ArrayList<>();
+                for (GaleriaModel item:DataInsert) {
+                    T+=Long.parseLong(item.Tamanio);
+                    Files.add(createPartFromFile(item));
+                }
+                request = service.PostObfAtencion("Bearer "+GlobalVariables.token_auth,createPartFromString(Cabecera),createPartFromString(FilesDelete),createPartFromString(ObsHist.CodObsFacilito),createPartFromString(ObsHist.Correlativo),Files);
+                if(T==0)onProgressUpdate();
+                request.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        onFinish();
+                        if(response.isSuccessful()){
+                            Actives.set(0,1);
+                            String respt[]  = response.body().split(";"); //
+                            for(int i =0;i<2;i++){
+                                String rpt=respt[i];
+                                if(!rpt.equals("-")){
+                                    if(rpt.contains("-1")){
+                                        Actives.add(-1);
+                                        switch (i){
+                                            case 0:
+                                                Errores+="\nOcurrio un error al guardar cabecera";
+                                                break;
+                                            case 1:
+                                                Errores+="\nOcurrio un error al eliminar imagenes/archivos";
+                                                break;
+                                        }
+                                    }
+                                    switch (i){
+                                        case 0:
+                                            if(ObsHist.Correlativo.equals("-1"))
+                                                ObsHist.Correlativo=rpt;
+                                            obsFHistorialModel=gson.toJson(ObsHist);
+                                            break;
+                                        case 1:
+                                            ArrayList<GaleriaModel> temp= new ArrayList<>(GlobalVariables.StrFiles);
+                                            for (GaleriaModel item : GlobalVariables.StrFiles) {
+                                                if(!StringUtils.isEmpty(item.Estado)&&item.Estado.equals("E"))
+                                                    temp.remove(item);
+                                            }
+                                            GlobalVariables.StrFiles=temp;
+                                            break;
+                                    }
+                                }
+                            }
+
+                            if(!respt[2].equals("-")){
+                                Utils.DeleteCache(new Compressor(addAtencionFHistorial.this).destinationDirectoryPath); //delete cache Files;
+                                for (String file:respt[2].split(",")) {
+                                    String[] datosf= file.split(":");
+                                    for (GaleriaModel item:GlobalVariables.StrFiles) {
+                                        if(item.Descripcion.equals(datosf[0]))
+                                        {
+                                            item.Correlativo=Integer.parseInt(datosf[1]);
+                                            if(item.Correlativo==-1) item.Estado="E";
+                                            else {
+                                                item.Estado="A";
+                                                if(item.TipoArchivo.equals("TP01")) item.Url= "/Media/getImage/"+datosf[1]+"/Image.jpg";
+                                                else if(item.TipoArchivo.equals("TP02")) item.Url= "/Media/Play/"+datosf[1]+"/Video.mp4";
+                                                else item.Url= "/Media/Getfile/"+datosf[1]+"/"+datosf[0];
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                        }else{
+                            Actives.set(0,-1);
+                            Errores+="\nOcurrio un error interno de servidor";
+                        }
+                        if(!Actives.contains(0)) FinishSave();
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        if(!cancel){
+                            Actives.set(0,-1);
+                            if(t.getMessage().equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
+                            else Errores+="\nOcurrio un error al intentar guardar los datos.";
+                            if(!Actives.contains(0)) FinishSave();
+                        }
+                        else{ //GlobalVariables.StrFiles=temp;
+                            for(GaleriaModel item:GlobalVariables.StrFiles)
+                                if(item.Correlativo==-1)item.Estado="E";
+                            loaddata();
+                        }
+                    }
+                });
+            }
+
         }
     }
     public void close(View view){
@@ -429,125 +559,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
         obj1.execute("3");
     }
-    public void UpdateFiles(boolean apt){
-        try {
-            gridViewAdapter.ProcesarImagens();
-            ArrayList<GaleriaModel> DataInsert = new ArrayList<>();
-            ArrayList<GaleriaModel> DataAll = new ArrayList<>();
-            DataAll.addAll(DataImg);
-            // delete files
-            String DeleteFiles = "";
-            for (GaleriaModel item : GlobalVariables.StrFiles) {
-                boolean pass = true;
-                for (GaleriaModel item2 : DataAll) {
-                    if (item.Correlativo == item2.Correlativo) {
-                        pass = false;
-                        continue;
-                    }
-                }
-                if (pass) {
-                    DeleteFiles += item.Correlativo + ";";
-                    item.Estado = "E";
-                }
-            }
-            for (GaleriaModel item : DataAll) {
-                boolean pass = false;
-                for (GaleriaModel item2 : GlobalVariables.StrFiles)
-                    if (item.Descripcion.equals(item2.Descripcion))
-                        pass = true;
-                if (item.Correlativo == -1) {
-                    DataInsert.add(item);
-                    if (!pass) GlobalVariables.StrFiles.add(item);
-                }
-            }
-            if (DeleteFiles.equals("") && DataInsert.size() == 0) {
-                if(apt)Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
-                else {
-                    Actives.add(1);
-                    Actives.add(1);
-                    Actives.add(1);
-                    Notification();
-                }
-            }
-            else {
-//Delete Files
-                if (!DeleteFiles.equals("")) {
-                    Actives.add(0);
-                    String url = GlobalVariables.Url_base + "media/deleteAll/" + DeleteFiles.substring(0, DeleteFiles.length() - 1);
-                    ActivityController obj = new ActivityController("get", url, addAtencionFHistorial.this, this);
-                    obj.execute("2");
-                }
-                else Actives.add(1);
-                if(DataInsert.size()>0){
-                    Actives.add(0);
-                    Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl(GlobalVariables.Url_base)
-                            .addConverterFactory(GsonConverterFactory.create())
-                            .build();
-                    WebServiceAPI service = retrofit.create(WebServiceAPI.class);
-                    List<MultipartBody.Part> Files = new ArrayList<>();
-                    for (GaleriaModel item : DataInsert) {
-                        Files.add(createPartFromFile(item));
-                    }
-                    Toast.makeText(addAtencionFHistorial.this, "Guardando Atención, Espere...", Toast.LENGTH_SHORT).show();
-                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(ObsHist.CodObsFacilito), createPartFromString("TOBF"), createPartFromString(ObsHist.Correlativo), Files);
-                   progressBar.setVisibility(View.VISIBLE);
-                    request.enqueue(new Callback<String>() {
-                        @Override
-                        public void onResponse(Call<String> call, Response<String> response) {
 
-                            if (response.isSuccessful()) {
-                                String respt = response.body();
-                                if (respt.contains("-1")) {
-                                    Actives.set(2,-1);
-                                    Errores += "\nOcurrio un error al subir algunas imagenes";
-                                }
-                                else  Actives.set(2,1);
-                                Utils.DeleteCache(new Compressor(addAtencionFHistorial.this).destinationDirectoryPath); //delete cache Files;
-                                for (String file : respt.split(";")) {
-                                    String[] datosf = file.split(":");
-                                    for (GaleriaModel item : GlobalVariables.StrFiles) {
-                                        if (item.Descripcion.equals(datosf[0])) {
-                                            item.Correlativo = Integer.parseInt(datosf[1]);
-                                            if (item.Correlativo == -1) item.Estado = "E";
-                                            else {
-                                                if (item.TipoArchivo.equals("TP01"))
-                                                    item.Url = "/Media/getImage/" + datosf[1] + "/Image.jpg";
-                                                else if (item.TipoArchivo.equals("TP02"))
-                                                    item.Url = "/Media/Play/" + datosf[1] + "/Video.mp4";
-                                                else
-                                                    item.Url = "/Media/Getfile/" + datosf[1] + "/" + datosf[0];
-                                            }
-                                        }
-                                    }
-                                }
-
-                            } else {
-                                Actives.set(2,-1);
-                                Errores += "\nOcurrio un error interno de servidor";
-                            }
-                            if (!Actives.contains(0))  Notification();
-                            progressBar.setVisibility(View.GONE);
-                        }
-
-                        @Override
-                        public void onFailure(Call<String> call, Throwable t) {
-                            Actives.set(2,-1);
-                            Errores += "\nFallo la subida de archivos";
-                            if (!Actives.contains(0))  Notification();
-                            progressBar.setVisibility(View.GONE);
-                        }
-                    });
-
-                }
-
-            }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
-
-    }
     @NonNull
     private RequestBody createPartFromString(String data){
         return RequestBody.create(MultipartBody.FORM,data);
@@ -584,18 +596,20 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         if(ok&&!fail)
             alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-//                    btn_Salvar.setEnabled(true);
+                   ll_bar_carga.setVisibility(View.GONE);
+                    progressBar.setProgress(0);
+                    enableSave=(true);
                     GlobalVariables.ObjectEditable=true;
                 }
             });
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 if(ok&&!fail){
-                    if(GlobalVariables.flaghistorial==true){
+                    if(newAdd){
                         Gson gson = new Gson();
                         GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
                         ObsHist.Persona=GlobalVariables.userLoaded.Nombres;
-                        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+                        DateFormat formatoRender = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                         Date date = Calendar.getInstance().getTime();
                         String formattedDate = formatoRender.format(date);
                         ObsHist.Fecha=formattedDate;
@@ -605,7 +619,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         setResult(RESULT_OK, intent);
                         finish();
                     }
-                    if(GlobalVariables.flaghistorial==false){
+                    else{ //GlobalVariables.flaghistorial==false
 
                         Intent intent = getIntent();
                         intent.putExtra("historial",gson.toJson(ObsHist));
@@ -614,21 +628,30 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         finish();
                     }
                 }
+                ll_bar_carga.setVisibility(View.GONE);
+                progressBar.setProgress(0);
+                enableSave=(true);
             }
         });
 
         alertDialog.show();
         if(GlobalVariables.flaghistorial)GlobalVariables.flaghistorial=false;
-        DataImg.clear();
-        for (GaleriaModel item: GlobalVariables.StrFiles) {
-            DataImg.add(item);
-        }
-        setdata();
-       /* Intent intent = getIntent();
-        intent.putExtra("AccionMejora",gson.toJson(AddAccionMejora));
-        setResult(RESULT_OK, intent);
-        finish();*/
+        loaddata();
+
     }
+
+    public void loaddata(){
+
+        if(GlobalVariables.StrFiles.size()>0)
+        {
+            DataImg.clear();
+            for (GaleriaModel item: GlobalVariables.StrFiles) {
+                DataImg.add(item);
+            }
+            setdata();
+        }
+    }
+
     @Override
     public void onCancel() {
 
@@ -708,7 +731,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                 //correEdit= data;
             }
             Actives.set(0,1);
-            UpdateFiles(false);
+          //  UpdateFiles(false);
         }
     }
 
@@ -718,17 +741,42 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     }
 
 
-    @Override
-    public void onProgressUpdate(int percentage) {
-        progressBar.setProgress(percentage);
+    public void onProgressUpdate(){
+
+        progressBar.setProgress(50);
+        txt_percent.setText(50+"%");
+
     }
+    @Override
+    public void onProgressUpdate(long percentage) {
+        if(percentage==0)L=G;
+        G=L + percentage;
+        int percent=(int)Math.round(100 * (double)G / (double)T);
+        progressBar.setProgress(percent);
+        txt_percent.setText(percent+"%");//String.format("%.2f", 100*(double)G / (double)T)+"%");
+        if(percent==100){
+            btncancelar.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onError() {
 
     }
+
     @Override
     public void onFinish() {
+        btncancelar.setVisibility(View.GONE);
         progressBar.setProgress(100);
+        txt_percent.setText("100%");
+    }
+
+    public void cancelUpload(View view) {
+        if(request!=null){
+            request.cancel();
+            ll_bar_carga.setVisibility(View.GONE); enableSave=true;
+            cancel=true;
+        }
     }
 
     public String Obtenerfecha(String tempcom_fecha) {
@@ -740,14 +788,198 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             e.printStackTrace();
             fecha=tempcom_fecha;
         }
-
         return fecha;
 
     }
+
     public void AgregarAtencion(View view){
         Intent intent = getIntent();
         setResult(RESULT_OK, intent);
         finish();
     }
+    public void UpdateFiles(boolean apt){
+        try {
+            gridViewAdapter.ProcesarImagens();
+            ArrayList<GaleriaModel> DataInsert = new ArrayList<>();
+            ArrayList<GaleriaModel> DataAll = new ArrayList<>();
+            DataAll.addAll(DataImg);
+            // delete files
+            String DeleteFiles = "";
+            for (GaleriaModel item : GlobalVariables.StrFiles) {
+                boolean pass = true;
+                for (GaleriaModel item2 : DataAll) {
+                    if (item.Correlativo == item2.Correlativo) {
+                        pass = false;
+                        continue;
+                    }
+                }
+                if (pass) {
+                    DeleteFiles += item.Correlativo + ";";
+                    item.Estado = "E";
+                }
+            }
+            for (GaleriaModel item : DataAll) {
+                boolean pass = false;
+                for (GaleriaModel item2 : GlobalVariables.StrFiles)
+                    if (item.Descripcion.equals(item2.Descripcion))
+                        pass = true;
+                if (item.Correlativo == -1) {
+                    DataInsert.add(item);
+                    if (!pass) GlobalVariables.StrFiles.add(item);
+                }
+            }
+            if (DeleteFiles.equals("") && DataInsert.size() == 0) {
+                if(apt)Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
+                else {
+                    Actives.add(1);
+                    Actives.add(1);
+                    Actives.add(1);
+                    Notification();
+                }
+            }
+            else {
+//Delete Files
+                if (!DeleteFiles.equals("")) {
+                    Actives.add(0);
+                    String url = GlobalVariables.Url_base + "media/deleteAll/" + DeleteFiles.substring(0, DeleteFiles.length() - 1);
+                    ActivityController obj = new ActivityController("get", url, addAtencionFHistorial.this, this);
+                    obj.execute("2");
+                }
+                else Actives.add(1);
+                if(DataInsert.size()>0){
+                    Actives.add(0);
+                    Retrofit retrofit = new Retrofit.Builder()
+                            .baseUrl(GlobalVariables.Url_base)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                    WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+                    List<MultipartBody.Part> Files = new ArrayList<>();
+                    for (GaleriaModel item : DataInsert) {
+                        Files.add(createPartFromFile(item));
+                    }
+                    Toast.makeText(addAtencionFHistorial.this, "Guardando Atención, Espere...", Toast.LENGTH_SHORT).show();
+                    Call<String> request = service.uploadAllFile("Bearer " + GlobalVariables.token_auth, createPartFromString(ObsHist.CodObsFacilito), createPartFromString("TOBF"), createPartFromString(ObsHist.Correlativo), Files);
+                    progressBar.setVisibility(View.VISIBLE);
+                    request.enqueue(new Callback<String>() {
+                        @Override
+                        public void onResponse(Call<String> call, Response<String> response) {
+
+                            if (response.isSuccessful()) {
+                                String respt = response.body();
+                                if (respt.contains("-1")) {
+                                    Actives.set(2,-1);
+                                    Errores += "\nOcurrio un error al subir algunas imagenes";
+                                }
+                                else  Actives.set(2,1);
+                                Utils.DeleteCache(new Compressor(addAtencionFHistorial.this).destinationDirectoryPath); //delete cache Files;
+                                for (String file : respt.split(";")) {
+                                    String[] datosf = file.split(":");
+                                    for (GaleriaModel item : GlobalVariables.StrFiles) {
+                                        if (item.Descripcion.equals(datosf[0])) {
+                                            item.Correlativo = Integer.parseInt(datosf[1]);
+                                            if (item.Correlativo == -1) item.Estado = "E";
+                                            else {
+                                                if (item.TipoArchivo.equals("TP01"))
+                                                    item.Url = "/Media/getImage/" + datosf[1] + "/Image.jpg";
+                                                else if (item.TipoArchivo.equals("TP02"))
+                                                    item.Url = "/Media/Play/" + datosf[1] + "/Video.mp4";
+                                                else
+                                                    item.Url = "/Media/Getfile/" + datosf[1] + "/" + datosf[0];
+                                            }
+                                        }
+                                    }
+                                }
+
+                            } else {
+                                Actives.set(2,-1);
+                                Errores += "\nOcurrio un error interno de servidor";
+                            }
+                            if (!Actives.contains(0))  Notification();
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onFailure(Call<String> call, Throwable t) {
+                            Actives.set(2,-1);
+                            Errores += "\nFallo la subida de archivos";
+                            if (!Actives.contains(0))  Notification();
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+
+                }
+
+            }
+        }
+        catch (Exception ex){
+            ex.printStackTrace();
+        }
+
+    }
 
 }
+
+
+/* ButtonGuardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Errores="";
+                    Actives.clear();
+                    Gson gson = new Gson();
+                    Utils.closeSoftKeyBoard(addAtencionFHistorial.this);
+                    if(GlobalVariables.flaghistorial==true) { // save new Historial de atencion
+                        try {
+                            Actives.add(0);
+                            //ObsHist.CodObsFacilito = codObs;
+                            if (estado.equals("S")) {
+                                ObsHist.FechaFin=fecha_real;
+                            } else {
+                                ObsHist.FechaFin=null;
+                            }
+                            ObsHist.Comentario = String.valueOf(txv_comentario.getText());
+                            if (!ValifarFormulario(v)) return;
+                            String url = GlobalVariables.Url_base + "ObsFacilito/AprobarObsFaci";
+                            final ActivityController obj = new ActivityController("post", url, addAtencionFHistorial.this, addAtencionFHistorial.this);
+                            obj.execute(gson.toJson(ObsHist));
+
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    if(GlobalVariables.flaghistorial==false){  //edit historial de atencion
+
+                        try {
+                          //  ObsHist.CodObsFacilito = codObs;
+                            //ObsHist.Correlativo=correEdit;
+                            if (estado.equals("S")) {
+                                ObsHist.FechaFin = fecha_real;
+                            } else {
+                                ObsHist.FechaFin=null;
+                            }
+                            ObsHist.Comentario = String.valueOf(txv_comentario.getText());
+                            if (!ValifarFormulario(v)) return;
+                            String Obsstr=gson.toJson(ObsHist);
+                            if(!Obsstr.equals(obsFHistorialModel)){
+                                Actives.add(0);
+                                String url = GlobalVariables.Url_base + "ObsFacilito/AprobarObsFaci";
+                                final ActivityController obj = new ActivityController("post", url, addAtencionFHistorial.this, addAtencionFHistorial.this);
+                                obj.execute(gson.toJson(ObsHist));
+                            }
+                            else {
+                                Actives.add(1);
+                                UpdateFiles(true);
+                            }
+
+                        }
+                        catch (Exception ex){
+                            ex.printStackTrace();
+                        }
+
+                    }
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
+                }
+            }
+        });*/

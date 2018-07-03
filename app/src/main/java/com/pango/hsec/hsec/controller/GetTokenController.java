@@ -197,7 +197,6 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
     public void LoadData(){
         GlobalVariables.loadObs_Detalles();
-
         SharedPreferences VarMaestros = ((Context)activity).getSharedPreferences("HSEC_Maestros", Context.MODE_PRIVATE);
         String ListaMaestro = VarMaestros.getString("MaestroAll","");
 
@@ -222,7 +221,9 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 e.printStackTrace();
             }
         }
-        else Setdata(ListaMaestro);
+        else{
+            if(GlobalVariables.Ubicaciones_obs.isEmpty()) Setdata(ListaMaestro);
+        }
     }
 
     public void Setdata(String data){

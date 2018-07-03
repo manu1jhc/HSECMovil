@@ -1,35 +1,27 @@
 package com.pango.hsec.hsec.adapter;
 
         import com.bumptech.glide.Glide;
-        import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
-        import com.pango.hsec.hsec.Facilito.opcionfacilito;
         import com.pango.hsec.hsec.Facilito.report_obs;
         import com.pango.hsec.hsec.Ficha.BusqEstadistica;
         import com.pango.hsec.hsec.Ficha.FichaPersona;
         import com.pango.hsec.hsec.GlobalVariables;
         import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
         import com.pango.hsec.hsec.R;
-        import com.pango.hsec.hsec.Utils;
         import com.pango.hsec.hsec.model.Maestro;
         import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
-        import com.pango.hsec.hsec.model.ObsFacilitoModel;
         import com.pango.hsec.hsec.utilitario.CircleTransform;
 
-        import android.app.Activity;
         import android.app.AlertDialog;
         import android.content.Context;
         import android.content.DialogInterface;
         import android.content.Intent;
         import android.graphics.Color;
         import android.graphics.drawable.ColorDrawable;
-        import android.support.v7.app.AppCompatActivity;
         import android.support.v7.widget.CardView;
         import android.view.Gravity;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
-        import android.view.Window;
-        import android.view.WindowManager;
         import android.widget.ArrayAdapter;
         import android.widget.Button;
         import android.widget.ImageView;
@@ -37,11 +29,7 @@ package com.pango.hsec.hsec.adapter;
         import android.widget.PopupWindow;
         import android.widget.RadioGroup;
         import android.widget.RelativeLayout;
-        import android.widget.TableRow;
         import android.widget.TextView;
-        import android.widget.Toast;
-
-        import org.apache.commons.lang3.StringUtils;
 
         import java.text.DateFormat;
         import java.text.ParseException;
@@ -49,7 +37,6 @@ package com.pango.hsec.hsec.adapter;
         import java.util.ArrayList;
 
         import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-        import static com.pango.hsec.hsec.Utils.Obtenerfecha;
 
 /**
  * Created by jcila on 20/04/2018.
@@ -95,6 +82,7 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
         TextView estado = rowView.findViewById(R.id.mp_estado);
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
         ImageView editar = rowView.findViewById(R.id.btn_editar);
+        TextView empresa = rowView.findViewById(R.id.tx_empresa);
 
         final String tempimg_perfil = data.get(position).UrlObs;
         final String tempNombre = data.get(position).Persona;
@@ -104,6 +92,10 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
         final String tempObservacion = data.get(position).Observacion;
         final String tempImgDet=data.get(position).UrlPrew;
         final String editable = data.get(position).Editable;
+
+        final String Empresa = data.get(position).Empresa;
+        empresa.setText(Empresa);
+
         if(editable.equals("0")){
             editar.setVisibility(View.GONE);
         }
@@ -177,17 +169,17 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
         if (tempEstado == null) {
             riesgo.setVisibility(View.INVISIBLE);
         } else if (tempEstado.equals("P")) {
-            riesgo.setImageResource(R.drawable.ic_alertaroja);
+            riesgo.setImageResource(R.drawable.ic_obfpendiente);
             tipo.setText("Acto");
 
         } else if (tempEstado.equals("A")) {
-            riesgo.setImageResource(R.drawable.ic_alertaverde);
+            riesgo.setImageResource(R.drawable.ic_obfatentido);
             tipo.setText("Condicion");
         } else if (tempEstado.equals("S")) {
-            riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
+            riesgo.setImageResource(R.drawable.ic_obfseguimiento);
             tipo.setText("Condicion");
         } else if (tempEstado.equals("O")) {
-            riesgo.setImageResource(R.drawable.ic_interrogacion);
+            riesgo.setImageResource(R.drawable.ic_obfobservado);
             tipo.setText("Condicion");
         }
 

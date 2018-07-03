@@ -76,7 +76,7 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
     private RecyclerView listView;
     private RecyclerView gridView;
-    private ListViewAdapter listViewAdapter;
+    public ListViewAdapter listViewAdapter;
     public GridViewAdapter gridViewAdapter;
 
     ProgressDialog progressDialog;

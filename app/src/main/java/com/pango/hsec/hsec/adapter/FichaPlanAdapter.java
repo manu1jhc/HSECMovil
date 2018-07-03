@@ -92,6 +92,7 @@ public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
         TextView tabla_ref = rowView.findViewById(R.id.tabla_ref);
         TextView estado = rowView.findViewById(R.id.estado);
         TextView desTarea = rowView.findViewById(R.id.tx_destarea);
+        TextView empresa = rowView.findViewById(R.id.tx_empresa);
 
 
         final String tempimg_perfil=data.get(position).CodSolicitadoPor;
@@ -105,9 +106,10 @@ public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
         final String tempTabla_ref = data.get(position).CodTabla;
         final String tempEstado = data.get(position).CodEstadoAccion;
         final String tempDesTarea = data.get(position).DesPlanAccion;
+        final String Empresa = data.get(position).Empresa;
 
         nombre.setText(tempNombre);
-
+        empresa.setText(Empresa);
         fecha.setText(Obtenerfecha(tempFecha));
 
         if(tempRiesgo==null) {

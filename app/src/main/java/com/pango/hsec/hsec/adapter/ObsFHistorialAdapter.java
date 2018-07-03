@@ -228,8 +228,7 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
             intent.putExtra("Comentario",comentario);
             intent.putExtra("fechafin",fechafin);
             intent.putExtra("Correlativo",items.get(idposition).Correlativo);
-
-            activity.startActivity(intent);
+            activity.startActivityForResult(intent, 2);
         }
     }
 }
