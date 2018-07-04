@@ -208,7 +208,7 @@ public class ParticipantesCurso extends AppCompatActivity implements IActivity {
         popupView = layoutInflater.inflate(R.layout.popup_snackbar, null);
 
         popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.showAtLocation(list_Personas, Gravity.NO_GRAVITY, 0, alto-200);
+        popupWindow.showAtLocation(list_Personas, Gravity.NO_GRAVITY, 0, alto-180);
         popupWindow.setFocusable(true);
         popupWindow.update();
         popupWindow.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT

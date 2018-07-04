@@ -240,12 +240,19 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
         }
         carAction.setVisibility(View.GONE);
         carScan.setVisibility(View.VISIBLE);
-        scannerView = new ZXingScannerView(this);
         ly.setVisibility(View.VISIBLE);
-        ly.addView(scannerView);
+        if(scannerView == null) {
+            scannerView = new ZXingScannerView(this);
+            ly.addView(scannerView);
+        }
         scannerView.setResultHandler(this);
         scannerView.startCamera();
+        /*
+            scannerView = new ZXingScannerView(this);
 
+            ly.addView(scannerView);
+            scannerView.setResultHandler(this);
+            scannerView.startCamera();*/
     }
 
     private void playSound() {
@@ -509,7 +516,7 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
         popupView2 = layoutInflater2.inflate(R.layout.popup_snackbar, null);
 
         popupWindow2 = new PopupWindow(popupView2, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
-        popupWindow2.showAtLocation(list_Personas, Gravity.BOTTOM, 0, alto-200);
+        popupWindow2.showAtLocation(list_Personas, Gravity.NO_GRAVITY, 0, alto-180);
         popupWindow2.setFocusable(true);
         popupWindow2.update();
         popupWindow2.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT

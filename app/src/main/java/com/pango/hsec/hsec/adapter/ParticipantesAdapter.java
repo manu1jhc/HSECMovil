@@ -266,6 +266,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
                             if(Nota<20){
                                 Nota++;
                                 seekBar.setProgress(Nota);
+                                //txtNota.setText(Nota+"");
                             }
                         }
                     });
@@ -277,6 +278,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
                             if(Nota>0){
                                 Nota--;
                                 seekBar.setProgress(Nota);
+                                //txtNota.setText(Nota+"");
                             }
                         }
                     });
@@ -303,7 +305,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
                         public void onClick(View v){
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity,android.R.style.Theme_Material_Dialog_Alert);
                             alertDialog.setTitle("Eliminar participante")
-                                    .setMessage("Esta seguro de eliminar al participante"+ activity.personasList.get(Position).Nombres+"?")
+                                    .setMessage("Esta seguro de eliminar al participante "+ activity.personasList.get(Position).Nombres+"?")
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
                                             activity.DeleteObject(Position);
@@ -335,7 +337,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
             PersonaModel Alumno = activity.personasList.get(index);
             txtNombres.setText(Alumno.Nombres);
             txtNota.setText(Alumno.Email);
-            edittext=true;
+            edittext=false;
             if (Alumno.NroDocumento != null) {
                 txtDNI.setText(Alumno.NroDocumento);
                 String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + Alumno.NroDocumento + "/Carnet.jpg";
