@@ -280,7 +280,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             String  Responsables[]=Plan.CodResponsables.split(";"),ResponsablesData[]=Plan.Responsables.split(";");
             for(int i=0;i<Responsables.length;i++){
                 String datosper[]= ResponsablesData[i].split(":");
-                ListResponsables.add(new PersonaModel(Responsables[i],datosper[0],"",datosper[1]));
+                ListResponsables.add(new PersonaModel(Responsables[i],datosper[0],"",datosper.length>1?datosper[1]:""));
             }
         }
         LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);

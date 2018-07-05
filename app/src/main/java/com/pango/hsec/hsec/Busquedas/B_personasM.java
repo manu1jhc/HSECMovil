@@ -33,6 +33,8 @@ package com.pango.hsec.hsec.Busquedas;
         import com.pango.hsec.hsec.model.Maestro;
         import com.pango.hsec.hsec.model.PersonaModel;
 
+        import org.apache.commons.lang3.StringUtils;
+
         import java.util.ArrayList;
 
 public class B_personasM extends AppCompatActivity implements IActivity {
@@ -102,7 +104,6 @@ public class B_personasM extends AppCompatActivity implements IActivity {
         superintdata=new ArrayList<>();
 //        superintdata.addAll(GlobalVariables.SuperIntendencia);
 
-
         adapterGerencia = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, gerenciadata);
         adapterGerencia.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerGerencia.setAdapter(adapterGerencia);
@@ -121,13 +122,11 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 superint="";
                 gerencia = gerenciadata.get(position).CodTipo;
                 superintdata.clear();
-                for (Maestro item: GlobalVariables.loadSuperInt(gerencia)
-                        ) {
+                for (Maestro item: GlobalVariables.loadSuperInt(gerencia)) {
                     superintdata.add(item);
                 }
                 adapterSuperInt.notifyDataSetChanged();
                 spinnerSuperInt.setSelection(0);
-
             }
 
             @Override
@@ -154,7 +153,6 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 superint="";
             }
         });
-
 
        /* id_apellidos.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -360,8 +358,6 @@ boolean isCheck=false;
         if(!isCheck) {
             Toast.makeText(this, "No se selecciono ningún campo", Toast.LENGTH_SHORT).show();
         }
-
-
     }
     @Override
     public void success(String data,String Tipo) {
