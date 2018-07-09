@@ -23,7 +23,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_observaciones;
-import com.pango.hsec.hsec.Busquedas.Busqueda;
+//import com.pango.hsec.hsec.Busquedas.Busqueda;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;

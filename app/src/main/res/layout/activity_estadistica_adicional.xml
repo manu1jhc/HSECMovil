@@ -292,18 +292,117 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-
             >
 
-
         </android.support.v7.widget.RecyclerView>
+
+        <!-- galeria de fotos y videos  -->
+
+        <LinearLayout
+            android:id="@+id/galeria_foto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/tx_gal"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="Galeria de Fotos/Videos"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:background="@color/colorBtnBeige"
+                android:textColor="@color/colorBlanco"
+                />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rec_galeria"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="2dp"
+
+                />
+
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/rel_otros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <!--           android:visibility="gone"
+             -->
+
+            <FrameLayout
+                android:id="@+id/frame_otros"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+
+                >
+                <android.support.constraint.ConstraintLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/cl_otros"
+                    android:background="@color/colorBtnBeige"
+                    android:textColor="@color/colorBlanco"
+                    >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:background="@color/colorBtnBeige"
+                        android:textColor="@color/colorBlanco"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Otros documentos"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </FrameLayout>
+
+
+            <android.support.v7.widget.RecyclerView
+
+                android:id="@+id/list_docs"
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/frame_otros"
+                />
+
+
+
+
+
+        </RelativeLayout>
+
+
+
+
+
+
+
+
+
 
 
 
 
     </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
 
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>
 
