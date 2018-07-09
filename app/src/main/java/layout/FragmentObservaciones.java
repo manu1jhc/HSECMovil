@@ -104,7 +104,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
     ConstraintLayout linear_total;
     Button btn_eliminarf;
     TextView tx_filtro;
-
+    String Elemperpage="7";
     private OnFragmentInteractionListener mListener;
 
     public FragmentObservaciones() {
@@ -166,7 +166,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
             Utils.observacionModel = new ObservacionModel();
             ObservacionModel observacionModel = new ObservacionModel();
             tipo_busqueda = 1;
-            observacionModel.CodUbicacion = "5";
+            observacionModel.CodUbicacion = Elemperpage;
             observacionModel.Lugar = "1";
             String json = "";
             Gson gson = new Gson();
@@ -200,7 +200,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                 Utils.observacionModel = new ObservacionModel();
                 ObservacionModel observacionModel = new ObservacionModel();
                 tipo_busqueda = 1;
-                observacionModel.CodUbicacion = "5";
+                observacionModel.CodUbicacion = Elemperpage;
                 observacionModel.Lugar = "1";
                 String json = "";
                 Gson gson = new Gson();
@@ -254,7 +254,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
 
                 String json = "";
 
-                Utils.observacionModel.CodUbicacion = "5";
+                Utils.observacionModel.CodUbicacion = Elemperpage;
                 Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                 Gson gson = new Gson();
                 json = gson.toJson(Utils.observacionModel);
@@ -304,7 +304,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
 
                         //GlobalVariables.count=5;
                         paginacion2+=1;
-                        Utils.observacionModel.CodUbicacion = "5";
+                        Utils.observacionModel.CodUbicacion = Elemperpage;
                         Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                         Gson gson = new Gson();
                         json2 = gson.toJson(Utils.observacionModel);

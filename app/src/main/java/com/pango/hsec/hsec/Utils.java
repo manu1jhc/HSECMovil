@@ -657,10 +657,6 @@ public class Utils {
         }
     }
 
-
-
-
-
     public static void cargar_alerta(Context context,Activity activity){
 
             AlertDialog alertDialog = new AlertDialog.Builder(context).create();

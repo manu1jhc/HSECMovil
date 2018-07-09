@@ -99,6 +99,8 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
     //boolean flag_filtro=false;
     ConstraintLayout linear_total;
     Button btn_eliminarf;
+
+    String Elemperpage="7";
     private OnFragmentInteractionListener mListener;
 
     public FragmentObsFacilito() {
@@ -160,7 +162,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         if(GlobalVariables.listaGlobalFacilito.size()==0) {
 
             GlobalVariables.FacilitoList =new ObsFacilitoModel();
-            GlobalVariables.FacilitoList.Accion="5";
+            GlobalVariables.FacilitoList.Accion=Elemperpage;
             GlobalVariables.FacilitoList.Observacion="1";
 
             Gson gson = new Gson();
@@ -185,7 +187,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                 GlobalVariables.listaGlobalFacilito.clear();
 
                 GlobalVariables.FacilitoList =new ObsFacilitoModel();
-                GlobalVariables.FacilitoList.Accion="5";
+                GlobalVariables.FacilitoList.Accion=Elemperpage;
                 GlobalVariables.FacilitoList.Observacion="1";
 
                 Gson gson = new Gson();
@@ -220,7 +222,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
 
                 url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
 
-                GlobalVariables.FacilitoList.Accion="5";
+                GlobalVariables.FacilitoList.Accion=Elemperpage;
                 GlobalVariables.FacilitoList.Observacion="1";
 
                 //ObsFacilitoModel obsFacilitoModel = new ObsFacilitoModel();
@@ -268,7 +270,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                         url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
 
 
-                        GlobalVariables.FacilitoList.Accion="5";
+                        GlobalVariables.FacilitoList.Accion=Elemperpage;
                         GlobalVariables.FacilitoList.Observacion=String.valueOf(paginacion2);
 
 
@@ -277,7 +279,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                         //ObsFacilitoModel obsFacilitoModel = new ObsFacilitoModel();
                         //tipo_busqueda = 2;
 
-                        //obsFacilitoModel.Accion = "5";
+                        //obsFacilitoModel.Accion = Elemperpage;
                         //obsFacilitoModel.Observacion = String.valueOf(paginacion2);
                         String json = "";
 
@@ -500,7 +502,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                 paginacion2=1;
 
                 flag_Facilito=true;
-                GlobalVariables.FacilitoList.Accion="5";
+                GlobalVariables.FacilitoList.Accion=Elemperpage;
                 GlobalVariables.FacilitoList.Observacion="1";
                 String json = "";
 

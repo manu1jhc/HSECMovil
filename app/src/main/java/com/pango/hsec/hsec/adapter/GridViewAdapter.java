@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +29,18 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
     private List<GaleriaModel> items;
     private Activity activity;
     public  Boolean tacho=false;
-
+    int width;
     public GridViewAdapter(Activity activity, List<GaleriaModel> items) {
         this.activity = activity;
         this.items = items;
         GlobalVariables.listaGaleria=items;
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+        int height= dm.heightPixels;
+        if(width>height)width=height;
+        width=width/2;
+
     }
 
     public void add(GaleriaModel newdata){
@@ -132,6 +140,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
             viewHolder.btn_play.setVisibility(View.VISIBLE);
             Glide.with(viewHolder.imageView.getContext())
                     .load(urlMedio)
+                    .override(width, width)
                     .into(viewHolder.imageView);
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
            // viewHolder.textView.setText(items.get(position).Descripcion);
@@ -139,7 +148,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         else{
             Glide.with(viewHolder.imageView.getContext())
                     .load(urlMedio)
-                    //.fitCenter()
+                    .override(width, width)
                     .into(viewHolder.imageView);
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
            // viewHolder.textView.setText(items.get(position).Descripcion);

@@ -100,7 +100,7 @@ public class FragmentCapacitaciones extends Fragment implements IActivity {
     boolean flagpopup=false;
     TextView tipo_estadistica;
     public CapCursosAdapter pma;
-
+    String Elemperpage="9";
 
     public FragmentCapacitaciones() {
         // Required empty public constructor
@@ -252,9 +252,9 @@ public class FragmentCapacitaciones extends Fragment implements IActivity {
                         paginacion2+=1;
 
                         if(mes.equals("00")) {
-                            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + paginacion2 + "&Elemperpage=" + Elemperpage;
                         }else{
-                            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + "7";
+                            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + paginacion2 + "&Elemperpage=" + Elemperpage;
                         }
                         final ActivityController obj = new ActivityController("get-"+paginacion2, url, FragmentCapacitaciones.this,getActivity());
                         obj.execute("1");
@@ -322,9 +322,9 @@ public class FragmentCapacitaciones extends Fragment implements IActivity {
         GlobalVariables.CapaCursosMin.clear();
         paginacion2=1;
         if(mes.equals("00")) {
-            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + Elemperpage;
         }else{
-            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+            url = GlobalVariables.Url_base + "Capacitacion/GetCursos?CodPersonaF=*&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + Elemperpage;
         }
 
         GlobalVariables.CapaCursosMin=new ArrayList<>();

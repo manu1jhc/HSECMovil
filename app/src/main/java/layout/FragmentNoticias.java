@@ -91,7 +91,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
     ConstraintLayout linear_total;
     Button btn_eliminarf;
     TextView tx_filtro;
-
+    String Elemperpage="7";
 
     private OnFragmentInteractionListener mListener;
 
@@ -311,26 +311,26 @@ public class FragmentNoticias extends Fragment implements IActivity {
                         //GlobalVariables.count=5;
                         paginacion2+=1;
                         //Utils.inspeccionModel=new InspeccionModel();
-                        Utils.noticiasModel.Elemperpage = "5";
+                        Utils.noticiasModel.Elemperpage = Elemperpage;
                         Utils.noticiasModel.Pagenumber = String.valueOf(paginacion2);
                         Gson gson = new Gson();
                         json2 = gson.toJson(Utils.noticiasModel);
                         /*
                         if(tipo_busqueda==1) {
                             //Utils.observacionModel=new ObservacionModel();
-                            Utils.observacionModel.CodUbicacion = "5";
+                            Utils.observacionModel.CodUbicacion = Elemperpage;
                             Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.observacionModel);
                         }else if(tipo_busqueda==2){
                             //Utils.inspeccionModel=new InspeccionModel();
-                            Utils.inspeccionModel.Elemperpage = "5";
+                            Utils.inspeccionModel.Elemperpage = Elemperpage;
                             Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion2);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.inspeccionModel);
                         }else if(tipo_busqueda==3){
                             //Utils.noticiasModel=new NoticiasModel();
-                            Utils.noticiasModel.Elemperpage = "5";
+                            Utils.noticiasModel.Elemperpage = Elemperpage;
                             Utils.noticiasModel.Pagenumber = String.valueOf(paginacion2);
                             Gson gson = new Gson();
                             json2 = gson.toJson(Utils.noticiasModel);
@@ -414,7 +414,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
                 Utils.noticiasModel=new NoticiasModel();
                 NoticiasModel noticiasModel = new NoticiasModel();
                 tipo_busqueda = 3;
-                noticiasModel.Elemperpage = "5";
+                noticiasModel.Elemperpage = Elemperpage;
                 noticiasModel.Pagenumber = "1";
                 String json = "";
 
@@ -438,7 +438,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
                     Utils.observacionModel=new ObservacionModel();
                     ObservacionModel observacionModel=new ObservacionModel();
                     tipo_busqueda=1;
-                    observacionModel.CodUbicacion = "5";
+                    observacionModel.CodUbicacion = Elemperpage;
                     observacionModel.Lugar = "1";
                     String json = "";
                     Gson gson = new Gson();
@@ -455,7 +455,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
                     Utils.inspeccionModel=new InspeccionModel();
                     InspeccionModel inspeccionModel=new InspeccionModel();
                     tipo_busqueda=2;
-                    inspeccionModel.Elemperpage="5";
+                    inspeccionModel.Elemperpage=Elemperpage;
                     inspeccionModel.Pagenumber="1";
                     String json = "";
 
@@ -474,7 +474,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
                     Utils.noticiasModel=new NoticiasModel();
                     NoticiasModel noticiasModel = new NoticiasModel();
                     tipo_busqueda = 3;
-                    noticiasModel.Elemperpage = "5";
+                    noticiasModel.Elemperpage = Elemperpage;
                     noticiasModel.Pagenumber = "1";
                     String json = "";
 
@@ -651,7 +651,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
                 Utils.observacionModel.ObservadoPor=codpersona_obs;
                 */
 
-                Utils.noticiasModel.Elemperpage="5";
+                Utils.noticiasModel.Elemperpage=Elemperpage;
                 Utils.noticiasModel.Pagenumber="1";
                 String json = "";
 
@@ -668,7 +668,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
 
               /*
                 if(tipo_busqueda==1) {
-                    Utils.observacionModel.CodUbicacion = "5";
+                    Utils.observacionModel.CodUbicacion = Elemperpage;
                     Utils.observacionModel.Lugar = "1";
                     String json = "";
                     Gson gson = new Gson();
@@ -682,7 +682,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
                     obj.execute(json);
 
                 }else if(tipo_busqueda==2){
-                    Utils.inspeccionModel.Elemperpage="5";
+                    Utils.inspeccionModel.Elemperpage=Elemperpage;
                     Utils.inspeccionModel.Pagenumber="1";
                     String json = "";
 
@@ -699,7 +699,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
 
 
                 }else if(tipo_busqueda==3){
-                    Utils.noticiasModel.Elemperpage="5";
+                    Utils.noticiasModel.Elemperpage=Elemperpage;
                     Utils.noticiasModel.Pagenumber="1";
                     String json = "";
 

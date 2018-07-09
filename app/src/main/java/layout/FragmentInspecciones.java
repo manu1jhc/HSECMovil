@@ -95,7 +95,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     ConstraintLayout linear_total;
     Button btn_eliminarf;
     TextView tx_filtro;
-
+    String Elemperpage="7";
 
 
     private OnFragmentInteractionListener mListener;
@@ -160,7 +160,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
             Utils.inspeccionModel = new InspeccionModel();
             InspeccionModel inspeccionModel = new InspeccionModel();
             tipo_busqueda = 2;
-            inspeccionModel.Elemperpage = "5";
+            inspeccionModel.Elemperpage = Elemperpage;
             inspeccionModel.Pagenumber = "1";
             String json = "";
 
@@ -188,7 +188,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 Utils.inspeccionModel = new InspeccionModel();
                 InspeccionModel inspeccionModel = new InspeccionModel();
                 tipo_busqueda = 2;
-                inspeccionModel.Elemperpage = "5";
+                inspeccionModel.Elemperpage = Elemperpage;
                 inspeccionModel.Pagenumber = "1";
                 String json = "";
 
@@ -245,7 +245,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 GlobalVariables.isFragment=false;
 
                 String json = "";
-                Utils.inspeccionModel.Elemperpage = "5";
+                Utils.inspeccionModel.Elemperpage = Elemperpage;
                 Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion2);
                 Gson gson = new Gson();
                 json = gson.toJson(Utils.inspeccionModel);
@@ -299,7 +299,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                         //GlobalVariables.count=5;
                         paginacion2+=1;
                         //Utils.inspeccionModel=new InspeccionModel();
-                        Utils.inspeccionModel.Elemperpage = "5";
+                        Utils.inspeccionModel.Elemperpage = Elemperpage;
                         Utils.inspeccionModel.Pagenumber = String.valueOf(paginacion2);
                         Gson gson = new Gson();
                         json2 = gson.toJson(Utils.inspeccionModel);
@@ -397,7 +397,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 Utils.inspeccionModel=new InspeccionModel();
                 InspeccionModel inspeccionModel=new InspeccionModel();
                 tipo_busqueda=2;
-                inspeccionModel.Elemperpage="5";
+                inspeccionModel.Elemperpage=Elemperpage;
                 inspeccionModel.Pagenumber="1";
                 String json = "";
 
@@ -837,7 +837,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
                 Utils.observacionModel.ObservadoPor=codpersona_obs;
                 */
 
-                Utils.inspeccionModel.Elemperpage="5";
+                Utils.inspeccionModel.Elemperpage=Elemperpage;
                 Utils.inspeccionModel.Pagenumber="1";
                 String json = "";
 

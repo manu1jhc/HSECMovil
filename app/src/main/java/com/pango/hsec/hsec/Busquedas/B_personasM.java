@@ -64,6 +64,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
     //Button btn_Agregar;
     TextView tx_texto,tx_titulo;
     int paginacion=1;
+    String Elemperpage="9";
     BuscarPersonaAdapter ca;
     ImageButton btn_addpersona;
     String titulo="";
@@ -254,7 +255,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 GlobalVariables.isFragment=true;
 
 
-                url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion+"/"+"7";
+                url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion+"/"+Elemperpage;
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
                 GlobalVariables.count=5;
                 final ActivityController obj = new ActivityController("get-0", url, B_personasM.this,B_personasM.this);
@@ -294,7 +295,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                         //Utils.isActivity=true;
                         //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
 
-                        url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion + "/" + "7";
+                        url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion + "/" + Elemperpage;
 
                         GlobalVariables.count=5;
                         final ActivityController obj = new ActivityController("get-"+paginacion, url, B_personasM.this,B_personasM.this);

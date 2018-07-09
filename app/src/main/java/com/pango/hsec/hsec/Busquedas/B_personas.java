@@ -61,6 +61,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
     boolean loadingTop=false;
     TextView tx_texto;
     int paginacion=1;
+    String Elemperpage="9";
     ImageButton btn_addpersona;
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
@@ -207,7 +208,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 GlobalVariables.isFragment=true;
 
 
-                url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion+"/"+"7";
+                url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion+"/"+Elemperpage;
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
                 GlobalVariables.count=5;
                 final ActivityController obj = new ActivityController("get-0", url, B_personas.this,B_personas.this);
@@ -247,7 +248,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                         //Utils.isActivity=true;
                         //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
 
-                        url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion + "/" + "7";
+                        url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion + "/" + Elemperpage;
 
                         GlobalVariables.count=5;
                         final ActivityController obj = new ActivityController("get-"+paginacion, url, B_personas.this,B_personas.this);

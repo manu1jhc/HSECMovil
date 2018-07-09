@@ -3,6 +3,7 @@ package com.pango.hsec.hsec.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,9 +27,16 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.ViewHold
 
     private ArrayList<GaleriaModel> Data;
     private Activity activity;
+    int width;
     public GaleriaAdapter(Activity activity, ArrayList<GaleriaModel> Data) {
         this.activity = activity;
         this.Data = Data;
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+        int height= dm.heightPixels;
+        if(width>height)width=height;
+        width=width/2;
     }
 
     @Override
@@ -50,13 +58,13 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.ViewHold
             Glide.with(viewHolder.imageView.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+Data.get(position).Correlativo+ "/Preview.jpg")
                     .centerCrop()
-                    //.fitCenter()
+                    .override(width, width)
                     .into(viewHolder.imageView);
         }else{
             viewHolder.btn_play.setVisibility(View.VISIBLE);
             Glide.with(viewHolder.imageView.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+Data.get(position).Correlativo+ "/Preview.jpg")
-                 //   .centerCrop()
+                    .override(width, width)
                     .into(viewHolder.imageView);
 
         }

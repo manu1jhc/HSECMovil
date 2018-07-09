@@ -152,32 +152,32 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Tipo: " />
+
                     <Button
                         android:id="@+id/btn_acto"
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
-                        android:layout_marginBottom="5dp"
                         android:background="@color/colorverde"
                         android:text="Acto"
                         android:textColor="@color/colorBlanco"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintEnd_toStartOf="@+id/btn_condicion"
+                        app:layout_constraintStart_toEndOf="@+id/txtipo"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
                         android:id="@+id/btn_condicion"
                         android:layout_width="wrap_content"
                         android:layout_height="34dp"
-                        android:layout_marginBottom="5dp"
                         android:background="@color/colorRojoOsc"
                         android:text="Condición"
                         android:textColor="@color/colorBlanco"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.898"
-                        app:layout_constraintStart_toStartOf="parent" />
+                        app:layout_constraintStart_toEndOf="@+id/btn_acto"
+                        app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
@@ -227,7 +227,7 @@
 
                     <EditText
                         android:id="@+id/txv_gerencia"
-                        android:layout_width="224dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -236,20 +236,20 @@
                         android:inputType="textMultiLine"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sp_gerencia"
                         app:layout_constraintStart_toEndOf="@+id/txgerencia"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <Spinner
                         android:id="@+id/sp_gerencia"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
-                        android:layout_marginEnd="9dp"
-                        android:layout_marginStart="1dp"
+                        android:layout_marginEnd="8dp"
                         android:layout_marginTop="2dp"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txv_gerencia"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -284,29 +284,29 @@
 
                     <EditText
                         android:id="@+id/txv_superintendencia"
-                        android:layout_width="224dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
-                        android:gravity="top"
                         android:enabled="false"
+                        android:gravity="top"
                         android:inputType="textMultiLine"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/sp_superint"
                         app:layout_constraintStart_toEndOf="@+id/txsuperint"
                         app:layout_constraintTop_toTopOf="parent" />
+
                     <Spinner
                         android:id="@+id/sp_superint"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginBottom="2dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginTop="2dp"
                         android:textSize="10sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txv_superintendencia"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </android.support.constraint.ConstraintLayout>
@@ -353,9 +353,10 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="*" />
+
                     <EditText
                         android:id="@+id/txvUbicacion"
-                        android:layout_width="224dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -363,6 +364,7 @@
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_microubi"
                         app:layout_constraintStart_toEndOf="@+id/txubicacion"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -372,13 +374,11 @@
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/colorBlanco"
                         android:src="@drawable/ic_mic_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txvUbicacion"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
@@ -423,9 +423,10 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="*" />
+
                     <EditText
                         android:id="@+id/txvResult"
-                        android:layout_width="224dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -433,6 +434,7 @@
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btnmicrofono"
                         app:layout_constraintStart_toEndOf="@+id/txobs"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -447,19 +449,18 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/txubicacion"
                     app:layout_constraintTop_toTopOf="parent"
+
                     <ImageButton
                         android:id="@+id/btnmicrofono"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/colorBlanco"
                         android:src="@drawable/ic_mic_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/txvResult"
                         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -507,9 +508,10 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="*" />
+
                     <EditText
                         android:id="@+id/dt_accion"
-                        android:layout_width="224dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -517,6 +519,7 @@
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_microaccion"
                         app:layout_constraintStart_toEndOf="@+id/txfoto"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -526,16 +529,15 @@
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
                         android:layout_marginEnd="8dp"
-                        android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/colorBlanco"
                         android:src="@drawable/ic_mic_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/dt_accion"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_respaux"
                 android:layout_width="match_parent"
@@ -549,18 +551,17 @@
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    >
+                    android:layout_height="match_parent">
 
 
                     <TextView
                         android:id="@+id/txuser"
                         android:layout_width="100dp"
                         android:layout_height="0dp"
+                        android:background="@color/ColorPlomo4"
                         android:gravity="right|center_vertical"
                         android:text="Responsable Auxiliar: "
                         android:textSize="12sp"
-                        android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -568,7 +569,7 @@
 
                     <EditText
                         android:id="@+id/dt_respaux"
-                        android:layout_width="175dp"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:drawablePadding="0dp"
                         android:ems="10"
@@ -576,6 +577,7 @@
                         android:inputType="textMultiLine"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/btn_user"
                         app:layout_constraintStart_toEndOf="@+id/txuser"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -584,14 +586,13 @@
                         android:layout_width="40dp"
                         android:layout_height="50dp"
                         android:layout_marginBottom="2dp"
-                        android:layout_marginEnd="40dp"
                         android:layout_marginTop="2dp"
                         android:background="@color/colorBlanco"
                         android:src="@drawable/ic_person_black_24dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/dt_respaux"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintEnd_toStartOf="@+id/btn_deleteusr"
+                        app:layout_constraintTop_toTopOf="parent" />
+
                     <ImageButton
                         android:id="@+id/btn_deleteusr"
                         android:layout_width="40dp"
@@ -604,10 +605,10 @@
                         android:tint="@color/colorNegro"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/btn_user"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_estado"
                 android:layout_width="match_parent"
@@ -627,18 +628,20 @@
                         android:id="@+id/tx_estado"
                         android:layout_width="100dp"
                         android:layout_height="0dp"
+                        android:background="@color/ColorPlomo4"
                         android:gravity="right|center_vertical"
                         android:text="Estado: "
                         android:textSize="12sp"
-                        android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Estado: " />
+
                     <Spinner
                         android:id="@+id/spinner_estado"
                         android:layout_width="0dp"
                         android:layout_height="50dp"
+                        android:layout_marginEnd="8dp"
                         android:gravity="center"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -646,10 +649,11 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
+
             <android.support.v7.widget.CardView
                 android:id="@+id/cv_fotografia"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -661,7 +665,7 @@
 
                     <TextView
                         android:id="@+id/txaccion"
-                        android:layout_width="360dp"
+                        android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginEnd="2dp"
                         android:background="@color/ColorPlomo4"
@@ -675,33 +679,32 @@
                         tools:text="Fotografia:" />
 
                     <!--<EditText-->
-                        <!--android:id="@+id/dt_foto"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:drawablePadding="0dp"-->
-                        <!--android:ems="10"-->
-                        <!--android:enabled="false"-->
-                        <!--android:gravity="top"-->
-                        <!--android:inputType="number"-->
-                        <!--android:numeric="integer"-->
-                        <!--android:text="Seleccione fotos:"-->
-                        <!--android:textSize="14sp"-->
-                        <!--app:layout_constraintBottom_toBottomOf="parent"-->
-                        <!--app:layout_constraintEnd_toEndOf="parent"-->
-                        <!--app:layout_constraintStart_toEndOf="@+id/txaccion"-->
-                        <!--app:layout_constraintTop_toTopOf="parent"-->
-                        <!--tools:text="Seleccione fotos:" />-->
+                    <!--android:id="@+id/dt_foto"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:drawablePadding="0dp"-->
+                    <!--android:ems="10"-->
+                    <!--android:enabled="false"-->
+                    <!--android:gravity="top"-->
+                    <!--android:inputType="number"-->
+                    <!--android:numeric="integer"-->
+                    <!--android:text="Seleccione fotos:"-->
+                    <!--android:textSize="14sp"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintEnd_toEndOf="parent"-->
+                    <!--app:layout_constraintStart_toEndOf="@+id/txaccion"-->
+                    <!--app:layout_constraintTop_toTopOf="parent"-->
+                    <!--tools:text="Seleccione fotos:" />-->
 
                     <ImageButton
                         android:id="@+id/btn_galeria"
                         android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:layout_height="35dp"
                         android:background="@color/ColorPlomo4"
                         android:src="@drawable/ic_fotos"
                         android:tint="@color/colorNegro"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/txaccion"
-                        app:layout_constraintStart_toEndOf="@+id/txaccion"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>

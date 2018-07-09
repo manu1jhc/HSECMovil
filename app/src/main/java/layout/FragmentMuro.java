@@ -120,6 +120,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     View popupView;
     PopupWindow popupWindow;
     Parcelable status;
+    String Elemperpage="7";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,   Bundle savedInstanceState) {
@@ -129,7 +130,7 @@ public class FragmentMuro extends Fragment implements IActivity{
         GlobalVariables.isFragment=true;
         List_muro=rootView.findViewById(R.id.List_muro);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
-        constraintLayout=(ConstraintLayout) rootView.findViewById(R.id.const_main2);
+        constraintLayout=(ConstraintLayout) rootView.findViewById(R.id.const_main);
         tx_texto =(TextView)rootView.findViewById(R.id.tx_texto);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
 
@@ -300,7 +301,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                         GlobalVariables.flag_up_toast=true;
                         GlobalVariables.isFragment=true;
                         paginacion=1;
-                        url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+"7";
+                        url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+Elemperpage;
                         Utils.isActivity=false;
                         //success(datos,"");
 
@@ -344,7 +345,7 @@ public class FragmentMuro extends Fragment implements IActivity{
                             Utils.isActivity=false;
 
                             paginacion+=1;
-                            url = GlobalVariables.Url_base + "Muro/GetMuro/" + paginacion + "/" + "7";
+                            url = GlobalVariables.Url_base + "Muro/GetMuro/" + paginacion + "/" + Elemperpage;
                             //GlobalVariables.count=5;
 
                             final ActivityController obj = new ActivityController("get-"+paginacion, url, FragmentMuro.this,getActivity());
