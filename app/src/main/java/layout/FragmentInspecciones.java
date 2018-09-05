@@ -515,7 +515,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     @Override
     public void success(String data, String Tipo) {
         if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
-        else ca.remove(Integer.parseInt(Tipo)-2);
+        else ca.remove(Integer.parseInt(Tipo)-3);
     }
 
     @Override

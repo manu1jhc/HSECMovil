@@ -38,8 +38,9 @@ package com.pango.hsec.hsec;
         import com.pango.hsec.hsec.model.PlanModel;
         import com.pango.hsec.hsec.util.Compressor;
         import com.pango.hsec.hsec.util.ProgressRequestBody;
+   import com.pango.hsec.hsec.utilitario.UnsafeOkHttpClient;
 
-        import org.apache.commons.lang3.StringUtils;
+   import org.apache.commons.lang3.StringUtils;
 
    import java.io.File;
    import java.util.ArrayList;
@@ -100,8 +101,6 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         }else{
             tx_titulo.setText("Nueva Observación");
         }
-
-
         initialiseTabHost();
 
         // Fragments and ViewPager Initialization
@@ -110,7 +109,6 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         mTabHost.setCurrentTab(pos);
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setOnPageChangeListener(observacion_edit.this);
-
     }
 
 public void reiniciadata(){
@@ -231,7 +229,8 @@ public void reiniciadata(){
         String DetalleObs=  gson.toJson(GlobalVariables.ObserbacionDetalle);
         if(!GlobalVariables.StrObservacion.equals(Observacion))Nochangues=false;
         if(Nochangues&&!GlobalVariables.StrObsDetalle.equals(DetalleObs)) Nochangues=false;
-        if(Nochangues&&GlobalVariables.StrPlanes.size()>0){
+        if(Nochangues&&!GlobalVariables.ObjectEditable&&GlobalVariables.Planes.size()>0) Nochangues=false;
+        else if(Nochangues&&GlobalVariables.StrPlanes.size()>0){
             String DeletePlanes="";
             for (PlanModel item:GlobalVariables.StrPlanes) {
                 boolean pass=true;
@@ -388,8 +387,12 @@ public void reiniciadata(){
                 if(!DeletePlanes.equals("")) PlanesDelete= DeletePlanes.substring(0,DeletePlanes.length()-1);
             }
 
-            obs_archivos archivos = (obs_archivos) pageAdapter.getItem(2);
-            archivos.gridViewAdapter.ProcesarImagens();
+            /*obs_archivos archivos = (obs_archivos) pageAdapter.getItem(2);
+            archivos.gridViewAdapter.ProcesarImagens();*/
+
+            GridViewAdapter gridViewAdapter = new GridViewAdapter(this,GlobalVariables.listaGaleria);
+            gridViewAdapter.ProcesarImagens();
+
             ArrayList<GaleriaModel> DataAll=new ArrayList<>();
             ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
             DataAll.addAll(GlobalVariables.listaGaleria);
@@ -433,11 +436,12 @@ public void reiniciadata(){
             else{
                 Actives.add(0);
                 ll_bar_carga.setVisibility(View.VISIBLE);
-                final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                /*final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                         .connectTimeout(20, TimeUnit.SECONDS)
                         .writeTimeout(20, TimeUnit.SECONDS)
                         .readTimeout(30, TimeUnit.SECONDS)
-                        .build();
+                        .build();*/
+                OkHttpClient okHttpClient = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
                 Retrofit retrofit = new Retrofit.Builder()
                         .baseUrl(GlobalVariables.Url_base)
@@ -522,10 +526,16 @@ public void reiniciadata(){
                                     }
                                 }
                             }
-
                         }else{
-                            Actives.set(0,-1);
-                            Errores+="\nOcurrio un error interno de servidor";
+                            if(response.code()==401){
+                               Utils.reloadTokenAuth(observacion_edit.this,observacion_edit.this);
+                                   progressBar.setProgress(0);
+                                   txt_percent.setText(0+"%");
+                               }
+                            else{
+                                Actives.set(0,-1);
+                                Errores+="\nOcurrio un error interno de servidor";
+                            }
                         }
                         if(!Actives.contains(0)) FinishSave();
                     }
@@ -661,8 +671,15 @@ public void reiniciadata(){
                             }
                         }
                     }else{
-                        Actives.set(0,-1);
-                        Errores+="\nOcurrio un error interno de servidor";
+                        if(response.code()==401){
+                            Utils.reloadTokenAuth(observacion_edit.this,observacion_edit.this);
+                            progressBar.setProgress(0);
+                            txt_percent.setText(0+"%");
+                        }
+                        else {
+                            Actives.set(0,-1);
+                            Errores+="\nOcurrio un error interno de servidor";
+                        }
                     }
                     if(!Actives.contains(0)) FinishSave();
                 }
@@ -788,6 +805,10 @@ public void reiniciadata(){
                 GlobalVariables.StrFiles=temp;
             }
             if(!Actives.contains(0)) FinishSave();
+        }
+        else { // tipo reloadToken
+            enableSave=(true);
+            SalvarObservacion(null);
         }
     }
 

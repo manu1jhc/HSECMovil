@@ -25,7 +25,7 @@
             android:id="@+id/nav_capacitacion"
             android:icon="@drawable/ic_curso_capacitaciones"
             android:visible="false"
-            android:title="Capacitaciones Curso" />
+            android:title="Control de Capacitaciones" />
         <item
             android:id="@+id/nav_noticias"
             android:icon="@drawable/ic_inoticia"

@@ -3,6 +3,8 @@ package com.pango.hsec.hsec.controller;
 import android.support.annotation.RawRes;
 
 import com.pango.hsec.hsec.model.GetGaleriaModel;
+import com.pango.hsec.hsec.model.LoginModel;
+
 import java.util.List;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -22,8 +24,12 @@ import retrofit2.http.Url;
 
 public interface WebServiceAPI {
 
-    @GET
-    Call<String> getToken(@Url String url);
+    //@GET
+   // Call<String> getToken(@Url String url);
+
+    @POST("membership/authenticate")
+    Call<String> getTokenAuth(@Body LoginModel UserLogin);
+
 
     @GET("media/GetMultimedia/{CodNoticia}")
     Call<GetGaleriaModel> getFiles(@Header("Authorization") String token, @Path("CodNoticia") String CodNoticia);

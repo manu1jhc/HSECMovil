@@ -36,6 +36,7 @@ import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
+import com.pango.hsec.hsec.model.ObsInspAddModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.obs_cabecera;
 
@@ -101,7 +102,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_add_cabecera, container, false);
         codInsp=getArguments().getString("bString");
-
+        Gson gson = new Gson();
         boolean[] pass = {false,false},passGer={false};
         Integer[] itemSel = {0,0},itemSelGer={0};
         tx_gerencia=mView.findViewById(R.id.tx_gerencia);
@@ -179,6 +180,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                 passGer[0]=true;
                 GlobalVariables.AddInspeccion= new InspeccionModel();
                 GlobalVariables.AddInspeccion.CodInspeccion=codInsp;//saber si es nuevo
+                GlobalVariables.StrInspeccion=gson.toJson(GlobalVariables.AddInspeccion);
             }
             //else if(!GlobalVariables.AddInspeccion.CodInspeccion.contains("XYZ"))
              else   setdata();
@@ -197,7 +199,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                         superintdata.add(item);
                     }
                     adapterSuperInt.notifyDataSetChanged();
-                    if(!passGer[0])
+                    if(!passGer[0]&&GlobalVariables.AddInspeccion.Gerencia!=null)
                     {
                         passGer[0] =true;
                         if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.SuperInt))
@@ -244,13 +246,14 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                         GlobalVariables.SubUbicacion_obs.add(item);
                     }
                     adapterSubUbic.notifyDataSetChanged();
-                    if(!pass[0])
+                    if(!pass[0]&&GlobalVariables.AddInspeccion.CodUbicacion!=null)
                     {
                         pass[0] =true;
                         if(!StringUtils.isEmpty(GlobalVariables.AddInspeccion.CodSubUbicacion))spinnerSubUbicacion.setSelection(GlobalVariables.indexOf(GlobalVariables.SubUbicacion_obs,GlobalVariables.AddInspeccion.CodSubUbicacion));
                     }
                     else {
                         GlobalVariables.AddInspeccion.CodUbicacion=Ubicacionfinal;
+                        if(!GlobalVariables.ObjectEditable)resetUbicEspecifica();
                         spinnerSubUbicacion.setSelection(0);
                     }
                 }
@@ -274,6 +277,7 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
                         GlobalVariables.UbicacionEspecifica_obs.add(item);
                     }
                         GlobalVariables.AddInspeccion.CodSubUbicacion=Ubicacionfinal;
+                    if(!GlobalVariables.ObjectEditable)resetUbicEspecifica();
                 }
             }
             @Override
@@ -476,8 +480,12 @@ public class FragmentAddCabecera extends Fragment implements IActivity {
         return mView;
     }
 
-
-
+    public void resetUbicEspecifica(){
+        if(GlobalVariables.ListobsInspAddModel.size()>0)
+        for (ObsInspAddModel item : GlobalVariables.ListobsInspAddModel) {
+            item.obsInspDetModel.CodInspeccion=null;
+        }
+    }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {

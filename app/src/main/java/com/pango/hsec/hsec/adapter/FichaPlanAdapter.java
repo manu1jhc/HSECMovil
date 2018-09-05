@@ -171,6 +171,7 @@ public class FichaPlanAdapter extends ArrayAdapter<PlanMinModel> {
                     @Override
                     public void onClick(View v){
                         popupWindow.dismiss();
+                        GlobalVariables.ObjectEditable=true;
                         Intent i = new Intent(context, PlanAccionEdit.class);
                         Gson gson = new Gson();
                         i.putExtra("editplan", true);

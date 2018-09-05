@@ -34,6 +34,7 @@ import com.pango.hsec.hsec.controller.WebServiceAPI;
 import com.pango.hsec.hsec.firebase.DeleteTokenService;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -69,6 +70,12 @@ public class Login extends AppCompatActivity implements IActivity{
         setContentView(R.layout.activity_login);
         GlobalVariables.isFragment=false;
 
+        Bundle datos = this.getIntent().getExtras();
+        if(datos!=null){
+            String Check=datos.getString("Check","");
+            if(!StringUtils.isEmpty(Check)&& Check.equals("False"))
+                Save_status(false);
+        }
         final ActivityController objVersion = new ActivityController("get-2", url, Login.this,this);
         objVersion.execute("2");
 
@@ -91,7 +98,6 @@ public class Login extends AppCompatActivity implements IActivity{
                 startActivity(intent);
             }
         });
-
     }
 
     public void passVersion(){
@@ -210,16 +216,8 @@ public class Login extends AppCompatActivity implements IActivity{
 
         if(Tipo=="1") {
             if (GlobalVariables.con_status == 200) {
-
-                if (check_rec.isChecked()) {
-                    //guardar estado del check, user pass
-                    Save_status(true);
-                    Save_Datalogin(et_User.getText().toString(), et_Password.getText().toString());
-                } else {
-                    Save_status(false);
-                    Save_Datalogin("", "");
-                    //guarde el estado false ""en todos los campos
-                }
+                Save_status(check_rec.isChecked());
+                Save_Datalogin(et_User.getText().toString(), et_Password.getText().toString());
                 inicialiceApp();
 
             } else {
@@ -263,8 +261,6 @@ public class Login extends AppCompatActivity implements IActivity{
                         Toast.makeText(Login.this,"Ocurrio un error al guardar token de instalacion",Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
             }
             else */
 
@@ -311,8 +307,9 @@ public class Login extends AppCompatActivity implements IActivity{
 
     private String getTokenFromPrefs()
     {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getString("registration_id", "");
+        return "----";
+        /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("registration_id", "");*/
     }
 
     public void Save_status(boolean ischecked){

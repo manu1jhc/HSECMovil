@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.Maestro;
@@ -62,7 +63,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     protected void onPreExecute() {
 
         super.onPreExecute();
-        progressDialog.setVisibility(View.VISIBLE);
+        if(progressDialog!= null)progressDialog.setVisibility(View.VISIBLE);
       //  progressDialog = ProgressDialog.show((Context) activity, "", "Iniciando sesión");
        /* if (opcion == "get") {
             super.onPreExecute();
@@ -73,17 +74,18 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     @Override
     protected Void doInBackground(String... strings) {
         String json=strings[0];
-        HttpClient httpclient = new DefaultHttpClient();
+        HttpClient httpClient = Utils.getNewHttpClient();
         InputStream inputStream = null;
         String result = "";
 
         try {
+
             HttpPost httpPost = new HttpPost (url_token);
 
             StringEntity se = new StringEntity(json,"UTF-8");
             httpPost.setEntity(se);
             httpPost.setHeader("Content-type", "application/json");
-            HttpResponse httpResponse = httpclient.execute(httpPost);
+            HttpResponse httpResponse = httpClient.execute(httpPost);
             GlobalVariables.con_status=httpResponse.getStatusLine().getStatusCode();
 
             inputStream = httpResponse.getEntity().getContent();
@@ -95,7 +97,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
             GlobalVariables.token_auth = responsepost.substring(1, responsepost.length() - 1);
 
             //conseguir la data de usuario
-            if(GlobalVariables.token_auth.length()>40) {
+            if(GlobalVariables.token_auth.length()>40 && progressDialog!= null) {
                 Obtener_dataUser();
                 LoadData();
                 LoadDataMuro();
@@ -107,7 +109,6 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
         return null;
     }
-
 
 
     @Override
@@ -143,12 +144,11 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                     //Toast.makeText((Context) activity,GlobalVariables.token_auth,Toast.LENGTH_SHORT).show();
                     break;
                 }
-
                // activity.success(""+GlobalVariables.con_status,"");
 
                 //activity.success(respstring);
         }
-        progressDialog.setVisibility(View.INVISIBLE);
+        if(progressDialog!=null)progressDialog.setVisibility(View.INVISIBLE);
         //mainActivity.success();
 
     }
@@ -157,7 +157,8 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     public void Obtener_dataUser(){
 
         try {
-            HttpClient httpClient = new DefaultHttpClient();
+
+            HttpClient httpClient = Utils.getNewHttpClient();
             HttpGet get = new HttpGet(GlobalVariables.Url_base+"usuario/getdata/");
             get.setHeader("Authorization", "Bearer " +GlobalVariables.token_auth);
 
@@ -177,7 +178,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
        String url=GlobalVariables.Url_base+"Muro/GetMuro/"+"1"+"/"+"7";
         try {
-            HttpClient httpClient = new DefaultHttpClient();
+            HttpClient httpClient = Utils.getNewHttpClient();
             HttpGet get = new HttpGet(url);
             get.setHeader("Authorization", "Bearer " +GlobalVariables.token_auth);
 
@@ -202,7 +203,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
 
         if(ListaMaestro=="" || ListaMaestro.contains("Count\":-1")){
             try {
-                HttpClient httpClient = new DefaultHttpClient();
+                HttpClient httpClient = Utils.getNewHttpClient();
                 HttpGet get = new HttpGet(GlobalVariables.Url_base+"Maestro/GetTipoMaestro/ALL");
                 get.setHeader("Authorization", "Bearer " +GlobalVariables.token_auth);
                 //get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);

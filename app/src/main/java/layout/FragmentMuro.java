@@ -270,7 +270,6 @@ public class FragmentMuro extends Fragment implements IActivity{
                         intent.putExtra("codObs",Codigo);
                         intent.putExtra("verBoton",Editable);
                         startActivity(intent);
-
                         break;
                 }
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);

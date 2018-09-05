@@ -379,10 +379,10 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
     }
 
     public void guardarData(View view) {
-
+        if(!enableSave)return;
         Utils.closeSoftKeyBoard(AddRegistroAvance.this);
         AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
-        AddAccionMejora.PorcentajeAvance=tx_avance.getText().toString();
+        AddAccionMejora.PorcentajeAvance=Integer.parseInt(tx_avance.getText().toString())+"";
         AddAccionMejora.Descripcion=et_mensaje.getText().toString();
         if(ValifarFormulario(view))
         {
@@ -525,8 +525,15 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                             }
 
                         }else{
-                            Actives.set(0,-1);
-                            Errores+="\nOcurrio un error interno de servidor";
+                            if(response.code()==401){
+                                Utils.reloadTokenAuth(AddRegistroAvance.this,AddRegistroAvance.this);
+                                progressBar.setProgress(0);
+                                txt_percent.setText(0+"%");
+                            }
+                            else{
+                                Actives.set(0,-1);
+                                Errores+="\nOcurrio un error interno de servidor";
+                            }
                         }
                         if(!Actives.contains(0)) FinishSave();
                     }

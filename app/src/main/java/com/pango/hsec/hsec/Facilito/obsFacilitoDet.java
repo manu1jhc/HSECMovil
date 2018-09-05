@@ -103,7 +103,6 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
             if (startingIntent != null) {
                 codObs = startingIntent.getStringExtra("codigo"); // Retrieve the id
             }
-
         }
 
         if(AddView<2) btn_historial.setVisibility(View.GONE);

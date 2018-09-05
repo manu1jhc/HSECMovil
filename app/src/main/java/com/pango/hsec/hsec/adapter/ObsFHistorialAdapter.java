@@ -143,7 +143,7 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity,android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Inspeccion?")
+                        alertDialog.setTitle("Desea Eliminar Registro de Atencion?")
                                 .setMessage(items.get(position).Comentario)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

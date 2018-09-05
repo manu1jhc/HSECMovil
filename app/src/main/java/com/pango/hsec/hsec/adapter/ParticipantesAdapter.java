@@ -125,7 +125,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
             ((ViewHolder) holder).Cargo.setText(persona.Cargo);
             ((ViewHolder) holder).Nota.setText(persona.Email);
             ((ViewHolder) holder).activity=activity;
-            ((ViewHolder) holder).Position=position;
+            ((ViewHolder) holder).Posicion=position;
 
         } else {
             ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
@@ -151,7 +151,8 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView Nombre, Nota, Cargo;
         ParticipantesCurso activity;
-        int Position;
+        int Position,Posicion;
+
         //popup
         LayoutInflater layoutInflater;
         View popupView;
@@ -172,7 +173,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Position=Posicion;
                     layoutInflater =(LayoutInflater) activity.getSystemService(LAYOUT_INFLATER_SERVICE);
                     popupView = layoutInflater.inflate(R.layout.popup_notas, null);
 

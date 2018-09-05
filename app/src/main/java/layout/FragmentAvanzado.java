@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
@@ -22,6 +23,7 @@ import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.controller.ActivityController;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,8 +49,8 @@ public class FragmentAvanzado extends Fragment implements IActivity {
     View rootView;
 
     private TextInputEditText tiet_asunto;
-    private TextInputLayout til_asunto;
-    Button btn_enviar;
+    //private TextInputLayout til_asunto;
+    //Button btn_enviar;
     EditText et_mensaje;
     boolean flag_asunto=false;
     boolean flag_mensaje=false;
@@ -92,16 +94,17 @@ public class FragmentAvanzado extends Fragment implements IActivity {
         // Inflate the layout for this fragment
         rootView=inflater.inflate(R.layout.fragment_avanzado, container, false);
 
+
+        //til_asunto = (TextInputLayout) rootView.findViewById(R.id.til_asunto); // contador de caracteres
         tiet_asunto = (TextInputEditText) rootView.findViewById(R.id.tiet_asunto);
-        til_asunto = (TextInputLayout) rootView.findViewById(R.id.til_asunto);
-        btn_enviar=(Button)  rootView.findViewById(R.id.btn_enviar);
         et_mensaje=(EditText) rootView.findViewById(R.id.et_mensaje);
-        btn_enviar.setEnabled(false);
+        //btn_enviar=(Button)  rootView.findViewById(R.id.btn_enviar);
+        //btn_enviar.setEnabled(false);
 
         GlobalVariables.view_fragment=rootView;
         GlobalVariables.isFragment=true;
 
-        tiet_asunto.addTextChangedListener(new TextWatcher() {
+       /* tiet_asunto.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 //btn_enviar.setEnabled(false);
@@ -124,8 +127,8 @@ public class FragmentAvanzado extends Fragment implements IActivity {
                 }
             }
         });
-
-        et_mensaje.addTextChangedListener(new TextWatcher() {
+*/
+       /* et_mensaje.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -145,40 +148,49 @@ public class FragmentAvanzado extends Fragment implements IActivity {
                     flag_mensaje=true;
                 }else {flag_mensaje=true;}
             }
-        });
+        });*/
 
 
 
-        btn_enviar.setOnClickListener(new View.OnClickListener() {
+       /* btn_enviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String asunto=tiet_asunto.getText().toString();
-                String mensaje=et_mensaje.getText().toString();
-
-
-                String json = "";
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.accumulate("Url",asunto);
-                    jsonObject.accumulate("Descripcion",mensaje);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                json += jsonObject.toString();
-                //http://servidorpango/whsec_Servicedmz/api/Inspecciones/Get/INSP0000008309
-                url= GlobalVariables.Url_base+"Usuario/SendFeedback";
-                GlobalVariables.isFragment=true;
-                final ActivityController obj = new ActivityController("post", url, FragmentAvanzado.this,getActivity());
-                obj.execute(json);
-
 
             }
-        });
+        });*/
 
 
 
         return rootView;
+    }
+
+    public void SendFeedback(){
+
+        String asunto=tiet_asunto.getText().toString().trim();
+        String mensaje=et_mensaje.getText().toString().trim();
+        if(StringUtils.isEmpty(asunto)) {
+            Showmesaje(R.drawable.warninicon,"Datos incompletos","Se requiere el campo asunto");
+            return;
+        }
+        else if(StringUtils.isEmpty(mensaje)) {
+            Showmesaje(R.drawable.warninicon,"Datos incompletos","Se requiere la descripción del mensaje");
+            return;
+        }
+        String json = "";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("Url",asunto);
+            jsonObject.accumulate("Descripcion",mensaje);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        json += jsonObject.toString();
+        //http://servidorpango/whsec_Servicedmz/api/Inspecciones/Get/INSP0000008309
+        url= GlobalVariables.Url_base+"Usuario/SendFeedback";
+        GlobalVariables.isFragment=true;
+        final ActivityController obj = new ActivityController("post", url, FragmentAvanzado.this,getActivity());
+        obj.execute(json);
     }
 
 
@@ -200,6 +212,22 @@ public class FragmentAvanzado extends Fragment implements IActivity {
         }
     }
 
+    public void Showmesaje(int pass,String Asunto, String Mensaje){
+
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle(Asunto);
+        alertDialog.setIcon(pass);
+        alertDialog.setMessage(Mensaje);
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                alertDialog.dismiss();
+
+            }
+        });
+        alertDialog.show();
+    }
+
     @Override
     public void onDetach() {
         super.onDetach();
@@ -216,41 +244,13 @@ public class FragmentAvanzado extends Fragment implements IActivity {
 
         int resul=Integer.parseInt(data.substring(1,data.length()-1));
 
-        if ( GlobalVariables.con_status!=200||resul==-1||resul==0) {
-
-            //Toast.makeText(contactar,Resultado,Toast.LENGTH_SHORT).show();
-
-            final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle("Error");
-            alertDialog.setIcon(R.drawable.erroricon);
-            alertDialog.setMessage("Ocurrio un problema durante el envio, inténtelo de nuevo");
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    alertDialog.dismiss();
-                }
-            });
-
-            alertDialog.show();
-
-        } else {
-
-            AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle("Mensaje enviado");
-            alertDialog.setIcon(R.drawable.confirmicon);
-            alertDialog.setMessage("Su mensaje ha sido enviado. Cod "+data);
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-
-                    tiet_asunto.setText("");
-                    et_mensaje.setText("");
-                    btn_enviar.setEnabled(false);
-
-                    //contactar.finish();
-                }
-            });
-            alertDialog.show();
+        if ( GlobalVariables.con_status!=200||resul==-1||resul==0)
+            Showmesaje(R.drawable.erroricon,"Error","Ocurrio un problema durante el envio, inténtelo de nuevo");
+       else
+        {
+            Showmesaje(R.drawable.confirmicon,"Operación Exitosa","Su mensaje ha sido enviado correctamente. Codigo: "+data);
+            tiet_asunto.setText("");
+            et_mensaje.setText("");
         }
 
 

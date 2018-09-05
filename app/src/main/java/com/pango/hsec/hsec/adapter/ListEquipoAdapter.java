@@ -53,17 +53,11 @@ public class ListEquipoAdapter extends RecyclerView.Adapter<ListEquipoAdapter.Vi
         if(ShowLider)
         {
             String BackgrColor= "#FFFFFF";
-            viewHolder.Lider.setEnabled(true);
-            if(items.get(position).Lider.equals("1")){
+            if(items.get(position).Lider.equals("1"))
                 BackgrColor= "#BFE3DE";
-                viewHolder.Lider.setChecked(true);
-                viewHolder.Lider.setEnabled(false);
-            }
-            else {
-                viewHolder.Lider.setChecked(false);
-            }
             viewHolder.itemView.setBackgroundColor(Color.parseColor(BackgrColor));
-            viewHolder.Lider.setOnClickListener(new View.OnClickListener() {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
                     if(items.get(position).Lider.equals("0"))
@@ -75,7 +69,6 @@ public class ListEquipoAdapter extends RecyclerView.Adapter<ListEquipoAdapter.Vi
                 }
             });
         }
-        else  viewHolder.Lider.setVisibility(View.GONE);
         viewHolder.Nombre.setText(items.get(position).Nombres);
         viewHolder.Cargo.setText(items.get(position).Cargo);
         viewHolder.btn_Delete.setOnClickListener(new View.OnClickListener() {
@@ -101,21 +94,12 @@ public class ListEquipoAdapter extends RecyclerView.Adapter<ListEquipoAdapter.Vi
     protected class ViewHolder extends RecyclerView.ViewHolder {//implements View.OnClickListener
         private TextView Nombre, DNI, Cargo;
         private ImageButton btn_Delete;
-        private CheckBox Lider;
 
         public ViewHolder(View view) {
             super(view);
             Nombre = (TextView)view.findViewById(R.id.txt_tarea);
-            Lider = (CheckBox) view.findViewById(R.id.checkBox2);
             Cargo = (TextView)view.findViewById(R.id.txt_cargo);
             btn_Delete= (ImageButton) view.findViewById(R.id.btn_delete);
-            // itemView.setOnClickListener(this);
         }
-/*
-        @Override
-        public void onClick(View v) {
-            if(items.get(idposition).Correlativo>0)
-                Toast.makeText(v.getContext(), "Descargando...", Toast.LENGTH_SHORT).show();
-        }*/
     }
 }

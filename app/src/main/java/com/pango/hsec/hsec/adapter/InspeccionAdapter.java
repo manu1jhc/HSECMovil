@@ -61,10 +61,10 @@ public class InspeccionAdapter extends ArrayAdapter<PublicacionModel> {
         this.fragmentMuro=fragmentMuro;
     }
 
-
     public void remove(int index){
         data.remove(index);
         notifyDataSetChanged();
+
     }
     //@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override

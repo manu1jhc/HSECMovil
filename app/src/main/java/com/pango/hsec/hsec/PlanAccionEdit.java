@@ -244,7 +244,6 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             //btnFechaInicio.setText(dt.format(actual));
             //FechaSolic.setText(formatoRender.format(actual));
             Plan.FechaSolicitud=df.format(actual);
-
             /*LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             listView.setLayoutManager(horizontalManager);
             listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
@@ -382,7 +381,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
        }
        else{
            if(ValifarFormulario(view)){
-               if(Integer.parseInt(Plan.CodAccion)>0){ //Edit plan//if(edit||Plan.NroDocReferencia!=null){
+               if(Integer.parseInt(Plan.CodAccion)>0||Plan.NroDocReferencia!=null){ //Edit plan//if(edit||Plan.NroDocReferencia!=null){
                    String url= GlobalVariables.Url_base+"PlanAccion/Post";
                    final ActivityController obj = new ActivityController("post", url, PlanAccionEdit.this,PlanAccionEdit.this);
                    obj.execute(gson.toJson(Plan));
@@ -398,7 +397,76 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
        }
     }
 
+    public void outPlanAccion(){
+        String StrNewPlan="";
+        if(!GlobalVariables.ObjectEditable)
+        {
+            Plan.CodEstadoAccion="01";
+            Plan.CodResponsables="";
+            Plan.DesPlanAccion="";
+            Plan.Responsables="";
+            StrPlan=gson.toJson(Plan);
+        }
+            Plan.CodActiRelacionada= ((Maestro) spActRelacionada.getSelectedItem()).CodTipo;
+            Plan.CodNivelRiesgo= ((Maestro)spNivelRiesgo.getSelectedItem()).CodTipo;
+            Plan.CodAreaHSEC= ((Maestro)spinnerArea.getSelectedItem()).CodTipo;
+            Plan.CodTipoAccion= ((Maestro)spTipoAccion.getSelectedItem()).CodTipo;
+            Plan.DesPlanAccion= txtTarea.getText().toString();
 
+            /*if(Plan.CodAccion.equals("0")){
+                int pos=1;
+                if(GlobalVariables.Planes.size()>0)
+                    pos =Math.abs(Integer.parseInt(GlobalVariables.Planes.get(GlobalVariables.Planes.size()-1).CodAccion))+1;
+                Plan.CodAccion="-"+pos;
+                Plan.CodEstadoAccion="01";
+            }*/
+            int cont=0;
+            String ResponsableCod="", ResponsableData="";
+            for (PersonaModel p: ListResponsables) {
+                if(cont>0){
+                    ResponsableCod+=";";
+                    ResponsableData+=";";
+                }
+                ResponsableCod+=p.CodPersona;
+                ResponsableData+=p.Nombres+":"+p.Cargo;
+                cont++;
+            }
+            Plan.Responsables=ResponsableData;
+            Plan.CodResponsables=ResponsableCod;
+
+            StrNewPlan=gson.toJson(Plan);
+
+        if(!StrPlan.equals(StrNewPlan)){
+
+            String Mensaje="Esta seguro de salir sin guardar cambios?\n";
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            //alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos sin guardar");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alertDialog.show();
+        }
+        else {
+
+            if(!GlobalVariables.ObjectEditable) finish();
+            else {
+                Intent intent = getIntent();
+                intent.putExtra("planaccion",gson.toJson(Plan));
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+    }
 
     public void EscogerFechainicial(View view){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, dateInicial, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
@@ -468,9 +536,13 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
 
     }
     public void close(View view){
-        finish();
+        outPlanAccion();//finish();
     }
-
+    @Override
+    public void onBackPressed() {
+        outPlanAccion();
+        //super.onBackPressed();
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         try {
@@ -499,8 +571,9 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
     public void success(String data, String Tipo) {
         Gson gson = new Gson();
         DniAvatar=Plan.CodSolicitadoPor;
+        String indexPlan=Plan.Editable;
         Plan = gson.fromJson(data, PlanModel.class);
-        Plan.Editable="1";
+        Plan.Editable=indexPlan;
         txtReferencia.setText(GlobalVariables.getDescripcion(GlobalVariables.Referencia_Plan,Plan.CodReferencia));
         CodReferencia.setText(Plan.NroDocReferencia);
         StrPlan=gson.toJson(Plan);
@@ -513,6 +586,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             //Toast.makeText(this,"Ocurrio un error interno al intentar guardar cambios",Toast.LENGTH_SHORT).show();
         else{
             Plan.CodAccion = data.substring(1, data.length() - 1);
+            StrPlan=gson.toJson(Plan);
             FinishSave(true);
         }
     }

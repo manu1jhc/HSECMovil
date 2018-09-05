@@ -27,7 +27,7 @@ public class MiFirebaseInstanceIdService extends FirebaseInstanceIdService { //i
 
         Log.d(TAG, "Token: " + token);
         String Oldtoken=getTokenFromPrefs();
-        if(!Oldtoken.equals(token)){
+        /*if(!Oldtoken.equals(token)){
             GlobalVariables.token_ok=false;
             saveTokenToPrefs(token);
             if(GlobalVariables.token_refresh){
@@ -35,7 +35,7 @@ public class MiFirebaseInstanceIdService extends FirebaseInstanceIdService { //i
                 dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(dialogIntent);
             }
-        }
+        }*/
        // enviarTokenAlServidor(token);
 
     }

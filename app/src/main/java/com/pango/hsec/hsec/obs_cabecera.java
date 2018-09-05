@@ -96,9 +96,6 @@ public class obs_cabecera extends Fragment implements IActivity{
         textView9=mView.findViewById(R.id.textView9);
         textView9.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Ubicación:"));
 
-
-
-
         ArrayAdapter adapterTipoObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Tipo_obs);
         adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerTipoObs.setAdapter(adapterTipoObs);
@@ -183,17 +180,17 @@ public class obs_cabecera extends Fragment implements IActivity{
                     Maestro ubica = (Maestro) ((Spinner) mView.findViewById(R.id.spinner_ubic)).getSelectedItem();
                     Ubicacionfinal = ubica.CodTipo;
                     GlobalVariables.SubUbicacion_obs.clear();
-                    for (Maestro item : GlobalVariables.loadUbicacion(Ubicacionfinal, 2)
-                            ) {
+                    for (Maestro item : GlobalVariables.loadUbicacion(Ubicacionfinal, 2)) {
                         GlobalVariables.SubUbicacion_obs.add(item);
                     }
                     adapterSubN.notifyDataSetChanged();
-                    if(!pass[0])
+                    if(!pass[0]&&GlobalVariables.Obserbacion.CodUbicacion!=null)
                     {
                         pass[0] =true;
                         String data[]= Ubicacion.split("\\.");
                         if(data.length>1)
                             spinnerSububic.setSelection(GlobalVariables.indexOf(GlobalVariables.SubUbicacion_obs,data[0]+"."+data[1]));
+                        else pass[1] =true;
                     }
                     else {
                         GlobalVariables.Obserbacion.CodUbicacion=Ubicacionfinal;
@@ -219,7 +216,7 @@ public class obs_cabecera extends Fragment implements IActivity{
                         GlobalVariables.UbicacionEspecifica_obs.add(item);
                     }
                     adapterUbicEspc.notifyDataSetChanged();
-                    if(!pass[1])
+                    if(!pass[1]&&GlobalVariables.Obserbacion.CodUbicacion!=null)
                     {
                         pass[1] =true;
                         if(Ubicacion.split("\\.").length==3)

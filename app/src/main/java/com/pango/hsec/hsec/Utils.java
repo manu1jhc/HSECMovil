@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,23 +21,48 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.pango.hsec.hsec.controller.WebServiceAPI;
 import com.pango.hsec.hsec.model.CapCursoModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
+import com.pango.hsec.hsec.model.LoginModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.util.Compressor;
+import com.pango.hsec.hsec.utilitario.MySSLSocketFactory;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpVersion;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.security.KeyStore;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,6 +73,11 @@ import java.util.concurrent.TimeUnit;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Andre on 19/12/2017.
@@ -100,14 +131,10 @@ public class Utils {
 
                 return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,observacionModel.Gerencia).trim().replace("=","");
 
-
-
             case "Superint":
                 //return observacionModel.Superint;
 
-
                 return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,observacionModel.Gerencia+"."+observacionModel.Superint).trim().replace("=","");
-
 
             case "CodUbicacion":
                 String[] parts = new String[0];
@@ -119,7 +146,6 @@ public class Utils {
                     parts = cad.split("\\.");
                     String a = parts[0];
                     return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
-
                 }
 
             case "CodSubUbicacion":
@@ -130,9 +156,6 @@ public class Utils {
             case "UbicacionEsp":
                 cad=observacionModel.CodUbicacion;
                 return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
-
-
-
             case "Lugar":
                 return observacionModel.Lugar;
             case "CodTipo":
@@ -155,7 +178,6 @@ public class Utils {
         }*/
         //public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha",
         // "Gerencia","Superintendencia","Ubicacion","Lugar","Tipo"};
-
 
         switch (s){
             case "CodObservacion":
@@ -332,7 +354,6 @@ public class Utils {
         }
     }
 
-
     public static String TimeDiffM(int timediff){
         String diferencia="",dias="",horas="",min="";
         int minutes=timediff;
@@ -504,9 +525,31 @@ public class Utils {
         }
 
         return fecha;
-
     }
 
+    public static HttpClient getNewHttpClient() {
+        try {
+            KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+            trustStore.load(null, null);
+
+            MySSLSocketFactory sf = new MySSLSocketFactory(trustStore);
+            sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+
+            HttpParams params = new BasicHttpParams();
+            HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+            HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
+
+            SchemeRegistry registry = new SchemeRegistry();
+            registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+            registry.register(new Scheme("https", sf, 443));
+
+            ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
+
+            return new DefaultHttpClient(ccm, params);
+        } catch (Exception e) {
+            return new DefaultHttpClient();
+        }
+    }
 
     public static ArrayList<String> tempObs=new ArrayList<String>();
     public static ObservacionModel observacionModel=new ObservacionModel();
@@ -634,7 +677,6 @@ public class Utils {
         }
     }
 
-
     public static void DeleteCache(String DiRroot){
         File file = new File(DiRroot);
 
@@ -681,4 +723,100 @@ public class Utils {
 
     }
 
+    public static void reloadTokenAuth(Activity ActContext,IActivity activity){
+        LoginModel temp= new LoginModel(obtener_usuario(ActContext),obtener_pass(ActContext));
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GlobalVariables.Url_base)
+                //  .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        WebServiceAPI service = retrofit.create(WebServiceAPI.class);
+        Call<String> request;
+        request = service.getTokenAuth(temp);
+        request.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()){
+                    String token=response.body();
+                    if(token.length()>40){
+                        GlobalVariables.token_auth = token;
+                        try{
+                            activity.success("", "401");
+                        }
+                        catch (Exception e){
+                            Toast.makeText(ActContext,"Ocurrio un error al recargar la aplicación, Reinicie la App.",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                    else Toast.makeText(ActContext,"Ocurrio un error al recargar la aplicación, Reinicie la App.",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(ActContext,"Ocurrio un error al recargar la aplicación, Reinicie la App.",Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public static boolean reloadToken(Activity ActContext){
+
+        //  Toast.makeText(ActContext,"Renovando Token de acceso espere...",Toast.LENGTH_SHORT).show();
+        String url_token=GlobalVariables.Url_base+"membership/authenticate";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("username",obtener_usuario(ActContext));
+            jsonObject.accumulate("password",obtener_pass(ActContext));
+            jsonObject.accumulate("domain","anyaccess");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try {
+            HttpPost httpPost = new HttpPost (url_token);
+            HttpClient httpClient = new DefaultHttpClient();//Utils.getNewHttpClient();
+            InputStream inputStream = null;
+            String Result="";
+            StringEntity se = new StringEntity(jsonObject.toString(),"UTF-8");
+            httpPost.setEntity(se);
+            httpPost.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            GlobalVariables.con_status=httpResponse.getStatusLine().getStatusCode();
+
+            inputStream = httpResponse.getEntity().getContent();
+            if(inputStream != null)
+                Result = convertInputStreamToString(inputStream);
+            else  Result = "Error al obtener token!";
+
+            String responsepost= GlobalVariables.reemplazarUnicode(Result);
+            GlobalVariables.token_auth = responsepost.substring(1, responsepost.length() - 1);
+            //doInBackground(strings);
+            if(GlobalVariables.con_status==200&&GlobalVariables.token_auth.length()>40)
+            return true;
+            else return false;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+
+        inputStream.close();
+        return result;
+    }
+    public static String obtener_usuario(Activity ActContext){
+        SharedPreferences user_login = ActContext.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        String usuario = user_login.getString("user","");
+        return usuario;
+    }
+    public static String obtener_pass(Activity ActContext){
+        SharedPreferences user_login = ActContext.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        String password = user_login.getString("password","");
+        return password;
+    }
 }

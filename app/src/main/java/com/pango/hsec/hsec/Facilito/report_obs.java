@@ -571,7 +571,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
     }
 
     public void guardarData(View view) {
-
+        if(!enableSave)return;
         Utils.closeSoftKeyBoard(report_obs.this);
         Obs.CodObsFacilito=codObs;
         Obs.Tipo=tipo;
@@ -722,8 +722,15 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                             }
 
                         }else{
-                            Actives.set(0,-1);
-                            Errores+="\nOcurrio un error interno de servidor";
+                            if(response.code()==401){
+                                Utils.reloadTokenAuth(report_obs.this,report_obs.this);
+                                progressBar.setProgress(0);
+                                txt_percent.setText(0+"%");
+                            }
+                            else{
+                                Actives.set(0,-1);
+                                Errores+="\nOcurrio un error interno de servidor";
+                            }
                         }
                         if(!Actives.contains(0)) FinishSave();
                     }
@@ -796,10 +803,14 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                     GlobalVariables.StrFiles=temp;
                 }
                 if(!Actives.contains(0)) FinishSave();
+            }else if(Tipo.equals("401")){
+                enableSave=(true);
+                guardarData(null);
             }
             if(!Actives.contains(0)){
                 setdata();
             }
+
         }
 //        if(GlobalVariables.flagFacilito==false){
 //            Gson gson = new Gson();

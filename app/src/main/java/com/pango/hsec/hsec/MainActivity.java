@@ -1,6 +1,7 @@
 package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,7 +10,12 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.nfc.NdefMessage;
+import android.nfc.NfcAdapter;
+import android.nfc.Tag;
 import android.os.Handler;
+import android.os.Parcelable;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.internal.BottomNavigationItemView;
@@ -149,6 +155,111 @@ public class MainActivity extends AppCompatActivity
     String oldTipo="";
     String oldtxtSearch="";
 
+// activr NFC
+    public NfcAdapter nfcAdapter;
+    public PendingIntent pendingIntent;
+    public boolean activeScan, existNFC;
+    @Override
+    protected void onNewIntent(Intent intent){
+        super.onNewIntent(intent);
+        Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
+        if ( fragment instanceof FragmentFichaPersonal) {
+            if(activeScan) {
+                setIntent(intent);
+                resolveIntent(intent);
+            }
+        }
+    }
+
+    public void showNFC(boolean pass){
+        if(pass){
+            nfcAdapter=null;
+            pendingIntent =null;
+        }
+        else{
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+
+            if(!nfcAdapter.isEnabled())
+                activarnfc();
+            pendingIntent= PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+            nfcAdapter.enableForegroundDispatch(this,pendingIntent,null,null);
+        }
+        activeScan=!pass;
+
+    }
+
+    public void activarnfc(){
+        Toast.makeText(this, "Se necesita activar NFC.", Toast.LENGTH_LONG).show();
+        Intent intent= new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+        startActivity(intent);
+    }
+
+    public void resolveIntent(Intent intent) {
+        String action = intent.getAction();
+        if(nfcAdapter.ACTION_TAG_DISCOVERED.equals(action) || nfcAdapter.ACTION_TECH_DISCOVERED.equals(action)|| nfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
+            Parcelable[] rawMsgs = intent.getParcelableArrayExtra(nfcAdapter.EXTRA_NDEF_MESSAGES);
+            NdefMessage[] msgs;
+            if(rawMsgs != null){
+                msgs= new NdefMessage[rawMsgs.length];
+                for(int i=0;i<rawMsgs.length;i++){
+                    msgs[i]=(NdefMessage) rawMsgs[i];
+                }
+            }
+            else{
+                byte[] empty = new byte[0];
+                byte[] id= intent.getByteArrayExtra(nfcAdapter.EXTRA_ID);
+                Tag tag = (Tag) intent.getParcelableExtra(nfcAdapter.EXTRA_TAG);
+                byte[] idnfc= tag.getId();
+                String[] code=toHex(idnfc).split(" ");
+                int len=code.length;
+                String CodNFC=":"+code[len-3]+code[len-2]+code[len-1];
+
+                String url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral?id="+CodNFC;
+                Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
+                FragmentFichaPersonal my = (FragmentFichaPersonal) fragment;
+                my.loadScan(url);
+            }
+
+        }
+    }
+
+    private String toHex(byte[] bytes) {
+        StringBuilder sb = new StringBuilder();
+        for(int i= bytes.length-1;i>=0;--i){
+            int b= bytes[i] &0xff;
+            if(b<0x10) sb.append("0");
+            sb.append(Integer.toHexString(b));
+            if(i>0) sb.append(" ");
+        }
+        return sb.toString();
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
+        if ( fragment instanceof FragmentFichaPersonal) {
+            FragmentFichaPersonal my = (FragmentFichaPersonal) fragment;
+            if (nfcAdapter != null) {
+                if (!nfcAdapter.isEnabled())
+                    activarnfc();
+                nfcAdapter.enableForegroundDispatch(this,pendingIntent, null, null);
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
+        if ( fragment instanceof FragmentFichaPersonal) {
+            FragmentFichaPersonal my = (FragmentFichaPersonal) fragment;
+            if (nfcAdapter != null) {
+                nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+            }
+        }
+    }
+
+
     @Override
     public void onFragmentInteraction(Uri uri) {
     }
@@ -159,6 +270,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void lupaBuscar(View view) {
+
+        if(lastTag=="E"){
+            Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
+            if ( fragment instanceof FragmentAvanzado) {
+                FragmentAvanzado my = (FragmentAvanzado) fragment;
+                my.SendFeedback();
+            }
+            return;
+        }
 
         layoutInflater =(LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.popup_search, null);
@@ -474,7 +594,8 @@ public class MainActivity extends AppCompatActivity
         GlobalVariables.fragmentSave.push(new FragmentPlanPendiente()); //3
         GlobalVariables.fragmentSave.push(new FragmentNoticias()); //4
 
-
+        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        if(nfcAdapter!=null)existNFC=true;
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
         spdatasearch.add(new Maestro(R.drawable.ic_all_options,"0","Todos"));
@@ -960,8 +1081,13 @@ public class MainActivity extends AppCompatActivity
         lastTag=Tipo;
         // button Search
         Title_txt.setText(Title);
-        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I")||Tipo.equals("N"))
+        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I")||Tipo.equals("N")||Tipo.equals("E"))
+        {
             buscar.setVisibility(View.VISIBLE);
+            if(Tipo.equals("E"))
+                buscar.setImageResource(R.drawable.ic_send);
+            else buscar.setImageResource(R.drawable.ic_search);
+        }
         else buscar.setVisibility(View.INVISIBLE);
 
         //changue values of menu title

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -62,7 +63,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         boolean pass= false;
         for (GaleriaModel item:items)
         {
-            if(item.Estado!=null&&item.Estado.equals("P")){
+            if(item.Estado!=null&&(item.Estado.equals("P")||Integer.parseInt(item.Estado)>0)){
                    if(!pass){
                        Toast.makeText(activity, "Procesando Imagen..." , Toast.LENGTH_SHORT).show();
                        pass=true;
@@ -100,7 +101,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
                         .setQuality(75)
                         .setCompressFormat(Bitmap.CompressFormat.JPEG)
                         .compressToFile(mfile);
-                replace(new GaleriaModel(mfile.getAbsolutePath(),"TP01",mfile.length()+"",mfile.getName()));
+                replace(new GaleriaModel(mfile.getAbsolutePath(),"TP01",mfile.length()+"",mfile.getName(),mFileup.Estado));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -111,7 +112,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
                 mfile = new Compressor(activity)
                         .setCompressFormat(Bitmap.CompressFormat.JPEG)
                         .compressToFile(mfile);
-                replace(new GaleriaModel(mfile.getAbsolutePath(),"TP01",mfile.length()+"",mfile.getName()));
+                replace(new GaleriaModel(mfile.getAbsolutePath(),"TP01",mfile.length()+"",mfile.getName(),mFileup.Estado));
             } catch (IOException e) {
                 e.printStackTrace();
                 showError(e.getMessage());
@@ -137,11 +138,16 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         String urlMedio=items.get(position).Url;
         if (items.get(position).Correlativo>0) urlMedio=GlobalVariables.Url_base +"media/getImagepreview/"+items.get(position).Correlativo+ "/Preview.jpg";
         if(items.get(position).TipoArchivo.equals("TP02")){
-            viewHolder.btn_play.setVisibility(View.VISIBLE);
+
             Glide.with(viewHolder.imageView.getContext())
                     .load(urlMedio)
                     .override(width, width)
                     .into(viewHolder.imageView);
+
+            viewHolder.btn_play.setVisibility(View.VISIBLE);
+
+            viewHolder.btn_play.getLayoutParams().width = this.width;
+            viewHolder.btn_play.getLayoutParams().height = this.width;
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
            // viewHolder.textView.setText(items.get(position).Descripcion);
         }

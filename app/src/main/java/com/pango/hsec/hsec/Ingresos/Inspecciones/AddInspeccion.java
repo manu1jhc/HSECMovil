@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -141,6 +142,133 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
         GlobalVariables.InspeccionObserbacion=null;
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        outInspeccion();
+    }
+    public void outInspeccion(){
+        boolean Nochangues=true;
+        Gson gson = new Gson();
+        Utils.closeSoftKeyBoard(this);
+       // String Observacion=  gson.toJson(GlobalVariables.Obserbacion);
+        String Inspeccion=  gson.toJson(GlobalVariables.AddInspeccion);
+
+        if(!GlobalVariables.StrInspeccion.equals(Inspeccion)) Nochangues=false;
+        if(Nochangues&&!GlobalVariables.ObjectEditable&&GlobalVariables.ListResponsables.size()>0) Nochangues=false;
+        else if(GlobalVariables.ObjectEditable&&GlobalVariables.ListResponsables.size()>0){
+            // get Lider
+            String LiderPer="",LiderOld="";
+            for (EquipoModel item:GlobalVariables.StrResponsables) {
+                if(item.Lider.equals("1")) LiderOld=item.CodPersona;
+            }
+            for (EquipoModel item:GlobalVariables.ListResponsables) {
+                if(item.Lider.equals("1")) LiderPer=item.CodPersona;
+            }
+
+            ArrayList<EquipoModel> updateResponsables = new ArrayList<>();
+            //Insert equipo
+            for (EquipoModel item:GlobalVariables.ListResponsables) {
+                boolean pass=false;
+                for(EquipoModel item2:GlobalVariables.StrResponsables)
+                    if(item.CodPersona.equals(item2.CodPersona))
+                        pass=true;
+                if(!StringUtils.isEmpty(item.NroReferencia)&&item.NroReferencia.equals("-1")) {
+                    updateResponsables.add(new EquipoModel(item.CodPersona,"A"));
+                    if(!pass)GlobalVariables.StrResponsables.add(item);
+                }
+            }
+            if(updateResponsables.size()>0||!LiderPer.equals(LiderOld))Nochangues=false;
+        }
+        if(Nochangues&&GlobalVariables.StrResponsables.size()>0){
+            String DeletePlanes="";
+            for (EquipoModel item:GlobalVariables.StrResponsables) {
+                boolean pass=true;
+                for (EquipoModel item2:GlobalVariables.ListResponsables) {
+                    if(item.CodPersona.equals(item2.CodPersona)){
+                        pass=false;
+                        continue;
+                    }
+                }
+                if(pass){
+                    DeletePlanes+=item.CodPersona+";";
+                }
+            }
+            if(!DeletePlanes.equals(""))Nochangues=false;
+        }
+        if(Nochangues&&!GlobalVariables.ObjectEditable&&GlobalVariables.ListAtendidos.size()>0) Nochangues=false;
+        else if(GlobalVariables.ObjectEditable&&GlobalVariables.ListAtendidos.size()>0){
+            ArrayList<EquipoModel> updateAtentidos = new ArrayList<>();
+            //Insert Atentidos
+            for (EquipoModel item:GlobalVariables.ListAtendidos) {
+                boolean pass=false;
+                for(EquipoModel item2:GlobalVariables.StrAtendidos)
+                    if(item.CodPersona.equals(item2.CodPersona))
+                        pass=true;
+                if(!StringUtils.isEmpty(item.NroReferencia)&&item.NroReferencia.equals("-1")) {
+                    updateAtentidos.add(new EquipoModel(item.CodPersona,"A"));
+                    if(!pass)GlobalVariables.StrAtendidos.add(item);
+                }
+            }
+            if(updateAtentidos.size()>0)Nochangues=false;
+        }
+        if(Nochangues&&GlobalVariables.StrAtendidos.size()>0){
+            String DeletePlanes="";
+            for (EquipoModel item:GlobalVariables.StrAtendidos) {
+                boolean pass=true;
+                for (EquipoModel item2:GlobalVariables.ListAtendidos) {
+                    if(item.CodPersona.equals(item2.CodPersona)){
+                        pass=false;
+                        continue;
+                    }
+                }
+                if(pass){
+                    DeletePlanes+=item.CodPersona+";";
+                }
+            }
+            if(!DeletePlanes.equals(""))Nochangues=false;
+        }
+        if(Nochangues) {
+            if (!GlobalVariables.ObjectEditable&&GlobalVariables.ListobsInspAddModel.size() > 0) Nochangues=false;
+            else if (GlobalVariables.StrtobsInspAddModel.size() > 0) {
+                String DeleteObservaciones = "";
+                for (ObsInspAddModel item : GlobalVariables.StrtobsInspAddModel) {
+                    boolean pass = true;
+                    for (ObsInspAddModel item2 : GlobalVariables.ListobsInspAddModel) {
+                        if (item.obsInspDetModel.Correlativo.equals(item2.obsInspDetModel.Correlativo)) {
+                            pass = false;
+                            continue;
+                        }
+                    }
+                    if (pass) {
+                        DeleteObservaciones += item.obsInspDetModel.Correlativo + ";";
+                    }
+                }
+                if (!DeleteObservaciones.equals("")) Nochangues = false;
+            }
+        }
+        if(!Nochangues)
+        {
+            String Mensaje="Esta seguro de salir sin guardar cambios?\n";
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            //alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos sin guardar");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alertDialog.show();
+        }
+        else finish();
+    }
     public boolean ValifarFormulario(View view){
              String ErrorForm="";
         if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.Gerencia)) {ErrorForm+="Gerencia";pos=0;}
@@ -202,7 +330,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
     }
 
     public void SaveInspeccion(View view){
-
+        if(!enableSave)return;
         Gson gson = new Gson();
         Utils.closeSoftKeyBoard(this);
         if(!ValifarFormulario(view)) return;
@@ -216,8 +344,6 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
         Errores="";
         Actives.clear();
         if(GlobalVariables.ObjectEditable){
-
-
             String Cabecera,equipo, atentidos, ObsDelete;
             Cabecera=equipo=atentidos=ObsDelete="-";
 
@@ -356,6 +482,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                     public void onResponse(Call<String> call, Response<String> response) {
                         onFinish();
                         if(response.isSuccessful()){
+                            Log.i("Update Insp:", response.body());
                             Actives.set(0,1);
                             String respta[]  = response.body().split(";"); //"-;-;-;-;Carbones_de_Colombia9513.gif:57758"
                             for(int i =0;i<4;i++){
@@ -366,7 +493,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                                         Actives.add(-1);
                                         switch (i){
                                             case 0:
-                                                Errores+="\nOcurrio un error al guardar cabezera";
+                                                Errores+="\nOcurrio un error al guardar cabecera";
                                                 break;
                                             case 1:
                                                 Errores+="\nOcurrio un error al editar *Personas que realizan la inspección";
@@ -393,9 +520,9 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                                             }
                                             for(EquipoModel item:GlobalVariables.StrResponsables){
                                                 //for (String equipoid:data.split(","))
-                                                for(i=0;i<respt.length-1;i++)
+                                                for(int j=0;j<respt.length-1;j++)
                                                 {
-                                                    String[] value= respt[i].split(":");
+                                                    String[] value= respt[j].split(":");
                                                     if(item.CodPersona.equals(value[0])){
                                                         if(value[1].equals("-1")){
                                                             item.Estado="E";
@@ -460,8 +587,15 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                             }
 
                         }else{
-                            Actives.set(0,-1);
-                            Errores+="\nOcurrio un error interno de servidor";
+                            if(response.code()==401){
+                                Utils.reloadTokenAuth(AddInspeccion.this,AddInspeccion.this);
+                                progressBar.setProgress(0);
+                                txt_percent.setText(0+"%");
+                            }
+                            else {
+                                Actives.set(0,-1);
+                                Errores+="\nOcurrio un error interno de servidor";
+                            }
                         }
                         if(!Actives.contains(0)) FinishSave();
                     }
@@ -489,6 +623,12 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                 ArrayList<GaleriaModel> Archives = new ArrayList<>();
                 for (ObsInspAddModel item:GlobalVariables.ListobsInspAddModel) {
                     Observaciones.add(item.obsInspDetModel);
+                    for (GaleriaModel file: item.listaGaleria ) {
+                        file.Estado=item.obsInspDetModel.NroDetInspeccion;
+                    }
+                    for (GaleriaModel file: item.listaArchivos ) {
+                        file.Estado=item.obsInspDetModel.NroDetInspeccion;
+                    }
                     Images.addAll(item.listaGaleria);
                     Archives.addAll(item.listaArchivos);
                     Planes.addAll(item.Planes);
@@ -529,12 +669,12 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
 
                     if(response.isSuccessful()){
                         String respta  = response.body();
+                        Log.i("Insert Insp: ", respta);
                         if(respta.equals("-1")){
                             Actives.set(0,-1);
                             Errores+="\nOcurrio un error al guardar inspección";
                         }
                         else {
-
                             Actives.set(0,1);  // update value Cabecera
                             Utils.DeleteCache(new Compressor(AddInspeccion.this).destinationDirectoryPath); //delete cache Files;
                             String [] respts= respta.split(";");
@@ -661,8 +801,15 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                             }
                         }
                     }else{
-                        Actives.set(0,-1);
-                        Errores+="\nOcurrio un error interno de servidor";
+                        if(response.code()==401){
+                            Utils.reloadTokenAuth(AddInspeccion.this,AddInspeccion.this);
+                            progressBar.setProgress(0);
+                            txt_percent.setText(0+"%");
+                        }
+                        else {
+                            Actives.set(0,-1);
+                            Errores+="\nOcurrio un error interno de servidor";
+                        }
                     }
                     if(!Actives.contains(0)) FinishSave();
                 }
@@ -679,11 +826,10 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                 }
             });
         }
-
     }
 
     public void close(View view){
-        finish();
+        outInspeccion();
     }
 
 
@@ -766,8 +912,6 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
 
     }
 
-
-
     @NonNull
     private RequestBody createPartFromString(String data){
         return RequestBody.create(MultipartBody.FORM,data);
@@ -776,7 +920,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
     @NonNull
     private MultipartBody.Part createPartFromFile(GaleriaModel item){
         ProgressRequestBody fileBody = new ProgressRequestBody(item, this,this);
-        return  MultipartBody.Part.createFormData("image", item.Descripcion, fileBody);
+        return  MultipartBody.Part.createFormData(item.Estado, item.Descripcion, fileBody);
     }
 
     boolean ok,fail;
@@ -823,7 +967,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                 enableSave=(true);
                 ll_bar_carga.setVisibility(View.GONE);
                 progressBar.setProgress(0);
-                GlobalVariables.ObjectEditable=true;
+                if(!fail)GlobalVariables.ObjectEditable=true;
             }
         });
         FragmentAddParticipante fragment = (FragmentAddParticipante) pageAdapter.getItem(1);
@@ -844,6 +988,10 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                 Actives.set(3,1);
             }
             if(!Actives.contains(0)) FinishSave();
+        }
+        else { // tipo reloadToken
+            enableSave=(true);
+            SaveInspeccion(null);
         }
     }
 
@@ -1000,7 +1148,6 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
             cancel=true;
         }
     }
-
 
 
 }

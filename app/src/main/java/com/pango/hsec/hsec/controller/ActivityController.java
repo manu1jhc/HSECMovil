@@ -5,15 +5,20 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Login;
 import com.pango.hsec.hsec.Utils;
 
 import org.apache.http.HttpResponse;
@@ -24,6 +29,8 @@ import org.apache.http.entity.BasicHttpEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -52,6 +59,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     String Resultado="";
     String Tipo="";
     boolean cargaData=true;
+    String[] strings;
 
     View v;
     public ActivityController(String opcion, String url, IActivity activity, Activity ActContext) {
@@ -78,29 +86,30 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     protected Void doInBackground(String... strings) {
         ConnectivityManager cmanager = (ConnectivityManager) ActContext.getSystemService(ActContext.CONNECTIVITY_SERVICE);
         final NetworkInfo info= cmanager.getActiveNetworkInfo();
-
+        this.strings=strings;
         if(info!=null&&info.isConnected()) {
 
             try {
                 String json = strings[0];
-
                 if (opcion.contains("get")) {
-
                     Tipo = json;
                     //generarToken(url_token);
                     HttpResponse response;
-                    HttpClient httpClient = new DefaultHttpClient();
+                    HttpClient httpClient = Utils.getNewHttpClient();
                     HttpGet get = new HttpGet(url);
                     //GlobalVariables.token_auth=token_auth;
                     //if (opcion == "get" && GlobalVariables.token_auth.length() > 40) {
                     get.setHeader("Authorization", "Bearer " + GlobalVariables.token_auth);
                     get.setHeader("Content-type", "application/json");
-
                     //}
                     //get.abort();
                     response = httpClient.execute(get);
                     GlobalVariables.con_status = response.getStatusLine().getStatusCode();
-                    respstring = EntityUtils.toString(response.getEntity());
+                    if(GlobalVariables.con_status== 401){
+                        if(Utils.reloadToken(ActContext))doInBackground(strings);
+                        else Toast.makeText(ActContext,"Ocurrio un error al recargar la aplicación, Reinicie la App.",Toast.LENGTH_SHORT).show();
+                    }
+                    else respstring = EntityUtils.toString(response.getEntity());
                     //JSONObject respJSON = new JSONObject(respstring);
 
                 } else if (opcion.contains("post")) {
@@ -110,7 +119,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                     InputStream inputStream = null;
                     String result = "";
 
-                    HttpClient httpclient = new DefaultHttpClient();
+                    HttpClient httpclient = Utils.getNewHttpClient();
                     HttpPost httpPost = new HttpPost(url);
 
                     StringEntity se = new StringEntity(json, "UTF-8");
@@ -120,14 +129,19 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                     HttpResponse httpResponse = httpclient.execute(httpPost);
 
                     GlobalVariables.con_status = httpResponse.getStatusLine().getStatusCode();
-
-                    inputStream = httpResponse.getEntity().getContent();
-                    if (inputStream != null)
-                        result = convertInputStreamToString(inputStream);
-                    else
-                        result = "Did not work!";
-                    String responsepost = GlobalVariables.reemplazarUnicode(result);
-                    Resultado = responsepost;
+                    if(GlobalVariables.con_status== 401){
+                        if(Utils.reloadToken(ActContext))doInBackground(strings);
+                        else Toast.makeText(ActContext,"Ocurrio un error al recargar la aplicación, Reinicie la App.",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        inputStream = httpResponse.getEntity().getContent();
+                        if (inputStream != null)
+                            result = convertInputStreamToString(inputStream);
+                        else
+                            result = "Did not work!";
+                        String responsepost = GlobalVariables.reemplazarUnicode(result);
+                        Resultado = responsepost;
+                    }
                 }
 
             } catch (Throwable e) {
@@ -137,15 +151,9 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
             }
 
         }else {
-
             GlobalVariables.con_status=0;
             //Toast.makeText(ActContext, "Not connected",Toast.LENGTH_LONG).show();
-
-
         }
-
-
-
         return null;
     }
     private static String convertInputStreamToString(InputStream inputStream) throws IOException {
@@ -163,12 +171,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     protected void onPostExecute(Void result) {
 
     if(cargaData) {
-
             switch (GlobalVariables.con_status) {
-                case 401:
-                    //Toast.makeText((Context) activity,"Ocurrio un error de conexion",Toast.LENGTH_SHORT).show();
-                    activity.error("Ocurrio un error de conexion", Tipo);
-                    break;
                 case 404:
                     //Toast.makeText((Context) activity,"Not Found",Toast.LENGTH_SHORT).show();
                     activity.error("Not Found", Tipo);
@@ -184,7 +187,6 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
                 case 0:
                     //IActivity activity, Activity ActContext
                     //Utils.cargar_alerta(ActContext.getApplicationContext(),ActContext);
-
                     activity.error("Se perdio la conexión a internet", Tipo);
 
                     break;
@@ -215,4 +217,57 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
 
     }
 
+    public void reloadToken(){
+
+      //  Toast.makeText(ActContext,"Renovando Token de acceso espere...",Toast.LENGTH_SHORT).show();
+        String url_token=GlobalVariables.Url_base+"membership/authenticate";
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.accumulate("username",obtener_usuario());
+            jsonObject.accumulate("password",obtener_pass());
+            jsonObject.accumulate("domain","anyaccess");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            HttpPost httpPost = new HttpPost (url_token);
+            HttpClient httpClient = Utils.getNewHttpClient();
+            InputStream inputStream = null;
+            String Result="";
+            StringEntity se = new StringEntity(jsonObject.toString(),"UTF-8");
+            httpPost.setEntity(se);
+            httpPost.setHeader("Content-type", "application/json");
+            HttpResponse httpResponse = httpClient.execute(httpPost);
+            GlobalVariables.con_status=httpResponse.getStatusLine().getStatusCode();
+
+            inputStream = httpResponse.getEntity().getContent();
+            if(inputStream != null)
+                Result = convertInputStreamToString(inputStream);
+            else  Result = "Error al obtener token!";
+
+            String responsepost= GlobalVariables.reemplazarUnicode(Result);
+            GlobalVariables.token_auth = responsepost.substring(1, responsepost.length() - 1);
+
+            doInBackground(strings);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public boolean obtener_status(){
+        SharedPreferences check_status = ActContext.getSharedPreferences("checked", Context.MODE_PRIVATE);
+        Boolean status = check_status.getBoolean("check",false);
+        return status;
+    }
+    public String obtener_usuario(){
+        SharedPreferences user_login = ActContext.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        String usuario = user_login.getString("user","");
+        return usuario;
+    }
+    public String obtener_pass(){
+        SharedPreferences user_login = ActContext.getSharedPreferences("usuario", Context.MODE_PRIVATE);
+        String password = user_login.getString("password","");
+        return password;
+    }
 }

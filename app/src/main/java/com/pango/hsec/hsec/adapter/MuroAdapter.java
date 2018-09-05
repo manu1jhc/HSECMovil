@@ -758,7 +758,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             //final String tempAccion = data.get(position).Accion;
             final String tempImgDet=data.get(position).UrlPrew;
             final String editable = data.get(position).Editable;
-
+            final String tempEstado= data.get(position).NivelR;
             final String tempEmpresa=data.get(positem).Empresa;
             tx_empresa.setText(tempEmpresa);
 
@@ -807,14 +807,16 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         cv2.setVisibility(View.VISIBLE);
                         cv3.setVisibility(View.VISIBLE);
                     }
-                    button1.setOnClickListener(new View.OnClickListener(){
+                    button1.setOnClickListener(new View.OnClickListener(){ // editar
                         @Override
                         public void onClick(View v){
-                            popupWindow.dismiss();
-                            GlobalVariables.ObjectEditable=true;
+
+                            GlobalVariables.flagFacilito=true;
                             Intent intent = new Intent(getContext(),report_obs.class);
                             intent.putExtra("codObs", data.get(position).Codigo);
+                            intent.putExtra("editable",data.get(position).Editable);
                             v.getContext().startActivity(intent);
+                            popupWindow.dismiss();
                         }
                     });
                     button2.setOnClickListener(new View.OnClickListener(){
@@ -861,16 +863,39 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 //        accion.setText(tempAccion);
             tx_det.setText(tempObservacion);
 
-            /*
-            if (tempTipo == null) {
+            if (tempEstado == null) {
                 riesgo.setVisibility(View.INVISIBLE);
-            } else if (tempTipo.equals("A")) {
-                riesgo.setImageResource(R.drawable.ic_alertaroja);
+            } else if (tempEstado.equals("P")) {
+                riesgo.setImageResource(R.drawable.ic_obfpendiente);
+//            tipo.setText("Acto");
 
-            } else if (tempTipo.equals("C")) {
-                riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
+            } else if (tempEstado.equals("A")) {
+                riesgo.setImageResource(R.drawable.ic_obfatentido);
+//            tipo.setText("Condicion");
+            } else if (tempEstado.equals("S")) {
+                riesgo.setImageResource(R.drawable.ic_hourglass_full_black_24dp);
+               /* if(Utils.tiempoDiff>0){
+                    timediff.setText(TimeDiffM(tiempoDiff));
+                    timediff.setTextColor(Color.parseColor("#22b14c"));
+                    riesgo.setColorFilter(Color.parseColor("#22b14c"));
+                }
+                if(tiempoDiff==0){
+                    timediff.setText(TimeDiffM(tiempoDiff));
+                    timediff.setTextColor(Color.parseColor("#22b14c"));
+                    riesgo.setColorFilter(Color.parseColor("#22b14c"));
+                }
+                if(tiempoDiff<0){
+                    int datetime=tiempoDiff*-1;
+                    timediff.setText(TimeDiffM(datetime));
+                    timediff.setTextColor(Color.parseColor("#ff2222"));
+                    riesgo.setColorFilter(Color.parseColor("#ff2222"));
+                }*/
+//            tipo.setText("Condicion");
+            } else if (tempEstado.equals("O")) {
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                riesgo.setImageResource(R.drawable.ic_obfobservado);
+//            tipo.setText("Condicion");
             }
-*/
             if (tempimg_perfil == null) {
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {

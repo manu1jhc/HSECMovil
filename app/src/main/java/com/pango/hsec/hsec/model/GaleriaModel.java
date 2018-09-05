@@ -25,4 +25,13 @@ public class GaleriaModel {
         this.Descripcion = Descripcion;
         this.Estado="A";
     }
+
+    public GaleriaModel(String Url,String TipoArchivo, String Tamanio,String Descripcion,String Estado) {
+        this.Correlativo=-1;
+        this.Url = Url;
+        this.Tamanio = Tamanio;
+        this.TipoArchivo = TipoArchivo;
+        this.Descripcion = Descripcion;
+        this.Estado=Estado;
+    }
 }

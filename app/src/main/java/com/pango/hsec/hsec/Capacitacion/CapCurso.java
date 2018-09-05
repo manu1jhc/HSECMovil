@@ -65,10 +65,10 @@ public class CapCurso extends AppCompatActivity implements IActivity {
         GlobalVariables.CapaCursoDias= new ArrayList<>();
         Date startDate=null,endDate=null;
             try {
-                startDate=formatoInicial.parse(CursoModel.Fecha);
+                startDate=formatoInicial.parse(CursoModel.Fecha.substring(0,10)+"T00:00:00");
                 long t= startDate.getTime();
                 final long AddMillis=60000*CursoModel.Duracion;//millisecs
-                endDate=new Date(t + AddMillis);
+                endDate=new Date(formatoInicial.parse(CursoModel.Fecha).getTime() + AddMillis+1000);
             } catch (Exception e) {
                 e.printStackTrace();
             }

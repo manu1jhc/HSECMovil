@@ -344,9 +344,9 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
     }
 
     public void guardarData(View view) {
-
+        if(!enableSave)return;
         Utils.closeSoftKeyBoard(addAtencionFHistorial.this);
-        if (estado.equals("S")) {
+        if (estado == "S") {
             ObsHist.FechaFin=fecha_real;
         } else {
             ObsHist.FechaFin=null;
@@ -493,8 +493,15 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                             }
 
                         }else{
-                            Actives.set(0,-1);
-                            Errores+="\nOcurrio un error interno de servidor";
+                            if(response.code()==401){
+                                Utils.reloadTokenAuth(addAtencionFHistorial.this,addAtencionFHistorial.this);
+                                progressBar.setProgress(0);
+                                txt_percent.setText(0+"%");
+                            }
+                            else {
+                                Actives.set(0,-1);
+                                Errores+="\nOcurrio un error interno de servidor";
+                            }
                         }
                         if(!Actives.contains(0)) FinishSave();
                     }
@@ -709,6 +716,10 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             else
                 Actives.set(3,1);
             FinishSave();
+        }
+        else { // tipo reloadToken
+            enableSave=(true);
+            guardarData(null);
         }
     }
 
