@@ -45,6 +45,7 @@
 
         <ImageButton
             android:id="@+id/btn_send"
+            android:tint="@color/ColorVerdoso"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"

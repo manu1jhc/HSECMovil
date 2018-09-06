@@ -755,8 +755,10 @@ public class MainActivity extends AppCompatActivity
                 else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
                 else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
                 else if (exit) {
-                    GlobalVariables.fragmentStack.clear();
+                    //GlobalVariables.fragmentStack.clear();
                     super.onBackPressed(); // finish activity
+                    //this.finish();
+
                 } else {
                     Toast.makeText(this, "Press Back again to Exit.",Toast.LENGTH_SHORT).show();
                     exit = true;

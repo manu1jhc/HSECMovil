@@ -21,6 +21,7 @@ import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -123,6 +124,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
     Boolean cancel, enableSave=true;
     Call<String> request;
     long L,G,T;
+    TextView txgerencia, txubicacion, txobs, txfoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,6 +166,21 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         btnFotos=(ImageButton) findViewById(R.id.btn_galeria);
         mbtn_microubi=(ImageButton) findViewById(R.id.btn_microubi);
         mbtn_microaccion=(ImageButton) findViewById(R.id.btn_microaccion);
+
+
+        txgerencia= findViewById(R.id.txgerencia);
+        txgerencia.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Gerencia: "));
+
+        txubicacion= findViewById(R.id.txubicacion);
+        txubicacion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Ubicación: "));
+
+        txobs= findViewById(R.id.txobs);
+        txobs.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Observación: "));
+        txfoto= findViewById(R.id.txfoto);
+        txfoto.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Acción: "));
+
+        //        tx_gerencia=mView.findViewById(R.id.tx_gerencia);
+        //tx_gerencia.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Gerencia:"));
 
 
         progressBar = findViewById(R.id.progressBar2);

@@ -591,7 +591,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         break;
 
                 }
-            }else if(tempRiesgo.length==3){
+            }else if(tempRiesgo.length>=3){
                 tx_det1.setText(tempDetalle[0]);
                 tx_det2.setText(tempDetalle[1]);
                 tx_det3.setText(tempDetalle[2]);

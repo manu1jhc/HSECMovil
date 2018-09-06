@@ -130,82 +130,89 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
        /* Gson gson = new Gson();
         getPerfilCapModel = gson.fromJson(data, GetPerfilCapModel.class);
 */
+
+       // comprobar el -1
+
         if(Tipo=="1"){
 
             Gson gson = new Gson();
             getCapRecibidaModel = gson.fromJson(data, GetCapRecibidaModel.class);
 
-            if(getCapRecibidaModel.Count!=0) {
-                recList.setHasFixedSize(true);
-                LinearLayoutManager llm = new LinearLayoutManager(this);
-                llm.setOrientation(LinearLayoutManager.VERTICAL);
-                recList.setLayoutManager(llm);
-                recList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-                CapacitacionAdapter ca = new CapacitacionAdapter(getCapRecibidaModel.Data);
-                recList.setAdapter(ca);
+            if (getCapRecibidaModel.Count==-1)     {
+                Toast.makeText(this, "No se han podido obtener los datos de capacitaciones recibidas del servidor", Toast.LENGTH_LONG).show();
 
+            } else {
+                if (getCapRecibidaModel.Count != 0) {
+                    recList.setHasFixedSize(true);
+                    LinearLayoutManager llm = new LinearLayoutManager(this);
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    recList.setLayoutManager(llm);
+                    recList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 
-
-                final GestureDetector mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onSingleTapUp(MotionEvent e) {
-                        return true;
-                    }
-                });
+                    CapacitacionAdapter ca = new CapacitacionAdapter(getCapRecibidaModel.Data);
+                    recList.setAdapter(ca);
 
 
-                recList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                    @Override
-                    public void onRequestDisallowInterceptTouchEvent(boolean b) {
+                    final GestureDetector mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+                        @Override
+                        public boolean onSingleTapUp(MotionEvent e) {
+                            return true;
+                        }
+                    });
 
-                    }
 
-                    @Override
-                    public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
-                        try {
-                            View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-                            //LinearLayout linearLayout5;
-                            TextView tx_fecha, tx_duracion, tx_tema, tx_tipo, tx_nota, tx_estado, tx_vencimiento,tx_tipotema;
-                            ConstraintLayout pop;
-                            if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
-                                DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                                DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+                    recList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                        @Override
+                        public void onRequestDisallowInterceptTouchEvent(boolean b) {
 
-                                int position = recyclerView.getChildAdapterPosition(child);
+                        }
 
-                                //Toast.makeText(Capacitaciones.this,"The Item Clicked is: "+ position ,Toast.LENGTH_SHORT).show();
+                        @Override
+                        public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+                            try {
+                                View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+                                //LinearLayout linearLayout5;
+                                TextView tx_fecha, tx_duracion, tx_tema, tx_tipo, tx_nota, tx_estado, tx_vencimiento, tx_tipotema;
+                                ConstraintLayout pop;
+                                if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
+                                    DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                    DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+
+                                    int position = recyclerView.getChildAdapterPosition(child);
+
+                                    //Toast.makeText(Capacitaciones.this,"The Item Clicked is: "+ position ,Toast.LENGTH_SHORT).show();
 //popup
 
-                                layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                                    layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
 
-                                popupView = layoutInflater.inflate(R.layout.popup_capacitacion, null);
+                                    popupView = layoutInflater.inflate(R.layout.popup_capacitacion, null);
 
                             /*ListView list_popup=(ListView) popupView.findViewById(R.id.list_popup);
 
                             plandetAdapter = new PlandetAdapter(getContext(),getPlanModel.Data.get(position));
                             list_popup.setAdapter(plandetAdapter);
 */
-                                //ListView list_popup = (ListView) mView.findViewById(R.id.list_popup);
-                                //linearLayout5=popupView.findViewById(R.id.linearLayout5);
-                                tx_fecha = popupView.findViewById(R.id.tx_fecha);
-                                tx_duracion = popupView.findViewById(R.id.tx_duracion);
-                                tx_tema = popupView.findViewById(R.id.tx_tema);
-                                tx_tipo = popupView.findViewById(R.id.tx_tipo);
-                                tx_nota = popupView.findViewById(R.id.tx_nota);
-                                tx_estado = popupView.findViewById(R.id.tx_estado);
-                                tx_vencimiento = popupView.findViewById(R.id.tx_vencimiento);
-                                tx_tipotema=popupView.findViewById(R.id.tx_tipotema);
+                                    //ListView list_popup = (ListView) mView.findViewById(R.id.list_popup);
+                                    //linearLayout5=popupView.findViewById(R.id.linearLayout5);
+                                    tx_fecha = popupView.findViewById(R.id.tx_fecha);
+                                    tx_duracion = popupView.findViewById(R.id.tx_duracion);
+                                    tx_tema = popupView.findViewById(R.id.tx_tema);
+                                    tx_tipo = popupView.findViewById(R.id.tx_tipo);
+                                    tx_nota = popupView.findViewById(R.id.tx_nota);
+                                    tx_estado = popupView.findViewById(R.id.tx_estado);
+                                    tx_vencimiento = popupView.findViewById(R.id.tx_vencimiento);
+                                    tx_tipotema = popupView.findViewById(R.id.tx_tipotema);
 
-                                tx_fecha.setText(formatoRender.format(formatoInicial.parse(getCapRecibidaModel.Data.get(position).Fecha)));
-                                tx_duracion.setText(getCapRecibidaModel.Data.get(position).Duracion + " hrs.");
-                                tx_tema.setText(getCapRecibidaModel.Data.get(position).Tema);
-                                tx_tipo.setText(getCapRecibidaModel.Data.get(position).Tipo);
-                                tx_nota.setText(getCapRecibidaModel.Data.get(position).Nota);
-                                tx_estado.setText(getCapRecibidaModel.Data.get(position).Estado);
-                                tx_vencimiento.setText(formatoRender.format(formatoInicial.parse(getCapRecibidaModel.Data.get(position).Vencimiento)));
-                                tx_tipotema.setText(getCapRecibidaModel.Data.get(position).TipoTema);
-                                popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
+                                    tx_fecha.setText(formatoRender.format(formatoInicial.parse(getCapRecibidaModel.Data.get(position).Fecha)));
+                                    tx_duracion.setText(getCapRecibidaModel.Data.get(position).Duracion + " hrs.");
+                                    tx_tema.setText(getCapRecibidaModel.Data.get(position).Tema);
+                                    tx_tipo.setText(getCapRecibidaModel.Data.get(position).Tipo);
+                                    tx_nota.setText(getCapRecibidaModel.Data.get(position).Nota);
+                                    tx_estado.setText(getCapRecibidaModel.Data.get(position).Estado);
+                                    tx_vencimiento.setText(formatoRender.format(formatoInicial.parse(getCapRecibidaModel.Data.get(position).Vencimiento)));
+                                    tx_tipotema.setText(getCapRecibidaModel.Data.get(position).TipoTema);
+                                    popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
 
 /*
                                 popupWindow.setOutsideTouchable(true);
@@ -220,160 +227,164 @@ public class Capacitaciones extends AppCompatActivity implements IActivity {
                                 });
 */
 
-                                btn_Cerrar = (Button) popupView.findViewById(R.id.id_cerrar);
-                                btn_Cerrar.setOnClickListener(new Button.OnClickListener() {
+                                    btn_Cerrar = (Button) popupView.findViewById(R.id.id_cerrar);
+                                    btn_Cerrar.setOnClickListener(new Button.OnClickListener() {
 
-                                    @Override
-                                    public void onClick(View v) {
-                                        popupWindow.dismiss();
-                                    }
-                                });
+                                        @Override
+                                        public void onClick(View v) {
+                                            popupWindow.dismiss();
+                                        }
+                                    });
 
-                                ibclose = (ImageButton) popupView.findViewById(R.id.ibclose);
-                                ibclose.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        popupWindow.dismiss();
-                                        popupWindow=null;
+                                    ibclose = (ImageButton) popupView.findViewById(R.id.ibclose);
+                                    ibclose.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            popupWindow.dismiss();
+                                            popupWindow = null;
 
-                                    }
-                                });
+                                        }
+                                    });
 
-                                //popupWindow.showAsDropDown(btn_Abrir_Popup, 50, -400);
+                                    //popupWindow.showAsDropDown(btn_Abrir_Popup, 50, -400);
 
-                                popupWindow.showAtLocation(recList, Gravity.CENTER, 0, 0);
+                                    popupWindow.showAtLocation(recList, Gravity.CENTER, 0, 0);
 
 
-                                return true;
+                                    return true;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
+                            return false;
                         }
 
-                        return false;
-                    }
+                        @Override
+                        public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
 
-                    @Override
-                    public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
-
-                    }
-                });
+                        }
+                    });
+                }
             }
-
 
         }else if(Tipo=="2"){
 
             Gson gson = new Gson();
             getPerfilCapModel = gson.fromJson(data, GetPerfilCapModel.class);
 
+            if (getPerfilCapModel.Count==-1)     {
+                Toast.makeText(this, "No se han podido obtener los datos de perfil de capacitación del servidor", Toast.LENGTH_LONG).show();
+            } else {
 
-            if(getPerfilCapModel.Count!=0) {
+                if (getPerfilCapModel.Count != 0) {
 
-                final RecyclerView recListperfil = (RecyclerView) findViewById(R.id.rec_perfil);
-                recListperfil.setHasFixedSize(true);
-                LinearLayoutManager llm = new LinearLayoutManager(this);
-                llm.setOrientation(LinearLayoutManager.VERTICAL);
-                recListperfil.setLayoutManager(llm);
-                recListperfil.addItemDecoration(new DividerItemDecoration(this,
-                        DividerItemDecoration.VERTICAL));
+                    final RecyclerView recListperfil = (RecyclerView) findViewById(R.id.rec_perfil);
+                    recListperfil.setHasFixedSize(true);
+                    LinearLayoutManager llm = new LinearLayoutManager(this);
+                    llm.setOrientation(LinearLayoutManager.VERTICAL);
+                    recListperfil.setLayoutManager(llm);
+                    recListperfil.addItemDecoration(new DividerItemDecoration(this,
+                            DividerItemDecoration.VERTICAL));
 
-                PerfilCapAdapter ca = new PerfilCapAdapter(getPerfilCapModel.Data);
-                recListperfil.setAdapter(ca);
+                    PerfilCapAdapter ca = new PerfilCapAdapter(getPerfilCapModel.Data);
+                    recListperfil.setAdapter(ca);
 
-                final GestureDetector mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-                    @Override
-                    public boolean onSingleTapUp(MotionEvent e) {
-                        return true;
-                    }
-                });
+                    final GestureDetector mGestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+                        @Override
+                        public boolean onSingleTapUp(MotionEvent e) {
+                            return true;
+                        }
+                    });
 
 
-                recListperfil.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                    @Override
-                    public void onRequestDisallowInterceptTouchEvent(boolean b) {
+                    recListperfil.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                        @Override
+                        public void onRequestDisallowInterceptTouchEvent(boolean b) {
 
-                    }
+                        }
 
-                    @Override
-                    public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
-                        try {
-                            View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
-                            //LinearLayout linearLayout5;
-                            TextView tx_tema, tx_cumplido, tx_tipo, tx_nota, tx_estado, tx_vencimiento;
+                        @Override
+                        public boolean onInterceptTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+                            try {
+                                View child = recyclerView.findChildViewUnder(motionEvent.getX(), motionEvent.getY());
+                                //LinearLayout linearLayout5;
+                                TextView tx_tema, tx_cumplido, tx_tipo, tx_nota, tx_estado, tx_vencimiento;
 
-                            if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
-                                DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-                                //DateFormat formatoInicial2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz");
-                                DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+                                if (child != null && mGestureDetector.onTouchEvent(motionEvent)) {
+                                    DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                                    //DateFormat formatoInicial2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSz");
+                                    DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-                                int position = recyclerView.getChildAdapterPosition(child);
+                                    int position = recyclerView.getChildAdapterPosition(child);
 
-                                //Toast.makeText(Capacitaciones.this,"The Item Clicked is: "+ position ,Toast.LENGTH_SHORT).show();
+                                    //Toast.makeText(Capacitaciones.this,"The Item Clicked is: "+ position ,Toast.LENGTH_SHORT).show();
 //popup
 
-                                layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
-                                popupView = layoutInflater.inflate(R.layout.popup_perfilcap, null);
+                                    layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+                                    popupView = layoutInflater.inflate(R.layout.popup_perfilcap, null);
                             /*ListView list_popup=(ListView) popupView.findViewById(R.id.list_popup);
 
                             plandetAdapter = new PlandetAdapter(getContext(),getPlanModel.Data.get(position));
                             list_popup.setAdapter(plandetAdapter);
 */
-                                //ListView list_popup = (ListView) mView.findViewById(R.id.list_popup);
-                                //linearLayout5=popupView.findViewById(R.id.linearLayout5);
-                                tx_tema = popupView.findViewById(R.id.tx_tema);
-                                tx_cumplido = popupView.findViewById(R.id.tx_cumplido);
-                                tx_tipo = popupView.findViewById(R.id.tx_tipo);
-                                tx_nota = popupView.findViewById(R.id.tx_nota);
-                                tx_estado = popupView.findViewById(R.id.tx_estado);
-                                tx_vencimiento = popupView.findViewById(R.id.tx_vencimiento);
+                                    //ListView list_popup = (ListView) mView.findViewById(R.id.list_popup);
+                                    //linearLayout5=popupView.findViewById(R.id.linearLayout5);
+                                    tx_tema = popupView.findViewById(R.id.tx_tema);
+                                    tx_cumplido = popupView.findViewById(R.id.tx_cumplido);
+                                    tx_tipo = popupView.findViewById(R.id.tx_tipo);
+                                    tx_nota = popupView.findViewById(R.id.tx_nota);
+                                    tx_estado = popupView.findViewById(R.id.tx_estado);
+                                    tx_vencimiento = popupView.findViewById(R.id.tx_vencimiento);
 
-                                tx_tema.setText(getPerfilCapModel.Data.get(position).Tema);
-                                tx_cumplido.setText(formatoRender.format(formatoInicial.parse(getPerfilCapModel.Data.get(position).Cumplido)));
-                                tx_tipo.setText(getPerfilCapModel.Data.get(position).Tipo);
-                                tx_nota.setText(getPerfilCapModel.Data.get(position).Nota);
-                                tx_estado.setText(getPerfilCapModel.Data.get(position).Estado);
-                                tx_vencimiento.setText(formatoRender.format(formatoInicial.parse(getPerfilCapModel.Data.get(position).Vencimiento)));
+                                    tx_tema.setText(getPerfilCapModel.Data.get(position).Tema);
+                                    tx_cumplido.setText(formatoRender.format(formatoInicial.parse(getPerfilCapModel.Data.get(position).Cumplido)));
+                                    tx_tipo.setText(getPerfilCapModel.Data.get(position).Tipo);
+                                    tx_nota.setText(getPerfilCapModel.Data.get(position).Nota);
+                                    tx_estado.setText(getPerfilCapModel.Data.get(position).Estado);
+                                    tx_vencimiento.setText(formatoRender.format(formatoInicial.parse(getPerfilCapModel.Data.get(position).Vencimiento)));
 
 
-                                popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
+                                    popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, false);
 
-                                btn_Cerrar = (Button) popupView.findViewById(R.id.id_cerrar);
-                                btn_Cerrar.setOnClickListener(new Button.OnClickListener() {
+                                    btn_Cerrar = (Button) popupView.findViewById(R.id.id_cerrar);
+                                    btn_Cerrar.setOnClickListener(new Button.OnClickListener() {
 
-                                    @Override
-                                    public void onClick(View v) {
-                                        popupWindow.dismiss();
-                                    }
-                                });
+                                        @Override
+                                        public void onClick(View v) {
+                                            popupWindow.dismiss();
+                                        }
+                                    });
 
-                                ibclose = (ImageButton) popupView.findViewById(R.id.ibclose);
-                                ibclose.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        popupWindow.dismiss();
-                                        popupWindow=null;
+                                    ibclose = (ImageButton) popupView.findViewById(R.id.ibclose);
+                                    ibclose.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            popupWindow.dismiss();
+                                            popupWindow = null;
 
-                                    }
-                                });
-                                //popupWindow.showAsDropDown(btn_Abrir_Popup, 50, -400);
+                                        }
+                                    });
+                                    //popupWindow.showAsDropDown(btn_Abrir_Popup, 50, -400);
 
-                                popupWindow.showAtLocation(recListperfil, Gravity.CENTER, 0, 0);
+                                    popupWindow.showAtLocation(recListperfil, Gravity.CENTER, 0, 0);
 
-                                return true;
+                                    return true;
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
+                            return false;
                         }
 
-                        return false;
-                    }
+                        @Override
+                        public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
 
-                    @Override
-                    public void onTouchEvent(RecyclerView recyclerView, MotionEvent motionEvent) {
+                        }
+                    });
 
-                    }
-                });
-
+                }
             }
 
         }

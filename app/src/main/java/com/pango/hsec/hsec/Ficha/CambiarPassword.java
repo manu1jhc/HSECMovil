@@ -146,6 +146,11 @@ boolean btnSend;
         btnSend=false;
     }
 
+    public void close(View view){
+
+        finish();
+    }
+
     @Override
     public void error(String mensaje, String Tipo) {
 

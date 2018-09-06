@@ -147,6 +147,8 @@
                         android:gravity="right|center_vertical"
                         android:text="Tipo: "
                         android:textSize="12sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
@@ -202,6 +204,8 @@
                         android:gravity="right|center_vertical"
                         android:text="Gerencia: "
                         android:textSize="12sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
@@ -219,11 +223,14 @@
                         android:text="*"
                         android:textColor="@color/colorRojo"
                         android:textSize="14sp"
-                        android:visibility="visible"
+                        android:visibility="gone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="*" />
+                        tools:text="*"
+
+
+                        />
 
                     <EditText
                         android:id="@+id/txv_gerencia"
@@ -275,6 +282,9 @@
                         android:layout_height="0dp"
                         android:gravity="right|center_vertical"
                         android:text="Superintendencia: "
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+
                         android:textSize="12sp"
                         android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -333,6 +343,8 @@
                         android:gravity="right|center_vertical"
                         android:text="Ubicación: "
                         android:textSize="12sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -344,6 +356,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right|center_vertical"
                         android:text="*"
+                        android:visibility="gone"
                         android:textColor="@color/colorRojo"
                         android:textSize="14sp"
                         android:layout_marginBottom="8dp"
@@ -403,6 +416,8 @@
                         android:gravity="right|center_vertical"
                         android:text="Observación: "
                         android:textSize="12sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -414,6 +429,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right|center_vertical"
                         android:text="*"
+                        android:visibility="gone"
                         android:textColor="@color/colorRojo"
                         android:textSize="14sp"
                         android:layout_marginBottom="8dp"
@@ -488,6 +504,8 @@
                         android:gravity="right|center_vertical"
                         android:text="Acción: "
                         android:textSize="12sp"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
                         android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -507,7 +525,9 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:text="*" />
+                        tools:text="*"
+                        android:visibility="gone"
+                        />
 
                     <EditText
                         android:id="@+id/dt_accion"
