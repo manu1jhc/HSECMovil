@@ -103,12 +103,11 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         rootView=inflater.inflate(R.layout.fragment_ficha_personal, container, false);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
-
+        String ActivarNFC =getArguments().getString("param1","0");
         ficha_user=rootView.findViewById(R.id.ficha_user);
         ficha_nombre=rootView.findViewById(R.id.ficha_nombre);
         ficha_dni=rootView.findViewById(R.id.ficha_dni);
@@ -132,11 +131,13 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         if(GlobalVariables.userLogin.Rol.equals("1")||GlobalVariables.userLogin.Rol.equals("4")){
             btn_buscaruser.setVisibility(View.VISIBLE);
         }
-
-        if (!((MainActivity)getActivity()).existNFC) {
-            btn_addNFC.setVisibility(View.GONE);
+        if(ActivarNFC.equals("0")){
+            if (!((MainActivity)getActivity()).existNFC) {
+                btn_addNFC.setVisibility(View.GONE);
+            }
+            else ((MainActivity)getActivity()).nfcAdapter=null;
         }
-        else ((MainActivity)getActivity()).nfcAdapter=null;
+        else  btn_addNFC.setVisibility(View.GONE);
 
         if(GlobalVariables.userLoaded.NroDocumento.equals(GlobalVariables.dniUser)) {
             setdata();

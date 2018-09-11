@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.Ficha.BusqEstadistica;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.PlanAccionEdit;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.PlanMinModel;
@@ -229,11 +230,8 @@ public class PlanMinAdapter extends ArrayAdapter<PlanMinModel> {
             @Override
             public void onClick(View v) {
                 //GlobalVariables.desdeBusqueda=true;
-                GlobalVariables.barTitulo=false;
-                GlobalVariables.dniUser=tempimg_perfil;
-                Intent intent=new Intent(context,FichaPersona.class);
-                //intent.putExtra("codUsuario",tempimg_perfil);
-                context.startActivity(intent);
+                GlobalVariables.dniUser=data.get(position).CodSolicitadoPor;
+                ((MainActivity)ActContent.getActivity()).openFichaPersona();
             }
         });
 

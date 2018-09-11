@@ -577,8 +577,10 @@ public class Utils {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
                // return Environment.getExternalStorageDirectory() + "/" + split[1];
-                File myFile = new File(Environment.getExternalStorageDirectory() + "/" + split[1]);
-                return new GaleriaModel(Environment.getExternalStorageDirectory() + "/" + split[1],"TP03", myFile.length()+"", myFile.getName());
+                String urlbase=Environment.getExternalStorageDirectory().toString() +"/" + split[1];
+                if(!split[0].equals("0"))urlbase="/storage/"+split[0]+ "/" + split[1];
+                File myFile = new File(urlbase);
+                return new GaleriaModel(urlbase,"TP03", myFile.length()+"", myFile.getName());
             } else if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
                 if(uri.getPath().contains("raw:"))

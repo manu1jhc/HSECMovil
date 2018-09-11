@@ -36,6 +36,7 @@ import com.pango.hsec.hsec.adapter.Adap_Img;
 import com.pango.hsec.hsec.adapter.DocsAdapter;
 import com.pango.hsec.hsec.adapter.DocumentoAdapter;
 import com.pango.hsec.hsec.adapter.GaleriaAdapter;
+import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
@@ -58,8 +59,8 @@ public class FragmentGaleria extends Fragment implements IActivity {
 
 	boolean permiso=false;
 	DocumentoAdapter documentoAdapter;
-	GaleriaAdapter galeriaAdapter;
-
+	//GaleriaAdapter galeriaAdapter;
+	GridViewAdapter galeriaAdapter;
 
 	public static final FragmentGaleria newInstance(String sampleText) {
 		FragmentGaleria f = new FragmentGaleria();
@@ -287,7 +288,10 @@ public class FragmentGaleria extends Fragment implements IActivity {
 
 			GridLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
 			gridView.setLayoutManager(layoutManager);
-			galeriaAdapter = new GaleriaAdapter(getActivity(),DataImg );
+
+
+			galeriaAdapter = new GridViewAdapter(getActivity(),DataImg );
+			galeriaAdapter.tacho=true;
 			gridView.setAdapter(galeriaAdapter);
 
 

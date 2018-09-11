@@ -1071,7 +1071,7 @@ public class MainActivity extends AppCompatActivity
         String Tipo="A",Title="HSEC";
         switch (value) {
             case Muro:    fragment = new FragmentMuro(); break;
-            case FichaPersonal: fragment = new FragmentFichaPersonal(); Tipo="B";  Title="Ficha"; break;
+            case FichaPersonal: fragment = FragmentFichaPersonal.newInstance("0","0"); Tipo="B";  Title="Ficha"; break;
             case Observaciones: fragment = new FragmentObservaciones(); Tipo="C"; Title="Observaciones"; break;
             case Inspecciones: fragment = new FragmentInspecciones();  Tipo="D";Title="Inspecciones"; break;
             case ObsFacilito: fragment = new FragmentObsFacilito(); Tipo="I"; Title="Reportes facilito"; break;

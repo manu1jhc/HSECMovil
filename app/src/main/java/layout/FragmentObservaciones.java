@@ -194,7 +194,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
                 linear_total.setVisibility(View.GONE);
-                flag_observacion=false;
+                MainActivity.flag_observacion=false;
                 GlobalVariables.listaGlobalObservacion.clear();
 
                 Utils.observacionModel = new ObservacionModel();
@@ -208,8 +208,8 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                 json = gson.toJson(observacionModel);
 
                 Utils.isActivity = true;
-                final ActivityController obj = new ActivityController("post-" + paginacion2, url, FragmentObservaciones.this, getActivity());
-                obj.execute(json,"0");
+                final ActivityController obj = new ActivityController("post" + paginacion2, url, FragmentObservaciones.this, getActivity());
+                obj.execute(json);
             }
         });
 

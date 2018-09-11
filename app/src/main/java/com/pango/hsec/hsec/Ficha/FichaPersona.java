@@ -18,7 +18,7 @@ public class FichaPersona extends AppCompatActivity {
         setContentView(R.layout.activity_ficha_persona);
 
         Fragment fragment = null;
-        fragment = new FragmentFichaPersonal();
+        fragment = FragmentFichaPersonal.newInstance("1","1");
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.content, fragment)

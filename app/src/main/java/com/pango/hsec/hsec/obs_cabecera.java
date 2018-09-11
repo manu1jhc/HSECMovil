@@ -164,7 +164,7 @@ public class obs_cabecera extends Fragment implements IActivity{
                 GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.Obserbacion);
             }
             //else if(!GlobalVariables.Obserbacion.CodObservacion.contains("XYZ"))
-               setdata();
+            setdata();
         }
 
         //inicialice data
