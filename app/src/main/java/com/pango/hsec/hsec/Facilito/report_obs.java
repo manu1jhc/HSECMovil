@@ -353,64 +353,7 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                 Obs.RespAuxiliar="";
             }
         });
-        //enviar reporte de observacion
-       /* mButtonGuardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    Errores="";
-                    Actives.clear();
-                    Gson gson = new Gson();
-                    Utils.closeSoftKeyBoard(report_obs.this);
-                    mButtonGuardar.setClickable(false);
-                    if(GlobalVariables.flagFacilito==false){
-                        try {
-                            Actives.add(0);
-                            Obs.Tipo=tipo;
-                            Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
-                            Obs.Observacion=String.valueOf(txvResult.getText());
-                            Obs.Accion=String.valueOf(dt_accion.getText());
-                            if(!ValifarFormulario(v)) return;
-                            String url= GlobalVariables.Url_base+"ObsFacilito/Insertar";
-                            final ActivityController obj = new ActivityController("post", url, report_obs.this,report_obs.this);
-                            obj.execute(gson.toJson(Obs));
 
-                        }
-                        catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-                    }
-                    if(GlobalVariables.flagFacilito==true){
-                        try {
-                            ObsPost.CodObsFacilito=codObs;
-                            Obs.CodObsFacilito=codObs;
-                            Obs.Tipo=tipo;
-                            Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
-                            Obs.Observacion=String.valueOf(txvResult.getText());
-                            Obs.Accion=String.valueOf(dt_accion.getText());
-                            String Obsstr=gson.toJson(Obs);
-                            if(!Obsstr.equals(obsFacilitoModel)){
-                                Actives.add(0);
-                                String url= GlobalVariables.Url_base+"ObsFacilito/Insertar";
-                                final ActivityController obj = new ActivityController("post", url, report_obs.this,report_obs.this);
-                                obj.execute(gson.toJson(Obs));
-                            }
-                            else {
-                                Actives.add(1);
-                                UpdateFiles(true);
-                            }
-                        }
-                        catch (Exception ex){
-                            ex.printStackTrace();
-                        }
-                    }
-                }
-                catch (Exception ex){
-                    ex.printStackTrace();
-                }
-
-            }
-        });*/
         if(GlobalVariables.flagFacilito==false) {
             textViewtitle.setText("Nuevo reporte facilito");
         }
@@ -446,7 +389,79 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         }
         else {
             GlobalVariables.StrFiles.clear();
-            setdata();}
+            obsFacilitoModel=gson.toJson(Obs);
+            setdata();
+        }
+        //{"Accion":"","CodObsFacilito":"","Observacion":"","Plazo":0,"Tipo":"A","UbicacionExacta":""}
+    }
+
+    public void outRFacilito(){
+        boolean Nochangues=true;
+        Gson gson = new Gson();
+        Utils.closeSoftKeyBoard(this);
+        Obs.CodObsFacilito=codObs;
+        Obs.Tipo=tipo;
+        Obs.UbicacionExacta=String.valueOf(txvUbicacion.getText());
+        Obs.Observacion=String.valueOf(txvResult.getText());
+        Obs.Accion=String.valueOf(dt_accion.getText());
+
+        String FilesDelete="-";
+        String Obsstr=gson.toJson(Obs);
+        if(!obsFacilitoModel.equals(Obsstr))Nochangues=false;
+        else
+        {
+            ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+
+            //delete files
+            if(GlobalVariables.StrFiles.size()>0) {
+                String DeleteFiles = "";
+                for (GaleriaModel item : GlobalVariables.StrFiles) {
+                    boolean pass = true;
+                    for (GaleriaModel item2 : DataImg) {
+                        if (item.Correlativo == item2.Correlativo) {
+                            pass = false;
+                            continue;
+                        }
+                    }
+                    if (pass) {
+                        DeleteFiles += item.Correlativo + ";";
+                        //item.Estado = "E";
+                    }
+                }
+                if(!DeleteFiles.equals("")) FilesDelete= DeleteFiles.substring(0,DeleteFiles.length()-1);
+            }
+            //Insert Files
+            for (GaleriaModel item:DataImg) {
+                if(item.Correlativo==-1) {
+                    DataInsert.add(item);
+                }
+            }
+            if(!FilesDelete.equals("-")||DataInsert.size()>0)Nochangues=false;
+        }
+        if(!Nochangues)
+        {
+            String Mensaje="Esta seguro de salir sin guardar cambios?\n";
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            //alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos sin guardar");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alertDialog.show();
+        }
+        else {
+            finish();
+        }
+
     }
     public boolean ValifarFormulario(View view){
         String ErrorForm="Detalle:\n";
@@ -473,8 +488,12 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
         } catch (ActivityNotFoundException a) {
         }
     }
+    @Override
+    public void onBackPressed() {
+        outRFacilito();
+    }
     public void close(View view){
-        finish();
+        outRFacilito();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -756,7 +775,8 @@ public class report_obs extends AppCompatActivity implements IActivity,Picker.Pi
                     public void onFailure(Call<String> call, Throwable t) {
                         if(!cancel){
                             Actives.set(0,-1);
-                            if(t.getMessage().equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
+                            String sms=t.getMessage().toString();
+                            if(sms.equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
                             else Errores+="\nOcurrio un error al intentar guardar los datos.";
                             if(!Actives.contains(0)) FinishSave();
                         }

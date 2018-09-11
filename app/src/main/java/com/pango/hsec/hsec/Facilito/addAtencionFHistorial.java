@@ -291,6 +291,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             textViewtitle.setText("Agregar Atención");
             ObsHist.Correlativo="-1";
             ObsHist.CodObsFacilito=GlobalVariables.codObsHistorial;
+            ObsHist.Comentario="";
             Bundle data1 = this.getIntent().getExtras();
             newAdd=true;
             setdata();
@@ -299,13 +300,91 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
             textViewtitle.setText("Editar Atención");
             Bundle data1 = this.getIntent().getExtras();
             indexHist=data1.getInt("index");
-            ObsHist=GlobalVariables.listaGlobalObsHistorial.get(indexHist);
+            ObsHist = gson.fromJson(data1.getString("objeto"), ObsFHistorialModel.class);
+            //ObsHist=GlobalVariables.listaGlobalObsHistorial.get(indexHist);
             ObsHist.CodObsFacilito=GlobalVariables.codObsHistorial;
             String url1=GlobalVariables.Url_base+"media/GetMultimedia/"+ObsHist.CodObsFacilito+"-"+ObsHist.Correlativo;
             final ActivityController obj1 = new ActivityController("get", url1, addAtencionFHistorial.this,this);
             obj1.execute("1");
         }
+
         obsFHistorialModel=gson.toJson(ObsHist);
+    }
+
+    public void outHistAtencion(){
+        boolean Nochangues=true;
+        Gson gson = new Gson();
+        Utils.closeSoftKeyBoard(this);
+        if (estado == "S") {
+            ObsHist.FechaFin=fecha_real;
+        } else {
+            ObsHist.FechaFin=null;
+        }
+        ObsHist.Comentario = String.valueOf(txv_comentario.getText());
+        String FilesDelete="-";
+        String Obsstr=gson.toJson(ObsHist);
+        if(!obsFHistorialModel.equals(Obsstr))Nochangues=false;
+        else
+        {
+            ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+            //delete files
+            if(GlobalVariables.StrFiles.size()>0) {
+                String DeleteFiles = "";
+                for (GaleriaModel item : GlobalVariables.StrFiles) {
+                    boolean pass = true;
+                    for (GaleriaModel item2 : DataImg) {
+                        if (item.Correlativo == item2.Correlativo) {
+                            pass = false;
+                            continue;
+                        }
+                    }
+                    if (pass) {
+                        DeleteFiles += item.Correlativo + ";";
+                        //  item.Estado = "E";
+                    }
+                }
+                if(!DeleteFiles.equals("")) FilesDelete= DeleteFiles.substring(0,DeleteFiles.length()-1);
+            }
+            //Insert Files
+            for (GaleriaModel item:DataImg) {
+                if(item.Correlativo==-1) {
+                    DataInsert.add(item);
+                }
+            }
+            if(!FilesDelete.equals("-")||DataInsert.size()>0)Nochangues=false;
+        }
+        if(!Nochangues)
+        {
+            String Mensaje="Esta seguro de salir sin guardar cambios?\n";
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            //alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos sin guardar");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alertDialog.show();
+        }
+        else {
+
+            if(newAdd) finish();
+            else {
+                Intent intent = getIntent();
+                intent.putExtra("historial",gson.toJson(ObsHist));
+                intent.putExtra("index",indexHist);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+
     }
     public boolean ValifarFormulario(View view){
         String ErrorForm="";
@@ -526,8 +605,13 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         }
     }
     public void close(View view){
+        outHistAtencion();
+    }
 
-        finish();
+    @Override
+    public void onBackPressed() {
+        outHistAtencion();
+        //super.onBackPressed();
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

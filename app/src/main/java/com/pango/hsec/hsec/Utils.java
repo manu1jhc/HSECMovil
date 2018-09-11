@@ -581,7 +581,9 @@ public class Utils {
                 return new GaleriaModel(Environment.getExternalStorageDirectory() + "/" + split[1],"TP03", myFile.length()+"", myFile.getName());
             } else if (isDownloadsDocument(uri)) {
                 final String id = DocumentsContract.getDocumentId(uri);
-                uri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                if(uri.getPath().contains("raw:"))
+                    uri = Uri.parse("file://"+uri.getPath().split(":")[1]);
+                else uri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
             } else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");

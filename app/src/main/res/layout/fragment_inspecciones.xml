@@ -10,50 +10,48 @@
     >
 
 
-<LinearLayout
-    android:id="@+id/linearLayout7"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:visibility="gone"
-    android:background="@color/colorBtnBeige"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    android:weightSum="1"
-    >
-
-    <Button
-        android:id="@+id/add_obs"
-        style="@style/Widget.AppCompat.ImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0.2"
-        android:background="@android:color/transparent"
-        android:padding="0dp"
-        android:drawableLeft="@drawable/ic_add_circle_outline_black_24dp"
-        android:text="Añadir"
-        android:layout_marginLeft="5dp"
-        android:textColor="@color/colorBlanco"
-        />
-
-    <Button
-        android:id="@+id/btn_filtro"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.4"
-        android:drawableLeft="@drawable/ic_equalizer"
-        android:text="Filtro" />
+        android:background="@color/colorBtnBeige"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:weightSum="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageView
-        android:id="@+id/lupabuscar"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_weight="0.4"
-        app:srcCompat="@drawable/ic_search" />
+        <Button
+            android:id="@+id/add_obs"
+            style="@style/Widget.AppCompat.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="0.2"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/ic_add_circle_outline_black_24dp"
+            android:padding="0dp"
+            android:text="Añadir"
+            android:textColor="@color/colorBlanco" />
+
+        <Button
+            android:id="@+id/btn_filtro"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
+            android:drawableLeft="@drawable/ic_equalizer"
+            android:text="Filtro" />
+
+        <ImageView
+            android:id="@+id/lupabuscar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            app:srcCompat="@drawable/ic_search" />
 
 
-</LinearLayout>
+    </LinearLayout>
 
 
 <TextView
@@ -74,12 +72,11 @@
         android:id="@+id/linear_total"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:visibility="gone"
         android:background="@color/colorBtnBeige"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/tx_filtro"
@@ -105,12 +102,11 @@
             android:background="@color/colorBtnBeige"
             android:drawableLeft="@drawable/ic_delete_forever_black_24dp"
             android:text="Quitar filtro"
-            android:textSize="9dp"
             android:textColor="@color/colorBlanco"
+            android:textSize="9dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
 
 
     </android.support.constraint.ConstraintLayout>

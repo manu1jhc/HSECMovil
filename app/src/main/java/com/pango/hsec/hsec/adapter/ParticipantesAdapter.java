@@ -341,7 +341,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
             edittext=false;
             if (Alumno.NroDocumento != null) {
                 txtDNI.setText(Alumno.NroDocumento);
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + Alumno.NroDocumento + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + Alumno.NroDocumento.replace("*","").replace(".","") + "/Carnet.jpg";
                 Glide.with(activity)
                         .load(Url_img)
                         //.override(50, 50)

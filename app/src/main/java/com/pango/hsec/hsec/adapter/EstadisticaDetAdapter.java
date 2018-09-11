@@ -72,7 +72,7 @@ public class EstadisticaDetAdapter extends ArrayAdapter<EstadisticaDetModel> {
 
             Nombre.setText(GlobalVariables.userLoaded.Nombres);
 
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + GlobalVariables.dniUser + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + GlobalVariables.dniUser.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
@@ -81,7 +81,7 @@ public class EstadisticaDetAdapter extends ArrayAdapter<EstadisticaDetModel> {
                         .into(profile);
             }else{
             Nombre.setText(tempNombre);
-            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempImgProf + "/Carnet.jpg";
+            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempImgProf.replace("*","").replace(".","") + "/Carnet.jpg";
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
                     .load(Url_img)

@@ -224,6 +224,10 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
 
             LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             rec_mejora.setLayoutManager(horizontalManager);
+            //
+            rec_mejora.setHasFixedSize(true);
+            rec_mejora.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            //
             accionMejoraAdapter= new AccionMejoraAdapter(this,ListMejoras,planModel.Responsables,planModel.CodResponsables,PlanAccionDet.this);
             rec_mejora.setAdapter(accionMejoraAdapter);
         }else{

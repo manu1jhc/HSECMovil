@@ -84,7 +84,7 @@ public class obsfacilitoAprobar extends AppCompatActivity implements IActivity {
                 try {
                     Utils.observacionFacilitoModel.CodObsFacilito=codObs;
                     Utils.observacionFacilitoModel.Estado=String.valueOf(rechazar);
-                    Utils.observacionFacilitoModel.Plazo=Integer.parseInt(spinner_Cod);
+                   // Utils.observacionFacilitoModel.Plazo=Integer.parseInt(spinner_Cod);
                     String json = "";
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.observacionFacilitoModel);
@@ -110,7 +110,7 @@ public class obsfacilitoAprobar extends AppCompatActivity implements IActivity {
                 try {
                     Utils.observacionFacilitoModel.CodObsFacilito=codObs;
                     Utils.observacionFacilitoModel.Estado=String.valueOf(aprobar);
-                    Utils.observacionFacilitoModel.Plazo=Integer.parseInt(spinner_Cod);
+                   // Utils.observacionFacilitoModel.Plazo=Integer.parseInt(spinner_Cod);
                     String json = "";
                     Gson gson = new Gson();
                     json = gson.toJson(Utils.observacionFacilitoModel);

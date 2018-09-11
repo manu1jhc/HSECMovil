@@ -150,6 +150,95 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
 
     }
 
+    public void outObservacion(){
+        boolean Nochangues=true;
+        Gson gson = new Gson();
+        Utils.closeSoftKeyBoard(this);
+        String Observacion=  gson.toJson(GlobalVariables.obsInspDetModel);
+        if(!GlobalVariables.StrObservacion.equals(Observacion))Nochangues=false;
+        if(Nochangues&&!editar&&GlobalVariables.Planes.size()>0) Nochangues=false;
+        else if(Nochangues&&GlobalVariables.StrPlanes.size()>0){
+            String DeletePlanes="";
+            for (PlanModel item:GlobalVariables.StrPlanes) {
+                boolean pass=true;
+                for (PlanModel item2:GlobalVariables.Planes) {
+                    if(item.CodAccion.equals(item2.CodAccion)){
+                        pass=false;
+                        continue;
+                    }
+                }
+                if(pass){
+                    DeletePlanes+=item.CodAccion+";";
+                }
+            }
+            if(!DeletePlanes.equals(""))Nochangues=false;
+        }
+        if(Nochangues)
+        {
+            ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+            ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+
+            DataAll.addAll(GlobalVariables.listaGaleria);
+            DataAll.addAll(GlobalVariables.listaArchivos);
+
+            //delete files
+            String DeleteFiles="";
+            for (GaleriaModel item:GlobalVariables.StrFiles) {
+                boolean pass=true;
+                for (GaleriaModel item2:DataAll) {
+                    if(item.Correlativo==item2.Correlativo){
+                        pass=false;
+                        continue;
+                    }
+                }
+                if(pass){
+                    DeleteFiles+=item.Correlativo+";";
+                   // item.Estado="E";
+                }
+            }
+//Insert Files
+            for (GaleriaModel item:DataAll) {
+
+                if(item.Correlativo==-1) {
+                    DataInsert.add(item);
+                    //if(!pass)GlobalVariables.StrFiles.add(item);
+                }
+            }
+            if(!DeleteFiles.equals("")||DataInsert.size()>0)Nochangues=false;
+        }
+        if(!Nochangues)
+        {
+            String Mensaje="Esta seguro de salir sin guardar cambios?\n";
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            //alertDialog.setCancelable(false);
+            alertDialog.setTitle("Datos sin guardar");
+            alertDialog.setIcon(R.drawable.warninicon);
+            alertDialog.setMessage(Mensaje);
+
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            alertDialog.show();
+        }
+        else if(!editar) finish();
+        else {
+            GlobalVariables.obsInspAddModel=new ObsInspAddModel();
+            GlobalVariables.obsInspAddModel.obsInspDetModel=GlobalVariables.obsInspDetModel;
+            json_osbinsp = gson.toJson(GlobalVariables.obsInspAddModel);
+            Intent intent = getIntent();
+            intent.putExtra("JsonObsInsp", json_osbinsp); //
+            intent.putExtra("index", indexObd);
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    }
+
     public boolean ValifarFormulario(View view){
         //        if(StringUtils.isEmpty(GlobalVariables.AddInspeccion.Gerencia)) {ErrorForm+="Gerencia";pos=0;}
 
@@ -321,7 +410,7 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
                                         }
                                         switch (i){
                                             case 0:
-                                                GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.Obserbacion);
+                                                GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.obsInspDetModel);
                                                 break;
                                             case 1:
                                                 GlobalVariables.StrPlanes=GlobalVariables.Planes;
@@ -629,10 +718,13 @@ public class ActObsInspEdit extends FragmentActivity implements IActivity,TabHos
     }
 
     public void close(View view){
-
-        finish();
+        outObservacion();
     }
-
+    @Override
+    public void onBackPressed() {
+        outObservacion();
+        //super.onBackPressed();
+    }
     // Method to add a TabHost
     private static void AddTab(ActObsInspEdit activity, TabHost tabHost,
                                TabHost.TabSpec tabSpec) {

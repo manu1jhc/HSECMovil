@@ -53,7 +53,7 @@ public class ComentAdapter extends ArrayAdapter<ComentModel> {
 
 
 
-        final String tempcom_perfil="media/getAvatar/"+data.get(position).Estado+"/fotocarnet.jpg";
+        final String tempcom_perfil="media/getAvatar/"+data.get(position).Estado.replace("*","").replace(".","")+"/fotocarnet.jpg";
 
 
         final String tempcom_nombre = data.get(position).Nombres;

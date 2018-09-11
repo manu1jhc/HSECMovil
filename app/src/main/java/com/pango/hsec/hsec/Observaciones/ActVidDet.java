@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.SeekBar;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.pango.hsec.hsec.GlobalVariables;
@@ -231,8 +232,13 @@ public class ActVidDet extends AppCompatActivity implements SurfaceHolder.Callba
         handler.post(new Runnable() {
 
             public void run() {
-                mediaController.setEnabled(true);
-                mediaController.show();
+                try{
+                    mediaController.setEnabled(true);
+                    mediaController.show();
+                }
+                catch (Exception e){
+                    Toast.makeText(ActVidDet.this, "Ocurrio un error al cargar reporte facilito", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -202,15 +202,16 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
                             v.getContext().startActivity(intent);
                         }
                     });
-                    button2.setOnClickListener(new View.OnClickListener(){
+                    /*button2.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View v){
                             popupWindow.dismiss();
                             Intent intent = new Intent(getContext(),obsfacilitoAprobar.class);
                             intent.putExtra("codObs", data.get(position).Codigo);
+                            intent.putExtra("editable",data.get(position).Editable);
                             v.getContext().startActivity(intent);
                         }
-                    });
+                    });*/
 //                    }
                     button3.setOnClickListener(new View.OnClickListener(){
                         @Override
@@ -276,7 +277,7 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
             if (tempimg_perfil == null) {
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
@@ -491,7 +492,7 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
             if(tempimg_perfil==null){
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
@@ -680,7 +681,7 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
             if(tempimg_perfil==null){
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
@@ -749,6 +750,7 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
             //final String tempAccion = data.get(position).Accion;
             final String tempImgDet=data.get(position).UrlPrew;
             final String editable = data.get(position).Editable;
+            final String tempEstado= data.get(position).NivelR;
             if(editable.equals("0")){
                 editar.setVisibility(View.GONE);
             }
@@ -799,9 +801,10 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
                         @Override
                         public void onClick(View v){
                             popupWindow.dismiss();
-                            GlobalVariables.ObjectEditable=true;
+                            GlobalVariables.flagFacilito=true;
                             Intent intent = new Intent(getContext(),report_obs.class);
                             intent.putExtra("codObs", data.get(position).Codigo);
+                            intent.putExtra("editable",data.get(position).Editable);
                             v.getContext().startActivity(intent);
                         }
                     });
@@ -849,20 +852,25 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
 //        accion.setText(tempAccion);
             tx_det.setText(tempObservacion);
 
-            /*
-            if (tempTipo == null) {
+            if (tempEstado == null) {
                 riesgo.setVisibility(View.INVISIBLE);
-            } else if (tempTipo.equals("A")) {
-                riesgo.setImageResource(R.drawable.ic_alertaroja);
+            } else if (tempEstado.equals("P")) {
+                riesgo.setImageResource(R.drawable.ic_obfpendiente);
 
-            } else if (tempTipo.equals("C")) {
-                riesgo.setImageResource(R.drawable.ic_alerta_amarilla);
+            } else if (tempEstado.equals("A")) {
+                riesgo.setImageResource(R.drawable.ic_obfatentido);
+            } else if (tempEstado.equals("S")) {
+                riesgo.setImageResource(R.drawable.ic_hourglass_full_black_24dp);
+
+            } else if (tempEstado.equals("O")) {
+                riesgo.setImageResource(R.drawable.ic_obfobservado);
             }
-*/
+
+
             if (tempimg_perfil == null) {
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)

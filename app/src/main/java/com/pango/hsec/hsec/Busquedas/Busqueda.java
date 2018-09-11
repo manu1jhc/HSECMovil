@@ -49,6 +49,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import layout.FragmentInspecciones;
+import layout.FragmentNoticias;
 import layout.FragmentObservaciones;
 
 import static com.pango.hsec.hsec.GlobalVariables.*;
@@ -494,7 +495,7 @@ public class Busqueda extends AppCompatActivity implements IActivity {
             ca.notifyDataSetChanged();
         }else if(tipo_busqueda==3){
 
-            NoticiasAdapter ca = new NoticiasAdapter(this, GlobalVariables.listaGlobalFiltro);
+            NoticiasAdapter ca = new NoticiasAdapter(this, GlobalVariables.listaGlobalFiltro,new FragmentNoticias());
             list_busqueda.setAdapter(ca);
             ca.notifyDataSetChanged();
         }

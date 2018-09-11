@@ -318,6 +318,7 @@
             android:id="@+id/rec_lev_obs"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             />
 
 

@@ -56,6 +56,7 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.google.zxing.common.StringUtils;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
@@ -622,12 +623,15 @@ public class MainActivity extends AppCompatActivity
             bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
         }
         //GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //2
-        Gson gson = new Gson();
-        GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-        GlobalVariables.userLogin= GlobalVariables.userLoaded;
-        GlobalVariables.dniUser= GlobalVariables.userLoaded.NroDocumento;
-
-        String nom_user=GlobalVariables.userLoaded.Nombres;
+        String nom_user="";
+        if(!org.apache.commons.lang3.StringUtils.isEmpty(GlobalVariables.json_user))
+        {
+            Gson gson = new Gson();
+            GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+            GlobalVariables.userLogin= GlobalVariables.userLoaded;
+            GlobalVariables.dniUser= GlobalVariables.userLoaded.NroDocumento;
+           nom_user=GlobalVariables.userLoaded.Nombres;
+        }
 
         String[] DataUser= new String[0];
         String[] nombre = new String[0];
@@ -840,7 +844,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(addInspeccion);
 
 
-            Toast.makeText(this, "nav_inspeccion", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(this, "nav_inspeccion", Toast.LENGTH_SHORT).show();
 
         }
         else if (id == R.id.nav_capacitacion) {

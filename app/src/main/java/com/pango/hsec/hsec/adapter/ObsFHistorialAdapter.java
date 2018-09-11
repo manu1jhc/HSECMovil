@@ -96,7 +96,7 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
         if (viewHolder.tempimg_perfil == null) {
             viewHolder.mp_profile.setImageResource(R.drawable.ic_loginusuario);
         }else {
-            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + viewHolder.tempimg_perfil + "/Carnet.jpg";
+            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + viewHolder.tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
             Glide.with(activity)
                     .load(Url_img)
                     .override(50, 50)
@@ -130,10 +130,12 @@ public class ObsFHistorialAdapter extends RecyclerView.Adapter<ObsFHistorialAdap
                     @Override
                     public void onClick(View v){
                         GlobalVariables.flaghistorial=false;
+                        Gson gson = new Gson();
                         String correlativo=items.get(position).Correlativo;
                         Intent intent = new Intent(activity,addAtencionFHistorial.class);
                         //intent.putExtra("correlativo",correlativo);
                         intent.putExtra("index",position);
+                        intent.putExtra("objeto",gson.toJson(items.get(position)));
                         activity.startActivityForResult(intent,2);
                         popupWindow.dismiss();
                         //v.getContext().startActivity(intent);

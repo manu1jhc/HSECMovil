@@ -63,11 +63,12 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         boolean pass= false;
         for (GaleriaModel item:items)
         {
-            if(item.Estado!=null&&(item.Estado.equals("P")||Integer.parseInt(item.Estado)>0)){
+            if(item.Estado!=null&&!item.Estado.equals("E")&&!item.Estado.equals("A")&&(item.Estado.equals("P")||(Integer.parseInt(item.Estado)>0)&&item.TipoArchivo.equals("TP01"))){
                    if(!pass){
                        Toast.makeText(activity, "Procesando Imagen..." , Toast.LENGTH_SHORT).show();
                        pass=true;
                 }
+                //if(item.Estado.equals("P"))item.Estado="A";
                 customimage(item);
             }
         }
@@ -139,17 +140,16 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
         if (items.get(position).Correlativo>0) urlMedio=GlobalVariables.Url_base +"media/getImagepreview/"+items.get(position).Correlativo+ "/Preview.jpg";
         if(items.get(position).TipoArchivo.equals("TP02")){
 
+
             Glide.with(viewHolder.imageView.getContext())
                     .load(urlMedio)
                     .override(width, width)
                     .into(viewHolder.imageView);
-
-            viewHolder.btn_play.setVisibility(View.VISIBLE);
-
-            viewHolder.btn_play.getLayoutParams().width = this.width;
-            viewHolder.btn_play.getLayoutParams().height = this.width;
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
            // viewHolder.textView.setText(items.get(position).Descripcion);
+            viewHolder.btn_play.getLayoutParams().width = this.width;
+            viewHolder.btn_play.getLayoutParams().height = this.width/2;
+            viewHolder.btn_play.setVisibility(View.VISIBLE);
         }
         else{
             Glide.with(viewHolder.imageView.getContext())

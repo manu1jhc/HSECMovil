@@ -693,6 +693,11 @@ public void reiniciadata(){
                         else Errores+="\nOcurrio un error al intentar guardar los datos.";
                         if(!Actives.contains(0)) FinishSave();
                     }
+                    else{ //GlobalVariables.StrFiles=temp;
+                        for(GaleriaModel item:GlobalVariables.StrFiles)
+                            if(item.Correlativo==-1)item.Estado="E";
+                        loaddata();
+                    }
                 }
             });
         }

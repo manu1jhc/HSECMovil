@@ -490,7 +490,7 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
             avatar.setImageResource(R.drawable.ic_loginusuario);
         }else {
             txtDNI.setText(AsistenteAdd.NroDocumento);
-            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + AsistenteAdd.NroDocumento + "/Carnet.jpg";
+            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + AsistenteAdd.NroDocumento.replace("*","").replace(".","") + "/Carnet.jpg";
             Glide.with(this)
                     .load(Url_img)
                     //.override(50, 50)

@@ -227,7 +227,7 @@ public class FichaInspecionAdapter extends ArrayAdapter<PublicacionModel> {
         if(tempimg_perfil==null){
             img_perfil.setImageResource(R.drawable.ic_usuario);
         }else {
-            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
                     .load(Url_img)

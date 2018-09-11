@@ -207,7 +207,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
                 tx_codigo.setText(String.valueOf(obsFacilitoModel.CodObsFacilito));
                 tx_persona.setText(String.valueOf(obsFacilitoModel.Persona));
                 if(obsFacilitoModel.Tipo.equals("A")){
-                    tx_tipo.setText("Ácto");
+                    tx_tipo.setText("Acto");
                 }
                 if (obsFacilitoModel.Tipo.equals("C")){
                     tx_tipo.setText("Condición");

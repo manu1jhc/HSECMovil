@@ -278,7 +278,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             if (tempimg_perfil == null) {
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
@@ -497,7 +497,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             if(tempimg_perfil==null){
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
@@ -688,7 +688,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             if(tempimg_perfil==null){
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)
@@ -867,39 +867,20 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 riesgo.setVisibility(View.INVISIBLE);
             } else if (tempEstado.equals("P")) {
                 riesgo.setImageResource(R.drawable.ic_obfpendiente);
-//            tipo.setText("Acto");
 
             } else if (tempEstado.equals("A")) {
                 riesgo.setImageResource(R.drawable.ic_obfatentido);
-//            tipo.setText("Condicion");
             } else if (tempEstado.equals("S")) {
                 riesgo.setImageResource(R.drawable.ic_hourglass_full_black_24dp);
-               /* if(Utils.tiempoDiff>0){
-                    timediff.setText(TimeDiffM(tiempoDiff));
-                    timediff.setTextColor(Color.parseColor("#22b14c"));
-                    riesgo.setColorFilter(Color.parseColor("#22b14c"));
-                }
-                if(tiempoDiff==0){
-                    timediff.setText(TimeDiffM(tiempoDiff));
-                    timediff.setTextColor(Color.parseColor("#22b14c"));
-                    riesgo.setColorFilter(Color.parseColor("#22b14c"));
-                }
-                if(tiempoDiff<0){
-                    int datetime=tiempoDiff*-1;
-                    timediff.setText(TimeDiffM(datetime));
-                    timediff.setTextColor(Color.parseColor("#ff2222"));
-                    riesgo.setColorFilter(Color.parseColor("#ff2222"));
-                }*/
-//            tipo.setText("Condicion");
+
             } else if (tempEstado.equals("O")) {
-                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 riesgo.setImageResource(R.drawable.ic_obfobservado);
-//            tipo.setText("Condicion");
             }
+
             if (tempimg_perfil == null) {
                 img_perfil.setImageResource(R.drawable.ic_loginusuario);
             }else {
-                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+                String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
                 //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
                 Glide.with(context)
                         .load(Url_img)

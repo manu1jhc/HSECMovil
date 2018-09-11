@@ -219,7 +219,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 filtro= Utils.ChangeUrl(String.valueOf(String.valueOf(id_nombre.getText())+"@"+id_apellidos.getText())+"@"+String.valueOf(id_dni.getText())
                         +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
 
-                url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/"+Elemperpage;
+                url= GlobalVariables.Url_base+"Usuario/FiltroPersona?Filtros="+filtro+"&Pagenumber=1&Elemperpage="+Elemperpage;
                 //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";
                 //flags
                 GlobalVariables.istabs=false;
@@ -255,7 +255,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 GlobalVariables.isFragment=true;
 
 
-                url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion+"/"+Elemperpage;
+                url= GlobalVariables.Url_base+"Usuario/FiltroPersona?Filtros="+filtro+"&Pagenumber="+paginacion+"&Elemperpage="+Elemperpage;
                 //url=GlobalVariables.Url_base+"Observaciones/GetOBservaciones/-/"+1+"/"+GlobalVariables.num_items;
                 GlobalVariables.count=5;
                 final ActivityController obj = new ActivityController("get-0", url, B_personasM.this,B_personasM.this);
@@ -295,7 +295,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                         //Utils.isActivity=true;
                         //url= GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/1/7";
 
-                        url =GlobalVariables.Url_base+"Usuario/FiltroPersona/"+filtro+"/"+paginacion + "/" + Elemperpage;
+                        url =GlobalVariables.Url_base+"Usuario/FiltroPersona?Filtros="+filtro+"&Pagenumber="+paginacion+"&Elemperpage="+Elemperpage;
 
                         GlobalVariables.count=5;
                         final ActivityController obj = new ActivityController("get-"+paginacion, url, B_personasM.this,B_personasM.this);

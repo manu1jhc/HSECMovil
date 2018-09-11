@@ -144,7 +144,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
             //GlobalVariables.dniUser
             //GlobalVariables.userLoaded.NroDocumento=GlobalVariables.dniUser;
             GlobalVariables.token_auth=GlobalVariables.token_auth+"-";
-            url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral/"+GlobalVariables.dniUser;
+            url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral?id="+GlobalVariables.dniUser;
             final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this,getActivity());
             obj.execute("");
         }
@@ -220,7 +220,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
             ficha_tipo.setText(GlobalVariables.getDescripcion(GlobalVariables.TipoAutenticacion,  GlobalVariables.userLoaded.Tipo_Autenticacion.trim()));
         }
 
-        String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+ GlobalVariables.userLoaded.NroDocumento+"/fotocarnet.jpg";
+        String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+GlobalVariables.userLoaded.NroDocumento.replace("*","").replace(".","")+"/fotocarnet.jpg";
         // String url_avatar="https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/media/getAvatar/43054695/fotocarnet.jpg";
         Glide.with(getContext())
                 .load(url_avatar) // add your image url
@@ -286,7 +286,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
                 String codpersona_obs = data.getStringExtra("codpersona");
                 String dniPersona=data.getStringExtra("dni");
                 GlobalVariables.dniUser=dniPersona;
-                url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral/"+GlobalVariables.dniUser;
+                url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral?id="+GlobalVariables.dniUser;
                 final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this,getActivity());
                 obj.execute("");
             }

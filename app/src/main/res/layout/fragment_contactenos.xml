@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Deysy Espinoza"
+                android:text="Deysi Espinoza"
                 android:textColor="@color/colornegro"
                 android:textSize="16dp"
 

@@ -383,8 +383,6 @@ public class B_inspecciones extends AppCompatActivity {
                     Utils.inspeccionModel.CodContrata = cod_contrata;
                 }
 
-
-
             }
         } catch (Exception ex) {
             Toast.makeText(B_inspecciones.this, ex.toString(),

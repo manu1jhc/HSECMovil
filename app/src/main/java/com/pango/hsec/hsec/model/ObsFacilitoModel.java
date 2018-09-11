@@ -12,7 +12,7 @@ public class ObsFacilitoModel {
     public String UbicacionExacta;
     public String Observacion;
     public String Accion;
-    public int Plazo;
+    //public int Plazo;
     public String FecCreacion;
     public String FechaFin;
     public String RespAuxiliarDesc;
@@ -26,4 +26,11 @@ public class ObsFacilitoModel {
     /*public String UrlObs;
     public String UrlPrew;*/
 
+    public ObsFacilitoModel(){
+        Tipo="A";
+        Accion="";
+        Observacion="";
+        UbicacionExacta="";
+        CodObsFacilito="";
+    }
 }

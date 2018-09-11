@@ -64,7 +64,10 @@ public class AccionMejoraAdapter extends RecyclerView.Adapter<AccionMejoraAdapte
         notifyDataSetChanged();
     }
     public void replace(AccionMejoraMinModel replacedata){
-        int position=Integer.parseInt(replacedata.Editable);
+        int position=0;
+        for(; position< items.size();position++)
+            if(items.get(position).Correlativo.equals(replacedata.Correlativo))break;
+
         if(replacedata.Correlativo.equals("E")){
             items.remove(position);
             notifyItemRemoved(position);
@@ -125,7 +128,7 @@ public class AccionMejoraAdapter extends RecyclerView.Adapter<AccionMejoraAdapte
         if (items.get(position).UrlObs == null) {
             viewHolder.mp_profile.setImageResource(R.drawable.ic_usuario);
         }else {
-            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + items.get(position).UrlObs + "/Carnet.jpg";
+            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + items.get(position).UrlObs.replace("*","").replace(".","") + "/Carnet.jpg";
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(activity)
                     .load(Url_img)
@@ -200,7 +203,7 @@ public class AccionMejoraAdapter extends RecyclerView.Adapter<AccionMejoraAdapte
                         popupWindow.dismiss();
                         Intent i = new Intent(activity, AddRegistroAvance.class);
                         Gson gson = new Gson();
-                        items.get(position).Editable=position+"";
+                        //items.get(position).Editable=position+"";
                         i.putExtra("AccionMejora",  gson.toJson(items.get(position)));
                         i.putExtra("Edit", true);
                         i.putExtra("CodResponsable",CodResponsables);

@@ -255,7 +255,6 @@ public class FragmentObsInsAdd extends Fragment implements IActivity {
 
     @Override
     public void successpost(String data, String Tipo) {
-
     }
 
     @Override

@@ -114,9 +114,6 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
             tx_titulo.setText("Nueva Inspección");
         }
 
-
-
-
         initialiseTabHost();
 
         // Fragments and ViewPager Initialization

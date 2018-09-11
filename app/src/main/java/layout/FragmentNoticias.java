@@ -545,7 +545,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
             GetPublicacionModel getPublicacionModel = gson.fromJson(data, GetPublicacionModel.class);
             GlobalVariables.listaGlobalNoticias=getPublicacionModel.Data;
 
-            ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias);
+            ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias,this);
             list_busqueda.setAdapter(ca);
             MainActivity.countNoticia= getPublicacionModel.Count;
             if(getPublicacionModel.Data.size()==0){
@@ -557,7 +557,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
             }
         }
         else if(Tipo.equals("-1")){ // load data preview load
-            ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias);
+            ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias,this);
             list_busqueda.setAdapter(ca);
             if(GlobalVariables.stateInsp != null&&GlobalVariables.passInsp) {
                 swipeRefreshLayout.setEnabled(false);
@@ -571,7 +571,7 @@ public class FragmentNoticias extends Fragment implements IActivity {
             GlobalVariables.listaGlobalInspeccion=getPublicacionModel.Data;
             MainActivity.countNoticia= getPublicacionModel.Count;
 
-            ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias);
+            ca = new NoticiasAdapter(getActivity(), GlobalVariables.listaGlobalNoticias,this);
             list_busqueda.setAdapter(ca);
 
             swipeRefreshLayout.setRefreshing(false);

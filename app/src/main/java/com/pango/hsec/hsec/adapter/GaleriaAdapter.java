@@ -61,6 +61,8 @@ public class GaleriaAdapter extends RecyclerView.Adapter<GaleriaAdapter.ViewHold
                     .override(width, width)
                     .into(viewHolder.imageView);
         }else{
+            viewHolder.btn_play.getLayoutParams().width = this.width;
+            viewHolder.btn_play.getLayoutParams().height = this.width/2;
             viewHolder.btn_play.setVisibility(View.VISIBLE);
             Glide.with(viewHolder.imageView.getContext())
                     .load(GlobalVariables.Url_base +"media/getImagepreview/"+Data.get(position).Correlativo+ "/Preview.jpg")

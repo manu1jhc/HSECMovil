@@ -266,41 +266,7 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
                 btnFechaInicio.setText(dt.format(actual));
             }
         };
-/*
-        btn_guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Utils.closeSoftKeyBoard(AddRegistroAvance.this);
-                AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
-                AddAccionMejora.PorcentajeAvance=tx_avance.getText().toString();
-                AddAccionMejora.Descripcion=et_mensaje.getText().toString();
-                if(ValifarFormulario())
-                {
-                    Actives.clear();
-                    Errores="";
-                    if(Editable){
-                        String newJson=gson.toJson(AddAccionMejora);
-                        if(!StrAccionmejora.equals(newJson))  {
-                            Actives.add(0);
-                            String url= GlobalVariables.Url_base+"AccionMejora/post";
-                            ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
-                            obj.execute(gson.toJson(AddAccionMejora),"1");
-                        }
-                        else {
-                            Actives.add(1);
-                            UpdateFiles(true);
-                        }
-                    }
-                    else{
-                        Actives.add(0);
-                        String url= GlobalVariables.Url_base+"AccionMejora/post";
-                        ActivityController obj = new ActivityController("post", url, AddRegistroAvance.this,AddRegistroAvance.this);
-                        obj.execute(gson.toJson(AddAccionMejora),"1");
-                    }
-                }
-            }
-        });
-*/
+
         if(Editable){
             //btn_eliminar.setVisibility(View.VISIBLE);
             String url= GlobalVariables.Url_base+"AccionMejora/GetId/"+AddAccionMejora.Correlativo;
@@ -312,6 +278,8 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
             myCalendar = Calendar.getInstance();
             fecha = myCalendar.getTime();
             AddAccionMejora.Fecha=df.format(fecha);
+            AddAccionMejora.Responsable="";
+            StrAccionmejora=gson.toJson(AddAccionMejora);
             Data=new ArrayList<>();
             setdata();
         }
@@ -344,6 +312,84 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         });
     }
 
+    public void outRegistroAvance(){
+            boolean Nochangues=true;
+            Gson gson = new Gson();
+            Utils.closeSoftKeyBoard(this);
+            AddAccionMejora.CodResponsable= ((Maestro) spinnerUsuario.getSelectedItem()).CodTipo;
+            if(AddAccionMejora.CodResponsable.equals("-1")) {
+                AddAccionMejora.CodResponsable="";
+                AddAccionMejora.Responsable="";
+            }
+            AddAccionMejora.PorcentajeAvance=Integer.parseInt(tx_avance.getText().toString())+"";
+            AddAccionMejora.Descripcion=et_mensaje.getText().toString();
+            String FilesDelete="-";
+            String Accionmejoras=gson.toJson(AddAccionMejora);
+            if(!StrAccionmejora.equals(Accionmejoras)) Nochangues=false;
+            else
+            {
+                ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
+                ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+                DataAll.addAll(DataImg);
+                DataAll.addAll(DataFiles);
+                //delete files
+                if(Data.size()>0) {
+                    String DeleteFiles = "";
+                    for (GaleriaModel item : Data) {
+                        boolean pass = true;
+                        for (GaleriaModel item2 : DataAll) {
+                            if (item.Correlativo == item2.Correlativo) {
+                                pass = false;
+                                continue;
+                            }
+                        }
+                        if (pass) {
+                            DeleteFiles += item.Correlativo + ";";
+                          //  item.Estado = "E";
+                        }
+                    }
+                    if(!DeleteFiles.equals("")) FilesDelete= DeleteFiles.substring(0,DeleteFiles.length()-1);
+                }
+                //Insert Files
+                for (GaleriaModel item:DataAll) {
+                    if(item.Correlativo==-1) {
+                        DataInsert.add(item);
+                    }
+                }
+                if(!FilesDelete.equals("-")||DataInsert.size()>0)Nochangues=false;
+            }
+            if(!Nochangues)
+            {
+                String Mensaje="Esta seguro de salir sin guardar cambios?\n";
+                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+                //alertDialog.setCancelable(false);
+                alertDialog.setTitle("Datos sin guardar");
+                alertDialog.setIcon(R.drawable.warninicon);
+                alertDialog.setMessage(Mensaje);
+
+                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                alertDialog.show();
+            }
+            else {
+
+                if(!GlobalVariables.ObjectEditable) finish();
+                else {
+                    Intent intent = getIntent();
+                    intent.putExtra("AccionMejora",gson.toJson(AddAccionMejora));
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            }
+
+    }
     public boolean ValifarFormulario(View view){
         String ErrorForm="";
         if(StringUtils.isEmpty(AddAccionMejora.CodResponsable) || AddAccionMejora.CodResponsable.equals("-1")) {ErrorForm+="*Responsable";}
@@ -801,7 +847,12 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         alertDialog.show();
     }
 
-    public void close(View view){finish();}
+    @Override
+    public void onBackPressed() {
+        outRegistroAvance();
+        //super.onBackPressed();
+    }
+    public void close(View view){outRegistroAvance();}
 
     public void escogerFecha(View view){
         DatePickerDialog datePickerDialog = new DatePickerDialog(this, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));

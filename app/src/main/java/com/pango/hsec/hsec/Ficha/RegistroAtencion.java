@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +27,7 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.DocumentoAdapter;
 import com.pango.hsec.hsec.adapter.GaleriaAdapter;
+import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.AccionMejoraModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
@@ -39,13 +41,13 @@ public class RegistroAtencion extends AppCompatActivity implements IActivity {
     RecyclerView gridView,listView;
     AccionMejoraModel accionMejoraModel;
     TextView tx_responsable,tx_fecha,tx_avance,tx_tarea;
-    GaleriaAdapter galeriaAdapter;
+    GridViewAdapter galeriaAdapter;
     private static final short REQUEST_CODE = 6545;
 
     ArrayList<GaleriaModel> DataDocs=new ArrayList<GaleriaModel>();
     ArrayList<GaleriaModel> DataImg=new ArrayList<GaleriaModel>();
-    RelativeLayout rel_otros;
-    LinearLayout ll_galeria;
+    //RelativeLayout rel_otros;
+    CardView ll_galeria,ll_documentos;
     DocumentoAdapter documentoAdapter;
     boolean permiso=false;
 
@@ -60,8 +62,9 @@ public class RegistroAtencion extends AppCompatActivity implements IActivity {
         gridView = (RecyclerView) findViewById(R.id.rec_galeria);
         listView = (RecyclerView) findViewById(R.id.list_docs);
         ll_galeria=findViewById(R.id.ll_galeria);
+        ll_documentos=findViewById(R.id.ll_documentos);
 
-        rel_otros=findViewById(R.id.rel_otros);
+        //rel_otros=findViewById(R.id.rel_otros);
 
         Bundle datos = getIntent().getExtras();
         String url= GlobalVariables.Url_base+"AccionMejora/GetId/"+datos.getString("Correlativo");
@@ -170,12 +173,13 @@ public class RegistroAtencion extends AppCompatActivity implements IActivity {
         if(count!=0){
             if(data.contains("TP01") ||data.contains("TP02")){
                 ll_galeria.setVisibility(View.VISIBLE);
+
             }else {
                 ll_galeria.setVisibility(View.GONE);
             }
 
             if(data.contains("TP03") ){
-                rel_otros.setVisibility(View.VISIBLE);
+                ll_documentos.setVisibility(View.VISIBLE);
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD) {
                     checkSelfPermission();
@@ -186,12 +190,12 @@ public class RegistroAtencion extends AppCompatActivity implements IActivity {
                 }
 
             }else {
-                rel_otros.setVisibility(View.GONE);
+                ll_documentos.setVisibility(View.GONE);
             }
 
             for(int i=0;i<accionMejoraModel.Files.Data.size();i++){
                 if(accionMejoraModel.Files.Data.get(i).TipoArchivo.equals("TP03")){
-                    rel_otros.setVisibility(View.VISIBLE);
+                    ll_documentos.setVisibility(View.VISIBLE);
                     DataDocs.add(accionMejoraModel.Files.Data.get(i));
                 }else{
                     DataImg.add(accionMejoraModel.Files.Data.get(i));
@@ -202,7 +206,8 @@ public class RegistroAtencion extends AppCompatActivity implements IActivity {
 
             GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
             gridView.setLayoutManager(layoutManager);
-            galeriaAdapter = new GaleriaAdapter(this,DataImg );
+            galeriaAdapter = new GridViewAdapter(this,DataImg );
+            galeriaAdapter.tacho=true;
             gridView.setAdapter(galeriaAdapter);
 
             LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -214,7 +219,7 @@ public class RegistroAtencion extends AppCompatActivity implements IActivity {
 
         }else{
             //mensaje.setVisibility(View.VISIBLE);
-            rel_otros.setVisibility(View.GONE);
+            ll_documentos.setVisibility(View.GONE);
             gridView.setVisibility(View.GONE);
             ll_galeria.setVisibility(View.GONE);
         }

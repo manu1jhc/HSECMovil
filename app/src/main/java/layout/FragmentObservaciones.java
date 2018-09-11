@@ -200,6 +200,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                 Utils.observacionModel = new ObservacionModel();
                 ObservacionModel observacionModel = new ObservacionModel();
                 tipo_busqueda = 1;
+                paginacion2=1;
                 observacionModel.CodUbicacion = Elemperpage;
                 observacionModel.Lugar = "1";
                 String json = "";

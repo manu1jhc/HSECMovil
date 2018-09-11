@@ -42,7 +42,7 @@ public class ComentRecAdapter extends RecyclerView.Adapter<ComentRecAdapter.Come
     public void onBindViewHolder(ComentRecAdapter.ComentRecViewHolder comentRecViewHolder, int i) {
         //data cm = data.get(i);
 
-        final String tempcom_perfil="media/getAvatar/"+data.get(i).Estado+"/fotocarnet.jpg";
+        final String tempcom_perfil="media/getAvatar/"+data.get(i).Estado.replace("*","").replace(".","")+"/fotocarnet.jpg";
         final String tempcom_nombre = data.get(i).Nombres;
         final String tempcom_fecha = data.get(i).Fecha;
 

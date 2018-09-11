@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
@@ -31,19 +32,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import layout.FragmentNoticias;
+
 
 public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
     private Context context;
     public PopupWindow popupWindow;
-
+    private FragmentNoticias FragNot;
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public NoticiasAdapter(Context context,  ArrayList<PublicacionModel> data) {
+    public NoticiasAdapter(Context context,  ArrayList<PublicacionModel> data,FragmentNoticias FragNot) {
         super(context, R.layout.public_noticias ,data);
         this.data = data;
         this.context = context;
+        this.FragNot=FragNot;
     }
     public void remove(int index){
         data.remove(index);
@@ -115,7 +119,7 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
         if(tempimg_perfil==null){
             img_perfil.setImageResource(R.drawable.ic_usuario);
         }else {
-            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil + "/Carnet.jpg";
+            String Url_img = GlobalVariables.Url_base + "media/getAvatar/" + tempimg_perfil.replace("*","").replace(".","") + "/Carnet.jpg";
             //String Url_img="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/getAvatar/42651514/Carnet.jpg";
             Glide.with(context)
                     .load(Url_img)
@@ -145,12 +149,8 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
         img_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //GlobalVariables.desdeBusqueda=true;
-                GlobalVariables.barTitulo=false;
-                GlobalVariables.dniUser=tempimg_perfil;
-                Intent intent=new Intent(context,FichaPersona.class);
-                //intent.putExtra("codUsuario",tempimg_perfil);
-                context.startActivity(intent);
+                GlobalVariables.dniUser=data.get(position).UrlObs;
+                ((MainActivity)FragNot.getActivity()).openFichaPersona();
             }
         });
 
