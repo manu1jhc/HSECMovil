@@ -38,7 +38,7 @@
                 android:id="@+id/tx_gal"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:text="Galeria de Fotos/Videos"
+                android:text="Galería de Fotos/Videos"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center"

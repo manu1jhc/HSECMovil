@@ -29,7 +29,7 @@
                     android:gravity="center"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
-                    android:text="Galería de Fotos\Videos"
+                    android:text="Galería de Fotos/Videos"
                     android:textColor="@color/colorNegro"
                     android:textSize="18sp"
                      />

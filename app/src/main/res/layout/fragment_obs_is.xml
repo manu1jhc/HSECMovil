@@ -583,7 +583,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:background="@color/colorBtnBeige"
+                app:cardBackgroundColor="@color/colorBtnBeige"
                 android:layout_marginEnd="1dp"
                 android:id="@+id/cardcomport" >
 

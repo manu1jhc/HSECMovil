@@ -28,7 +28,7 @@ public class FragmentObsdet extends Fragment implements IActivity {
     String jsonObsdet="";
     ListView listaDet;
     String[] obsDetcab={"CodInspeccion","NroDetInspeccion","Lugar","CodUbicacion","CodAspectoObs","CodActividadRel","CodNivelRiesgo","Observacion"};
-    String[] obsDetIzq={"Codigo","Nro. Inspección","Lugar","Ubicación","Aspecto observado","Actividad relacionada","Nivel de riesgo","Observación"};
+    String[] obsDetIzq={"Código","Nro. Inspección","Lugar","Ubicación","Aspecto observado","Actividad relacionada","Nivel de riesgo","Observación"};
 
 
 

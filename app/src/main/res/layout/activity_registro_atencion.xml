@@ -279,7 +279,7 @@
                 android:id="@+id/tx6"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Galeria de fotos/videos"
+                android:text="Galería de fotos/videos"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_margin="5dp"

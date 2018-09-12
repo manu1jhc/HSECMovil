@@ -27,7 +27,7 @@ import java.util.Arrays;
 
 public class FragmentInspeccion extends Fragment implements IActivity {
     String[] obsDetcab={"CodInspeccion","Gerencia","SuperInt","CodContrata","FechaP","Fecha","Hora","CodUbicacion","CodSubUbicacion","CodTipo"};
-    String[] obsDetIzq={"Codigo","Gerencia","Superintendencia","Contrata","Fecha programada","Fecha de inspección","Hora","Ubicación","Sub Ubicacion","Tipo de Inspección"};
+    String[] obsDetIzq={"Código","Gerencia","Superintendencia","Contrata","Fecha programada","Fecha de inspección","Hora","Ubicación","Sub Ubicacion","Tipo de Inspección"};
     InspAdapter inspAdapter;
     String jsonInspeccion="";
     public FragmentInspeccion() {

@@ -451,7 +451,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="0.15"
                         android:gravity="center"
-                        android:text="Galeria de Fotos\Videos"
+                        android:text="Galería de Fotos/Videos"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         />

@@ -25,7 +25,7 @@ import layout.FragmentMuro;
 public class FragmentObs extends Fragment implements IActivity {
 	ObsAdapter obsAdapter;
 	String[] obsDetcab={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
-	String[] obsDetIzq={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
+	String[] obsDetIzq={"Código","Área","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicación","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 	String[] obsDetcab2;
 	String[] obsDetIzq2;
 	String jsonObservacion="";

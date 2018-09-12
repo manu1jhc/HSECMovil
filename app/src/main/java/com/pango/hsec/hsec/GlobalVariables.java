@@ -205,13 +205,13 @@ public class GlobalVariables  {
     public static String nombre="";
 
     public static String[] obsDetListacab ={"CodObservacion","CodAreaHSEC","CodNivelRiesgo","ObservadoPor","Fecha","Hora","Gerencia","Superint","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar","CodTipo"};
-    public static String[] obsDetListIzq ={"Codigo","Area","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicacion","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
+    public static String[] obsDetListIzq ={"Código","Área","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicación","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 
     public static String[] planDetCab={"CodAccion","NroDocReferencia","CodAreaHSEC", "CodNivelRiesgo","DesPlanAccion","FechaSolicitud","CodEstadoAccion","SolicitadoPor","CodActiRelacionada","CodReferencia", "CodTipoAccion","FecComprometidaInicial","FecComprometidaFinal"};
-    public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "area","Nivel de riesgo", "Descripcion", "Fecha de solicitud", "Estado", "Solicitado por", "Actividad relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
+    public static String[] planDetIzq={"Código de acción", "Nro. doc. de referencia", "Área","Nivel de riesgo", "Descripción", "Fecha de solicitud", "Estado", "Solicitado por", "Actividad relacionada","Referencia", "Tipo de acción", "Fecha inicial","Fecha final" };
 
     public static String[] cursoDetCab={"CodCurso","Empresa","CodTema", "Tipo","Area","Lugar","Fecha","FechaF","PuntajeTotal","PuntajeP", "Vigencia","Capacidad","Duracion"};
-    public static String[] cursoDetIzq={"Codigo","Empresa","Tema", "Tipo","Area HSEC","Lugar","Fecha Inicio","Fecha Fin","Puntaje Total","% de aprobaciòn", "Vigencia","Capacidad","Duracion"};
+    public static String[] cursoDetIzq={"Código","Empresa","Tema", "Tipo","Área HSEC","Lugar","Fecha Inicio","Fecha Fin","Puntaje Total","% de aprobaciòn", "Vigencia","Capacidad","Duración"};
 
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
     public static String[] busqueda_mes={"*","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
