@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
@@ -18,13 +19,14 @@ import com.pango.hsec.hsec.controller.ActivityController;
 
 public class MiFirebaseInstanceIdService extends FirebaseInstanceIdService { //implements IActivity
 
-    public static final String TAG = "ATENCION";
-
+    public static final String TAG  =MiFirebaseInstanceIdService.class.getSimpleName();
+   // public MiFirebaseInstanceIdService()   {       super(TAG);    }
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
         String token = FirebaseInstanceId.getInstance().getToken();
-
+        saveTokenToPrefs(token);
+        Toast.makeText(MiFirebaseInstanceIdService.this,"Token generado ",Toast.LENGTH_SHORT).show();
         Log.d(TAG, "Token: " + token);
         String Oldtoken=getTokenFromPrefs();
         /*if(!Oldtoken.equals(token)){

@@ -114,7 +114,7 @@ public class ObsFacilitoAdapter extends  ArrayAdapter<ObsFacilitoMinModel> {
         final String tempEmpresa=data.get(position).Empresa;
         tx_empresa.setText(tempEmpresa);
 
-        if(editable.equals("0")){
+        if(editable.equals("0") || editable.equals("2")){
             editar.setVisibility(View.GONE);
         }
             editar.setOnClickListener(new View.OnClickListener() {

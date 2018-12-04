@@ -823,4 +823,11 @@ public class Utils {
         String password = user_login.getString("password","");
         return password;
     }
+
+    public static boolean obtener_status(Activity ActContext){
+        SharedPreferences check_status = ActContext.getSharedPreferences("checked", Context.MODE_PRIVATE);
+        Boolean status = check_status.getBoolean("check",false);
+        return status;
+    }
+
 }

@@ -146,8 +146,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final String editable = data.get(position).Editable;
             final String tempEmpresa=data.get(positem).Empresa;
 
-            if(editable=="0"||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
-                editar.setVisibility(View.GONE);
+            if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02"))){
+                editar.setVisibility(View.VISIBLE);
             }
             editar.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -793,8 +793,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         }
                     });
 
-                    button1.setText("  Editar reporte facilito");
-                    button3.setText("  Eliminar reporte facilito");
+                    button1.setText("  Editar reporte SOS");
+                    button3.setText("  Eliminar reporte SOS");
                     if(edit.equals("1")){
                         cv1.setVisibility(View.VISIBLE);
                         cv3.setVisibility(View.VISIBLE);
@@ -833,7 +833,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         @Override
                         public void onClick(View v) {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                            alertDialog.setTitle("Desea eliminar reporte facilito?")
+                            alertDialog.setTitle("Desea eliminar reporte SOS?")
                                     .setMessage(tempObservacion)
                                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int which) {
@@ -945,6 +945,4 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
         return fecha;
 
     }
-
-
 }

@@ -30,17 +30,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/imageView20"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:cropToPadding="false"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
                 android:src="@drawable/ic_facilito"
+                android:background="@drawable/transparent"
+                android:textColor="@color/colorBlanco"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                />
 
             <TextView
                 android:id="@+id/textView"
@@ -49,7 +50,7 @@
                 android:layout_marginEnd="8dp"
                 android:gravity="center_vertical"
 
-                android:text="Rep. Facilito/Detalle"
+                android:text="Rep. SOS/Detalle"
                 android:textColor="@color/colorBlanco"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -82,6 +83,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -97,7 +99,8 @@
                 android:layout_weight="0.65"
                 android:text="Código Obs"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
 
             <TextView
                 android:id="@+id/tx_codigo"
@@ -119,7 +122,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv2"
-
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -135,7 +138,8 @@
                 android:layout_weight="0.65"
                 android:text="Observado Por"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"  />
 
             <TextView
                 android:id="@+id/tx_persona"
@@ -158,7 +162,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv3"
-
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -174,7 +178,8 @@
                 android:layout_weight="0.65"
                 android:text="Tipo Observación"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"  />
 
             <TextView
                 android:id="@+id/tx_tipo"
@@ -196,7 +201,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cv4"
-
+            android:layout_margin="3dp"
             >
             <LinearLayout
                 android:layout_width="match_parent"
@@ -212,7 +217,8 @@
                     android:layout_weight="0.65"
                     android:text="Estado "
                     android:gravity="left|center"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"  />
 
                 <TextView
                     android:id="@+id/tx_estadofac"
@@ -233,7 +239,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv41"
-
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -249,7 +255,8 @@
                 android:layout_weight="0.65"
                 android:text="Gerencia"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"  />
 
             <TextView
                 android:id="@+id/tx_geren"
@@ -264,14 +271,14 @@
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
-<android.support.v7.widget.CardView
-android:id="@+id/cv6"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-app:layout_constraintEnd_toEndOf="parent"
-app:layout_constraintStart_toStartOf="parent"
-app:layout_constraintTop_toBottomOf="@+id/cv5"
-
+    <android.support.v7.widget.CardView
+    android:id="@+id/cv6"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/cv5"
+    android:layout_margin="3dp"
     >
 <LinearLayout
     android:layout_width="match_parent"
@@ -287,7 +294,8 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
         android:layout_weight="0.65"
         android:text="Superintendencia"
         android:gravity="left|center"
-        android:textStyle="bold" />
+        android:fontFamily="@font/asap"
+        android:textColor="@color/colorNegro"  />
 
     <TextView
         android:id="@+id/tx_superint"
@@ -310,7 +318,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv6"
-
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -326,7 +334,8 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_weight="0.65"
                 android:text="Ubicación Exacta"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"  />
 
             <TextView
                 android:id="@+id/tx_ubicacion"
@@ -348,7 +357,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv7"
-
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -364,7 +373,8 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_weight="0.65"
                 android:text="Observación"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"  />
 
             <TextView
                 android:id="@+id/tx_observacion"
@@ -387,7 +397,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv8"
-
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -403,7 +413,8 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_weight="0.65"
                 android:text="Acción a tomar"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"  />
 
             <TextView
                 android:id="@+id/tx_accion"
@@ -426,7 +437,7 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cv9"
-
+        android:layout_margin="3dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -442,7 +453,8 @@ app:layout_constraintTop_toBottomOf="@+id/cv5"
                 android:layout_weight="0.65"
                 android:text="Fecha Creación"
                 android:gravity="left|center"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"  />
 
             <TextView
                 android:id="@+id/tx_fecha"

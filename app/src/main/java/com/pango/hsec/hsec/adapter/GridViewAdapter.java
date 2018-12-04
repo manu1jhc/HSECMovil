@@ -158,6 +158,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.ViewHo
                     .into(viewHolder.imageView);
             //viewHolder.imageView.setImageResource(items.get(position).getDrawableId());
            // viewHolder.textView.setText(items.get(position).Descripcion);
+            viewHolder.btn_play.setVisibility(View.GONE);
         }
 
         if(items.get(position).Estado!=null&&items.get(position).Estado=="E"){

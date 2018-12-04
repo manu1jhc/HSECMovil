@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity
     View popupView;
     PopupWindow popupWindow;
     DrawerLayout drawerLayout;
-    ImageButton buscar;
+    public ImageButton buscar;
     TextView Title_txt,user_data;
     String lastTag;
     //NavigationView navigation_drawer_container;
@@ -536,7 +536,7 @@ public class MainActivity extends AppCompatActivity
                 GlobalVariables.listaGlobalFacilito.clear();
                 GlobalVariables.listaPlanMin.clear();
 
-
+                GlobalVariables.token_auth="";
 
                 Save_status(false);
                 Save_Datalogin("","");
@@ -600,7 +600,7 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
         spdatasearch.add(new Maestro(R.drawable.ic_all_options,"0","Todos"));
-        spdatasearch.add(new Maestro(R.drawable.ic_facilito,"1","Facilito"));
+        spdatasearch.add(new Maestro(R.drawable.ic_facilito,"1","Rep. SOS"));
         spdatasearch.add(new Maestro(R.drawable.ic_iobservacion,"2","Observación"));
         spdatasearch.add(new Maestro(R.drawable.ic_iinspeccion,"3","Inspección"));
         spdatasearch.add(new Maestro(R.drawable.ic_inoticia,"4","Noticia"));
@@ -1074,7 +1074,7 @@ public class MainActivity extends AppCompatActivity
             case FichaPersonal: fragment = FragmentFichaPersonal.newInstance("0","0"); Tipo="B";  Title="Ficha"; break;
             case Observaciones: fragment = new FragmentObservaciones(); Tipo="C"; Title="Observaciones"; break;
             case Inspecciones: fragment = new FragmentInspecciones();  Tipo="D";Title="Inspecciones"; break;
-            case ObsFacilito: fragment = new FragmentObsFacilito(); Tipo="I"; Title="Reportes facilito"; break;
+            case ObsFacilito: fragment = new FragmentObsFacilito(); Tipo="I"; Title="Reportes SOS"; break;
             case Feedback: fragment = new FragmentAvanzado(); Tipo="E"; Title="Feedback"; break;
             case Configuracion: fragment = new FragmentConfiguracion();  Tipo="F";Title="Configuración"; break;
             case Contactenos: fragment = new FragmentContactenos();  Tipo="G";Title="Contactenos"; break;

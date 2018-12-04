@@ -156,6 +156,8 @@ public class FragmentConfiguracion extends Fragment implements IActivity {
         GlobalVariables.Area_obs.clear();
         GlobalVariables.Tipo_Plan.clear();
         GlobalVariables.Roles.clear();
+        GlobalVariables.Condicion_obs.clear();
+        GlobalVariables.Acto_obs.clear();
 
         GlobalVariables.C_Empresa.clear();
         GlobalVariables.C_Lugar.clear();
@@ -205,6 +207,12 @@ public class FragmentConfiguracion extends Fragment implements IActivity {
                         break;
                     case "EROB":
                         GlobalVariables.Error_obs.add(item);
+                        break;
+                    case "ACSE":
+                        GlobalVariables.Acto_obs.add(item);
+                        break;
+                    case "COSE":
+                        GlobalVariables.Condicion_obs.add(item);
                         break;
                     //inspecciones
                     case "ASPO":

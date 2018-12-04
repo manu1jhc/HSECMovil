@@ -41,7 +41,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Actividad o Tarea Observada"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_tarea_obs"
@@ -73,7 +74,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Empresa"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_empresa"
@@ -105,7 +107,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Equipo involucrado"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_equipo"
@@ -427,7 +430,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Otras actividades de alto riesgo"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_otras_act"
@@ -462,7 +466,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Interacción de Seguridad"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_interaccion"
@@ -644,7 +649,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="Otro comportamiento / condición"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
 
             <TextView
                 android:id="@+id/tx_otrocom"
@@ -675,7 +681,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Detalle de los comportamientos/condiciones no seguros:"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/det_comportamiento"
@@ -705,7 +712,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Acciones inmediatas (si es aplicable):"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_acciones"

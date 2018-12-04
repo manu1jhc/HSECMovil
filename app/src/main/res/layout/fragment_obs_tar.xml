@@ -44,7 +44,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Tarea Observada"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"/>
 
                 <TextView
                     android:id="@+id/tx_tarea_obs"
@@ -77,7 +78,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Actividad relacionada"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_actividad"
@@ -111,7 +113,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Código PET"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_cod_pet"
@@ -144,7 +147,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="HHA relacionada"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_hha"
@@ -178,7 +182,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Estado"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro"/>
 
                 <TextView
                     android:id="@+id/tx_estado"
@@ -213,7 +218,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="0.65"
                     android:text="Error"
-                    android:textStyle="bold" />
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
 
                 <TextView
                     android:id="@+id/tx_error"
@@ -547,7 +553,9 @@
                         android:id="@+id/tipo_com1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Tipo de comentario" />
+                        android:text="Tipo de comentario"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"/>
                 </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.CardView
@@ -594,6 +602,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Tipo de comentario"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         tools:layout_editor_absoluteX="8dp"
                         tools:layout_editor_absoluteY="42dp" />
                 </android.support.v7.widget.CardView>
@@ -641,6 +651,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Tipo de comentario"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         tools:layout_editor_absoluteX="8dp"
                         tools:layout_editor_absoluteY="42dp" />
                 </android.support.v7.widget.CardView>
@@ -689,6 +701,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:text="Tipo de comentario"
+                        android:fontFamily="@font/asap"
+                        android:textColor="@color/colorNegro"
                         tools:layout_editor_absoluteX="8dp"
                         tools:layout_editor_absoluteY="42dp" />
                 </android.support.v7.widget.CardView>

@@ -127,6 +127,11 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
             ((ViewHolder) holder).activity=activity;
             ((ViewHolder) holder).Posicion=position;
 
+            String BackgrColor= "#FFFFFF";
+            if(items.get(position).Estado.equals("E"))
+                BackgrColor= "#CACFD2";
+            ((ViewHolder) holder).itemView.setBackgroundColor(Color.parseColor(BackgrColor));
+
         } else {
             ((ProgressViewHolder) holder).progressBar.setIndeterminate(true);
         }
@@ -170,10 +175,16 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
             Cargo = (TextView)view.findViewById(R.id.tvCargo);
             Nota = (TextView)view.findViewById(R.id.tvNota);
 
+
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     Position=Posicion;
+                    if(activity.personasList.get(Position).Estado.equals("E")){
+                        Toast.makeText(activity, "Participante no tiene asistencia al curso", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     layoutInflater =(LayoutInflater) activity.getSystemService(LAYOUT_INFLATER_SERVICE);
                     popupView = layoutInflater.inflate(R.layout.popup_notas, null);
 
@@ -296,7 +307,8 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onClick(View v){
                             Position++;
-                            setdata(Position);
+                            if(activity.personasList.get(Position).Estado.equals("A")&& Position<activity.personasList.size()-1)
+                             setdata(Position);
                             CheckPosition(Position);
                         }
                     });
@@ -361,6 +373,7 @@ public class ParticipantesAdapter extends RecyclerView.Adapter {
             btnAnterior.setEnabled(true);
             btnSiguiente.setEnabled(true);
             if(index<=0) btnAnterior.setEnabled(false);
+            if(activity.personasList.get(Position).Estado.equals("E")) btnSiguiente.setEnabled(false);
             if(index>=activity.personasList.size()-1) btnSiguiente.setEnabled(false);
         }
     }

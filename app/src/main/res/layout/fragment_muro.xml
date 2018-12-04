@@ -44,7 +44,7 @@
                     android:background="@color/Colorbtncreate"
                     android:drawableStart="@drawable/ic_add_circle_outline_black_24dp"
                     android:drawableEnd="@drawable/ic_facilito"
-                    android:text="Facilito"
+                    android:text="REP. SOS"
                     android:textColor="@color/colorBlanco"
 
                     android:textSize="10dp" />

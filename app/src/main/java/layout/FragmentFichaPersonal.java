@@ -14,7 +14,9 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +59,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
     private String mParam1;
     private String mParam2;
     View rootView;
-    TextView ficha_user,ficha_nombre,ficha_dni,ficha_correo,ficha_empresa,ficha_rol,ficha_area,ficha_tipo,tx_sexo;
+    TextView perfil_user,ficha_user,ficha_nombre,ficha_dni,ficha_correo,ficha_empresa,ficha_rol,ficha_area,ficha_tipo,tx_sexo;
     Button btn_estadistica,btn_capacita,btn_buscaruser;
     String url="";
     ImageView ficha_avatar;
@@ -108,6 +110,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         rootView=inflater.inflate(R.layout.fragment_ficha_personal, container, false);
         bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.navigation);
         String ActivarNFC =getArguments().getString("param1","0");
+        perfil_user=rootView.findViewById(R.id.Perfil_user);
         ficha_user=rootView.findViewById(R.id.ficha_user);
         ficha_nombre=rootView.findViewById(R.id.ficha_nombre);
         ficha_dni=rootView.findViewById(R.id.ficha_dni);
@@ -203,6 +206,10 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         if(GlobalVariables.userLoaded.CodPersona.equals(UserLoged.CodPersona)&&UserLoged.Tipo_Autenticacion.trim().equals("B"))
             txtPassword.setVisibility(View.VISIBLE);
         else txtPassword.setVisibility(View.GONE);
+        if(GlobalVariables.userLoaded.PerfilCap)
+            perfil_user.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorBtnBeige)+">Cumple</font>"));
+        else
+            perfil_user.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+">No Cumple</font>"));
 
         ficha_user.setText( GlobalVariables.userLoaded.Codigo_Usuario);
         ficha_nombre.setText( GlobalVariables.userLoaded.Nombres);

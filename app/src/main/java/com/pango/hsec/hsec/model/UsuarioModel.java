@@ -24,7 +24,6 @@ public class UsuarioModel {
     public String Tipo_Autenticacion;
     public String Passwd;
     public String Estado;
-
-
+    public boolean PerfilCap;
 
 }

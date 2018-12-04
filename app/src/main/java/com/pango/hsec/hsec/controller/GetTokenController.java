@@ -261,6 +261,12 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "EROB":
                     GlobalVariables.Error_obs.add(item);
                     break;
+                case "ACSE":
+                    GlobalVariables.Acto_obs.add(item);
+                    break;
+                case "COSE":
+                    GlobalVariables.Condicion_obs.add(item);
+                    break;
                 //inspecciones
                 case "ASPO":
                     GlobalVariables.Aspecto_Obs.add(item);
@@ -282,11 +288,9 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "CEMP":
                     GlobalVariables.C_Empresa.add(item);
                     break;
-
                 case "CLUG":
                     GlobalVariables.C_Lugar.add(item);
                     break;
-
                 case "CTEM":
                     GlobalVariables.C_Tema.add(item);
                     break;
@@ -296,8 +300,6 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "CSAL":
                     GlobalVariables.C_Tipo.add(item);
                     break;
-
-
                 /*default:
                     break;*/
             }

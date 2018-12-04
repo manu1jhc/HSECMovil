@@ -6,11 +6,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
+import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
+import android.widget.TextView;
+
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.R;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -18,6 +31,8 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.firebase.MessageShowActivity;
+import com.pango.hsec.hsec.model.UsuarioModel;
+import com.pango.hsec.hsec.obs_cabecera;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -35,18 +50,20 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = MiFirebaseMessagingService.class.getSimpleName();
     private NotificationUtils notificationUtils;
     Bitmap bitmap;
+    LayoutInflater layoutInflater2;
+    View popupView2;
+    PopupWindow popupWindow2;
+    protected Handler handler;
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-
-
         String from = remoteMessage.getFrom();
         Log.d(TAG, "Mensaje recibido de: " + from);
 
         if (remoteMessage.getNotification() != null) {
             String titulo = remoteMessage.getNotification().getTitle();
             String texto = remoteMessage.getNotification().getBody();
-            GlobalVariables.codFacilito=remoteMessage.getData().get("codigo");
+            //GlobalVariables.codFacilito=remoteMessage.getData().get("codigo");
 
             Log.d("notificacion", remoteMessage.getData().toString());
             Log.d("notificacion", remoteMessage.getData().get("codigo"));
@@ -56,12 +73,25 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "Texto: " + texto);
 
             String Codigo=remoteMessage.getData().get("codigo");
+            String CodPersona=remoteMessage.getData().get("codpersona");
+            String Tipo=remoteMessage.getData().get("tipo");
             String imageUri = remoteMessage.getData().get("image");
+            Gson gson = new Gson();
+            UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+            if(!CodPersona.equals(UserLoged.CodPersona)) return;
+            //confirmUpdate(titulo, texto);
             if(StringUtils.isEmpty(imageUri)) mostrarNotificacion(titulo, texto,Codigo);
             else {
                 bitmap = getBitmapfromUrl(imageUri);
                 sendNotification(titulo, texto,Codigo,bitmap);
             }
+
+            Intent intent = new Intent(this, MessageShowActivity.class);
+            intent.putExtra("title", titulo);
+            intent.putExtra("descripcion", texto);
+            intent.putExtra("codigo", Codigo);
+            intent.putExtra("tipo", Tipo);
+            startActivity(intent);
         }
 
         if (remoteMessage.getData().size() > 0) {
@@ -137,6 +167,44 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
 
         }
     }
+
+    public void confirmUpdate(String Titulo,String Contenido){
+        //handler = new Handler();
+        obs_cabecera f1 = obs_cabecera.newInstance("");
+        //f1.txtObservado2=(TextView) f1.getView().findViewById(R.id.txt_nombres);
+        if(popupWindow2!=null && popupWindow2.isShowing())popupWindow2.dismiss();
+        layoutInflater2 =(LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+        popupView2 = layoutInflater2.inflate(R.layout.popup_notificacion, null);
+
+        popupWindow2 = new PopupWindow(popupView2, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow2.showAtLocation(f1.getView(), Gravity.NO_GRAVITY, 0,0);
+        popupWindow2.setFocusable(true);
+        popupWindow2.update();
+        popupWindow2.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT
+        popupWindow2.setOutsideTouchable(true);
+        popupWindow2.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
+        popupWindow2.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+            @Override
+            public void onDismiss() {
+                popupWindow2.dismiss();
+            }
+        });
+       /* ImageView imgTitle=(ImageView) popupView2.findViewById(R.id.txt_nombres);
+        CardView cardResult=(CardView) popupView2.findViewById(R.id.card_content);*/
+        TextView txtTitle=(TextView) popupView2.findViewById(R.id.txt_nombres);
+        TextView txtContenet=(TextView) popupView2.findViewById(R.id.txt_cargo);
+
+        txtTitle.setText(Titulo);
+        txtContenet.setText(Contenido);
+        /*handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow2.dismiss();
+            }
+        }, 5000);*/
+    }
+
 
    /* @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {

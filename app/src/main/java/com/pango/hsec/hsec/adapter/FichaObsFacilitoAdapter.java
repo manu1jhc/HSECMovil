@@ -96,7 +96,7 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
         final String Empresa = data.get(position).Empresa;
         empresa.setText(Empresa);
 
-        if(editable.equals("0")){
+        if(editable.equals("0") || editable.equals("2")){
             editar.setVisibility(View.GONE);
         }
         editar.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +144,7 @@ public class FichaObsFacilitoAdapter extends ArrayAdapter<ObsFacilitoMinModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea eliminar reporte facilito")
+                        alertDialog.setTitle("Desea eliminar reporte SOS")
                                 .setMessage(tempObservacion)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

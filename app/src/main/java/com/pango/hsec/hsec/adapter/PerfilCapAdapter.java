@@ -35,7 +35,7 @@ public class PerfilCapAdapter extends RecyclerView.Adapter<PerfilCapAdapter.Perf
 
         perfilCapViewHolder.tema.setText(cm.Tema);
         //capacitacionViewHolder.duracion_nota.setText(cm.Duracion);
-        perfilCapViewHolder.estado.setText(cm.Estado+"\n"+cm.Nota);
+        perfilCapViewHolder.estado.setText(cm.Estado+(cm.Nota!=null?"\n"+cm.Nota:""));
         //perfilCapViewHolder.tx_fecha.setText(cm.Cumplido);
 
         if(cm.Cumplido!=null){

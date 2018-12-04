@@ -46,7 +46,6 @@ import static android.app.Activity.RESULT_OK;
 public class obs_cabecera extends Fragment implements IActivity{
 
     private static View mView, dView;
-
     Calendar myCalendar;
     DatePickerDialog.OnDateSetListener date;
     DialogFragment newFragment;
@@ -69,7 +68,6 @@ public class obs_cabecera extends Fragment implements IActivity{
         Bundle b = new Bundle();
         b.putString("bString", sampleText);
         f.setArguments(b);
-
         return f;
     }
     @Override

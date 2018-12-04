@@ -41,6 +41,9 @@ import layout.FragmentObservaciones;
 
 public class GlobalVariables  {
 
+    //variables de notificaciones
+    public static String NotCodigo,NotCodPersona,NotTipo;
+
 
     //variables de edicion Observaciones
     public static ObservacionModel Obserbacion= new ObservacionModel();
@@ -170,7 +173,7 @@ public class GlobalVariables  {
     public static boolean isFragment=false;
     public static int contpublic=1;
     public static int num_items=7;
-    public static String Url_base="https://app.antapaccay.com.pe/hsecwebp/whsec_Service/api/";
+    public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
     //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
     public static boolean flagUpSc=false;
     public  static boolean flagFacilito=false;
@@ -404,7 +407,7 @@ public class GlobalVariables  {
         ObsFacilito_estadoHistoria.add(new Maestro("O","Observado"));
         ObsFacilito_estadoHistoria.add(new Maestro("S","Espera"));
 
-   //condicion sub estandar
+  /* //condicion sub estandar
         Condicion_obs.add(new Maestro("0027","Protección inadecuadas, defectuosa o inexistente"));
         Condicion_obs.add(new Maestro("0028","Paredes, techos, etc.  inestables"));
         Condicion_obs.add(new Maestro("0029","Caminos, pisos, superficies inadecuadas."));
@@ -451,7 +454,7 @@ public class GlobalVariables  {
         Acto_obs.add(new Maestro("0022","Hechos de violencia"));
         Acto_obs.add(new Maestro("0023","Exponerse a la línea de fuego"));
         Acto_obs.add(new Maestro("0024","No uso de los 3 puntos de apoyo"));
-        Acto_obs.add(new Maestro("0025","Intento por realizar tareas múltiples en forma simultánea"));
+        Acto_obs.add(new Maestro("0025","Intento por realizar tareas múltiples en forma simultánea"));*/
 
 
         TipoAutenticacion.add(new Maestro("B","Básico"));

@@ -95,10 +95,10 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
 
 
         comentario.setText(comentarios+" comentarios");
-        comentario.setOnClickListener(new View.OnClickListener() {
+        /*comentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(v.getContext(),"Comentarios",Toast.LENGTH_SHORT).show();
 
                 GlobalVariables.istabs=true;
 
@@ -106,13 +106,9 @@ public class NoticiasAdapter extends ArrayAdapter<PublicacionModel> {
                 intent.putExtra("codObs",data.get(position).Codigo);
                 intent.putExtra("posTab",2);
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
-
                 v.getContext().startActivity(intent);
-
-
-
             }
-        });
+        });*/
 
         // img_perfil.setImageResource(R.drawable.fotocarnet);
 

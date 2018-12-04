@@ -28,20 +28,21 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-            <Button
+
+            <ImageButton
                 android:id="@+id/btn_asistencia"
-                style="@style/Widget.AppCompat.Button.Borderless"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:src="@drawable/ic_facilito"
                 android:background="@drawable/transparent"
                 android:textColor="@color/colorBlanco"
-                android:drawableStart="@drawable/ic_facilito"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
-                android:textSize="18dp" />
+                />
+
             <TextView
                 android:id="@+id/textViewtitle"
-                android:layout_width="230dp"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:gravity="center_vertical"
                 android:textColor="@color/colorBlanco"
@@ -147,6 +148,7 @@
                         android:gravity="right|center_vertical"
                         android:text="Tipo: "
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -206,6 +208,7 @@
                         android:textSize="12sp"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_chainStyle="spread_inside"
                         app:layout_constraintStart_toStartOf="parent"
@@ -290,6 +293,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:textStyle="bold"
                         tools:text="Superintendencia: " />
 
                     <EditText
@@ -345,6 +349,7 @@
                         android:textSize="12sp"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
+                        android:textStyle="bold"
                         android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -418,6 +423,7 @@
                         android:textSize="12sp"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
+                        android:textStyle="bold"
                         android:background="@color/ColorPlomo4"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -510,6 +516,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        android:textStyle="bold"
                         tools:text="Acción: " />
                     <TextView
                         android:id="@+id/aspa4"
@@ -582,6 +589,7 @@
                         android:gravity="right|center_vertical"
                         android:text="Responsable Auxiliar: "
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -652,6 +660,7 @@
                         android:gravity="right|center_vertical"
                         android:text="Estado: "
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -692,6 +701,7 @@
                         android:gravity="center"
                         android:text="Fotografía:"
                         android:textSize="12sp"
+                        android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btn_galeria"
                         app:layout_constraintStart_toStartOf="parent"

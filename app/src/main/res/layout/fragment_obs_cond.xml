@@ -25,7 +25,8 @@ tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsCond"
             android:layout_height="match_parent"
             android:layout_weight="0.65"
             android:text="Condición Sub-estándar observada"
-            android:textStyle="bold" />
+            android:fontFamily="@font/asap"
+            android:textColor="@color/colorNegro" />
 
         <TextView
             android:id="@+id/tx_obs_det"
@@ -59,7 +60,8 @@ tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsCond"
             android:layout_height="match_parent"
             android:layout_weight="0.65"
             android:text="Acción inmediata (Corrección)"
-            android:textStyle="bold" />
+            android:fontFamily="@font/asap"
+            android:textColor="@color/colorNegro" />
 
         <TextView
             android:id="@+id/tx_accion"
@@ -93,7 +95,8 @@ tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsCond"
             android:layout_height="match_parent"
             android:layout_weight="0.65"
             android:text="Actividad relacionada"
-            android:textStyle="bold" />
+            android:fontFamily="@font/asap"
+            android:textColor="@color/colorNegro" />
 
         <TextView
             android:id="@+id/tx_act_rel"
@@ -128,7 +131,8 @@ tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsCond"
             android:layout_height="match_parent"
             android:layout_weight="0.65"
             android:text="HHA relacionada"
-            android:textStyle="bold" />
+            android:fontFamily="@font/asap"
+            android:textColor="@color/colorNegro"/>
 
         <TextView
             android:id="@+id/tx_hha"
@@ -163,7 +167,8 @@ tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsCond"
             android:layout_height="match_parent"
             android:layout_weight="0.65"
             android:text="Condición Sub-estándar"
-            android:textStyle="bold" />
+            android:fontFamily="@font/asap"
+            android:textColor="@color/colorNegro" />
 
         <TextView
             android:id="@+id/tx_sub_estandar"

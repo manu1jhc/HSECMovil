@@ -70,7 +70,6 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     int anioActual,mesActual,diaActual;
     String anio,mes,codPersona,descripcion;
     int tipo_busqueda;
-    int contPublicacion;
     String url="";
     ListView list_estadistica;
     ImageView btn_buscar_e;
@@ -78,7 +77,7 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
     int mes_pos;
     String diaFin;
 
-    int paginacion2=1;
+    static int contPublicacion,paginacion2=1;
     int paginacion=1;
     boolean flagObsFiltro=true;
     boolean upFlag;

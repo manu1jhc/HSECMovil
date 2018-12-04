@@ -171,7 +171,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         ObsHist.Estado = estado;
                         spinner_estado.setSelection(position);
                     }
-
                 }
             }
             @Override
@@ -570,7 +569,6 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                                     }
                                 }
                             }
-
                         }else{
                             if(response.code()==401){
                                 Utils.reloadTokenAuth(addAtencionFHistorial.this,addAtencionFHistorial.this);
@@ -582,7 +580,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                                 Errores+="\nOcurrio un error interno de servidor";
                             }
                         }
-                        if(!Actives.contains(0)) FinishSave();
+                        if(!Actives.contains(0)&&Errores.equals("")) Notification();
                     }
 
                     @Override
@@ -793,12 +791,11 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         else if(Tipo.equals("3")){//noticiones
             data= data.substring(1,data.length()-1);
             if(!data.isEmpty()){
-                Actives.set(3,-1);
-                for(String err:data.split(";"))
-                    Errores+="\n"+err;
+               // Actives.set(3,-1);
+                Toast.makeText(this,data,Toast.LENGTH_SHORT).show();
+               /* for(String err:data.split(";"))
+                     Errores+="\n"+err;*/
             }
-            else
-                Actives.set(3,1);
             FinishSave();
         }
         else { // tipo reloadToken
@@ -892,6 +889,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
         setResult(RESULT_OK, intent);
         finish();
     }
+
     public void UpdateFiles(boolean apt){
         try {
             gridViewAdapter.ProcesarImagens();
@@ -929,7 +927,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                     Actives.add(1);
                     Actives.add(1);
                     Actives.add(1);
-                    Notification();
+                    //Notification();
                 }
             }
             else {
@@ -989,7 +987,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                                 Actives.set(2,-1);
                                 Errores += "\nOcurrio un error interno de servidor";
                             }
-                            if (!Actives.contains(0))  Notification();
+                            if (Errores.equals(""))  Notification();
                             progressBar.setVisibility(View.GONE);
                         }
 
@@ -997,7 +995,7 @@ public class addAtencionFHistorial extends AppCompatActivity implements IActivit
                         public void onFailure(Call<String> call, Throwable t) {
                             Actives.set(2,-1);
                             Errores += "\nFallo la subida de archivos";
-                            if (!Actives.contains(0))  Notification();
+                           // if (!Actives.contains(0))  Notification();
                             progressBar.setVisibility(View.GONE);
                         }
                     });

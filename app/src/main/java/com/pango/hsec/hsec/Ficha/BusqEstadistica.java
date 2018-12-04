@@ -97,7 +97,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     FichaObsFacilitoAdapter obfa;
     FichaInspecionAdapter inspa;
     FichaObservacionAdapter obsa;
-
+    String Elemperpage="7";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -377,7 +377,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             Utils.observacionModel = new ObservacionModel();
             ObservacionModel observacionModel = new ObservacionModel();
             //tipo_busqueda=1;
-            observacionModel.CodUbicacion = "5";
+            observacionModel.CodUbicacion =Elemperpage;
             observacionModel.Lugar = "1";
             observacionModel.ObservadoPor = codPersona;
             int mesActual=Integer.parseInt(mes);
@@ -412,7 +412,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             inspeccionModel = new InspeccionModel();
             InspeccionModel inspeccionModel = new InspeccionModel();
             //tipo_busqueda=1;
-            inspeccionModel.Elemperpage = "5";
+            inspeccionModel.Elemperpage = Elemperpage;
             inspeccionModel.Pagenumber = "1";
             inspeccionModel.CodTipo = codPersona;
 
@@ -448,9 +448,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             //aqui va planes
 
             if(mes.equals("00")) {
-                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C"+ "&Pagenumber=" + "1" + "&Elemperpage=" + Elemperpage;
             }else{
-                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + "7";
+                url = GlobalVariables.Url_base + "PlanAccion/GetPlanes?CodPersonaF="+codPersona+"&&Fecha=" + anio + "%7C" + mes + "&Pagenumber=" + "1" + "&Elemperpage=" + Elemperpage;
             }
 
             final ActivityController obj = new ActivityController("get-"+paginacion, url, BusqEstadistica.this,this);
@@ -461,9 +461,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
             String anho="-";
             if(!anio.equals("*")) anho=anio;
             if(mes.equals("00")) {
-                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C/1/5";
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C/1/"+Elemperpage;
             }else{
-                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C"+mes+"/1/5";
+                url = GlobalVariables.Url_base + "ObsFacilito/GetObservacionFacFicha/"+codPersona+"/" + anho + "%7C"+mes+"/1/"+Elemperpage;
             }
 
             final ActivityController obj = new ActivityController("get-"+paginacion, url, BusqEstadistica.this,this);

@@ -42,6 +42,7 @@ package layout;
         import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
         import com.pango.hsec.hsec.model.ObsFacilitoModel;
         import com.pango.hsec.hsec.model.PublicacionModel;
+        import com.pango.hsec.hsec.model.UsuarioModel;
 
         import java.util.ArrayList;
 
@@ -77,7 +78,7 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
     String url="";
     //int contPublicacion;
     public ListView list_busqueda;
-    int paginacion2=1;
+    static int paginacion2=1;
     boolean flagObsFiltro=true;
     boolean upFlag;
     boolean downFlag;
@@ -152,28 +153,21 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         //sp_busqueda=(Spinner) rootView.findViewById(R.id.sp_busqueda);
         tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
         btn_eliminarf=rootView.findViewById(R.id.btn_eliminarf);
-
-
-
-
         url = GlobalVariables.Url_base + "ObsFacilito/Filtro";
-
-
         if(GlobalVariables.listaGlobalFacilito.size()==0) {
-
             GlobalVariables.FacilitoList =new ObsFacilitoModel();
+            GlobalVariables.FacilitoList.CodObsFacilito=null;
+            GlobalVariables.FacilitoList.UbicacionExacta=null;
             GlobalVariables.FacilitoList.Accion=Elemperpage;
             GlobalVariables.FacilitoList.Observacion="1";
-
             Gson gson = new Gson();
+            //UsuarioModel user= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+            GlobalVariables.FacilitoList.Persona=null;//user.CodPersona;
+            GlobalVariables.FacilitoList.Tipo=null;
             String json = gson.toJson(GlobalVariables.FacilitoList);
 
             final ActivityController obj = new ActivityController("post", url, FragmentObsFacilito.this, getActivity());
             obj.execute(json,"-1");
-
-
-
-
         }else{
             success("","-1");
         }
@@ -197,8 +191,6 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
                 obj.execute(json,"-1");
             }
         });
-
-
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -471,8 +463,6 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
     }
 
 
-
-
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -487,10 +477,6 @@ public class FragmentObsFacilito extends Fragment implements IActivity {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

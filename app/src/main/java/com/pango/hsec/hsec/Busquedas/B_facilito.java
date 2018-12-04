@@ -80,7 +80,6 @@ public class B_facilito extends AppCompatActivity {
             id_obspor.setVisibility(View.VISIBLE);
         }else{
             GlobalVariables.FacilitoList.Persona=GlobalVariables.userLogin.CodPersona;
-
         }
 
         tipodata= new ArrayList<>();
@@ -95,11 +94,6 @@ public class B_facilito extends AppCompatActivity {
         estadodata.add(new Maestro(null,"-  Seleccione  -"));
         estadodata.addAll(GlobalVariables.ObsFacilito_estado);
 
-
-
-
-
-
         //aqui va spinner gerencia y superintendencia
         ArrayAdapter adapterGerencia = new ArrayAdapter(this.getBaseContext(),R.layout.custom_spinner_item, GlobalVariables.Gerencia);
         adapterGerencia.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
@@ -108,7 +102,6 @@ public class B_facilito extends AppCompatActivity {
         ArrayAdapter adapterSuperInt = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, superintdata);
         adapterSuperInt.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerSuperInt.setAdapter(adapterSuperInt);
-
 
         ArrayAdapter adapterTipo = new ArrayAdapter(getBaseContext(),R.layout.custom_spinner_item, tipodata);
         adapterTipo.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
@@ -139,8 +132,6 @@ public class B_facilito extends AppCompatActivity {
 
             }
         });
-
-
         spinner_estado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -155,9 +146,6 @@ public class B_facilito extends AppCompatActivity {
 
             }
         });
-
-
-
 
         img_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,8 +163,6 @@ public class B_facilito extends AppCompatActivity {
                 finish();
             }
         });
-
-
 
         spinnerGerencia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -210,7 +196,6 @@ public class B_facilito extends AppCompatActivity {
             }
         });
 
-
         spinnerSuperInt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -235,30 +220,25 @@ public class B_facilito extends AppCompatActivity {
             }
         });
 
-
-
         btn_buscar_p.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tipo_persona="responsable";
                 Intent intent = new Intent(B_facilito.this, B_personas.class);
-                intent.putExtra("title","Reporte facilito/Filtro/Resp");
+                intent.putExtra("title","Reporte SOS/Filtro/Resp");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });
-
 
         btn_buscar_c.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 tipo_persona="creador";
                 Intent intent = new Intent(B_facilito.this, B_personas.class);
-                intent.putExtra("title","Reporte facilito/Filtro/Creador");
+                intent.putExtra("title","Reporte SOS/Filtro/Creador");
                 startActivityForResult(intent , REQUEST_CODE);
             }
         });
-
-
 
         /////////////Fechas//////////////////////////////////////////////////////
         myCalendar = Calendar.getInstance();
@@ -326,6 +306,7 @@ public class B_facilito extends AppCompatActivity {
         };
 
     }
+
     public void close(View view){
         finish();
     }
@@ -357,9 +338,6 @@ public class B_facilito extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMaxDate(tempCalendar.getTimeInMillis());
         datePickerDialog.show();
     }
-
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -393,7 +371,4 @@ public class B_facilito extends AppCompatActivity {
         }
 
     }
-
-
-
 }

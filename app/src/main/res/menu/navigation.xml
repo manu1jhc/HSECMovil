@@ -48,8 +48,8 @@
 
     <item
         android:id="@+id/navigation_avanzado"
-        android:icon="@drawable/ic_facilito"
-        android:title="Rep. Facilitos"
+        android:icon="@drawable/ic_logofacilito"
+        android:title="Rep. SOS"
         app:showAsAction="ifRoom|withText"/>
 
 

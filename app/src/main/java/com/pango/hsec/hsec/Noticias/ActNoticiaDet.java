@@ -49,6 +49,7 @@ import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.FragmentInspeccion;
 import com.pango.hsec.hsec.Inspecciones.FragmentObsInsp;
 import com.pango.hsec.hsec.Inspecciones.FragmentParticipante;
+import com.pango.hsec.hsec.Login;
 import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.Observaciones.FragmentGaleria;
@@ -62,13 +63,16 @@ import com.pango.hsec.hsec.adapter.DocumentoAdapter;
 import com.pango.hsec.hsec.adapter.GaleriaAdapter;
 import com.pango.hsec.hsec.adapter.NoticiasAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.controller.GetTokenController;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.GetComentModel;
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -83,7 +87,7 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
 
     int pos;
     //Spinner sp_busqueda;
-    String codNot="";
+    String codNot="",codpersona;
     String jsonNoticia="";
     String url="";
     TextView not_titulo,txfecha;
@@ -95,7 +99,6 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
     ArrayList<GaleriaModel> DataImg=new ArrayList<GaleriaModel>();
     GetGaleriaModel getImg;
     //private static View mView;
-    String codObs="";
     String jsonGaleria="";
     String url2="";
     Adap_Img adaptador;
@@ -124,17 +127,12 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
     ImageButton btn_send;
     EditText et_comentario;
     ComentRecAdapter comentAdapter;
-
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_act_noticia_det);
-        Bundle datos = this.getIntent().getExtras();
-        codNot=datos.getString("codObs");
-        pos=datos.getInt("posTab");
-
-        GlobalVariables.isFragment=true;
 
         ///galeria
         gridView = (RecyclerView) findViewById(R.id.rec_galeria);
@@ -152,34 +150,7 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
         btn_send=(ImageButton) findViewById(R.id.btn_send);
         et_comentario=(EditText) findViewById(R.id.et_comentario);
         //GlobalVariables.count=1;
-        GlobalVariables.isFragment=true;
-
-        ////------
-
-        url= GlobalVariables.Url_base+"Noticia/Get/"+codNot;
-
-        if(jsonNoticia.isEmpty()) {
-            GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url, ActNoticiaDet.this,this);
-            obj.execute("1");
-        }else {
-            success(jsonNoticia,"1");
-        }
-
-
-//galeria
-        url2= GlobalVariables.Url_base+"media/GetMultimedia/"+codNot;
-
-        //https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/GetMultimedia/OBS00240578
-        if(jsonGaleria.isEmpty()) {
-            GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url2, ActNoticiaDet.this,this);
-            obj.execute("2");
-
-        }else{
-            success(jsonGaleria,"2");
-        }
-
+      //  GlobalVariables.isFragment=true;
 
         txGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -204,21 +175,6 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
             }
         });
 
-
-/////comentarios
-
-        url3= GlobalVariables.Url_base+"Comentario/getObs/"+codNot;
-
-
-        if(jsonComentario.isEmpty()){
-            GlobalVariables.istabs=true;
-            final ActivityController obj = new ActivityController("get", url3, ActNoticiaDet.this,this);
-            obj.execute("3");
-        }else {
-            success(jsonComentario,"3");
-        }
-
-
         btn_send.setEnabled(false);
         et_comentario.addTextChangedListener(new TextWatcher() {
             @Override
@@ -238,7 +194,6 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
             }
         });
 
-
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -257,17 +212,105 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
 
                 url3= GlobalVariables.Url_base+"Comentario/insert";
                 final ActivityController obj = new ActivityController("post", url3, ActNoticiaDet.this,ActNoticiaDet.this);
-                obj.execute(json);
+                obj.execute(json,"1");
 
 
 
             }
         });
 
+        gson=  new Gson();
+        Intent startingIntent = getIntent();
+        if (startingIntent != null) {
+            codNot = startingIntent.getStringExtra("codigo"); // Retrieve the id
+            codpersona = startingIntent.getStringExtra("codpersona");
+            if(codNot==null && codpersona== null){
 
+                Bundle datos = this.getIntent().getExtras();
+                codNot=datos.getString("codObs");
+                //  pos=datos.getInt("posTab");
+                loadData();
+            }
+            else{
+                GlobalVariables.NotCodigo=codNot;
+                GlobalVariables.NotCodPersona=codpersona;
+                GlobalVariables.NotTipo="";
+               // pos=3;
+                if(StringUtils.isEmpty(GlobalVariables.token_auth)){ // open app in OBF
+                    if(Utils.obtener_status(this)){
+
+                        String url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.accumulate("username",Utils.obtener_usuario(this));
+                            jsonObject.accumulate("password",Utils.obtener_pass(this));
+                            jsonObject.accumulate("domain","anyaccess");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        final ActivityController obj1 = new ActivityController("post-2", url_token, this,this);
+                        obj1.execute(jsonObject.toString(),"2");
+                        return;
+                    }
+                    else {
+                        GlobalVariables.pasnotification=true;
+                        Intent intent = new Intent(ActNoticiaDet.this,Login.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else {
+                    UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+                    if(!codpersona.equals(UserLoged.CodPersona)) {
+                        Toast.makeText(this, "Usuario logueado no coincide con usuario a notificar",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ActNoticiaDet.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else loadData();
+                }
+            }
+        }
 
     }
 
+    public void loadData(){
+        //load Noticia
+        url= GlobalVariables.Url_base+"Noticia/Get/"+codNot;
+        if(jsonNoticia.isEmpty()) {
+            //GlobalVariables.istabs=true;
+            final ActivityController obj = new ActivityController("get", url, ActNoticiaDet.this,this);
+            obj.execute("1");
+        }else {
+            success(jsonNoticia,"1");
+        }
+
+//galeria
+        url2= GlobalVariables.Url_base+"media/GetMultimedia/"+codNot;
+
+        //https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/media/GetMultimedia/OBS00240578
+        if(jsonGaleria.isEmpty()) {
+          //  GlobalVariables.istabs=true;
+            final ActivityController obj = new ActivityController("get", url2, ActNoticiaDet.this,this);
+            obj.execute("2");
+
+        }else{
+            success(jsonGaleria,"2");
+        }
+
+        //comentarios
+        url3= GlobalVariables.Url_base+"Comentario/getObs/"+codNot;
+
+        if(jsonComentario.isEmpty()){
+            //GlobalVariables.istabs=true;
+            final ActivityController obj = new ActivityController("get", url3, ActNoticiaDet.this,this);
+            obj.execute("3");
+        }else {
+            success(jsonComentario,"3");
+        }
+
+    }
     public void close(View view){
         finish();
     }
@@ -277,7 +320,6 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
         }
         return false;
     }
-
 
     public void checkSelfPermission() {
 
@@ -319,7 +361,6 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
         permiso=true;
 
     }
-
 
     @Override
     public void success(String data, String Tipo) {
@@ -390,7 +431,6 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
                     }
                 }
 
-
                 GlobalVariables.listaGaleria=DataImg;
 
                 GridLayoutManager layoutManager = new GridLayoutManager(this, 2);
@@ -403,8 +443,6 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
                 listView.setLayoutManager(horizontalManager);
                 documentoAdapter = new DocumentoAdapter(this, DataDocs,permiso);
                 listView.setAdapter(documentoAdapter);
-
-
 
             }else{
                 mensaje.setVisibility(View.GONE);
@@ -443,21 +481,38 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
     @Override
     public void successpost(String data, String Tipo) {
 
-        Utils.closeSoftKeyBoard(this);
-        et_comentario.setText("");
-        if(data.contains("-1")){
-            Toast.makeText(this,"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
+        if(Tipo.equals("1")){
+            Utils.closeSoftKeyBoard(this);
+            et_comentario.setText("");
+            if(data.contains("-1")){
+                Toast.makeText(this,"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(this,"Comentario enviado",Toast.LENGTH_SHORT).show();
+                GlobalVariables.count=5;
+                GlobalVariables.isFragment=true;
+                url3= GlobalVariables.Url_base+"Comentario/getObs/"+codNot;
+                final ActivityController obj = new ActivityController("get-2", url3, ActNoticiaDet.this,this);
+                obj.execute("3");
+            }
         }
-        else{
-            Toast.makeText(this,"Comentario enviado",Toast.LENGTH_SHORT).show();
-            GlobalVariables.count=5;
-            GlobalVariables.isFragment=true;
-            url3= GlobalVariables.Url_base+"Comentario/getObs/"+codNot;
-            final ActivityController obj = new ActivityController("get-2", url3, ActNoticiaDet.this,this);
-            obj.execute("3");
+        else if(Tipo.equals("2")){
+            data= data.substring(1,data.length()-1);
+            if(data.length()>40){
+                GlobalVariables.token_auth=data;
+                GetTokenController objT = new GetTokenController("",ActNoticiaDet.this,null);
+                objT.Obtener_dataUser();
+                objT.LoadData();
+                UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+                if(!codpersona.equals(UserLoged.CodPersona)) {
+                    Toast.makeText(this, "Usuario logueado no coincide con usuario a notificar",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ActNoticiaDet.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else  loadData();
+            }
         }
-
-
     }
 
     @Override
@@ -478,8 +533,5 @@ public class ActNoticiaDet extends AppCompatActivity implements IActivity {
                 (InputMethodManager) getSystemService(this.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
     }
-
-
-
 
 }

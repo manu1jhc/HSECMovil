@@ -25,24 +25,20 @@ public class CapacitacionAdapter extends RecyclerView.Adapter<CapacitacionAdapte
         this.capRecibidaModel = capRecibidaModel;
     }
 
-
     @Override
     public void onBindViewHolder(CapacitacionAdapter.CapacitacionViewHolder capacitacionViewHolder, int i) {
         CapRecibidaModel cm = capRecibidaModel.get(i);
 
         capacitacionViewHolder.tema.setText(cm.Tema);
         //capacitacionViewHolder.duracion_nota.setText(cm.Duracion);
-        capacitacionViewHolder.estado.setText(cm.Estado+"\n"+cm.Nota);
+        capacitacionViewHolder.estado.setText(cm.Estado+(cm.Nota!=null?"\n"+cm.Nota:""));
 
         try {
             capacitacionViewHolder.tx_fecha.setText(formatoRender.format(formatoInicial.parse(cm.Fecha)));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
-
-
 
     @Override
     public CapacitacionAdapter.CapacitacionViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {

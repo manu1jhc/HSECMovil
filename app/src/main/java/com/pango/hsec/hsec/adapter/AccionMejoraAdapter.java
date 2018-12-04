@@ -183,8 +183,8 @@ public class AccionMejoraAdapter extends RecyclerView.Adapter<AccionMejoraAdapte
                     }
                 });
 
-                button1.setText("  Editar Plan de acción");
-                button3.setText("  Eliminar Plan de acción");
+                button1.setText("  Editar Registro de Atención");
+                button3.setText("  Eliminar Registro de Atención");
                 if(edit.equals("1")){
                     cv1.setVisibility(View.VISIBLE);
                     cv3.setVisibility(View.VISIBLE);
@@ -227,7 +227,7 @@ public class AccionMejoraAdapter extends RecyclerView.Adapter<AccionMejoraAdapte
 
 
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(activity,android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Plan de acción?")
+                        alertDialog.setTitle("Desea Eliminar Registro de Atención?")
                                 .setMessage("")
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {

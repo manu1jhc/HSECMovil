@@ -82,7 +82,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
     String url="";
     //int contPublicacion;
     public ListView list_busqueda;
-    int paginacion2=1;
+    static int paginacion2=1;
     boolean flagObsFiltro=true;
     boolean upFlag;
     boolean downFlag;
@@ -252,9 +252,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
                 GlobalVariables.isFragment=false;
-
                 String json = "";
-
                 Utils.observacionModel.CodUbicacion = Elemperpage;
                 Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                 Gson gson = new Gson();

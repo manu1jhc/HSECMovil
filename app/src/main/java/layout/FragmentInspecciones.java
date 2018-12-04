@@ -73,7 +73,7 @@ public class FragmentInspecciones extends Fragment implements IActivity {
     String url="";
     //int contPublicacion;
     public ListView list_busqueda;
-    int paginacion2=1;
+    static int paginacion2=1;
     boolean flagObsFiltro=true;
     boolean upFlag;
     boolean downFlag;

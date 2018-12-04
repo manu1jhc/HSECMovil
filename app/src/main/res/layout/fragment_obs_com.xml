@@ -25,7 +25,9 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="Comportamiento Sub-estándar observada"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"
+                 />
 
         <TextView
             android:id="@+id/tx_obs_det"
@@ -59,7 +61,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="Acción inmediata (Corrección)"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
 
             <TextView
                 android:id="@+id/tx_accion"
@@ -93,7 +96,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="Actividad relacionada"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
 
             <TextView
                 android:id="@+id/tx_act_rel"
@@ -128,7 +132,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="HHA relacionada"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
 
             <TextView
                 android:id="@+id/tx_hha"
@@ -163,7 +168,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="Acto Sub-estándar"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
 
             <TextView
                 android:id="@+id/tx_sub_estandar"
@@ -197,7 +203,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="Estado"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro"/>
 
             <TextView
                 android:id="@+id/tx_estado"
@@ -232,7 +239,8 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.65"
                 android:text="Error"
-                android:textStyle="bold" />
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
 
             <TextView
                 android:id="@+id/tx_error"

@@ -27,11 +27,7 @@
         android:weightSum="1"
         android:layout_below="@+id/list_coment"
 android:layout_marginBottom="20dp"
-
         >
-
-
-
             <EditText
                 android:id="@+id/et_comentario"
                 android:layout_weight="0.8"

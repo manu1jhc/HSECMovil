@@ -5,8 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.pango.hsec.hsec.Login;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
@@ -32,9 +36,16 @@ public class DeleteTokenService extends IntentService
 
             // Now manually call onTokenRefresh()
             Log.d(TAG, "Getting new token");
-            FirebaseInstanceId.getInstance().getToken();
+            String token=FirebaseInstanceId.getInstance().getToken().toString();
 
-            System.out.println("TOKEN DELETED. NEW TOKEN FROM SERVICE: "+FirebaseInstanceId.getInstance().getToken());
+            if(!StringUtils.isEmpty(token)){
+                Toast.makeText(DeleteTokenService.this,"Token generado ",Toast.LENGTH_SHORT).show();
+                saveTokenToPrefs(token);
+            }
+            else {
+                Intent intentService = new Intent(DeleteTokenService.this, MiFirebaseInstanceIdService.class);
+                startService(intentService);
+            }
 
         }
         catch (IOException e)
@@ -43,5 +54,17 @@ public class DeleteTokenService extends IntentService
 
             e.printStackTrace();
         }
+    }
+
+    private void saveTokenToPrefs(String _token)
+    {
+        System.out.println("TOKEN DELETED. NEW TOKEN FROM SERVICE: "+_token);
+        // Access Shared Preferences
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        // Save to SharedPreferences
+        editor.putString("registration_id", _token);
+        editor.apply();
     }
 }

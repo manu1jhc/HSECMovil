@@ -66,7 +66,7 @@
             android:layout_below="@+id/nav_view"
             android:layout_marginTop="-56dp"
             android:weightSum="2"
-            android:background="@color/colorBtnBeige"
+            android:background="@color/colorBlanco"
             >
 
            <Button
@@ -76,13 +76,14 @@
                android:text="Cerrar sesión"
                android:layout_weight="1"
                android:onClick="LogOut"
+               android:layout_marginRight="1dp"
                android:background="@drawable/side_nav_bar"
                android:textColor="@color/colorBlanco"
                android:textSize="12dp"
                android:drawableLeft="@drawable/ic_cerrar_sesion"
                android:drawableTint="@color/colorBlanco"
-
                />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

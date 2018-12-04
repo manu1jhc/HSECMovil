@@ -28,10 +28,15 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
+import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
+import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
+import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.controller.GetTokenController;
 import com.pango.hsec.hsec.controller.WebServiceAPI;
 import com.pango.hsec.hsec.firebase.DeleteTokenService;
+import com.pango.hsec.hsec.firebase.MessageShowActivity;
+import com.pango.hsec.hsec.firebase.MiFirebaseInstanceIdService;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
 import org.apache.commons.lang3.StringUtils;
@@ -64,12 +69,13 @@ public class Login extends AppCompatActivity implements IActivity{
     PopupWindow popupWindow;
     ProgressBar progresbar;
     ConstraintLayout constraintLayout4;
+    protected Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         GlobalVariables.isFragment=false;
-
+        handler = new Handler();
         Bundle datos = this.getIntent().getExtras();
         if(datos!=null){
             String Check=datos.getString("Check","");
@@ -104,10 +110,10 @@ public class Login extends AppCompatActivity implements IActivity{
         String token_movil=getTokenFromPrefs();
         if(token_movil.equals("")){
             //GlobalVariables.token_refresh=true;
-            Toast.makeText(Login.this,"Generando token Movil,",Toast.LENGTH_SHORT).show();
+            Toast.makeText(Login.this,"Generando token Movil, Espere un monento...",Toast.LENGTH_SHORT).show();
             Intent intentService = new Intent(Login.this, DeleteTokenService.class);
             startService(intentService);
-            finish();
+            //finish();
         }
         if(obtener_status()){
             check_rec.setChecked(true);
@@ -136,6 +142,9 @@ public class Login extends AppCompatActivity implements IActivity{
 
 
     //////////////////////VALIDACION DE CLIC//////////////////////////////////
+    private boolean pasSend = false, passGet=false;
+    private  int cont;
+
     public void validate(View view) {
         if(TextUtils.isEmpty(et_User.getText())||TextUtils.isEmpty(et_Password.getText())) {
             String userError = null;
@@ -157,22 +166,47 @@ public class Login extends AppCompatActivity implements IActivity{
             pass=et_Password.getText().toString();
             dom="anyaccess";
             url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
-            String token_movil=getTokenFromPrefs();
+            cont=0;
+            SendLogin();
+            if(cont>10) Toast.makeText(Login.this,"No se pudo generar token, intente de nuevo.",Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void SendLogin(){
+        String token_movil=getTokenFromPrefs();
+        if(cont>10) return;
+        if(token_movil.equals("")) {
+            if(!passGet){
+                passGet=true;
+                Toast.makeText(Login.this,"Generando token Movil, Espere un monento...",Toast.LENGTH_SHORT).show();
+                Intent intentService = new Intent(Login.this, DeleteTokenService.class);
+                startService(intentService);
+            }
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    cont++;
+                    SendLogin();
+                }
+            }, 5000);
+        }
+        else if(!pasSend){
+            pasSend=true;
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.accumulate("username",user);
-                jsonObject.accumulate("password",pass);
-                jsonObject.accumulate("domain",dom);
-                jsonObject.accumulate("token",token_movil);
+                jsonObject.accumulate("username", user);
+                jsonObject.accumulate("password", pass);
+                jsonObject.accumulate("domain", dom);
+                jsonObject.accumulate("token", token_movil);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            final GetTokenController objT = new GetTokenController(url_token,Login.this,progresbar);
+            final GetTokenController objT = new GetTokenController(url_token, Login.this, progresbar);
             objT.execute(jsonObject.toString());
         }
+        else return;
     }
-
     /**
      * Display/hides TextInputLayout error.
      * @param msg the message, or null to hide
@@ -199,10 +233,43 @@ public class Login extends AppCompatActivity implements IActivity{
 
     public void inicialiceApp(){
         if(GlobalVariables.pasnotification){
-            Intent intent = new Intent(Login.this, obsFacilitoDet.class);
-            intent.putExtra("codObs", GlobalVariables.codFacilito);
-            intent.putExtra("verBoton", "-1");
-            startActivity(intent);
+            Gson gson = new Gson();
+            UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+            if(!GlobalVariables.NotCodPersona.equals(UserLoged.CodPersona)) {
+                Toast.makeText(this, "Usuario logueado no coincide con usuario a notificar",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Login.this,MainActivity.class);
+                startActivity(intent);
+            }
+            else
+            switch (GlobalVariables.NotCodigo.substring(0,3)){
+                case "OBF":
+                    Intent intent = new Intent(Login.this, obsFacilitoDet.class);
+                    intent.putExtra("codObs",GlobalVariables.NotCodigo);
+                    intent.putExtra("verBoton", "-1");
+                    startActivity(intent);
+                    break;
+                case "OBS":
+                    intent = new Intent(Login.this, ActMuroDet.class);
+                    intent.putExtra("codObs",GlobalVariables.NotCodigo);
+                    intent.putExtra("posTab",4);
+                    intent.putExtra("tipoObs",GlobalVariables.NotTipo);
+                    startActivity(intent);
+                    break;
+                case "INS":
+                    intent = new Intent(Login.this, ActInspeccionDet.class);
+                    intent.putExtra("codObs",GlobalVariables.NotCodigo);
+                    intent.putExtra("posTab",3);
+                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                    startActivity(intent);
+                    break;
+                case "NOT":
+                    intent = new Intent(Login.this, ActNoticiaDet.class);
+                    intent.putExtra("codObs",GlobalVariables.NotCodigo);
+                    intent.putExtra("posTab",0);
+                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                    startActivity(intent);
+                    break;
+            }
         }
         else{
             Intent intent = new Intent(Login.this, MainActivity.class);
@@ -307,9 +374,8 @@ public class Login extends AppCompatActivity implements IActivity{
 
     private String getTokenFromPrefs()
     {
-        return "----";
-        /*SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return preferences.getString("registration_id", "");*/
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("registration_id", "");
     }
 
     public void Save_status(boolean ischecked){

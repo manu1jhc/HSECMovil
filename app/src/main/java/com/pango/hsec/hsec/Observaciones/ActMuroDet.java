@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.Observaciones;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -11,21 +12,35 @@ import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.TabHost;
 import android.widget.TabWidget;
+import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
+import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Login;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.controller.GetTokenController;
+import com.pango.hsec.hsec.model.UsuarioModel;
+
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
+public class ActMuroDet extends FragmentActivity implements IActivity,TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
     MyPageAdapter pageAdapter;
     private ViewPager mViewPager;
     private TabHost mTabHost;
     ImageButton close;
-    String codObs,tipoObs;
+    String codObs,tipoObs,codpersona;
     String urlObs;
     int pos;
+    Gson gson;
     HorizontalScrollView horizontalsv;
 
     //public static ObservacionModel observacionData=new ObservacionModel();
@@ -41,28 +56,80 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_muro_det);
-
+        gson = new Gson();
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
-
         horizontalsv=findViewById(R.id.horizontalsv);
-        Bundle datos = this.getIntent().getExtras();
-        codObs=datos.getString("codObs");
-        pos=datos.getInt("posTab");
-        tipoObs= datos.getString("tipoObs");
+
+        Intent startingIntent = getIntent();
+        if (startingIntent != null) {
+            codObs = startingIntent.getStringExtra("codigo"); // Retrieve the id
+            codpersona = startingIntent.getStringExtra("codpersona");
+            tipoObs= startingIntent.getStringExtra("tipo");
+            if(codObs==null && codpersona== null &&tipoObs==null){
+
+                Bundle datos = this.getIntent().getExtras();
+                codObs=datos.getString("codObs");
+                pos=datos.getInt("posTab");
+                tipoObs= datos.getString("tipoObs");
+                loadData();
+            }
+            else{
+                GlobalVariables.NotCodigo=codObs;
+                GlobalVariables.NotCodPersona=codpersona;
+                GlobalVariables.NotTipo=tipoObs;
+                pos=4;
+                if(StringUtils.isEmpty(GlobalVariables.token_auth)){ // open app in OBF
+                    if(Utils.obtener_status(this)){
+
+                        String url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.accumulate("username",Utils.obtener_usuario(this));
+                            jsonObject.accumulate("password",Utils.obtener_pass(this));
+                            jsonObject.accumulate("domain","anyaccess");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        final ActivityController obj1 = new ActivityController("post-2", url_token, this,this);
+                        obj1.execute(jsonObject.toString());
+                        return;
+                    }
+                    else {
+                        GlobalVariables.pasnotification=true;
+                        Intent intent = new Intent(ActMuroDet.this,Login.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else {
+                    UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+                    if(!codpersona.equals(UserLoged.CodPersona)) {
+                        Toast.makeText(this, "Usuario logueado no coincide con usuario a notificar",Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(ActMuroDet.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else loadData();
+                }
+            }
+        }
+
         //urlObs=datos.getString("UrlObs");
         //GlobalVariables.CodObs=codObs;
 
-        initialiseTabHost();
+    }
+    public void loadData(){
 
+        initialiseTabHost();
         // Fragments and ViewPager Initialization
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setOnPageChangeListener(ActMuroDet.this);
-
-
     }
+
     public void close(View view){
         finish();
     }
@@ -130,7 +197,6 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
         } else {
             horizontalsv.scrollBy(positionOffsetPixels, 0);
         }
-
     }
 
     @Override
@@ -149,9 +215,6 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
 
         // TODO Put here your Fragments
         //codObs
-
-
-
 
         FragmentObs f1 = FragmentObs.newInstance(codObs);
 
@@ -191,23 +254,16 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
             fList.add(f4);
             fList.add(f5);
         }
-
 /*
         FragmentObsCond f2 = FragmentObsCond.newInstance(codObs);
-
         fList.add(f1);
         fList.add(f2);
         fList.add(f3);
         fList.add(f4);
         fList.add(f5);
 */
-
         return fList;
     }
-
-
-
-
 
     // Tabs Creation
     private void initialiseTabHost() {
@@ -228,6 +284,35 @@ public class ActMuroDet extends FragmentActivity implements TabHost.OnTabChangeL
                 this.mTabHost.newTabSpec("Tab5").setIndicator("Comentarios"));
         mTabHost.setOnTabChangedListener(this);
 
+
+    }
+
+    @Override
+    public void success(String data, String Tipo) throws CloneNotSupportedException {
+
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) throws CloneNotSupportedException {
+        data= data.substring(1,data.length()-1);
+        if(data.length()>40){
+            GlobalVariables.token_auth=data;
+            GetTokenController objT = new GetTokenController("",ActMuroDet.this,null);
+            objT.Obtener_dataUser();
+            objT.LoadData();
+            UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+            if(!codpersona.equals(UserLoged.CodPersona)) {
+                Toast.makeText(this, "Usuario logueado no coincide con usuario a notificar",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ActMuroDet.this,MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else  loadData();
+        }
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
 
     }
 

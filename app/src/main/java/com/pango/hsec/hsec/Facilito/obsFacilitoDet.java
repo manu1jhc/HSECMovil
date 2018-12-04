@@ -26,10 +26,12 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Login;
+import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.adapter.ObsFHistorialAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
@@ -40,6 +42,7 @@ import com.pango.hsec.hsec.model.GetObsFHistorialModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsFHistorialModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
@@ -53,7 +56,7 @@ import java.util.List;
 
 public class obsFacilitoDet extends AppCompatActivity implements IActivity {
     private ImageButton close,btn_historial;
-    String codObs;
+    String codObs, codpersona;
     ConstraintLayout contenedor;
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
@@ -98,23 +101,34 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         String addViews=data1.getString("verBoton","-1");
         int AddView= Integer.parseInt(addViews);
 
-        if(codObs.equals("")&&AddView<0){
+        if(codObs.equals("")&&AddView<0){ // read data of notification open
             Intent startingIntent = getIntent();
             if (startingIntent != null) {
                 codObs = startingIntent.getStringExtra("codigo"); // Retrieve the id
+                codpersona = startingIntent.getStringExtra("codpersona");
+                GlobalVariables.NotCodigo=codObs;
+                GlobalVariables.NotCodPersona=codpersona;
+                Gson gson = new Gson();
+                UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+                if(!codpersona.equals(UserLoged.CodPersona)) {
+                    Toast.makeText(this, "Usuario logueado no coincide con usuario a notificar",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(obsFacilitoDet.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         }
 
         if(AddView<2) btn_historial.setVisibility(View.GONE);
 
         if(AddView<0&&StringUtils.isEmpty(GlobalVariables.token_auth)){ // open app in OBF
-                if(obtener_status()){
+                if(Utils.obtener_status(this)){
 
                     String url_token=GlobalVariables.Url_base+"membership/authenticate";//?"+"username="+user+"&password="+pass+"&domain="+dom;
                     JSONObject jsonObject = new JSONObject();
                     try {
-                        jsonObject.accumulate("username",obtener_usuario());
-                        jsonObject.accumulate("password",obtener_pass());
+                        jsonObject.accumulate("username",Utils.obtener_usuario(this));
+                        jsonObject.accumulate("password",Utils.obtener_pass(this));
                         jsonObject.accumulate("domain","anyaccess");
 
                     } catch (JSONException e) {
@@ -159,7 +173,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         final ActivityController obj2 = new ActivityController("get", url2, obsFacilitoDet.this,this);
         obj2.execute("3");
     }
-    public boolean obtener_status(){
+   /* public boolean obtener_status(){
         SharedPreferences check_status = this.getSharedPreferences("checked", Context.MODE_PRIVATE);
         Boolean status = check_status.getBoolean("check",false);
         return status;
@@ -173,7 +187,7 @@ public class obsFacilitoDet extends AppCompatActivity implements IActivity {
         SharedPreferences user_login = this.getSharedPreferences("usuario", Context.MODE_PRIVATE);
         String password = user_login.getString("password","");
         return password;
-    }
+    }*/
 
     public void close(View view){
         DataImg.clear();

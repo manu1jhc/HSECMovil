@@ -98,7 +98,6 @@ public class FragmentMuro extends Fragment implements IActivity{
     boolean upFlag;
     boolean downFlag;
     boolean listenerFlag;
-    int paginacion=1;
     SwipeRefreshLayout swipeRefreshLayout;
     boolean flag_enter=true;
     ConstraintLayout constraintLayout;
@@ -106,7 +105,7 @@ public class FragmentMuro extends Fragment implements IActivity{
     TextView tx_texto;
     //ImageButton btn_galeria;
     //ImageView imageView;
-    int contPublicacion;
+    static int contPublicacion, paginacion=1;
     UsuarioModel getUsuarioModel;
     boolean is_swipe=true;
     //int paginacion=1;
@@ -137,72 +136,11 @@ public class FragmentMuro extends Fragment implements IActivity{
         btn_facilito=rootView.findViewById(R.id.btn_asistencia);
         btn_obs=rootView.findViewById(R.id.btn_obs);
         btn_insp=rootView.findViewById(R.id.btn_insp);
-        //buscar=(ImageButton) rootView.findViewById(R.id.btn_buscar);
-        //btn_usuario=(ImageButton) rootView.findViewById(R.id.btn_usuario);
-        //btn_galeria=(ImageButton) rootView.findViewById(R.id.btn_galeria);
-        //imageView= rootView.findViewById(R.id.btn_usuario);
-        //tx_comentario=(TextView) rootView.findViewById(R.id.tx_comentario);
-       // navigationView = (NavigationView) getActivity().findViewById(R.id.nav_view);
-
-        //GlobalVariables.count=5;
-
         success("","0");
 
         Gson gson = new Gson();
         getUsuarioModel = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-        /*if(getUsuarioModel==null){
-            getUsuarioModel= new UsuarioModel();
-            getUsuarioModel.NroDocumento="1234";
-        }*/
 
-        //String url_avatar=GlobalVariables.Url_base+"media/getAvatar/"+getUsuarioModel.NroDocumento+"/fotocarnet.jpg";
-
-       // String url_avatar="https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/media/getAvatar/43054695/fotocarnet.jpg";
-        /*
-        Glide.with(getContext())
-                .load(url_avatar) // add your image url
-                .override(50, 50)
-                .transform(new CircleTransform(getContext())) // applying the image transformer
-                .into(imageView);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GlobalVariables.isUserlogin=true;
-
-                // Crea el nuevo fragmento y la transacción.
-                Fragment nuevoFragmento = new FragmentFichaPersonal();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.add(R.id.content, nuevoFragmento);
-                //transaction.replace(R.id.content, nuevoFragmento);
-                transaction.hide(GlobalVariables.fragmentStack.lastElement());
-
-                //transaction.addToBackStack(null);
-                // Commit a la transacción
-                transaction.commit();
-                GlobalVariables.apilarFrag(nuevoFragmento);
-                //navigationView.getMenu().findItem(R.id.nav_noticias).setChecked(true);
-                //bottomNavigationView.setVisibility(View.VISIBLE);
-                bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
-            }
-        });
-*/
-//opciones de menu y publicacion
-/*
-        btn_galeria.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                GlobalVariables.ObjectEditable=false;
-                Intent intent = new Intent(getContext(),observacion_edit.class);
-                intent.putExtra("codObs", "OBS000000XYZ");
-                intent.putExtra("tipoObs","TO01");
-                intent.putExtra("posTab", 2);
-                startActivity(intent);
-            }
-        });
-*/
         btn_facilito.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -210,7 +148,6 @@ public class FragmentMuro extends Fragment implements IActivity{
                 GlobalVariables.flagFacilito=false;
                 Intent myIntent = new Intent(getActivity(), report_obs.class);
                 startActivity(myIntent);
-
             }
         });
         btn_obs.setOnClickListener(new View.OnClickListener() {
@@ -272,7 +209,6 @@ public class FragmentMuro extends Fragment implements IActivity{
                         startActivity(intent);
                         break;
                 }
-                //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
             }
         });
 
@@ -287,13 +223,8 @@ public class FragmentMuro extends Fragment implements IActivity{
                 upFlag=false;
                 downFlag=false;
 
-                // (new Handler()).postDelayed(new Runnable() {
-                //    @Override
-                //    public void run() {
                         swipeRefreshLayout.setRefreshing(true);
                         tx_texto.setVisibility(View.VISIBLE);
-                        //GlobalVariables.u.clear();
-
                         GlobalVariables.listaGlobal.clear();
                         //GlobalVariables.contpublic=2;
                         GlobalVariables.flagUpSc=true;
@@ -302,15 +233,9 @@ public class FragmentMuro extends Fragment implements IActivity{
                         paginacion=1;
                         url=GlobalVariables.Url_base+"Muro/GetMuro/"+paginacion+"/"+Elemperpage;
                         Utils.isActivity=false;
-                        //success(datos,"");
 
-                        //GlobalVariables.count=5;//para que no entre al flag
                         final ActivityController obj = new ActivityController("get-0", url, FragmentMuro.this,getActivity());
                         obj.execute("1");
-                       // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
-
-                  //  } },0);
-
             } });
 
         List_muro.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -325,10 +250,8 @@ public class FragmentMuro extends Fragment implements IActivity{
                     }
                     if (upFlag && scrollState == SCROLL_STATE_IDLE) {
                         upFlag = false;
-
                        // Toast.makeText(rootView.getContext(), "ACEPTO UPFLAG", Toast.LENGTH_SHORT).show();
                         swipeRefreshLayout.setEnabled(true);
-
                     }
                     if (downFlag && scrollState == SCROLL_STATE_IDLE) {
                         downFlag = false;

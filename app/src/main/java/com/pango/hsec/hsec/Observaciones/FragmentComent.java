@@ -116,8 +116,6 @@ public class FragmentComent extends Fragment implements IActivity {
 				final ActivityController obj = new ActivityController("post", url, FragmentComent.this,getActivity());
 				obj.execute(json);
 
-
-
 			}
 		});
 
@@ -145,11 +143,11 @@ public class FragmentComent extends Fragment implements IActivity {
 	public void successpost(String data,String Tipo) {
 		Utils.closeSoftKeyBoard(getActivity());
 		et_comentario.setText("");
-		if(data.contains("-1")){
-			Toast.makeText(getContext(),"Ocurrio un error al enviar su mensaje",Toast.LENGTH_SHORT).show();
+		if(data.length()>5){
+			Toast.makeText(getContext(),data,Toast.LENGTH_SHORT).show();
 		}
 		else{
-			Toast.makeText(getContext(),"Comentario enviado",Toast.LENGTH_SHORT).show();
+			Toast.makeText(getContext(),"Comentario enviado correctamente",Toast.LENGTH_SHORT).show();
 			GlobalVariables.count=5;
 			GlobalVariables.isFragment=true;
 			url= GlobalVariables.Url_base+"Comentario/getObs/"+codObs;
@@ -160,7 +158,7 @@ public class FragmentComent extends Fragment implements IActivity {
 
 	@Override
 	public void error(String mensaje,String Tipo) {
-
+		Toast.makeText(getActivity(), mensaje,Toast.LENGTH_SHORT).show();
 	}
 
 	public void closeSoftKeyBoard() {

@@ -50,7 +50,7 @@
                 android:layout_height="0dp"
 
                 android:gravity="center_vertical"
-                android:text="Reportes facilito/Filtro"
+                android:text="Reportes SOS/Filtro"
                 android:textColor="@color/colorBlanco"
                 android:textSize="@dimen/titulo_det"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -58,26 +58,26 @@
                 app:layout_constraintStart_toEndOf="@+id/imageView11"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
-
-            <ImageView
+            <ImageButton
                 android:id="@+id/imageView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/ic_facilito"
+                android:background="@drawable/transparent"
+                android:textColor="@color/colorBlanco"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_facilito" />
+                />
+
         </android.support.constraint.ConstraintLayout>
     </android.support.v7.widget.CardView>
-
-
-
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -110,9 +110,6 @@
                         android:paddingRight="8dp"
                         android:paddingBottom="@dimen/pad_topbottom_der"
                         android:paddingTop="@dimen/pad_topbottom_der"
-
-
-
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -235,7 +232,6 @@
                         android:layout_height="wrap_content"
                         android:onClick="escogerFecha2"
                         android:text="Seleccionar fecha"
-
                         android:textSize="@dimen/size_text_der"
                         android:textColor="@color/colorNegro"
                         android:paddingLeft="8dp"
@@ -243,8 +239,6 @@
                         android:paddingBottom="2dp"
                         android:paddingTop="2dp"
                         android:gravity="center_vertical"
-
-
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/textView8"
@@ -279,7 +273,6 @@
                         android:text="Gerencia"
                         android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
-
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -376,7 +369,6 @@
                         android:text="Tipo"
                         android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
-
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -420,7 +412,6 @@
                         android:text="Estado"
                         android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
-
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -446,7 +437,6 @@
                         android:id="@+id/txtcontrata"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
-
                         android:text="Creador"
                         android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
@@ -514,7 +504,6 @@
                         android:id="@+id/textView11"
                         android:layout_width="100dp"
                         android:layout_height="match_parent"
-
                         android:background="@color/ColorPlomo4"
                         android:gravity="right|center_vertical"
                         android:paddingBottom="@dimen/pad_topbottom_der"
@@ -524,12 +513,10 @@
                         android:text="Responsable"
                         android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
-
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Responsable" />
-
 
                     <TextView
                         android:id="@+id/id_persona_res"
@@ -562,15 +549,8 @@
                         app:srcCompat="@drawable/ic_usuario"
                         tools:ignore="VectorDrawableCompat" />
 
-
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-
         </android.support.constraint.ConstraintLayout>
-
     </ScrollView>
-
-
-
-
 </LinearLayout>

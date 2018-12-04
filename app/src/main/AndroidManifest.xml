@@ -31,14 +31,18 @@
             android:exported="false" />
 
         <!-- firebase service -->
-        <activity android:name=".firebase.MessageShowActivity" />
+        <activity
+            android:name=".firebase.MessageShowActivity"
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
+            >
+        </activity>
 
-        <service android:name=".firebase.MiFirebaseMessagingService">
+        <service android:name=".firebase.MiFirebaseMessagingService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".firebase.MiFirebaseInstanceIdService">
+        <service android:name=".firebase.MiFirebaseInstanceIdService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -74,7 +78,13 @@
             android:name=".Observaciones.ActMuroDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize">
+            <intent-filter>
+                <action android:name="ACT_COM_OBS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".observacion_edit"
             android:screenOrientation="portrait"
@@ -116,7 +126,12 @@
             android:name=".Inspecciones.ActInspeccionDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <action android:name="ACT_COM_INS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".Inspecciones.ActObsInspDet"
             android:screenOrientation="portrait"
@@ -136,7 +151,12 @@
             android:name=".Noticias.ActNoticiaDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+            <intent-filter>
+                <action android:name="ACT_COM_NOT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".PlanAccionEdit"
             android:screenOrientation="portrait"
@@ -216,7 +236,6 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="ACT_COM_DET" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
