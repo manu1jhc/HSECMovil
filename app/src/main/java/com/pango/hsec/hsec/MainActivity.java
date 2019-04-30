@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
+import android.webkit.URLUtil;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
@@ -828,6 +829,18 @@ public class MainActivity extends AppCompatActivity
             catch (Throwable e){
             }
         }
+
+        if(id == R.id.nav_gamePacto){
+            String appPackageName = "com.Cerv.PactoPorLaVida";
+            try {
+                Intent sendIntent =   getPackageManager().getLaunchIntentForPackage(appPackageName);
+                startActivity(sendIntent);
+            } catch (Exception e){
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            }
+
+        }
+
         else if (id == R.id.nav_observacion) {
 
             GlobalVariables.ObjectEditable=false;

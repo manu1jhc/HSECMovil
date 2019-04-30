@@ -142,7 +142,7 @@ public class Login extends AppCompatActivity implements IActivity{
 
 
     //////////////////////VALIDACION DE CLIC//////////////////////////////////
-    private boolean pasSend = false, passGet=false;
+    public boolean pasSend = false, passGet=false;
     private  int cont;
 
     public void validate(View view) {
@@ -369,6 +369,7 @@ public class Login extends AppCompatActivity implements IActivity{
             check_rec.setChecked(false);
 
             Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
+            pasSend=false;
         }
     }
 

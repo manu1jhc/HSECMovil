@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
     >
 
     <group android:checkableBehavior="single">
@@ -9,9 +8,6 @@
             android:id="@+id/nav_reporte"
             android:icon="@drawable/ic_logofacilito"
             android:title="Ingresar Reporte SOS" />
-
-
-
 
         <item
             android:id="@+id/nav_observacion"
@@ -41,6 +37,11 @@
             android:icon="@drawable/ic_sisap"
             android:iconTint="@color/icon_sisap"
             android:title="Aprobaciónes (SISAP) "/>
+        <item
+        android:id="@+id/nav_gamePacto"
+        android:icon="@drawable/ic_gamepad2"
+        android:iconTint="@color/icon_sisap"
+        android:title="PACTO POR LA VIDA(Juego)"/>
     </group>
 
     <item android:title="Más Opciones">

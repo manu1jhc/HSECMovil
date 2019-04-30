@@ -143,8 +143,8 @@ public class SearchAdapter extends ArrayAdapter<PublicacionModel> {
             final String tempImgDet = data.get(position).UrlPrew;
             final String editable = data.get(position).Editable;
 
-            if(editable=="0"||(!tempTipo.equals("TO01")&& !tempTipo.equals("TO02"))){
-                editar.setVisibility(View.GONE);
+            if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02"))){
+                editar.setVisibility(View.VISIBLE);
             }
             editar.setOnClickListener(new View.OnClickListener() {
                 @Override
