@@ -40,12 +40,12 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
         String Descripcion="";
 
         switch (em.CodTipo){
-            case "OBSR":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs, em.Descripcion); break;
-            case "OBSC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.Clasificacion_Obs, em.Descripcion); break;
-            case "HHA":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.HHA_obs, em.Descripcion); break;
-            case "OBCC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs, em.Descripcion); break;
+            case "OBSR":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs, em.CodSubtipo); break;
+            case "OBSC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.Clasificacion_Obs, em.CodSubtipo); break;
+            case "HHA":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.HHA_obs, em.CodSubtipo); break;
+            case "OBCC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs, em.CodSubtipo); break;
         }
-        if(em.CodSubtipo !=null)  tablaViewHolder.descripcion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(tablaViewHolder.descripcion.getContext(), R.color.colorNegro)+">"+Descripcion+": </font>"+em.CodSubtipo));
+        if(em.Descripcion !=null)  tablaViewHolder.descripcion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(tablaViewHolder.descripcion.getContext(), R.color.colorNegro)+">"+Descripcion+": </font>"+em.Descripcion));
         else                      tablaViewHolder.descripcion.setText(Descripcion);
     }
 

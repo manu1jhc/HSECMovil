@@ -105,7 +105,7 @@ public class FragmentObsTar extends Fragment implements IActivity {
             success(jsonPersnas,"2");
         }
 
-        url3=GlobalVariables.Url_base+"Observaciones/GetSubDetalle/"+codObs;
+        url3=GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codObs;
 
         if(jsonSubDetalle.isEmpty()) {
             final ActivityController obj2 = new ActivityController("get", url3, FragmentObsTar.this,getActivity());

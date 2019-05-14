@@ -87,7 +87,7 @@ public class FragmentObsIS extends Fragment implements IActivity {
         }else {
             success(jsonPersonas,"2");
         }
-        url3= GlobalVariables.Url_base+"Observaciones/GetSubDetalle/"+codObs;
+        url3= GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codObs;
 
         if(jsonSubDetalle.isEmpty()) {
             GlobalVariables.istabs=true;
