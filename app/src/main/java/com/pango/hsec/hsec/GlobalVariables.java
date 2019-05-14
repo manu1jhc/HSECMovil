@@ -271,6 +271,8 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Acto_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Condicion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Estado_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> StopWork_obs = new ArrayList<>();
+
     //public static  ArrayList<Maestro> Actv_Relacionada = new ArrayList<>();
     public static  ArrayList<Maestro> Aspecto_Obs = new ArrayList<>();
 
@@ -325,6 +327,7 @@ public class GlobalVariables  {
         Condicion_obs.add(Select);
         Estado_obs.add(Select);
         Error_obs.add(Select);
+        StopWork_obs.add(Select);
         Gerencia.add(Select);
         Tipo_insp.add(Select);
         Tipo_Plan.add(Select);
@@ -391,6 +394,11 @@ public class GlobalVariables  {
         NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
         NivelRiesgo_obs.add(new Maestro("ME", "Media"));
         NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
+
+        StopWork_obs.add(new Maestro("SW01", "SI"));
+        StopWork_obs.add(new Maestro("SW02", "NO"));
+
+
 
         ObsFacilito_tiempo.add(new Maestro("00","Inmediato"));
         ObsFacilito_tiempo.add(new Maestro("01","1 dìa"));

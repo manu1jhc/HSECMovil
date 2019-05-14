@@ -28,7 +28,7 @@ import com.pango.hsec.hsec.model.SubDetalleModel;
 import java.util.ArrayList;
 
 import static com.pango.hsec.hsec.GlobalVariables.Contrata;
-import static com.pango.hsec.hsec.GlobalVariables.HHA_obs;
+import static com.pango.hsec.hsec.GlobalVariables.StopWork_obs;
 
 public class FragmentObsIS extends Fragment implements IActivity {
     // TODO: Rename parameter arguments, choose names that match
@@ -40,8 +40,7 @@ public class FragmentObsIS extends Fragment implements IActivity {
     String codObs,url="",url2="", url3="";
     String codLider="";
 
-    TextView tx_tarea_obs,tx_empresa,tx_equipo,tx_interaccion,det_comportamiento,tx_acciones,tx_otras_act,tx_otrocom,nombre_lider,tx_area;
-    CardView card_otrasAct,card_comcon;
+    TextView tx_tarea_obs,tx_empresa,tx_equipo,tx_interaccion,det_comportamiento,tx_acciones,nombre_lider,tx_area,tx_StopWork;
     public static FragmentObsIS newInstance(String sampleText) {
         FragmentObsIS f = new FragmentObsIS();
         Bundle b = new Bundle();
@@ -63,15 +62,11 @@ public class FragmentObsIS extends Fragment implements IActivity {
         tx_empresa=mView.findViewById(R.id.tx_empresa);
         tx_equipo=mView.findViewById(R.id.tx_equipo);
         tx_interaccion=mView.findViewById(R.id.tx_interaccion);
-        tx_otrocom=mView.findViewById(R.id.tx_otrocom);    // otro comportamiento para revisar
         det_comportamiento=mView.findViewById(R.id.det_comportamiento);
         tx_acciones=mView.findViewById(R.id.tx_acciones);
-        tx_otras_act=mView.findViewById(R.id.tx_otras_act);
-
+        tx_StopWork=(TextView) mView.findViewById(R.id.tx_StopWork);
         nombre_lider=mView.findViewById(R.id.nombre_lider);
         tx_area=mView.findViewById(R.id.tx_area);
-        card_otrasAct=mView.findViewById(R.id.card_otrasAct);
-        card_comcon=mView.findViewById(R.id.card_comcon);
 
         url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codObs;
 
@@ -115,32 +110,28 @@ public class FragmentObsIS extends Fragment implements IActivity {
         ArrayList<SubDetalleModel> DataOBSC=new ArrayList<>();
         ArrayList<SubDetalleModel> DataOBCC =new ArrayList<>();
         ArrayList<SubDetalleModel> DataHHA=new ArrayList<>();
-        card_comcon.setVisibility(View.GONE);
-        card_otrasAct.setVisibility(View.GONE);
-
 
         if (Tipo == "1") {
             jsonObsIS = data;
             Gson gson = new Gson();
             ObsDetalleModel observacionModel = gson.fromJson(data, ObsDetalleModel.class);
-            codLider=observacionModel.CodEstado;
-            tx_tarea_obs.setText(observacionModel.Observacion);
-            tx_empresa.setText(GlobalVariables.getDescripcion(Contrata, observacionModel.CodError));
-            tx_equipo.setText(observacionModel.CodHHA);
-            tx_interaccion.setText(observacionModel.CodSubEstandar);
-            det_comportamiento.setText(observacionModel.CodActiRel);
-            tx_acciones.setText(observacionModel.Accion);
-            tx_otras_act.setText(observacionModel.CodObservacion);
-            tx_otrocom.setText(observacionModel.CodTipo);
-
-            //tx_otras_act.setVisibility(View.GONE);
+            if(observacionModel!=null)
+            {
+                if(observacionModel.Observacion!=null)tx_tarea_obs.setText(observacionModel.Observacion);
+                if(observacionModel.CodError!=null)tx_empresa.setText(GlobalVariables.getDescripcion(Contrata, observacionModel.CodError));
+                if(observacionModel.CodHHA!=null)tx_equipo.setText(observacionModel.CodHHA);
+                if(observacionModel.CodSubEstandar!=null)tx_interaccion.setText(observacionModel.CodSubEstandar);
+                if(observacionModel.CodActiRel!=null)det_comportamiento.setText(observacionModel.CodActiRel);
+                if(observacionModel.Accion!=null)tx_acciones.setText(observacionModel.Accion);
+                if(observacionModel.StopWork!=null)tx_StopWork.setText(GlobalVariables.getDescripcion(StopWork_obs,observacionModel.StopWork));
+            }
 
 
         }else if (Tipo == "2"){
             jsonPersonas=data;
             Gson gson = new Gson();
             GetEquipoModel getEquipoModel = gson.fromJson(data, GetEquipoModel.class);
-            int count=getEquipoModel.Count;
+           /* int count=getEquipoModel.Count;
 
             for(int i=0;i<getEquipoModel.Count;i++){
                 if(getEquipoModel.Data.get(i).CodPersona.equals(codLider)){
@@ -151,14 +142,14 @@ public class FragmentObsIS extends Fragment implements IActivity {
 
             }
             nombre_lider.setText(lider.Nombres);
-            tx_area.setText(lider.Cargo);
+            tx_area.setText(lider.Cargo);*/
 
-            final RecyclerView recList = (RecyclerView) mView.findViewById(R.id.rec_atendidos);
+            final RecyclerView recList =  mView.findViewById(R.id.rec_atendidos);
             recList.setHasFixedSize(true);
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recList.setLayoutManager(llm);
-            PersonaAdapter ca = new PersonaAdapter(listAtendidos);
+            PersonaAdapter ca = new PersonaAdapter(getEquipoModel.Data);
             recList.setAdapter(ca);
 
 
@@ -166,37 +157,15 @@ public class FragmentObsIS extends Fragment implements IActivity {
             jsonSubDetalle=data;
             Gson gson = new Gson();
             GetSubDetalleModel getSubDetalleModel = gson.fromJson(data, GetSubDetalleModel.class);
-            int count=getSubDetalleModel.Count;
-            //otros 19
 
-            for(int i = 0; i < getSubDetalleModel.Data.size(); i++){
-                if(getSubDetalleModel.Data.get(i).CodTipo.equals("OBSR")){
-                    DataOBSR.add(getSubDetalleModel.Data.get(i));
-                }else if(getSubDetalleModel.Data.get(i).CodTipo.equals("OBSC")){
-                    DataOBSC.add(getSubDetalleModel.Data.get(i));
-                }else if(getSubDetalleModel.Data.get(i).CodTipo.equals("OBCC")){
-                    DataOBCC.add(getSubDetalleModel.Data.get(i));
-
-                    if(!getSubDetalleModel.Data.get(i).Descripcion.equals("COMCON11")){
-                        card_comcon.setVisibility(View.GONE);
-                    }else{
-                        card_comcon.setVisibility(View.VISIBLE);
-                    }
-
-                }else if(getSubDetalleModel.Data.get(i).CodTipo.equals("HHA")){
-                    DataHHA.add(getSubDetalleModel.Data.get(i));
-                    if(!getSubDetalleModel.Data.get(i).Descripcion.equals("19")){
-                        card_otrasAct.setVisibility(View.GONE);
-                    }else{
-                        card_otrasAct.setVisibility(View.VISIBLE);
-                    }
-
-
+            for (SubDetalleModel item:getSubDetalleModel.Data) {
+                switch (item.CodTipo){
+                    case "OBSR": DataOBSR.add(item); break;
+                    case "OBSC": DataOBSC.add(item); break;
+                    case "OBCC": DataOBCC.add(item); break;
+                    case "HHA": DataHHA.add(item); break;
                 }
             }
-
-
-
 
             final RecyclerView rec_metodologia = (RecyclerView) mView.findViewById(R.id.rec_metodologia);
             rec_metodologia.setHasFixedSize(true);

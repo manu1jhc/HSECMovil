@@ -1,5 +1,6 @@
 package com.pango.hsec.hsec.adapter;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,9 @@ public class PersonaAdapter extends RecyclerView.Adapter<PersonaAdapter.PersonaV
         EquipoModel em = equipoModel.get(i);
         personaViewHolder.Nombre.setText(em.Nombres);
         personaViewHolder.area.setText(em.Cargo);
-
+        if(em.Estado!=null && em.Estado.equals("1"))
+            personaViewHolder.itemView.setBackgroundColor(Color.parseColor("#BFE3DE"));
+        //else personaViewHolder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"));
     }
 
 
@@ -64,7 +67,6 @@ public class PersonaAdapter extends RecyclerView.Adapter<PersonaAdapter.PersonaV
             super(v);
             Nombre = (TextView)  v.findViewById(R.id.part_nombre);
             area = (TextView)  v.findViewById(R.id.part_area);
-
         }
 
 

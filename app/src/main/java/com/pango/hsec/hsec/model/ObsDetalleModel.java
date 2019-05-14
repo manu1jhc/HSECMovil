@@ -15,6 +15,7 @@ public class ObsDetalleModel {
     public String CodSubEstandar;
     public String CodEstado;
     public String CodError;
+    public String StopWork;
 
 
 }

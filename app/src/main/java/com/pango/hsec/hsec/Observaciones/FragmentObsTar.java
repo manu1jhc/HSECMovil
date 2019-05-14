@@ -33,6 +33,7 @@ import static com.pango.hsec.hsec.GlobalVariables.Actividad_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Error_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Estado_obs;
 import static com.pango.hsec.hsec.GlobalVariables.HHA_obs;
+import static com.pango.hsec.hsec.GlobalVariables.StopWork_obs;
 
 
 public class FragmentObsTar extends Fragment implements IActivity {
@@ -46,7 +47,7 @@ public class FragmentObsTar extends Fragment implements IActivity {
     ParticipanteAdapter participanteAdapter;
     String[] comentarios={"Se Cumple el PET","El trabajador requiere feedback","El procedimiento debe modificarse", "Reconocimientos/Oportunidades"};
     LinearLayout ll_comentario1,ll_comentario2,ll_comentario3,ll_comentario4;
-    TextView tx_tarea_obs,tx_actividad,tx_cod_pet,tx_hha,tx_estado,tx_error,tipo_com1,tipo_com2,tipo_com3,tipo_com4,descripcion1,descripcion2,descripcion3,descripcion4;
+    TextView tx_tarea_obs,tx_actividad,tx_cod_pet,tx_hha,tx_estado,tx_error,tx_StopWork,tipo_com1,tipo_com2,tipo_com3,tipo_com4,descripcion1,descripcion2,descripcion3,descripcion4;
     // TODO: Rename and change types and number of parameters
     public static FragmentObsTar newInstance(String sampleText) {
         FragmentObsTar f = new FragmentObsTar();
@@ -65,6 +66,7 @@ public class FragmentObsTar extends Fragment implements IActivity {
         tx_hha=mView.findViewById(R.id.tx_hha);
         tx_estado=mView.findViewById(R.id.tx_estado);
         tx_error=mView.findViewById(R.id.tx_error);
+        tx_StopWork=(TextView) mView.findViewById(R.id.tx_StopWork);
 
         tipo_com1=mView.findViewById(R.id.tipo_com1);
         tipo_com2=mView.findViewById(R.id.tipo_com2);
@@ -129,48 +131,51 @@ public class FragmentObsTar extends Fragment implements IActivity {
             jsonObsTar = data;
             Gson gson = new Gson();
             ObsDetalleModel observacionModel = gson.fromJson(data, ObsDetalleModel.class);
+            if(observacionModel != null)
+            {
+                String[] parts = observacionModel.CodSubEstandar.split(";",-1);
+                if(observacionModel.Observacion!=null)tx_tarea_obs.setText(observacionModel.Observacion);
+                if(observacionModel.CodActiRel!=null)tx_actividad.setText(GlobalVariables.getDescripcion(Actividad_obs, observacionModel.CodActiRel));
+                if(observacionModel.Accion!=null)tx_cod_pet.setText(observacionModel.Accion);
+                if(observacionModel.CodHHA!=null)tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs, observacionModel.CodHHA));
+                if(observacionModel.CodEstado!=null)tx_estado.setText(GlobalVariables.getDescripcion(Estado_obs, observacionModel.CodEstado));
+                if(observacionModel.CodError!=null)tx_error.setText(GlobalVariables.getDescripcion(Error_obs, observacionModel.CodError));
+                if(observacionModel.StopWork!=null)tx_StopWork.setText(GlobalVariables.getDescripcion(StopWork_obs,observacionModel.StopWork));
+                //observacionModel.CodSubEstandar;
+                if (parts.length == 0) {
+                    ll_comentario1.setVisibility(View.GONE);
+                    ll_comentario2.setVisibility(View.GONE);
+                    ll_comentario3.setVisibility(View.GONE);
+                    ll_comentario4.setVisibility(View.GONE);
 
-            String[] parts = observacionModel.CodSubEstandar.split(";");
-            tx_tarea_obs.setText(observacionModel.Observacion);
-            tx_actividad.setText(GlobalVariables.getDescripcion(Actividad_obs, observacionModel.CodActiRel));
-            tx_cod_pet.setText(observacionModel.Accion);
-            tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs, observacionModel.CodHHA));
-            tx_estado.setText(GlobalVariables.getDescripcion(Estado_obs, observacionModel.CodEstado));
-            tx_error.setText(GlobalVariables.getDescripcion(Error_obs, observacionModel.CodError));
-            //observacionModel.CodSubEstandar;
-            if (parts.length == 0) {
-                ll_comentario1.setVisibility(View.GONE);
-                ll_comentario2.setVisibility(View.GONE);
-                ll_comentario3.setVisibility(View.GONE);
-                ll_comentario4.setVisibility(View.GONE);
+                } else {
+                    tipo_com1.setText(comentarios[0]);
+                    tipo_com2.setText(comentarios[1]);
+                    tipo_com3.setText(comentarios[2]);
+                    tipo_com4.setText(comentarios[3]);
+                    descripcion1.setText(parts[0]);
+                    descripcion2.setText(parts[1]);
+                    descripcion3.setText(parts[2]);
+                    descripcion4.setText(parts[3]);
 
-            } else {
-                tipo_com1.setText(comentarios[0]);
-                tipo_com2.setText(comentarios[1]);
-                tipo_com3.setText(comentarios[2]);
-                tipo_com4.setText(comentarios[3]);
-                descripcion1.setText(parts[0]);
-                descripcion2.setText(parts[1]);
-                descripcion3.setText(parts[2]);
-                descripcion4.setText(parts[3]);
+                    for (int i = 0; i < 4; i++) {
+                        if (parts[i].isEmpty()) {
+                            switch (i) {
+                                case 0:
+                                    ll_comentario1.setVisibility(View.GONE);
+                                    break;
+                                case 1:
+                                    ll_comentario2.setVisibility(View.GONE);
+                                    break;
+                                case 2:
+                                    ll_comentario3.setVisibility(View.GONE);
+                                    break;
+                                case 3:
+                                    ll_comentario4.setVisibility(View.GONE);
+                                    break;
+                            }
 
-                for (int i = 0; i < 4; i++) {
-                    if (parts[i].isEmpty()) {
-                        switch (i) {
-                            case 0:
-                                ll_comentario1.setVisibility(View.GONE);
-                                break;
-                            case 1:
-                                ll_comentario2.setVisibility(View.GONE);
-                                break;
-                            case 2:
-                                ll_comentario3.setVisibility(View.GONE);
-                                break;
-                            case 3:
-                                ll_comentario4.setVisibility(View.GONE);
-                                break;
                         }
-
                     }
                 }
             }

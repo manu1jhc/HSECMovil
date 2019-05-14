@@ -17,8 +17,7 @@ import com.pango.hsec.hsec.model.ObsDetalleModel;
 import static com.pango.hsec.hsec.GlobalVariables.Actividad_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Acto_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Condicion_obs;
-import static com.pango.hsec.hsec.GlobalVariables.Error_obs;
-import static com.pango.hsec.hsec.GlobalVariables.Estado_obs;
+import static com.pango.hsec.hsec.GlobalVariables.StopWork_obs;
 import static com.pango.hsec.hsec.GlobalVariables.HHA_obs;
 
 public class FragmentObsCond extends Fragment implements IActivity {
@@ -27,7 +26,7 @@ public class FragmentObsCond extends Fragment implements IActivity {
     private View mView;
     String codObs;
     String url;
-    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar;
+    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar,tx_StopWork;
     public static FragmentObsCond newInstance(String sampleText) {
         FragmentObsCond f = new FragmentObsCond();
         Bundle b = new Bundle();
@@ -49,7 +48,7 @@ public class FragmentObsCond extends Fragment implements IActivity {
         tx_act_rel=(TextView) mView.findViewById(R.id.tx_act_rel);
         tx_hha=(TextView) mView.findViewById(R.id.tx_hha);
         tx_sub_estandar=(TextView) mView.findViewById(R.id.tx_sub_estandar);
-
+        tx_StopWork=(TextView) mView.findViewById(R.id.tx_StopWork);
         GlobalVariables.view_fragment=mView;
         //GlobalVariables.isFragment=true;
 
@@ -74,13 +73,15 @@ public class FragmentObsCond extends Fragment implements IActivity {
         jsonObsCond =data;
         Gson gson = new Gson();
         ObsDetalleModel observacionModel = gson.fromJson(data, ObsDetalleModel.class);
-
-        tx_obs_det.setText(observacionModel.Observacion);
-        tx_accion.setText(observacionModel.Accion);
-        tx_act_rel.setText(GlobalVariables.getDescripcion(Actividad_obs,observacionModel.CodActiRel));
-        tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs,observacionModel.CodHHA));
-        tx_sub_estandar.setText(GlobalVariables.getDescripcion(Condicion_obs,observacionModel.CodSubEstandar));
-
+        if(observacionModel!=null)
+        {
+            if(observacionModel.Observacion!=null) tx_obs_det.setText(observacionModel.Observacion);
+            if(observacionModel.Accion!=null) tx_accion.setText(observacionModel.Accion);
+            if(observacionModel.CodActiRel!=null) tx_act_rel.setText(GlobalVariables.getDescripcion(Actividad_obs,observacionModel.CodActiRel));
+            if(observacionModel.CodHHA!=null) tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs,observacionModel.CodHHA));
+            if(observacionModel.CodSubEstandar!=null) tx_sub_estandar.setText(GlobalVariables.getDescripcion(Condicion_obs,observacionModel.CodSubEstandar));
+            if(observacionModel.StopWork!=null)tx_StopWork.setText(GlobalVariables.getDescripcion(StopWork_obs,observacionModel.StopWork));
+        }
     }
 
     @Override

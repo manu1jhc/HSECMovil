@@ -22,6 +22,7 @@ import static com.pango.hsec.hsec.GlobalVariables.Acto_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Error_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Estado_obs;
 import static com.pango.hsec.hsec.GlobalVariables.HHA_obs;
+import static com.pango.hsec.hsec.GlobalVariables.StopWork_obs;
 
 public class FragmentObsCom extends Fragment implements IActivity {
     // TODO: Rename parameter arguments, choose names that match
@@ -31,7 +32,7 @@ public class FragmentObsCom extends Fragment implements IActivity {
     private View mView;
     String codObs;
     String url;
-    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar,tx_estado,tx_error;
+    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar,tx_estado,tx_error,tx_StopWork;
     // TODO: Rename and change types and number of parameters
     public static FragmentObsCom newInstance(String sampleText) {
         FragmentObsCom f = new FragmentObsCom();
@@ -55,6 +56,7 @@ public class FragmentObsCom extends Fragment implements IActivity {
         tx_sub_estandar=(TextView) mView.findViewById(R.id.tx_sub_estandar);
         tx_estado=(TextView) mView.findViewById(R.id.tx_estado);
         tx_error=(TextView) mView.findViewById(R.id.tx_error);
+        tx_StopWork=(TextView) mView.findViewById(R.id.tx_StopWork);
 
         GlobalVariables.view_fragment=mView;
         //GlobalVariables.isFragment=true;
@@ -81,15 +83,17 @@ public class FragmentObsCom extends Fragment implements IActivity {
         jsonObsCom =data;
         Gson gson = new Gson();
         ObsDetalleModel observacionModel = gson.fromJson(data, ObsDetalleModel.class);
-
-        if(observacionModel.Observacion!=null)tx_obs_det.setText(observacionModel.Observacion);
-        if(observacionModel.Accion!=null)tx_accion.setText(observacionModel.Accion);
-        if(observacionModel.CodActiRel!=null)tx_act_rel.setText(GlobalVariables.getDescripcion(Actividad_obs,observacionModel.CodActiRel));
-        if(observacionModel.CodHHA!=null)tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs,observacionModel.CodHHA));
-        if(observacionModel.CodSubEstandar!=null)tx_sub_estandar.setText(GlobalVariables.getDescripcion(Acto_obs,observacionModel.CodSubEstandar));
-        if(observacionModel.CodEstado!=null)tx_estado.setText(GlobalVariables.getDescripcion(Estado_obs,observacionModel.CodEstado));
-        if(observacionModel.CodError!=null)tx_error.setText(GlobalVariables.getDescripcion(Error_obs,observacionModel.CodError));
-
+        if(observacionModel!=null)
+        {
+            if(observacionModel.Observacion!=null)tx_obs_det.setText(observacionModel.Observacion);
+            if(observacionModel.Accion!=null)tx_accion.setText(observacionModel.Accion);
+            if(observacionModel.CodActiRel!=null)tx_act_rel.setText(GlobalVariables.getDescripcion(Actividad_obs,observacionModel.CodActiRel));
+            if(observacionModel.CodHHA!=null)tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs,observacionModel.CodHHA));
+            if(observacionModel.CodSubEstandar!=null)tx_sub_estandar.setText(GlobalVariables.getDescripcion(Acto_obs,observacionModel.CodSubEstandar));
+            if(observacionModel.CodEstado!=null)tx_estado.setText(GlobalVariables.getDescripcion(Estado_obs,observacionModel.CodEstado));
+            if(observacionModel.CodError!=null)tx_error.setText(GlobalVariables.getDescripcion(Error_obs,observacionModel.CodError));
+            if(observacionModel.StopWork!=null)tx_StopWork.setText(GlobalVariables.getDescripcion(StopWork_obs,observacionModel.StopWork));
+        }
     }
 
     @Override

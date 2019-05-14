@@ -1,6 +1,8 @@
 package com.pango.hsec.hsec.adapter;
 
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,36 +37,16 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
 
         //tablaViewHolder.descripcion.setText();
         tablaViewHolder.opciones.setImageResource(R.drawable.ic_correcto);
+        String Descripcion="";
 
-        if(em.CodTipo.equals("OBSR")){
-            tablaViewHolder.descripcion.setText(GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs, em.Descripcion));
-        }else if(em.CodTipo.equals("OBSC")){
-            tablaViewHolder.descripcion.setText(GlobalVariables.getDescripcion(GlobalVariables.Clasificacion_Obs, em.Descripcion));
-        }else if(em.CodTipo.equals("OBCC")){
-            tablaViewHolder.descripcion.setText(GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs, em.Descripcion));
-        }else if(em.CodTipo.equals("HHA")){
-            tablaViewHolder.descripcion.setText(GlobalVariables.getDescripcion(GlobalVariables.HHA_obs, em.Descripcion));
+        switch (em.CodTipo){
+            case "OBSR":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs, em.Descripcion); break;
+            case "OBSC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.Clasificacion_Obs, em.Descripcion); break;
+            case "HHA":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.HHA_obs, em.Descripcion); break;
+            case "OBCC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs, em.Descripcion); break;
         }
-
-
-
-
-
-/*
-        if(aspectoModel.get(i).Descripcion.isEmpty()){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_noaplica);
-        }else if (aspectoModel.get(i).Descripcion.equals("R001")){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_check);
-        }else if(aspectoModel.get(i).Descripcion.equals("R002")){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_cross);
-        }else if(aspectoModel.get(i).Descripcion.equals("R003")){
-            aspectoViewHolder.opciones.setImageResource(R.drawable.icon_na);
-        }
-
-*/
-
-
-
+        if(em.CodSubtipo !=null)  tablaViewHolder.descripcion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(tablaViewHolder.descripcion.getContext(), R.color.colorNegro)+">"+Descripcion+": </font>"+em.CodSubtipo));
+        else                      tablaViewHolder.descripcion.setText(Descripcion);
     }
 
 
