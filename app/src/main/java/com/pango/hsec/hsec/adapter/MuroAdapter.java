@@ -146,7 +146,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final String editable = data.get(position).Editable;
             final String tempEmpresa=data.get(positem).Empresa;
 
-            if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02"))){
+            if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02") || tempTipo.equals("TO03") || tempTipo.equals("TO04")) ){
                 editar.setVisibility(View.VISIBLE);
             }
             editar.setOnClickListener(new View.OnClickListener() {

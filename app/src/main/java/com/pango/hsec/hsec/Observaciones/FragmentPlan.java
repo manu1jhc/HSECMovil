@@ -79,6 +79,10 @@ public class FragmentPlan extends Fragment implements IActivity {
 			success(jsonPlan,"");
 		}
 
+
+
+
+
 		return mView;
 	}
 
@@ -109,10 +113,12 @@ public class FragmentPlan extends Fragment implements IActivity {
 			tx_msj_plan.setVisibility(View.GONE);
 		}
 
+
+
+
 		listPlan.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 
 				/*
 

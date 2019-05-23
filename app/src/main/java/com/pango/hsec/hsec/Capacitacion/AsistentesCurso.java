@@ -448,6 +448,7 @@ public class AsistentesCurso extends AppCompatActivity implements ZXingScannerVi
 
         if(popupWindow!=null && popupWindow.isShowing())popupWindow.dismiss();
         layoutInflater =(LayoutInflater) this.getSystemService(LAYOUT_INFLATER_SERVICE);
+
         popupView = layoutInflater.inflate(R.layout.popup_asistencia, null);
 
         popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, true);

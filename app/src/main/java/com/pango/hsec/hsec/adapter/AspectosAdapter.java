@@ -37,7 +37,9 @@ public class AspectosAdapter extends RecyclerView.Adapter<AspectosAdapter.Aspect
 
         if(aspectoModel.get(i).Descripcion.isEmpty()){
             aspectoViewHolder.opciones.setImageResource(R.drawable.ic_noaplica);
-        }else if (aspectoModel.get(i).Descripcion.equals("R001")){
+        }else
+
+            if (aspectoModel.get(i).Descripcion.equals("R001")){
             aspectoViewHolder.opciones.setImageResource(R.drawable.ic_correcto);
         }else if(aspectoModel.get(i).Descripcion.equals("R002")){
             aspectoViewHolder.opciones.setImageResource(R.drawable.ic_incorrecto);

@@ -506,6 +506,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
 
         //data add
         if(Tipo.equals("")){
+
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
             GlobalVariables.listaGlobalObservacion=getPublicacionModel.Data;
@@ -519,6 +520,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
                 tx_mensajeb.setVisibility(View.GONE);
             }
+
         }
         else if(Tipo.equals("-1")){ // load data preview load
             ca = new  PublicacionAdapter(getActivity(), GlobalVariables.listaGlobalObservacion,this);
@@ -529,7 +531,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                 GlobalVariables.passObs=false;
             }
         }
-        else if(Tipo.equals("0")){ //from refresh data
+        else if(Tipo.equals("0")){ //from refresh data (add 1)
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
             GlobalVariables.listaGlobalObservacion=getPublicacionModel.Data;

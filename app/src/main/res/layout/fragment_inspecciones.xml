@@ -142,7 +142,7 @@
                 android:layout_marginTop="0dp"
                 android:text="Actualizando Registros Espere...."
                 android:textAlignment="center"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

@@ -151,13 +151,13 @@ public class obs_cabecera extends Fragment implements IActivity{
                 GlobalVariables.Obserbacion= new ObservacionModel();
                 GlobalVariables.Obserbacion.CodObservacion= codigo_obs;
 
-                GlobalVariables.Obserbacion.ObservadoPor=UsuarioLogeado.Nombres;
-                GlobalVariables.Obserbacion.CodObservadoPor=UsuarioLogeado.CodPersona;
+//                GlobalVariables.Obserbacion.ObservadoPor=UsuarioLogeado.Nombres;
+//                GlobalVariables.Obserbacion.CodObservadoPor=UsuarioLogeado.CodPersona;
                 GlobalVariables.Obserbacion.Fecha=df.format(fecha);
                 GlobalVariables.Obserbacion.Lugar="";
                 //GlobalVariables.Obserbacion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
                 //GlobalVariables.Obserbacion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
-                GlobalVariables.Obserbacion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
+//                GlobalVariables.Obserbacion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
                 GlobalVariables.Obserbacion.CodUbicacion="";
                 GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.Obserbacion);
             }

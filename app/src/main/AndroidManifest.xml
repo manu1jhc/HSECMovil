@@ -89,7 +89,9 @@
             android:name=".observacion_edit"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:fitsSystemWindows="true"
+            />
         <activity
             android:name=".Observaciones.Galeria_detalle"
             android:theme="@style/AppTheme.NoActionBar" />

@@ -151,6 +151,9 @@ public void reiniciadata(){
         if(pos==1){ //cambios solo cuando ingresemos al tab de detalle de obs.
             obs_detalle1 detalle = (obs_detalle1) pageAdapter.getItem(1);
             detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
+        }else if(pos==2){
+            obs_detalle2 detalle = (obs_detalle2) pageAdapter.getItem(2);
+            detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
         }
     }
 
@@ -186,20 +189,24 @@ public void reiniciadata(){
     public void onPageSelected(int arg0) {
     }
 
-    private List<Fragment> getFragments() {
+    public List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
 
         // TODO Put here your Fragments
         obs_cabecera f1 = obs_cabecera.newInstance(CodObservacion);
         obs_detalle1 f2 = obs_detalle1.newInstance(CodObservacion,CodTipo);
+        obs_detalle2 f3 = obs_detalle2.newInstance(CodObservacion,CodTipo);
         obs_archivos f4 = obs_archivos.newInstance(CodObservacion);
         obs_planaccion f5=obs_planaccion.newInstance(CodObservacion);
 
 
         fList.add(f1);
         fList.add(f2);
+        fList.add(f3);
         fList.add(f4);
         fList.add(f5);
+        //fList.remove(f4);
+
 
         return fList;
     }
@@ -212,8 +219,10 @@ public void reiniciadata(){
         // TODO Put here your Tabs
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab1").setIndicator("Observación"));
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
-        observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab3").setIndicator("Archivos"));
-        observacion_edit.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator("Plan Accion"));
+        observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab3").setIndicator("Detalle 2"));
+        observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab4").setIndicator("Archivos"));
+        observacion_edit.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab5").setIndicator("Plan Accion"));
+        //observacion_edit.
         mTabHost.setOnTabChangedListener(this);
     }
 

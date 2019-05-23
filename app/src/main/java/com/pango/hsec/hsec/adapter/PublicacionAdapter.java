@@ -110,7 +110,7 @@ public class PublicacionAdapter extends ArrayAdapter<PublicacionModel> {
 
         ImageView editar = rowView.findViewById(R.id.btn_editar);
 
-        if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02"))){
+        if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02") || tempTipo.equals("TO03") || tempTipo.equals("TO04"))){
             editar.setVisibility(View.VISIBLE);
         }
 

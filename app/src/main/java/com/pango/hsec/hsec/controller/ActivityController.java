@@ -62,6 +62,7 @@ public class ActivityController extends AsyncTask<String,Void,Void> {
     String[] strings;
 
     View v;
+
     public ActivityController(String opcion, String url, IActivity activity, Activity ActContext) {
         this.activity = activity;
         this.url = url;

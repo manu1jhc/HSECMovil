@@ -11,6 +11,7 @@ import com.pango.hsec.hsec.model.CapCursoMinModel;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetEquipoModel;
 import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
@@ -25,6 +26,7 @@ import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.model.SubDetalleModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
 import java.util.ArrayList;
@@ -49,7 +51,15 @@ public class GlobalVariables  {
     public static ObservacionModel Obserbacion= new ObservacionModel();
     public static ObsFacilitoModel FacilitoList= new ObsFacilitoModel();
     public static ObsDetalleModel ObserbacionDetalle= new ObsDetalleModel();
-    public static String StrObservacion,StrObsDetalle;
+
+    public static ObsDetalleModel ObserbacionDetalleIS= new ObsDetalleModel();
+
+    //public static GetEquipoModel ObsDetPersonas = new GetEquipoModel();
+
+
+
+
+    public static String StrObservacion,StrObsDetalle, StrObsDetalleIS;
 
     public static List<GaleriaModel> listaGaleria =new ArrayList<>();
     public static List<GaleriaModel> listaArchivos =new ArrayList<>();
@@ -99,6 +109,9 @@ public class GlobalVariables  {
     public static ObsInspDetModel obsInspDetModel=new ObsInspDetModel();  //detalle Obs
 
     public static boolean editar_list=false;
+
+
+    private ArrayList<PersonaModel> ListPersonaOobs=new ArrayList<>();
 
     //public static InspeccionModel Inspeccion=new InspeccionModel();
 
@@ -200,6 +213,8 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> ObsFacilito_estado = new ArrayList<>();
     public static  ArrayList<Maestro> ObsFacilito_estadoHistoria=new ArrayList<>();
 
+    public static ArrayList<Maestro> IS_Metodologia = new ArrayList<>();   ///////////////check
+
     public static String json_user="";
     public static UsuarioModel userLoaded;
 
@@ -219,6 +234,10 @@ public class GlobalVariables  {
     public static String[] busqueda_tipo={"Observaciones", "Inspecciones","Noticias"};
     public static String[] busqueda_mes={"*","Enero", "Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"};
     public static String[] busqueda_anio;
+
+    public static String[] TipoComentario={"Se Cumple el PET","El trabajador requiere feedback","El procedimiento debe modificarse", "Reconocimientos/Oportunidades"};
+
+
 
     public static String Obtener_Tipo(String tipo){
         String descripcion="";
@@ -298,8 +317,17 @@ public class GlobalVariables  {
     public static ArrayList<Maestro> C_Sala=new ArrayList<>();
     public static ArrayList<Maestro> C_Vigencia=new ArrayList<>();
 
+    public static ArrayList<Maestro> O_Comentarios=new ArrayList<>();
 
+    public static ArrayList<Maestro> Opc_aspecto = new ArrayList<>();
     //public static int paginacion=1;
+    //obs Interaccion de Seguridad
+
+    public static ArrayList<SubDetalleModel> ListSubDetalleData = new ArrayList<>();
+
+
+
+
 
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
         for (Maestro o : Obj  ) {
@@ -327,7 +355,7 @@ public class GlobalVariables  {
         Condicion_obs.add(Select);
         Estado_obs.add(Select);
         Error_obs.add(Select);
-        StopWork_obs.add(Select);
+        //StopWork_obs.add(Select);
         Gerencia.add(Select);
         Tipo_insp.add(Select);
         Tipo_Plan.add(Select);
@@ -390,14 +418,17 @@ public class GlobalVariables  {
 
         Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
         Tipo_obs.add(new Maestro("TO02", "Condición"));
+        Tipo_obs.add(new Maestro("TO03", "Tarea"));
+        Tipo_obs.add(new Maestro("TO04", "Interacción de Seguridad (IS)"));
+
 
         NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
         NivelRiesgo_obs.add(new Maestro("ME", "Media"));
         NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
-
+/*
         StopWork_obs.add(new Maestro("SW01", "SI"));
         StopWork_obs.add(new Maestro("SW02", "NO"));
-
+        */
 
 
         ObsFacilito_tiempo.add(new Maestro("00","Inmediato"));
@@ -414,6 +445,22 @@ public class GlobalVariables  {
         ObsFacilito_estadoHistoria.add(new Maestro("A","Atendido"));
         ObsFacilito_estadoHistoria.add(new Maestro("O","Observado"));
         ObsFacilito_estadoHistoria.add(new Maestro("S","Espera"));
+
+        O_Comentarios.add(new Maestro("0", "-Seleccione-"));
+        O_Comentarios.add(new Maestro("1", "Se Cumple el PET"));
+        O_Comentarios.add(new Maestro("2", "El trabajador requiere feedback"));
+        O_Comentarios.add(new Maestro("3", "El procedimiento debe modificarse"));
+
+        Opc_aspecto.add(new Maestro("R003", "N/A"));
+        Opc_aspecto.add(new Maestro("R001","Correcto"));
+        Opc_aspecto.add(new Maestro("R002","Incorrecto"));
+
+        StopWork_obs.add(new Maestro("",""));
+        StopWork_obs.add(new Maestro("SW01","SI"));
+        StopWork_obs.add(new Maestro("SW02","NO"));
+
+        // Interaccion de seguridad
+        //String CodTipo, String CodSubtipo, String Descripcion, boolean estado
 
   /* //condicion sub estandar
         Condicion_obs.add(new Maestro("0027","Protección inadecuadas, defectuosa o inexistente"));

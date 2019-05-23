@@ -34,6 +34,8 @@ public class Maestro {
         Descripcion = nombre;
         //SubTipos = Subtipos;
     }
+// para IS
+
 
     public String toString()
     {
