@@ -17,5 +17,7 @@ public class ObsDetalleModel {
     public String CodError;
     public String StopWork;
     // campos de tarea
-
+    public String ComOpt1;
+    public String ComOpt2;
+    public String ComOpt3;
 }

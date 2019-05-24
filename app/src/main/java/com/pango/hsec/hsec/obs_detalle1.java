@@ -70,7 +70,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
     Maestro TipoComent;
     RecyclerView listView, list_dataMetod, List_dataComCond;
     ObsComentAdapter obsComentAdapter;
-    ArrayList<ObsComentModel> ListComentarios = new ArrayList<>();
+    public ArrayList<ObsComentModel> ListComentarios = new ArrayList<>();
     LinearLayout ll_tarea, ll_IS;
     //interaccion de seguridad
     ImageButton btn_buscar_c, add_metodol, add_comp_riesgo;
@@ -198,6 +198,22 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 GlobalVariables.ObserbacionDetalle.Observacion = txtObservacion.getText().toString();
             }
         });
+        txtComentRO.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int st, int b, int c)
+            { }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int st, int c, int a)
+            { }
+
+            @Override
+            public void afterTextChanged(Editable s)
+            {
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar = txtComentRO.getText().toString();
+            }
+        });
         txtAccion.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -310,29 +326,29 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
         if(GlobalVariables.Obserbacion==null)changueTipo(Tipo);
 ////////
-       if(GlobalVariables.ObjectEditable){ // load data of server
+        if(GlobalVariables.ObjectEditable){ // load data of server
 
-           if(GlobalVariables.ObserbacionDetalle.CodObservacion==null)
-           {
-               String url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codigo_obs;
-               ActivityController obj = new ActivityController("get", url, obs_detalle1.this,getActivity());
-               obj.execute(Tipo);
-
-
-               if (Tipo.equals("TO04")){
-
-                   String url2= GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codigo_obs;
-                   //String url2 = "https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/Observaciones/GetsSubDetalle/OBS00310074";
-                   ActivityController obj2 = new ActivityController("get", url2, obs_detalle1.this,getActivity());
-                   obj2.execute("3");
-
-                   //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/Observaciones/GetsSubDetalle/OBS00307442
-               }
+            if(GlobalVariables.ObserbacionDetalle.CodObservacion==null)
+            {
+                String url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codigo_obs;
+                ActivityController obj = new ActivityController("get", url, obs_detalle1.this,getActivity());
+                obj.execute(Tipo);
 
 
+                if (Tipo.equals("TO04")){
 
-           }
-           else setdata(Tipo);
+                    String url2= GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codigo_obs;
+                    //String url2 = "https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/Observaciones/GetsSubDetalle/OBS00310074";
+                    ActivityController obj2 = new ActivityController("get", url2, obs_detalle1.this,getActivity());
+                    obj2.execute("3");
+
+                    //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/Observaciones/GetsSubDetalle/OBS00307442
+                }
+
+
+
+            }
+            else setdata(Tipo);
 
         }
         else // new Obserbacion
@@ -408,7 +424,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
                     @Override
                     public void onClick(View v) {
                         popupWindow.dismiss();
-                }});
+                    }});
 
                 btn_agregar.setOnClickListener(new Button.OnClickListener() {
                     @Override
@@ -436,7 +452,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
                             } else {
 
-                                ListComentarios.add(new ObsComentModel(String.valueOf(ListComentarios.size()), TipoComent.Descripcion, description_coment));
+                                ListComentarios.add(new ObsComentModel(TipoComent.CodTipo, TipoComent.Descripcion, description_coment));
                                 //Toast.makeText(getActivity(), TipoComent.Descripcion + " " + description_coment + " ", Toast.LENGTH_LONG).show();
                                 obsComentAdapter.notifyDataSetChanged();
                                 popupWindow.dismiss();
@@ -561,10 +577,10 @@ public class obs_detalle1 extends Fragment implements IActivity{
                     @Override
                     public void onClick(View v) {
 
-                    for (int i=0; i < ListMetodologia.size(); i++) {
+                        for (int i=0; i < ListMetodologia.size(); i++) {
                             ListMetodologia.get(i).estado = checkBoxall.isChecked();
-                    }
-                    checkAdapter.notifyDataSetChanged();
+                        }
+                        checkAdapter.notifyDataSetChanged();
 
                     }
                 });
@@ -572,9 +588,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
             }
         });
-
-
-
 
 
         add_comp_riesgo.setOnClickListener(new Button.OnClickListener() {
@@ -633,16 +646,12 @@ public class obs_detalle1 extends Fragment implements IActivity{
                     }
                 }
 
-
-
                 LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 listCompCond.setLayoutManager(horizontalManager);
                 //GlobalVariables.ListMetodologia
 
                 checkAdapter2 = new CheckAdapter(getActivity(), ListCompCond, checkBoxall, id_cv_Otros);
                 listCompCond.setAdapter(checkAdapter2);
-
-
 
                 btn_cerrar.setOnClickListener(new Button.OnClickListener(){
                     @Override
@@ -712,7 +721,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
                         checkAdapter2.notifyDataSetChanged();
                     }
                 });
-
             }
         });
 
@@ -721,7 +729,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
     public void changueTipo(String Tipo){
 
-        Toast.makeText(getActivity(), Tipo, Toast.LENGTH_LONG).show();
+       // Toast.makeText(getActivity(), Tipo, Toast.LENGTH_LONG).show();
 
         if(!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO01")){
             mView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
@@ -773,13 +781,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
             mView.findViewById(R.id.ll_IS).setVisibility(View.VISIBLE);
 
-
-/*
-            TabHost tabHost = (TabHost)getActivity().findViewById(android.R.id.tabhost);
-            tabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
-            */
-            //tabHost.getTabContentView()
-
         }
 
 
@@ -818,76 +819,62 @@ public class obs_detalle1 extends Fragment implements IActivity{
         ListCompCond = new ArrayList<>();
         init_List_Comp();
 
-    if(!Tipo.equals("TO04")){
+        if(!Tipo.equals("TO04")){
 
 
-        //Toast.makeText(getActivity(), ListMetodologiaTemp.get(0).estado + "" , Toast.LENGTH_LONG).show();
+            //Toast.makeText(getActivity(), ListMetodologiaTemp.get(0).estado + "" , Toast.LENGTH_LONG).show();
 
-        if(GlobalVariables.ObserbacionDetalle.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
-        //if(GlobalVariables.ObserbacionDetalle.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
+            if(GlobalVariables.ObserbacionDetalle.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
+            //if(GlobalVariables.ObserbacionDetalle.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
 
-        if(GlobalVariables.ObserbacionDetalle.Accion!=null) {
-            txtAccion.setText(GlobalVariables.ObserbacionDetalle.Accion);
-            txtCodPET.setText(GlobalVariables.ObserbacionDetalle.Accion);
-        }
-        //observacion tarea
-        if (GlobalVariables.ObserbacionDetalle.CodSubEstandar!=null&&GlobalVariables.ObserbacionDetalle.CodSubEstandar.split(";",-1).length==4){
-            String[] comRecOport = GlobalVariables.ObserbacionDetalle.CodSubEstandar.split(";",-1);
-            txtComentRO.setText(comRecOport[3]);
-            for (int i = 0; i < 3; i++) {
-                if(!comRecOport[i].isEmpty()) {
-                    ListComentarios.add(new ObsComentModel("", GlobalVariables.TipoComentario[i], comRecOport[i]));
-                }
+            if(GlobalVariables.ObserbacionDetalle.Accion!=null) {
+                txtAccion.setText(GlobalVariables.ObserbacionDetalle.Accion);
+                txtCodPET.setText(GlobalVariables.ObserbacionDetalle.Accion);
             }
+            //observacion tarea
+            if (GlobalVariables.ObserbacionDetalle.CodSubEstandar!=null)txtComentRO.setText(GlobalVariables.ObserbacionDetalle.CodSubEstandar);
+
+            if(GlobalVariables.ObserbacionDetalle.ComOpt1!=null) ListComentarios.add(new ObsComentModel("", GlobalVariables.TipoComentario[0],GlobalVariables.ObserbacionDetalle.ComOpt1));
+            if(GlobalVariables.ObserbacionDetalle.ComOpt2!=null) ListComentarios.add(new ObsComentModel("", GlobalVariables.TipoComentario[1],GlobalVariables.ObserbacionDetalle.ComOpt2));
+            if(GlobalVariables.ObserbacionDetalle.ComOpt3!=null) ListComentarios.add(new ObsComentModel("", GlobalVariables.TipoComentario[2],GlobalVariables.ObserbacionDetalle.ComOpt3));
+
+            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel))spinneActividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
+            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA))spinnerHHA.setSelection(GlobalVariables.indexOf(GlobalVariables.HHA_obs,GlobalVariables.ObserbacionDetalle.CodHHA));
+
+            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar))spinnerActo.setSelection(GlobalVariables.indexOf(GlobalVariables.Acto_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
+            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar))spinnerCondicion.setSelection(GlobalVariables.indexOf(GlobalVariables.Condicion_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
+
+            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado))spinnerEstado.setSelection(GlobalVariables.indexOf(GlobalVariables.Estado_obs,GlobalVariables.ObserbacionDetalle.CodEstado));
+            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError))spinnerError.setSelection(GlobalVariables.indexOf(GlobalVariables.Error_obs,GlobalVariables.ObserbacionDetalle.CodError));
+
+            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.StopWork))spinnerStopWork.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalle.StopWork));
+
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            listView.setLayoutManager(horizontalManager);
+            obsComentAdapter = new ObsComentAdapter(getActivity(), ListComentarios);
+            listView.setAdapter(obsComentAdapter);
+
+
+
+        }else {
+            // interaccion de seguridad
+
+
+            //ObserbacionDetalle2
+
+
+            if(GlobalVariables.ObserbacionDetalleIS.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalleIS.Observacion);
+            if(GlobalVariables.ObserbacionDetalleIS.CodError!=null)tx_ISempresa.setText(GlobalVariables.getDescripcion(GlobalVariables.Contrata, GlobalVariables.ObserbacionDetalleIS.CodError));
+            if(GlobalVariables.ObserbacionDetalleIS.CodHHA!=null)txt_equipoInv.setText(GlobalVariables.ObserbacionDetalleIS.CodHHA);
+            if(GlobalVariables.ObserbacionDetalleIS.CodSubEstandar!=null)txt_InteracSeg.setText(GlobalVariables.ObserbacionDetalleIS.CodSubEstandar);
+
+            if(GlobalVariables.ObserbacionDetalleIS.StopWork!=null)sp_stopworkIS.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalleIS.StopWork));
+            if(GlobalVariables.ObserbacionDetalleIS.CodActiRel!=null)txt_detcomcon.setText(GlobalVariables.ObserbacionDetalleIS.CodActiRel);
+            if(GlobalVariables.ObserbacionDetalleIS.Accion!=null)txt_accion_inmed.setText(GlobalVariables.ObserbacionDetalleIS.Accion);
+
+            //Toast.makeText(getActivity(), GlobalVariables.ObserbacionDetalle2.CodError + " " + GlobalVariables.getDescripcion(GlobalVariables.C_Empresa, GlobalVariables.ObserbacionDetalle2.CodError) , Toast.LENGTH_LONG).show();
         }
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel))spinneActividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA))spinnerHHA.setSelection(GlobalVariables.indexOf(GlobalVariables.HHA_obs,GlobalVariables.ObserbacionDetalle.CodHHA));
-
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar))spinnerActo.setSelection(GlobalVariables.indexOf(GlobalVariables.Acto_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar))spinnerCondicion.setSelection(GlobalVariables.indexOf(GlobalVariables.Condicion_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar));
-
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado))spinnerEstado.setSelection(GlobalVariables.indexOf(GlobalVariables.Estado_obs,GlobalVariables.ObserbacionDetalle.CodEstado));
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError))spinnerError.setSelection(GlobalVariables.indexOf(GlobalVariables.Error_obs,GlobalVariables.ObserbacionDetalle.CodError));
-
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.StopWork))spinnerStopWork.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalle.StopWork));
-        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        listView.setLayoutManager(horizontalManager);
-        obsComentAdapter = new ObsComentAdapter(getActivity(), ListComentarios);
-        listView.setAdapter(obsComentAdapter);
-
-
-
-    }else {
-        // interaccion de seguridad
-
-
-        //ObserbacionDetalle2
-
-
-        if(GlobalVariables.ObserbacionDetalleIS.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalleIS.Observacion);
-        if(GlobalVariables.ObserbacionDetalleIS.CodError!=null)tx_ISempresa.setText(GlobalVariables.getDescripcion(GlobalVariables.Contrata, GlobalVariables.ObserbacionDetalleIS.CodError));
-        if(GlobalVariables.ObserbacionDetalleIS.CodHHA!=null)txt_equipoInv.setText(GlobalVariables.ObserbacionDetalleIS.CodHHA);
-        if(GlobalVariables.ObserbacionDetalleIS.CodSubEstandar!=null)txt_InteracSeg.setText(GlobalVariables.ObserbacionDetalleIS.CodSubEstandar);
-
-        if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalleIS.StopWork))sp_stopworkIS.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalleIS.StopWork));
-        if(GlobalVariables.ObserbacionDetalleIS.CodActiRel!=null)txt_detcomcon.setText(GlobalVariables.ObserbacionDetalleIS.CodActiRel);
-        if(GlobalVariables.ObserbacionDetalleIS.Accion!=null)txt_accion_inmed.setText(GlobalVariables.ObserbacionDetalleIS.Accion);
-
-
-
-
-
-
-        //Toast.makeText(getActivity(), GlobalVariables.ObserbacionDetalle2.CodError + " " + GlobalVariables.getDescripcion(GlobalVariables.C_Empresa, GlobalVariables.ObserbacionDetalle2.CodError) , Toast.LENGTH_LONG).show();
-
-
     }
-
-
-    }
-
-
-
 
     @Override
     public void success(String data, String Tipo) {
@@ -921,7 +908,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 }
             }
 
-
             LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             list_dataMetod.setLayoutManager(horizontalManager);
             obsMetodAdapter = new ObsMetodAdapter(getActivity(), ListMetodologiaFinal);
@@ -934,12 +920,8 @@ public class obs_detalle1 extends Fragment implements IActivity{
             compCondAadpter = new CompCondAadpter(getActivity(), ListCompCondFinal);
             List_dataComCond.setAdapter(compCondAadpter);
 
-
-
-
             //ListMetodologiaFinal.add(ListMetodologia.get(i));
 //        ListMetodologia.add(new SubDetalleModel("OBSR","","GESRIES1", false));
-
 
         }else {
             Gson gson = new Gson();
@@ -947,8 +929,14 @@ public class obs_detalle1 extends Fragment implements IActivity{
             ObsDetalleModel temp= gson.fromJson(data, ObsDetalleModel.class);
 
             GlobalVariables.ObserbacionDetalle = temp;
-            if (GlobalVariables.ObserbacionDetalle == null)
-                GlobalVariables.ObserbacionDetalle = new ObsDetalleModel();
+            if (GlobalVariables.ObserbacionDetalle == null)   GlobalVariables.ObserbacionDetalle = new ObsDetalleModel();
+            if (Tipo.equals("TO03")){
+                String[] comRecOport = GlobalVariables.ObserbacionDetalle.CodSubEstandar.split(";",-1);
+                if(!comRecOport[0].equals(""))GlobalVariables.ObserbacionDetalle.ComOpt1=comRecOport[0];
+                if(!comRecOport[1].equals(""))GlobalVariables.ObserbacionDetalle.ComOpt2=comRecOport[1];
+                if(!comRecOport[2].equals(""))GlobalVariables.ObserbacionDetalle.ComOpt3=comRecOport[2];
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar=comRecOport[3];
+            }
             GlobalVariables.ObserbacionDetalle.CodObservacion = codigo_obs;
             GlobalVariables.StrObsDetalle = gson.toJson(GlobalVariables.ObserbacionDetalle);
             setdata(Tipo);

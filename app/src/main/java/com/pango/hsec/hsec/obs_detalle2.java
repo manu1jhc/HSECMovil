@@ -62,9 +62,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
     private RecyclerView listView, RecyclerEtapa, listEquipoInsp, rec_listHHA, rec_listClasif;
     private ListEquipoAdapter listPersonAdapter, listEquipoLAdapter;
 
-    private ArrayList<EquipoModel> ListResponsables = new ArrayList<>();
-    private ArrayList<EquipoModel> ListEquipoModel = new ArrayList<>();
-
     public static ArrayList<SubDetalleModel> ListHHA = new ArrayList<>();
     public static ArrayList<SubDetalleModel> ListHHAfinal = new ArrayList<>();
 
@@ -149,13 +146,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
             String url2=GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codigo_obs;
             final ActivityController obj2 = new ActivityController("get", url2, obs_detalle2.this,getActivity());
             obj2.execute("2-"+Tipo);
-
-
-
-
-
-
-
             // }
             //else setData();
         }
@@ -637,20 +627,10 @@ public class obs_detalle2 extends Fragment implements IActivity{
                         }
                         checkAdapter.notifyDataSetChanged();
 
-
-
-
                     }
                 });
-
-
-
-
             }
         });
-
-
-
 
 
         return mView;
@@ -669,11 +649,11 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
 
 
-        if (!Tipo.equals("TO04")) {
+        if (Tipo.equals("TO03")) {
             //personas observadas
             LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             listView.setLayoutManager(horizontalManager);
-            listPersonAdapter = new ListEquipoAdapter(getActivity(), ListResponsables, false);
+            listPersonAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListResponsables, false);
             listView.setAdapter(listPersonAdapter);
 
             //etapa/desviacion
@@ -681,8 +661,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
             RecyclerEtapa.setLayoutManager(horizontalManager2);
             obsComentAdapter = new ObsComentAdapter(getActivity(), ListEtapDes);
             RecyclerEtapa.setAdapter(obsComentAdapter);
-
-
 
             //if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel))
             //sp_asp1.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
@@ -698,24 +676,16 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 sp_asp8.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(7).Descripcion));
 
             }
-        }else if (Tipo.equals("TO04")) {
+        }else{
             //interaccion de seguridad
-
+            for(EquipoModel item:GlobalVariables.ListAtendidos) item.Lider=item.Estado;
             /// interaccion de seguridad
             LinearLayoutManager horizontalManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             listEquipoInsp.setLayoutManager(horizontalManager3);
-            listEquipoLAdapter = new ListEquipoAdapter(getActivity(), ListEquipoModel, false);
+            listEquipoLAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListAtendidos, true);
             listEquipoInsp.setAdapter(listEquipoLAdapter);
-
-
-
-
         }
-
-
     }
-
-
 
     public void changueTipo(String Tipo) {
 
@@ -731,16 +701,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
             mView.findViewById(R.id.ll_is).setVisibility(View.GONE);
-
         }
-
     }
-
-
-
-
-
-
         @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -800,9 +762,9 @@ public class obs_detalle2 extends Fragment implements IActivity{
             GetEquipoModel getEquipoModel = gson.fromJson(data, GetEquipoModel.class);
 
             if (tipoObs[1].equals("TO03")) {
-                ListResponsables = getEquipoModel.Data;
+                GlobalVariables.ListResponsables = getEquipoModel.Data;
             }else {
-                ListEquipoModel = getEquipoModel.Data;
+                GlobalVariables.ListAtendidos = getEquipoModel.Data;
             }
 
         } else if (tipoObs[0].equals("2")) {
@@ -838,7 +800,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
             }
 
-
             LinearLayoutManager horizontalManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             rec_listHHA.setLayoutManager(horizontalManager4);
             listISAdapter = new ListISAdapter(getActivity(), ListHHAfinal);
@@ -849,9 +810,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
             rec_listClasif.setLayoutManager(horizontalManager);
             obsClasifAdapter = new OsbClasifAdapter(getActivity(), ListClasificFinal);
             rec_listClasif.setAdapter(obsClasifAdapter);
-
-
-
 
         }
         setData(tipoObs[1]);

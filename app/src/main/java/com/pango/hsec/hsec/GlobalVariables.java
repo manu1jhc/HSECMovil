@@ -58,13 +58,17 @@ public class GlobalVariables  {
 
 
 
-
     public static String StrObservacion,StrObsDetalle, StrObsDetalleIS;
 
     public static List<GaleriaModel> listaGaleria =new ArrayList<>();
     public static List<GaleriaModel> listaArchivos =new ArrayList<>();
     public static List<PlanModel> StrPlanes=new ArrayList<>();
     public static List<GaleriaModel> StrFiles=new ArrayList<>();
+
+    public static List<Maestro> SubDetalleTa=new ArrayList<>();
+    public static List<Maestro> SubDetalleIS=new ArrayList<>();
+    public static List<Maestro> StrSubDetalleTa=new ArrayList<>();
+    public static List<Maestro> StrSubDetalleIS=new ArrayList<>();
 
     public static String ObserbacionFile;
     public static String ObserbacionPlan;
@@ -355,7 +359,7 @@ public class GlobalVariables  {
         Condicion_obs.add(Select);
         Estado_obs.add(Select);
         Error_obs.add(Select);
-        //StopWork_obs.add(Select);
+        StopWork_obs.add(Select);
         Gerencia.add(Select);
         Tipo_insp.add(Select);
         Tipo_Plan.add(Select);
@@ -455,7 +459,6 @@ public class GlobalVariables  {
         Opc_aspecto.add(new Maestro("R001","Correcto"));
         Opc_aspecto.add(new Maestro("R002","Incorrecto"));
 
-        StopWork_obs.add(new Maestro("",""));
         StopWork_obs.add(new Maestro("SW01","SI"));
         StopWork_obs.add(new Maestro("SW02","NO"));
 

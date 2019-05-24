@@ -1,60 +1,62 @@
 
 package com.pango.hsec.hsec;
 
-   import android.content.DialogInterface;
-        import android.content.Intent;
-        import android.graphics.Color;
-   import android.os.Handler;
-   import android.support.annotation.NonNull;
-   import android.support.constraint.ConstraintLayout;
-   import android.support.design.widget.Snackbar;
-        import android.support.v4.app.Fragment;
-        import android.support.v4.app.FragmentActivity;
-        import android.support.v4.view.ViewPager;
-        import android.os.Bundle;
-        import android.support.v7.app.AlertDialog;
-        import android.util.Log;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.HorizontalScrollView;
-        import android.widget.ImageButton;
-   import android.widget.LinearLayout;
-   import android.widget.ProgressBar;
-        import android.widget.TabHost;
-        import android.widget.TextView;
-        import android.widget.Toast;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TabHost;
+import android.widget.TextView;
+import android.widget.Toast;
 
-        import com.google.gson.Gson;
-        import com.pango.hsec.hsec.Ingresos.Inspecciones.ActObsInspEdit;
-        import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
-        import com.pango.hsec.hsec.Observaciones.MyTabFactory;
-        import com.pango.hsec.hsec.adapter.GridViewAdapter;
-        import com.pango.hsec.hsec.controller.ActivityController;
-        import com.pango.hsec.hsec.controller.WebServiceAPI;
-        import com.pango.hsec.hsec.model.GaleriaModel;
-        import com.pango.hsec.hsec.model.GetPlanModel;
-        import com.pango.hsec.hsec.model.ObsDetalleModel;
-        import com.pango.hsec.hsec.model.ObservacionModel;
-        import com.pango.hsec.hsec.model.PlanModel;
-        import com.pango.hsec.hsec.util.Compressor;
-        import com.pango.hsec.hsec.util.ProgressRequestBody;
-   import com.pango.hsec.hsec.utilitario.UnsafeOkHttpClient;
+import com.google.gson.Gson;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.ActObsInspEdit;
+import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
+import com.pango.hsec.hsec.Observaciones.MyTabFactory;
+import com.pango.hsec.hsec.adapter.GridViewAdapter;
+import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.controller.WebServiceAPI;
+import com.pango.hsec.hsec.model.EquipoModel;
+import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.GetPlanModel;
+import com.pango.hsec.hsec.model.ObsComentModel;
+import com.pango.hsec.hsec.model.ObsDetalleModel;
+import com.pango.hsec.hsec.model.ObservacionModel;
+import com.pango.hsec.hsec.model.PlanModel;
+import com.pango.hsec.hsec.util.Compressor;
+import com.pango.hsec.hsec.util.ProgressRequestBody;
+import com.pango.hsec.hsec.utilitario.UnsafeOkHttpClient;
 
-   import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
-   import java.io.File;
-   import java.util.ArrayList;
-        import java.util.List;
-   import java.util.concurrent.TimeUnit;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-   import okhttp3.MultipartBody;
-   import okhttp3.OkHttpClient;
-   import okhttp3.RequestBody;
-        import retrofit2.Call;
-        import retrofit2.Callback;
-        import retrofit2.Response;
-        import retrofit2.Retrofit;
-        import retrofit2.converter.gson.GsonConverterFactory;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class observacion_edit extends FragmentActivity implements IActivity,TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener, ProgressRequestBody.UploadCallbacks{
     MyPageAdapter pageAdapter;
@@ -72,6 +74,8 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     ActivityController activityTask;
     Call<String> request;
     Boolean cancel, enableSave=true;
+    List<Fragment> fragments;
+    int posionOld=0;
     long L,G,T;
     //TabHost tabHost;
     //
@@ -79,6 +83,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_observacion_edit);
+
         reiniciadata();
         close=findViewById(R.id.imageButton);
         btn_Salvar=(Button)findViewById(R.id.btn_Salvar);
@@ -101,35 +106,54 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         }else{
             tx_titulo.setText("Nueva Observación");
         }
-        initialiseTabHost();
 
-        // Fragments and ViewPager Initialization
-        List<Fragment> fragments = getFragments();
+        fragments =  getFragments2(); //CodTipoChange.equals("TO01")|| CodTipoChange.equals("TO02")? getFragments():
+        initialiseTabHost();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         mTabHost.setCurrentTab(pos);
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setOnPageChangeListener(observacion_edit.this);
+
     }
 
-public void reiniciadata(){
-    GlobalVariables.Obserbacion= new ObservacionModel();
-    GlobalVariables.ObserbacionDetalle= new ObsDetalleModel();
-    GlobalVariables.listaArchivos=new ArrayList<>();
-    GlobalVariables.listaGaleria=new ArrayList<>();
-    GlobalVariables.ObserbacionFile=null;
-    GlobalVariables.ObserbacionPlan=null;
-    GlobalVariables.Planes=new ArrayList<>();
-    //save data Inicial
-    GlobalVariables.StrObservacion=null;
-    GlobalVariables.StrObsDetalle=null;
-    GlobalVariables.StrPlanes=new ArrayList<>();
-    GlobalVariables.StrFiles=new ArrayList<>();
+    public void loadPages(String CodTipoChange){
 
-    //inicialize options
-    GlobalVariables.obsInspDetModel=null;
-    ActObsInspEdit.editar=true;
+    }
 
-}
+    public void updatePages(String CodTipoChange){
+        initialiseTabHost();
+       /* TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
+        if(CodTipoChange.equals("TO01")||CodTipoChange.equals("TO02"))
+            tabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
+        tabHost.getTabWidget().getChildAt(2).setVisibility(View.VISIBLE);*/
+    }
+
+    public void reiniciadata(){
+        GlobalVariables.Obserbacion= new ObservacionModel();
+        GlobalVariables.ObserbacionDetalle= new ObsDetalleModel();
+        GlobalVariables.listaArchivos=new ArrayList<>();
+        GlobalVariables.listaGaleria=new ArrayList<>();
+        GlobalVariables.ObserbacionFile=null;
+        GlobalVariables.ObserbacionPlan=null;
+        GlobalVariables.Planes=new ArrayList<>();
+        GlobalVariables.SubDetalleTa=new ArrayList<>();
+        GlobalVariables.SubDetalleIS=new ArrayList<>();
+        GlobalVariables.ListResponsables=new ArrayList<>();
+        GlobalVariables.ListAtendidos=new ArrayList<>();
+        //save data Inicial
+        GlobalVariables.StrObservacion=null;
+        GlobalVariables.StrObsDetalle=null;
+        GlobalVariables.StrPlanes=new ArrayList<>();
+        GlobalVariables.StrFiles=new ArrayList<>();
+        GlobalVariables.StrResponsables=new ArrayList<>();
+        GlobalVariables.StrAtendidos=new ArrayList<>();
+        GlobalVariables.StrSubDetalleTa=new ArrayList<>();
+        GlobalVariables.StrSubDetalleIS=new ArrayList<>();
+        //inicialize options
+        GlobalVariables.obsInspDetModel=null;
+        ActObsInspEdit.editar=true;
+
+    }
     public void close(View view){
         outObservacion();
     }
@@ -146,15 +170,23 @@ public void reiniciadata(){
 
     // Manages the Tab changes, synchronizing it with Pages
     public void onTabChanged(String tag) {
+
         int pos = this.mTabHost.getCurrentTab();
+        if((GlobalVariables.Obserbacion.CodTipo.equals("TO02")|| GlobalVariables.Obserbacion.CodTipo.equals("TO01"))&&pos==2)
+        {
+            if(pos>posionOld) pos+=1;
+            else pos-=1;
+        }
         this.mViewPager.setCurrentItem(pos);
         if(pos==1){ //cambios solo cuando ingresemos al tab de detalle de obs.
             obs_detalle1 detalle = (obs_detalle1) pageAdapter.getItem(1);
             detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
-        }else if(pos==2){
+        }
+        else if(pos==2 && (GlobalVariables.Obserbacion.CodTipo.equals("TO03")|| GlobalVariables.Obserbacion.CodTipo.equals("TO04"))){
             obs_detalle2 detalle = (obs_detalle2) pageAdapter.getItem(2);
             detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
         }
+        posionOld=pos;
     }
 
     @Override
@@ -195,6 +227,24 @@ public void reiniciadata(){
         // TODO Put here your Fragments
         obs_cabecera f1 = obs_cabecera.newInstance(CodObservacion);
         obs_detalle1 f2 = obs_detalle1.newInstance(CodObservacion,CodTipo);
+        //obs_detalle2 f3 = obs_detalle2.newInstance(CodObservacion,CodTipo);
+        obs_archivos f4 = obs_archivos.newInstance(CodObservacion);
+        obs_planaccion f5=obs_planaccion.newInstance(CodObservacion);
+
+        fList.add(f1);
+        fList.add(f2);
+        //fList.add(f3);
+        fList.add(f4);
+        fList.add(f5);
+        return fList;
+    }
+
+    public List<Fragment> getFragments2() {
+        List<Fragment> fList = new ArrayList<Fragment>();
+
+        // TODO Put here your Fragments
+        obs_cabecera f1 = obs_cabecera.newInstance(CodObservacion);
+        obs_detalle1 f2 = obs_detalle1.newInstance(CodObservacion,CodTipo);
         obs_detalle2 f3 = obs_detalle2.newInstance(CodObservacion,CodTipo);
         obs_archivos f4 = obs_archivos.newInstance(CodObservacion);
         obs_planaccion f5=obs_planaccion.newInstance(CodObservacion);
@@ -219,6 +269,7 @@ public void reiniciadata(){
         // TODO Put here your Tabs
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab1").setIndicator("Observación"));
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
+        //if(CodTipoC.equals("TO03") || CodTipoC.equals("TO04"))
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab3").setIndicator("Detalle 2"));
         observacion_edit.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab4").setIndicator("Archivos"));
         observacion_edit.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab5").setIndicator("Plan Accion"));
@@ -363,17 +414,48 @@ public void reiniciadata(){
         progressBar.setProgress(0);
         txt_percent.setText("");
         String Observacion=  gson.toJson(GlobalVariables.Obserbacion);
-        if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO02")){
+
+        if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO01")){
+            GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+            GlobalVariables.ObserbacionDetalle.ComOpt2=null;
+            GlobalVariables.ObserbacionDetalle.ComOpt3=null;
+        }
+        else if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO02")){
             GlobalVariables.ObserbacionDetalle.CodError=null;
             GlobalVariables.ObserbacionDetalle.CodEstado=null;
+            GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+            GlobalVariables.ObserbacionDetalle.ComOpt2=null;
+            GlobalVariables.ObserbacionDetalle.ComOpt3=null;
+        }
+        else if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO03")){
+            obs_detalle1 detalle1 = (obs_detalle1) pageAdapter.getItem(1);
+
+            boolean[] opt = new boolean[3];
+            for(ObsComentModel item : detalle1.ListComentarios){
+                if(item.CodComentario.equals("0")) {
+                    GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
+                    opt[0]=true;
+                }
+                if(item.CodComentario.equals("1")){
+                    GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
+                    opt[1]=true;
+                }
+                if(item.CodComentario.equals("2")){
+                    GlobalVariables.ObserbacionDetalle.ComOpt3=item.Descripcion;
+                    opt[2]=true;
+                }
+            }
+            if(!opt[0]&&GlobalVariables.ObserbacionDetalle.ComOpt1!=null) GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+            if(!opt[1]&&GlobalVariables.ObserbacionDetalle.ComOpt2!=null) GlobalVariables.ObserbacionDetalle.ComOpt2=null;
+            if(!opt[2]&&GlobalVariables.ObserbacionDetalle.ComOpt3!=null) GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
         String DetalleObs=  gson.toJson(GlobalVariables.ObserbacionDetalle);
         Errores="";
         Actives.clear();
         if(GlobalVariables.ObjectEditable){
 
-            String Cabecera,Detalle, PlanesDelete, FilesDelete;
-            Cabecera=Detalle=PlanesDelete=FilesDelete="-";
+            String Cabecera,Detalle, PlanesDelete, FilesDelete,Involucrados,subdetalle;
+            Cabecera=Detalle=PlanesDelete=FilesDelete=Involucrados=subdetalle="-";
 
             if(!GlobalVariables.StrObservacion.equals(Observacion)) Cabecera=Observacion;
             if(!GlobalVariables.StrObsDetalle.equals(DetalleObs)) Detalle=DetalleObs;
@@ -436,10 +518,48 @@ public void reiniciadata(){
                     if(!pass)GlobalVariables.StrFiles.add(item);
                 }
             }
+             // insert involucrados
+            List<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO02")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
+
+            //update involucrados
+            ArrayList<EquipoModel> updateAtentidos = new ArrayList<>();
+            //Insert involucrados
+            for (EquipoModel item:GlobalVariables.ListAtendidos) {
+                boolean pass=false;
+                for(EquipoModel item2:GlobalVariables.StrAtendidos)
+                    if(item.CodPersona.equals(item2.CodPersona))
+                        pass=true;
+                if(!StringUtils.isEmpty(item.NroReferencia)&&item.NroReferencia.equals("-1")) {
+                    updateAtentidos.add(new EquipoModel(item.CodPersona,"A"));
+                    if(!pass)GlobalVariables.StrAtendidos.add(item);
+                }
+            }
+
+            //Delete involucrados
+            for (EquipoModel item:GlobalVariables.StrAtendidos) {
+                boolean pass=true;
+                for (EquipoModel item2:GlobalVariables.ListAtendidos) {
+                    if(item.CodPersona==item2.CodPersona){
+                        pass=false;
+                        continue;
+                    }
+                }
+                if(pass){
+                    item.Estado="E";
+                    updateAtentidos.add(new EquipoModel(item.CodPersona,"E"));
+                }
+            }
+            if(updateAtentidos.size()>0){
+                updateAtentidos.get(0).NroReferencia=GlobalVariables.InspeccionObserbacion;
+                Involucrados=gson.toJson(updateAtentidos);
+            }
+
+            // delete involucrados
+
 
             if(DataInsert.size()==0 && FilesDelete.equals("-")&& PlanesDelete.equals("-")&& Detalle.equals("-")&& Cabecera.equals("-"))
             {
-               enableSave=(true);
+                enableSave=(true);
                 Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
             }
             else{
@@ -537,10 +657,10 @@ public void reiniciadata(){
                             }
                         }else{
                             if(response.code()==401){
-                               Utils.reloadTokenAuth(observacion_edit.this,observacion_edit.this);
-                                   progressBar.setProgress(0);
-                                   txt_percent.setText(0+"%");
-                               }
+                                Utils.reloadTokenAuth(observacion_edit.this,observacion_edit.this);
+                                progressBar.setProgress(0);
+                                txt_percent.setText(0+"%");
+                            }
                             else{
                                 Actives.set(0,-1);
                                 Errores+="\nOcurrio un error interno de servidor";
@@ -551,20 +671,20 @@ public void reiniciadata(){
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                       if(!cancel){
-                           Actives.set(0,-1);
-                           if(t.getMessage().equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
-                           else {
-                               Errores+="\nOcurrio un error al intentar guardar los datos.";
+                        if(!cancel){
+                            Actives.set(0,-1);
+                            if(t.getMessage().equals("timeout"))Errores+="\nConexión a servidor perdida, intente de nuevo";
+                            else {
+                                Errores+="\nOcurrio un error al intentar guardar los datos.";
 
-                           }
-                           if(!Actives.contains(0)) FinishSave();
-                       }
-                       else{
-                           for(GaleriaModel item:GlobalVariables.StrFiles)
-                               if(item.Correlativo==-1)item.Estado="E";
-                           loaddata();
-                       }
+                            }
+                            if(!Actives.contains(0)) FinishSave();
+                        }
+                        else{
+                            for(GaleriaModel item:GlobalVariables.StrFiles)
+                                if(item.Correlativo==-1)item.Estado="E";
+                            loaddata();
+                        }
                     }
                 });
             }
@@ -572,13 +692,22 @@ public void reiniciadata(){
         else{  //Insert new Observacion
             Actives.add(0);
             ll_bar_carga.setVisibility(View.VISIBLE);
-           // GridViewAdapter gridViewAdapter = new GridViewAdapter(this,GlobalVariables.listaGaleria);
-            obs_archivos archivos = (obs_archivos) pageAdapter.getItem(2);
+            // GridViewAdapter gridViewAdapter = new GridViewAdapter(this,GlobalVariables.listaGaleria);
+            obs_archivos archivos = (obs_archivos) pageAdapter.getItem(3);
             archivos.gridViewAdapter.ProcesarImagens();
             GlobalVariables.StrFiles= new ArrayList();
 
             GlobalVariables.StrFiles.addAll(GlobalVariables.listaGaleria);
             GlobalVariables.StrFiles.addAll(GlobalVariables.listaArchivos);
+            List<EquipoModel> PerInvolucrados;
+            if(GlobalVariables.Obserbacion.CodTipo.equals("TO02")) {
+                PerInvolucrados=GlobalVariables.ListResponsables;
+                GlobalVariables.StrResponsables.addAll(GlobalVariables.ListResponsables);
+            }
+            else {
+                PerInvolucrados=GlobalVariables.ListAtendidos;
+                GlobalVariables.StrAtendidos.addAll(GlobalVariables.ListAtendidos);
+            }
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(20, TimeUnit.SECONDS)
                     .writeTimeout(20, TimeUnit.SECONDS)
@@ -598,7 +727,7 @@ public void reiniciadata(){
             }
             //Toast.makeText(this, "Guardando Observacion, Espere..." , Toast.LENGTH_SHORT).show();
 
-            request = service.insertarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(DetalleObs),createPartFromString(gson.toJson(GlobalVariables.Planes)),Files);
+            request = service.insertarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(DetalleObs),createPartFromString(gson.toJson(GlobalVariables.Planes)),createPartFromString(gson.toJson(PerInvolucrados)),createPartFromString(""),Files);
             if(T==0)onProgressUpdate();
             request.enqueue(new Callback<String>() {
                 @Override
@@ -609,7 +738,7 @@ public void reiniciadata(){
                         if(respt.equals("-1")){
                             Actives.set(0,-1);
                             Errores+="\nOcurrio un error al guardar observación.";
-                    }
+                        }
                         else {
                             Actives.set(0,1);  // update value Cabecera
                             Utils.DeleteCache(new Compressor(observacion_edit.this).destinationDirectoryPath); //delete cache Files;
@@ -649,7 +778,7 @@ public void reiniciadata(){
                                         }
                                     }
                                 }
-                                obs_planaccion fragment = (obs_planaccion) pageAdapter.getItem(3);
+                                obs_planaccion fragment = (obs_planaccion) pageAdapter.getItem(4);
                                 fragment.setdata();
                                 GlobalVariables.StrPlanes=GlobalVariables.Planes;
 
@@ -726,49 +855,49 @@ public void reiniciadata(){
     boolean ok,fail;
     public void FinishSave(){
 
-            String Mensaje="Se guardo los datos correctamente";
-            String Titulo="Desea Finalizar?";
-            int icon=R.drawable.confirmicon;
-            ok=false;
-            fail=false;
-            if(Actives.contains(1))ok=true;
-            if(Actives.contains(-1)){
-                fail=true;
-                icon=R.drawable.erroricon;
-                Mensaje=Errores;
-                Titulo="Error!";
-            }
-            if(fail&&ok){
-                Titulo="Intente de nuevo";
-                Mensaje="Se guardo con los siguientes errores:\n\n";
-                Mensaje+=Errores;//.replace("@","\n");
-                icon=R.drawable.warninicon;
-            }
+        String Mensaje="Se guardo los datos correctamente";
+        String Titulo="Desea Finalizar?";
+        int icon=R.drawable.confirmicon;
+        ok=false;
+        fail=false;
+        if(Actives.contains(1))ok=true;
+        if(Actives.contains(-1)){
+            fail=true;
+            icon=R.drawable.erroricon;
+            Mensaje=Errores;
+            Titulo="Error!";
+        }
+        if(fail&&ok){
+            Titulo="Intente de nuevo";
+            Mensaje="Se guardo con los siguientes errores:\n\n";
+            Mensaje+=Errores;//.replace("@","\n");
+            icon=R.drawable.warninicon;
+        }
 
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle(Titulo);
-            alertDialog.setIcon(icon);
-            alertDialog.setMessage(Mensaje);
-            if(ok&&!fail)
-                alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                       enableSave=(true);
-                        ll_bar_carga.setVisibility(View.GONE);
-                        progressBar.setProgress(0);
-                        GlobalVariables.ObjectEditable=true;
-                    }
-                });
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle(Titulo);
+        alertDialog.setIcon(icon);
+        alertDialog.setMessage(Mensaje);
+        if(ok&&!fail)
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancelar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
-                    if(ok&&!fail){
-                        finish();
-                    }
+                    enableSave=(true);
                     ll_bar_carga.setVisibility(View.GONE);
                     progressBar.setProgress(0);
-                   enableSave=(true);
+                    GlobalVariables.ObjectEditable=true;
                 }
             });
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                if(ok&&!fail){
+                    finish();
+                }
+                ll_bar_carga.setVisibility(View.GONE);
+                progressBar.setProgress(0);
+                enableSave=(true);
+            }
+        });
         loaddata();
         alertDialog.show();
     }
@@ -785,7 +914,7 @@ public void reiniciadata(){
                     GlobalVariables.listaGaleria.add(GlobalVariables.StrFiles.get(i));
                 }
             }
-            obs_archivos fragment = (obs_archivos) pageAdapter.getItem(2);
+            obs_archivos fragment = (obs_archivos) pageAdapter.getItem(3);
             fragment.setdata();
         }
     }
@@ -893,7 +1022,7 @@ public void reiniciadata(){
             request.cancel();
             ll_bar_carga.setVisibility(View.GONE); enableSave=true;
             cancel=true;
-           }
+        }
     }
 
 
@@ -936,7 +1065,7 @@ public void reiniciadata(){
         if(DeleteFiles.equals("")&&DataInsert.size()==0){
             if(!Actives.contains(0)){ // no hubo ningun gambio
                 Actives.clear();
-               enableSave=(true);
+                enableSave=(true);
                 Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
             }
         }

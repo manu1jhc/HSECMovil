@@ -250,11 +250,19 @@ public class obs_cabecera extends Fragment implements IActivity{
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_tipobs) ).getSelectedItem();
-                TabHost mTabHost = (TabHost) getActivity().findViewById(android.R.id.tabhost);
-                TabWidget tabWidget =(TabWidget)getActivity().findViewById(android.R.id.tabs);
                 GlobalVariables.Obserbacion.CodTipo=Tipo.CodTipo;
                 GlobalVariables.ObserbacionDetalle.CodTipo=Tipo.CodTipo;
-                //GlobalVariables.ObserbacionDetalle.CodSubEstandar=Tipo.CodTipo=="TO01"?GlobalVariables.Acto_obs.get(0).CodTipo:GlobalVariables.Condicion_obs.get(0).CodTipo;
+
+                TabHost tabHost = (TabHost)getActivity().findViewById(android.R.id.tabhost);
+
+                TabWidget widget = tabHost.getTabWidget();
+                for(int i = 0; i < widget.getChildCount(); i++) {
+                    if(i==2){
+                        View v = widget.getChildAt(i);
+                        if(Tipo.CodTipo.equals("TO01")||Tipo.CodTipo.equals("TO02")) v.setVisibility(View.GONE);
+                        else  v.setVisibility(View.VISIBLE);
+                    }
+                }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
