@@ -157,4 +157,13 @@
         <item name="android:minWidth">200dp</item>
 
     </style>
+
+
+    <style name="checkBoxStyle" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">#FFFFFF</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
+    </style>
+
+
+
 </resources>

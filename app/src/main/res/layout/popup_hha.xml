@@ -73,10 +73,11 @@
 
                         <CheckBox
                             android:id="@+id/checkBoxall"
+                            android:theme="@style/checkBoxStyle"
+                            android:background="@color/ColorbtnVerdoso"
 
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:background="#FDFDFE"
                             android:checked="false"
                             android:padding="0dp"
                             android:text=""

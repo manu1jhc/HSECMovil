@@ -58,7 +58,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class obs_detalle1 extends Fragment implements IActivity{
     //tarea
-    TextView textView6,textView4,textView14,textView15,textView16,textView17,textView35,textView25;
+    TextView textView6,textView4,textView14,textView15,textView16,textView17,textView35,textView25,textView32pet,tx_sw, tx_eq_inv, tx_interac_seg,tx_swIS;
     private static View mView;
     Spinner spinneActividad, spinnerHHA, spinnerActo,spinnerCondicion,spinnerEstado, spinnerError,spinnerStopWork,sp_stopworkIS;
     EditText txtObservacion,txtAccion, txtCodPET, txtComentRO, txt_detcomcon,txt_accion_inmed;
@@ -109,6 +109,14 @@ public class obs_detalle1 extends Fragment implements IActivity{
         listView = (RecyclerView) mView.findViewById(R.id.listComent);
         txtCodPET= (EditText) mView.findViewById(R.id.txt_codpet);
         txtComentRO = (EditText) mView.findViewById(R.id.txt_comentRO);
+        spinneActividad = (Spinner) mView.findViewById(R.id.sp_actividad);
+        spinnerHHA = (Spinner) mView.findViewById(R.id.sp_hha);
+        spinnerActo = (Spinner) mView.findViewById(R.id.sp_acto);
+        spinnerCondicion = (Spinner) mView.findViewById(R.id.sp_condicion);
+        spinnerEstado = (Spinner) mView.findViewById(R.id.sp_estado);
+        spinnerError = (Spinner) mView.findViewById(R.id.sp_error);
+        spinnerStopWork = (Spinner) mView.findViewById(R.id.sp_stopwork);
+        sp_stopworkIS = (Spinner) mView.findViewById(R.id.sp_stopworkIS);
 
         // Interaccion de seguridad
         btn_buscar_c = (ImageButton) mView.findViewById(R.id.btn_buscar_c);
@@ -139,15 +147,24 @@ public class obs_detalle1 extends Fragment implements IActivity{
         textView17=mView.findViewById(R.id.textView17);
         textView17.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Condición SubEstándar:"));
 
-        spinneActividad = (Spinner) mView.findViewById(R.id.sp_actividad);
-        spinnerHHA = (Spinner) mView.findViewById(R.id.sp_hha);
-        spinnerActo = (Spinner) mView.findViewById(R.id.sp_acto);
-        spinnerCondicion = (Spinner) mView.findViewById(R.id.sp_condicion);
-        spinnerEstado = (Spinner) mView.findViewById(R.id.sp_estado);
-        spinnerError = (Spinner) mView.findViewById(R.id.sp_error);
-        spinnerStopWork = (Spinner) mView.findViewById(R.id.sp_stopwork);
-        sp_stopworkIS = (Spinner) mView.findViewById(R.id.sp_stopworkIS);
+        //tarea
+        textView32pet = mView.findViewById(R.id.textView32pet);
+        tx_sw = mView.findViewById(R.id.tx_sw);
 
+        textView32pet.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Código PET:"));
+        tx_sw.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Stop Work:"));
+
+//interaccon de seguridad
+
+        tx_eq_inv= mView.findViewById(R.id.tx_eq_inv);
+        tx_interac_seg = mView.findViewById(R.id.tx_interac_seg);
+        tx_swIS = mView.findViewById(R.id.tx_swIS);
+        tx_eq_inv.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Equipo Involucrado:"));
+        tx_interac_seg.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Interacción de Seguridad:"));
+
+        tx_swIS.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Stop Work::"));
+
+/////////////////////////////////////////////
         ArrayAdapter adapterActividadObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Actividad_obs);
         adapterActividadObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinneActividad.setAdapter(adapterActividadObs);
@@ -463,10 +480,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
                         }
 
-
-
-
-
                     }
                 });
 
@@ -780,6 +793,13 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
             mView.findViewById(R.id.ll_IS).setVisibility(View.VISIBLE);
+
+
+/*
+            TabHost tabHost = (TabHost)getActivity().findViewById(android.R.id.tabhost);
+            tabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
+            */
+            //tabHost.getTabContentView()
 
         }
 

@@ -51,12 +51,15 @@ android:background="#99000000"
 
             <CheckBox
                 android:id="@+id/checkBoxall"
+                android:background="@color/ColorbtnVerdoso"
+
+                android:theme="@style/checkBoxStyle"
 
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="#FDFDFE"
                 android:checked="false"
                 android:padding="0dp"
+
                 android:text=""
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"

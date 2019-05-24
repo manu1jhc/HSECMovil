@@ -6,9 +6,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,7 +89,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
     CheckAdapter checkAdapter;
 
     CompCondAadpter compCondAadpter;
-
+    TextView textView34po, textViewasp1, textViewasp2, textViewasp3, textViewasp4, textViewasp5, textViewasp6, textViewasp7, textViewasp8, textView41is;
 
     public obs_detalle2() {
         // Required empty public constructor
@@ -132,6 +134,30 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp6 = mView.findViewById(R.id.sp_asp6);
         sp_asp7 = mView.findViewById(R.id.sp_asp7);
         sp_asp8 = mView.findViewById(R.id.sp_asp8);
+//tarea
+        textView34po = mView.findViewById(R.id.textView34po);
+        textViewasp1 = mView.findViewById(R.id.textViewasp1);
+        textViewasp2 = mView.findViewById(R.id.textViewasp2);
+        textViewasp3 = mView.findViewById(R.id.textViewasp3);
+        textViewasp4 = mView.findViewById(R.id.textViewasp4);
+        textViewasp5 = mView.findViewById(R.id.textViewasp5);
+        textViewasp6 = mView.findViewById(R.id.textViewasp6);
+        textViewasp7 = mView.findViewById(R.id.textViewasp7);
+        textViewasp8 = mView.findViewById(R.id.textViewasp8);
+
+        textView34po.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Personas Observadas:"));
+        textViewasp1.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"EPP completos para la tarea:"));
+        textViewasp2.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Orden y Limpieza:"));
+        textViewasp3.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Estado de Herramientas:"));
+        textViewasp4.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Materiales necesarios para la tarea:"));
+        textViewasp5.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Estado de las instalaciones y/o estructurastarea:"));
+        textViewasp6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Análisis de Seguridad en el trabajo / Peligros identificados y controles existentes:"));
+        textViewasp7.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Permiso(s) de Trabajo:"));
+        textViewasp8.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"EPP completos para la tarea:"));
+
+//interaccion de seguridad
+        textView41is= mView.findViewById(R.id.textView41is);
+        textView41is.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Equipo de inspección:"));
 
 
         if(GlobalVariables.Obserbacion==null)changueTipo(Tipo);
@@ -235,6 +261,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
                             popupWindow.dismiss();
                         }
+
+
 
                     }
                 });
