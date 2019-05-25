@@ -42,7 +42,6 @@ public class CompCondAadpter extends RecyclerView.Adapter<CompCondAadpter.ViewHo
         SubDetalleModel em = items.get(position);
 
         String[] datapart = em.Descripcion.split(":");
-
         //if(em.CodTipo.equals("OBCC"))
         if (em.Descripcion.split(":")[0].contains("COMCON11")){
             viewHolder.det_gestion.setText(GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs, em.Descripcion.split(":")[0].trim()) +" : "+ em.Descripcion.split(":")[1]);
@@ -58,11 +57,11 @@ public class CompCondAadpter extends RecyclerView.Adapter<CompCondAadpter.ViewHo
                                                      public void onClick(View v) {
                                                          for (int i=0; i<ListCompCond.size(); i++){
                                                              if(datapart[0].equals(ListCompCond.get(i).Descripcion)){
-                                                                 ListCompCond.get(i).estado= false;
+                                                                 ListCompCond.get(i).Check= false;
                                                                  break;
                                                              }
                                                          }
-                                                         items.get(position).estado = false;
+                                                         items.get(position).Check = false;
                                                          //ListCompCond.get(position).estado= false;
                                                          items.remove(position);
                                                          notifyItemRemoved(position);

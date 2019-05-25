@@ -5,25 +5,27 @@ package com.pango.hsec.hsec.model;
  */
 
 public class SubDetalleModel {
+    public String Codigo;
     public String CodTipo;
     public String CodSubtipo; /// esta null
     public String Descripcion;
-    public boolean estado;
-
+    public String Estado;
+    public Boolean Check;
 
     public SubDetalleModel(String CodTipo, String CodSubtipo, String Descripcion) {
         this.CodTipo=CodTipo;
         this.CodSubtipo=CodSubtipo;
         this.Descripcion=Descripcion;
-
+        this.Check=false;
     }
 
 
-    public SubDetalleModel (String CodTipo, String CodSubtipo, String Descripcion, boolean estado){
+    public SubDetalleModel (String Codigo,String CodTipo, String CodSubtipo, String Descripcion){
         this.CodTipo = CodTipo;
         this.CodSubtipo = CodSubtipo;
         this.Descripcion = Descripcion;
-        this.estado = estado;
+        this.Codigo = Codigo;
+        this.Check=false;
     }
 
 

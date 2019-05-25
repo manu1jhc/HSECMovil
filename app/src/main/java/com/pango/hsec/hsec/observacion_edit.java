@@ -2,9 +2,7 @@
 package com.pango.hsec.hsec;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
@@ -13,12 +11,10 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -33,18 +29,17 @@ import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.controller.WebServiceAPI;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
-import com.pango.hsec.hsec.model.GetPlanModel;
 import com.pango.hsec.hsec.model.ObsComentModel;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
+import com.pango.hsec.hsec.model.SubDetalleModel;
 import com.pango.hsec.hsec.util.Compressor;
 import com.pango.hsec.hsec.util.ProgressRequestBody;
 import com.pango.hsec.hsec.utilitario.UnsafeOkHttpClient;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -107,7 +102,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             tx_titulo.setText("Nueva Observación");
         }
 
-        fragments =  getFragments2(); //CodTipoChange.equals("TO01")|| CodTipoChange.equals("TO02")? getFragments():
+        fragments =  getFragments(); //CodTipoChange.equals("TO01")|| CodTipoChange.equals("TO02")? getFragments():
         initialiseTabHost();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         mTabHost.setCurrentTab(pos);
@@ -135,6 +130,8 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         GlobalVariables.listaGaleria=new ArrayList<>();
         GlobalVariables.ObserbacionFile=null;
         GlobalVariables.ObserbacionPlan=null;
+        GlobalVariables.ObserbacionInvolucrados=null;
+        GlobalVariables.ObserbacionSubdetalle=null;
         GlobalVariables.Planes=new ArrayList<>();
         GlobalVariables.SubDetalleTa=new ArrayList<>();
         GlobalVariables.SubDetalleIS=new ArrayList<>();
@@ -222,24 +219,6 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     }
 
     public List<Fragment> getFragments() {
-        List<Fragment> fList = new ArrayList<Fragment>();
-
-        // TODO Put here your Fragments
-        obs_cabecera f1 = obs_cabecera.newInstance(CodObservacion);
-        obs_detalle1 f2 = obs_detalle1.newInstance(CodObservacion,CodTipo);
-        //obs_detalle2 f3 = obs_detalle2.newInstance(CodObservacion,CodTipo);
-        obs_archivos f4 = obs_archivos.newInstance(CodObservacion);
-        obs_planaccion f5=obs_planaccion.newInstance(CodObservacion);
-
-        fList.add(f1);
-        fList.add(f2);
-        //fList.add(f3);
-        fList.add(f4);
-        fList.add(f5);
-        return fList;
-    }
-
-    public List<Fragment> getFragments2() {
         List<Fragment> fList = new ArrayList<Fragment>();
 
         // TODO Put here your Fragments
@@ -431,16 +410,16 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             obs_detalle1 detalle1 = (obs_detalle1) pageAdapter.getItem(1);
 
             boolean[] opt = new boolean[3];
-            for(ObsComentModel item : detalle1.ListComentarios){
-                if(item.CodComentario.equals("0")) {
+            for(SubDetalleModel item : detalle1.ListComentarios){
+                if(item.Codigo.equals("0")) {
                     GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
                     opt[0]=true;
                 }
-                if(item.CodComentario.equals("1")){
+                if(item.Codigo.equals("1")){
                     GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
                     opt[1]=true;
                 }
-                if(item.CodComentario.equals("2")){
+                if(item.Codigo.equals("2")){
                     GlobalVariables.ObserbacionDetalle.ComOpt3=item.Descripcion;
                     opt[2]=true;
                 }
@@ -518,15 +497,14 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                     if(!pass)GlobalVariables.StrFiles.add(item);
                 }
             }
-             // insert involucrados
-            List<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO02")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
-
             //update involucrados
             ArrayList<EquipoModel> updateAtentidos = new ArrayList<>();
+            List<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO02")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
+            List<EquipoModel> StrPerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO02")?GlobalVariables.StrResponsables:GlobalVariables.StrAtendidos;
             //Insert involucrados
-            for (EquipoModel item:GlobalVariables.ListAtendidos) {
+            for (EquipoModel item:PerInvolucrados) {
                 boolean pass=false;
-                for(EquipoModel item2:GlobalVariables.StrAtendidos)
+                for(EquipoModel item2:StrPerInvolucrados)
                     if(item.CodPersona.equals(item2.CodPersona))
                         pass=true;
                 if(!StringUtils.isEmpty(item.NroReferencia)&&item.NroReferencia.equals("-1")) {
@@ -536,9 +514,9 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             }
 
             //Delete involucrados
-            for (EquipoModel item:GlobalVariables.StrAtendidos) {
+            for (EquipoModel item:StrPerInvolucrados) {
                 boolean pass=true;
-                for (EquipoModel item2:GlobalVariables.ListAtendidos) {
+                for (EquipoModel item2:PerInvolucrados) {
                     if(item.CodPersona==item2.CodPersona){
                         pass=false;
                         continue;
@@ -550,7 +528,6 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 }
             }
             if(updateAtentidos.size()>0){
-                updateAtentidos.get(0).NroReferencia=GlobalVariables.InspeccionObserbacion;
                 Involucrados=gson.toJson(updateAtentidos);
             }
 
@@ -584,7 +561,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                     T+=Long.parseLong(item.Tamanio);
                     Files.add(createPartFromFile(item));
                 }
-                request = service.actualizarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Cabecera),createPartFromString(Detalle),createPartFromString(PlanesDelete),createPartFromString(FilesDelete),createPartFromString(CodObservacion),Files);
+                request = service.actualizarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Cabecera),createPartFromString(Detalle),createPartFromString(PlanesDelete),createPartFromString(FilesDelete),createPartFromString(CodObservacion),createPartFromString(Involucrados),createPartFromString(subdetalle),Files);
                 if(T==0)onProgressUpdate();
                 request.enqueue(new Callback<String>() {
                     @Override

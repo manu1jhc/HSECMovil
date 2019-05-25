@@ -4,15 +4,11 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ListView;
 
-import com.pango.hsec.hsec.adapter.PlanEditAdapter;
 import com.pango.hsec.hsec.model.CapCursoMinModel;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
-import com.pango.hsec.hsec.model.GetEquipoModel;
-import com.pango.hsec.hsec.model.GetMaestroModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
@@ -33,9 +29,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
-
-import layout.FragmentMuro;
-import layout.FragmentObservaciones;
 
 /**
  * Created by Andre on 12/12/2017.
@@ -65,13 +58,15 @@ public class GlobalVariables  {
     public static List<PlanModel> StrPlanes=new ArrayList<>();
     public static List<GaleriaModel> StrFiles=new ArrayList<>();
 
-    public static List<Maestro> SubDetalleTa=new ArrayList<>();
-    public static List<Maestro> SubDetalleIS=new ArrayList<>();
-    public static List<Maestro> StrSubDetalleTa=new ArrayList<>();
-    public static List<Maestro> StrSubDetalleIS=new ArrayList<>();
+    public static List<SubDetalleModel> SubDetalleTa=new ArrayList<>();
+    public static List<SubDetalleModel> SubDetalleIS=new ArrayList<>();
+    public static List<SubDetalleModel> StrSubDetalleTa=new ArrayList<>();
+    public static List<SubDetalleModel> StrSubDetalleIS=new ArrayList<>();
 
     public static String ObserbacionFile;
     public static String ObserbacionPlan;
+    public static String ObserbacionInvolucrados;
+    public static String ObserbacionSubdetalle;
 
     public static ArrayList<PlanModel> Planes= new  ArrayList<>();
     public static boolean ObjectEditable=true;

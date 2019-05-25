@@ -52,6 +52,7 @@ import com.pango.hsec.hsec.model.SubDetalleModel;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -70,7 +71,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
     Maestro TipoComent;
     RecyclerView listView, list_dataMetod, List_dataComCond;
     ObsComentAdapter obsComentAdapter;
-    public ArrayList<ObsComentModel> ListComentarios = new ArrayList<>();
+    public ArrayList<SubDetalleModel> ListComentarios = new ArrayList<>();
     LinearLayout ll_tarea, ll_IS;
     //interaccion de seguridad
     ImageButton btn_buscar_c, add_metodol, add_comp_riesgo;
@@ -85,8 +86,8 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
 
     CheckAdapter checkAdapter, checkAdapter2;
-    ObsMetodAdapter obsMetodAdapter;
-    CompCondAadpter compCondAadpter;
+    ObsMetodAdapter obsMetodAdapter,compCondAadpter;
+    //CompCondAadpter compCondAadpter;
     public static final com.pango.hsec.hsec.obs_detalle1 newInstance(String sampleText,String CodTipo) {
         obs_detalle1 f = new obs_detalle1();
 
@@ -109,6 +110,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
         listView = (RecyclerView) mView.findViewById(R.id.listComent);
         txtCodPET= (EditText) mView.findViewById(R.id.txt_codpet);
         txtComentRO = (EditText) mView.findViewById(R.id.txt_comentRO);
+
         spinneActividad = (Spinner) mView.findViewById(R.id.sp_actividad);
         spinnerHHA = (Spinner) mView.findViewById(R.id.sp_hha);
         spinnerActo = (Spinner) mView.findViewById(R.id.sp_acto);
@@ -117,6 +119,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
         spinnerError = (Spinner) mView.findViewById(R.id.sp_error);
         spinnerStopWork = (Spinner) mView.findViewById(R.id.sp_stopwork);
         sp_stopworkIS = (Spinner) mView.findViewById(R.id.sp_stopworkIS);
+
 
         // Interaccion de seguridad
         btn_buscar_c = (ImageButton) mView.findViewById(R.id.btn_buscar_c);
@@ -342,7 +345,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
 
         if(GlobalVariables.Obserbacion==null)changueTipo(Tipo);
-////////
         if(GlobalVariables.ObjectEditable){ // load data of server
 
             if(GlobalVariables.ObserbacionDetalle.CodObservacion==null)
@@ -351,19 +353,13 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 ActivityController obj = new ActivityController("get", url, obs_detalle1.this,getActivity());
                 obj.execute(Tipo);
 
-
                 if (Tipo.equals("TO04")){
 
                     String url2= GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codigo_obs;
                     //String url2 = "https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/Observaciones/GetsSubDetalle/OBS00310074";
                     ActivityController obj2 = new ActivityController("get", url2, obs_detalle1.this,getActivity());
                     obj2.execute("3");
-
-                    //https://app.antapaccay.com.pe/HSECWeb/WHSEC_Service/api/Observaciones/GetsSubDetalle/OBS00307442
                 }
-
-
-
             }
             else setdata(Tipo);
 
@@ -382,6 +378,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 GlobalVariables.ObserbacionDetalle.CodTipo=Tipo;
 
                 GlobalVariables.StrObsDetalle=gson.toJson(GlobalVariables.ObserbacionDetalle);
+                GlobalVariables.SubDetalleIS= new ArrayList<>();
             }
             setdata(Tipo);
         }
@@ -401,7 +398,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
                 //if ()
 
-                layoutInflater =(LayoutInflater)mView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                layoutInflater = (LayoutInflater) mView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 popupView = layoutInflater.inflate(R.layout.popup_comentarios, null);
                 popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, true);
 
@@ -416,32 +413,33 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 txt_description = popupView.findViewById(R.id.txt_description);
                 btn_agregar = popupView.findViewById(R.id.btn_agregar);
 
-                ArrayAdapter adapterCometarios = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.O_Comentarios);
+                ArrayAdapter adapterCometarios = new ArrayAdapter(getActivity().getBaseContext(), R.layout.custom_spinner_item, GlobalVariables.O_Comentarios);
                 adapterCometarios.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
                 spinnerComent.setAdapter(adapterCometarios);
-
 
 
                 spinnerComent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                        TipoComent = (Maestro) ( (Spinner) popupView.findViewById(R.id.sp_tipoComent) ).getSelectedItem();
+                        TipoComent = (Maestro) ((Spinner) popupView.findViewById(R.id.sp_tipoComent)).getSelectedItem();
                         //Toast.makeText(getActivity(), TipoComent.Descripcion, Toast.LENGTH_LONG).show();
 
 
                         //GlobalVariables.Obserbacion.CodAreaHSEC=Tipo.CodTipo;
                     }
+
                     @Override
                     public void onNothingSelected(AdapterView<?> parentView) {
                     }
                 });
 
                 btn_Cerrar = (ImageButton) popupView.findViewById(R.id.btn_close);
-                btn_Cerrar.setOnClickListener(new Button.OnClickListener(){
+                btn_Cerrar.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         popupWindow.dismiss();
-                    }});
+                    }
+                });
 
                 btn_agregar.setOnClickListener(new Button.OnClickListener() {
                     @Override
@@ -450,36 +448,29 @@ public class obs_detalle1 extends Fragment implements IActivity{
                         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                         imm.hideSoftInputFromWindow(txt_description.getWindowToken(), 0);
                         //txt_description
-                        boolean datarep = false;
+                        if (TipoComent.CodTipo.equals("0") || description_coment.trim().equals(""))
+                        {
+                            Toast.makeText(getActivity(), "Los campos no pueden estar vacios", Toast.LENGTH_LONG).show();
+                            return;
+                        }
 
-                        if (ListComentarios.size() <3) {
-
-                            for (ObsComentModel obsm : ListComentarios){
-                                if (obsm.Tipo!=null&&obsm.Tipo.equals(TipoComent.Descripcion)){
+                        if (ListComentarios.size() < 3) {
+                            boolean datarep = false;
+                            for (SubDetalleModel obsm : ListComentarios) {
+                                if (obsm.Codigo.equals(TipoComent.CodTipo)) { //obsm.CodTipo!=null&&
                                     datarep = true;
                                 }
                             }
 
-                            if (datarep == true){
-
-                                Toast.makeText(getActivity(), "El tipo de comentario ya existe", Toast.LENGTH_LONG).show();
-
-                            }else if (TipoComent.CodTipo.equals("0") || description_coment.equals("")) {
-                                Toast.makeText(getActivity(), "Los campos no pueden estar vacios", Toast.LENGTH_LONG).show();
-
-                            } else {
-
-                                ListComentarios.add(new ObsComentModel(TipoComent.CodTipo, TipoComent.Descripcion, description_coment));
-                                //Toast.makeText(getActivity(), TipoComent.Descripcion + " " + description_coment + " ", Toast.LENGTH_LONG).show();
-                                obsComentAdapter.notifyDataSetChanged();
-                                popupWindow.dismiss();
-                            }
-
-                        } else {
-                            Toast.makeText(getActivity(), "limite de comentarios", Toast.LENGTH_LONG).show();
-
+                            if (datarep)
+                                    Toast.makeText(getActivity(), "El tipo de comentario ya existe", Toast.LENGTH_LONG).show();
+                            else {
+                                    obsComentAdapter.add(new SubDetalleModel(TipoComent.CodTipo,"COM", TipoComent.Descripcion, description_coment));
+                                    obsComentAdapter.notifyDataSetChanged();
+                                    popupWindow.dismiss();
+                                }
                         }
-
+                        else Toast.makeText(getActivity(), "Limite de comentarios", Toast.LENGTH_LONG).show();
                     }
                 });
 
@@ -511,7 +502,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, true);
                 popupWindow.showAtLocation(add_metodol, Gravity.NO_GRAVITY, 0, 0);
                 popupWindow.setFocusable(true);
-                //popupWindow.update();
                 popupWindow.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT
                 popupWindow.setOutsideTouchable(true);
                 popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
@@ -523,66 +513,47 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 id_cv_Otros = popupView.findViewById(R.id.id_cv_Otros);
                 id_cv_Otros.setVisibility(View.GONE);
                 btn_cerrar = popupView.findViewById(R.id.btn_cerrar);
-
-
-                if (ListMetodologiaFinal.size()> 0){
-                    for (int j = 0; j<ListMetodologiaFinal.size(); j++){
-                        for (int i = 0; i<ListMetodologia.size(); i++){
-                            if (ListMetodologiaFinal.get(j).Descripcion.equals(ListMetodologia.get(i).Descripcion)) {
-                                ListMetodologia.get(i).estado = true;
+                checkBoxall.setChecked(false);
+                init_List();
+                for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS)
+                    if(item2.CodTipo.equals("OBSR"))
+                    {
+                        for(SubDetalleModel item : ListMetodologia)
+                            if(item2.CodSubtipo.equals(item.CodSubtipo)) {
+                                item.Check=true;
+                                continue;
                             }
-                        }
                     }
-                }
 
+                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                list_Metodologia.setLayoutManager(horizontalManager);
+                checkAdapter = new CheckAdapter(getActivity(), ListMetodologia, checkBoxall, id_cv_Otros);
+                list_Metodologia.setAdapter(checkAdapter);
 
                 btn_cerrar.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        ListMetodologia = new ArrayList<>();
-                        init_List();
-
-                        if (!ListMetodologiaFinal.isEmpty()){
-
-                            for (int i=0; i<ListMetodologia.size(); i++){
-                                for(int j=0; j<ListMetodologiaFinal.size(); j++) {
-                                    if(ListMetodologia.get(i).Descripcion.equals(ListMetodologiaFinal.get(j).Descripcion)) {
-                                        ListMetodologia.get(i).estado = true;
-                                    }
-                                }
-                            }
-                        }
-                        //Toast.makeText(getActivity(), ListMetodologiaTemp.get(0).estado + "" , Toast.LENGTH_LONG).show();
-                        checkAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
                     }});
-
-                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                list_Metodologia.setLayoutManager(horizontalManager);
-                //GlobalVariables.ListMetodologia
-
-                checkAdapter = new CheckAdapter(getActivity(), ListMetodologia, checkBoxall,id_cv_Otros);
-                list_Metodologia.setAdapter(checkAdapter);
 
                 btn_agregar.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), CheckAdapter.items.get(1).estado + "" , Toast.LENGTH_LONG).show();
-                        //list_Metodologia
-
-                        ListMetodologiaFinal = new ArrayList<>();
-                        for (int i = 0; i<ListMetodologia.size(); i++){
-                            if (ListMetodologia.get(i).estado) {
-                                ListMetodologiaFinal.add(ListMetodologia.get(i));
+                        List<SubDetalleModel> itemsOther= new ArrayList<>();
+                        for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                            if(!item2.CodTipo.equals("OBSR")) itemsOther.add(item2);
+                        }
+                        GlobalVariables.SubDetalleIS.clear();
+                        GlobalVariables.SubDetalleIS.addAll(itemsOther);
+                        for(SubDetalleModel item : ListMetodologia) {
+                            if(item.Check){
+                                item.Descripcion=null;
+                                obsMetodAdapter.add(item);
                             }
                         }
-
-                        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                        list_dataMetod.setLayoutManager(horizontalManager);
-                        obsMetodAdapter = new ObsMetodAdapter(getActivity(), ListMetodologiaFinal);
-                        list_dataMetod.setAdapter(obsMetodAdapter);
+                        obsMetodAdapter.reorderList();
+                        obsMetodAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
-
                     }
                 });
 
@@ -590,18 +561,14 @@ public class obs_detalle1 extends Fragment implements IActivity{
                     @Override
                     public void onClick(View v) {
 
-                        for (int i=0; i < ListMetodologia.size(); i++) {
-                            ListMetodologia.get(i).estado = checkBoxall.isChecked();
+                        for(SubDetalleModel item : ListMetodologia) {
+                            item.Check=checkBoxall.isChecked();
                         }
                         checkAdapter.notifyDataSetChanged();
-
                     }
                 });
-
-
             }
         });
-
 
         add_comp_riesgo.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -626,8 +593,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
                 btn_agregar = popupView.findViewById(R.id.btn_agregar);
                 checkBoxall = popupView.findViewById(R.id.checkBoxall);
-//                if (ListCompCondFinal.size()==ListCompCond.size()){checkBoxall.setChecked(true); }
-//                else{checkBoxall.setChecked(false);}
                 listCompCond = (RecyclerView) popupView.findViewById(R.id.list_Metodologia);
                 txt_title = popupView.findViewById(R.id.txt_title);
                 txt_title.setText("Comportamiento/Condición relacionado con:");
@@ -636,57 +601,31 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 et_otros = popupView.findViewById(R.id.et_otros);
                 btn_cerrar = popupView.findViewById(R.id.btn_cerrar);
 
-
-
-                if (ListCompCondFinal.size()> 0){
-                    for (int j = 0; j<ListCompCondFinal.size(); j++){
-                        for (int i = 0; i<ListCompCond.size(); i++){
-                            if (ListCompCondFinal.get(j).Descripcion.equals(ListCompCond.get(i).Descripcion)) {
-                                ListCompCond.get(i).estado = true;
+                init_List_Comp();
+                for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                    if(item2.CodTipo.equals("OBCC"))
+                    {
+                        for(SubDetalleModel item : ListCompCond) {
+                            if(item2.CodSubtipo.equals(item.CodSubtipo)) {
+                                item.Check=true;
+                                continue;
                             }
                         }
-
-                        if(ListCompCondFinal.get(j).Descripcion.contains("COMCON11")){
+                        if(item2.CodSubtipo.equals("COMCON11")){
                             id_cv_Otros.setVisibility(View.VISIBLE);
-                            String[] data =  ListCompCondFinal.get(j).Descripcion.split(":");
-
-                            et_otros.setText(data[1]);
-                        }else{
-                            id_cv_Otros.setVisibility(View.GONE);
-
+                            et_otros.setText(item2.Descripcion);
                         }
-
                     }
                 }
 
                 LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 listCompCond.setLayoutManager(horizontalManager);
-                //GlobalVariables.ListMetodologia
-
                 checkAdapter2 = new CheckAdapter(getActivity(), ListCompCond, checkBoxall, id_cv_Otros);
                 listCompCond.setAdapter(checkAdapter2);
 
                 btn_cerrar.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), CheckAdapter.items.get(9).estado + " dat" , Toast.LENGTH_LONG).show();
-
-
-                        ListCompCond = new ArrayList<>();
-                        init_List_Comp();
-
-                        if (!ListCompCondFinal.isEmpty()){
-
-                            for (int i=0; i<ListCompCond.size(); i++){
-                                for(int j=0; j<ListCompCondFinal.size(); j++) {
-                                    if(ListCompCond.get(i).Descripcion.equals(ListCompCondFinal.get(j).Descripcion)) {
-                                        ListCompCond.get(i).estado = true;
-                                    }
-                                }
-                            }
-                        }
-                        //Toast.makeText(getActivity(), ListMetodologiaTemp.get(0).estado + "" , Toast.LENGTH_LONG).show();
-                        checkAdapter2.notifyDataSetChanged();
                         popupWindow.dismiss();
                     }});
 
@@ -694,27 +633,22 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 btn_agregar.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(getActivity(), CheckAdapter.items.get(9).estado + " dat" , Toast.LENGTH_LONG).show();
-                        //list_Metodologia
+                        List<SubDetalleModel> itemsOther= new ArrayList<>();
+                        for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                            if(!item2.CodTipo.equals("OBCC")) itemsOther.add(item2);
+                        }
+                        GlobalVariables.SubDetalleIS.clear();
+                        GlobalVariables.SubDetalleIS.addAll(itemsOther);
 
-                        ListCompCondFinal = new ArrayList<>();
-                        for (int i = 0; i<ListCompCond.size(); i++){
-                            if (ListCompCond.get(i).estado) {
-                                //setear el valor de otros
-                                String data = et_otros.getText().toString();
-                                if(ListCompCond.get(i).Descripcion.equals("COMCON11")){
-                                    ListCompCondFinal.add(new SubDetalleModel("OBSR","",ListCompCond.get(i).Descripcion +" : "+ et_otros.getText().toString(),true));
-                                }else {
-                                    ListCompCondFinal.add(ListCompCond.get(i));
-                                }
+                        for(SubDetalleModel item : ListCompCond) {
+                            if(item.Check) {
+                                if(item.CodSubtipo.equals("COMCON11")) item.Descripcion=et_otros.getText().toString();
+                                else item.Descripcion=null;
+                                GlobalVariables.SubDetalleIS.add(item);
                             }
                         }
-
-                        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                        List_dataComCond.setLayoutManager(horizontalManager);
-
-                        compCondAadpter = new CompCondAadpter(getActivity(), ListCompCondFinal);
-                        List_dataComCond.setAdapter(compCondAadpter);
+                        compCondAadpter.reorderList();
+                        compCondAadpter.notifyDataSetChanged();
                         popupWindow.dismiss();
 
                     }
@@ -723,14 +657,10 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 checkBoxall.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        for (int i=0; i < ListCompCond.size(); i++) {
-                            ListCompCond.get(i).estado = checkBoxall.isChecked();
+                        for(SubDetalleModel item : ListCompCond) {
+                            item.Check=checkBoxall.isChecked();
                         }
-                        if (ListCompCond.get(9).estado && ListCompCond.get(9).Descripcion.equals("COMCON11")){
-                            id_cv_Otros.setVisibility(View.VISIBLE);
-                        }else {
-                            id_cv_Otros.setVisibility(View.GONE);
-                        }
+                        id_cv_Otros.setVisibility(checkBoxall.isChecked()?View.VISIBLE:View.GONE);
                         checkAdapter2.notifyDataSetChanged();
                     }
                 });
@@ -740,10 +670,20 @@ public class obs_detalle1 extends Fragment implements IActivity{
         return mView;
     }
 
+    public void init_List(){
+        ListMetodologia.clear();
+        for (int i=0; i<GlobalVariables.GestionRiesg_obs.size(); i++)
+            ListMetodologia.add(new SubDetalleModel("OBSR",GlobalVariables.GestionRiesg_obs.get(i).CodTipo,GlobalVariables.GestionRiesg_obs.get(i).Descripcion));
+    }
+
+    public void init_List_Comp(){
+        ListCompCond.clear();
+        for (int i=0; i<GlobalVariables.CondicionComp_Obs.size(); i++)
+            ListCompCond.add(new SubDetalleModel("OBCC",GlobalVariables.CondicionComp_Obs.get(i).CodTipo,GlobalVariables.CondicionComp_Obs.get(i).Descripcion));
+    }
+
     public void changueTipo(String Tipo){
-
        // Toast.makeText(getActivity(), Tipo, Toast.LENGTH_LONG).show();
-
         if(!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO01")){
             mView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
             mView.findViewById(R.id.id_Acto).setVisibility(View.VISIBLE);
@@ -793,56 +733,45 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
             mView.findViewById(R.id.ll_IS).setVisibility(View.VISIBLE);
-
-
-/*
-            TabHost tabHost = (TabHost)getActivity().findViewById(android.R.id.tabhost);
-            tabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
-            */
-            //tabHost.getTabContentView()
-
         }
-
-
-
-
+        setdata(Tipo);
     }
-/*
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-*/
-    /*
-    public void showHideFragment(final Fragment fragment){
-
-        FragmentTransaction fragTransaction = getFragmentManager().beginTransaction();
-        fragTransaction.setCustomAnimations(android.R.animator.fade_in,
-                android.R.animator.fade_out);
-
-        if (fragment.isHidden()) {
-            fragTransaction.show(fragment);
-            Log.d("hidden","Show");
-        } else {
-            fragTransaction.hide(fragment);
-            Log.d("Shown","Hide");
-        }
-
-        fragTransaction.commit();
-    }
-*/
 
     public void setdata(String Tipo){
 
-        ListMetodologia = new ArrayList<>();
-        init_List();
-        ListCompCond = new ArrayList<>();
-        init_List_Comp();
+        if(Tipo.equals("TO04")) {// interaccion de seguridad
 
-        if(!Tipo.equals("TO04")){
+            //ObserbacionDetalle2
+            if (GlobalVariables.ObserbacionDetalleIS.Observacion != null)
+                txtObservacion.setText(GlobalVariables.ObserbacionDetalleIS.Observacion);
+            if (GlobalVariables.ObserbacionDetalleIS.CodError != null)
+                tx_ISempresa.setText(GlobalVariables.getDescripcion(GlobalVariables.Contrata, GlobalVariables.ObserbacionDetalleIS.CodError));
+            if (GlobalVariables.ObserbacionDetalleIS.CodHHA != null)
+                txt_equipoInv.setText(GlobalVariables.ObserbacionDetalleIS.CodHHA);
+            if (GlobalVariables.ObserbacionDetalleIS.CodSubEstandar != null)
+                txt_InteracSeg.setText(GlobalVariables.ObserbacionDetalleIS.CodSubEstandar);
 
+            if (GlobalVariables.ObserbacionDetalleIS.StopWork != null)
+                sp_stopworkIS.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs, GlobalVariables.ObserbacionDetalleIS.StopWork));
+            if (GlobalVariables.ObserbacionDetalleIS.CodActiRel != null)
+                txt_detcomcon.setText(GlobalVariables.ObserbacionDetalleIS.CodActiRel);
+            if (GlobalVariables.ObserbacionDetalleIS.Accion != null)
+                txt_accion_inmed.setText(GlobalVariables.ObserbacionDetalleIS.Accion);
 
-            //Toast.makeText(getActivity(), ListMetodologiaTemp.get(0).estado + "" , Toast.LENGTH_LONG).show();
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            list_dataMetod.setLayoutManager(horizontalManager);
+            obsMetodAdapter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS, "OBSR");
+            list_dataMetod.setAdapter(obsMetodAdapter);
+            obsMetodAdapter.reorderList();
+
+            LinearLayoutManager horizontalManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            List_dataComCond.setLayoutManager(horizontalManager1);
+            compCondAadpter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS,"OBCC");
+            List_dataComCond.setAdapter(compCondAadpter);
+            compCondAadpter.reorderList();
+
+        }
+        else {
 
             if(GlobalVariables.ObserbacionDetalle.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
             //if(GlobalVariables.ObserbacionDetalle.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalle.Observacion);
@@ -854,9 +783,9 @@ public class obs_detalle1 extends Fragment implements IActivity{
             //observacion tarea
             if (GlobalVariables.ObserbacionDetalle.CodSubEstandar!=null)txtComentRO.setText(GlobalVariables.ObserbacionDetalle.CodSubEstandar);
 
-            if(GlobalVariables.ObserbacionDetalle.ComOpt1!=null) ListComentarios.add(new ObsComentModel("", GlobalVariables.TipoComentario[0],GlobalVariables.ObserbacionDetalle.ComOpt1));
-            if(GlobalVariables.ObserbacionDetalle.ComOpt2!=null) ListComentarios.add(new ObsComentModel("", GlobalVariables.TipoComentario[1],GlobalVariables.ObserbacionDetalle.ComOpt2));
-            if(GlobalVariables.ObserbacionDetalle.ComOpt3!=null) ListComentarios.add(new ObsComentModel("", GlobalVariables.TipoComentario[2],GlobalVariables.ObserbacionDetalle.ComOpt3));
+            if(GlobalVariables.ObserbacionDetalle.ComOpt1!=null) ListComentarios.add(new SubDetalleModel("1","COM", GlobalVariables.TipoComentario[0],GlobalVariables.ObserbacionDetalle.ComOpt1));
+            if(GlobalVariables.ObserbacionDetalle.ComOpt2!=null) ListComentarios.add(new SubDetalleModel("2", "COM",GlobalVariables.TipoComentario[1],GlobalVariables.ObserbacionDetalle.ComOpt2));
+            if(GlobalVariables.ObserbacionDetalle.ComOpt3!=null) ListComentarios.add(new SubDetalleModel("3", "COM",GlobalVariables.TipoComentario[2],GlobalVariables.ObserbacionDetalle.ComOpt3));
 
             if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel))spinneActividad.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
             if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA))spinnerHHA.setSelection(GlobalVariables.indexOf(GlobalVariables.HHA_obs,GlobalVariables.ObserbacionDetalle.CodHHA));
@@ -873,29 +802,9 @@ public class obs_detalle1 extends Fragment implements IActivity{
             listView.setLayoutManager(horizontalManager);
             obsComentAdapter = new ObsComentAdapter(getActivity(), ListComentarios);
             listView.setAdapter(obsComentAdapter);
-
-
-
-        }else {
-            // interaccion de seguridad
-
-
-            //ObserbacionDetalle2
-
-
-            if(GlobalVariables.ObserbacionDetalleIS.Observacion!=null)txtObservacion.setText(GlobalVariables.ObserbacionDetalleIS.Observacion);
-            if(GlobalVariables.ObserbacionDetalleIS.CodError!=null)tx_ISempresa.setText(GlobalVariables.getDescripcion(GlobalVariables.Contrata, GlobalVariables.ObserbacionDetalleIS.CodError));
-            if(GlobalVariables.ObserbacionDetalleIS.CodHHA!=null)txt_equipoInv.setText(GlobalVariables.ObserbacionDetalleIS.CodHHA);
-            if(GlobalVariables.ObserbacionDetalleIS.CodSubEstandar!=null)txt_InteracSeg.setText(GlobalVariables.ObserbacionDetalleIS.CodSubEstandar);
-
-            if(GlobalVariables.ObserbacionDetalleIS.StopWork!=null)sp_stopworkIS.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalleIS.StopWork));
-            if(GlobalVariables.ObserbacionDetalleIS.CodActiRel!=null)txt_detcomcon.setText(GlobalVariables.ObserbacionDetalleIS.CodActiRel);
-            if(GlobalVariables.ObserbacionDetalleIS.Accion!=null)txt_accion_inmed.setText(GlobalVariables.ObserbacionDetalleIS.Accion);
-
-            //Toast.makeText(getActivity(), GlobalVariables.ObserbacionDetalle2.CodError + " " + GlobalVariables.getDescripcion(GlobalVariables.C_Empresa, GlobalVariables.ObserbacionDetalle2.CodError) , Toast.LENGTH_LONG).show();
         }
     }
-
+    ArrayList<Integer> actives= new ArrayList<>();
     @Override
     public void success(String data, String Tipo) {
 
@@ -910,39 +819,14 @@ public class obs_detalle1 extends Fragment implements IActivity{
             GlobalVariables.ObserbacionDetalleIS.CodObservacion = codigo_obs;
             GlobalVariables.StrObsDetalle = gson.toJson(GlobalVariables.ObserbacionDetalleIS);
             setdata(Tipo);
-
+            actives.add(1);
+            if(actives.size()==2)setdata(Tipo);
         } else if(Tipo.equals("3")){
             Gson gson = new Gson();
             GetSubDetalleModel getSubDetalleModel = gson.fromJson(data, GetSubDetalleModel.class);
-
-            GlobalVariables.ListSubDetalleData = new ArrayList<>();
-            GlobalVariables.ListSubDetalleData = getSubDetalleModel.Data;
-
-            for (int i=0; i<GlobalVariables.ListSubDetalleData.size(); i++){
-                if(GlobalVariables.ListSubDetalleData.get(i).CodTipo.equals("OBSR")){
-                    ListMetodologiaFinal = new ArrayList<>();
-                    ListMetodologiaFinal.add(new SubDetalleModel("OBSR","", GlobalVariables.ListSubDetalleData.get(i).CodSubtipo,true));
-                } else if(GlobalVariables.ListSubDetalleData.get(i).CodTipo.equals("OBCC")){
-                    ListCompCondFinal = new ArrayList<>();
-                    ListCompCondFinal.add(new SubDetalleModel("OBSR","", GlobalVariables.ListSubDetalleData.get(i).CodSubtipo,true));
-                }
-            }
-
-            LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            list_dataMetod.setLayoutManager(horizontalManager);
-            obsMetodAdapter = new ObsMetodAdapter(getActivity(), ListMetodologiaFinal);
-            list_dataMetod.setAdapter(obsMetodAdapter);
-
-
-            LinearLayoutManager horizontalManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            List_dataComCond.setLayoutManager(horizontalManager2);
-
-            compCondAadpter = new CompCondAadpter(getActivity(), ListCompCondFinal);
-            List_dataComCond.setAdapter(compCondAadpter);
-
-            //ListMetodologiaFinal.add(ListMetodologia.get(i));
-//        ListMetodologia.add(new SubDetalleModel("OBSR","","GESRIES1", false));
-
+            GlobalVariables.SubDetalleIS = getSubDetalleModel.Data;
+            actives.add(1);
+            if(actives.size()==2)setdata("TO04");
         }else {
             Gson gson = new Gson();
             String codigo_obs = GlobalVariables.Obserbacion.CodObservacion;
@@ -960,9 +844,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
             GlobalVariables.ObserbacionDetalle.CodObservacion = codigo_obs;
             GlobalVariables.StrObsDetalle = gson.toJson(GlobalVariables.ObserbacionDetalle);
             setdata(Tipo);
-
         }
-
 
     }
 
@@ -996,29 +878,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
         }
 
     }
-
-
-
-    public void init_List(){
-//        ListMetodologia.add(new SubDetalleModel("OBSR","","GESRIES1", false));
-//        ListMetodologia.add(new SubDetalleModel("OBSR","","GESRIES2", false));
-//        ListMetodologia.add(new SubDetalleModel("OBSR","","GESRIES3", false));
-
-        for (int i=0; i<GlobalVariables.GestionRiesg_obs.size(); i++){
-            ListMetodologia.add(new SubDetalleModel("OBSR","",GlobalVariables.GestionRiesg_obs.get(i).CodTipo, false));
-        }
-    }
-
-    public void init_List_Comp(){
-
-        for (int i=0; i<GlobalVariables.CondicionComp_Obs.size(); i++){
-            ListCompCond.add(new SubDetalleModel("OBCC","",GlobalVariables.CondicionComp_Obs.get(i).CodTipo, false));
-        }
-
-    }
-
-
-
 
 
 }

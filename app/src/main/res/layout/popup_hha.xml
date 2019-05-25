@@ -170,7 +170,7 @@
                                 android:paddingTop="@dimen/pad_topbottom_der"
                                 android:paddingRight="8dp"
                                 android:paddingBottom="@dimen/pad_topbottom_der"
-                                android:text="Otros:"
+                                android:text="Otra Actividad de Alto Riesgo:"
                                 android:textAlignment="textEnd"
                                 android:textSize="@dimen/size_text_izq"
                                 android:textStyle="bold"

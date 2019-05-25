@@ -52,7 +52,7 @@ public interface WebServiceAPI {
 
     @Multipart
     @POST("Observaciones/Actualizar")
-    Call<String> actualizarObservacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody detalle, @Part("3") RequestBody planesDelete, @Part("4") RequestBody filesDelete, @Part("5") RequestBody codObservacion, @Part List<MultipartBody.Part> files);
+    Call<String> actualizarObservacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody detalle, @Part("3") RequestBody planesDelete, @Part("4") RequestBody filesDelete, @Part("5") RequestBody codObservacion,@Part("6") RequestBody Involucrados, @Part("7") RequestBody subDetalle, @Part List<MultipartBody.Part> files);
 
     @Multipart
     @POST("Inspecciones/InsertarObservacion")

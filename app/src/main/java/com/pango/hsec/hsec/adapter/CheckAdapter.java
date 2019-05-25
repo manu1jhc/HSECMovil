@@ -50,20 +50,21 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int position) {
+
         SubDetalleModel em = items.get(position);
-        if(em.CodTipo.equals("OBSR")){
-            //viewHolder.check_items.setText( GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs,em.Descripcion));
-            viewHolder.desciption.setText(GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs,em.Descripcion));
-
-            id_cv_Otros.setVisibility(View.GONE);
+            viewHolder.desciption.setText(em.Descripcion);
+            //id_cv_Otros.setVisibility(View.GONE);
+            viewHolder.check_items.setChecked(em.Check);
             viewHolder.check_items.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    items.get(position).estado=!items.get(position).estado;
-                    Toast.makeText(activity.getApplicationContext(), items.get(position).estado + " "+ position, Toast.LENGTH_SHORT).show();
+                    items.get(position).Check=!items.get(position).Check;
+                    if ((em.CodTipo.equals("OBCC") || em.CodTipo.equals("HHA"))&&(items.get(position).CodSubtipo.equals("COMCON11") || items.get(position).CodSubtipo.equals("19"))){
+                        id_cv_Otros.setVisibility(items.get(position).Check?View.VISIBLE:View.GONE);
+                    }
                     int count = 0;
                     for (int i=0; i<items.size(); i++ ){
-                        if(items.get(i).estado){
+                        if(items.get(i).Check){
                             count = count +1;
                         }
                     }
@@ -74,111 +75,6 @@ public class CheckAdapter extends RecyclerView.Adapter<CheckAdapter.ViewHolder> 
                     }
                 }
             });
-            viewHolder.check_items.setChecked(items.get(position).estado);
-        }else if(em.CodTipo.equals("OBCC")){
-
-            //viewHolder.check_items.setText( GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs,em.Descripcion));
-            viewHolder.desciption.setText(GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs,em.Descripcion));
-            viewHolder.check_items.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    items.get(position).estado=!items.get(position).estado;
-                    Toast.makeText(activity.getApplicationContext(), items.get(position).estado + " "+ position, Toast.LENGTH_SHORT).show();
-                    int count = 0;
-                    for (int i=0; i<items.size(); i++ ){
-                        if(items.get(i).estado){
-                            count = count +1;
-                            if (items.get(i).Descripcion.equals("COMCON11")){
-                                id_cv_Otros.setVisibility(View.VISIBLE);
-                            }
-                        }else if (items.get(i).Descripcion.equals("COMCON11")){
-                            id_cv_Otros.setVisibility(View.GONE);
-                        }
-                    }
-                    if(count==items.size()){
-                        check2.setChecked(true);
-                    }else {
-                        check2.setChecked(false);
-                    }
-                    if (items.get(position).Descripcion.equals("COMCON11")&& items.get(position).estado)
-                    {
-                        id_cv_Otros.setVisibility(View.VISIBLE);
-                    }else if(items.get(position).Descripcion.equals("COMCON11")&& !items.get(position).estado) {
-                        id_cv_Otros.setVisibility(View.GONE);
-                    }
-                }
-            });
-            viewHolder.check_items.setChecked(items.get(position).estado);
-
-
-        }else if (em.CodTipo.equals("HHAR")){
-            //viewHolder.check_items.setText( GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs,em.Descripcion));
-            viewHolder.desciption.setText(GlobalVariables.getDescripcion(GlobalVariables.HHA_obs,em.Descripcion));
-            viewHolder.check_items.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    items.get(position).estado=!items.get(position).estado;
-                    Toast.makeText(activity.getApplicationContext(), items.get(position).estado + " "+ position, Toast.LENGTH_SHORT).show();
-                    int count = 0;
-                    for (int i=0; i<items.size(); i++ ){
-                        if(items.get(i).estado){
-                            count = count +1;
-                            if (items.get(i).Descripcion.equals("19")){
-                                id_cv_Otros.setVisibility(View.VISIBLE);
-                            }
-                        }else if (items.get(i).Descripcion.equals("19")){
-                            id_cv_Otros.setVisibility(View.GONE);
-                        }
-                    }
-                    if(count==items.size()){
-                        check2.setChecked(true);
-                    }else {
-                        check2.setChecked(false);
-                    }
-                    if (items.get(position).Descripcion.equals("19")&& items.get(position).estado)
-                    {
-                        id_cv_Otros.setVisibility(View.VISIBLE);
-                    }else if(items.get(position).Descripcion.equals("19")&& !items.get(position).estado) {
-                        id_cv_Otros.setVisibility(View.GONE);
-                    }
-                }
-            });
-            viewHolder.check_items.setChecked(items.get(position).estado);
-
-
-
-        }else {
-            //viewHolder.check_items.setText( GlobalVariables.getDescripcion(GlobalVariables.GestionRiesg_obs,em.Descripcion));
-            viewHolder.desciption.setText(GlobalVariables.getDescripcion(GlobalVariables.Clasificacion_Obs,em.Descripcion));
-
-            id_cv_Otros.setVisibility(View.GONE);
-            viewHolder.check_items.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    items.get(position).estado=!items.get(position).estado;
-                    Toast.makeText(activity.getApplicationContext(), items.get(position).estado + " "+ position, Toast.LENGTH_SHORT).show();
-                    int count = 0;
-                    for (int i=0; i<items.size(); i++ ){
-                        if(items.get(i).estado){
-                            count = count +1;
-                        }
-                    }
-                    if(count==items.size()){
-                        check2.setChecked(true);
-                    }else {
-                        check2.setChecked(false);
-                    }
-                }
-            });
-            viewHolder.check_items.setChecked(items.get(position).estado);
-
-        }
-
-
-
-
-
-
 
     }
 

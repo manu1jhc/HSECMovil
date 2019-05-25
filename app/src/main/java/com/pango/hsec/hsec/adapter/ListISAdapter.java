@@ -57,12 +57,12 @@ public class ListISAdapter extends RecyclerView.Adapter<ListISAdapter.ViewHolder
                                                      public void onClick(View v) {
                                                          for (int i=0; i<ListHHA.size(); i++){
                                                              if(datapart[0].equals(ListHHA.get(i).Descripcion)){
-                                                                 ListHHA.get(i).estado= false;
+                                                                 ListHHA.get(i).Check= false;
                                                                  break;
                                                              }
                                                          }
 
-                                                         items.get(position).estado = false;
+                                                         items.get(position).Check = false;
 
                                                          items.remove(position);
                                                          notifyItemRemoved(position);

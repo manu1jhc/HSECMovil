@@ -49,7 +49,7 @@ public class OsbClasifAdapter extends RecyclerView.Adapter<OsbClasifAdapter.View
             viewHolder.btn_Delete.setOnClickListener(new View.OnClickListener() {
                                                          @Override
                                                          public void onClick(View v) {
-                                                             items.get(position).estado = false;
+                                                             items.get(position).Check = false;
                                                              //ListMetodologia.get(position).estado= false;
                                                              items.remove(position);
                                                              notifyItemRemoved(position);

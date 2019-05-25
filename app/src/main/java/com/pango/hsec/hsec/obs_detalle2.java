@@ -2,8 +2,10 @@ package com.pango.hsec.hsec;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +17,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,24 +35,22 @@ import com.pango.hsec.hsec.adapter.CheckAdapter;
 import com.pango.hsec.hsec.adapter.CompCondAadpter;
 import com.pango.hsec.hsec.adapter.ListEquipoAdapter;
 import com.pango.hsec.hsec.adapter.ListISAdapter;
-import com.pango.hsec.hsec.adapter.ListPersonEditAdapter;
 import com.pango.hsec.hsec.adapter.ObsComentAdapter;
 import com.pango.hsec.hsec.adapter.ObsMetodAdapter;
 import com.pango.hsec.hsec.adapter.OsbClasifAdapter;
-import com.pango.hsec.hsec.adapter.PersonaAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.GetEquipoModel;
 import com.pango.hsec.hsec.model.GetSubDetalleModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsComentModel;
-import com.pango.hsec.hsec.model.ObsDetalleModel;
 import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.SubDetalleModel;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -72,13 +71,11 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
 
 
-    ArrayList<ObsComentModel> ListEtapDes = new ArrayList<>();
+    ArrayList<SubDetalleModel> ListEtapDes = new ArrayList<>();
 
     ArrayList<SubDetalleModel> DataPrea=new ArrayList<>();
-    ListISAdapter listISAdapter;
-
+    ObsMetodAdapter listISAdapter,obsClasifAdapter;
     ObsComentAdapter obsComentAdapter;
-    OsbClasifAdapter obsClasifAdapter;
 
     Spinner sp_asp1,sp_asp2,sp_asp3,sp_asp4,sp_asp5,sp_asp6,sp_asp7,sp_asp8;
 
@@ -163,41 +160,34 @@ public class obs_detalle2 extends Fragment implements IActivity{
         if(GlobalVariables.Obserbacion==null)changueTipo(Tipo);
 
        if(GlobalVariables.ObjectEditable){ // load data of server
-            //if(GlobalVariables.ObserbacionDetalle.CodObservacion==null)
-            //{
-            String url= GlobalVariables.Url_base+"Observaciones/GetInvolucrados/"+codigo_obs;
-            ActivityController obj = new ActivityController("get", url, obs_detalle2.this,getActivity());
-            obj.execute("1-"+ Tipo);
 
-            String url2=GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codigo_obs;
-            final ActivityController obj2 = new ActivityController("get", url2, obs_detalle2.this,getActivity());
-            obj2.execute("2-"+Tipo);
-            // }
-            //else setData();
+           if(GlobalVariables.ObserbacionSubdetalle==null) {
+                GlobalVariables.ObserbacionSubdetalle=codigo_obs;
+                String url = GlobalVariables.Url_base + "Observaciones/GetInvolucrados/" + codigo_obs;
+                ActivityController obj = new ActivityController("get", url, obs_detalle2.this, getActivity());
+                obj.execute("1-" + Tipo);
+                if(Tipo.equals("TO03")){
+                    GlobalVariables.ObserbacionSubdetalle=codigo_obs;
+                    String url2=GlobalVariables.Url_base+"Observaciones/GetsSubDetalle/"+codigo_obs;
+                    final ActivityController obj2 = new ActivityController("get", url2, obs_detalle2.this,getActivity());
+                    obj2.execute("2-"+Tipo);
+                }
+            }
+            else setData(Tipo);
         }
-        else // new Obserbacion
+        else // new SubDetalle
         {
-            if(GlobalVariables.ObserbacionDetalle.CodObservacion==null){
-
-                /*
-                Gson gson = new Gson();
-                GlobalVariables.ObserbacionDetalle.CodObservacion=codigo_obs;
-                GlobalVariables.ObserbacionDetalle.Observacion="";
-                GlobalVariables.ObserbacionDetalle.Accion="";
-                GlobalVariables.ObserbacionDetalle.CodActiRel=GlobalVariables.Actividad_obs.get(0).CodTipo;
-                GlobalVariables.ObserbacionDetalle.CodHHA=GlobalVariables.HHA_obs.get(0).CodTipo;
-                GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.Estado_obs.get(0).CodTipo;
-                GlobalVariables.ObserbacionDetalle.CodError=GlobalVariables.Error_obs.get(0).CodTipo;
-                GlobalVariables.ObserbacionDetalle.CodTipo=Tipo;
-
-                GlobalVariables.StrObsDetalle=gson.toJson(GlobalVariables.ObserbacionDetalle);
-            */
+            if(GlobalVariables.ObserbacionSubdetalle==null){
+                GlobalVariables.ObserbacionSubdetalle=codigo_obs;
+                GlobalVariables.SubDetalleTa= new ArrayList<>();
+                GlobalVariables.ListResponsables= new ArrayList<>();
+                GlobalVariables.ListAtendidos= new ArrayList<>();
+                for(int i=0;i<GlobalVariables.Aspectos_Obs.size();i++)
+                    GlobalVariables.SubDetalleTa.add(new SubDetalleModel("-"+i,"PREA",GlobalVariables.Aspectos_Obs.get(i).CodTipo,"R003"));
             }
             setData(Tipo);
         }
         //setData();
-
-
 
 
         add_personas.setOnClickListener(new View.OnClickListener() {
@@ -251,23 +241,13 @@ public class obs_detalle2 extends Fragment implements IActivity{
                             Toast.makeText(getActivity(), "Los campos no pueden estar vacios" , Toast.LENGTH_LONG).show();
 
                         }else {
-
-                            ListEtapDes.add(new ObsComentModel("1", etapa, description));
-
-                            //Toast.makeText(getActivity(), TipoComent.Descripcion + " " + description_coment + " ", Toast.LENGTH_LONG).show();
-
-
+                            obsComentAdapter.add(new SubDetalleModel("PETO", etapa, description));
                             obsComentAdapter.notifyDataSetChanged();
-
                             popupWindow.dismiss();
                         }
 
-
-
                     }
                 });
-
-
             }
         });
 
@@ -306,8 +286,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp1) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp1) ).getSelectedItem();
+                ChanguePREA("P001",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -316,8 +296,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp2) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp2) ).getSelectedItem();
+                ChanguePREA("P002",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -326,8 +306,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp3) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp3) ).getSelectedItem();
+                ChanguePREA("P003",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -336,8 +316,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp4.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp4) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp4) ).getSelectedItem();
+                ChanguePREA("P004",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -346,8 +326,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp5.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-               // Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp5) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp5) ).getSelectedItem();
+                ChanguePREA("P005",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -356,8 +336,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp6.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-               // Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp6) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp6) ).getSelectedItem();
+                ChanguePREA("P006",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -366,8 +346,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp7.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                //Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp7) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp7) ).getSelectedItem();
+                ChanguePREA("P007",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -376,16 +356,13 @@ public class obs_detalle2 extends Fragment implements IActivity{
         sp_asp8.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                // Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp8) ).getSelectedItem();
-                //GlobalVariables.ObserbacionDetalle.CodEstado=Tipo.CodTipo;
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_asp8) ).getSelectedItem();
+                ChanguePREA("P008",Tipo.CodTipo);
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
-
-
-
 
         /// interaccion de seguridad
 
@@ -403,8 +380,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
         add_hha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 //ImageButton btn_Cerrar;
                 RecyclerView listCompCond;
                 Button btn_agregar, btn_cerrar;
@@ -433,85 +408,53 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 et_otros = popupView.findViewById(R.id.et_otros);
                 btn_cerrar = popupView.findViewById(R.id.btn_cerrar);
 
-
-                if (ListHHAfinal.size()> 0){
-                    for (int j = 0; j<ListHHAfinal.size(); j++){
-                        for (int i = 0; i<ListHHA.size(); i++){
-                            if (ListHHAfinal.get(j).Descripcion.equals(ListHHA.get(i).Descripcion)) {
-                                ListHHA.get(i).estado = true;
+                initHHA();
+                for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                    if(item2.CodTipo.equals("HHA"))
+                    {
+                        for(SubDetalleModel item : ListHHA) {
+                            if(item2.CodSubtipo.equals(item.CodSubtipo)) {
+                                item.Check=true;
+                                continue;
                             }
                         }
-
-                        if(ListHHAfinal.get(j).Descripcion.contains("19")){
+                        if(item2.CodSubtipo.equals("19")){
                             id_cv_Otros.setVisibility(View.VISIBLE);
-                            String[] data =  ListHHAfinal.get(j).Descripcion.split(":");
-
-                            et_otros.setText(data[1]);
-                        }else{
-                            id_cv_Otros.setVisibility(View.GONE);
-
+                            et_otros.setText(item2.Descripcion);
                         }
-
-
-
-
                     }
                 }
+                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                listCompCond.setLayoutManager(horizontalManager);
+                checkAdapter = new CheckAdapter(getActivity(), ListHHA, checkBoxall, id_cv_Otros);
+                listCompCond.setAdapter(checkAdapter);
 
                 btn_cerrar.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-                        //Toast.makeText(getActivity(), CheckAdapter.items.get(9).estado + " dat" , Toast.LENGTH_LONG).show();
-
-
-                        ListHHA = new ArrayList<>();
-                        initHHA();
-
-                        if (!ListHHAfinal.isEmpty()){
-
-                            for (int i=0; i<ListHHA.size(); i++){
-                                for(int j=0; j<ListHHAfinal.size(); j++) {
-                                    if(ListHHA.get(i).Descripcion.equals(ListHHAfinal.get(j).Descripcion)) {
-                                        ListHHA.get(i).estado = true;
-                                    }
-                                }
-                            }
-                        }
-                        //Toast.makeText(getActivity(), ListMetodologiaTemp.get(0).estado + "" , Toast.LENGTH_LONG).show();
-                        checkAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
 
-
                     }});
-
-                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                listCompCond.setLayoutManager(horizontalManager);
-                //GlobalVariables.ListMetodologia
-
-                checkAdapter = new CheckAdapter(getActivity(), ListHHA, checkBoxall, id_cv_Otros);
-                listCompCond.setAdapter(checkAdapter);
 
                 btn_agregar.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        //Toast.makeText(getActivity(), CheckAdapter.items.get(9).estado + " dat" , Toast.LENGTH_LONG).show();
-                        ListHHAfinal = new ArrayList<>();
-                        for (int i = 0; i<ListHHA.size(); i++){
-                            if (ListHHA.get(i).estado) {
-                                //setear el valor de otros
-                                String data = et_otros.getText().toString();
-                                if(ListHHA.get(i).Descripcion.equals("19")){
-                                    ListHHAfinal.add(new SubDetalleModel("HHAR","",ListHHA.get(i).Descripcion +" : "+ et_otros.getText().toString(),true));
-                                }else {
-                                    ListHHAfinal.add(ListHHA.get(i));
-                                }
+                        List<SubDetalleModel> itemsOther= new ArrayList<>();
+                        for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                            if(!item2.CodTipo.equals("HHA")) itemsOther.add(item2);
+                        }
+                        GlobalVariables.SubDetalleIS.clear();
+                        GlobalVariables.SubDetalleIS.addAll(itemsOther);
+                        for(SubDetalleModel item : ListHHA) {
+                            if(item.Check)  {
+                                if(item.CodSubtipo.equals("19")) item.Descripcion=et_otros.getText().toString();
+                                else item.Descripcion=null;
+                                listISAdapter.add(item);
                             }
                         }
-                        LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                        rec_listHHA.setLayoutManager(horizontalManager);
-                        listISAdapter = new ListISAdapter(getActivity(), ListHHAfinal);
-                        rec_listHHA.setAdapter(listISAdapter);
+                        listISAdapter.reorderList();
+                        listISAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
 
                     }
@@ -521,14 +464,10 @@ public class obs_detalle2 extends Fragment implements IActivity{
                     @Override
                     public void onClick(View v) {
 
-                        for (int i=0; i < ListHHA.size(); i++) {
-                            ListHHA.get(i).estado = checkBoxall.isChecked();
+                        for(SubDetalleModel item : ListHHA) {
+                            item.Check=checkBoxall.isChecked();
                         }
-                        if (ListHHA.get(18).estado && ListHHA.get(18).Descripcion.equals("19")){
-                            id_cv_Otros.setVisibility(View.VISIBLE);
-                        }else {
-                            id_cv_Otros.setVisibility(View.GONE);
-                        }
+                        id_cv_Otros.setVisibility(checkBoxall.isChecked()?View.VISIBLE:View.GONE);
                         checkAdapter.notifyDataSetChanged();
                     }
                 });
@@ -567,81 +506,48 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 id_cv_Otros.setVisibility(View.GONE);
                 btn_cerrar = popupView.findViewById(R.id.btn_cerrar);
 
+                init_clasifObs();
+                for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                    if(item2.CodTipo.equals("OBSC"))
+                        for(SubDetalleModel item : ListClasific)
+                            if(item2.CodSubtipo.equals(item.CodSubtipo)) {
+                                item.Check=true;
+                                continue;
+                            }
 
-
-            if (ListClasificFinal.size()> 0){
-                for (int j = 0; j<ListClasificFinal.size(); j++){
-                    for (int i = 0; i<ListClasific.size(); i++){
-                            if (ListClasificFinal.get(j).Descripcion.equals(ListClasific.get(i).Descripcion)) {
-                            ListClasific.get(i).estado = true;
-                        }
-                    }
                 }
-            }
 
-
-
-
+                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                rec_listClasificObs.setLayoutManager(horizontalManager);
+                checkAdapter = new CheckAdapter(getActivity(), ListClasific, checkBoxall,id_cv_Otros);
+                rec_listClasificObs.setAdapter(checkAdapter);
 
                 btn_cerrar.setOnClickListener(new Button.OnClickListener(){
                     @Override
                     public void onClick(View v) {
-
-
-                        ListClasific = new ArrayList<>();
-                        init_clasifObs();
-
-                        if (!ListClasificFinal.isEmpty()){
-
-                            for (int i=0; i<ListClasific.size(); i++){
-                                for(int j=0; j<ListClasificFinal.size(); j++) {
-                                    if(ListClasific.get(i).Descripcion.equals(ListClasificFinal.get(j).Descripcion)) {
-                                        ListClasific.get(i).estado = true;
-                                    }
-                                }
-                            }
-                        }
-                        //Toast.makeText(getActivity(), ListMetodologiaTemp.get(0).estado + "" , Toast.LENGTH_LONG).show();
-                        checkAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
 
-
-
                     }});
-
-                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                rec_listClasificObs.setLayoutManager(horizontalManager);
-                //GlobalVariables.ListMetodologia
-
-                checkAdapter = new CheckAdapter(getActivity(), ListClasific, checkBoxall,id_cv_Otros);
-                rec_listClasificObs.setAdapter(checkAdapter);
 
                 btn_agregar.setOnClickListener(new Button.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-
-                        //Toast.makeText(getActivity(), CheckAdapter.items.get(1).estado + "" , Toast.LENGTH_LONG).show();
-                        //list_Metodologia
-
-                        ListClasificFinal = new ArrayList<>();
-
-
-                        for (int i = 0; i<ListClasific.size(); i++){
-                            if (ListClasific.get(i).estado) {
-                                ListClasificFinal.add(ListClasific.get(i));
+                        List<SubDetalleModel> itemsOther= new ArrayList<>();
+                        for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                            if(!item2.CodTipo.equals("OBSC")) itemsOther.add(item2);
+                        }
+                        GlobalVariables.SubDetalleIS.clear();
+                        GlobalVariables.SubDetalleIS.addAll(itemsOther);
+                        for(SubDetalleModel item : ListClasific) {
+                            if(item.Check)  {
+                                item.Descripcion=null;
+                                obsClasifAdapter.add(item);
                             }
                         }
-
-                            LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-                            rec_listClasif.setLayoutManager(horizontalManager);
-                            obsClasifAdapter = new OsbClasifAdapter(getActivity(), ListClasificFinal);
-                            rec_listClasif.setAdapter(obsClasifAdapter);
-
-
-
+                        obsClasifAdapter.reorderList();
+                        obsClasifAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
-
 
                     }
                 });
@@ -650,11 +556,10 @@ public class obs_detalle2 extends Fragment implements IActivity{
                     @Override
                     public void onClick(View v) {
 
-                        for (int i=0; i < ListClasific.size(); i++) {
-                            ListClasific.get(i).estado = checkBoxall.isChecked();
+                        for(SubDetalleModel item : ListClasific) {
+                            item.Check=checkBoxall.isChecked();
                         }
                         checkAdapter.notifyDataSetChanged();
-
                     }
                 });
             }
@@ -664,18 +569,26 @@ public class obs_detalle2 extends Fragment implements IActivity{
         return mView;
     }
 
+    public void ChanguePREA(String Preg, String Resp){
+        for(SubDetalleModel item: GlobalVariables.SubDetalleTa){
+            if(item.CodTipo.equals("PREA")&&item.CodSubtipo.equals(Preg)){
+                item.Descripcion=Resp;
+            }
+        }
+    }
+    public void  initHHA(){
+        ListHHA.clear();
+        for (int i=1; i<GlobalVariables.HHA_obs.size(); i++)
+            ListHHA.add(new SubDetalleModel("HHA",GlobalVariables.HHA_obs.get(i).CodTipo, GlobalVariables.HHA_obs.get(i).Descripcion));
+    }
+
+    public void init_clasifObs(){
+        ListClasific.clear();
+        for (int i=0; i<GlobalVariables.Clasificacion_Obs.size(); i++)
+            ListClasific.add(new SubDetalleModel("OBSC",GlobalVariables.Clasificacion_Obs.get(i).CodTipo,GlobalVariables.Clasificacion_Obs.get(i).Descripcion));
+    }
+
     public void setData(String Tipo) {
-
-        //ListResponsables = new ArrayList<>();
-        //ListEtapDes = new ArrayList<>();
-
-
-        ListHHA = new ArrayList<>();
-        initHHA();
-        ListClasific = new ArrayList<>();
-        init_clasifObs();
-
-
 
         if (Tipo.equals("TO03")) {
             //personas observadas
@@ -687,24 +600,27 @@ public class obs_detalle2 extends Fragment implements IActivity{
             //etapa/desviacion
             LinearLayoutManager horizontalManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             RecyclerEtapa.setLayoutManager(horizontalManager2);
-            obsComentAdapter = new ObsComentAdapter(getActivity(), ListEtapDes);
+            obsComentAdapter = new ObsComentAdapter(getActivity(), GlobalVariables.SubDetalleTa);
             RecyclerEtapa.setAdapter(obsComentAdapter);
 
-            //if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel))
-            //sp_asp1.setSelection(GlobalVariables.indexOf(GlobalVariables.Actividad_obs,GlobalVariables.ObserbacionDetalle.CodActiRel));
 
-            if (DataPrea.size() != 0) {
-                sp_asp1.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(0).Descripcion));
-                sp_asp2.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(1).Descripcion));
-                sp_asp3.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(2).Descripcion));
-                sp_asp4.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(3).Descripcion));
-                sp_asp5.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(4).Descripcion));
-                sp_asp6.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(5).Descripcion));
-                sp_asp7.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(6).Descripcion));
-                sp_asp8.setSelection(GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, DataPrea.get(7).Descripcion));
-
+            for(SubDetalleModel item: GlobalVariables.SubDetalleTa){
+                if(item.CodTipo.equals("PREA")){
+                    int CodResp=GlobalVariables.indexOf(GlobalVariables.Opc_aspecto, item.Descripcion);
+                    switch (item.CodSubtipo){
+                        case "P001": sp_asp1.setSelection(CodResp);break;
+                        case "P002": sp_asp2.setSelection(CodResp);break;
+                        case "P003": sp_asp3.setSelection(CodResp);break;
+                        case "P004": sp_asp4.setSelection(CodResp);break;
+                        case "P005": sp_asp5.setSelection(CodResp);break;
+                        case "P006": sp_asp6.setSelection(CodResp);break;
+                        case "P007": sp_asp7.setSelection(CodResp);break;
+                        case "P008": sp_asp8.setSelection(CodResp);break;
+                    }
+                }
             }
-        }else{
+        }
+        else if(Tipo.equals("TO04")){
             //interaccion de seguridad
             for(EquipoModel item:GlobalVariables.ListAtendidos) item.Lider=item.Estado;
             /// interaccion de seguridad
@@ -712,6 +628,18 @@ public class obs_detalle2 extends Fragment implements IActivity{
             listEquipoInsp.setLayoutManager(horizontalManager3);
             listEquipoLAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListAtendidos, true);
             listEquipoInsp.setAdapter(listEquipoLAdapter);
+
+            LinearLayoutManager horizontalManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            rec_listHHA.setLayoutManager(horizontalManager4);
+            listISAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"HHA");
+            rec_listHHA.setAdapter(listISAdapter);
+            listISAdapter.reorderList();
+
+            LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+            rec_listClasif.setLayoutManager(horizontalManager);
+            obsClasifAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"OBSC");
+            rec_listClasif.setAdapter(obsClasifAdapter);
+            listISAdapter.reorderList();
         }
     }
 
@@ -720,11 +648,11 @@ public class obs_detalle2 extends Fragment implements IActivity{
         if(!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO03")){
             mView.findViewById(R.id.ll_tarea).setVisibility(View.VISIBLE);
             mView.findViewById(R.id.ll_is).setVisibility(View.GONE);
-
+            setData(Tipo);
         }else if (!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO04")) {
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
             mView.findViewById(R.id.ll_is).setVisibility(View.VISIBLE);
-
+            setData(Tipo);
         }else {
 
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
@@ -745,10 +673,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
                     if(item.Check) listPersonAdapter.add(new EquipoModel(item));
                 listPersonAdapter.notifyDataSetChanged();
                 // listPersonAdapter.add(new EquipoModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
-
             }
-
-
 
             if (requestCode == 2 && resultCode  == RESULT_OK) {
 
@@ -760,28 +685,17 @@ public class obs_detalle2 extends Fragment implements IActivity{
 ///////crear el adapter
 
                 //actives.add(1);
-
             }
-
-
-
-
 
         } catch (Exception ex) {
             Toast.makeText(getContext(), ex.toString(),
                     Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
     }
 
-
+    ArrayList<Integer> actives= new ArrayList<>();
     @Override
     public void success(String data, String Tipo){
-        //ArrayList<SubDetalleModel> DataPeto=new ArrayList<>(); // etapa/desviacion
 
         String[] tipoObs = Tipo.split("-");
 
@@ -794,54 +708,18 @@ public class obs_detalle2 extends Fragment implements IActivity{
             }else {
                 GlobalVariables.ListAtendidos = getEquipoModel.Data;
             }
-
+            actives.add(1);
+            if(tipoObs[1].equals("TO04"))setData(tipoObs[1]);
+            else if(actives.size()==2) setData(tipoObs[1]);
         } else if (tipoObs[0].equals("2")) {
 
             Gson gson = new Gson();
             GetSubDetalleModel getSubDetalleModel = gson.fromJson(data, GetSubDetalleModel.class);
-            int count=getSubDetalleModel.Count;
 
-            for(int i = 0; i < getSubDetalleModel.Data.size(); i++){
-                if (tipoObs[1].equals("TO03")) {
-                    if (getSubDetalleModel.Data.get(i).CodTipo.equals("PREA")) {
-                        DataPrea.add(new SubDetalleModel(getSubDetalleModel.Data.get(i).CodTipo, getSubDetalleModel.Data.get(i).CodSubtipo, getSubDetalleModel.Data.get(i).Descripcion));
-                    } else if (getSubDetalleModel.Data.get(i).CodTipo.equals("PETO")) {
-                        //DataPeto.add(new SubDetalleModel(getSubDetalleModel.Data.get(i).CodTipo,getSubDetalleModel.Data.get(i).CodSubtipo,getSubDetalleModel.Data.get(i).Descripcion));
-                        ListEtapDes.add(new ObsComentModel(getSubDetalleModel.Data.get(i).CodTipo, getSubDetalleModel.Data.get(i).CodSubtipo, getSubDetalleModel.Data.get(i).Descripcion));
-
-                    }
-                } else if(tipoObs[1].equals("TO04")){
-
-                    if (getSubDetalleModel.Data.get(i).CodTipo.equals("HHA")) {
-                        ListHHAfinal = new ArrayList<>();
-                        ListHHAfinal.add(new SubDetalleModel("","",getSubDetalleModel.Data.get(i).CodSubtipo,true));
-                    //            ListHHA.add(new SubDetalleModel("HHAR","",GlobalVariables.HHA_obs.get(i).CodTipo, false));
-
-                }else if (getSubDetalleModel.Data.get(i).CodTipo.equals("OBSC")) {
-                        ListClasificFinal = new ArrayList<>();
-                        ListClasificFinal.add(new SubDetalleModel("","",getSubDetalleModel.Data.get(i).CodSubtipo,true));
-
-
-                    }
-
-                }
-
-            }
-
-            LinearLayoutManager horizontalManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            rec_listHHA.setLayoutManager(horizontalManager4);
-            listISAdapter = new ListISAdapter(getActivity(), ListHHAfinal);
-            rec_listHHA.setAdapter(listISAdapter);
-
-
-            LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            rec_listClasif.setLayoutManager(horizontalManager);
-            obsClasifAdapter = new OsbClasifAdapter(getActivity(), ListClasificFinal);
-            rec_listClasif.setAdapter(obsClasifAdapter);
-
+            GlobalVariables.SubDetalleTa = getSubDetalleModel.Data;
+            actives.add(1);
+            if(actives.size()==2)setData(tipoObs[1]);
         }
-        setData(tipoObs[1]);
-
     }
 
     @Override
@@ -854,22 +732,5 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
     }
 
-
-    public void  initHHA(){
-
-        for (int i=1; i<GlobalVariables.HHA_obs.size(); i++){
-            ListHHA.add(new SubDetalleModel("HHAR","",GlobalVariables.HHA_obs.get(i).CodTipo, false));
-        }
-
-    }
-
-
-    public void init_clasifObs(){
-        for (int i=0; i<GlobalVariables.Clasificacion_Obs.size(); i++) {
-
-            ListClasific.add(new SubDetalleModel("","",GlobalVariables.Clasificacion_Obs.get(i).CodTipo,false));
-            }
-        }
-
-
 }
+

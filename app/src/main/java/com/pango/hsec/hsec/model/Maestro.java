@@ -10,7 +10,7 @@ public class Maestro {
     public String Codigo;
     public String CodTipo;
     public String Descripcion;
-   // public ArrayList<Maestro> SubTipos;
+    public String SubTipos;
     public Maestro() {
 
     }
