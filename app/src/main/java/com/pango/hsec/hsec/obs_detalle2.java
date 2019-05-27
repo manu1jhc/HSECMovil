@@ -50,6 +50,7 @@ import com.pango.hsec.hsec.model.SubDetalleModel;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -59,21 +60,12 @@ public class obs_detalle2 extends Fragment implements IActivity{
     private static View mView;
     ImageButton add_personas, add_etapa, add_equipo, add_hha, add_ClasifObs;
     String title = "Personas Observadas";
-    String DniAvatar;
     private RecyclerView listView, RecyclerEtapa, listEquipoInsp, rec_listHHA, rec_listClasif;
     private ListEquipoAdapter listPersonAdapter, listEquipoLAdapter;
 
     public static ArrayList<SubDetalleModel> ListHHA = new ArrayList<>();
-    public static ArrayList<SubDetalleModel> ListHHAfinal = new ArrayList<>();
-
     public static ArrayList<SubDetalleModel> ListClasific = new ArrayList<>();
-    public static ArrayList<SubDetalleModel> ListClasificFinal = new ArrayList<>();
 
-
-
-    ArrayList<SubDetalleModel> ListEtapDes = new ArrayList<>();
-
-    ArrayList<SubDetalleModel> DataPrea=new ArrayList<>();
     ObsMetodAdapter listISAdapter,obsClasifAdapter;
     ObsComentAdapter obsComentAdapter;
 
@@ -185,6 +177,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 for(int i=0;i<GlobalVariables.Aspectos_Obs.size();i++)
                     GlobalVariables.SubDetalleTa.add(new SubDetalleModel("-"+i,"PREA",GlobalVariables.Aspectos_Obs.get(i).CodTipo,"R003"));
             }
+           // for(int i=0)
             setData(Tipo);
         }
         //setData();
@@ -409,9 +402,11 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 btn_cerrar = popupView.findViewById(R.id.btn_cerrar);
 
                 initHHA();
+                int cont=0;
                 for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
                     if(item2.CodTipo.equals("HHA"))
                     {
+                        cont++;
                         for(SubDetalleModel item : ListHHA) {
                             if(item2.CodSubtipo.equals(item.CodSubtipo)) {
                                 item.Check=true;
@@ -424,6 +419,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
                         }
                     }
                 }
+                if(ListHHA.size()==cont)checkBoxall.setChecked(true);
                 LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 listCompCond.setLayoutManager(horizontalManager);
                 checkAdapter = new CheckAdapter(getActivity(), ListHHA, checkBoxall, id_cv_Otros);
@@ -440,6 +436,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
                     @Override
                     public void onClick(View v) {
 
+                        int val=0;
                         List<SubDetalleModel> itemsOther= new ArrayList<>();
                         for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
                             if(!item2.CodTipo.equals("HHA")) itemsOther.add(item2);
@@ -447,16 +444,15 @@ public class obs_detalle2 extends Fragment implements IActivity{
                         GlobalVariables.SubDetalleIS.clear();
                         GlobalVariables.SubDetalleIS.addAll(itemsOther);
                         for(SubDetalleModel item : ListHHA) {
-                            if(item.Check)  {
+                            if(item.Check){
                                 if(item.CodSubtipo.equals("19")) item.Descripcion=et_otros.getText().toString();
                                 else item.Descripcion=null;
                                 listISAdapter.add(item);
                             }
                         }
-                        listISAdapter.reorderList();
+
                         listISAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
-
                     }
                 });
 
@@ -507,16 +503,19 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 btn_cerrar = popupView.findViewById(R.id.btn_cerrar);
 
                 init_clasifObs();
+                int cont=0;
                 for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
                     if(item2.CodTipo.equals("OBSC"))
+                    {
+                        cont++;
                         for(SubDetalleModel item : ListClasific)
                             if(item2.CodSubtipo.equals(item.CodSubtipo)) {
                                 item.Check=true;
                                 continue;
                             }
-
+                    }
                 }
-
+                if(ListClasific.size()==cont)checkBoxall.setChecked(true);
                 LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
                 rec_listClasificObs.setLayoutManager(horizontalManager);
                 checkAdapter = new CheckAdapter(getActivity(), ListClasific, checkBoxall,id_cv_Otros);
@@ -545,10 +544,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
                                 obsClasifAdapter.add(item);
                             }
                         }
-                        obsClasifAdapter.reorderList();
                         obsClasifAdapter.notifyDataSetChanged();
                         popupWindow.dismiss();
-
                     }
                 });
 
@@ -564,8 +561,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 });
             }
         });
-
-
         return mView;
     }
 
@@ -633,13 +628,11 @@ public class obs_detalle2 extends Fragment implements IActivity{
             rec_listHHA.setLayoutManager(horizontalManager4);
             listISAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"HHA");
             rec_listHHA.setAdapter(listISAdapter);
-            listISAdapter.reorderList();
 
             LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             rec_listClasif.setLayoutManager(horizontalManager);
             obsClasifAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"OBSC");
             rec_listClasif.setAdapter(obsClasifAdapter);
-            listISAdapter.reorderList();
         }
     }
 
@@ -664,29 +657,16 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
         try {
             super.onActivityResult(requestCode, resultCode, data);
-
-
             if (requestCode == 1  && resultCode  == RESULT_OK) {
-                //String name=data.getStringExtra("nombreP");
-                //String codSolicitado=data.getStringExtra("codpersona");
                 for(PersonaModel item: GlobalVariables.lista_Personas)
                     if(item.Check) listPersonAdapter.add(new EquipoModel(item));
                 listPersonAdapter.notifyDataSetChanged();
-                // listPersonAdapter.add(new EquipoModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
             }
-
-            if (requestCode == 2 && resultCode  == RESULT_OK) {
-
-                //Gson gson = new Gson();
-                //GlobalVariables.ListResponsables=gson.fromJson(data, GetEquipoModel.class).Data;
+            else if (requestCode == 2 && resultCode  == RESULT_OK) {
                 for(PersonaModel item:GlobalVariables.lista_Personas)
                     if(item.Check) listEquipoLAdapter.add(new EquipoModel(item));
                 listEquipoLAdapter.notifyDataSetChanged();
-///////crear el adapter
-
-                //actives.add(1);
             }
-
         } catch (Exception ex) {
             Toast.makeText(getContext(), ex.toString(),
                     Toast.LENGTH_SHORT).show();

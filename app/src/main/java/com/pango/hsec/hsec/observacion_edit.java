@@ -71,6 +71,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     Boolean cancel, enableSave=true;
     List<Fragment> fragments;
     int posionOld=0;
+    String OldTipoSelect;
     long L,G,T;
     //TabHost tabHost;
     //
@@ -94,6 +95,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         CodObservacion=datos.getString("codObs");
         CodTipo=datos.getString("tipoObs");
         pos=datos.getInt("posTab");
+        OldTipoSelect=CodTipo;
         //if(GlobalVariables.ObjectEditable) CodObservacion=datos.getString("Observacion");
         tx_titulo=findViewById(R.id.tx_titulo);
         if(GlobalVariables.ObjectEditable){
@@ -109,18 +111,6 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setOnPageChangeListener(observacion_edit.this);
 
-    }
-
-    public void loadPages(String CodTipoChange){
-
-    }
-
-    public void updatePages(String CodTipoChange){
-        initialiseTabHost();
-       /* TabHost tabHost = (TabHost)findViewById(android.R.id.tabhost);
-        if(CodTipoChange.equals("TO01")||CodTipoChange.equals("TO02"))
-            tabHost.getTabWidget().getChildAt(2).setVisibility(View.GONE);
-        tabHost.getTabWidget().getChildAt(2).setVisibility(View.VISIBLE);*/
     }
 
     public void reiniciadata(){
@@ -175,13 +165,21 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             else pos-=1;
         }
         this.mViewPager.setCurrentItem(pos);
-        if(pos==1){ //cambios solo cuando ingresemos al tab de detalle de obs.
+        if(pos==1 ){ //cambios solo cuando ingresemos al tab de detalle de obs. //&& !GlobalVariables.Obserbacion.CodTipo.equals(OldTipoSelect)
+            if(!GlobalVariables.Obserbacion.CodTipo.equals(OldTipoSelect)){
+                GlobalVariables.ObserbacionDetalle.CodHHA=null;
+                GlobalVariables.ObserbacionDetalle.Accion=null;
+                GlobalVariables.ObserbacionDetalle.CodActiRel=null;
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar=null;
+                OldTipoSelect=GlobalVariables.Obserbacion.CodTipo;
+            }
             obs_detalle1 detalle = (obs_detalle1) pageAdapter.getItem(1);
             detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
         }
-        else if(pos==2 && (GlobalVariables.Obserbacion.CodTipo.equals("TO03")|| GlobalVariables.Obserbacion.CodTipo.equals("TO04"))){
+        else if(pos==2 && (GlobalVariables.Obserbacion.CodTipo.equals("TO03")|| GlobalVariables.Obserbacion.CodTipo.equals("TO04"))){ //&&!GlobalVariables.Obserbacion.CodTipo.equals(OldTipoSelect)
             obs_detalle2 detalle = (obs_detalle2) pageAdapter.getItem(2);
             detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
+            OldTipoSelect=GlobalVariables.Obserbacion.CodTipo;
         }
         posionOld=pos;
     }
@@ -411,15 +409,15 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
 
             boolean[] opt = new boolean[3];
             for(SubDetalleModel item : detalle1.ListComentarios){
-                if(item.Codigo.equals("0")) {
+                if(item.Codigo.equals("1")) {
                     GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
                     opt[0]=true;
                 }
-                if(item.Codigo.equals("1")){
+                if(item.Codigo.equals("2")){
                     GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
                     opt[1]=true;
                 }
-                if(item.Codigo.equals("2")){
+                if(item.Codigo.equals("3")){
                     GlobalVariables.ObserbacionDetalle.ComOpt3=item.Descripcion;
                     opt[2]=true;
                 }
@@ -427,6 +425,13 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             if(!opt[0]&&GlobalVariables.ObserbacionDetalle.ComOpt1!=null) GlobalVariables.ObserbacionDetalle.ComOpt1=null;
             if(!opt[1]&&GlobalVariables.ObserbacionDetalle.ComOpt2!=null) GlobalVariables.ObserbacionDetalle.ComOpt2=null;
             if(!opt[2]&&GlobalVariables.ObserbacionDetalle.ComOpt3!=null) GlobalVariables.ObserbacionDetalle.ComOpt3=null;
+        }
+        else{
+             for(SubDetalleModel item:GlobalVariables.SubDetalleIS){
+                 if(item.CodSubtipo.equals("COMCON11")) GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
+                 else if(item.CodSubtipo.equals("19"))GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
+             }
+            GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
         String DetalleObs=  gson.toJson(GlobalVariables.ObserbacionDetalle);
         Errores="";
@@ -497,10 +502,17 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                     if(!pass)GlobalVariables.StrFiles.add(item);
                 }
             }
+            //update Tarea e IS
+
+
+            if(GlobalVariables.Obserbacion.CodTipo.equals("TO03") || GlobalVariables.Obserbacion.CodTipo.equals("TO04")){
+
+            }
+
             //update involucrados
             ArrayList<EquipoModel> updateAtentidos = new ArrayList<>();
-            List<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO02")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
-            List<EquipoModel> StrPerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO02")?GlobalVariables.StrResponsables:GlobalVariables.StrAtendidos;
+            ArrayList<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
+            ArrayList<EquipoModel> StrPerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.StrResponsables:GlobalVariables.StrAtendidos;
             //Insert involucrados
             for (EquipoModel item:PerInvolucrados) {
                 boolean pass=false;
@@ -509,10 +521,11 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                         pass=true;
                 if(!StringUtils.isEmpty(item.NroReferencia)&&item.NroReferencia.equals("-1")) {
                     updateAtentidos.add(new EquipoModel(item.CodPersona,"A"));
-                    if(!pass)GlobalVariables.StrAtendidos.add(item);
+                    if(!pass)StrPerInvolucrados.add(item);
                 }
             }
-
+            if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) GlobalVariables.StrResponsables=StrPerInvolucrados;
+            else  GlobalVariables.StrAtendidos=StrPerInvolucrados;
             //Delete involucrados
             for (EquipoModel item:StrPerInvolucrados) {
                 boolean pass=true;
@@ -531,10 +544,61 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 Involucrados=gson.toJson(updateAtentidos);
             }
 
-            // delete involucrados
+            // update SubDetalle
+            ArrayList<SubDetalleModel> updateSubDetalle = new ArrayList<>();
+            List<SubDetalleModel> SubDetalle=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.SubDetalleTa:GlobalVariables.SubDetalleIS;
+            List<SubDetalleModel> StrSubDetalle=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.StrSubDetalleTa:GlobalVariables.StrSubDetalleIS;
+            //Insert SubDetalle
+            for (SubDetalleModel item:SubDetalle) {
+                boolean pass=true;
+                for(SubDetalleModel item2:StrSubDetalle)
+                {
+                    if(GlobalVariables.Obserbacion.CodTipo.equals("TO03") && item.Codigo==item2.Codigo && item.CodSubtipo.equals(item2.CodSubtipo) && item.Descripcion.equals(item2.Descripcion)){
+                        pass=false;
+                        continue;
+                    }
+                    else if(item.CodTipo==item2.CodTipo && item.CodSubtipo==item2.CodSubtipo){
+                        pass=false;
+                        continue;
+                    }
+                }
+                if(pass){
+                    updateSubDetalle.add(item);
+                    if(StringUtils.isEmpty(item.Codigo)) StrSubDetalle.add(item);
+                }
+            }
+            if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) GlobalVariables.StrSubDetalleTa=StrSubDetalle;
+            else  GlobalVariables.StrSubDetalleIS=StrSubDetalle;
+            //Delete Subdetalle
+            for (SubDetalleModel item:StrSubDetalle) {
+                boolean pass=true;
+                for (SubDetalleModel item2:SubDetalle) {
+                        if(GlobalVariables.Obserbacion.CodTipo.equals("TO03") && item.Codigo==item2.Codigo){
+                            pass=false;
+                            continue;
+                        }
+                        else if(item.CodTipo==item2.CodTipo && item.CodSubtipo==item2.CodSubtipo){
+                            pass=false;
+                            continue;
+                        }
+                }
+                if(pass){
+                    item.Estado="E";
+                    updateSubDetalle.add(item);
+                }
+            }
+            if(updateSubDetalle.size()>0){
+                int cont=0;
+                for(SubDetalleModel item: updateSubDetalle){
+                    if(StringUtils.isEmpty(item.Codigo)){
+                        cont--;
+                        item.Codigo=cont+"";
+                    }
+                }
+                subdetalle=gson.toJson(updateSubDetalle);
+            }
 
-
-            if(DataInsert.size()==0 && FilesDelete.equals("-")&& PlanesDelete.equals("-")&& Detalle.equals("-")&& Cabecera.equals("-"))
+            if(DataInsert.size()==0 && FilesDelete.equals("-")&& PlanesDelete.equals("-")&& Detalle.equals("-")&& Cabecera.equals("-")&& Involucrados.equals("-")&& subdetalle.equals("-"))
             {
                 enableSave=(true);
                 Toast.makeText(this, "No se detectaron cambios", Toast.LENGTH_LONG).show();
@@ -671,20 +735,29 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             ll_bar_carga.setVisibility(View.VISIBLE);
             // GridViewAdapter gridViewAdapter = new GridViewAdapter(this,GlobalVariables.listaGaleria);
             obs_archivos archivos = (obs_archivos) pageAdapter.getItem(3);
-            archivos.gridViewAdapter.ProcesarImagens();
+            if(archivos.gridViewAdapter !=null)archivos.gridViewAdapter.ProcesarImagens();
             GlobalVariables.StrFiles= new ArrayList();
 
             GlobalVariables.StrFiles.addAll(GlobalVariables.listaGaleria);
             GlobalVariables.StrFiles.addAll(GlobalVariables.listaArchivos);
-            List<EquipoModel> PerInvolucrados;
-            if(GlobalVariables.Obserbacion.CodTipo.equals("TO02")) {
+
+            //add Tarea e IS, :: Involucrados y subdetalle
+            List<EquipoModel> PerInvolucrados= new ArrayList<>();
+            List<SubDetalleModel> Subdetalle= new ArrayList<>();
+
+            if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) {
                 PerInvolucrados=GlobalVariables.ListResponsables;
-                GlobalVariables.StrResponsables.addAll(GlobalVariables.ListResponsables);
+                GlobalVariables.StrResponsables.addAll(PerInvolucrados);
+                Subdetalle=GlobalVariables.SubDetalleTa;
+                GlobalVariables.StrSubDetalleTa.addAll(Subdetalle);
             }
-            else {
+            else if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")) {
                 PerInvolucrados=GlobalVariables.ListAtendidos;
-                GlobalVariables.StrAtendidos.addAll(GlobalVariables.ListAtendidos);
+                GlobalVariables.StrAtendidos.addAll(PerInvolucrados);
+                Subdetalle=GlobalVariables.SubDetalleIS;
+                GlobalVariables.StrSubDetalleIS.addAll(Subdetalle);
             }
+
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                     .connectTimeout(20, TimeUnit.SECONDS)
                     .writeTimeout(20, TimeUnit.SECONDS)
@@ -704,7 +777,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             }
             //Toast.makeText(this, "Guardando Observacion, Espere..." , Toast.LENGTH_SHORT).show();
 
-            request = service.insertarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(DetalleObs),createPartFromString(gson.toJson(GlobalVariables.Planes)),createPartFromString(gson.toJson(PerInvolucrados)),createPartFromString(""),Files);
+            request = service.insertarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(DetalleObs),createPartFromString(gson.toJson(GlobalVariables.Planes)),createPartFromString(gson.toJson(PerInvolucrados)),createPartFromString(gson.toJson(Subdetalle)),Files);
             if(T==0)onProgressUpdate();
             request.enqueue(new Callback<String>() {
                 @Override
@@ -733,7 +806,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                             //update value Detalle
                             if(respts[1].equals("-1")){
                                 Actives.add(-1);
-                                Errores+="Ocurrio un error al gurdar detalle";
+                                Errores+="Ocurrio un error al guardar detalle";
                             }
                             // update Planes de accion
                             boolean passPlan=false;
