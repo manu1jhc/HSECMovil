@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -33,6 +34,7 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_personasM;
 import com.pango.hsec.hsec.adapter.CheckAdapter;
 import com.pango.hsec.hsec.adapter.CompCondAadpter;
+import com.pango.hsec.hsec.adapter.IconAdapter;
 import com.pango.hsec.hsec.adapter.ListEquipoAdapter;
 import com.pango.hsec.hsec.adapter.ListISAdapter;
 import com.pango.hsec.hsec.adapter.ObsComentAdapter;
@@ -66,7 +68,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
     public static ArrayList<SubDetalleModel> ListHHA = new ArrayList<>();
     public static ArrayList<SubDetalleModel> ListClasific = new ArrayList<>();
 
-    ObsMetodAdapter listISAdapter,obsClasifAdapter;
+    public ObsMetodAdapter listISAdapter,obsClasifAdapter;
     ObsComentAdapter obsComentAdapter;
 
     Spinner sp_asp1,sp_asp2,sp_asp3,sp_asp4,sp_asp5,sp_asp6,sp_asp7,sp_asp8;
@@ -174,8 +176,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 GlobalVariables.SubDetalleTa= new ArrayList<>();
                 GlobalVariables.ListResponsables= new ArrayList<>();
                 GlobalVariables.ListAtendidos= new ArrayList<>();
-                for(int i=0;i<GlobalVariables.Aspectos_Obs.size();i++)
-                    GlobalVariables.SubDetalleTa.add(new SubDetalleModel("-"+i,"PREA",GlobalVariables.Aspectos_Obs.get(i).CodTipo,"R003"));
+                for(Maestro item:GlobalVariables.Aspectos_Obs)
+                    GlobalVariables.SubDetalleTa.add(new SubDetalleModel("PREA",item.CodTipo,"R003"));
             }
            // for(int i=0)
             setData(Tipo);
@@ -212,7 +214,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
 
                 et_etapa = popupView.findViewById(R.id.et_etapa);
-                et_description = popupView.findViewById(R.id.et_description);
+                et_description = popupView.findViewById(R.id.txt_description);
                 btn_agregar = popupView.findViewById(R.id.btn_agregar);
 
                 btn_Cerrar = (ImageButton) popupView.findViewById(R.id.btn_close);
@@ -229,6 +231,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
                         String etapa = et_etapa.getText().toString();
                         String description = et_description.getText().toString();
 
+                        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(et_description.getWindowToken(), 0);
                         //txt_description
                         if (etapa.equals("0") || description.equals("")){
                             Toast.makeText(getActivity(), "Los campos no pueden estar vacios" , Toast.LENGTH_LONG).show();
@@ -244,38 +248,14 @@ public class obs_detalle2 extends Fragment implements IActivity{
             }
         });
 
-        ArrayAdapter adapterAsp1 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp1.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp1.setAdapter(adapterAsp1);
-
-        ArrayAdapter adapterAsp2 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp2.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp2.setAdapter(adapterAsp2);
-
-        ArrayAdapter adapterAsp3 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp3.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp3.setAdapter(adapterAsp3);
-
-        ArrayAdapter adapterAsp4 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp4.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp4.setAdapter(adapterAsp4);
-
-        ArrayAdapter adapterAsp5 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp5.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp5.setAdapter(adapterAsp5);
-
-        ArrayAdapter adapterAsp6 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp6.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp6.setAdapter(adapterAsp6);
-
-        ArrayAdapter adapterAsp7 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp7.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp7.setAdapter(adapterAsp7);
-
-        ArrayAdapter adapterAsp8 = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Opc_aspecto);
-        adapterAsp8.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
-        sp_asp8.setAdapter(adapterAsp8);
-
+        sp_asp1.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
+        sp_asp2.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
+        sp_asp3.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
+        sp_asp4.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
+        sp_asp5.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
+        sp_asp6.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
+        sp_asp7.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
+        sp_asp8.setAdapter(new IconAdapter(getActivity().getBaseContext(),GlobalVariables.Opc_aspectoIcon));
         sp_asp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
@@ -565,11 +545,15 @@ public class obs_detalle2 extends Fragment implements IActivity{
     }
 
     public void ChanguePREA(String Preg, String Resp){
+        boolean pass=true;
         for(SubDetalleModel item: GlobalVariables.SubDetalleTa){
             if(item.CodTipo.equals("PREA")&&item.CodSubtipo.equals(Preg)){
                 item.Descripcion=Resp;
+                pass=false;
+                break;
             }
         }
+        if(pass) GlobalVariables.SubDetalleTa.add(new SubDetalleModel("PREA",Preg,Resp));
     }
     public void  initHHA(){
         ListHHA.clear();
@@ -617,7 +601,6 @@ public class obs_detalle2 extends Fragment implements IActivity{
         }
         else if(Tipo.equals("TO04")){
             //interaccion de seguridad
-            for(EquipoModel item:GlobalVariables.ListAtendidos) item.Lider=item.Estado;
             /// interaccion de seguridad
             LinearLayoutManager horizontalManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             listEquipoInsp.setLayoutManager(horizontalManager3);
@@ -626,12 +609,12 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
             LinearLayoutManager horizontalManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             rec_listHHA.setLayoutManager(horizontalManager4);
-            listISAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"HHA");
+            listISAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"HHA",(observacion_edit) this.getActivity());
             rec_listHHA.setAdapter(listISAdapter);
 
             LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             rec_listClasif.setLayoutManager(horizontalManager);
-            obsClasifAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"OBSC");
+            obsClasifAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"OBSC",(observacion_edit) this.getActivity());
             rec_listClasif.setAdapter(obsClasifAdapter);
         }
     }
@@ -675,7 +658,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
     ArrayList<Integer> actives= new ArrayList<>();
     @Override
-    public void success(String data, String Tipo){
+    public void success(String data, String Tipo) throws CloneNotSupportedException {
 
         String[] tipoObs = Tipo.split("-");
 
@@ -685,8 +668,17 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
             if (tipoObs[1].equals("TO03")) {
                 GlobalVariables.ListResponsables = getEquipoModel.Data;
+                for(EquipoModel item:GlobalVariables.ListResponsables)
+                    GlobalVariables.StrResponsables.add((EquipoModel)item.clone());
             }else {
                 GlobalVariables.ListAtendidos = getEquipoModel.Data;
+                for(EquipoModel item:GlobalVariables.ListAtendidos)
+                {
+                    if(item.Estado.equals("1"))item.Lider="1";
+                    else item.Lider="0";
+                    item.Estado=null;
+                    GlobalVariables.StrAtendidos.add((EquipoModel)item.clone());
+                }
             }
             actives.add(1);
             if(tipoObs[1].equals("TO04"))setData(tipoObs[1]);
@@ -697,6 +689,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
             GetSubDetalleModel getSubDetalleModel = gson.fromJson(data, GetSubDetalleModel.class);
 
             GlobalVariables.SubDetalleTa = getSubDetalleModel.Data;
+            for(SubDetalleModel item:GlobalVariables.SubDetalleTa)
+                GlobalVariables.StrSubDetalleTa.add((SubDetalleModel)item.clone());
             actives.add(1);
             if(actives.size()==2)setData(tipoObs[1]);
         }

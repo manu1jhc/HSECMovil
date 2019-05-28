@@ -12,20 +12,26 @@ import android.widget.TextView;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.SubDetalleModel;
+import com.pango.hsec.hsec.obs_detalle1;
+import com.pango.hsec.hsec.obs_detalle2;
+import com.pango.hsec.hsec.observacion_edit;
+
 import java.util.List;
 
 public class ObsMetodAdapter extends RecyclerView.Adapter<ObsMetodAdapter.ViewHolder> {
 
     private Activity activity;
+    private observacion_edit ActivityR;
     public List<SubDetalleModel> items;
     public String Tipo;
     private final static int VISIBLE_ITEM_TYPE = 1;
     private final static int INVISIBLE_ITEM_TYPE = 2;
 
-    public ObsMetodAdapter(Activity activity, List<SubDetalleModel> items,String Tipo) {
+    public ObsMetodAdapter(Activity activity, List<SubDetalleModel> items, String Tipo, observacion_edit ActivityR) {
         this.activity = activity;
         this.items = items;
         this.Tipo = Tipo;
+        this.ActivityR=ActivityR;
     }
 
     public void add(SubDetalleModel newdata) {
@@ -65,10 +71,17 @@ public class ObsMetodAdapter extends RecyclerView.Adapter<ObsMetodAdapter.ViewHo
                 viewHolder.btn_Delete.setOnClickListener(new View.OnClickListener() {
                                                              @Override
                                                              public void onClick(View v) {
-                                                                 //items.get(position).Estado = "E";
                                                                  items.remove(position);
                                                                  notifyItemRemoved(position);
-                                                                 notifyItemRangeChanged(position, items.size());
+                                                                 notifyItemRangeChanged(position,items.size());
+
+                                                                 obs_detalle1 subtedatlle=(obs_detalle1) ActivityR.pageAdapter.getItem(1);
+                                                                 subtedatlle.obsMetodAdapter.notifyDataSetChanged();
+                                                                 subtedatlle.compCondAadpter.notifyDataSetChanged();
+
+                                                                 obs_detalle2 subtedatlle2=(obs_detalle2) ActivityR.pageAdapter.getItem(2);
+                                                                 subtedatlle2.listISAdapter.notifyDataSetChanged();
+                                                                 subtedatlle2.obsClasifAdapter.notifyDataSetChanged();
                                                              }
                                                          }
                 );

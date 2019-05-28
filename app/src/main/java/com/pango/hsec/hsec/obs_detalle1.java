@@ -84,7 +84,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
 
     CheckAdapter checkAdapter, checkAdapter2;
-    ObsMetodAdapter obsMetodAdapter,compCondAadpter;
+    public ObsMetodAdapter obsMetodAdapter,compCondAadpter;
     public static final com.pango.hsec.hsec.obs_detalle1 newInstance(String sampleText,String CodTipo) {
         obs_detalle1 f = new obs_detalle1();
 
@@ -467,9 +467,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
                 EditText txt_description;
                 Spinner spinnerComent;
                 Button btn_agregar;
-
                 //if ()
-
                 layoutInflater = (LayoutInflater) mView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
                 popupView = layoutInflater.inflate(R.layout.popup_comentarios, null);
                 popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, true);
@@ -494,10 +492,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
                     @Override
                     public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                         TipoComent = (Maestro) ((Spinner) popupView.findViewById(R.id.sp_tipoComent)).getSelectedItem();
-                        //Toast.makeText(getActivity(), TipoComent.Descripcion, Toast.LENGTH_LONG).show();
-
-
-                        //GlobalVariables.Obserbacion.CodAreaHSEC=Tipo.CodTipo;
                     }
 
                     @Override
@@ -538,6 +532,11 @@ public class obs_detalle1 extends Fragment implements IActivity{
                                     Toast.makeText(getActivity(), "El tipo de comentario ya existe", Toast.LENGTH_LONG).show();
                             else {
                                     obsComentAdapter.add(new SubDetalleModel(TipoComent.CodTipo,"COM", TipoComent.Descripcion, description_coment));
+                                    switch (TipoComent.CodTipo){
+                                        case "1": GlobalVariables.ObserbacionDetalle.ComOpt1=description_coment; break;
+                                        case "2": GlobalVariables.ObserbacionDetalle.ComOpt2=description_coment; break;
+                                        case "3": GlobalVariables.ObserbacionDetalle.ComOpt3=description_coment; break;
+                                    }
                                     obsComentAdapter.notifyDataSetChanged();
                                     popupWindow.dismiss();
                                 }
@@ -852,22 +851,25 @@ public class obs_detalle1 extends Fragment implements IActivity{
             txt_equipoInv.setText("");
         }
 
+        if (GlobalVariables.ObserbacionDetalle.StopWork != null)
+        {
+            sp_stopworkIS.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs, GlobalVariables.ObserbacionDetalle.StopWork));
+            spinnerStopWork.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalle.StopWork));
+        }
+
         if(Tipo.equals("TO04")) {// interaccion de seguridad
 
             if (GlobalVariables.ObserbacionDetalle.CodError != null)
                 tx_ISempresa.setText(GlobalVariables.getDescripcion(GlobalVariables.Contrata, GlobalVariables.ObserbacionDetalle.CodError));
 
-            if (GlobalVariables.ObserbacionDetalle.StopWork != null)
-                sp_stopworkIS.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs, GlobalVariables.ObserbacionDetalle.StopWork));
-
             LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             list_dataMetod.setLayoutManager(horizontalManager);
-            obsMetodAdapter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS, "OBSR");
+            obsMetodAdapter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS, "OBSR",(observacion_edit) this.getActivity());
             list_dataMetod.setAdapter(obsMetodAdapter);
 
             LinearLayoutManager horizontalManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             List_dataComCond.setLayoutManager(horizontalManager1);
-            compCondAadpter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS,"OBCC");
+            compCondAadpter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS,"OBCC",(observacion_edit) this.getActivity());
             List_dataComCond.setAdapter(compCondAadpter);
 
         }
@@ -884,8 +886,6 @@ public class obs_detalle1 extends Fragment implements IActivity{
             if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado))spinnerEstado.setSelection(GlobalVariables.indexOf(GlobalVariables.Estado_obs,GlobalVariables.ObserbacionDetalle.CodEstado));
             if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError))spinnerError.setSelection(GlobalVariables.indexOf(GlobalVariables.Error_obs,GlobalVariables.ObserbacionDetalle.CodError));
 
-            if(!StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.StopWork))spinnerStopWork.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalle.StopWork));
-
             LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             listView.setLayoutManager(horizontalManager);
             obsComentAdapter = new ObsComentAdapter(getActivity(), ListComentarios);
@@ -897,7 +897,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
     }
     ArrayList<Integer> actives= new ArrayList<>();
     @Override
-    public void success(String data, String Tipo) {
+    public void success(String data, String Tipo) throws CloneNotSupportedException {
 
         if (Tipo.equals("TO04")){
             Gson gson = new Gson();
@@ -920,6 +920,8 @@ public class obs_detalle1 extends Fragment implements IActivity{
             Gson gson = new Gson();
             GetSubDetalleModel getSubDetalleModel = gson.fromJson(data, GetSubDetalleModel.class);
             GlobalVariables.SubDetalleIS = getSubDetalleModel.Data;
+            for(SubDetalleModel item:GlobalVariables.SubDetalleIS)
+                GlobalVariables.StrSubDetalleIS.add((SubDetalleModel)item.clone());
             actives.add(1);
             if(actives.size()==2)setdata("TO04");
         }else {

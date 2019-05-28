@@ -4,7 +4,7 @@ package com.pango.hsec.hsec.model;
  * Created by Andre on 19/02/2018.
  */
 
-public class SubDetalleModel {
+public class SubDetalleModel implements Cloneable {
     public String Codigo;
     public String CodTipo;
     public String CodSubtipo; /// esta null
@@ -27,6 +27,7 @@ public class SubDetalleModel {
         this.Codigo = Codigo;
         this.Check=false;
     }
-
-
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
 }

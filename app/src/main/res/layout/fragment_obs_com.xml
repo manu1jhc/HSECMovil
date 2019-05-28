@@ -280,7 +280,7 @@
                 android:id="@+id/tx_StopWork"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
+                android:text=""
                 android:layout_weight="0.35"
                 android:layout_marginLeft="10dp"
 
