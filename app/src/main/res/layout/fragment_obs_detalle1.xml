@@ -264,7 +264,7 @@
                 <TextView
                     android:id="@+id/textView15"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text=" HHA Relacionada:"
                     android:textSize="@dimen/size_text_izq"
                     android:textStyle="bold"
@@ -516,7 +516,7 @@
                 <EditText
                     android:id="@+id/txt_comentRO"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:gravity="top"
@@ -533,7 +533,7 @@
                 <TextView
                     android:id="@+id/textView33"
                     android:layout_width="100dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="@color/ColorPlomo4"
                     android:gravity="right|center_vertical"
                     android:paddingLeft="8dp"
@@ -802,7 +802,7 @@
                 <EditText
                     android:id="@+id/txt_equipoInv"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:gravity="top"
@@ -853,7 +853,7 @@
                 <EditText
                     android:id="@+id/txt_InteracSeg"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:gravity="top"
@@ -1239,13 +1239,6 @@
                     />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-
-
-
-
-
-
-
 
 
 

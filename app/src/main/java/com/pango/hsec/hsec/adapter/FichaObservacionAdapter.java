@@ -110,10 +110,9 @@ public class FichaObservacionAdapter extends ArrayAdapter<PublicacionModel> {
         ImageView editar = rowView.findViewById(R.id.btn_editar);
         final String Empresa = data.get(position).Empresa;
         empresa.setText(Empresa);
-        if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02"))){
+        if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02") || tempTipo.equals("TO03") || tempTipo.equals("TO04") )){
             editar.setVisibility(View.VISIBLE);
         }
-
 
         editar.setOnClickListener(new View.OnClickListener() {
             @Override
