@@ -242,7 +242,7 @@
 
                 <Spinner
                     android:id="@+id/sp_asp1"
-                    android:layout_width="120dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -279,7 +279,7 @@
 
                 <Spinner
                     android:id="@+id/sp_asp2"
-                    android:layout_width="120dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -316,7 +316,7 @@
 
                 <Spinner
                     android:id="@+id/sp_asp3"
-                    android:layout_width="120dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -355,7 +355,7 @@
 
                 <Spinner
                     android:id="@+id/sp_asp4"
-                    android:layout_width="120dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -394,8 +394,8 @@
 
                 <Spinner
                     android:id="@+id/sp_asp5"
-                    android:layout_width="120dp"
-                    android:layout_height="24dp"
+                    android:layout_width="75dp"
+                    android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -433,7 +433,7 @@
 
                 <Spinner
                     android:id="@+id/sp_asp6"
-                    android:layout_width="120dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -472,7 +472,7 @@
 
                 <Spinner
                     android:id="@+id/sp_asp7"
-                    android:layout_width="120dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -511,7 +511,7 @@
 
                 <Spinner
                     android:id="@+id/sp_asp8"
-                    android:layout_width="120dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

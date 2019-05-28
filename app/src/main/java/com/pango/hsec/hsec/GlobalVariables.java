@@ -319,6 +319,8 @@ public class GlobalVariables  {
     public static ArrayList<Maestro> O_Comentarios=new ArrayList<>();
 
     public static ArrayList<Maestro> Opc_aspecto = new ArrayList<>();
+    public static ArrayList<Maestro> Opc_aspectoIcon = new ArrayList<>();
+
     //public static int paginacion=1;
     //obs Interaccion de Seguridad
 
@@ -454,8 +456,23 @@ public class GlobalVariables  {
         Opc_aspecto.add(new Maestro("R001","Correcto"));
         Opc_aspecto.add(new Maestro("R002","Incorrecto"));
 
+        Opc_aspectoIcon.add(new Maestro("R003", "N/A", R.drawable.ic_noaplica));
+        Opc_aspectoIcon.add(new Maestro("R001", "Correcto", R.drawable.ic_correcto));
+        Opc_aspectoIcon.add(new Maestro("R002", "Incorrecto", R.drawable.ic_incorrecto));
+
+
         StopWork_obs.add(new Maestro("SW01","SI"));
         StopWork_obs.add(new Maestro("SW02","NO"));
+
+
+//        if (aspectoModel.get(i).Descripcion.equals("R001")){
+//            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_correcto);
+//        }else if(aspectoModel.get(i).Descripcion.equals("R002")){
+//            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_incorrecto);
+//        }else if(aspectoModel.get(i).Descripcion.equals("R003")){
+//            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_noaplica);
+
+
 
         // Interaccion de seguridad
         //String CodTipo, String CodSubtipo, String Descripcion, boolean estado

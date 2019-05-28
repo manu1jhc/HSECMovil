@@ -768,7 +768,7 @@
                         android:paddingTop="2dp"
                         android:paddingRight="8dp"
                         android:paddingBottom="2dp"
-                        android:text="xxxxxxxxxxxxxxxxx"
+                        android:text=""
                         android:textColor="@color/colorNegro"
                         android:textSize="@dimen/size_text_der" />
 

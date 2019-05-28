@@ -1,11 +1,15 @@
 package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.widget.RadioGroup;
 import android.widget.Space;
 import android.widget.Toast;
 import android.widget.ImageButton;
@@ -19,11 +23,24 @@ import com.pango.hsec.hsec.model.SubDetalleModel;
 
 import java.util.List;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 public class ObsComentAdapter extends RecyclerView.Adapter<ObsComentAdapter.ViewHolder> {
+//    public interface ClickListener {
+//        void onItemClick(int position, View v);
+//    }
+
     private Activity activity;
     private List<SubDetalleModel> items;
     private final static int VISIBLE_ITEM_TYPE = 1;
     private final static int INVISIBLE_ITEM_TYPE = 2;
+//    public static ClickListener clickListener;
+
+
+
+//    public void setOnItemClickListener(ClickListener clickListener) {
+//        ObsComentAdapter.clickListener = clickListener;
+//    }
 
     public ObsComentAdapter(Activity activity, List<SubDetalleModel> items) {
         this.activity = activity;
@@ -45,6 +62,9 @@ public class ObsComentAdapter extends RecyclerView.Adapter<ObsComentAdapter.View
             LayoutInflater inflater = activity.getLayoutInflater();
              view = inflater.inflate(R.layout.item_obscoment, parent, false);
         }
+
+
+
         return new ViewHolder(view);
     }
 
@@ -64,6 +84,9 @@ public class ObsComentAdapter extends RecyclerView.Adapter<ObsComentAdapter.View
                                                      }
             );
         }
+
+
+
     }
 
     @Override
@@ -85,13 +108,30 @@ public class ObsComentAdapter extends RecyclerView.Adapter<ObsComentAdapter.View
 
         public ViewHolder(View view) {
             super(view);
+//            view.setOnClickListener(this);
+
             Layout = (ConstraintLayout)view.findViewById(R.id.constraintLayout2);
             tipoComent = (TextView)view.findViewById(R.id.txt_tipocom);
             descripcion = (TextView)view.findViewById(R.id.txt_descripcion);
             btn_Delete= (ImageButton) view.findViewById(R.id.btn_delete);
         }
 
+//        @Override
+//        public void onClick(View v) {
+//            clickListener.onItemClick(getAdapterPosition(), v);
+//        }
+
+
     }
+
+    public SubDetalleModel getItem(int position) {
+        return (items != null) ? items.get(position) : null;
+    }
+
+
+
+
+
 
    /* public class DividerItemDecoration extends RecyclerView.ItemDecoration {
 

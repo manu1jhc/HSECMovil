@@ -47,5 +47,12 @@
     <string name="btn_pick_with_videos">Pick multiple images (with video)</string>
 
 
-    @font/asap
+     @font/asap
+
+
+
+    <string name="icon">Spinner - danielme.com</string>
+
+
+
 </resources>

@@ -11,6 +11,7 @@ public class Maestro {
     public String CodTipo;
     public String Descripcion;
     public String SubTipos;
+    public int Icon;
     public Maestro() {
 
     }
@@ -34,6 +35,14 @@ public class Maestro {
         Descripcion = nombre;
         //SubTipos = Subtipos;
     }
+
+    public Maestro(String codTipo, String nombre,int icon) {
+        CodTipo = codTipo;
+        Descripcion = nombre;
+        Icon = icon;
+    }
+
+
 // para IS
 
 

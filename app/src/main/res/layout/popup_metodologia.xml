@@ -135,14 +135,16 @@ android:background="#99000000"
                         <EditText
                             android:id="@+id/et_otros"
                             android:layout_width="0dp"
-                            android:layout_height="0dp"
+                            android:layout_height="wrap_content"
                             android:background="@android:color/transparent"
                             android:ems="10"
                             android:gravity="top"
                             android:inputType="textMultiLine"
                             android:paddingLeft="8dp"
                             android:paddingRight="8dp"
+                            android:scrollbars="vertical"
                             android:textColor="@color/colorNegro"
+
                             android:textSize="@dimen/size_text_der"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -165,6 +167,8 @@ android:background="#99000000"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
+
+
                     </android.support.constraint.ConstraintLayout>
                 </android.support.v7.widget.CardView>
 
@@ -214,6 +218,8 @@ android:background="#99000000"
 
             </LinearLayout>
         </android.support.v4.widget.NestedScrollView>
+
+
 
 
 
