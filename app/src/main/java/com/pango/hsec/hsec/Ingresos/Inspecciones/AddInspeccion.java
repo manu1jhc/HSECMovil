@@ -735,7 +735,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
                             if(!respts[2].equals("0"))
                             {
                                 boolean pass=false;
-                                for(EquipoModel item:GlobalVariables.StrAtendidos){
+                                for(EquipoModel item:GlobalVariables.StrAtendidos) {
                                     for (String equipoid:respts[2].split(","))
                                     {
                                         String[] value= equipoid.split(":");

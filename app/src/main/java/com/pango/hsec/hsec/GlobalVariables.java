@@ -212,7 +212,7 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> ObsFacilito_estado = new ArrayList<>();
     public static  ArrayList<Maestro> ObsFacilito_estadoHistoria=new ArrayList<>();
 
-    public static ArrayList<Maestro> IS_Metodologia = new ArrayList<>();   ///////////////check
+    public static ArrayList<Maestro> SubDetalleTipoDesc = new ArrayList<>();   ///////////////check
 
     public static String json_user="";
     public static UsuarioModel userLoaded;
@@ -327,9 +327,6 @@ public class GlobalVariables  {
     public static ArrayList<SubDetalleModel> ListSubDetalleData = new ArrayList<>();
 
 
-
-
-
     public static String getDescripcion(ArrayList<Maestro> Obj, String value){
         for (Maestro o : Obj  ) {
             if(o.CodTipo!=null&&o.CodTipo.equals(value)) return o.Descripcion;
@@ -426,10 +423,13 @@ public class GlobalVariables  {
         NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
         NivelRiesgo_obs.add(new Maestro("ME", "Media"));
         NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
-/*
-        StopWork_obs.add(new Maestro("SW01", "SI"));
-        StopWork_obs.add(new Maestro("SW02", "NO"));
-        */
+
+        SubDetalleTipoDesc.add(new Maestro("PREA", "Aspectos Previos"));
+        SubDetalleTipoDesc.add(new Maestro("PETO", "Etapa/Desviacion"));
+        SubDetalleTipoDesc.add(new Maestro("HHA", "Actividad de alto riesgo"));
+        SubDetalleTipoDesc.add(new Maestro("OBSC", "Clasificacion de la Obs"));
+        SubDetalleTipoDesc.add(new Maestro("OBSR", "Metodologia de gestion de riesgo"));
+        SubDetalleTipoDesc.add(new Maestro("OBCC", "Comportamiento/Condicion"));
 
 
         ObsFacilito_tiempo.add(new Maestro("00","Inmediato"));

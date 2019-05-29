@@ -6,8 +6,8 @@ android {
         applicationId "com.pango.hsec.hsec"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode 29
-        versionName "3.9"
+        versionCode 31
+        versionName "4.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -17,7 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
+    lintOptions {
+        checkReleaseBuilds false // Add this
+        abortOnError false
+    }
     packagingOptions {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LICENSE'

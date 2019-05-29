@@ -596,14 +596,8 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 if(!DeletePlanes.equals("")) PlanesDelete= DeletePlanes.substring(0,DeletePlanes.length()-1);
             }
 
-            /*obs_archivos archivos = (obs_archivos) pageAdapter.getItem(2);
-            archivos.gridViewAdapter.ProcesarImagens();
-                GridViewAdapter gridViewAdapter = new GridViewAdapter(this,GlobalVariables.listaGaleria);
-            gridViewAdapter.ProcesarImagens();*/
             obs_archivos archivos = (obs_archivos) pageAdapter.getItem(3);
             if(archivos.gridViewAdapter !=null)archivos.gridViewAdapter.ProcesarImagens();
-
-
 
             ArrayList<GaleriaModel> DataAll=new ArrayList<>();
             ArrayList<GaleriaModel> DataInsert=new ArrayList<>();
@@ -646,28 +640,20 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 ArrayList<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
                 ArrayList<EquipoModel> StrPerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.StrResponsables:GlobalVariables.StrAtendidos;
 
-                // get Lider
-                String LiderPer="",LiderOld="";
-                boolean exEquipo=false;
-                for (EquipoModel item:PerInvolucrados) {
-                    if(item.Lider.equals("1")) LiderPer=item.CodPersona;
-                }
-                for (EquipoModel item:StrPerInvolucrados) {
-                    if(item.Lider.equals("1")) LiderOld=item.CodPersona;
-                    else if(item.CodPersona.equals(LiderPer))exEquipo=true;
-                }
-
-
                 //Insert involucrados
                 for (EquipoModel item:PerInvolucrados) {
-                    if(!item.Lider.equals("1")){
+                    if(item.Lider ==null || !item.Lider.equals("1")){
                         boolean pass=false;
                         for(EquipoModel item2:StrPerInvolucrados)
                             if(item.CodPersona.equals(item2.CodPersona))
                                 pass=true;
                         if(!StringUtils.isEmpty(item.NroReferencia)&&item.NroReferencia.equals("-1")) {
                             updateAtentidos.add(new EquipoModel(item.CodPersona,"A"));
-                            if(!pass)StrPerInvolucrados.add(item);
+                            if(!pass)try {
+                                StrPerInvolucrados.add((EquipoModel)item.clone());
+                            } catch (CloneNotSupportedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
@@ -675,7 +661,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 else  GlobalVariables.StrAtendidos=StrPerInvolucrados;
                 //Delete involucrados
                 for (EquipoModel item:StrPerInvolucrados) {
-                    if(!item.Lider.equals("1")){
+                    if(item.Lider ==null ||!item.Lider.equals("1")){
                         boolean pass=true;
                         for (EquipoModel item2:PerInvolucrados) {
                             if(item.CodPersona.equals(item2.CodPersona)){
@@ -689,17 +675,35 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                         }
                     }
                 }
-                if(!LiderOld.equals(LiderPer)&&!LiderOld.equals("")){
-                    boolean pass=true;
-                    for(EquipoModel item:updateAtentidos){
-                        if(item.CodPersona.equals(LiderOld)&& item.Estado.equals("E")) {
-                            pass=false;
-                            break;
-                        }//agregamos el lider antiguo, que no haya sido eliminado
+
+                // get Lider
+                if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")){
+                    String LiderPer="";
+                    EquipoModel LiderOld=new EquipoModel();
+                    boolean exEquipo=false;
+                    for (EquipoModel item:PerInvolucrados) {
+                        if(item.Lider.equals("1")) LiderPer=item.CodPersona;
                     }
-                    if(pass)updateAtentidos.add(new EquipoModel(LiderOld,"A"));
-                    if(exEquipo)updateAtentidos.add(new EquipoModel(LiderPer,"E"));
+                    for (EquipoModel item:StrPerInvolucrados) {
+                        if(item.Lider.equals("1")) LiderOld=item;
+                        else if(item.CodPersona.equals(LiderPer))exEquipo=true;
+                    }
+                    if(!LiderOld.CodPersona.equals(LiderPer)&&!LiderOld.equals("")){
+                        boolean pass=true;
+                        for(EquipoModel item:updateAtentidos){
+                            if(item.CodPersona.equals(LiderOld)&& item.Estado.equals("E")) {
+                                pass=false;
+                                break;
+                            }//agregamos el lider antiguo, que no haya sido eliminado
+                        }
+                        if(pass){
+                            updateAtentidos.add(new EquipoModel(LiderOld.CodPersona,"A"));
+                            LiderOld.Lider="0";
+                        }
+                        if(exEquipo)updateAtentidos.add(new EquipoModel(LiderPer,"E"));
+                    }
                 }
+
                 if(updateAtentidos.size()>0){
                     Involucrados=gson.toJson(updateAtentidos);
                 }
@@ -725,11 +729,10 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                     if(pass){
                         item.Estado="A";
                         updateSubDetalle.add(item);
-                        if(StringUtils.isEmpty(item.Codigo)) StrSubDetalle.add(item);
+
                     }
                 }
-                if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) GlobalVariables.StrSubDetalleTa=StrSubDetalle;
-                else  GlobalVariables.StrSubDetalleIS=StrSubDetalle;
+
                 //Delete Subdetalle
                 for (SubDetalleModel item:StrSubDetalle) {
                     boolean pass=true;
@@ -754,10 +757,18 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                         if(StringUtils.isEmpty(item.Codigo)){
                             cont--;
                             item.Codigo=cont+"";
+                            try {
+                                StrSubDetalle.add((SubDetalleModel) item.clone());
+                            } catch (CloneNotSupportedException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
+                    if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) GlobalVariables.StrSubDetalleTa=StrSubDetalle;
+                    else  GlobalVariables.StrSubDetalleIS=StrSubDetalle;
                     subdetalle=gson.toJson(updateSubDetalle);
                 }
+
             }
 
             if(DataInsert.size()==0 && FilesDelete.equals("-")&& PlanesDelete.equals("-")&& Detalle.equals("-")&& Cabecera.equals("-")&& Involucrados.equals("-")&& subdetalle.equals("-"))
@@ -858,6 +869,106 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                                     }
                                 }
                             }
+
+                            //update Involucrados
+                            if(respt[5].contains(":-1")){
+                                Actives.add(-1);
+                                Errores+="\nError al guardar algunas personas involucradas";
+                            }
+                            // update Atendidos
+                            if(!respt[5].equals("-"))
+                            {
+                                ArrayList<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
+                                ArrayList<EquipoModel> StrPerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.StrResponsables:GlobalVariables.StrAtendidos;
+                                ArrayList<EquipoModel> NewInvolucrados= new ArrayList<>();
+                                for(EquipoModel item:StrPerInvolucrados){
+                                    boolean pass=true;
+                                    for (String equipoid:respt[5].split(","))
+                                    {
+                                        String[] value= equipoid.split(":");
+                                        if(item.CodPersona.equals(value[0])){
+                                            if(value[1].equals("-1")) pass=false;
+                                            else item.NroReferencia=null;
+                                            continue;
+                                        }
+                                    }
+                                    if(pass && (item.Estado==null || item.Estado.equals("A"))){
+                                        NewInvolucrados.add(item);
+                                    }
+                                    else if(!pass&&item.Estado!=null&&item.Estado.equals("E")){ //persona que no se pudo eliminar
+                                        NewInvolucrados.add(item);
+                                        try {
+                                            PerInvolucrados.add((EquipoModel)item.clone());
+                                        } catch (CloneNotSupportedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    else { // personas fallidas de insertar
+                                        for(EquipoModel item2:PerInvolucrados)
+                                            if(item2.CodPersona.equals(item.CodPersona)) item2.Estado="E";
+                                    }
+                                }
+
+                                if(GlobalVariables.Obserbacion.CodTipo.equals("TO03"))GlobalVariables.StrResponsables=NewInvolucrados;
+                                else GlobalVariables.StrAtendidos=NewInvolucrados;
+                            }
+                            //update Subdetalle
+                            if(respt[6].contains(":-1")){
+                                Actives.add(-1);
+                                Errores+="\nError al guardar: ";
+                            }
+                            // update Subdetalle
+                            if(!respt[6].equals("-"))
+                            {
+                                List<SubDetalleModel> SubDetalle=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.SubDetalleTa:GlobalVariables.SubDetalleIS;
+                                List<SubDetalleModel> StrSubDetalle=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.StrSubDetalleTa:GlobalVariables.StrSubDetalleIS;
+                                ArrayList<SubDetalleModel> updateSubDetalle = new ArrayList<>();
+                                String ErrorSubDeta="";
+                                for(SubDetalleModel item:StrSubDetalle){
+                                    boolean pass=true;
+                                    for (String equipoid:respt[6].split(","))
+                                    {
+                                        String[] value= equipoid.split(":");
+                                        if(item.Codigo.equals(value[0])){
+                                            if(value[1].equals("-1")){
+                                                String DescTipo= GlobalVariables.getDescripcion(GlobalVariables.SubDetalleTipoDesc,item.CodTipo);
+                                                if(!ErrorSubDeta.contains(DescTipo))ErrorSubDeta+=DescTipo+", ";
+                                                pass=false;
+                                            }
+                                            else item.Codigo=value[1];
+                                            continue;
+                                        }
+                                    }
+                                    if(pass){
+                                        try {
+                                            StrSubDetalle.add((SubDetalleModel)item.clone());
+                                        } catch (CloneNotSupportedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+
+                                    if(pass && item.Estado==null ){
+                                        updateSubDetalle.add(item);
+                                    }
+                                    else if(!pass&& item.Estado!=null&&item.Estado.equals("E")){ //Subdetalle que no se pudo eliminar
+                                        updateSubDetalle.add(item);
+                                        try {
+                                            SubDetalle.add((SubDetalleModel) item.clone());
+                                        } catch (CloneNotSupportedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    else { // Subdetalle fallidas de insertar
+                                        for(SubDetalleModel item2:SubDetalle)
+                                            if(item2.Codigo.equals(item.Codigo)) item2.Estado="E";
+                                    }
+                                }
+                                if(!ErrorSubDeta.equals(""))Errores+=ErrorSubDeta.substring(0,ErrorSubDeta.length()-2);
+
+                                if(GlobalVariables.Obserbacion.CodTipo.equals("TO03"))GlobalVariables.StrSubDetalleTa=StrSubDetalle;
+                                else GlobalVariables.StrSubDetalleIS=StrSubDetalle;
+                            }
+
                         }else{
                             if(response.code()==401){
                                 Utils.reloadTokenAuth(observacion_edit.this,observacion_edit.this);
@@ -909,18 +1020,17 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
 
             if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) {
                 PerInvolucrados=GlobalVariables.ListResponsables;
-                GlobalVariables.StrResponsables.addAll(PerInvolucrados);
+               // GlobalVariables.StrResponsables.addAll(PerInvolucrados);
                 Subdetalle=GlobalVariables.SubDetalleTa;
-                GlobalVariables.StrSubDetalleTa.addAll(Subdetalle);
+                //GlobalVariables.StrSubDetalleTa.addAll(Subdetalle);
             }
             else if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")) {
-                //PerInvolucrados=GlobalVariables.ListAtendidos;
-
+                PerInvolucrados=GlobalVariables.ListAtendidos;
                 Subdetalle=GlobalVariables.SubDetalleIS;
-                GlobalVariables.StrSubDetalleIS.addAll(Subdetalle);
+              //  GlobalVariables.StrSubDetalleIS.addAll(Subdetalle);
                 for(EquipoModel item: GlobalVariables.ListAtendidos)
                     if(item.Lider.equals("0"))PerInvolucrados.add(item);
-                GlobalVariables.StrAtendidos.addAll(GlobalVariables.ListAtendidos);
+                //GlobalVariables.StrAtendidos.addAll(GlobalVariables.ListAtendidos);
             }
 
             if(Subdetalle.size()>0){
@@ -974,6 +1084,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                             GlobalVariables.StrObsDetalle=gson.toJson(GlobalVariables.ObserbacionDetalle);
                             GlobalVariables.ObserbacionFile= respts[0];
                             GlobalVariables.ObserbacionPlan= respts[0];
+                            GlobalVariables.ObserbacionSubdetalle= respts[0];
 
                             obs_cabecera cabecera = (obs_cabecera) pageAdapter.getItem(0);
                             cabecera.updateCodigo(respts[0]);
@@ -1031,6 +1142,83 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                                         }
                                     }
                                 }
+                            }
+
+                            //update Involucrados
+                            if(respts[4].contains(":-1")){
+                                Actives.add(-1);
+                                Errores+="\nError al guardar algunas personas involucradas";
+                            }
+                            // update Atendidos
+                            if(!respts[4].equals("0"))
+                            {
+                                ArrayList<EquipoModel> PerInvolucrados=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.ListResponsables:GlobalVariables.ListAtendidos;
+                                ArrayList<EquipoModel> StrPerInvolucrados= new ArrayList<>();
+
+                                for(EquipoModel item:PerInvolucrados){
+                                    boolean pass=true;
+                                    for (String equipoid:respts[4].split(","))
+                                    {
+                                        String[] value= equipoid.split(":");
+                                        if(item.CodPersona.equals(value[0])){
+                                            if(value[1].equals("-1")){
+                                                item.Estado="E";
+                                                pass=false;
+                                            }
+                                            else item.NroReferencia=null;
+                                            continue;
+                                        }
+                                    }
+                                    if(pass){
+                                        try {
+                                            StrPerInvolucrados.add((EquipoModel)item.clone());
+                                        } catch (CloneNotSupportedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                                if(GlobalVariables.Obserbacion.CodTipo.equals("TO03"))GlobalVariables.StrResponsables=StrPerInvolucrados;
+                                else GlobalVariables.StrAtendidos=StrPerInvolucrados;
+                            }
+                            //update Subdetalle
+                            if(respts[5].contains(":-1")){
+                                Actives.add(-1);
+                                Errores+="\nError al guardar: ";
+                            }
+                            // update Subdetalle
+                            if(!respts[5].equals("0"))
+                            {
+                                List<SubDetalleModel> SubDetalle=GlobalVariables.Obserbacion.CodTipo.equals("TO03")?GlobalVariables.SubDetalleTa:GlobalVariables.SubDetalleIS;
+                                List<SubDetalleModel> StrSubDetalle=new ArrayList<>();
+                                String ErrorSubDeta="";
+                                for(SubDetalleModel item:SubDetalle){
+                                    boolean pass=true;
+                                    for (String equipoid:respts[5].split(","))
+                                    {
+                                        String[] value= equipoid.split(":");
+                                        if(item.Codigo.equals(value[0])){
+                                            if(value[1].equals("-1")){
+                                                item.Estado="E";
+                                                String DescTipo= GlobalVariables.getDescripcion(GlobalVariables.SubDetalleTipoDesc,item.CodTipo);
+                                                if(!ErrorSubDeta.contains(DescTipo))ErrorSubDeta+=DescTipo+", ";
+                                                pass=false;
+                                            }
+                                            else item.Codigo=value[1];
+                                            continue;
+                                        }
+                                    }
+                                    if(pass){
+                                        try {
+                                            StrSubDetalle.add((SubDetalleModel)item.clone());
+                                        } catch (CloneNotSupportedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                }
+                                if(!ErrorSubDeta.equals(""))Errores+=ErrorSubDeta.substring(0,ErrorSubDeta.length()-2);
+
+                                if(GlobalVariables.Obserbacion.CodTipo.equals("TO03"))GlobalVariables.StrSubDetalleTa=StrSubDetalle;
+                                else GlobalVariables.StrSubDetalleIS=StrSubDetalle;
                             }
                         }
                     }else{

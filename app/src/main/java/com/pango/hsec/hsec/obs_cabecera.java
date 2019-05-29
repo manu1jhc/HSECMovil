@@ -157,7 +157,7 @@ public class obs_cabecera extends Fragment implements IActivity{
                 GlobalVariables.Obserbacion.Lugar="";
                 GlobalVariables.Obserbacion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
                 GlobalVariables.Obserbacion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
-               // GlobalVariables.Obserbacion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
+                GlobalVariables.Obserbacion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
                 GlobalVariables.Obserbacion.CodUbicacion="";
                 GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.Obserbacion);
             }
