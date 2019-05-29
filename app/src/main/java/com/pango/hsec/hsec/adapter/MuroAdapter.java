@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Space;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,13 +83,12 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
     }
     @Override
     public int getViewTypeCount() {
-        return 4;
+        return 5;
     }
 
     @Override
     public int getItemViewType(int position) {
         int tipo=5;
-        String identificador=data.get(position).Codigo.substring(0,3);
         switch (data.get(position).Codigo.substring(0,3)){
             case "OBS":
                 tipo=0;
@@ -101,6 +101,9 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                 break;
             case "OBF":
                 tipo=3;
+                break;
+            case "VER":
+                tipo=4;
                 break;
         }
         return tipo;    //objects[position].getType();
@@ -333,7 +336,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             });
 
             return rowView;
-        }else if(positem == 1) {  // inspecciones
+        }
+        else if(positem == 1) {  // inspecciones
             rowView = inflater.inflate(R.layout.public_inspeccion, null, true);
             ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
             ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
@@ -643,7 +647,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
 
 
             return rowView;
-        }else if(positem == 2) { // Noticias
+        }
+        else if(positem == 2) { // Noticias
             rowView = inflater.inflate(R.layout.public_noticias, null, true);
             ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
             ImageView img_preview = rowView.findViewById(R.id.img_preview);
@@ -734,7 +739,8 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             });
             return rowView;
 
-        }else if(positem == 3){//facilito
+        }
+        else if(positem == 3){//facilito
 
             rowView = inflater.inflate(R.layout.public_obsfacilito, null, true);
             ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
@@ -858,7 +864,6 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             fecha.setText(Obtenerfecha(tempFecha));
             tipo.setText(" / "+GlobalVariables.Obtener_Tipo(tempTipo));
 
-
             //area.setText(tempUbicacion);
 //        accion.setText(tempAccion);
             tx_det.setText(tempObservacion);
@@ -888,7 +893,6 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
                         .transform(new CircleTransform(getContext())) // applying the image transformer
                         .into(img_perfil);
             }
-
 
             if(tempImgDet==null){
                 img_det.setVisibility(View.GONE);
@@ -926,9 +930,10 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             });
 
             return rowView;
-        }else
-            {
-            return null;
+        }
+        else {
+            rowView = new Space(parent.getContext());
+            return rowView;
         }
     }
 
