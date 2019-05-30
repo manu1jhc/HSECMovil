@@ -2,12 +2,10 @@ package com.pango.hsec.hsec;
 
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.nfc.NdefMessage;
@@ -33,7 +31,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
-import android.webkit.URLUtil;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 
@@ -57,13 +54,13 @@ import android.widget.Toast;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.google.zxing.common.StringUtils;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
+import com.pango.hsec.hsec.Verificaciones.AddVerificacion;
 import com.pango.hsec.hsec.adapter.SearchAdapter;
 import com.pango.hsec.hsec.adapter.SpinnerAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
@@ -899,15 +896,20 @@ public class MainActivity extends AppCompatActivity
             ClickMenuConfiguracion();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
         }
-        /*
-        else if(id == R.id.nav_cerrar){
 
-            Save_status(false);
-            Save_Datalogin("","");
-            Intent intent=new Intent(this, Login.class);
-            startActivity(intent);
-            finish();
-        }*/
+        else if(id == R.id.nav_verificacion){
+
+            GlobalVariables.ObjectEditable=false;
+            Intent addVerificacion = new Intent(this, AddVerificacion.class);
+            addVerificacion.putExtra("codObs","VER000000XYZ");
+            startActivity(addVerificacion);
+
+//            Save_status(false);
+//            Save_Datalogin("","");
+//            Intent intent=new Intent(this, Login.class);
+//            startActivity(intent);
+//            finish();
+        }
         else if(id == R.id.nav_actualizar){
             final String urlPlay = "https://play.google.com/store/apps/details?id=com.pango.hsec.hsec";
 

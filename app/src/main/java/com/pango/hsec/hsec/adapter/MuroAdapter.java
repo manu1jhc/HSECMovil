@@ -89,6 +89,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
     @Override
     public int getItemViewType(int position) {
         int tipo=5;
+        String identificador=data.get(position).Codigo.substring(0,3);
         switch (data.get(position).Codigo.substring(0,3)){
             case "OBS":
                 tipo=0;

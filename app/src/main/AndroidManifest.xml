@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.pango.hsec.hsec">
-
     <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,11 +10,19 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.NFC"  android:required="false"/>
+    <uses-permission
+        android:name="android.permission.NFC"
+        android:required="false" />
 
-    <uses-feature android:name="android.hardware.nfc" android:required="false"/>
-    <uses-feature android:name="android.hardware.camera"  android:required="false"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"  android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.camera.autofocus"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -24,32 +31,37 @@
         android:roundIcon="@mipmap/ic_logo_hsec2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Verificaciones.AddVerificacion"
+            android:fitsSystemWindows="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+
+            ></activity>
         <activity android:name=".ui.PickerActivity" />
 
         <service
             android:name=".util.OfflineSpiceService"
-            android:exported="false" />
-
-        <!-- firebase service -->
+            android:exported="false" /> <!-- firebase service -->
         <activity
             android:name=".firebase.MessageShowActivity"
-            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
-            >
-        </activity>
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"></activity>
 
-        <service android:name=".firebase.MiFirebaseMessagingService" android:exported="false">
+        <service
+            android:name=".firebase.MiFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".firebase.MiFirebaseInstanceIdService" android:exported="false">
+        <service
+            android:name=".firebase.MiFirebaseInstanceIdService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".firebase.DeleteTokenService"
-            />
+        <service android:name=".firebase.DeleteTokenService" />
 
         <activity
             android:name=".MainActivity"
@@ -81,17 +93,16 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="ACT_COM_OBS" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".observacion_edit"
+            android:fitsSystemWindows="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:fitsSystemWindows="true"
-            />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Observaciones.Galeria_detalle"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -128,9 +139,10 @@
             android:name=".Inspecciones.ActInspeccionDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="ACT_COM_INS" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -153,9 +165,10 @@
             android:name=".Noticias.ActNoticiaDet"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
+            android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="ACT_COM_NOT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -238,6 +251,7 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
             <intent-filter>
                 <action android:name="ACT_COM_DET" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -271,24 +285,27 @@
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.nfc.action.ACTION_NDEF_DISCOVERED" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <data android:mimeType="application/vnd.facebook.places"/>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <data android:mimeType="application/vnd.facebook.places" />
             </intent-filter>
+
             <meta-data
                 android:name="android.nfc.action.TECH_DISCOVERED"
                 android:resource="@xml/nfc_filter_info" />
-           </activity>
-        <activity android:name=".Capacitacion.AsistentesCurso"
+        </activity>
+        <activity
+            android:name=".Capacitacion.AsistentesCurso"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Capacitacion.ParticipantesCurso"
+        <activity
+            android:name=".Capacitacion.ParticipantesCurso"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" ></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Ficha.CambiarPassword"
             android:screenOrientation="portrait"

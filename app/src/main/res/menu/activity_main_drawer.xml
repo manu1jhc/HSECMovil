@@ -17,6 +17,12 @@
             android:id="@+id/nav_inspeccion"
             android:icon="@drawable/ic_iinspeccion"
             android:title="Ingresar Inspección" />
+
+        <item
+            android:id="@+id/nav_verificacion"
+            android:icon="@drawable/ic_verified"
+            android:title="Ingresar Verificación" />
+
         <item
             android:id="@+id/nav_capacitacion"
             android:icon="@drawable/ic_curso_capacitaciones"

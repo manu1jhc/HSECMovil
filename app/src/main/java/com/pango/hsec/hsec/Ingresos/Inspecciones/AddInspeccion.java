@@ -877,6 +877,7 @@ public class AddInspeccion extends FragmentActivity implements IActivity,TabHost
     public void onPageSelected(int arg0) {
     }
 
+
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
 
