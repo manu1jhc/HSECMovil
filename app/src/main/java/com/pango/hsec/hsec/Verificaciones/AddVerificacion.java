@@ -16,6 +16,9 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.model.VerificacionModel;
+import com.pango.hsec.hsec.obs_archivos;
+import com.pango.hsec.hsec.obs_planaccion;
 import com.pango.hsec.hsec.util.ProgressRequestBody;
 
 import java.util.ArrayList;
@@ -53,7 +56,7 @@ public class AddVerificacion extends FragmentActivity implements IActivity, TabH
 
         initialiseTabHost();
 
-
+        reiniciadata();
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(pageAdapter);
@@ -62,6 +65,19 @@ public class AddVerificacion extends FragmentActivity implements IActivity, TabH
     }
 
 
+    public void reiniciadata(){
+        GlobalVariables.Verificacion= new VerificacionModel();
+        GlobalVariables.listaArchivos=new ArrayList<>();
+        GlobalVariables.listaGaleria=new ArrayList<>();
+        GlobalVariables.ObserbacionFile=null;
+        GlobalVariables.ObserbacionPlan=null;
+        GlobalVariables.Planes=new ArrayList<>();
+        //save data Inicial
+        GlobalVariables.StrObservacion=null;
+        GlobalVariables.StrPlanes=new ArrayList<>();
+        GlobalVariables.StrFiles=new ArrayList<>();
+
+    }
 
     // Method to add a TabHost
     private static void AddTab(AddVerificacion activity, TabHost tabHost,
@@ -112,12 +128,12 @@ public class AddVerificacion extends FragmentActivity implements IActivity, TabH
 
         // TODO Put here your Fragments
         FragmentVerificacion f1 = FragmentVerificacion.newInstance(codObs);
-//        FragmentAddParticipante f2 = FragmentAddParticipante.newInstance(codObs);
-//        FragmentAddObservacion f3 = FragmentAddObservacion.newInstance(codObs);
+        obs_archivos f2 = obs_archivos.newInstance(codObs);
+        obs_planaccion f3=obs_planaccion.newInstance(codObs);
 //
         fList.add(f1);
-//        fList.add(f2);
-//        fList.add(f3);
+        fList.add(f2);
+        fList.add(f3);
 
         return fList;
     }
@@ -129,8 +145,8 @@ public class AddVerificacion extends FragmentActivity implements IActivity, TabH
 
         // TODO Put here your Tabs
         AddVerificacion.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1").setIndicator("Verificación"));
-        //AddVerificacion.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
-
+        AddVerificacion.AddTab(this, this.mTabHost,this.mTabHost.newTabSpec("Tab4").setIndicator("Archivos"));
+        AddVerificacion.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab5").setIndicator("Plan Accion"));
 
 //        AddVerificacion.AddTab(this, this.mTabHost,
 //                this.mTabHost.newTabSpec("Tab3").setIndicator("Observaciones"));

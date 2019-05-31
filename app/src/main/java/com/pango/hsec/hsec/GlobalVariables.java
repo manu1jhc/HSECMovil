@@ -24,6 +24,7 @@ import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.SubDetalleModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
+import com.pango.hsec.hsec.model.VerificacionModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,9 @@ public class GlobalVariables  {
     //variables de notificaciones
     public static String NotCodigo,NotCodPersona,NotTipo;
 
+    //variables de Verificaciones
 
+    public static VerificacionModel Verificacion= new VerificacionModel();
     //variables de edicion Observaciones
     public static ObservacionModel Obserbacion= new ObservacionModel();
     public static ObsFacilitoModel FacilitoList= new ObsFacilitoModel();
@@ -48,8 +51,6 @@ public class GlobalVariables  {
     public static ObsDetalleModel ObserbacionDetalleIS= new ObsDetalleModel();
 
     //public static GetEquipoModel ObsDetPersonas = new GetEquipoModel();
-
-
 
     public static String StrObservacion,StrObsDetalle, StrObsDetalleIS;
 
