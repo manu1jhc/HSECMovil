@@ -331,9 +331,6 @@ public class obs_cabecera extends Fragment implements IActivity{
         return mView;
     }
 
-    public  void newObservacion(){
-
-    }
     public void updateCodigo(String Codigotxt){
         Codigo.setText(Codigotxt);
     }

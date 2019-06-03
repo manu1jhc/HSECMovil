@@ -66,7 +66,6 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     ArrayList<Integer> Actives=new ArrayList();
     String CodObservacion,CodTipo,Errores="";
     ConstraintLayout ll_bar_carga;
-    ActivityController activityTask;
     Call<String> request;
     Boolean cancel, enableSave=true;
     List<Fragment> fragments;

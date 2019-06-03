@@ -27,6 +27,7 @@ import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
+import com.pango.hsec.hsec.Verificaciones.AddVerificacion;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
@@ -156,12 +157,11 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
                     @Override
                     public void onClick(View v){
                         popupWindow.dismiss();
-//                        GlobalVariables.ObjectEditable=true;
-//                        Intent intent = new Intent(getContext(),observacion_edit.class);
-//                        intent.putExtra("codObs", data.get(position).Codigo);
-//                        intent.putExtra("tipoObs", data.get(position).Tipo);
-//                        intent.putExtra("posTab", 0);
-//                        v.getContext().startActivity(intent);
+                        GlobalVariables.ObjectEditable=true;
+                        Intent intent = new Intent(getContext(), AddVerificacion.class);
+                        intent.putExtra("codObs", data.get(position).Codigo);
+                        intent.putExtra("posTab", 0);
+                        v.getContext().startActivity(intent);
                     }
                 });
                 button2.setOnClickListener(new View.OnClickListener(){
@@ -178,12 +178,12 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Observacion?")
+                        alertDialog.setTitle("Desea Eliminar Verificación?")
                                 .setMessage(tempDetalle)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         popupWindow.dismiss();
-                                        FragVer.DeleteObject("Observaciones/Delete/"+ data.get(position).Codigo,position+2);
+                                        FragVer.DeleteObject("Verificacion/Delete/"+ data.get(position).Codigo,position+2);
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -221,7 +221,7 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
         String tipo_ejm=GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo);
         String area_ejm=GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
 
-        tipo.setText(" / "+GlobalVariables.getDescripcion(GlobalVariables.Tipo_ver, tempTipo)+" / "+GlobalVariables.getDescripcion(GlobalVariables.Area_obs, tempArea));
+        tipo.setText(" / "+GlobalVariables.getDescripcion(GlobalVariables.Tipo_Ver, tempTipo)+" / "+GlobalVariables.getDescripcion(GlobalVariables.Area_obs, tempArea));
         //area.setText(GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea));
         tx_det.setText(tempDetalle);
 

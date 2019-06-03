@@ -57,11 +57,6 @@ public class FragmentCabVerificacion extends Fragment implements IActivity {
         }else {
             success(jsonVerificaccion,"");
         }
-
-
-
-
-
         return mView;
     }
 
@@ -73,9 +68,6 @@ public class FragmentCabVerificacion extends Fragment implements IActivity {
         Gson gson = new Gson();
         VerificacionModel getUsuarioModel = gson.fromJson(data, VerificacionModel.class);
         String[] parts = new String[0];
-
-
-
 
         if(getUsuarioModel.CodUbicacion!=null) {
             parts = getUsuarioModel.CodUbicacion.split("\\.");

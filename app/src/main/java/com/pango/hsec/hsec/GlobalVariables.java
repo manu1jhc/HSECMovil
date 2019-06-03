@@ -43,6 +43,8 @@ public class GlobalVariables  {
     //variables de Verificaciones
 
     public static VerificacionModel Verificacion= new VerificacionModel();
+    public static String StrVerificacion;
+
     //variables de edicion Observaciones
     public static ObservacionModel Obserbacion= new ObservacionModel();
     public static ObsFacilitoModel FacilitoList= new ObsFacilitoModel();
@@ -267,8 +269,6 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Area_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs2 = new ArrayList<>();
-    public static  ArrayList<Maestro> Tipo_ver = new ArrayList<>();
-
 
     public static  ArrayList<Maestro> Gerencia = new ArrayList<>();
     public static  ArrayList<Maestro> SuperIntendencia = new ArrayList<>();
@@ -297,6 +297,9 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Condicion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Estado_obs = new ArrayList<>();
     public static  ArrayList<Maestro> StopWork_obs = new ArrayList<>();
+
+    //Verificacion Tipo
+    public static  ArrayList<Maestro> Tipo_Ver = new ArrayList<>();
 
     //public static  ArrayList<Maestro> Actv_Relacionada = new ArrayList<>();
     public static  ArrayList<Maestro> Aspecto_Obs = new ArrayList<>();
@@ -364,6 +367,7 @@ public class GlobalVariables  {
         Gerencia.add(Select);
         Tipo_insp.add(Select);
         Tipo_Plan.add(Select);
+        Tipo_Ver.add(Select);
     }
     public static void loadObs_Detalles(){
 
@@ -471,8 +475,9 @@ public class GlobalVariables  {
         StopWork_obs.add(new Maestro("SW01","SI"));
         StopWork_obs.add(new Maestro("SW02","NO"));
 
-        Tipo_ver.add(new Maestro("TV01","IPERC Continuo"));
-        Tipo_ver.add(new Maestro("TV02","PTAR"));
+        Tipo_Ver.add(new Maestro("TV01","IPERC Continuo"));
+        Tipo_Ver.add(new Maestro("TV02","PTAR"));
+
 
 //        if (aspectoModel.get(i).Descripcion.equals("R001")){
 //            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_correcto);

@@ -55,6 +55,15 @@ public interface WebServiceAPI {
     Call<String> actualizarObservacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody detalle, @Part("3") RequestBody planesDelete, @Part("4") RequestBody filesDelete, @Part("5") RequestBody codObservacion,@Part("6") RequestBody Involucrados, @Part("7") RequestBody subDetalle, @Part List<MultipartBody.Part> files);
 
     @Multipart
+    @POST("Verificacion/Insertar")
+    Call<String> insertarVerificacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody planes, @Part List<MultipartBody.Part> files);
+
+    @Multipart
+    @POST("Verificacion/Actualizar")
+    Call<String> actualizarVerificacion(@Header("Authorization") String token, @Part("1") RequestBody cabecera,  @Part("2") RequestBody planesDelete, @Part("3") RequestBody filesDelete, @Part("4") RequestBody CodVerificacion, @Part List<MultipartBody.Part> files);
+
+
+    @Multipart
     @POST("Inspecciones/InsertarObservacion")
     Call<String> insertarInspeccionObs(@Header("Authorization") String token, @Part("1") RequestBody cabecera, @Part("2") RequestBody planes, @Part List<MultipartBody.Part> files);
 
