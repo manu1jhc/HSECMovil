@@ -9,9 +9,9 @@ public class VerificacionModel {
     public String Fecha;
     public String Gerencia;
     public String Superint;
-    public String CodUbicacion;
+    public String CodUbicacion;//Elemperpage
     public String Lugar; //Pagenumber
-    public String CodTipo;//Elemperpage
+    public String CodTipo;
 
     public String StopWork;
     public String Observacion;

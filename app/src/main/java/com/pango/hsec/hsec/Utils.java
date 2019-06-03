@@ -31,6 +31,8 @@ import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
+import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.model.VerificacionModel;
 import com.pango.hsec.hsec.util.Compressor;
 import com.pango.hsec.hsec.utilitario.MySSLSocketFactory;
 
@@ -165,6 +167,81 @@ public class Utils {
                 return "";
         }
     }
+
+
+    public static String getListVer(VerificacionModel observacionModel, String s) {
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("h:mm a");
+        Date temp= null;
+        try {
+            temp= formatoInicial.parse(observacionModel.Fecha);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String cad;
+        switch (s){
+            case "CodObservacion":
+                return observacionModel.CodVerificacion;
+            case "CodAreaHSEC":
+                //return observacionModel.CodAreaHSEC;
+                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,observacionModel.CodAreaHSEC);
+
+            case "CodNivelRiesgo":
+                //return observacionModel.CodNivelRiesgo;
+                return GlobalVariables.getDescripcion(GlobalVariables.NivelRiesgo_obs,observacionModel.CodNivelRiesgo);
+
+            case "ObservadoPor":
+                return observacionModel.ObservadoPor;
+
+            case "Fecha":
+                return formatoRender.format(temp);
+
+            case "Hora":
+                return formatoHora.format(temp).replace(". ","").replace(".","");
+            case "Gerencia":
+
+                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,observacionModel.Gerencia).trim().replace("=","");
+
+            case "Superint":
+                //return observacionModel.Superint;
+
+                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,observacionModel.Gerencia+"."+observacionModel.Superint).trim().replace("=","");
+
+            case "CodUbicacion":
+                String[] parts = new String[0];
+                cad=observacionModel.CodUbicacion;
+                if (cad==null) {
+                    //parts[0]=("");
+                    return "";
+                }else {
+                    parts = cad.split("\\.");
+                    String a = parts[0];
+                    return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
+                }
+
+            case "CodSubUbicacion":
+                cad=observacionModel.CodUbicacion;
+                String[] parts2=cad.split("\\.");
+                String b = parts2[0]+"."+parts2[1];
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
+            case "UbicacionEsp":
+                cad=observacionModel.CodUbicacion;
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
+            case "Lugar":
+                return observacionModel.Lugar;
+            case "CodTipo":
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,observacionModel.CodTipo);
+
+            default:
+                return "";
+        }
+    }
+
+
+
+
+
 
     public static String getDataIzq(ObservacionModel observacionModel, String s) {
        /* DateFormat formatoInicial = new SimpleDateFormat("yyyyMMdd'T'HH:mm:ss");
@@ -555,8 +632,10 @@ public class Utils {
     public static ObservacionModel observacionModel=new ObservacionModel();
     public static ObsFacilitoModel observacionFacilitoModel=new ObsFacilitoModel();
     public static InspeccionModel inspeccionModel=new InspeccionModel();
-
     public static NoticiasModel noticiasModel=new NoticiasModel();
+
+    public static VerificacionModel verificacionModel=new VerificacionModel();
+
 
     public static String fecha_inicio="";
 

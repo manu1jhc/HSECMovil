@@ -169,6 +169,7 @@ public class GlobalVariables  {
     public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
     public static ArrayList<PublicacionModel> listaGlobalInspeccion=new ArrayList<>();//data del fragment de inspecciones
     public static ArrayList<PublicacionModel> listaGlobalNoticias=new ArrayList<>();//data del fragment de inspecciones
+    public static ArrayList<PublicacionModel> listaGlobalVerificaciones=new ArrayList<>();//data del fragment de inspecciones
 
     public static ArrayList<ObsFacilitoMinModel> listaGlobalFacilito= new  ArrayList<>(); //data del fragment de Obs Facilito seguimiento
 
@@ -176,11 +177,14 @@ public class GlobalVariables  {
     public static Parcelable stateObs;
     public static Parcelable stateInsp;
     public static Parcelable stateFac;
+    public static Parcelable stateVer;
 
     public static boolean passHome=false;
     public static boolean passObs=false;
     public static boolean passInsp=false;
     public static boolean passFac=false;
+    public static boolean passVer=false;
+
 
     public static View view_fragment;
     public static boolean isFragment=false;
@@ -263,6 +267,8 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Area_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs2 = new ArrayList<>();
+    public static  ArrayList<Maestro> Tipo_ver = new ArrayList<>();
+
 
     public static  ArrayList<Maestro> Gerencia = new ArrayList<>();
     public static  ArrayList<Maestro> SuperIntendencia = new ArrayList<>();
@@ -465,6 +471,8 @@ public class GlobalVariables  {
         StopWork_obs.add(new Maestro("SW01","SI"));
         StopWork_obs.add(new Maestro("SW02","NO"));
 
+        Tipo_ver.add(new Maestro("TV01","IPERC Continuo"));
+        Tipo_ver.add(new Maestro("TV02","PTAR"));
 
 //        if (aspectoModel.get(i).Descripcion.equals("R001")){
 //            aspectoViewHolder.opciones.setImageResource(R.drawable.ic_correcto);

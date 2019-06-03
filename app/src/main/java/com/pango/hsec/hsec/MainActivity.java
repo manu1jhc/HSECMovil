@@ -60,6 +60,7 @@ import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
+import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
 import com.pango.hsec.hsec.Verificaciones.AddVerificacion;
 import com.pango.hsec.hsec.adapter.SearchAdapter;
 import com.pango.hsec.hsec.adapter.SpinnerAdapter;
@@ -83,6 +84,7 @@ import layout.FragmentObservaciones;
 import layout.FragmentPlanPendiente;
 import layout.FragmentAvanzado;
 import layout.FragmentNoticias;
+import layout.FragmentVerificaciones;
 
 import static android.content.ContentValues.TAG;
 
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity
         FragmentPlanPendiente.OnFragmentInteractionListener,
         FragmentObsFacilito.OnFragmentInteractionListener,
         FragmentNoticias.OnFragmentInteractionListener,
+        FragmentVerificaciones.OnFragmentInteractionListener,
         SearchView.OnQueryTextListener
 {
 
@@ -148,6 +151,8 @@ public class MainActivity extends AppCompatActivity
     public static int countNoticia;
     public static boolean flag_noticia=false;
 
+    public static int countVerificacion;
+    public static boolean flag_verificacion=false;
 
     String TipoSearch;
     String txtSearch;
@@ -355,6 +360,14 @@ public class MainActivity extends AppCompatActivity
                         //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                         startActivity(intent);
                         break;
+                    case "VER":
+                        intent = new Intent(MainActivity.this, ActVerificacionDet.class);
+                        intent.putExtra("codObs",Codigo);
+                        intent.putExtra("posTab",0);
+                        //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                        startActivity(intent);
+
+                        break;
                 }
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
             }
@@ -483,7 +496,13 @@ public class MainActivity extends AppCompatActivity
                             FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(4);
                             temp.Filtro_Noticias();
                             popupWindow.dismiss();
+                        }/*  else if(lastTag.equals("N"))//validaciones
+                        {
+                            FragmentVerificaciones temp =(FragmentVerificaciones)GlobalVariables.fragmentSave.get(5);
+                            temp.Filtro_Noticias();
+                            popupWindow.dismiss();
                         }
+                       */
 
                     }
                 });
@@ -533,6 +552,7 @@ public class MainActivity extends AppCompatActivity
                 GlobalVariables.listaGlobalNoticias.clear();
                 GlobalVariables.listaGlobalFacilito.clear();
                 GlobalVariables.listaPlanMin.clear();
+                GlobalVariables.listaGlobalVerificaciones.clear();
 
                 GlobalVariables.token_auth="";
 
@@ -571,7 +591,8 @@ public class MainActivity extends AppCompatActivity
         Configuracion,
         Contactenos,
         PlanPendiente,
-        Noticias
+        Noticias,
+        Verificaciones
     }
 
     @Override
@@ -592,6 +613,7 @@ public class MainActivity extends AppCompatActivity
         GlobalVariables.fragmentSave.push(new FragmentObsFacilito()); //2
         GlobalVariables.fragmentSave.push(new FragmentPlanPendiente()); //3
         GlobalVariables.fragmentSave.push(new FragmentNoticias()); //4
+        GlobalVariables.fragmentSave.push(new FragmentVerificaciones()); //5
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if(nfcAdapter!=null)existNFC=true;
@@ -602,6 +624,8 @@ public class MainActivity extends AppCompatActivity
         spdatasearch.add(new Maestro(R.drawable.ic_iobservacion,"2","Observación"));
         spdatasearch.add(new Maestro(R.drawable.ic_iinspeccion,"3","Inspección"));
         spdatasearch.add(new Maestro(R.drawable.ic_inoticia,"4","Noticia"));
+        spdatasearch.add(new Maestro(R.drawable.ic_verified,"5","Verificaciones"));
+
 
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
         FirebaseMessaging.getInstance().subscribeToTopic("/topics/noticias");
@@ -726,6 +750,18 @@ public class MainActivity extends AppCompatActivity
                     else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
                     else passdismis=false;
                 }
+
+                else if(lastTag.equals("V")) // validaciones
+                {
+                    FragmentVerificaciones temp =(FragmentVerificaciones)GlobalVariables.fragmentSave.get(5);
+                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
+                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
+                    //else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();  //adapter
+                    else passdismis=false;
+                }
+
+
+
 
 
                 else passdismis=false;
@@ -910,6 +946,14 @@ public class MainActivity extends AppCompatActivity
 //            startActivity(intent);
 //            finish();
         }
+        else if (id == R.id.nav_verificaciones){
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickVerificaciones();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+        }
+
+
         else if(id == R.id.nav_actualizar){
             final String urlPlay = "https://play.google.com/store/apps/details?id=com.pango.hsec.hsec";
 
@@ -1039,7 +1083,11 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.Noticias);
 
     }
+    private void ClickVerificaciones() {
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.Verificaciones);
 
+    }
     public void ClickPendientes(){
         uncheckItemsMenu();
         ChangeFragment(NavigationFragment.PlanPendiente);
@@ -1049,6 +1097,9 @@ public class MainActivity extends AppCompatActivity
         uncheckItemsMenu();
         ChangeFragment(NavigationFragment.Capacitaciones);
     }
+
+
+
     public void uncheckItemsMenu() {
 
         try {
@@ -1096,6 +1147,7 @@ public class MainActivity extends AppCompatActivity
             case PlanPendiente: fragment = new FragmentPlanPendiente();  Tipo="H";Title="Planes de acción"; break;
             case Capacitaciones: fragment = new FragmentCapacitaciones(); Tipo="J";  Title="Capacitaciones"; break;
             case Noticias: fragment = new FragmentNoticias();  Tipo="N";Title="Noticias"; break;
+            case Verificaciones: fragment = new FragmentVerificaciones();  Tipo="V";Title="Verificaciones"; break;
 
 
         }

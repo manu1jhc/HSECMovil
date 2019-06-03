@@ -28,6 +28,12 @@
             android:icon="@drawable/ic_curso_capacitaciones"
             android:visible="false"
             android:title="Control de Capacitaciones" />
+
+        <item
+            android:id="@+id/nav_verificaciones"
+            android:icon="@drawable/ic_verified"
+            android:title="Verificaciones" />
+
         <item
             android:id="@+id/nav_noticias"
             android:icon="@drawable/ic_inoticia"
