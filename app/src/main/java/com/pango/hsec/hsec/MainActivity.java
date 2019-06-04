@@ -496,13 +496,14 @@ public class MainActivity extends AppCompatActivity
                             FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(4);
                             temp.Filtro_Noticias();
                             popupWindow.dismiss();
-                        }/*  else if(lastTag.equals("N"))//validaciones
+                        }
+                        else if(lastTag.equals("V"))//Verificaciones
                         {
                             FragmentVerificaciones temp =(FragmentVerificaciones)GlobalVariables.fragmentSave.get(5);
                             temp.Filtro_Noticias();
                             popupWindow.dismiss();
                         }
-                       */
+
 
                     }
                 });
@@ -1154,7 +1155,7 @@ public class MainActivity extends AppCompatActivity
         lastTag=Tipo;
         // button Search
         Title_txt.setText(Title);
-        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I")||Tipo.equals("N")||Tipo.equals("E"))
+        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I")||Tipo.equals("N")||Tipo.equals("E")||Tipo.equals("V"))
         {
             buscar.setVisibility(View.VISIBLE);
             if(Tipo.equals("E"))

@@ -555,7 +555,9 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
 
 
 
+public void Filtro_Noticias(){
 
+}
 
 
 
