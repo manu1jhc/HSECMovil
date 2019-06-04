@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
+import com.pango.hsec.hsec.Ingresos.Inspecciones.ActObsInspEdit;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
@@ -117,6 +118,8 @@ public class AddVerificacion extends FragmentActivity implements IActivity, TabH
         GlobalVariables.StrVerificacion=null;
         GlobalVariables.StrPlanes=new ArrayList<>();
         GlobalVariables.StrFiles=new ArrayList<>();
+        //inicialice options
+        ActObsInspEdit.editar=true;
 
     }
 

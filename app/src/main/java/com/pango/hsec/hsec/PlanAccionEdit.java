@@ -77,12 +77,16 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         icon_tipo=findViewById(R.id.icon_tipo);
 
         if(edit){
-            if(GlobalVariables.ObjectEditable&&Plan.CodTabla.equals("TOBS")){
+            if(Plan.CodTabla.equals("TOBS")){
                 title="Editar Obs/Plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_iobservacion);
-            }else if(GlobalVariables.ObjectEditable&&Plan.CodTabla.equals("TINS")){
+            }else if(Plan.CodTabla.equals("TINS")){
                 title="Editar Insp/Obs/Plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_iinspeccion);
+
+            }else if(Plan.CodTabla.equals("TVER")){
+                title="Editar Verific/Plan de acción";
+                icon_tipo.setImageResource(R.drawable.ic_verified);
 
             }else {
                 title="Editar plan de acción";
@@ -98,10 +102,15 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
                 title="Nuevo Insp/Obs/Plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_iinspeccion);
 
-            }/*else {
+            }
+            else if(Plan.CodTabla.equals("TVER")){
+                title="Nueva Verific/Plan de acción";
+                icon_tipo.setImageResource(R.drawable.ic_verified);
+
+            }else {
                 title="Nuevo plan de acción";
                 icon_tipo.setImageResource(R.drawable.ic_pendiente);
-            }*/
+            }
         }
         textView.setText(title);
         myCalendar = Calendar.getInstance();
@@ -238,17 +247,6 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             setData();
         }
         else{
-
-            Date actual = myCalendar.getTime();
-
-            //btnFechaInicio.setText(dt.format(actual));
-            //FechaSolic.setText(formatoRender.format(actual));
-            Plan.FechaSolicitud=df.format(actual);
-            /*LinearLayoutManager horizontalManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-            listView.setLayoutManager(horizontalManager);
-            listPersonAdapter = new ListPersonEditAdapter(this, ListResponsables);
-            listView.setAdapter(listPersonAdapter);*/
-
             setData();
         }
     }
@@ -399,12 +397,13 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
 
     public void outPlanAccion(){
         String StrNewPlan="";
-        if(!GlobalVariables.ObjectEditable)
+        if(!edit)
         {
-            Plan.CodEstadoAccion="01";
+           // Plan.CodEstadoAccion="01";
             Plan.CodResponsables="";
             Plan.DesPlanAccion="";
             Plan.Responsables="";
+            Plan.FechaSolicitud=null;
             StrPlan=gson.toJson(Plan);
         }
             Plan.CodActiRelacionada= ((Maestro) spActRelacionada.getSelectedItem()).CodTipo;
@@ -458,7 +457,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
         }
         else {
 
-            if(!GlobalVariables.ObjectEditable) finish();
+            if(!GlobalVariables.ObjectEditable || !edit) finish();
             else {
                 Intent intent = getIntent();
                 intent.putExtra("planaccion",gson.toJson(Plan));

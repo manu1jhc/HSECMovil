@@ -41,7 +41,7 @@ public class RespAdapter extends RecyclerView.Adapter<RespAdapter.RespViewHolder
         //personaViewHolder.Nombre.setText(em.Nombres);
         //personaViewHolder.area.setText(em.Cargo);
 
-        String []nombreCargo=responsable[position].split(":");
+        String []nombreCargo=responsable[position].split(":",-1);
 
         RespViewHolder.part_nombre.setText(nombreCargo[0]);
         RespViewHolder.part_area.setText(nombreCargo[1]);

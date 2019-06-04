@@ -417,6 +417,7 @@ public class GlobalVariables  {
         Referencia_Plan.add(new Maestro("07","Reuniones"));
         Referencia_Plan.add(new Maestro("08","Comites"));
         Referencia_Plan.add(new Maestro("09","Capacitaciones"));
+        Referencia_Plan.add(new Maestro("10","Verificaciones"));
 
         Estado_Plan.add(new Maestro("01","Pendiente"));
         Estado_Plan.add(new Maestro("02","Atendido"));

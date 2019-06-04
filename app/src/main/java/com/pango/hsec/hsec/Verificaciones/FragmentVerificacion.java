@@ -450,7 +450,7 @@ public class FragmentVerificacion extends Fragment implements IActivity {
         if(GlobalVariables.Verificacion.ObservadoPor!=null)txtObservado.setText(GlobalVariables.Verificacion.ObservadoPor);
         if(GlobalVariables.Verificacion.Lugar!=null)txtLugar.setText(GlobalVariables.Verificacion.Lugar);
 
-        if(!StringUtils.isEmpty(GlobalVariables.Verificacion.CodTipo))spinnerTipoObs.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_obs,GlobalVariables.Verificacion.CodTipo));
+        if(!StringUtils.isEmpty(GlobalVariables.Verificacion.CodTipo))spinnerTipoObs.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_Ver,GlobalVariables.Verificacion.CodTipo));
         if(!StringUtils.isEmpty(GlobalVariables.Verificacion.CodAreaHSEC))spinnerArea.setSelection(GlobalVariables.indexOf(GlobalVariables.Area_obs,GlobalVariables.Verificacion.CodAreaHSEC));
         if(!StringUtils.isEmpty(GlobalVariables.Verificacion.CodNivelRiesgo))spinnerNivel.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,GlobalVariables.Verificacion.CodNivelRiesgo));
 

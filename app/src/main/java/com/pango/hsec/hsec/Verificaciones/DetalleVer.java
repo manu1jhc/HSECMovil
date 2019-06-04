@@ -25,6 +25,7 @@ public class DetalleVer extends Fragment{
     private static View mView;
     Spinner spinneStopWork;
     EditText txtObservacion,txtAccion;
+    boolean passSetdata=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,7 +87,7 @@ public class DetalleVer extends Fragment{
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_stopwork) ).getSelectedItem();
-                GlobalVariables.Verificacion.StopWork=Tipo.CodTipo;
+                if(passSetdata)GlobalVariables.Verificacion.StopWork=Tipo.CodTipo;
             }
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
@@ -96,6 +97,7 @@ public class DetalleVer extends Fragment{
     }
 
     public void setdata(){
+        passSetdata=true;
         if(!StringUtils.isEmpty(GlobalVariables.Verificacion.Observacion))txtObservacion.setText(GlobalVariables.Verificacion.Observacion);
         if(!StringUtils.isEmpty(GlobalVariables.Verificacion.Accion))txtAccion.setText(GlobalVariables.Verificacion.Accion);
         if(!StringUtils.isEmpty(GlobalVariables.Verificacion.StopWork))spinneStopWork.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.Verificacion.StopWork));

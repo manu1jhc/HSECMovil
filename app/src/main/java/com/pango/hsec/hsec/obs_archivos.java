@@ -108,12 +108,6 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
 
         mView = inflater.inflate(R.layout.fragment_obs_archivos,  container, false);
         String codigo_obs = getArguments().getString("bString");
-       /* if(position==0)position = getArguments().getInt("bPos");
-        if (position==2){
-            position=1;
-            loadImage();
-        }*/
-
         ImageButton btnFotos=(ImageButton) mView.findViewById(R.id.btn_addfotos);
         ImageButton btnFiles=(ImageButton) mView.findViewById(R.id.btn_addfiles);
 
@@ -133,10 +127,6 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
             }
             else setdata();
         }
-       /* else if(GlobalVariables.editar_list){////editar galeria no almacenada en el servidor
-
-            setdata();
-        }*/
         else // new Obserbacion
         {
             if(GlobalVariables.ObserbacionFile==null){

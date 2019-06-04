@@ -29,6 +29,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 public class obs_planaccion extends Fragment implements IActivity{
@@ -37,6 +38,9 @@ public class obs_planaccion extends Fragment implements IActivity{
     private RecyclerView listPlan;
     public PlanEditAdapter listViewAdapter;
     private  Gson gson;
+    private String Tipo;
+    SimpleDateFormat df;
+    Calendar myCalendar;
     public static final com.pango.hsec.hsec.obs_planaccion newInstance(String sampleText) {
         obs_planaccion f = new obs_planaccion();
 
@@ -57,6 +61,10 @@ public class obs_planaccion extends Fragment implements IActivity{
         listPlan = (RecyclerView) mView.findViewById(R.id.list_plan);
 
         String codigo_obs = getArguments().getString("bString");
+        Tipo= codigo_obs.substring(0,3);
+        df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        myCalendar = Calendar.getInstance();
+
         if(GlobalVariables.ObjectEditable && ActObsInspEdit.editar){ // load data of server
             if(GlobalVariables.ObserbacionPlan==null)
             {
@@ -91,8 +99,9 @@ public class obs_planaccion extends Fragment implements IActivity{
                 Intent i = new Intent(getActivity(), PlanAccionEdit.class);
                PlanModel Plan= new PlanModel();
                 Gson gson = new Gson();
-
-                if(GlobalVariables.obsInspDetModel==null){
+                Date actual = myCalendar.getTime();
+                Plan.FechaSolicitud=df.format(actual);
+                if(Tipo.equals("OBS")){
                     Plan.CodTabla="TOBS";
                     Plan.CodReferencia="01";
                     Plan.SolicitadoPor=GlobalVariables.Obserbacion.ObservadoPor;
@@ -100,6 +109,15 @@ public class obs_planaccion extends Fragment implements IActivity{
                     Plan.CodAreaHSEC=GlobalVariables.Obserbacion.CodAreaHSEC;
                     Plan.CodNivelRiesgo=GlobalVariables.Obserbacion.CodNivelRiesgo;
                     Plan.NroDocReferencia=GlobalVariables.ObserbacionPlan.equals("OBS000000XYZ")?null:GlobalVariables.ObserbacionPlan;
+                }
+                else if(Tipo.equals("VER")){
+                    Plan.CodTabla="TVER";
+                    Plan.CodReferencia="10";
+                    Plan.SolicitadoPor=GlobalVariables.Verificacion.ObservadoPor;
+                    Plan.CodSolicitadoPor=GlobalVariables.Verificacion.CodVerificacionPor;
+                    Plan.CodAreaHSEC=GlobalVariables.Verificacion.CodAreaHSEC;
+                    Plan.CodNivelRiesgo=GlobalVariables.Verificacion.CodNivelRiesgo;
+                    Plan.NroDocReferencia=GlobalVariables.ObserbacionPlan.equals("VER000000XYZ")?null:GlobalVariables.ObserbacionPlan;
                 }
                 else{
                     UsuarioModel UsuarioLogeado = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
