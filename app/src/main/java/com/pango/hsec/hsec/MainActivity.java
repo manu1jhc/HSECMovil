@@ -503,8 +503,6 @@ public class MainActivity extends AppCompatActivity
                             temp.Filtro_Verificaciones();
                             popupWindow.dismiss();
                         }
-
-
                     }
                 });
 
@@ -566,7 +564,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
         alertDialog.show();
-
     }
 
     public void FichaPersonal(View view) {

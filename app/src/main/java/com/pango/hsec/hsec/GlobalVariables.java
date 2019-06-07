@@ -558,6 +558,7 @@ public class GlobalVariables  {
         Tablas.add(new Maestro("TINS","Inspecciones"));
         Tablas.add(new Maestro("TIPE","IPERC"));
         Tablas.add(new Maestro("TOBS","Observaciones"));
+        Tablas.add(new Maestro("TVER","Verificaciones"));
         Tablas.add(new Maestro("TREU","Reuniones"));
         Tablas.add(new Maestro("TSIM","Simulacro"));
         Tablas.add(new Maestro("TYOS","Yo Aseguro"));
