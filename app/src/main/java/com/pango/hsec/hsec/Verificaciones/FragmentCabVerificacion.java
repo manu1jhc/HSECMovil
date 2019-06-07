@@ -31,7 +31,7 @@ public class FragmentCabVerificacion extends Fragment implements IActivity {
     private View mView;
     String codVer;
     String url;
-    String jsonVerificaccion="";
+    //String jsonVerificaccion="";
 
     public static FragmentCabVerificacion newInstance(String sampleText) {
 
@@ -50,12 +50,12 @@ public class FragmentCabVerificacion extends Fragment implements IActivity {
         codVer=getArguments().getString("bString");
         GlobalVariables.view_fragment=mView;
         url= GlobalVariables.Url_base+"Verificacion/Get/"+ codVer;
-        if(jsonVerificaccion.isEmpty()) {
+        if(GlobalVariables.jsonVerificaccion.isEmpty()) {
             GlobalVariables.istabs=true;
             final ActivityController obj = new ActivityController("get", url, FragmentCabVerificacion.this,getActivity());
             obj.execute("");
         }else {
-            success(jsonVerificaccion,"");
+            success(GlobalVariables.jsonVerificaccion,"");
         }
         return mView;
     }
@@ -64,7 +64,7 @@ public class FragmentCabVerificacion extends Fragment implements IActivity {
     @Override
     public void success(String data, String Tipo) {
 
-        jsonVerificaccion =data;
+        GlobalVariables.jsonVerificaccion =data;
         Gson gson = new Gson();
         VerificacionModel getUsuarioModel = gson.fromJson(data, VerificacionModel.class);
         String[] parts = new String[0];

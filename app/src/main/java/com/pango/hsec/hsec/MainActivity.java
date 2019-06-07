@@ -500,7 +500,7 @@ public class MainActivity extends AppCompatActivity
                         else if(lastTag.equals("V"))//Verificaciones
                         {
                             FragmentVerificaciones temp =(FragmentVerificaciones)GlobalVariables.fragmentSave.get(5);
-                            temp.Filtro_Noticias();
+                            temp.Filtro_Verificaciones();
                             popupWindow.dismiss();
                         }
 

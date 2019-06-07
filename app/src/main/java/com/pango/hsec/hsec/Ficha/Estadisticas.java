@@ -129,7 +129,7 @@ public class Estadisticas extends AppCompatActivity implements IActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String mes_position;
                 int CodSelected=Integer.parseInt(getEstadisticaModel.Data.get(position).Codigo);
-               if(CodSelected <3){ //inspecciones, Observacion, planes, porte facilito
+               if(CodSelected <3 || CodSelected==12){ //inspecciones, Observacion, planes, porte facilito
 
                     if(mes_pos.isEmpty()){
                         mes_position="0";

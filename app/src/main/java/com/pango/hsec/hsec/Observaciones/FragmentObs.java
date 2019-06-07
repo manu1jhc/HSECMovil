@@ -28,7 +28,7 @@ public class FragmentObs extends Fragment implements IActivity {
 	String[] obsDetIzq={"Código","Área","Nivel de riesgo","Observado Por","Fecha","Hora","Gerencia","Superintendencia","Ubicación","Sub Ubicación","Ubicación Específica","Lugar","Tipo"};
 	String[] obsDetcab2;
 	String[] obsDetIzq2;
-	String jsonObservacion="";
+	String jsonObservacion = "";
 	private View mView;
 	String codObs;
 

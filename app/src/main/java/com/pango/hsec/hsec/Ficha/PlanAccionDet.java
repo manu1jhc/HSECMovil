@@ -27,6 +27,7 @@ import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.Observaciones.FragmentPlan;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
 import com.pango.hsec.hsec.adapter.AccionMejoraAdapter;
 import com.pango.hsec.hsec.adapter.PersonaAdapter;
 import com.pango.hsec.hsec.adapter.PlandetAdapter;
@@ -97,7 +98,11 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
         {
             imageView20.setImageResource(R.drawable.ic_iinspeccion);
             textView.setText("Insp/Obs/Plan de acción");
-        }else{//proviene del listado de plan de accion
+        }else if(proviene==3){
+            imageView20.setImageResource(R.drawable.ic_iinspeccion);
+            textView.setText("Verificación/Plan de acción");
+
+        }else {//proviene del listado de plan de accion
             imageView20.setImageResource(R.drawable.ic_4_registro);
             textView.setText("Plan de acción");
         }
@@ -131,6 +136,13 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
                     Intent intent = new Intent(PlanAccionDet.this, ActInspeccionDet.class);
                     intent.putExtra("codObs",planModel.NroDocReferencia);
                     intent.putExtra("posTab",0);
+                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                    startActivity(intent);
+                }else if(planModel.NroDocReferencia.substring(0,3).equals("VER")){
+                    Intent intent = new Intent(PlanAccionDet.this, ActVerificacionDet.class);
+                    intent.putExtra("codVer",planModel.NroDocReferencia);
+                    intent.putExtra("posTab",0);
+                    intent.putExtra("tipoVer",planModel.CodTipoObs);
                     //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                     startActivity(intent);
                 }
@@ -206,6 +218,9 @@ public class PlanAccionDet extends AppCompatActivity implements IActivity {
 
             } else if (planModel.NroDocReferencia.substring(0, 3).equals("INS")) {
                 ver_obs_insp.setText("Ver Inspección");
+                ver_obs_insp.setVisibility(View.VISIBLE);
+            }else if (planModel.NroDocReferencia.substring(0, 3).equals("VER")) {
+                ver_obs_insp.setText("Ver Verificación");
                 ver_obs_insp.setVisibility(View.VISIBLE);
             }
 

@@ -112,7 +112,7 @@ public class obs_planaccion extends Fragment implements IActivity{
                 }
                 else if(Tipo.equals("VER")){
                     Plan.CodTabla="TVER";
-                    Plan.CodReferencia="10";
+                    Plan.CodReferencia="12";
                     Plan.SolicitadoPor=GlobalVariables.Verificacion.ObservadoPor;
                     Plan.CodSolicitadoPor=GlobalVariables.Verificacion.CodVerificacionPor;
                     Plan.CodAreaHSEC=GlobalVariables.Verificacion.CodAreaHSEC;

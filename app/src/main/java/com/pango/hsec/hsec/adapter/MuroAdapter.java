@@ -148,7 +148,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final int comentarios = data.get(position).Comentarios;
             final String tempImgDet = data.get(position).UrlPrew;
             final String editable = data.get(position).Editable;
-            final String tempEmpresa=data.get(positem).Empresa;
+            final String tempEmpresa=data.get(position).Empresa;
 
             if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02") || tempTipo.equals("TO03") || tempTipo.equals("TO04")) ){
                 editar.setVisibility(View.VISIBLE);
@@ -370,7 +370,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             //final String tempImgDet="";
             final String tempImgDet=data.get(position).UrlPrew;
 
-            final String tempEmpresa=data.get(positem).Empresa;
+            final String tempEmpresa=data.get(position).Empresa;
             tx_empresa.setText(tempEmpresa);
 
             String[] tempRiesgo = new String[0];
@@ -667,7 +667,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final String tempTitulo = data.get(position).Area;
             final String tempdescripcion = data.get(position).Obs;
             final String tempImgDet=data.get(position).UrlPrew;
-            final String tempEmpresa=data.get(positem).Empresa;
+            final String tempEmpresa=data.get(position).Empresa;
             tx_empresa.setText(tempEmpresa);
 
             final int comentarios=data.get(position).Comentarios;
@@ -766,7 +766,7 @@ public class MuroAdapter extends ArrayAdapter<PublicacionModel>  {
             final String tempImgDet=data.get(position).UrlPrew;
             final String editable = data.get(position).Editable;
             final String tempEstado= data.get(position).NivelR;
-            final String tempEmpresa=data.get(positem).Empresa;
+            final String tempEmpresa=data.get(position).Empresa;
             tx_empresa.setText(tempEmpresa);
 
             if(editable.equals("0")){

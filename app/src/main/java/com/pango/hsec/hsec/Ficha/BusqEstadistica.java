@@ -32,10 +32,12 @@ import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
 import com.pango.hsec.hsec.adapter.FichaInspecionAdapter;
 import com.pango.hsec.hsec.adapter.FichaObsFacilitoAdapter;
 import com.pango.hsec.hsec.adapter.FichaObservacionAdapter;
 import com.pango.hsec.hsec.adapter.FichaPlanAdapter;
+import com.pango.hsec.hsec.adapter.FichaVerificacionAdapter;
 import com.pango.hsec.hsec.adapter.InspeccionAdapter;
 import com.pango.hsec.hsec.adapter.ObsFacilitoAdapter;
 import com.pango.hsec.hsec.adapter.PlanMinAdapter;
@@ -51,6 +53,7 @@ import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
+import com.pango.hsec.hsec.model.VerificacionModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -97,6 +100,7 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
     FichaObsFacilitoAdapter obfa;
     FichaInspecionAdapter inspa;
     FichaObservacionAdapter obsa;
+    FichaVerificacionAdapter ver;
     String Elemperpage="7";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,7 +208,27 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                         constraintLayout.setVisibility(View.VISIBLE);
                         String json2 = "";
                         paginacion2+=1;
-                        if(codselected==1) {
+
+                        if(codselected==12) {
+                            Utils.verificacionModel.CodUbicacion = "5";
+                            Utils.verificacionModel.Lugar = String.valueOf(paginacion2);
+                            Utils.verificacionModel.ObservadoPor=codPersona;
+                            if(mes.equals("00")) {
+                                Utils.verificacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
+                                Utils.verificacionModel.FechaFin = aniop + "-" + "12" + "-" + "31";
+                            }else{
+                                Utils.verificacionModel.FechaInicio = anio + "-" + mes + "-" + "01";   //"2018-02-02"
+                                Utils.verificacionModel.FechaFin = aniop + "-" + mes + "-" + diaFin;
+                            }
+
+                            Gson gson = new Gson();
+                            json2 = gson.toJson(Utils.verificacionModel);
+
+                            GlobalVariables.istabs=false;// para que no entre al flag de tabs
+                            final ActivityController obj = new ActivityController("post-2", url, BusqEstadistica.this,BusqEstadistica.this);
+                            obj.execute(json2,"1");
+
+                        }else  if(codselected==1) {
                         Utils.observacionModel.CodUbicacion = "5";
                         Utils.observacionModel.Lugar = String.valueOf(paginacion2);
                         Utils.observacionModel.ObservadoPor=codPersona;
@@ -334,8 +358,18 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                     intent.putExtra("verBoton",pass);
                     intent.putExtra("proviene",3);
                     startActivity(intent);
-                }
-                else{
+                }else if(codselected==12) {
+                    String CodVerificacion=GlobalVariables.listaGlobalFiltro.get(position).Codigo;
+                    String tipoVer=GlobalVariables.listaGlobalFiltro.get(position).Tipo;
+
+                    Intent intent = new Intent(BusqEstadistica.this, ActVerificacionDet.class);
+                    intent.putExtra("codVer",CodVerificacion);
+                    intent.putExtra("posTab",0);
+                    intent.putExtra("tipoVer",tipoVer);
+
+                    //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
+                    startActivity(intent);
+                } else{
                     String Codigo= GlobalVariables.listaGlobalObsFacilito.get(position).CodObsFacilito;
                     String Editable=GlobalVariables.listaGlobalObsFacilito.get(position).Editable;
 
@@ -368,7 +402,45 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
         GlobalVariables.listaGlobalFiltro = new ArrayList<>();
         GlobalVariables.listaPlanMin=new ArrayList<>();
         GlobalVariables.listaGlobalObsFacilito=new ArrayList<>();
-        if(codselected==1) {  // Observcacion
+
+
+        if(codselected==12){  ///verificaciones
+            aniop=anio;
+            if(anio.equals("*")) {
+                anio="2000";
+                aniop=GlobalVariables.busqueda_anio[1];
+            }
+            Utils.verificacionModel = new VerificacionModel();
+            VerificacionModel verificacionModel = new VerificacionModel();
+            //tipo_busqueda=1;
+            verificacionModel.CodUbicacion =Elemperpage;
+            verificacionModel.Lugar = "1";
+            verificacionModel.ObservadoPor = codPersona;
+            int mesActual=Integer.parseInt(mes);
+            Calendar calFin = Calendar.getInstance();
+            calFin.set(Integer.parseInt(anio), mesActual-1, 1);
+            calFin.set(Integer.parseInt(anio),mesActual-1 , calFin.getActualMaximum(Calendar.DAY_OF_MONTH));
+            diaFin = (calFin.get(Calendar.DAY_OF_MONTH) < 10 ? "0" : "")+calFin.get(Calendar.DAY_OF_MONTH);
+            if (mes.equals("00")) {
+                verificacionModel.FechaInicio = anio + "-" + "01" + "-" + "01";   //"2018-02-02"
+                verificacionModel.FechaFin = aniop + "-" + "12" + "-" + "31";
+            } else {
+                verificacionModel.FechaInicio = anio + "-" + mes + "-" + "01";   //"2018-02-02"
+                verificacionModel.FechaFin = aniop + "-" + mes + "-" + diaFin;
+            }
+
+
+            Gson gson = new Gson();
+            json = gson.toJson(verificacionModel);
+            url = GlobalVariables.Url_base + "Verificacion/Filtro";
+            GlobalVariables.flagUpSc=true;
+            Utils.isActivity = true;
+
+            final ActivityController obj = new ActivityController("post-"+paginacion, url, BusqEstadistica.this,this);
+            obj.execute(json);
+
+
+        }else if(codselected==1 ) {  // Observcacion
             aniop=anio;
             if(anio.equals("*")) {
                 anio="2000";
@@ -605,9 +677,11 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 for(PublicacionModel item:getPublicacionModel.Data)
                 {
                     if(codselected==1)  obsa.add(item);
+                    else if(codselected==12) ver.add(item);
                     else inspa.add(item);
                 }
-            if(codselected==1)  obsa.notifyDataSetChanged();
+            if(codselected==1 || codselected==12)  obsa.notifyDataSetChanged();
+            else if(codselected==12) ver.notifyDataSetChanged();
             else inspa.notifyDataSetChanged();
         }
         else{ // re create adapter and reset pagination
@@ -620,6 +694,9 @@ public class BusqEstadistica extends AppCompatActivity implements IActivity {
                 if(codselected==1)   {
                     obsa = new FichaObservacionAdapter(this, GlobalVariables.listaGlobalFiltro);
                     list_estadistica.setAdapter(obsa);
+                } else if(codselected==12){
+                    ver = new FichaVerificacionAdapter(this, GlobalVariables.listaGlobalFiltro);
+                    list_estadistica.setAdapter(ver);
                 }
                 else {
                     inspa = new FichaInspecionAdapter(this, GlobalVariables.listaGlobalFiltro);

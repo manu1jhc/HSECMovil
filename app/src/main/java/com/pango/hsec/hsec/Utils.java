@@ -181,7 +181,7 @@ public class Utils {
         }
         String cad;
         switch (s){
-            case "CodObservacion":
+            case "CodVerificacion":
                 return observacionModel.CodVerificacion;
             case "CodAreaHSEC":
                 //return observacionModel.CodAreaHSEC;
@@ -231,7 +231,7 @@ public class Utils {
             case "Lugar":
                 return observacionModel.Lugar;
             case "CodTipo":
-                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,observacionModel.CodTipo);
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_Ver,observacionModel.CodTipo);
 
             default:
                 return "";

@@ -22,8 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.pango.hsec.hsec.Ficha.BusqEstadistica;
+import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
-import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
@@ -36,24 +37,22 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import layout.FragmentVerificaciones;
-
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
-public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
+public class FichaVerificacionAdapter extends ArrayAdapter<PublicacionModel> {
     private Context context;
-    private FragmentVerificaciones FragVer;
+    private BusqEstadistica ActContent;
     View popupView;
     public PopupWindow popupWindow;
     private ArrayList<PublicacionModel> data = new ArrayList<PublicacionModel>();
     DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
     DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
 
-    public VerificacionAdapter(Context context, ArrayList<PublicacionModel> data, FragmentVerificaciones FragVer) {
+    public FichaVerificacionAdapter(BusqEstadistica context, ArrayList<PublicacionModel> data) {
         super(context, R.layout.publicalist, data);
         this.data = data;
         this.context = context;
-        this.FragVer=FragVer;
+        this.ActContent=context;
     }
 
     public void remove(int index){
@@ -73,7 +72,7 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
         int height= dm.heightPixels;
         if(width>height)width=height;
 
-        View rowView = inflater.inflate(R.layout.publicalist, null, true);
+        View rowView = inflater.inflate(R.layout.public_verificacion, null, true);
 
         ImageView img_perfil = rowView.findViewById(R.id.mp_profile);
         ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
@@ -84,11 +83,8 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
         TextView tipo = rowView.findViewById(R.id.mp_tipo);
         TextView area = rowView.findViewById(R.id.mp_area);
         TextView comentario=rowView.findViewById(R.id.tx_comentario);
-
+        TextView empresa = rowView.findViewById(R.id.tx_empresa);
         TextView tx_det = rowView.findViewById(R.id.mp_txdet);
-        TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);
-        TextView tipo_hsec = rowView.findViewById(R.id.tipo_hsec);
-        tipo_hsec.setText("Verificaciones");
 
         final String tempimg_perfil=data.get(position).UrlObs;
         final String tempNombre = data.get(position).ObsPor;
@@ -102,15 +98,13 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
         //final String tempImgDet="";
         final String tempImgDet=data.get(position).UrlPrew;
         final String editable = data.get(position).Editable;
-        final String tempEmpresa=data.get(position).Empresa;
-        tx_empresa.setText(tempEmpresa);
 
         ImageView editar = rowView.findViewById(R.id.btn_editar);
-
-        if(editable.equals("1")){
+        final String Empresa = data.get(position).Empresa;
+        empresa.setText(Empresa);
+        //if(editable.equals("1")&&(tempTipo.equals("TO01") || tempTipo.equals("TO02") || tempTipo.equals("TO03") || tempTipo.equals("TO04") )){
             editar.setVisibility(View.VISIBLE);
-        }
-
+        //}
 
         editar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,8 +133,8 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
                     }
                 });
 
-                button1.setText("  Editar Verificación");
-                button3.setText("  Eliminar Verificación");
+                button1.setText("  Editar observación");
+                button3.setText("  Eliminar observación");
                 if(edit.equals("1")){
                     cv1.setVisibility(View.VISIBLE);
                     cv3.setVisibility(View.VISIBLE);
@@ -160,7 +154,8 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
                         GlobalVariables.ObjectEditable=true;
                         Intent intent = new Intent(getContext(), AddVerificacion.class);
                         intent.putExtra("codObs", data.get(position).Codigo);
-                        intent.putExtra("posTab", 0);
+//                        intent.putExtra("tipoObs", data.get(position).Tipo);
+//                        intent.putExtra("posTab", 0);
                         v.getContext().startActivity(intent);
                     }
                 });
@@ -178,12 +173,12 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
                     @Override
                     public void onClick(View v) {
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext(),android.R.style.Theme_Material_Dialog_Alert);
-                        alertDialog.setTitle("Desea Eliminar Verificación?")
+                        alertDialog.setTitle("Desea eliminar verificacion?")
                                 .setMessage(tempDetalle)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         popupWindow.dismiss();
-                                        FragVer.DeleteObject("Verificacion/Delete/"+ data.get(position).Codigo,position+2);
+                                        ActContent.DeleteObject("Verificacion/Delete/"+ data.get(position).Codigo,position+2);
                                     }
                                 })
                                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -218,7 +213,7 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
 
         }
 
-        String tipo_ejm=GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,tempTipo);
+        String tipo_ejm=GlobalVariables.getDescripcion(GlobalVariables.Tipo_Ver,tempTipo);
         String area_ejm=GlobalVariables.getDescripcion(GlobalVariables.Area_obs,tempArea);
 
         tipo.setText(" / "+GlobalVariables.getDescripcion(GlobalVariables.Tipo_Ver, tempTipo)+" / "+GlobalVariables.getDescripcion(GlobalVariables.Area_obs, tempArea));
@@ -274,6 +269,7 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
                     .override(width, width)
                     .into(img_det);
         }
+
         img_det.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,12 +281,15 @@ public class VerificacionAdapter extends ArrayAdapter<PublicacionModel> {
                 //GlobalVariables.desdeBusqueda=true;
             }
         });
-
         img_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GlobalVariables.dniUser=data.get(position).UrlObs;
-                ((MainActivity)FragVer.getActivity()).openFichaPersona();
+                if(GlobalVariables.dniUser!=null)
+                {
+                    Intent intent=new Intent(context, FichaPersona.class);
+                    context.startActivity(intent);
+                }
             }
         });
 

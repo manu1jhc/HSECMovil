@@ -31,7 +31,14 @@
         android:roundIcon="@mipmap/ic_logo_hsec2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Verificaciones.ActVerificacionDet"></activity>
+        <activity
+            android:name=".Busquedas.B_Verificaciones"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            />
+
+        <activity android:name=".Verificaciones.ActVerificacionDet" />
         <activity
             android:name=".Verificaciones.AddVerificacion"
             android:fitsSystemWindows="true"

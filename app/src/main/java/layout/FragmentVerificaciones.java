@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Busquedas.B_Verificaciones;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.MainActivity;
@@ -37,6 +38,7 @@ import com.pango.hsec.hsec.model.VerificacionModel;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
 import static com.pango.hsec.hsec.MainActivity.flag_verificacion;
 
 /**
@@ -161,12 +163,12 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
                 linear_total.setVisibility(View.GONE);
-                MainActivity.flag_observacion=false;
+                MainActivity.flag_verificacion=false;
                 GlobalVariables.listaGlobalVerificaciones.clear();
 
                 Utils.verificacionModel = new VerificacionModel();
                 VerificacionModel verificacionModel = new VerificacionModel();
-                tipo_busqueda = 1;
+                tipo_busqueda = 5;
                 paginacion2=1;
                 verificacionModel.CodUbicacion = Elemperpage;
                 verificacionModel.Lugar = "1";
@@ -196,9 +198,10 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
         btn_filtro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Utils.observacionModel=new ObservacionModel();
-//                Intent intent = new Intent(getActivity(), B_observaciones.class);
-//                startActivityForResult(intent , REQUEST_CODE);
+                Utils.verificacionModel=new VerificacionModel();
+                Intent intent = new Intent(getActivity(), B_Verificaciones.class);
+                startActivityForResult(intent , REQUEST_CODE);
+
             }
         });
 
@@ -255,7 +258,7 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalObservacion.size() != MainActivity.countObservacion && flag_enter&&flagVerFiltro) {
+                    if (GlobalVariables.listaGlobalVerificaciones.size() != MainActivity.countVerificacion && flag_enter&&flagVerFiltro) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -272,10 +275,10 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
 
                         //GlobalVariables.count=5;
                         paginacion2+=1;
-                        Utils.observacionModel.CodUbicacion = Elemperpage;
-                        Utils.observacionModel.Lugar = String.valueOf(paginacion2);
+                        Utils.verificacionModel.CodUbicacion = Elemperpage;
+                        Utils.verificacionModel.Lugar = String.valueOf(paginacion2);
                         Gson gson = new Gson();
-                        json2 = gson.toJson(Utils.observacionModel);
+                        json2 = gson.toJson(Utils.verificacionModel);
 
                         GlobalVariables.istabs=false;// para que no entre al flag de tabs
                         final ActivityController obj = new ActivityController("post-2", url, FragmentVerificaciones.this,getActivity());
@@ -360,64 +363,6 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
 
                 final ActivityController obj = new ActivityController("post", url, FragmentVerificaciones.this,getActivity());
                 obj.execute(json);
-                /*
-                if(tipo_filtro.equals(busqueda_tipo[0])) {
-                    Utils.observacionModel=new ObservacionModel();
-                    ObservacionModel observacionModel=new ObservacionModel();
-                    tipo_busqueda=1;
-                    observacionModel.CodUbicacion = "5";
-                    observacionModel.Lugar = "1";
-                    String json = "";
-                    Gson gson = new Gson();
-                    json = gson.toJson(observacionModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-                    final ActivityController obj = new ActivityController("post", url, FragmentObservaciones.this,getActivity());
-                    obj.execute(json);
-
-                }else if(tipo_filtro.equals(busqueda_tipo[1])){
-                    Utils.inspeccionModel=new InspeccionModel();
-                    InspeccionModel inspeccionModel=new InspeccionModel();
-                    tipo_busqueda=2;
-                    inspeccionModel.Elemperpage="5";
-                    inspeccionModel.Pagenumber="1";
-                    String json = "";
-
-                    Gson gson = new Gson();
-                    json = gson.toJson(inspeccionModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Inspecciones/Filtroinspecciones";
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-                    final ActivityController obj = new ActivityController("post", url, FragmentObservaciones.this,getActivity());
-                    obj.execute(json);
-
-
-                }else if(tipo_filtro.equals(busqueda_tipo[2])) {
-                    Utils.noticiasModel=new NoticiasModel();
-                    NoticiasModel noticiasModel = new NoticiasModel();
-                    tipo_busqueda = 3;
-                    noticiasModel.Elemperpage = "5";
-                    noticiasModel.Pagenumber = "1";
-                    String json = "";
-
-                    Gson gson = new Gson();
-                    json = gson.toJson(noticiasModel);
-
-                    Utils.isActivity = true;
-                    url = GlobalVariables.Url_base + "Noticia/FiltroNoticias";
-                    GlobalVariables.listaGlobalFiltro = new ArrayList<>();
-
-                    final ActivityController obj = new ActivityController("post", url, FragmentObservaciones.this,getActivity());
-                    obj.execute(json);
-
-                }
-*/
-
 
             }
         });
@@ -429,12 +374,12 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
     }
 
 
-
-    public void Filtro_Ver(){
-//        Utils.observacionModel=new ObservacionModel();
-//        Intent intent = new Intent(getActivity(), B_observaciones.class);
-//        startActivityForResult(intent , REQUEST_CODE);
+    public void Filtro_Verificaciones(){
+        Utils.verificacionModel=new VerificacionModel();
+        Intent intent = new Intent(this.getActivity(), B_Verificaciones.class);
+        startActivityForResult(intent , REQUEST_CODE);
     }
+
 
 
     public void DeleteObject(String Url, int index){
@@ -460,7 +405,7 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
             GlobalVariables.listaGlobalVerificaciones =getPublicacionModel.Data;
-            MainActivity.countInspeccion=getPublicacionModel.Count;
+            MainActivity.countVerificacion=getPublicacionModel.Count;
             ca = new VerificacionAdapter(getActivity(), GlobalVariables.listaGlobalVerificaciones,this);
             list_busqueda.setAdapter(ca);
             if(getPublicacionModel.Data.size()==0){
@@ -553,11 +498,40 @@ public class FragmentVerificaciones extends Fragment implements IActivity {
         void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        try {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == REQUEST_CODE  && resultCode  == RESULT_OK) {
+                flag_verificacion=true;
+
+                GlobalVariables.flagUpSc=true;
+                tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
+
+                Utils.verificacionModel.CodUbicacion = "5";
+                Utils.verificacionModel.Lugar = "1";
+                String json = "";
+                Gson gson = new Gson();
+                json = gson.toJson(Utils.verificacionModel);
+                GlobalVariables.isFragment=false;
+                Utils.isActivity = true;
+                url = GlobalVariables.Url_base + "Verificacion/Filtro";
+                GlobalVariables.listaGlobalVerificaciones = new ArrayList<>();
+
+                final ActivityController obj = new ActivityController("post", url, FragmentVerificaciones.this,getActivity());
+                obj.execute(json);
+            }
+        } catch (Exception ex) {
+            Toast.makeText(getActivity(), ex.toString(),
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
-public void Filtro_Noticias(){
 
-}
+
+
+
 
 
 

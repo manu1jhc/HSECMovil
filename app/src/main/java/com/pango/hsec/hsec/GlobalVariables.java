@@ -111,7 +111,7 @@ public class GlobalVariables  {
     public static ObsInspDetModel obsInspDetModel=new ObsInspDetModel();  //detalle Obs
 
     public static boolean editar_list=false;
-
+    public static String jsonVerificaccion = "";
 
     private ArrayList<PersonaModel> ListPersonaOobs=new ArrayList<>();
 
@@ -149,6 +149,10 @@ public class GlobalVariables  {
         {
             GlobalVariables.fragmentSave.remove(4);
             GlobalVariables.fragmentSave.add(4,fragment);
+        }else if(Tipo.equals("V"))//fragment verificaciones
+        {
+            GlobalVariables.fragmentSave.remove(5);
+            GlobalVariables.fragmentSave.add(5,fragment);
         }
 
 

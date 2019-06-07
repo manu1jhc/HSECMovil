@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -17,6 +16,9 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Login;
 import com.pango.hsec.hsec.MainActivity;
+import com.pango.hsec.hsec.Observaciones.FragmentComent;
+import com.pango.hsec.hsec.Observaciones.FragmentGaleria;
+import com.pango.hsec.hsec.Observaciones.FragmentPlan;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
@@ -63,6 +65,7 @@ public class ActVerificacionDet extends FragmentActivity implements IActivity, T
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
         horizontalsv=findViewById(R.id.horizontalsv);
 //Bundle[{codObs=VER00000003, tipoObs=TV02, posTab=0}]
+        GlobalVariables.jsonVerificaccion= "";
         Intent startingIntent = getIntent();
         if (startingIntent != null) {
             codVer = startingIntent.getStringExtra("codigo"); // Retrieve the id
@@ -219,6 +222,16 @@ public class ActVerificacionDet extends FragmentActivity implements IActivity, T
         //codObs
 
         FragmentCabVerificacion f1 = FragmentCabVerificacion.newInstance(codVer);
+        FragmentVerDet f2 = FragmentVerDet.newInstance(codVer);
+        FragmentGaleria f3=FragmentGaleria.newInstance(codVer);
+        FragmentPlan f4 = FragmentPlan.newInstance(codVer,3);
+        FragmentComent f5=FragmentComent.newInstance(codVer);
+
+        fList.add(f1);
+        fList.add(f2);
+        fList.add(f3);
+        fList.add(f4);
+        fList.add(f5);
 
 
 //        FragmentObs f1 = FragmentObs.newInstance(codObs);
@@ -277,6 +290,13 @@ public class ActVerificacionDet extends FragmentActivity implements IActivity, T
 
         // TODO Put here your Tabs
         ActVerificacionDet.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab1").setIndicator("Verificación"));
+        ActVerificacionDet.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
+        ActVerificacionDet.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab3").setIndicator("Galeria"));
+        ActVerificacionDet.AddTab(this, this.mTabHost, this.mTabHost.newTabSpec("Tab4").setIndicator("Plan de Acción"));
+
+        ActVerificacionDet.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab5").setIndicator("Comentarios"));
+        mTabHost.setOnTabChangedListener(this);
 //        ActMuroDet.AddTab(this, this.mTabHost,
 //                this.mTabHost.newTabSpec("Tab2").setIndicator("Detalle"));
 //        ActMuroDet.AddTab(this, this.mTabHost,
