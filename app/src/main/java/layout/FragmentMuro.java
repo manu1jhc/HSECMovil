@@ -32,6 +32,7 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
+import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
 import com.pango.hsec.hsec.adapter.MuroAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
@@ -206,6 +207,13 @@ public class FragmentMuro extends Fragment implements IActivity{
                         intent = new Intent(getActivity(), obsFacilitoDet.class);
                         intent.putExtra("codObs",Codigo);
                         intent.putExtra("verBoton",Editable);
+                        startActivity(intent);
+                        break;
+                    case "VER":
+                        intent = new Intent(getActivity(), ActVerificacionDet.class);
+                        intent.putExtra("codVer",Codigo);
+                        intent.putExtra("posTab",0);
+                        intent.putExtra("tipoVer",GlobalVariables.listaGlobal.get(position).Tipo);
                         startActivity(intent);
                         break;
                 }

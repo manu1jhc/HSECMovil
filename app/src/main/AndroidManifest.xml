@@ -89,10 +89,7 @@
             android:name=".Recuperar_password"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".Observaciones.Act_galeria"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".Observaciones.ActMuroDet"
             android:screenOrientation="portrait"
@@ -117,7 +114,6 @@
             android:name=".Observaciones.ActVidDet"
             android:configChanges="orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Observaciones.Act_eliminar" />
         <activity
             android:name=".Busquedas.Busqueda"
             android:screenOrientation="portrait"

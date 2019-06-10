@@ -364,7 +364,7 @@ public class AddVerificacion extends FragmentActivity implements IActivity, TabH
             }
 
             obs_archivos archivos = (obs_archivos) pageAdapter.getItem(2);
-            archivos.gridViewAdapter.ProcesarImagens();
+            if (archivos.gridViewAdapter !=null)archivos.gridViewAdapter.ProcesarImagens();
 
             ArrayList<GaleriaModel> DataAll=new ArrayList<>();
             ArrayList<GaleriaModel> DataInsert=new ArrayList<>();

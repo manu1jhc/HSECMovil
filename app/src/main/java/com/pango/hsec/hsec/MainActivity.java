@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity
         FragmentFichaPersonal.OnFragmentInteractionListener,
         FragmentObservaciones.OnFragmentInteractionListener,
         FragmentInspecciones.OnFragmentInteractionListener,
-
-        //FragmentRegistroIO.OnFragmentInteractionListener,
         FragmentAvanzado.OnFragmentInteractionListener,
         FragmentConfiguracion.OnFragmentInteractionListener,
         FragmentContactenos.OnFragmentInteractionListener,

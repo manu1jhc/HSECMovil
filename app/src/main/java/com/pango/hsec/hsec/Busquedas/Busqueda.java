@@ -35,8 +35,6 @@ import com.pango.hsec.hsec.adapter.InspeccionAdapter;
 import com.pango.hsec.hsec.adapter.NoticiasAdapter;
 import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.GetObservacionModel;
-import com.pango.hsec.hsec.model.GetPersonaModel;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
