@@ -60,10 +60,11 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class obs_detalle1 extends Fragment implements IActivity{
     //tarea
-    TextView textView6,textView4,textView14,textView15,textView16,textView17,textView35,textView25,textView32pet,tx_sw, tx_eq_inv, tx_interac_seg,tx_swIS;
+    TextView textView6,textView4,textView14,textView15,textView16,textView17,textView35,textView25,textView32pet,tx_sw, tx_eq_inv, tx_interac_seg,tx_swIS,textView_correccion;
     private static View mView;
-    Spinner spinneActividad, spinnerHHA, spinnerActo,spinnerCondicion,spinnerEstado, spinnerError,spinnerStopWork,sp_stopworkIS;
+    Spinner spinneActividad, spinnerHHA, spinnerActo,spinnerCondicion,spinnerEstado, spinnerError,spinnerStopWork,spinnerCorreccion,sp_stopworkIS;
     EditText txtObservacion,txtAccion, txtCodPET, txtComentRO, txt_detcomcon,txt_accion_inmed;
+    CardView CarCorreccion;
     ImageButton btn_addComent;
     LayoutInflater layoutInflater;
     View popupView;
@@ -115,8 +116,9 @@ public class obs_detalle1 extends Fragment implements IActivity{
         spinnerEstado = (Spinner) mView.findViewById(R.id.sp_estado);
         spinnerError = (Spinner) mView.findViewById(R.id.sp_error);
         spinnerStopWork = (Spinner) mView.findViewById(R.id.sp_stopwork);
+        spinnerCorreccion = (Spinner) mView.findViewById(R.id.sp_Correccion);
         sp_stopworkIS = (Spinner) mView.findViewById(R.id.sp_stopworkIS);
-
+        CarCorreccion=(CardView) mView.findViewById(R.id.id_Correccion);
 
         // Interaccion de seguridad
         btn_buscar_c = (ImageButton) mView.findViewById(R.id.btn_buscar_c);
@@ -132,6 +134,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
         textView6=mView.findViewById(R.id.textView6);
         textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Observación:"));
+        if(Tipo.equals("TO04"))textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Tarea Observada:"));
         textView4=mView.findViewById(R.id.textView4);
         textView4.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Acción:"));
         textView14=mView.findViewById(R.id.textView14);
@@ -146,6 +149,8 @@ public class obs_detalle1 extends Fragment implements IActivity{
         textView25.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Error:"));
         textView17=mView.findViewById(R.id.textView17);
         textView17.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Condición SubEstándar:"));
+        textView_correccion=mView.findViewById(R.id.tx_sw2);
+        textView_correccion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Correccion:"));
 
         //tarea
         textView32pet = mView.findViewById(R.id.textView32pet);
@@ -159,11 +164,11 @@ public class obs_detalle1 extends Fragment implements IActivity{
         tx_eq_inv= mView.findViewById(R.id.tx_eq_inv);
         tx_interac_seg = mView.findViewById(R.id.tx_interac_seg);
         tx_swIS = mView.findViewById(R.id.tx_swIS);
+
         tx_eq_inv.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Equipo Involucrado:"));
         tx_interac_seg.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Interacción de Seguridad:"));
 
         tx_swIS.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Stop Work:"));
-
 /////////////////////////////////////////////
         ArrayAdapter adapterActividadObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Actividad_obs);
         adapterActividadObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
@@ -192,6 +197,10 @@ public class obs_detalle1 extends Fragment implements IActivity{
         ArrayAdapter adapterStopWork = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.StopWork_obs);
         adapterStopWork.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerStopWork.setAdapter(adapterStopWork);
+
+        ArrayAdapter adapterCorreccion = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Correccion_obs);
+        adapterCorreccion.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
+        spinnerCorreccion.setAdapter(adapterCorreccion);
 
         ArrayAdapter adapterStopWorkIS = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.StopWork_obs);
         adapterStopWorkIS.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
@@ -397,6 +406,19 @@ public class obs_detalle1 extends Fragment implements IActivity{
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_stopwork) ).getSelectedItem();
                 GlobalVariables.ObserbacionDetalle.StopWork=Tipo.CodTipo;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+
+            }
+        });
+
+        spinnerCorreccion.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.sp_Correccion) ).getSelectedItem();
+                GlobalVariables.ObserbacionDetalle.CodCorreccion=Tipo.CodTipo;
             }
 
             @Override
@@ -760,6 +782,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
 
     public void changueTipo(String Tipo){
        // Toast.makeText(getActivity(), Tipo, Toast.LENGTH_LONG).show();
+        textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Observación:"));
         if(!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO01")){
             mView.findViewById(R.id.id_Condicion).setVisibility(View.GONE);
             mView.findViewById(R.id.id_Acto).setVisibility(View.VISIBLE);
@@ -807,6 +830,7 @@ public class obs_detalle1 extends Fragment implements IActivity{
         }
         else if (!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO04")) {
 
+            textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Tarea Observada:"));
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
             mView.findViewById(R.id.ll_IS).setVisibility(View.VISIBLE);
         }
@@ -857,6 +881,13 @@ public class obs_detalle1 extends Fragment implements IActivity{
             spinnerStopWork.setSelection(GlobalVariables.indexOf(GlobalVariables.StopWork_obs,GlobalVariables.ObserbacionDetalle.StopWork));
         }
 
+        if (GlobalVariables.ObserbacionDetalle.CodCorreccion != null)
+        {
+            spinnerCorreccion.setSelection(GlobalVariables.indexOf(GlobalVariables.Correccion_obs, GlobalVariables.ObserbacionDetalle.CodCorreccion));
+        }
+
+        if(Tipo.equals("TO03")) CarCorreccion.setVisibility(View.GONE);
+        else CarCorreccion.setVisibility(View.VISIBLE);
         if(Tipo.equals("TO04")) {// interaccion de seguridad
 
             if (GlobalVariables.ObserbacionDetalle.CodError != null)

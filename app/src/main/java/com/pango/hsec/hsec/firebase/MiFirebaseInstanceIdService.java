@@ -24,10 +24,10 @@ public class MiFirebaseInstanceIdService extends FirebaseInstanceIdService { //i
     @Override
     public void onTokenRefresh() {
         super.onTokenRefresh();
-        String token = FirebaseInstanceId.getInstance().getToken();
-        saveTokenToPrefs(token);
-        Toast.makeText(MiFirebaseInstanceIdService.this,"Token generado ",Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "Token: " + token);
+     //   String token = FirebaseInstanceId.getInstance().getToken();
+        //saveTokenToPrefs(token);
+//        Toast.makeText(MiFirebaseInstanceIdService.this,"Token generado ",Toast.LENGTH_SHORT).show();
+        //Log.d(TAG, "Token: " + token);
         String Oldtoken=getTokenFromPrefs();
         /*if(!Oldtoken.equals(token)){
             GlobalVariables.token_ok=false;

@@ -276,12 +276,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 if(item.CodSubtipo.equals("COMCON11")) GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
                 else if(item.CodSubtipo.equals("19"))GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
             }
-            EquipoModel Lider=null;
-            for(EquipoModel item: GlobalVariables.ListAtendidos)
-            {
-                if(item.Lider.equals("1"))
-                    GlobalVariables.ObserbacionDetalle.CodEstado=item.CodPersona;
-            }
+            GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.ListAtendidos.size()>0?GlobalVariables.ListAtendidos.get(0).CodPersona:null;
             GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
 
@@ -488,11 +483,13 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Acto SubEstandar";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado)) {ErrorForm+="Estado";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError)) {ErrorForm+="Error";pos=1;}
+            else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodCorreccion)) {ErrorForm+="Correccion";pos=1;}
         }else if (GlobalVariables.Obserbacion.CodTipo.equals("TO02")){
             if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) {ErrorForm+="Accion";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel)) {ErrorForm+="Actividad Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA)) {ErrorForm+="HHA Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Condicion SubEstandar";pos=1;}
+            else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodCorreccion)) {ErrorForm+="Correccion";pos=1;}
         }else if (GlobalVariables.Obserbacion.CodTipo.equals("TO03")){
             if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) {ErrorForm+="Codigo PET";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel)) {ErrorForm+="Actividad Relacionada";pos=1;}
@@ -504,8 +501,8 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         }else if (GlobalVariables.Obserbacion.CodTipo.equals("TO04")){
             if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA.trim())) {ErrorForm+="Equipo involucrado";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Interaccion de seguridad";pos=1;}
-            else if(GlobalVariables.ListAtendidos.isEmpty()) {ErrorForm+="Equipo de inspeccion";pos=2;}
-            else{
+            else if(GlobalVariables.ListAtendidos.isEmpty()) {ErrorForm+="Realizado por";pos=2;}
+           /* else{
                 boolean passlider=true;
                 for (EquipoModel item: GlobalVariables.ListAtendidos)
                     if(item.Lider.equals("1")){
@@ -513,8 +510,8 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                         continue;
                     }
                 if(passlider) ErrorForm+="Lider de equipo de inspeccion";
-                if(GlobalVariables.ListAtendidos.size()<2) ErrorForm+="Miembro de equipo de inspeccion";
-            }
+                if(GlobalVariables.ListAtendidos.isEmpty()) ErrorForm+="Miembro de equipo de inspeccion";
+            }*/
         }
 
 
@@ -560,10 +557,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                  if(item.CodSubtipo.equals("COMCON11")) GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
                  else if(item.CodSubtipo.equals("19"))GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
              }
-             EquipoModel Lider=null;
-            for(EquipoModel item: GlobalVariables.ListAtendidos)
-                if(item.Lider.equals("1"))
-                    GlobalVariables.ObserbacionDetalle.CodEstado=item.CodPersona;
+            GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.ListAtendidos.get(0).CodPersona;
             GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
         String DetalleObs=  gson.toJson(GlobalVariables.ObserbacionDetalle);
@@ -676,7 +670,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 }
 
                 // get Lider
-                if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")){
+              /*  if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")){
                     String LiderPer="";
                     EquipoModel LiderOld=new EquipoModel();
                     boolean exEquipo=false;
@@ -701,9 +695,9 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                         }
                         if(exEquipo)updateAtentidos.add(new EquipoModel(LiderPer,"E"));
                     }
-                }
+                }*/
 
-                if(updateAtentidos.size()>0){
+                if(GlobalVariables.Obserbacion.CodTipo.equals("TO03") && updateAtentidos.size()>0){
                     Involucrados=gson.toJson(updateAtentidos);
                 }
 
@@ -1024,12 +1018,12 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 //GlobalVariables.StrSubDetalleTa.addAll(Subdetalle);
             }
             else if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")) {
-                PerInvolucrados=GlobalVariables.ListAtendidos;
                 Subdetalle=GlobalVariables.SubDetalleIS;
-              //  GlobalVariables.StrSubDetalleIS.addAll(Subdetalle);
-                for(EquipoModel item: GlobalVariables.ListAtendidos)
-                    if(item.Lider.equals("0"))PerInvolucrados.add(item);
-                //GlobalVariables.StrAtendidos.addAll(GlobalVariables.ListAtendidos);
+//                PerInvolucrados=GlobalVariables.ListAtendidos;
+//              //  GlobalVariables.StrSubDetalleIS.addAll(Subdetalle);
+//                for(EquipoModel item: GlobalVariables.ListAtendidos)
+//                    if(item.Lider.equals("0"))PerInvolucrados.add(item);
+//                //GlobalVariables.StrAtendidos.addAll(GlobalVariables.ListAtendidos);
             }
 
             if(Subdetalle.size()>0){

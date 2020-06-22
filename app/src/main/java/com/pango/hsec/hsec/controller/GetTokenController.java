@@ -300,6 +300,9 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "CSAL":
                     GlobalVariables.C_Tipo.add(item);
                     break;
+                case "OBCO":
+                    GlobalVariables.Correccion_obs.add(item);
+                    break;
                 /*default:
                     break;*/
             }

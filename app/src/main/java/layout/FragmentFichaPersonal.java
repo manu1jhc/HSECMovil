@@ -59,7 +59,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
     private String mParam1;
     private String mParam2;
     View rootView;
-    TextView perfil_user,ficha_user,ficha_nombre,ficha_dni,ficha_correo,ficha_empresa,ficha_rol,ficha_area,ficha_tipo,tx_sexo;
+    TextView perfil_user,ficha_user,ficha_nombre,ficha_dni,ficha_correo,ficha_empresa,ficha_rol,ficha_area,ficha_tipo,tx_sexo,curso_perfil;
     Button btn_estadistica,btn_capacita,btn_buscaruser;
     String url="";
     ImageView ficha_avatar;
@@ -126,6 +126,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         btn_buscaruser=rootView.findViewById(R.id.btn_buscaruser);
         ficha_avatar=rootView.findViewById(R.id.ficha_avatar);
         tx_sexo=rootView.findViewById(R.id.tx_sexo);
+        curso_perfil=rootView.findViewById(R.id.cursoPerfil);//esto agrego julio
         txtPassword=rootView.findViewById(R.id.txtPassword);
         GlobalVariables.view_fragment=rootView;
         GlobalVariables.isFragment=true;
@@ -215,6 +216,12 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         ficha_nombre.setText( GlobalVariables.userLoaded.Nombres);
         ficha_dni.setText( GlobalVariables.userLoaded.NroDocumento);
         tx_sexo.setText(GlobalVariables.getDescripcion(GlobalVariables.Sexo,GlobalVariables.userLoaded.Sexo.trim()));
+        if(GlobalVariables.userLoaded.FichaCurso==null)
+            curso_perfil.setText("");
+        else
+            curso_perfil.setText(GlobalVariables.userLoaded.FichaCurso);
+
+
         ficha_correo.setText( GlobalVariables.userLoaded.Email);
         ficha_empresa.setText( GlobalVariables.userLoaded.Empresa);
 
@@ -246,7 +253,6 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
                 setdata();
             }
         }
-
     }
 
     @Override

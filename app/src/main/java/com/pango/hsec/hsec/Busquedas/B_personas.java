@@ -62,6 +62,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
     TextView tx_texto;
     int paginacion=1;
     String Elemperpage="9";
+    String TipoPersona="0";
     ImageButton btn_addpersona;
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
@@ -83,6 +84,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
         tx_mensajeP=findViewById(R.id.tx_mensajeP);
         swipeRefreshLayout.setVisibility(View.INVISIBLE);
         tx_titulo.setText(datos.getString("title"));
+        TipoPersona= datos.getString("tipPersona","0");
         btn_addpersona=findViewById(R.id.btn_addpersona);
         btn_addpersona.setVisibility(View.GONE);
         spinnerGerencia=(Spinner) findViewById(R.id.spinner_gerencia);
@@ -169,7 +171,7 @@ public class B_personas extends AppCompatActivity implements IActivity {
                 GlobalVariables.lista_Personas=new ArrayList<>();
 
                 filtro= Utils.ChangeUrl(String.valueOf(String.valueOf(id_nombre.getText())+"@"+id_apellidos.getText())+"@"+String.valueOf(id_dni.getText())
-                        +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
+                        +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:"")+"@"+TipoPersona);
 
                 url= GlobalVariables.Url_base+"Usuario/FiltroPersona?Filtros="+filtro+"&Pagenumber=1&Elemperpage="+Elemperpage;
                 //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";

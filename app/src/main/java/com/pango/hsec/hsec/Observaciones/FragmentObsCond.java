@@ -18,6 +18,7 @@ import static com.pango.hsec.hsec.GlobalVariables.Actividad_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Acto_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Condicion_obs;
 import static com.pango.hsec.hsec.GlobalVariables.StopWork_obs;
+import static com.pango.hsec.hsec.GlobalVariables.Correccion_obs;
 import static com.pango.hsec.hsec.GlobalVariables.HHA_obs;
 
 public class FragmentObsCond extends Fragment implements IActivity {
@@ -26,7 +27,7 @@ public class FragmentObsCond extends Fragment implements IActivity {
     private View mView;
     String codObs;
     String url;
-    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar,tx_StopWork;
+    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar,tx_StopWork,tx_Correccion;
     public static FragmentObsCond newInstance(String sampleText) {
         FragmentObsCond f = new FragmentObsCond();
         Bundle b = new Bundle();
@@ -49,6 +50,7 @@ public class FragmentObsCond extends Fragment implements IActivity {
         tx_hha=(TextView) mView.findViewById(R.id.tx_hha);
         tx_sub_estandar=(TextView) mView.findViewById(R.id.tx_sub_estandar);
         tx_StopWork=(TextView) mView.findViewById(R.id.tx_StopWork);
+        tx_Correccion=(TextView) mView.findViewById(R.id.tx_Correccion);
         GlobalVariables.view_fragment=mView;
         //GlobalVariables.isFragment=true;
 
@@ -81,6 +83,7 @@ public class FragmentObsCond extends Fragment implements IActivity {
             if(observacionModel.CodHHA!=null) tx_hha.setText(GlobalVariables.getDescripcion(HHA_obs,observacionModel.CodHHA));
             if(observacionModel.CodSubEstandar!=null) tx_sub_estandar.setText(GlobalVariables.getDescripcion(Condicion_obs,observacionModel.CodSubEstandar));
             if(observacionModel.StopWork!=null)tx_StopWork.setText(GlobalVariables.getDescripcion(StopWork_obs,observacionModel.StopWork));
+            if(observacionModel.CodCorreccion!=null)tx_Correccion.setText(GlobalVariables.getDescripcion(Correccion_obs,observacionModel.CodCorreccion));
         }
     }
 

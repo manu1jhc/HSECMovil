@@ -108,13 +108,13 @@ public class Login extends AppCompatActivity implements IActivity{
 
     public void passVersion(){
         String token_movil=getTokenFromPrefs();
-        if(token_movil.equals("")){
+       /* if(token_movil.equals("")){
             //GlobalVariables.token_refresh=true;
             Toast.makeText(Login.this,"Generando token Movil, Espere un monento...",Toast.LENGTH_SHORT).show();
             Intent intentService = new Intent(Login.this, DeleteTokenService.class);
             startService(intentService);
             //finish();
-        }
+        }*/
         if(obtener_status()){
             check_rec.setChecked(true);
             String usuario_saved=obtener_usuario();
@@ -173,7 +173,7 @@ public class Login extends AppCompatActivity implements IActivity{
     }
 
     public void SendLogin(){
-        String token_movil=getTokenFromPrefs();
+        /*String token_movil=getTokenFromPrefs();
         if(cont>10) return;
         if(token_movil.equals("")) {
             if(!passGet){
@@ -191,21 +191,21 @@ public class Login extends AppCompatActivity implements IActivity{
             }, 5000);
         }
         else if(!pasSend){
-            pasSend=true;
+            pasSend=true;*/
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.accumulate("username", user);
                 jsonObject.accumulate("password", pass);
                 jsonObject.accumulate("domain", dom);
-                jsonObject.accumulate("token", token_movil);
+                jsonObject.accumulate("token", "-");
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             final GetTokenController objT = new GetTokenController(url_token, Login.this, progresbar);
             objT.execute(jsonObject.toString());
-        }
-        else return;
+       /* }
+        else return;*/
     }
     /**
      * Display/hides TextInputLayout error.

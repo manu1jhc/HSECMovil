@@ -19,6 +19,7 @@ import com.pango.hsec.hsec.model.ObservacionModel;
 
 import static com.pango.hsec.hsec.GlobalVariables.Actividad_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Acto_obs;
+import static com.pango.hsec.hsec.GlobalVariables.Correccion_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Error_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Estado_obs;
 import static com.pango.hsec.hsec.GlobalVariables.HHA_obs;
@@ -32,7 +33,7 @@ public class FragmentObsCom extends Fragment implements IActivity {
     private View mView;
     String codObs;
     String url;
-    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar,tx_estado,tx_error,tx_StopWork;
+    TextView tx_obs_det,tx_accion,tx_act_rel,tx_hha,tx_sub_estandar,tx_estado,tx_error,tx_StopWork,tx_Correccion;
     // TODO: Rename and change types and number of parameters
     public static FragmentObsCom newInstance(String sampleText) {
         FragmentObsCom f = new FragmentObsCom();
@@ -57,6 +58,7 @@ public class FragmentObsCom extends Fragment implements IActivity {
         tx_estado=(TextView) mView.findViewById(R.id.tx_estado);
         tx_error=(TextView) mView.findViewById(R.id.tx_error);
         tx_StopWork=(TextView) mView.findViewById(R.id.tx_StopWork);
+        tx_Correccion=(TextView) mView.findViewById(R.id.tx_Correccion);
 
         GlobalVariables.view_fragment=mView;
         //GlobalVariables.isFragment=true;
@@ -93,6 +95,9 @@ public class FragmentObsCom extends Fragment implements IActivity {
             if(observacionModel.CodEstado!=null)tx_estado.setText(GlobalVariables.getDescripcion(Estado_obs,observacionModel.CodEstado));
             if(observacionModel.CodError!=null)tx_error.setText(GlobalVariables.getDescripcion(Error_obs,observacionModel.CodError));
             if(observacionModel.StopWork!=null)tx_StopWork.setText(GlobalVariables.getDescripcion(StopWork_obs,observacionModel.StopWork));
+            if(observacionModel.CodCorreccion!=null)tx_Correccion.setText(GlobalVariables.getDescripcion(Correccion_obs,observacionModel.CodCorreccion));
+
+
         }
     }
 

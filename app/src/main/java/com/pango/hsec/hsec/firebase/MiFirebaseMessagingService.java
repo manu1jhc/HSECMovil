@@ -54,6 +54,19 @@ public class MiFirebaseMessagingService extends FirebaseMessagingService {
     View popupView2;
     PopupWindow popupWindow2;
     protected Handler handler;
+
+ /*   @Override
+    public void onNewToken(String s) {
+        super.onNewToken(s);
+        Log.e("NEW_TOKEN", s);
+        // Get updated InstanceID token.
+        // If you want to send messages to this application instance or
+        // manage this apps subscriptions on the server side, send the
+        // Instance ID token to your app server.
+
+        //TODO: Send Token to Server
+    }
+*/
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);

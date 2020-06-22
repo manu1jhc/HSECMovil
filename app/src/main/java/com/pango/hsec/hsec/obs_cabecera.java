@@ -369,7 +369,6 @@ public class obs_cabecera extends Fragment implements IActivity{
         GlobalVariables.Obserbacion = gson.fromJson(data, ObservacionModel.class);
         GlobalVariables.StrObservacion = gson.toJson(GlobalVariables.Obserbacion);
         setdata();
-
     }
 
     @Override

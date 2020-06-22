@@ -67,7 +67,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
     String Elemperpage="9";
     BuscarPersonaAdapter ca;
     ImageButton btn_addpersona;
-    String titulo="";
+    String titulo="",TipoPersona="0";
     //int first_spinner = 0, first_spinner_counter = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
         setContentView(R.layout.activity_b_personas);
         Bundle datos = this.getIntent().getExtras();
         titulo=datos.getString("titulo");
+        TipoPersona= datos.getString("tipPersona","0");
 
         tx_b_persona=(TextView) findViewById(R.id.tx_b_persona);
         //btn_Agregar=(Button)findViewById(R.id.btn_Agregar);
@@ -217,7 +218,7 @@ public class B_personasM extends AppCompatActivity implements IActivity {
                 swipeRefreshLayout.setVisibility(View.VISIBLE);
 
                 filtro= Utils.ChangeUrl(String.valueOf(String.valueOf(id_nombre.getText())+"@"+id_apellidos.getText())+"@"+String.valueOf(id_dni.getText())
-                        +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:""));
+                        +"@"+(gerencia!=null?gerencia:"")+"@"+(superint!=null?superint:"")+"@"+TipoPersona);
 
                 url= GlobalVariables.Url_base+"Usuario/FiltroPersona?Filtros="+filtro+"&Pagenumber=1&Elemperpage="+Elemperpage;
                 //url="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/Usuario/FiltroPersona/@@@@/1/5";

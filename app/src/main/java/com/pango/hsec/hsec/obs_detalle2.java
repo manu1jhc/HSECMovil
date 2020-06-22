@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.Busquedas.B_personasM;
 import com.pango.hsec.hsec.adapter.CheckAdapter;
 import com.pango.hsec.hsec.adapter.CompCondAadpter;
@@ -152,7 +153,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
 
 //interaccion de seguridad
         textView41is= mView.findViewById(R.id.textView41is);
-        textView41is.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Equipo de inspección:"));
+        textView41is.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Realizado Por:"));
 
 
         if(GlobalVariables.Obserbacion==null)changueTipo(Tipo);
@@ -347,7 +348,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getContext(), B_personasM.class);
+                Intent intent = new Intent(getContext(), B_personas.class);
                 intent.putExtra("titulo","Equipo de inspección");
                 startActivityForResult(intent , 2);
 
@@ -608,7 +609,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
             /// interaccion de seguridad
             LinearLayoutManager horizontalManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
             listEquipoInsp.setLayoutManager(horizontalManager3);
-            listEquipoLAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListAtendidos, true);
+            listEquipoLAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListAtendidos, false);
             listEquipoInsp.setAdapter(listEquipoLAdapter);
 
             LinearLayoutManager horizontalManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -650,8 +651,9 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 listPersonAdapter.notifyDataSetChanged();
             }
             else if (requestCode == 2 && resultCode  == RESULT_OK) {
-                for(PersonaModel item:GlobalVariables.lista_Personas)
-                    if(item.Check) listEquipoLAdapter.add(new EquipoModel(item));
+
+                GlobalVariables.ListAtendidos.clear();
+                listEquipoLAdapter.add(new EquipoModel(data.getStringExtra("codpersona"),data.getStringExtra("nombreP"),data.getStringExtra("dni"),data.getStringExtra("cargo")));
                 listEquipoLAdapter.notifyDataSetChanged();
             }
         } catch (Exception ex) {
@@ -675,13 +677,16 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 for(EquipoModel item:GlobalVariables.ListResponsables)
                     GlobalVariables.StrResponsables.add((EquipoModel)item.clone());
             }else {
-                GlobalVariables.ListAtendidos = getEquipoModel.Data;
-                for(EquipoModel item:GlobalVariables.ListAtendidos)
+
+                for(EquipoModel item:getEquipoModel.Data)
                 {
-                    if(item.Estado.equals("1"))item.Lider="1";
-                    else item.Lider="0";
-                    item.Estado=null;
-                    GlobalVariables.StrAtendidos.add((EquipoModel)item.clone());
+                    if(item.Estado.equals("1")){
+                        item.Estado=null;
+                        GlobalVariables.ListAtendidos.clear();
+                        GlobalVariables.ListAtendidos.add((EquipoModel)item.clone());
+                        GlobalVariables.StrAtendidos.add((EquipoModel)item.clone());
+                        break;
+                    }
                 }
             }
             actives.add(1);

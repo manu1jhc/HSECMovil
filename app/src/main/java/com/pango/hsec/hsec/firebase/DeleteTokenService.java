@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -54,6 +55,29 @@ public class DeleteTokenService extends IntentService
 
             e.printStackTrace();
         }
+
+       /* FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "getInstanceId failed", task.getException());
+                            return;
+                        }
+                        // Get new Instance ID token
+                        String token = task.getResult().getToken();
+
+                        // Log and toast
+                        if(!StringUtils.isEmpty(token)){
+                            Toast.makeText(DeleteTokenService.this,"Token generado ",Toast.LENGTH_SHORT).show();
+                            saveTokenToPrefs(token);
+                        }
+                        else {
+                            Intent intentService = new Intent(DeleteTokenService.this, MiFirebaseInstanceIdService.class);
+                            startService(intentService);
+                        }
+                    }
+                });*/
     }
 
     private void saveTokenToPrefs(String _token)

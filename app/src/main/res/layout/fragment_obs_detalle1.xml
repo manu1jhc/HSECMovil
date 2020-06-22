@@ -73,572 +73,606 @@
                     tools:text="Observacion" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
-    <LinearLayout
-        android:id="@+id/ll_tarea"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        >
+
+        <LinearLayout
+            android:id="@+id/ll_tarea"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
 
 
-<!--             android:visibility="gone"
+            <!--             android:visibility="gone"
  -->
 
 
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_codPET"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_codPET"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
-                    android:id="@+id/txt_codpet"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView32pet"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView32pet"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:text="Código PET:"
-                    android:textAlignment="textEnd"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Código PET:" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <EditText
+                        android:id="@+id/txt_codpet"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@android:color/transparent"
+                        android:ems="10"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="@color/colorNegro"
+                        android:textSize="@dimen/size_text_der"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView32pet"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView32pet"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Código PET:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Código PET:" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_accion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_Obs">
-
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_accion"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Obs">
 
-                <EditText
-                    android:id="@+id/txt_accion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
+                    <EditText
+                        android:id="@+id/txt_accion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@android:color/transparent"
+                        android:ems="10"
 
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView4"
-                    app:layout_constraintTop_toTopOf="parent" />
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    android:text="Acción:"
-                    android:textAlignment="textEnd"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Accion" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                        android:textColor="@color/colorNegro"
+                        android:textSize="@dimen/size_text_der"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView4"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_actividad"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_accion">
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Acción:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Accion" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_actividad"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_accion">
 
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Actividad Relacionada:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <Spinner
-                    android:id="@+id/sp_actividad"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView14"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Actividad Relacionada:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_HHA"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_actividad">
+                    <Spinner
+                        android:id="@+id/sp_actividad"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView14"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_HHA"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_actividad">
 
-                <Spinner
-                    android:id="@+id/sp_hha"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView15"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView15"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text=" HHA Relacionada:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <Spinner
+                        android:id="@+id/sp_hha"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView15"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_Acto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_HHA">
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text=" HHA Relacionada:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_Acto"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_HHA">
 
-                <Spinner
-                    android:id="@+id/sp_acto"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView16"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
+                    <Spinner
+                        android:id="@+id/sp_acto"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView16"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    android:text="Acto Sub-Estándar:"
-                    android:textAlignment="textEnd"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_Condicion"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="1dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_Acto">
+                        android:text="Acto Sub-Estándar:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_Condicion"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Acto">
 
-                <Spinner
-                    android:id="@+id/sp_condicion"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView17"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView17"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Condición SubEstándar"
-                    android:textStyle="bold"
+                    <Spinner
+                        android:id="@+id/sp_condicion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView17"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
 
-                    android:textSize="@dimen/size_text_izq"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Condición SubEstándar"
+                        android:textSize="@dimen/size_text_izq"
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_Estado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_Condicion">
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_Estado"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Condicion">
 
-                <Spinner
-                    android:id="@+id/sp_estado"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView35"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView35"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Estado:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <Spinner
+                        android:id="@+id/sp_estado"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView35"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView35"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Estado:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
 
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_Error"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_Estado">
-
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_Error"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Estado">
 
-                <Spinner
-                    android:id="@+id/sp_error"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView25"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView25"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Error:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <Spinner
+                        android:id="@+id/sp_error"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView25"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_StopWork"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_Estado">
+                    <TextView
+                        android:id="@+id/textView25"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Error:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_StopWork"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Correccion">
 
-                <Spinner
-                    android:id="@+id/sp_stopwork"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_sw"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/tx_sw"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Stop Work:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <Spinner
+                        android:id="@+id/sp_stopwork"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tx_sw"
+                        app:layout_constraintTop_toTopOf="parent" />
 
+                    <TextView
+                        android:id="@+id/tx_sw"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Stop Work:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_comentRO"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_Correccion"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Estado">
 
-                <EditText
-                    android:id="@+id/txt_comentRO"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView33"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <TextView
-                    android:id="@+id/textView33"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:text="Comentarios Reconocimientos /Oportunidades:"
-                    android:textAlignment="textEnd"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    tools:text="Comentarios Reconocimientos /Oportunidades:" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <Spinner
+                        android:id="@+id/sp_Correccion"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tx_sw2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tx_sw2"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Correccion:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
 
-        <LinearLayout
-            android:id="@+id/ll_list_coment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            >
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_comentarios"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ColorPlomo4"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_comentRO"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/ColorPlomo4"
-                >
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="0dp"
-                    android:layout_height="29dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:text="Comentarios:"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imgComent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Comentarios:" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <ImageButton
-                    android:id="@+id/imgComent"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_add_circle_outline_black_24dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    <EditText
+                        android:id="@+id/txt_comentRO"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:ems="10"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:textColor="@color/colorNegro"
+                        android:textSize="@dimen/size_text_der"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView33"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <TextView
+                        android:id="@+id/textView33"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Comentarios Reconocimientos /Oportunidades:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        tools:text="Comentarios Reconocimientos /Oportunidades:" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
 
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_comentList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/ll_list_coment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/listComent"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_comentarios"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:layout_editor_absoluteX="8dp"
-                    tools:layout_editor_absoluteY="8dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4">
+
+                        <TextView
+                            android:id="@+id/textView34"
+                            android:layout_width="0dp"
+                            android:layout_height="29dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Comentarios:"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/imgComent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Comentarios:" />
+
+                        <ImageButton
+                            android:id="@+id/imgComent"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_add_circle_outline_black_24dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_comentList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/listComent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:layout_editor_absoluteX="8dp"
+                            tools:layout_editor_absoluteY="8dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+
 
         </LinearLayout>
-
-
-    </LinearLayout>
 
 
 

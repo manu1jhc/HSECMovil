@@ -395,7 +395,12 @@ public class AddRegistroAvance extends AppCompatActivity implements IActivity, P
         if(StringUtils.isEmpty(AddAccionMejora.CodResponsable) || AddAccionMejora.CodResponsable.equals("-1")) {ErrorForm+="*Responsable";}
         else if(StringUtils.isEmpty(AddAccionMejora.PorcentajeAvance)||AddAccionMejora.PorcentajeAvance.equals("0") ) {ErrorForm+="*Porcentaje de avance invalido";}
         else if(StringUtils.isEmpty(AddAccionMejora.Descripcion)) {ErrorForm+="*Tarea realizada";}
-
+        else {
+            ArrayList<GaleriaModel> DataAll=new ArrayList<>();
+            DataAll.addAll(DataImg);
+            DataAll.addAll(DataFiles);
+            if(DataAll.isEmpty()) ErrorForm+="*Adjuntos,  una foto o archivo";
+        }
         if(ErrorForm.isEmpty()) return true;
         else{
 

@@ -185,6 +185,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
                 Intent intent = new Intent(PlanAccionEdit.this, B_personasM.class);
                 //itle
                 intent.putExtra("titulo",title+"/Responsables");
+                intent.putExtra("tipPersona","1");
                 startActivityForResult(intent , 2);
             }
         });
@@ -193,6 +194,7 @@ public class PlanAccionEdit extends AppCompatActivity implements IActivity{
             public void onClick(View v) {
                 Intent intent = new Intent(PlanAccionEdit.this, B_personas.class);
                 intent.putExtra("title",title+"/Solicitante");
+                intent.putExtra("tipPersona","1");
                 startActivityForResult(intent , 1);
             }
         });

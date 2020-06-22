@@ -302,6 +302,8 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Estado_obs = new ArrayList<>();
     public static  ArrayList<Maestro> StopWork_obs = new ArrayList<>();
 
+    public static  ArrayList<Maestro> Correccion_obs = new ArrayList<>();
+
     //Verificacion Tipo
     public static  ArrayList<Maestro> Tipo_Ver = new ArrayList<>();
 
@@ -368,6 +370,7 @@ public class GlobalVariables  {
         Estado_obs.add(Select);
         Error_obs.add(Select);
         StopWork_obs.add(Select);
+        Correccion_obs.add(Select);
         Gerencia.add(Select);
         Tipo_insp.add(Select);
         Tipo_Plan.add(Select);
@@ -479,6 +482,8 @@ public class GlobalVariables  {
 
         StopWork_obs.add(new Maestro("SW01","SI"));
         StopWork_obs.add(new Maestro("SW02","NO"));
+
+
 
         Tipo_Ver.add(new Maestro("TV01","IPERC Continuo"));
         Tipo_Ver.add(new Maestro("TV02","PTAR"));

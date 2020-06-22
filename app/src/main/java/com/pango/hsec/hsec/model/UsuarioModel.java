@@ -25,5 +25,6 @@ public class UsuarioModel {
     public String Passwd;
     public String Estado;
     public boolean PerfilCap;
+    public String FichaCurso;
 
 }
