@@ -32,6 +32,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_logo_hsec2"
         android:supportsRtl="true"
+        android:requestLegacyExternalStorage="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".Busquedas.B_Verificaciones"

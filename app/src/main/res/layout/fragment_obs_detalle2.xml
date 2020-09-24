@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".obs_detalle2"
     >
-
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone"
+        android:visibility="visible"
         >
         <!-- personas observadas  -->
         <LinearLayout
@@ -50,14 +49,12 @@
                         android:layout_marginEnd="8dp"
                         android:layout_marginRight="8dp"
                         android:background="@color/ColorPlomo4"
-                        android:gravity="right|center_vertical"
+                        android:gravity="left|center_vertical"
                         android:paddingLeft="8dp"
                         android:paddingTop="@dimen/pad_topbottom_der"
                         android:paddingRight="8dp"
                         android:paddingBottom="@dimen/pad_topbottom_der"
                         android:text="Personas Observadas:"
-                        android:textAlignment="textStart"
-
                         android:textSize="@dimen/size_text_izq"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -537,18 +534,12 @@
 
 
     </LinearLayout>
-
-
-
-
-
     <LinearLayout
         android:id="@+id/ll_is"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="visible"
-
+        android:visibility="gone"
         >
         <android.support.v7.widget.CardView
             android:id="@+id/id_cv_equipo"
@@ -573,13 +564,12 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:paddingLeft="8dp"
                     android:paddingTop="@dimen/pad_topbottom_der"
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:text="Equipo de inspección:"
-                    android:textAlignment="textStart"
 
                     android:textSize="@dimen/size_text_izq"
                     android:textStyle="bold"
@@ -651,13 +641,12 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:paddingLeft="8dp"
                     android:paddingTop="@dimen/pad_topbottom_der"
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:text="Actividad de Alto riesgo identificada:"
-                    android:textAlignment="textStart"
                     android:textSize="@dimen/size_text_izq"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -732,13 +721,12 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginRight="8dp"
                     android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
+                    android:gravity="left|center_vertical"
                     android:paddingLeft="8dp"
                     android:paddingTop="@dimen/pad_topbottom_der"
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:text="Clasificación de la observación"
-                    android:textAlignment="textStart"
                     android:textSize="@dimen/size_text_izq"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -792,7 +780,147 @@
 
 
     </LinearLayout>
+    <LinearLayout
+        android:id="@+id/ll_iscc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible"
+        >
+        <android.support.v7.widget.CardView
+            android:id="@+id/id_cv_preiter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorPlomo4"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/ColorPlomo4"
+                >
+
+                <TextView
+                    android:id="@+id/textView41pre"
+                    android:layout_width="0dp"
+                    android:layout_height="29dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="left"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:text="Pre Interacción"
+
+                    android:textSize="@dimen/size_text_izq"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/add_preit"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+                <ImageButton
+                    android:id="@+id/add_preit"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:src="@drawable/ic_add_circle_outline_black_24dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_list_preiter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rec_listPreIter"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/id_cv_CierreIter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/ColorPlomo4"
+            android:layout_marginTop="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/ColorPlomo4"
+                >
+
+                <TextView
+                    android:id="@+id/textView44"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="left|center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:text="Cierre de Interacción:"
+                    android:textSize="@dimen/size_text_izq"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_list_CierreIt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rec_listCierreIt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="8dp"
+                    tools:layout_editor_absoluteY="8dp" />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

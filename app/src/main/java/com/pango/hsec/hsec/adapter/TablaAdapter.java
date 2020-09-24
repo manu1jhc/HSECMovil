@@ -37,6 +37,7 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
 
         //tablaViewHolder.descripcion.setText();
         tablaViewHolder.opciones.setImageResource(R.drawable.ic_correcto);
+
         String Descripcion="";
 
         switch (em.CodTipo){
@@ -44,9 +45,27 @@ public class TablaAdapter extends RecyclerView.Adapter<TablaAdapter.TablaViewHol
             case "OBSC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.Clasificacion_Obs, em.CodSubtipo); break;
             case "HHA":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.HHA_obs, em.CodSubtipo); break;
             case "OBCC":Descripcion=GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs, em.CodSubtipo); break;
+
+            case "OBSP":
+                Descripcion=GlobalVariables.getDescripcion(GlobalVariables.Pre_Interaccion, em.CodSubtipo);
+                break;
+            case "OBVE":
+                Descripcion=GlobalVariables.getDescripcion(GlobalVariables.Cierre_Interaccion, em.CodSubtipo);
+                if(em.Descripcion.equals("R001")){
+                    tablaViewHolder.opciones.setImageResource(R.drawable.ic_correcto);
+                }else if(em.Descripcion.equals("R002")){
+                    tablaViewHolder.opciones.setImageResource(R.drawable.ic_noaplica);
+                }
+
+                break;
+
         }
-        if(em.Descripcion !=null)  tablaViewHolder.descripcion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(tablaViewHolder.descripcion.getContext(), R.color.colorNegro)+">"+Descripcion+": </font>"+em.Descripcion));
+
+
+        if(em.Descripcion !=null && !em.CodTipo.equals("OBSP") && !em.CodTipo.equals("OBVE") ) tablaViewHolder.descripcion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(tablaViewHolder.descripcion.getContext(), R.color.colorNegro)+">"+Descripcion+": </font>"+em.Descripcion));
         else                      tablaViewHolder.descripcion.setText(Descripcion);
+
+
     }
 
 

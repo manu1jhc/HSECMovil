@@ -89,7 +89,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
             GlobalVariables.con_status=httpResponse.getStatusLine().getStatusCode();
 
             inputStream = httpResponse.getEntity().getContent();
-            if(inputStream != null)
+            if(inputStream != null&&GlobalVariables.con_status==200)
                 result = convertInputStreamToString(inputStream);
             else  result = "Error al obtener token!";
 
@@ -303,6 +303,19 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "OBCO":
                     GlobalVariables.Correccion_obs.add(item);
                     break;
+                case "PELF":
+                    GlobalVariables.Peligro_fatal.add(item);
+                    break;
+                case "UEPP":
+                    GlobalVariables.EPP.add(item);
+                    if(!item.CodTipo.contains("."))
+                        GlobalVariables.TipoEpp_obs.add(item);
+                    break;
+                case "COVI":
+                    GlobalVariables.Covid.add(item);
+                    break;
+
+
                 /*default:
                     break;*/
             }

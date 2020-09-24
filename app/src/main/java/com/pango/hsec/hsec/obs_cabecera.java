@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
@@ -51,13 +52,14 @@ public class obs_cabecera extends Fragment implements IActivity{
     DialogFragment newFragment;
     Button botonEscogerFecha;
     ImageButton btnSelectObservador;
-    Spinner spinnerArea, spinnerNivel, spinnerUbica,spinnerSububic,spinnerUbicEspec, spinnerTipoObs;
+    Spinner spinnerArea, spinnerNivel, spinnerUbica,spinnerSububic,spinnerUbicEspec, spinnerTipoObs,spinnerSubtipo;
+    CardView CarSubTipo;
     String Ubicacionfinal="";
     EditText txtLugar;
     TextView txtObservado;
     TextView Codigo;
     String Ubicacion="";
-    TextView textView6, textView7,textView9;
+    TextView textView6, textView7,textView9,textView12;
 
     public ArrayAdapter adapterUbicEspc,adapterSubN;
 
@@ -85,18 +87,25 @@ public class obs_cabecera extends Fragment implements IActivity{
         spinnerSububic = (Spinner) mView.findViewById(R.id.spinner_sububic);
         spinnerUbicEspec = (Spinner) mView.findViewById(R.id.spinner_ubicespc);
         spinnerTipoObs = (Spinner) mView.findViewById(R.id.spinner_tipobs);
+        spinnerSubtipo = (Spinner) mView.findViewById(R.id.spinner_subtipo);
+        CarSubTipo =(CardView) mView.findViewById(R.id.id_SubTipo);
         textView6=mView.findViewById(R.id.textView6);
         textView6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Área"));
         //sp2.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(this, R.color.colorRojo)+"> * </font>"+"Responsable"));
         textView7=mView.findViewById(R.id.textView7);
         textView7.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Nivel de Riesgo:"));
-
         textView9=mView.findViewById(R.id.textView9);
         textView9.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Ubicación:"));
+        textView12=mView.findViewById(R.id.textView12);
+        textView12.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Lugar:"));
 
         ArrayAdapter adapterTipoObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Tipo_obs);
         adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerTipoObs.setAdapter(adapterTipoObs);
+
+        ArrayAdapter adapterSubTipo = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.SubTipo_obs);
+        adapterSubTipo.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
+        spinnerSubtipo.setAdapter(adapterSubTipo);
 
         ArrayAdapter adapterArea = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Area_obs);
         adapterArea.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
@@ -252,9 +261,15 @@ public class obs_cabecera extends Fragment implements IActivity{
                 Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_tipobs) ).getSelectedItem();
                 GlobalVariables.Obserbacion.CodTipo=Tipo.CodTipo;
                 GlobalVariables.ObserbacionDetalle.CodTipo=Tipo.CodTipo;
-
+                if(Tipo.CodTipo.equals("TO04")) {
+                    if(!StringUtils.isEmpty(GlobalVariables.Obserbacion.CodSubTipo))spinnerSubtipo.setSelection(GlobalVariables.indexOf(GlobalVariables.SubTipo_obs,GlobalVariables.Obserbacion.CodSubTipo));
+                    else spinnerSubtipo.setSelection(0);
+                    CarSubTipo.setVisibility(View.VISIBLE);
+                }
+                else {
+                    CarSubTipo.setVisibility(View.GONE);
+                }
                 TabHost tabHost = (TabHost)getActivity().findViewById(android.R.id.tabhost);
-
                 TabWidget widget = tabHost.getTabWidget();
                 for(int i = 0; i < widget.getChildCount(); i++) {
                     if(i==2){
@@ -269,7 +284,17 @@ public class obs_cabecera extends Fragment implements IActivity{
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
-
+        spinnerSubtipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_subtipo) ).getSelectedItem();
+                GlobalVariables.Obserbacion.CodSubTipo=Tipo.CodTipo;
+                //GlobalVariables.ObserbacionDetalle.CodHHA=Tipo.CodTipo;
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+            }
+        });
         spinnerArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {

@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/HSECMovil20.iml" filepath="$PROJECT_DIR$/HSECMovil20.iml" group="HSECMovil20" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="HSECMovil20/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/HSECMovil.iml" filepath="$PROJECT_DIR$/.idea/modules/HSECMovil.iml" group="HSECMovil" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="HSECMovil/app" />
     </modules>
   </component>
 </project>

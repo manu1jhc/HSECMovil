@@ -38,6 +38,7 @@ import com.pango.hsec.hsec.adapter.CompCondAadpter;
 import com.pango.hsec.hsec.adapter.IconAdapter;
 import com.pango.hsec.hsec.adapter.ListEquipoAdapter;
 import com.pango.hsec.hsec.adapter.ListISAdapter;
+import com.pango.hsec.hsec.adapter.ListYesNotAdapter;
 import com.pango.hsec.hsec.adapter.ObsComentAdapter;
 import com.pango.hsec.hsec.adapter.ObsMetodAdapter;
 import com.pango.hsec.hsec.adapter.OsbClasifAdapter;
@@ -61,15 +62,17 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class obs_detalle2 extends Fragment implements IActivity{
     private static View mView;
-    ImageButton add_personas, add_etapa, add_equipo, add_hha, add_ClasifObs;
+    ImageButton add_personas, add_etapa, add_equipo, add_hha, add_ClasifObs, add_PreIteraccion;
     String title = "Personas Observadas";
-    private RecyclerView listView, RecyclerEtapa, listEquipoInsp, rec_listHHA, rec_listClasif;
+    private RecyclerView listView, RecyclerEtapa, listEquipoInsp, rec_listHHA, rec_listClasif,RecPreIter,RecCierreIter;
     private ListEquipoAdapter listPersonAdapter, listEquipoLAdapter;
 
     public static ArrayList<SubDetalleModel> ListHHA = new ArrayList<>();
     public static ArrayList<SubDetalleModel> ListClasific = new ArrayList<>();
+    public static ArrayList<SubDetalleModel> ListPreInter = new ArrayList<>();
 
-    public ObsMetodAdapter listISAdapter,obsClasifAdapter;
+    public ObsMetodAdapter listISAdapter,obsClasifAdapter,listPreIterAdapter;
+    ListYesNotAdapter listYesNotAdapter;
     ObsComentAdapter obsComentAdapter;
 
     Spinner sp_asp1,sp_asp2,sp_asp3,sp_asp4,sp_asp5,sp_asp6,sp_asp7,sp_asp8;
@@ -111,13 +114,15 @@ public class obs_detalle2 extends Fragment implements IActivity{
         listEquipoInsp = (RecyclerView) mView.findViewById(R.id.listEquipoInsp);
         rec_listHHA = (RecyclerView) mView.findViewById(R.id.rec_listHHA);
         rec_listClasif = (RecyclerView) mView.findViewById(R.id.rec_listClasif);
+        RecPreIter = (RecyclerView) mView.findViewById(R.id.rec_listPreIter);
+        RecCierreIter = (RecyclerView) mView.findViewById(R.id.rec_listCierreIt);
 
         add_personas = mView.findViewById(R.id.add_personas);
         add_etapa = mView.findViewById(R.id.add_etapa);
         add_equipo = mView.findViewById(R.id.add_equipo);
         add_hha = mView.findViewById(R.id.add_hha);
         add_ClasifObs = mView.findViewById(R.id.add_ClasifObs);
-
+        add_PreIteraccion=mView.findViewById(R.id.add_preit);
         sp_asp1 = mView.findViewById(R.id.sp_asp1);
         sp_asp2 = mView.findViewById(R.id.sp_asp2);
         sp_asp3 = mView.findViewById(R.id.sp_asp3);
@@ -131,32 +136,12 @@ public class obs_detalle2 extends Fragment implements IActivity{
         tx_aspPrev = mView.findViewById(R.id.tx_aspPrev);
         tx_aspPrev.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Aspectos Previos Observados"));
 
-//        textView34po = mView.findViewById(R.id.textView34po);
-//        textViewasp1 = mView.findViewById(R.id.textViewasp1);
-//        textViewasp2 = mView.findViewById(R.id.textViewasp2);
-//        textViewasp3 = mView.findViewById(R.id.textViewasp3);
-//        textViewasp4 = mView.findViewById(R.id.textViewasp4);
-//        textViewasp5 = mView.findViewById(R.id.textViewasp5);
-//        textViewasp6 = mView.findViewById(R.id.textViewasp6);
-//        textViewasp7 = mView.findViewById(R.id.textViewasp7);
-//        textViewasp8 = mView.findViewById(R.id.textViewasp8);
-//
-//        textView34po.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Personas Observadas:"));
-//        textViewasp1.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"EPP completos para la tarea:"));
-//        textViewasp2.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Orden y Limpieza:"));
-//        textViewasp3.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Estado de Herramientas:"));
-//        textViewasp4.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Materiales necesarios para la tarea:"));
-//        textViewasp5.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Estado de las instalaciones y/o estructurastarea:"));
-//        textViewasp6.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Análisis de Seguridad en el trabajo / Peligros identificados y controles existentes:"));
-//        textViewasp7.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Permiso(s) de Trabajo:"));
-//        textViewasp8.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"EPP completos para la tarea:"));
-
 //interaccion de seguridad
         textView41is= mView.findViewById(R.id.textView41is);
         textView41is.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Realizado Por:"));
 
 
-        if(GlobalVariables.Obserbacion==null)changueTipo(Tipo);
+        if(GlobalVariables.Obserbacion==null)changueTipo(Tipo,"0");
 
        if(GlobalVariables.ObjectEditable){ // load data of server
 
@@ -172,7 +157,7 @@ public class obs_detalle2 extends Fragment implements IActivity{
                     obj2.execute("2-"+Tipo);
                 }
             }
-            else setData(Tipo);
+            else setData(Tipo,GlobalVariables.Obserbacion.CodSubTipo);
         }
         else // new SubDetalle
         {
@@ -183,9 +168,10 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 GlobalVariables.ListAtendidos= new ArrayList<>();
                 for(Maestro item:GlobalVariables.Aspectos_Obs)
                     GlobalVariables.SubDetalleTa.add(new SubDetalleModel("PREA",item.CodTipo,"R003"));
+                for(Maestro item:GlobalVariables.Cierre_Interaccion)
+                    GlobalVariables.SubDetalleIS.add(new SubDetalleModel("OBVE",item.CodTipo,"R001"));
             }
-           // for(int i=0)
-            setData(Tipo);
+            setData(Tipo,GlobalVariables.Obserbacion.CodSubTipo);
         }
         //setData();
 
@@ -546,6 +532,97 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 });
             }
         });
+// boton añadir Pre-Interaccion
+        add_PreIteraccion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //ImageButton btn_Cerrar;
+                RecyclerView rec_listClasificObs;
+                Button btn_agregar, btn_cerrar;
+                CheckBox checkBoxall;
+                TextView txt_title;
+                //ArrayList<Boolean> estado = new ArrayList<Boolean>();
+                CardView id_cv_Otros;
+
+                layoutInflater =(LayoutInflater)mView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                popupView = layoutInflater.inflate(R.layout.popup_metodologia, null);
+                popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, true);
+
+                popupWindow.showAtLocation(add_PreIteraccion, Gravity.NO_GRAVITY, 0, 0);
+                popupWindow.setFocusable(true);
+                //popupWindow.update();
+                popupWindow.setBackgroundDrawable(new ColorDrawable()); //Color.TRANSPARENT
+                popupWindow.setOutsideTouchable(true);
+                popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
+                btn_agregar = popupView.findViewById(R.id.btn_agregar);
+                checkBoxall = popupView.findViewById(R.id.checkBoxall);
+                txt_title = popupView.findViewById(R.id.txt_title);
+                txt_title.setText("PRE-INTERACCIÓN");
+                rec_listClasificObs = (RecyclerView) popupView.findViewById(R.id.list_Metodologia);
+                id_cv_Otros = popupView.findViewById(R.id.id_cv_Otros);
+                id_cv_Otros.setVisibility(View.GONE);
+                btn_cerrar = popupView.findViewById(R.id.btn_cerrar);
+
+                init_PreIter();
+                int cont=0;
+                for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                    if(item2.CodTipo.equals("OBSP"))  //OBVE
+                    {
+                        cont++;
+                        for(SubDetalleModel item : ListPreInter)
+                            if(item2.CodSubtipo.equals(item.CodSubtipo)) {
+                                item.Check=true;
+                                continue;
+                            }
+                    }
+                }
+                if(ListPreInter.size()==cont)checkBoxall.setChecked(true);
+                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                rec_listClasificObs.setLayoutManager(horizontalManager);
+                checkAdapter = new CheckAdapter(getActivity(), ListPreInter, checkBoxall,id_cv_Otros);
+                rec_listClasificObs.setAdapter(checkAdapter);
+
+                btn_cerrar.setOnClickListener(new Button.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+
+                    }});
+
+                btn_agregar.setOnClickListener(new Button.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        List<SubDetalleModel> itemsOther= new ArrayList<>();
+                        for(SubDetalleModel item2 : GlobalVariables.SubDetalleIS){
+                            if(!item2.CodTipo.equals("OBSP")) itemsOther.add(item2);
+                        }
+                        GlobalVariables.SubDetalleIS.clear();
+                        GlobalVariables.SubDetalleIS.addAll(itemsOther);
+                        for(SubDetalleModel item : ListPreInter) {
+                            if(item.Check)  {
+                                item.Descripcion=null;
+                                listPreIterAdapter.add(item);
+                            }
+                        }
+                        listPreIterAdapter.notifyDataSetChanged();
+                        popupWindow.dismiss();
+                    }
+                });
+
+                checkBoxall.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        for(SubDetalleModel item : ListPreInter) {
+                            item.Check=checkBoxall.isChecked();
+                        }
+                        checkAdapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        });
         return mView;
     }
 
@@ -572,7 +649,12 @@ public class obs_detalle2 extends Fragment implements IActivity{
             ListClasific.add(new SubDetalleModel("OBSC",GlobalVariables.Clasificacion_Obs.get(i).CodTipo,GlobalVariables.Clasificacion_Obs.get(i).Descripcion));
     }
 
-    public void setData(String Tipo) {
+    public void init_PreIter(){
+        ListPreInter.clear();
+        for (int i=0; i<GlobalVariables.Pre_Interaccion.size(); i++)
+            ListPreInter.add(new SubDetalleModel("OBSP",GlobalVariables.Pre_Interaccion.get(i).CodTipo,GlobalVariables.Pre_Interaccion.get(i).Descripcion));
+    }
+    public void setData(String Tipo,String SubTipo) {
 
         if (Tipo.equals("TO03")) {
             //personas observadas
@@ -604,41 +686,66 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 }
             }
         }
-        else if(Tipo.equals("TO04")){
+        else if(Tipo.equals("TO04"))//if(Tipo.equals("TO04"))
+        {
             //interaccion de seguridad
             /// interaccion de seguridad
-            LinearLayoutManager horizontalManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            listEquipoInsp.setLayoutManager(horizontalManager3);
-            listEquipoLAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListAtendidos, false);
-            listEquipoInsp.setAdapter(listEquipoLAdapter);
 
-            LinearLayoutManager horizontalManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            rec_listHHA.setLayoutManager(horizontalManager4);
-            listISAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"HHA",(observacion_edit) this.getActivity());
-            rec_listHHA.setAdapter(listISAdapter);
+            int Subtipo = Integer.parseInt(SubTipo);
+            if(Subtipo>1){
+                LinearLayoutManager horizontalManager2 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                RecPreIter.setLayoutManager(horizontalManager2);
+                listPreIterAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"OBSP",(observacion_edit) this.getActivity());
+                RecPreIter.setAdapter(listPreIterAdapter);
 
-            LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-            rec_listClasif.setLayoutManager(horizontalManager);
-            obsClasifAdapter = new ObsMetodAdapter(getActivity(),  GlobalVariables.SubDetalleIS,"OBSC",(observacion_edit) this.getActivity());
-            rec_listClasif.setAdapter(obsClasifAdapter);
+                LinearLayoutManager horizontalManager1 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                RecCierreIter.setLayoutManager(horizontalManager1);
+                listYesNotAdapter = new ListYesNotAdapter(getActivity(), GlobalVariables.SubDetalleIS,"OBVE",(observacion_edit) this.getActivity());
+                RecCierreIter.setAdapter(listYesNotAdapter);
+            }
+            else {
+                LinearLayoutManager horizontalManager3 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                listEquipoInsp.setLayoutManager(horizontalManager3);
+                listEquipoLAdapter = new ListEquipoAdapter(getActivity(), GlobalVariables.ListAtendidos, false);
+                listEquipoInsp.setAdapter(listEquipoLAdapter);
+
+                LinearLayoutManager horizontalManager4 = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                rec_listHHA.setLayoutManager(horizontalManager4);
+                listISAdapter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS, "HHA", (observacion_edit) this.getActivity());
+                rec_listHHA.setAdapter(listISAdapter);
+
+                LinearLayoutManager horizontalManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                rec_listClasif.setLayoutManager(horizontalManager);
+                obsClasifAdapter = new ObsMetodAdapter(getActivity(), GlobalVariables.SubDetalleIS, "OBSC", (observacion_edit) this.getActivity());
+                rec_listClasif.setAdapter(obsClasifAdapter);
+            }
         }
     }
 
-    public void changueTipo(String Tipo) {
+    public void changueTipo(String Tipo,String SubTipo) {
 
-        if(!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO03")){
+        if(Tipo.equals("TO03")){ //!StringUtils.isEmpty(Tipo)&&
             mView.findViewById(R.id.ll_tarea).setVisibility(View.VISIBLE);
             mView.findViewById(R.id.ll_is).setVisibility(View.GONE);
-            setData(Tipo);
-        }else if (!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO04")) {
+            mView.findViewById(R.id.ll_iscc).setVisibility(View.GONE);
+            setData(Tipo,SubTipo);
+        }else { // if (!StringUtils.isEmpty(Tipo)&& Tipo.equals("TO04"))
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
-            mView.findViewById(R.id.ll_is).setVisibility(View.VISIBLE);
-            setData(Tipo);
-        }else {
-
+            int Subtipo = Integer.parseInt(SubTipo);
+            if(Subtipo>1)  {
+                mView.findViewById(R.id.ll_is).setVisibility(View.GONE);
+                mView.findViewById(R.id.ll_iscc).setVisibility(View.VISIBLE);
+            }
+            else {
+                mView.findViewById(R.id.ll_is).setVisibility(View.VISIBLE);
+                mView.findViewById(R.id.ll_iscc).setVisibility(View.GONE);
+            }
+            setData(Tipo,SubTipo);
+        }
+       /* else {
             mView.findViewById(R.id.ll_tarea).setVisibility(View.GONE);
             mView.findViewById(R.id.ll_is).setVisibility(View.GONE);
-        }
+        }*/
     }
         @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -690,8 +797,8 @@ public class obs_detalle2 extends Fragment implements IActivity{
                 }
             }
             actives.add(1);
-            if(tipoObs[1].equals("TO04"))setData(tipoObs[1]);
-            else if(actives.size()==2) setData(tipoObs[1]);
+            if(tipoObs[1].equals("TO04"))setData(tipoObs[1],GlobalVariables.Obserbacion.CodSubTipo);
+            else if(actives.size()==2) setData(tipoObs[1],"0");
         } else if (tipoObs[0].equals("2")) {
 
             Gson gson = new Gson();
@@ -701,19 +808,14 @@ public class obs_detalle2 extends Fragment implements IActivity{
             for(SubDetalleModel item:GlobalVariables.SubDetalleTa)
                 GlobalVariables.StrSubDetalleTa.add((SubDetalleModel)item.clone());
             actives.add(1);
-            if(actives.size()==2)setData(tipoObs[1]);
+            if(actives.size()==2)setData(tipoObs[1],"0");
         }
     }
 
     @Override
     public void successpost(String data, String Tipo){
-
     }
-
     @Override
     public void error(String mensaje, String Tipo) {
-
     }
-
 }
-

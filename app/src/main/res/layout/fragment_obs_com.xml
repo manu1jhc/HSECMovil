@@ -33,7 +33,7 @@
             android:id="@+id/tx_obs_det"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="TextView"
+            android:text=" "
             android:layout_weight="0.35"
             android:layout_marginLeft="10dp"
             />
@@ -68,7 +68,7 @@
                 android:id="@+id/tx_accion"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
+                android:text=" "
                 android:layout_weight="0.35"
                 android:layout_marginLeft="10dp"
 
@@ -103,7 +103,7 @@
                 android:id="@+id/tx_act_rel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
+                android:text=" "
                 android:layout_weight="0.35"
                 android:layout_marginLeft="10dp"
                 />
@@ -139,7 +139,7 @@
                 android:id="@+id/tx_hha"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
+                android:text=" "
                 android:layout_weight="0.35"
                 android:layout_marginLeft="10dp"
 
@@ -175,7 +175,7 @@
                 android:id="@+id/tx_sub_estandar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
+                android:text=" "
                 android:layout_weight="0.35"
                 android:layout_marginLeft="10dp"
 
@@ -183,6 +183,123 @@
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_51"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx51"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.65"
+                android:text="SubTipo"
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
+
+            <TextView
+                android:id="@+id/tx_sub_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_weight="0.35"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_52"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx52"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.65"
+                android:text="Tipo Protección"
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
+
+            <TextView
+                android:id="@+id/tx_tipo_prot"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_53"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_margin="2dp"
+            >
+
+            <TextView
+                android:id="@+id/tx53"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.65"
+                android:text="EPP"
+                android:fontFamily="@font/asap"
+                android:textColor="@color/colorNegro" />
+
+            <TextView
+                android:id="@+id/tx_epp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" "
+                android:layout_weight="0.35"
+                android:layout_marginLeft="10dp"
+
+                />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
@@ -210,7 +327,7 @@
                 android:id="@+id/tx_estado"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
+                android:text=" "
                 android:layout_weight="0.35"
                 android:layout_marginLeft="10dp"
 
@@ -246,7 +363,7 @@
                 android:id="@+id/tx_error"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="TextView"
+                android:text=" "
                 android:layout_weight="0.35"
                 android:layout_marginLeft="10dp"
 

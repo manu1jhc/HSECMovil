@@ -6,6 +6,8 @@ import android.util.Patterns;
 import android.view.View;
 
 import com.pango.hsec.hsec.model.CapCursoMinModel;
+import com.pango.hsec.hsec.model.CartillaModel;
+import com.pango.hsec.hsec.model.ControlCriticoModel;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
@@ -63,8 +65,11 @@ public class GlobalVariables  {
 
     public static List<SubDetalleModel> SubDetalleTa=new ArrayList<>();
     public static List<SubDetalleModel> SubDetalleIS=new ArrayList<>();
+    public static List<ControlCriticoModel> CriteriosEvalCC=new ArrayList<>();
     public static List<SubDetalleModel> StrSubDetalleTa=new ArrayList<>();
     public static List<SubDetalleModel> StrSubDetalleIS=new ArrayList<>();
+    public static List<ControlCriticoModel> StrCriteriosEvalCC=new ArrayList<>();
+
 
     public static String ObserbacionFile;
     public static String ObserbacionPlan;
@@ -273,6 +278,8 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Area_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs2 = new ArrayList<>();
+    public static  ArrayList<Maestro> SubTipo_obs = new ArrayList<>();
+
 
     public static  ArrayList<Maestro> Gerencia = new ArrayList<>();
     public static  ArrayList<Maestro> SuperIntendencia = new ArrayList<>();
@@ -298,11 +305,18 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Actividad_obs = new ArrayList<>();
     public static  ArrayList<Maestro> HHA_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Acto_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> Covid_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> TipoEpp_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> Epp_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Condicion_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Estado_obs = new ArrayList<>();
     public static  ArrayList<Maestro> StopWork_obs = new ArrayList<>();
 
     public static  ArrayList<Maestro> Correccion_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> Peligro_fatal = new ArrayList<>();
+    public static  ArrayList<Maestro> EPP = new ArrayList<>();
+    public static  ArrayList<Maestro> Covid = new ArrayList<>();
+
 
     //Verificacion Tipo
     public static  ArrayList<Maestro> Tipo_Ver = new ArrayList<>();
@@ -336,6 +350,9 @@ public class GlobalVariables  {
 
     public static ArrayList<Maestro> Opc_aspecto = new ArrayList<>();
     public static ArrayList<Maestro> Opc_aspectoIcon = new ArrayList<>();
+    public static ArrayList<Maestro> Pre_Interaccion = new ArrayList<>();
+    public static ArrayList<Maestro> Cierre_Interaccion = new ArrayList<>();
+    public static ArrayList<Maestro> Opc_YesNot = new ArrayList<>();
 
     //public static int paginacion=1;
     //obs Interaccion de Seguridad
@@ -365,7 +382,7 @@ public class GlobalVariables  {
         NivelRiesgo_obs.add(Select);
         Actividad_obs.add(Select);
         HHA_obs.add(Select);
-        Acto_obs.add(Select);
+        TipoEpp_obs.add(Select);
         Condicion_obs.add(Select);
         Estado_obs.add(Select);
         Error_obs.add(Select);
@@ -438,17 +455,23 @@ public class GlobalVariables  {
         Tipo_obs.add(new Maestro("TO03", "Tarea"));
         Tipo_obs.add(new Maestro("TO04", "Interacción de Seguridad (IS)"));
 
+        SubTipo_obs.add(new Maestro("1", "Interacción de Seguridad"));
+        SubTipo_obs.add(new Maestro("2", "Interacción de Control Crítico"));
+        SubTipo_obs.add(new Maestro("3", "Interacción Covid-19"));
+
 
         NivelRiesgo_obs.add(new Maestro("BA", "Baja"));
         NivelRiesgo_obs.add(new Maestro("ME", "Media"));
         NivelRiesgo_obs.add(new Maestro("AL", "Alta"));
 
         SubDetalleTipoDesc.add(new Maestro("PREA", "Aspectos Previos"));
-        SubDetalleTipoDesc.add(new Maestro("PETO", "Etapa/Desviacion"));
+        SubDetalleTipoDesc.add(new Maestro("PETO", "Etapa/Desviación"));
         SubDetalleTipoDesc.add(new Maestro("HHA", "Actividad de alto riesgo"));
-        SubDetalleTipoDesc.add(new Maestro("OBSC", "Clasificacion de la Obs"));
+        SubDetalleTipoDesc.add(new Maestro("OBSC", "Clasificación de la Obs"));
         SubDetalleTipoDesc.add(new Maestro("OBSR", "Metodologia de gestion de riesgo"));
-        SubDetalleTipoDesc.add(new Maestro("OBCC", "Comportamiento/Condicion"));
+        SubDetalleTipoDesc.add(new Maestro("OBCC", "Comportamiento/Condición"));
+        SubDetalleTipoDesc.add(new Maestro("OBVE", "Cierre de Interacción"));
+        SubDetalleTipoDesc.add(new Maestro("OBSP", "Pre Interacción"));
 
 
         ObsFacilito_tiempo.add(new Maestro("00","Inmediato"));
@@ -479,14 +502,22 @@ public class GlobalVariables  {
         Opc_aspectoIcon.add(new Maestro("R001", "Correcto", R.drawable.ic_correcto));
         Opc_aspectoIcon.add(new Maestro("R002", "Incorrecto", R.drawable.ic_incorrecto));
 
+        Opc_YesNot.add(new Maestro("R001", "SI", R.drawable.ic_correcto));
+        Opc_YesNot.add(new Maestro("R002", "NO", R.drawable.ic_incorrecto));
 
         StopWork_obs.add(new Maestro("SW01","SI"));
         StopWork_obs.add(new Maestro("SW02","NO"));
 
-
-
         Tipo_Ver.add(new Maestro("TV01","IPERC Continuo"));
         Tipo_Ver.add(new Maestro("TV02","PTAR"));
+
+        Pre_Interaccion.add(new Maestro("PREINI01","Explicar a los trabajadores que serán parte de la interacción, pida a los trabajadores explicar el trabajo/tarea que se esta realizando, asi como los peligros potenciales, evidentes y ocultos, que podrían encontrar."));
+        Pre_Interaccion.add(new Maestro("PREINI02","Revise si se han establecido los controles apropiados para gestionar los peligros, en el IPERC continuo y permisos correspondientes, cuando aplique."));
+
+        Cierre_Interaccion.add(new Maestro("OBVE01","Refuerce al trabajador el comportamiento seguro encontrado durante la verificación."));
+        Cierre_Interaccion.add(new Maestro("OBVE02","Refuerce al trabajador las consecuencias (impacto) del comportamiento seguro."));
+        Cierre_Interaccion.add(new Maestro("OBVE03","Felicite al trabajador por los comportamientos seguros encontrados durante la verificación."));
+        Cierre_Interaccion.add(new Maestro("OBVE04","Oriente a los empleados en cuanto a los comportamientos de riesgo observados."));
 
 
 //        if (aspectoModel.get(i).Descripcion.equals("R001")){
@@ -581,6 +612,14 @@ public class GlobalVariables  {
 
     }
 
+    public static ArrayList<Maestro> Reverse(ArrayList<Maestro> Lista){
+        ArrayList<Maestro> ListaReverse = new ArrayList<>();
+        ListaReverse.add(new Maestro("-  Seleccione  -"));
+        for (int i=Lista.size()-1;i>=0;i--){
+            ListaReverse.add(Lista.get(i));
+        }
+        return ListaReverse;
+    }
     public static void reloadUbicacion(){
         GlobalVariables.SubUbicacion_obs.clear();
         GlobalVariables.UbicacionEspecifica_obs.clear();

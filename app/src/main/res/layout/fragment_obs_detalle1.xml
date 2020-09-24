@@ -1,31 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.pango.hsec.hsec.obs_detalle1"
-    >
-
-
-    <!--     android:fillViewport="true"
- -->
-
+    tools:context="com.pango.hsec.hsec.obs_detalle1">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-<!-- quitar de visible a gone  -->
+        android:orientation="vertical">
+        <!-- quitar de visible a gone  -->
         <android.support.v7.widget.CardView
             android:id="@+id/id_Obs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-
             android:layout_marginTop="1dp"
+
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -38,8 +30,8 @@
                     android:id="@+id/txt_observacion"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:background="@android:color/transparent"
                     android:ems="10"
                     android:gravity="top"
@@ -57,20 +49,20 @@
                     android:id="@+id/textView6"
                     android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:text="Observación:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
                     android:background="@color/ColorPlomo4"
                     android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
                     android:paddingLeft="8dp"
+                    android:paddingTop="@dimen/pad_topbottom_der"
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
+                    android:text="Observación:"
+                    android:textAlignment="textEnd"
+                    android:textSize="@dimen/size_text_izq"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Observacion" />
+                    tools:text="Observacion:" />
             </android.support.constraint.ConstraintLayout>
         </android.support.v7.widget.CardView>
 
@@ -79,12 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:visibility="gone">
-
-
-            <!--             android:visibility="gone"
- -->
-
+            android:visibility="visible">
 
             <android.support.v7.widget.CardView
                 android:id="@+id/id_codPET"
@@ -139,7 +126,6 @@
                         tools:text="Código PET:" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-
 
             <android.support.v7.widget.CardView
                 android:id="@+id/id_accion"
@@ -325,6 +311,96 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/id_TipoEpp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Acto">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Spinner
+                        android:id="@+id/sp_TipoEpp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView19"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+
+                        android:text="Tipo Protección:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_Epp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_TipoEpp">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Spinner
+                        android:id="@+id/sp_Epp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView20"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+
+                        android:text="EPP:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:id="@+id/id_Condicion"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -369,13 +445,58 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/id_Covid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_Condicion">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Spinner
+                        android:id="@+id/sp_covid"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/textView18"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+
+                        android:text="Sub Tipo:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintHorizontal_chainStyle="packed"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
                 android:id="@+id/id_Estado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/id_Condicion">
+                app:layout_constraintTop_toBottomOf="@+id/id_Covid">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -409,7 +530,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-
 
             <android.support.v7.widget.CardView
                 android:id="@+id/id_Error"
@@ -537,7 +657,6 @@
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
 
-
             <android.support.v7.widget.CardView
                 android:id="@+id/id_comentRO"
                 android:layout_width="match_parent"
@@ -585,7 +704,6 @@
                         tools:text="Comentarios Reconocimientos /Oportunidades:" />
                 </android.support.constraint.ConstraintLayout>
             </android.support.v7.widget.CardView>
-
 
             <LinearLayout
                 android:id="@+id/ll_list_coment"
@@ -670,612 +788,624 @@
                 </android.support.v7.widget.CardView>
 
             </LinearLayout>
-
-
         </LinearLayout>
 
+        // interaccion de seguridad
 
-
-    // interaccion de seguridad
-    <LinearLayout
-        android:id="@+id/ll_IS"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
-<!--
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_ObsIS"
+        <LinearLayout
+            android:id="@+id/ll_IS"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.v7.widget.CardView
+                android:id="@+id/id_ISempresa"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/id_accion">
 
-                <EditText
-                    android:id="@+id/txt_ISObs"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_obsIS"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tx_obsIS"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Observación:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Observacion" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
--->
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_ISempresa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_accion">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/tx_empresa"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Empresa:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-<!--
-                <Spinner
-                    android:id="@+id/sp_empresa"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_empresa"
-                    app:layout_constraintTop_toTopOf="parent" />
-
--->
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.28"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_empresa"
-                    app:layout_constraintTop_toTopOf="parent">
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
                     <TextView
-                        android:id="@+id/tx_ISempresa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.16"
-                        android:enabled="false"
-                        android:gravity="left"
+                        android:id="@+id/tx_empresa"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
                         android:paddingLeft="8dp"
-
-                        android:paddingTop="2dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
                         android:paddingRight="8dp"
-                        android:paddingBottom="2dp"
-                        android:text=""
-                        android:textColor="@color/colorNegro"
-                        android:textSize="@dimen/size_text_der" />
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Empresa:"
+                        android:textAlignment="textEnd"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                    <ImageButton
-                        android:id="@+id/btn_buscar_c"
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.28"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tx_empresa"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/tx_ISempresa"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.16"
+                            android:enabled="false"
+                            android:gravity="left"
+                            android:paddingLeft="8dp"
+
+                            android:paddingTop="2dp"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="2dp"
+                            android:text=""
+                            android:textColor="@color/colorNegro"
+                            android:textSize="@dimen/size_text_der" />
+
+                        <ImageButton
+                            android:id="@+id/btn_buscar_c"
+                            android:layout_width="match_parent"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="0.84"
+                            android:background="@drawable/transparent"
+                            android:src="@drawable/ic_contrata" />
+                    </LinearLayout>
+
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/ll_IS1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_EquipoInv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_weight="0.84"
-                        android:layout_gravity="center_vertical"
-                        android:background="@drawable/transparent"
-                        android:src="@drawable/ic_contrata" />
-                </LinearLayout>
+                        android:layout_height="match_parent">
 
+                        <EditText
+                            android:id="@+id/txt_equipoInv"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/colorNegro"
+                            android:textSize="@dimen/size_text_der"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tx_eq_inv"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                        <TextView
+                            android:id="@+id/tx_eq_inv"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Equipo Involucrado:"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_EquipoInv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <EditText
-                    android:id="@+id/txt_equipoInv"
-                    android:layout_width="0dp"
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_InterSeg"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_eq_inv"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tx_eq_inv"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Equipo Involucrado:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                     />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_InterSeg"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                        <EditText
+                            android:id="@+id/txt_InteracSeg"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/colorNegro"
+                            android:textSize="@dimen/size_text_der"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tx_interac_seg"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <EditText
-                    android:id="@+id/txt_InteracSeg"
-                    android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/tx_interac_seg"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Interacción de Seguridad:"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_StopWorkIS"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="1dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_interac_seg"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tx_interac_seg"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Interacción de Seguridad:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    app:layout_constraintTop_toBottomOf="@+id/id_Estado">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_StopWorkIS"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/id_Estado">
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                        <Spinner
+                            android:id="@+id/sp_stopworkIS"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tx_swIS"
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                <Spinner
-                    android:id="@+id/sp_stopworkIS"
-                    android:layout_width="0dp"
+                        <TextView
+                            android:id="@+id/tx_swIS"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Stop Work:"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_gestion"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_swIS"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tx_swIS"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Stop Work:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
+                    android:layout_marginTop="1dp"
                     android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
-
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_gestion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ColorPlomo4"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/ColorPlomo4"
-                >
-
-                <TextView
-                    android:id="@+id/tx_ISmg"
-                    android:layout_width="0dp"
-                    android:layout_height="29dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:text="Metodologia de gestión de riesgos:"
-                    android:textAlignment="textStart"
-
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/add_metodol"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <ImageButton
-                    android:id="@+id/add_metodol"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_add_circle_outline_black_24dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4">
+
+                        <TextView
+                            android:id="@+id/tx_ISmg"
+                            android:layout_width="0dp"
+                            android:layout_height="29dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Metodologia de gestión de riesgos:"
+                            android:textAlignment="textStart"
+
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/add_metodol"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/add_metodol"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_add_circle_outline_black_24dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_metodList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/list_Metodologia"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:layout_editor_absoluteX="8dp"
+                            tools:layout_editor_absoluteY="8dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="29dp"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Comportamientos de riesgo/Condiciones inseguras identificadas"
+                            android:textAlignment="textStart"
+
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_metodList"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_comp_Riesgo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4">
+
+                        <TextView
+                            android:id="@+id/tx_IScomp"
+                            android:layout_width="0dp"
+                            android:layout_height="29dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Comportamiento/Condición relacionado con"
+                            android:textAlignment="textStart"
+
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/add_comp_riesgo"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/add_comp_riesgo"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_add_circle_outline_black_24dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_comportamiento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/list_ComRiesgo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            tools:layout_editor_absoluteX="8dp"
+                            tools:layout_editor_absoluteY="8dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_detcomcon"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/txt_detcomcon"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/colorNegro"
+                            android:textSize="@dimen/size_text_der"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tx_det_comcon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tx_det_comcon"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Detalle de los comportamientos/condiciones no seguros:"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_accion_inm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <EditText
+                            android:id="@+id/txt_accion_inmed"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:background="@android:color/transparent"
+                            android:ems="10"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:textColor="@color/colorNegro"
+                            android:textSize="@dimen/size_text_der"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/tx_accionI"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/tx_accionI"
+                            android:layout_width="100dp"
+                            android:layout_height="match_parent"
+                            android:background="@color/ColorPlomo4"
+                            android:gravity="right|center_vertical"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Acciones inmediatas (si es aplicable):"
+                            android:textAlignment="textEnd"
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/IS_CCritico"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/card_gerencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/tx_gerencia"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4"
+                        android:gravity="right|center_vertical"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="@dimen/pad_topbottom_der"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="@dimen/pad_topbottom_der"
+                        android:text="Gerencia:"
+                        android:textSize="@dimen/size_text_izq"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Gerencia" />
+
+                    <Spinner
+                        android:id="@+id/spinner_gerencia"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
+                        android:textColor="@color/colorNegro"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tx_gerencia"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/id_CartillaSel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:background="@color/ColorPlomo4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/card_gerencia">
+
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/ColorPlomo4">
+
+                        <TextView
+                            android:id="@+id/tx_Cartilla"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:background="@color/ColorPlomo4"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="@dimen/pad_topbottom_der"
+                            android:paddingRight="8dp"
+                            android:paddingBottom="@dimen/pad_topbottom_der"
+                            android:text="Sub-Proceso:  FHFL_1\nPeligro Fatal: Enfermedades Epidemicas"
+                            android:textSize="@dimen/size_text_izq"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/btn_Cartilla"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0" />
+
+                        <ImageButton
+                            android:id="@+id/btn_Cartilla"
+                            android:layout_width="50dp"
+                            android:layout_height="40dp"
+                            android:background="@android:color/transparent"
+                            android:src="@drawable/ic_check"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </android.support.constraint.ConstraintLayout>
+                </android.support.v7.widget.CardView>
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_Metodologia"
+                    android:id="@+id/list_CCritico"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:layout_editor_absoluteX="8dp"
-                    tools:layout_editor_absoluteY="8dp" />
+                    tools:layout_editor_absoluteY="8dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/id_CartillaSel"/>
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ColorPlomo4"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/ColorPlomo4"
-                >
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="29dp"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:text="Comportamientos de riesgo/Condiciones inseguras identificadas"
-                    android:textAlignment="textStart"
-
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
-
-
-
-
-
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_comp_Riesgo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/ColorPlomo4"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/ColorPlomo4"
-                >
-
-                <TextView
-                    android:id="@+id/tx_IScomp"
-                    android:layout_width="0dp"
-                    android:layout_height="29dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:paddingLeft="8dp"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:text="Comportamiento/Condición relacionado con"
-                    android:textAlignment="textStart"
-
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/add_comp_riesgo"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-                <ImageButton
-                    android:id="@+id/add_comp_riesgo"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_add_circle_outline_black_24dp"
-                    android:background="@android:color/transparent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_comportamiento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/list_ComRiesgo"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:layout_editor_absoluteX="8dp"
-                    tools:layout_editor_absoluteY="8dp" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_detcomcon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <EditText
-                    android:id="@+id/txt_detcomcon"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_det_comcon"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tx_det_comcon"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Detalle de los comportamientos/condiciones no seguros:"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/id_accion_inm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <EditText
-                    android:id="@+id/txt_accion_inmed"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@android:color/transparent"
-                    android:ems="10"
-                    android:gravity="top"
-                    android:inputType="textMultiLine"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:textColor="@color/colorNegro"
-                    android:textSize="@dimen/size_text_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/tx_accionI"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tx_accionI"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:text="Acciones inmediatas (si es aplicable):"
-                    android:textSize="@dimen/size_text_izq"
-                    android:textStyle="bold"
-                    android:background="@color/ColorPlomo4"
-                    android:gravity="right|center_vertical"
-                    android:textAlignment="textEnd"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="@dimen/pad_topbottom_der"
-                    android:paddingTop="@dimen/pad_topbottom_der"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.v7.widget.CardView>
-
-
-
         </LinearLayout>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

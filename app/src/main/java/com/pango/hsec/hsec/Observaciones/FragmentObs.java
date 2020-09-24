@@ -32,7 +32,6 @@ public class FragmentObs extends Fragment implements IActivity {
 	private View mView;
 	String codObs;
 
-
 	public static FragmentObs newInstance(String sampleText) {
 		FragmentObs f = new FragmentObs();
 
@@ -126,7 +125,12 @@ public class FragmentObs extends Fragment implements IActivity {
 				}
 			}
 		}
-
+		if(getUsuarioModel.CodTipo.equals("TO04")){
+			obsDetcab = Arrays.copyOf(obsDetcab,obsDetcab.length+1);
+			obsDetcab[obsDetcab.length-1]="CodSubTipo";
+			obsDetIzq = Arrays.copyOf(obsDetIzq,obsDetIzq.length+1);
+			obsDetIzq[obsDetcab.length-1]="SubTipo";
+		}
 		obsAdapter = new ObsAdapter(getContext(),getUsuarioModel,obsDetcab,obsDetIzq);
 
 		ListView listaDetalles = (ListView) mView.findViewById(R.id.list_det);

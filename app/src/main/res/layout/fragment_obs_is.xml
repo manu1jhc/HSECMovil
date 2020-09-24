@@ -6,9 +6,11 @@
     tools:context="com.pango.hsec.hsec.Observaciones.FragmentObsIS">
 
     <LinearLayout
+        android:id="@+id/ll_is_det"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -23,11 +25,14 @@
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
 
-        <!-- detalle -->
+        <!-- detalle   -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,10 +60,11 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
 
             >
 
@@ -89,8 +95,10 @@
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_3"
+            android:layout_margin="1dp"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -121,8 +129,10 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="1dp"
 
             >
 
@@ -151,11 +161,11 @@
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
-
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_margin="1dp"
 
             >
             <LinearLayout
@@ -186,7 +196,118 @@
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
-        <!--  equipo de inspeccion  -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:layout_marginLeft="5dp"
+                >
+
+                <TextView
+                    android:id="@+id/tx9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.65"
+                    android:text="Gerencia Observada"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
+
+                <TextView
+                    android:id="@+id/tx_gerencia"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:layout_weight="0.35"
+                    android:layout_marginLeft="10dp"
+
+                    />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:layout_marginLeft="5dp"
+                >
+
+                <TextView
+                    android:id="@+id/tx10"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.65"
+                    android:text="Subproceso"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
+
+                <TextView
+                    android:id="@+id/tx_subproceso"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:layout_weight="0.35"
+                    android:layout_marginLeft="10dp"
+
+                    />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1dp"
+
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:layout_marginLeft="5dp"
+                >
+
+                <TextView
+                    android:id="@+id/tx11"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.65"
+                    android:text="Peligro fatal"
+                    android:fontFamily="@font/asap"
+                    android:textColor="@color/colorNegro" />
+
+                <TextView
+                    android:id="@+id/tx_peli_fatal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text=""
+                    android:layout_weight="0.35"
+                    android:layout_marginLeft="10dp"
+
+                    />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+
+        <!--  lider de equipo de inspeccion  gone-->
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -201,7 +322,6 @@
                 android:text="Líder de equipo de inspección"
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -245,7 +365,6 @@
                     android:textColor="@color/colorBlanco" />
             </android.support.v7.widget.CardView>
         </LinearLayout>
-
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -277,9 +396,12 @@
         </android.support.v7.widget.CardView>
 
 
-        <!--   personas que atendieron -->
+
+
+        <!--   Equipo de inspección  -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_is1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -291,7 +413,7 @@
                 android:gravity="center"
                 android:textColor="@color/colorBlanco" />
         </android.support.v7.widget.CardView>
-        <!--Personas que atendieron-->
+        <!--Personas que atendieron  gone-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -341,61 +463,71 @@
 
 <!-- metodologia -->
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_is2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorBtnBeige"
-                android:text="Metodología de gestión de riesgos aplicada antes del inicio de la tarea o actividad"
-                android:textAlignment="center"
-                android:textColor="@color/colorBlanco" />
-        </android.support.v7.widget.CardView>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <android.support.v7.widget.CardView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                app:cardBackgroundColor="@color/colorBtnBeige"
-                android:layout_marginRight="1dp"
-                android:id="@+id/cardAspectos" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Descripción"
-                    android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorBtnBeige"
-                android:layout_alignTop="@+id/cardAspectos"
-                android:layout_toEndOf="@+id/cardAspectos"
-                android:layout_toRightOf="@+id/cardAspectos">
-
+                android:orientation="vertical"
+                >
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorBtnBeige"
-                    android:text="Opciones"
+                    android:text="Metodología de gestión de riesgos aplicada antes del inicio de la tarea o actividad"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:cardBackgroundColor="@color/colorBtnBeige"
+                        android:layout_marginRight="1dp"
+                        android:id="@+id/cardAspectos" >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Descripción"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorBtnBeige"
+                        android:layout_alignTop="@+id/cardAspectos"
+                        android:layout_toEndOf="@+id/cardAspectos"
+                        android:layout_toRightOf="@+id/cardAspectos">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+                            android:text="Opciones"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </android.support.v7.widget.CardView>
+
 
 
         <android.support.v7.widget.RecyclerView
@@ -409,9 +541,14 @@
 <!-- actividad de alto riesgo -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_is3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -419,49 +556,51 @@
                 android:text="Actividad de Alto riesgo identificada"
                 android:gravity="center"
                 android:textColor="@color/colorBlanco" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:cardBackgroundColor="@color/colorBtnBeige"
+                        android:layout_marginRight="1dp"
+                        android:id="@+id/cardAlto" >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Descripción"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorBtnBeige"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+                            android:text="Opciones"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <android.support.v7.widget.CardView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                app:cardBackgroundColor="@color/colorBtnBeige"
-                android:layout_marginRight="1dp"
-                android:id="@+id/cardAlto" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:text="Descripción"
-                    android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorBtnBeige"
-               >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige"
-                    android:text="Opciones"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rec_alto_riesgo"
@@ -472,9 +611,14 @@
     <!--  clasificacion   -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_is4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -482,51 +626,52 @@
                 android:text="Clasificación de la observacion"
                 android:gravity="center"
                 android:textColor="@color/colorBlanco" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:cardBackgroundColor="@color/colorBtnBeige"
+                        android:layout_marginRight="1dp"
+                        android:id="@+id/cardClas" >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+
+                            android:text="Descripción"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorBtnBeige"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+                            android:text="Opciones"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
         </android.support.v7.widget.CardView>
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <android.support.v7.widget.CardView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                app:cardBackgroundColor="@color/colorBtnBeige"
-                android:layout_marginRight="1dp"
-                android:id="@+id/cardClas" >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige"
-
-                    android:text="Descripción"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorBtnBeige"
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige"
-                    android:text="Opciones"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rec_clasificacion"
@@ -537,9 +682,14 @@
 <!-- comportamientos de riesgos -->
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_is5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -547,63 +697,69 @@
                 android:text="Comportamientos de riesgo/Condiciones inseguras identificadas"
                 android:textAlignment="center"
                 android:textColor="@color/colorBlanco" />
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorBtnBeige"
-                android:text="  Comportamiento/Condición relacionado con:"
-                android:textColor="@color/colorBlanco" />
-        </android.support.v7.widget.CardView>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-            <android.support.v7.widget.CardView
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                app:cardBackgroundColor="@color/colorBtnBeige"
-                android:layout_marginRight="1dp"
-                android:id="@+id/cardcomport" >
-
-                <TextView
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorBtnBeige"
+                        android:text="  Comportamiento/Condición relacionado con:"
+                        android:textColor="@color/colorBlanco" />
+                </android.support.v7.widget.CardView>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige"
+                    android:orientation="horizontal"
+                    >
 
-                    android:text="Descripción"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+                    <android.support.v7.widget.CardView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:cardBackgroundColor="@color/colorBtnBeige"
+                        android:layout_marginRight="1dp"
+                        android:id="@+id/cardcomport" >
 
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/colorBtnBeige"
-                >
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorBtnBeige"
-                    android:text="Opciones"
-                    android:textAlignment="center"
-                    android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+                            android:text="Descripción"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
 
-        </LinearLayout>
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorBtnBeige"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+                            android:text="Opciones"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rec_comportamiento"
@@ -612,6 +768,7 @@
             />
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_is6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -640,9 +797,12 @@
                     android:text="TextView" />
 
             </LinearLayout>
+
+
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cv_is7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -673,5 +833,228 @@
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
+<!-- controles criticos y covid -->
+        <!-- cartillas agregadas -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_cc_covid3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/colorBtnBeige"
+                    android:text="Cartillas agregadas"
+                    android:gravity="center"
+                    android:textColor="@color/colorBlanco" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:cardBackgroundColor="@color/colorBtnBeige"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Controles criticos"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_cartillas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <!-- pre interaccion -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_cc_covid1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorBtnBeige"
+                    android:text="PRE-INTERACCIÓN (Nota, VCC = Verificación de Controles Críticos)"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlanco" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:cardBackgroundColor="@color/colorBtnBeige"
+                        android:layout_marginRight="1dp"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Descripción"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorBtnBeige"
+                        android:layout_alignTop="@+id/cardAspectos"
+                        android:layout_toEndOf="@+id/cardAspectos"
+                        android:layout_toRightOf="@+id/cardAspectos">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+                            android:text="Opciones"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_preinteraccion"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <!--  cierre de interaccion   -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_cc_covid2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/colorBtnBeige"
+                    android:text="Cierre de interacción"
+                    android:gravity="center"
+                    android:textColor="@color/colorBlanco" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="280dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        app:cardBackgroundColor="@color/colorBtnBeige"
+                        android:layout_marginRight="1dp"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+
+                            android:text="Descripción"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                    <android.support.v7.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/colorBtnBeige"
+                        >
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorBtnBeige"
+                            android:text="Opciones"
+                            android:textAlignment="center"
+                            android:textColor="@color/colorBlanco" />
+                    </android.support.v7.widget.CardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rec_cierre"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+
+
     </LinearLayout>
+
+
+
+
+
+<!--
+    <LinearLayout
+        android:id="@+id/ll_cc_covid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/colorBtnBeige"
+                android:text="Detalle observación"
+                android:gravity="center"
+                android:textColor="@color/colorBlanco" />
+        </android.support.v7.widget.CardView>
+
+
+
+    </LinearLayout>
+-->
+
 </android.support.v4.widget.NestedScrollView>

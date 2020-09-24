@@ -64,6 +64,7 @@ public class ObsMetodAdapter extends RecyclerView.Adapter<ObsMetodAdapter.ViewHo
                     case "OBSC":Descripcion = GlobalVariables.getDescripcion(GlobalVariables.Clasificacion_Obs, em.CodSubtipo);break;
                     case "HHA":Descripcion = GlobalVariables.getDescripcion(GlobalVariables.HHA_obs, em.CodSubtipo);break;
                     case "OBCC":Descripcion = GlobalVariables.getDescripcion(GlobalVariables.CondicionComp_Obs, em.CodSubtipo);break;
+                    case "OBSP":Descripcion = GlobalVariables.getDescripcion(GlobalVariables.Pre_Interaccion, em.CodSubtipo);break;
                 }
                 if (em.Descripcion != null)
                     viewHolder.det_gestion.setText(Html.fromHtml("<font color=" + ContextCompat.getColor(viewHolder.det_gestion.getContext(), R.color.colorNegro) + ">" + Descripcion + ": </font>" + em.Descripcion));
@@ -75,13 +76,17 @@ public class ObsMetodAdapter extends RecyclerView.Adapter<ObsMetodAdapter.ViewHo
                                                                  notifyItemRemoved(position);
                                                                  notifyItemRangeChanged(position,items.size());
 
-                                                                 obs_detalle1 subtedatlle=(obs_detalle1) ActivityR.pageAdapter.getItem(1);
-                                                                 subtedatlle.obsMetodAdapter.notifyDataSetChanged();
-                                                                 subtedatlle.compCondAadpter.notifyDataSetChanged();
-
                                                                  obs_detalle2 subtedatlle2=(obs_detalle2) ActivityR.pageAdapter.getItem(2);
-                                                                 subtedatlle2.listISAdapter.notifyDataSetChanged();
-                                                                 subtedatlle2.obsClasifAdapter.notifyDataSetChanged();
+                                                                 if(Tipo.equals("OBSP")){
+                                                                     subtedatlle2.listPreIterAdapter.notifyDataSetChanged();
+                                                                 }
+                                                                 else {
+                                                                     obs_detalle1 subtedatlle=(obs_detalle1) ActivityR.pageAdapter.getItem(1);
+                                                                     subtedatlle.obsMetodAdapter.notifyDataSetChanged();
+                                                                     subtedatlle.compCondAadpter.notifyDataSetChanged();
+                                                                     subtedatlle2.listISAdapter.notifyDataSetChanged();
+                                                                     subtedatlle2.obsClasifAdapter.notifyDataSetChanged();
+                                                                 }
                                                              }
                                                          }
                 );

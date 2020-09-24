@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.ContrataAdapter;
 import com.pango.hsec.hsec.model.Maestro;
 
@@ -57,7 +58,6 @@ TextView tx_buscarc;
                     }else if(String.valueOf(Integer.parseInt(item.CodTipo)).equals(codigo)&&item.Descripcion.toLowerCase().contains(razon_social.toLowerCase())){
                         contrata_datos.add(item);
                     }
-
                 }
 
                 lista_contrata(contrata_datos);
@@ -70,10 +70,7 @@ TextView tx_buscarc;
                     tx_buscarc.setVisibility(View.GONE);
 
                 }
-
-
-                closeSoftKeyBoard();
-
+                Utils.closeSoftKeyBoard(B_contrata.this);
             }
         });
 
@@ -112,9 +109,9 @@ TextView tx_buscarc;
     }
 
     public void close(View view){
+        Utils.closeSoftKeyBoard(B_contrata.this);
         finish();
     }
-
 
     public void lista_contrata(ArrayList<Maestro> contrata_datos){
 
@@ -123,10 +120,5 @@ TextView tx_buscarc;
 
     }
 
-    public void closeSoftKeyBoard() {
-        InputMethodManager inputMethodManager =
-                (InputMethodManager) getSystemService(getApplicationContext().INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
-    }
 
 }

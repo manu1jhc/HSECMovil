@@ -27,6 +27,7 @@ import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.adapter.GridViewAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.controller.WebServiceAPI;
+import com.pango.hsec.hsec.model.ControlCriticoModel;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.ObsComentModel;
@@ -124,6 +125,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         GlobalVariables.Planes=new ArrayList<>();
         GlobalVariables.SubDetalleTa=new ArrayList<>();
         GlobalVariables.SubDetalleIS=new ArrayList<>();
+        GlobalVariables.CriteriosEvalCC=new ArrayList<>();
         GlobalVariables.ListResponsables=new ArrayList<>();
         GlobalVariables.ListAtendidos=new ArrayList<>();
         //save data Inicial
@@ -135,6 +137,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         GlobalVariables.StrAtendidos=new ArrayList<>();
         GlobalVariables.StrSubDetalleTa=new ArrayList<>();
         GlobalVariables.StrSubDetalleIS=new ArrayList<>();
+        GlobalVariables.StrCriteriosEvalCC=new ArrayList<>();
         //inicialize options
         GlobalVariables.obsInspDetModel=null;
         ActObsInspEdit.editar=true;
@@ -173,11 +176,11 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 OldTipoSelect=GlobalVariables.Obserbacion.CodTipo;
             }
             obs_detalle1 detalle = (obs_detalle1) pageAdapter.getItem(1);
-            detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
+            detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo,GlobalVariables.Obserbacion.CodSubTipo);
         }
         else if(pos==2 && (GlobalVariables.Obserbacion.CodTipo.equals("TO03")|| GlobalVariables.Obserbacion.CodTipo.equals("TO04"))){ //&&!GlobalVariables.Obserbacion.CodTipo.equals(OldTipoSelect)
             obs_detalle2 detalle = (obs_detalle2) pageAdapter.getItem(2);
-            detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo);
+            detalle.changueTipo(GlobalVariables.Obserbacion.CodTipo,GlobalVariables.Obserbacion.CodSubTipo);
             OldTipoSelect=GlobalVariables.Obserbacion.CodTipo;
         }
         posionOld=pos;
@@ -260,14 +263,14 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         String Observacion=  gson.toJson(GlobalVariables.Obserbacion);
 
         if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO01")){
-            GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+          //  GlobalVariables.ObserbacionDetalle.ComOpt1=null;
             GlobalVariables.ObserbacionDetalle.ComOpt2=null;
             GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
         else if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO02")){
             GlobalVariables.ObserbacionDetalle.CodError=null;
             GlobalVariables.ObserbacionDetalle.CodEstado=null;
-            GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+           // GlobalVariables.ObserbacionDetalle.ComOpt1=null;
             GlobalVariables.ObserbacionDetalle.ComOpt2=null;
             GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
@@ -467,54 +470,57 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
     public boolean ValifarFormulario(View view){
 
         String ErrorForm="";
+        int subtipo= 0;
+        if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")) subtipo=Integer.parseInt(GlobalVariables.Obserbacion.CodSubTipo);
         if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodObservadoPor)) {ErrorForm+="Observado Por";pos=0;}
         else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodAreaHSEC)) {ErrorForm+="Area HSEC";pos=0;}
         else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodNivelRiesgo)) {ErrorForm+="Nivel de riesgo";pos=0;}
         else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.Fecha)) {ErrorForm+="Fecha";pos=0;}
         else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.CodUbicacion)) {ErrorForm+="Ubicación";pos=0;}
-
-        else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Observacion.trim())) {ErrorForm+="Observacion";pos=1;}
-        else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.StopWork)) {ErrorForm+="Stopwork";pos=1;}
-
+        else if(StringUtils.isEmpty(GlobalVariables.Obserbacion.Lugar)) {ErrorForm+="Lugar";pos=0;}
+        else if(subtipo<3&&StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Observacion.trim())) {ErrorForm+="Observacion";pos=1;}
+        else if(!GlobalVariables.Obserbacion.CodTipo.equals("TO04") && StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.StopWork)) {ErrorForm+="Stopwork";pos=1;}
         else if(GlobalVariables.Obserbacion.CodTipo.equals("TO01")){
+            String DescCov= GlobalVariables.getDescripcion(GlobalVariables.Acto_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar);
             if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) {ErrorForm+="Accion";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel)) {ErrorForm+="Actividad Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA)) {ErrorForm+="HHA Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Acto SubEstandar";pos=1;}
+            else if(DescCov.contains("EPP") && StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.ComOpt1)) {ErrorForm+="EPP";pos=1;}
+            else if(DescCov.contains("COVID") && StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.ComOpt1)) {ErrorForm+="Sub Tipo Covid";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado)) {ErrorForm+="Estado";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError)) {ErrorForm+="Error";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodCorreccion)) {ErrorForm+="Correccion";pos=1;}
-        }else if (GlobalVariables.Obserbacion.CodTipo.equals("TO02")){
+        }
+        else if (GlobalVariables.Obserbacion.CodTipo.equals("TO02")){
+            String DescCov= GlobalVariables.getDescripcion(GlobalVariables.Condicion_obs,GlobalVariables.ObserbacionDetalle.CodSubEstandar);
             if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) {ErrorForm+="Accion";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel)) {ErrorForm+="Actividad Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA)) {ErrorForm+="HHA Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Condicion SubEstandar";pos=1;}
+            else if(DescCov.contains("COVID") && StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.ComOpt1)) {ErrorForm+="Sub Tipo Covid";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodCorreccion)) {ErrorForm+="Correccion";pos=1;}
-        }else if (GlobalVariables.Obserbacion.CodTipo.equals("TO03")){
+        }
+        else if (GlobalVariables.Obserbacion.CodTipo.equals("TO03")){
             if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) {ErrorForm+="Codigo PET";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodActiRel)) {ErrorForm+="Actividad Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA)) {ErrorForm+="HHA Relacionada";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodEstado)) {ErrorForm+="Estado";pos=1;}
             else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodError)) {ErrorForm+="Error";pos=1;}
             else if(GlobalVariables.ListResponsables.isEmpty()) {ErrorForm+="Personas observadas";pos=2;}
-
-        }else if (GlobalVariables.Obserbacion.CodTipo.equals("TO04")){
-            if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA.trim())) {ErrorForm+="Equipo involucrado";pos=1;}
-            else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Interaccion de seguridad";pos=1;}
-            else if(GlobalVariables.ListAtendidos.isEmpty()) {ErrorForm+="Realizado por";pos=2;}
-           /* else{
-                boolean passlider=true;
-                for (EquipoModel item: GlobalVariables.ListAtendidos)
-                    if(item.Lider.equals("1")){
-                        passlider=false;
-                        continue;
-                    }
-                if(passlider) ErrorForm+="Lider de equipo de inspeccion";
-                if(GlobalVariables.ListAtendidos.isEmpty()) ErrorForm+="Miembro de equipo de inspeccion";
-            }*/
         }
-
-
+        else if (GlobalVariables.Obserbacion.CodTipo.equals("TO04")){
+            if(subtipo>1){
+                if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.Accion.trim())) {ErrorForm+="Gerencia Observada";pos=1;}
+                else if(GlobalVariables.CriteriosEvalCC.isEmpty()) {ErrorForm+="Subproceso";pos=2;}
+            }
+            else{
+                if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodHHA.trim())) {ErrorForm+="Equipo involucrado";pos=1;}
+                else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.StopWork)) {ErrorForm+="Stopwork";pos=1;}
+                else if(StringUtils.isEmpty(GlobalVariables.ObserbacionDetalle.CodSubEstandar)) {ErrorForm+="Interaccion de seguridad";pos=1;}
+                else if(GlobalVariables.ListAtendidos.isEmpty()) {ErrorForm+="Realizado por";pos=2;}
+            }
+        }
         if(ErrorForm.isEmpty()) return true;
         else{
             Snackbar.make(view, "El campo "+ErrorForm+" no puede estar vacío", Snackbar.LENGTH_LONG).setActionTextColor(Color.CYAN).setAction("Ver pestaña", new View.OnClickListener() {
@@ -541,23 +547,33 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
         String Observacion=  gson.toJson(GlobalVariables.Obserbacion);
 
         if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO01")){
-            GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+            //GlobalVariables.ObserbacionDetalle.ComOpt1=null;
             GlobalVariables.ObserbacionDetalle.ComOpt2=null;
             GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
         else if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO02")){
             GlobalVariables.ObserbacionDetalle.CodError=null;
             GlobalVariables.ObserbacionDetalle.CodEstado=null;
-            GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+            //GlobalVariables.ObserbacionDetalle.ComOpt1=null;
             GlobalVariables.ObserbacionDetalle.ComOpt2=null;
             GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
         else if(GlobalVariables.ObserbacionDetalle.CodTipo.equals("TO04")){
-             for(SubDetalleModel item:GlobalVariables.SubDetalleIS){
-                 if(item.CodSubtipo.equals("COMCON11")) GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
-                 else if(item.CodSubtipo.equals("19"))GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
-             }
-            GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.ListAtendidos.get(0).CodPersona;
+            int subtipo= Integer.parseInt(GlobalVariables.Obserbacion.CodSubTipo);
+            if(subtipo>1){
+                GlobalVariables.ObserbacionDetalle.CodHHA= GlobalVariables.Obserbacion.CodSubTipo;
+                GlobalVariables.ObserbacionDetalle.ComOpt2=null;
+                GlobalVariables.ObserbacionDetalle.ComOpt1=null;
+                GlobalVariables.ObserbacionDetalle.StopWork=null;
+                GlobalVariables.ObserbacionDetalle.CodCorreccion=null;
+            }
+            else {
+                for(SubDetalleModel item:GlobalVariables.SubDetalleIS){
+                    if(item.CodSubtipo.equals("COMCON11")) GlobalVariables.ObserbacionDetalle.ComOpt1=item.Descripcion;
+                    else if(item.CodSubtipo.equals("19"))GlobalVariables.ObserbacionDetalle.ComOpt2=item.Descripcion;
+                }
+                GlobalVariables.ObserbacionDetalle.CodEstado=GlobalVariables.ListAtendidos.get(0).CodPersona;
+            }
             GlobalVariables.ObserbacionDetalle.ComOpt3=null;
         }
         String DetalleObs=  gson.toJson(GlobalVariables.ObserbacionDetalle);
@@ -710,11 +726,11 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                     boolean pass=true;
                     for(SubDetalleModel item2:StrSubDetalle)
                     {
-                        if(GlobalVariables.Obserbacion.CodTipo.equals("TO03") && item.Codigo.equals(item2.Codigo) && item.CodSubtipo.equals(item2.CodSubtipo) && item.Descripcion.equals(item2.Descripcion)){
+                        if( item.Codigo.equals(item2.Codigo) && item.CodSubtipo.equals(item2.CodSubtipo) && item.Descripcion.equals(item2.Descripcion)){ //GlobalVariables.Obserbacion.CodTipo.equals("TO03") &&
                             pass=false;
                             continue;
                         }
-                        else if(GlobalVariables.Obserbacion.CodTipo.equals("TO04") && item.CodTipo.equals(item2.CodTipo) && item.CodSubtipo.equals(item2.CodSubtipo)){
+                        else if(GlobalVariables.Obserbacion.CodTipo.equals("TO04") && !item.CodTipo.equals("OBVE") && item.CodTipo.equals(item2.CodTipo) && item.CodSubtipo.equals(item2.CodSubtipo)){
                             pass=false;
                             continue;
                         }
@@ -757,11 +773,21 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                             }
                         }
                     }
+
                     if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) GlobalVariables.StrSubDetalleTa=StrSubDetalle;
                     else  GlobalVariables.StrSubDetalleIS=StrSubDetalle;
                     subdetalle=gson.toJson(updateSubDetalle);
                 }
-
+                if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")&&(GlobalVariables.Obserbacion.CodSubTipo.equals("2") || GlobalVariables.Obserbacion.CodSubTipo.equals("3"))){
+                    if(GlobalVariables.CriteriosEvalCC.size()>0){
+                        for(ControlCriticoModel item : GlobalVariables.CriteriosEvalCC){
+                            String Descripcion = "";
+                            if(item.Respuesta.equals("R002"))Descripcion = item.Justificacion+'@'+item.AccionCorrectiva;
+                            updateSubDetalle.add(new SubDetalleModel(item.CodigoCC,"CARE",item.CodigoCriterio,Descripcion,item.Respuesta));
+                        }
+                        subdetalle=gson.toJson(updateSubDetalle);
+                    }
+                }
             }
 
             if(DataInsert.size()==0 && FilesDelete.equals("-")&& PlanesDelete.equals("-")&& Detalle.equals("-")&& Cabecera.equals("-")&& Involucrados.equals("-")&& subdetalle.equals("-"))
@@ -1010,6 +1036,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             //add Tarea e IS, :: Involucrados y subdetalle
             List<EquipoModel> PerInvolucrados= new ArrayList<>();
             List<SubDetalleModel> Subdetalle= new ArrayList<>();
+            List<ControlCriticoModel> ControlCritico= new ArrayList<>();
 
             if(GlobalVariables.Obserbacion.CodTipo.equals("TO03")) {
                 PerInvolucrados=GlobalVariables.ListResponsables;
@@ -1019,11 +1046,8 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             }
             else if(GlobalVariables.Obserbacion.CodTipo.equals("TO04")) {
                 Subdetalle=GlobalVariables.SubDetalleIS;
-//                PerInvolucrados=GlobalVariables.ListAtendidos;
-//              //  GlobalVariables.StrSubDetalleIS.addAll(Subdetalle);
-//                for(EquipoModel item: GlobalVariables.ListAtendidos)
-//                    if(item.Lider.equals("0"))PerInvolucrados.add(item);
-//                //GlobalVariables.StrAtendidos.addAll(GlobalVariables.ListAtendidos);
+                int subtipo= Integer.parseInt(GlobalVariables.Obserbacion.CodSubTipo);
+               if(subtipo>1) ControlCritico= GlobalVariables.CriteriosEvalCC;
             }
 
             if(Subdetalle.size()>0){
@@ -1034,6 +1058,14 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                         item.Codigo=cont+"";
                     }
                 }
+            }
+
+            if(ControlCritico.size()>0){
+               for(ControlCriticoModel item : ControlCritico){
+                   String Descripcion = "";
+                   if(item.Respuesta.equals("R002"))Descripcion = item.Justificacion+'@'+item.AccionCorrectiva;
+                   Subdetalle.add(new SubDetalleModel(item.CodigoCC,"CARE",item.CodigoCriterio,Descripcion,item.Respuesta));
+               }
             }
 
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -1116,7 +1148,6 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                                     Errores+="Error al guardar algunos planes de accion";
                                 }
                             }
-
                             //update file
                             if(!respts[3].equals("0"))
                             {
@@ -1260,7 +1291,10 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
 
     boolean ok,fail;
     public void FinishSave(){
-
+        for(SubDetalleModel item: GlobalVariables.SubDetalleIS)
+        {
+            if(item.CodTipo.equals("CORE")) GlobalVariables.SubDetalleIS.remove(item);
+        }
         String Mensaje="Se guardo los datos correctamente";
         String Titulo="Desea Finalizar?";
         int icon=R.drawable.confirmicon;

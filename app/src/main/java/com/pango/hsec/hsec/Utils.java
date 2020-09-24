@@ -163,6 +163,9 @@ public class Utils {
             case "CodTipo":
                 return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,observacionModel.CodTipo);
 
+            case "CodSubTipo":
+                return GlobalVariables.getDescripcion(GlobalVariables.SubTipo_obs,observacionModel.CodSubTipo);
+
             default:
                 return "";
         }
@@ -661,10 +664,16 @@ public class Utils {
                 File myFile = new File(urlbase);
                 return new GaleriaModel(urlbase,"TP03", myFile.length()+"", myFile.getName());
             } else if (isDownloadsDocument(uri)) {
-                final String id = DocumentsContract.getDocumentId(uri);
-                if(uri.getPath().contains("raw:"))
-                    uri = Uri.parse("file://"+uri.getPath().split(":")[1]);
-                else uri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                String id = DocumentsContract.getDocumentId(uri);
+                if(uri.getPath().contains("raw:")) uri = Uri.parse("file://"+uri.getPath().split(":")[1]);
+                else {
+                   // if(id.contains(":")) id = id.split(":")[1];
+                    if (id.startsWith("msf:")) {
+                        Toast.makeText(context, "Seleccione otra carpeta", Toast.LENGTH_LONG).show();
+                        return null;
+                    }
+                    uri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                }
             } else if (isMediaDocument(uri)) {
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
@@ -708,6 +717,7 @@ public class Utils {
                     return  new GaleriaModel(cursor.getString(column_index),"TP03", SizeDoc, fileName);
                 }
             } catch (Exception e) {
+                throw e;
             }
         } else if ("file".equalsIgnoreCase(uri.getScheme())) {
             File myFile = new File(uri.getPath());

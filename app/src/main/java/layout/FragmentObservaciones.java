@@ -380,7 +380,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                     Utils.observacionModel=new ObservacionModel();
                     ObservacionModel observacionModel=new ObservacionModel();
                     tipo_busqueda=1;
-                    observacionModel.CodUbicacion = "5";
+                    observacionModel.CodUbicacion =Elemperpage;
                     observacionModel.Lugar = "1";
                     String json = "";
                     Gson gson = new Gson();
@@ -706,7 +706,7 @@ public class FragmentObservaciones extends Fragment implements IActivity {
                 GlobalVariables.flagUpSc=true;
                 tipo_busqueda = data.getIntExtra("Tipo_Busqueda",0);
 
-                Utils.observacionModel.CodUbicacion = "5";
+                Utils.observacionModel.CodUbicacion = Elemperpage;
                 Utils.observacionModel.Lugar = "1";
                 String json = "";
                 Gson gson = new Gson();

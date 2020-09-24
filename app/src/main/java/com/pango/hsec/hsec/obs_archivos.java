@@ -184,15 +184,24 @@ public class obs_archivos extends Fragment implements IActivity,Picker.PickListe
            GaleriaModel temp= null;
            try {
                temp = Utils.getFilePath(this.getContext(),uri);
+               if(temp== null ) {
+                   Toast.makeText(getActivity(), "Error al cargar archivo", Toast.LENGTH_LONG).show();
+                   return;
+               }
+               else{
+                   String [] exts=temp.Descripcion.split("\\.");
+                   String extencion= exts[exts.length-1];
+                   switch (extencion.toLowerCase()){
+                       case "pdf":case "doc":case "docx":case "ppt":case "pptx":case "xls":case "xlsx":case "odt":
+                           listViewAdapter.add(temp);
+                           break;
+                       default: Toast.makeText(getActivity(), "Archivo no permitido", Toast.LENGTH_LONG).show();
+                   }
+               }
            } catch (URISyntaxException e) {
                e.printStackTrace();
-           }
-           String [] exts=temp.Descripcion.split("\\.");
-           switch (exts[exts.length-1]){
-               case "pdf":case "doc":case "docx":case "ppt":case "pptx":case "xls":case "xlsx":case "odt":
-                   listViewAdapter.add(temp);
-                   break;
-               default: Toast.makeText(getActivity(), "Archivo no permitido", Toast.LENGTH_LONG).show();
+               Toast.makeText(getActivity(), "Error al cargar archivo", Toast.LENGTH_LONG).show();
+               return;
            }
        }
    }

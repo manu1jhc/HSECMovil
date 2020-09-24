@@ -27,6 +27,13 @@ public class SubDetalleModel implements Cloneable {
         this.Codigo = Codigo;
         this.Check=false;
     }
+    public SubDetalleModel (String Codigo,String CodTipo, String CodSubtipo, String Descripcion,String Estado){
+        this.CodTipo = CodTipo;
+        this.CodSubtipo = CodSubtipo;
+        this.Descripcion = Descripcion;
+        this.Codigo = Codigo;
+        this.Estado=Estado;
+    }
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
