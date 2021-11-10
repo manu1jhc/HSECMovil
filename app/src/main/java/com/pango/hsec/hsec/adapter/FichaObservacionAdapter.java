@@ -309,9 +309,9 @@ public class FichaObservacionAdapter extends ArrayAdapter<PublicacionModel> {
     public String ObtenerTipo(String tempTipo) {
         String tipo="";
 
-        for(int i=0;i<GlobalVariables.Tipo_obs.size();i++){
-            if(tempTipo.equals(GlobalVariables.Tipo_obs.get(i).getCodTipo())){
-                tipo=GlobalVariables.Tipo_obs.get(i).getDescripcion();
+        for(int i=0;i<GlobalVariables.Tipo_obs2.size();i++){
+            if(tempTipo.equals(GlobalVariables.Tipo_obs2.get(i).getCodTipo())){
+                tipo=GlobalVariables.Tipo_obs2.get(i).getDescripcion();
                 break;
             }
         }

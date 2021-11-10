@@ -105,7 +105,16 @@ public class B_observaciones extends AppCompatActivity {
 
         tipo_data= new ArrayList<>();
         tipo_data.add(new Maestro(null,"-  Seleccione  -"));
-        tipo_data.addAll(GlobalVariables.Tipo_obs2);
+        for (Maestro item:GlobalVariables.Tipo_obs2)
+        {
+            if(item.CodTipo.equals("TO04")){
+                for (Maestro item2:GlobalVariables.SubTipo_obs) {
+                    tipo_data.add(new Maestro(item.CodTipo+'.'+item2.CodTipo,item2.Descripcion));
+                }
+            }
+            else tipo_data.add(item);
+        }
+        //tipo_data.addAll(GlobalVariables.Tipo_obs2);
 
         nivel_data= new ArrayList<>();
         //nivel_data.add(new Maestro(null,"-  Seleccione  -"));

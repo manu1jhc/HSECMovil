@@ -479,7 +479,7 @@ public class AddVerificacion extends FragmentActivity implements IActivity, TabH
 
                             if(!respt[3].equals("-")){
                                 Utils.DeleteCache(new Compressor(AddVerificacion.this).destinationDirectoryPath); //delete cache Files;
-                                for (String file:respt[4].split(",")) {
+                                for (String file:respt[3].split(",")) {
                                     String[] datosf= file.split(":");
                                     for (GaleriaModel item:GlobalVariables.StrFiles) {
                                         if(item.Descripcion.equals(datosf[0]))

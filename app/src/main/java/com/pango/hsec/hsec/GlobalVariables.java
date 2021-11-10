@@ -201,8 +201,8 @@ public class GlobalVariables  {
     public static boolean isFragment=false;
     public static int contpublic=1;
     public static int num_items=7;
-    public static String Url_base="https://app.antapaccay.com.pe/hsecweb/whsec_Service/api/";
-    //public static String Url_base="http://192.168.1.2/whsec_Servicedmz/api/";
+    public static String Url_base="https://antapaccay.sam.glencore.net/HSEC_Web/WHSEC_Service/api/";
+
     public static boolean flagUpSc=false;
     public  static boolean flagFacilito=false;
     public  static boolean flaghistorial=true;
@@ -276,7 +276,7 @@ public class GlobalVariables  {
     //public static  ArrayList<Maestro> Tablas = new ArrayList<>();
 
     public static  ArrayList<Maestro> Area_obs = new ArrayList<>();
-    public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
+    //public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs2 = new ArrayList<>();
     public static  ArrayList<Maestro> SubTipo_obs = new ArrayList<>();
 
@@ -450,11 +450,11 @@ public class GlobalVariables  {
         Estado_Plan.add(new Maestro("04","Observado"));
         Estado_Plan.add(new Maestro("05","Cerrado"));
 
-        Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
+       /* Tipo_obs.add(new Maestro("TO01", "Comportamiento"));
         Tipo_obs.add(new Maestro("TO02", "Condición"));
         Tipo_obs.add(new Maestro("TO03", "Tarea"));
         Tipo_obs.add(new Maestro("TO04", "Interacción de Seguridad (IS)"));
-
+*/
         SubTipo_obs.add(new Maestro("1", "Interacción de Seguridad"));
         SubTipo_obs.add(new Maestro("2", "Interacción de Control Crítico"));
         SubTipo_obs.add(new Maestro("3", "Interacción Covid-19"));

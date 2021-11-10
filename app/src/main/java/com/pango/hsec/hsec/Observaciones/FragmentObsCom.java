@@ -127,7 +127,7 @@ public class FragmentObsCom extends Fragment implements IActivity {
                 cv_53.setVisibility(View.VISIBLE);
 
                 if(observacionModel.ComOpt1 != null && !observacionModel.ComOpt1.equals("") && observacionModel.ComOpt1.contains(".")){
-                    tx_tipo_prot.setText(GlobalVariables.getDescripcion(EPP, observacionModel.ComOpt1.split(".")[0]));
+                    tx_tipo_prot.setText(GlobalVariables.getDescripcion(EPP, observacionModel.ComOpt1.split("\\.")[0]));
                     tx_epp.setText(GlobalVariables.getDescripcion(EPP, observacionModel.ComOpt1));
 
                 }else if(observacionModel.ComOpt1 != null &&!observacionModel.ComOpt1.equals("") && !observacionModel.ComOpt1.contains(".")){

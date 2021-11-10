@@ -24,7 +24,7 @@ public class Compressor {
     public String destinationDirectoryPath;
 
     public Compressor(Context context) {
-        destinationDirectoryPath = context.getCacheDir().getPath() + File.separator + "images";
+        destinationDirectoryPath = context.getCacheDir().getPath() + File.separator + "imagenCompress";
     }
 
     public Compressor setMaxWidth(int maxWidth) {

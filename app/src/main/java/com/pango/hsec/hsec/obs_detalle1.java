@@ -1183,11 +1183,16 @@ public class obs_detalle1 extends Fragment implements IActivity{
             GlobalVariables.ObserbacionDetalle.CodObservacion = GlobalVariables.Obserbacion.CodObservacion;
             GlobalVariables.ObserbacionDetalle.CodTipo=GlobalVariables.Obserbacion.CodTipo;
             GlobalVariables.StrObsDetalle = gson.toJson(GlobalVariables.ObserbacionDetalle);
-            setdata(Tipo,GlobalVariables.ObserbacionDetalle.CodHHA);
+
+           // if(actives.size()==2) setdata("TO04",GlobalVariables.ObserbacionDetalle.CodHHA);
             if(Integer.parseInt(GlobalVariables.Obserbacion.CodSubTipo)>1){
                 String url3= GlobalVariables.Url_base+"Observaciones/GetRespControlCritico?id="+codigo_obs+"&Cartilla=";
                 ActivityController obj2 = new ActivityController("get", url3, obs_detalle1.this,getActivity());
                 obj2.execute("3");
+            }
+            else  {
+                actives.add(1);
+                if(actives.size()==2) setdata("TO04",GlobalVariables.ObserbacionDetalle.CodHHA);
             }
         } else if(Tipo.equals("1")){ // subdetalle IS
             Gson gson = new Gson();

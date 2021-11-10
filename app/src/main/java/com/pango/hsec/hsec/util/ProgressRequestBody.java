@@ -10,10 +10,13 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.model.GaleriaModel;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -56,7 +59,19 @@ public class ProgressRequestBody extends RequestBody {
     @Override
     public MediaType contentType() {
         // i want to upload only images
-        return MediaType.parse("image/*");
+        //return MediaType.parse("image/*");
+        String type = null;
+        String extension = MimeTypeMap.getFileExtensionFromUrl(mFileup.Url);
+        if (!StringUtils.isEmpty(extension)) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        }
+        else {
+            if(mFileup.Url.contains("imagenCompress")) type="image/jpeg";
+            else if (mFileup.Url.contains(".mp4")) type="video/mp4";
+            else if (mFileup.Url.contains(".pdf")) type="application/pdf";
+            else type="application/octet-stream";
+        }
+        return MediaType.parse(type);
     }
 
     @Override

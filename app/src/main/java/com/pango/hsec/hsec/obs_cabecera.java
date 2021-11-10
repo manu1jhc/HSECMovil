@@ -99,7 +99,7 @@ public class obs_cabecera extends Fragment implements IActivity{
         textView12=mView.findViewById(R.id.textView12);
         textView12.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Lugar:"));
 
-        ArrayAdapter adapterTipoObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Tipo_obs);
+        ArrayAdapter adapterTipoObs = new ArrayAdapter(getActivity().getBaseContext(),R.layout.custom_spinner_item,GlobalVariables.Tipo_obs2);
         adapterTipoObs.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinnerTipoObs.setAdapter(adapterTipoObs);
 
@@ -166,7 +166,7 @@ public class obs_cabecera extends Fragment implements IActivity{
                 GlobalVariables.Obserbacion.Lugar="";
                 GlobalVariables.Obserbacion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
                 GlobalVariables.Obserbacion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
-                GlobalVariables.Obserbacion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
+                GlobalVariables.Obserbacion.CodTipo=GlobalVariables.Tipo_obs2.get(0).CodTipo;
                 GlobalVariables.Obserbacion.CodUbicacion="";
                 GlobalVariables.StrObservacion=gson.toJson(GlobalVariables.Obserbacion);
             }
@@ -377,7 +377,7 @@ public class obs_cabecera extends Fragment implements IActivity{
       if(GlobalVariables.Obserbacion.ObservadoPor!=null)txtObservado.setText(GlobalVariables.Obserbacion.ObservadoPor);
       if(GlobalVariables.Obserbacion.Lugar!=null)txtLugar.setText(GlobalVariables.Obserbacion.Lugar);
 
-      if(!StringUtils.isEmpty(GlobalVariables.Obserbacion.CodTipo))spinnerTipoObs.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_obs,GlobalVariables.Obserbacion.CodTipo));
+      if(!StringUtils.isEmpty(GlobalVariables.Obserbacion.CodTipo))spinnerTipoObs.setSelection(GlobalVariables.indexOf(GlobalVariables.Tipo_obs2,GlobalVariables.Obserbacion.CodTipo));
       if(!StringUtils.isEmpty(GlobalVariables.Obserbacion.CodAreaHSEC))spinnerArea.setSelection(GlobalVariables.indexOf(GlobalVariables.Area_obs,GlobalVariables.Obserbacion.CodAreaHSEC));
       if(!StringUtils.isEmpty(GlobalVariables.Obserbacion.CodNivelRiesgo))spinnerNivel.setSelection(GlobalVariables.indexOf(GlobalVariables.NivelRiesgo_obs,GlobalVariables.Obserbacion.CodNivelRiesgo));
 

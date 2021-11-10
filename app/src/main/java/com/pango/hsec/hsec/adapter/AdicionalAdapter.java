@@ -30,7 +30,7 @@ public class AdicionalAdapter extends RecyclerView.Adapter<AdicionalAdapter.Adic
     public void onBindViewHolder(AdicionalAdapter.AdicionalViewHolder adicionalViewHolder, int i) {
         //CapRecibidaModel cm = capRecibidaModel.get(i);
 
-        String[] cabdet=DatosAd[i].split(":");
+        String[] cabdet=DatosAd[i].split(":",-1);
 
 
         adicionalViewHolder.cabecera.setText(cabdet[0]);

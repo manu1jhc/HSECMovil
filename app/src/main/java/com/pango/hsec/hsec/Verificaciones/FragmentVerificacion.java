@@ -174,7 +174,7 @@ public class FragmentVerificacion extends Fragment implements IActivity {
                 GlobalVariables.Verificacion.Lugar="";
                 GlobalVariables.Verificacion.CodAreaHSEC=GlobalVariables.Area_obs.get(0).CodTipo;
                 GlobalVariables.Verificacion.CodNivelRiesgo=GlobalVariables.NivelRiesgo_obs.get(0).CodTipo;
-                GlobalVariables.Verificacion.CodTipo=GlobalVariables.Tipo_obs.get(0).CodTipo;
+                GlobalVariables.Verificacion.CodTipo=GlobalVariables.Tipo_obs2.get(0).CodTipo;
                 GlobalVariables.Verificacion.CodUbicacion="";
                 GlobalVariables.StrVerificacion=gson.toJson(GlobalVariables.Verificacion);
             }
@@ -235,7 +235,7 @@ public class FragmentVerificacion extends Fragment implements IActivity {
                     {
                         pass[1] =true;
                         if(Ubicacion.split("\\.").length==3)
-                            spinnerUbicEspec.setSelection(GlobalVariables.indexOf(GlobalVariables.UbicacionEspecifica_obs, GlobalVariables.Obserbacion.CodUbicacion));
+                            spinnerUbicEspec.setSelection(GlobalVariables.indexOf(GlobalVariables.UbicacionEspecifica_obs, GlobalVariables.Verificacion.CodUbicacion));
                     }
                     else{
                         GlobalVariables.Verificacion.CodUbicacion=Ubicacionfinal;

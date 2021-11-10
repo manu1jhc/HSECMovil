@@ -562,6 +562,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             int subtipo= Integer.parseInt(GlobalVariables.Obserbacion.CodSubTipo);
             if(subtipo>1){
                 GlobalVariables.ObserbacionDetalle.CodHHA= GlobalVariables.Obserbacion.CodSubTipo;
+                GlobalVariables.ObserbacionDetalle.CodSubEstandar= GlobalVariables.Obserbacion.CodObservadoPor;
                 GlobalVariables.ObserbacionDetalle.ComOpt2=null;
                 GlobalVariables.ObserbacionDetalle.ComOpt1=null;
                 GlobalVariables.ObserbacionDetalle.StopWork=null;
@@ -726,7 +727,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                     boolean pass=true;
                     for(SubDetalleModel item2:StrSubDetalle)
                     {
-                        if( item.Codigo.equals(item2.Codigo) && item.CodSubtipo.equals(item2.CodSubtipo) && item.Descripcion.equals(item2.Descripcion)){ //GlobalVariables.Obserbacion.CodTipo.equals("TO03") &&
+                        if( GlobalVariables.Obserbacion.CodTipo.equals("TO03") && item.Codigo.equals(item2.Codigo) && item.CodSubtipo.equals(item2.CodSubtipo) && item.Descripcion.equals(item2.Descripcion)){
                             pass=false;
                             continue;
                         }
@@ -1061,11 +1062,11 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
             }
 
             if(ControlCritico.size()>0){
-               for(ControlCriticoModel item : ControlCritico){
-                   String Descripcion = "";
-                   if(item.Respuesta.equals("R002"))Descripcion = item.Justificacion+'@'+item.AccionCorrectiva;
-                   Subdetalle.add(new SubDetalleModel(item.CodigoCC,"CARE",item.CodigoCriterio,Descripcion,item.Respuesta));
-               }
+                for(ControlCriticoModel item : ControlCritico){
+                    String Descripcion = "";
+                    if(item.Respuesta.equals("R002"))Descripcion = item.Justificacion+'@'+item.AccionCorrectiva;
+                    Subdetalle.add(new SubDetalleModel(item.CodigoCC,"CARE",item.CodigoCriterio,Descripcion,item.Respuesta));
+                }
             }
 
             final OkHttpClient okHttpClient = new OkHttpClient.Builder()
@@ -1086,7 +1087,7 @@ public class observacion_edit extends FragmentActivity implements IActivity,TabH
                 T+=Long.parseLong(item.Tamanio);
             }
             //Toast.makeText(this, "Guardando Observacion, Espere..." , Toast.LENGTH_SHORT).show();
-
+            String subDetalle= gson.toJson(Subdetalle);
             request = service.insertarObservacion("Bearer "+GlobalVariables.token_auth,createPartFromString(Observacion),createPartFromString(DetalleObs),createPartFromString(gson.toJson(GlobalVariables.Planes)),createPartFromString(gson.toJson(PerInvolucrados)),createPartFromString(gson.toJson(Subdetalle)),Files);
             if(T==0)onProgressUpdate();
             request.enqueue(new Callback<String>() {

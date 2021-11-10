@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.pango.hsec.hsec",
+  "variantName": "release",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "properties": [],
+      "versionCode": 43,
+      "versionName": "43",
+      "enabled": true,
+      "outputFile": "app-release.apk"
+    }
+  ]
+}

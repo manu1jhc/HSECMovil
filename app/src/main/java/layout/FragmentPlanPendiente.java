@@ -373,7 +373,6 @@ public class FragmentPlanPendiente extends Fragment implements IActivity {
             GlobalVariables.listaPlanMin=getPlanMinModel.Data;
             pma = new PlanMinAdapter(getActivity(), GlobalVariables.listaPlanMin,this);
             list_estadistica.setAdapter(pma);
-
             btn_buscar_e.setEnabled(true);
 
             if(loadingTop)

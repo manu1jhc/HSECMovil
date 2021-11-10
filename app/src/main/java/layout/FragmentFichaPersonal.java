@@ -148,7 +148,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         }else {
             //GlobalVariables.dniUser
             //GlobalVariables.userLoaded.NroDocumento=GlobalVariables.dniUser;
-            GlobalVariables.token_auth=GlobalVariables.token_auth+"-";
+            //GlobalVariables.token_auth=GlobalVariables.token_auth+"-";
             url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral?id="+GlobalVariables.dniUser;
             final ActivityController obj = new ActivityController("get", url, FragmentFichaPersonal.this,getActivity());
             obj.execute("");
@@ -225,7 +225,7 @@ public class FragmentFichaPersonal extends Fragment implements IActivity {
         ficha_correo.setText( GlobalVariables.userLoaded.Email);
         ficha_empresa.setText( GlobalVariables.userLoaded.Empresa);
 
-        ficha_rol.setText( GlobalVariables.getDescripcion(GlobalVariables.Roles,GlobalVariables.userLoaded.Rol));
+        ficha_rol.setText(GlobalVariables.userLoaded.Rol);//GlobalVariables.getDescripcion(GlobalVariables.Roles,GlobalVariables.userLoaded.Rol));
 
         ficha_area.setText( GlobalVariables.userLoaded.Area);
 

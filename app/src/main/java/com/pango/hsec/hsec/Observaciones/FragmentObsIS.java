@@ -312,8 +312,6 @@ public class FragmentObsIS extends Fragment implements IActivity {
                     rec_cierre.setVisibility(View.GONE);
                     rec_cartillas.setVisibility(View.GONE);
 
-
-
                     if (observacionModel.Observacion != null)
                         tx_tarea_obs.setText(observacionModel.Observacion);
                     if (observacionModel.CodError != null)
@@ -336,16 +334,10 @@ public class FragmentObsIS extends Fragment implements IActivity {
                     }else {
                         success(jsonPersonas,"2");
                     }
-
                 }
-
-
-
             }
-
-
-
-        }else if (Tipo == "2"){
+        }
+        else if (Tipo == "2"){
             jsonPersonas=data;
             Gson gson = new Gson();
             GetControlCriticoModel getControlCriticoModel = gson.fromJson(data, GetControlCriticoModel.class);
@@ -370,7 +362,8 @@ public class FragmentObsIS extends Fragment implements IActivity {
             rec_cartillas.setAdapter(ca);
 
 
-        }else if(Tipo == "3"){
+        }
+        else if(Tipo == "3"){
             jsonSubDetalle=data;
             Gson gson = new Gson();
             GetSubDetalleModel getSubDetalleModel = gson.fromJson(data, GetSubDetalleModel.class);
@@ -442,19 +435,9 @@ public class FragmentObsIS extends Fragment implements IActivity {
 
                 TablaAdapter ca4 = new TablaAdapter(DataOBCC);
                 rec_comportamiento.setAdapter(ca4);
-
-
-
             }
-
-
-
-
-
-
-
-
-        } else if(Tipo == "4") {
+        }
+        else if(Tipo == "4") {
 
             jsonControlCritico=data;
             Gson gson = new Gson();
@@ -466,13 +449,7 @@ public class FragmentObsIS extends Fragment implements IActivity {
             rec_cartillas.setLayoutManager(llm);
             ControlCriticoAdapter ca = new ControlCriticoAdapter(getControlCriticoModel.Data);
             rec_cartillas.setAdapter(ca);
-
-
         }
-
-
-
-
     }
 
     @Override
