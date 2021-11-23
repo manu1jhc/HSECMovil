@@ -26,6 +26,7 @@ import com.pango.hsec.hsec.model.CapCursoModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.LoginModel;
+import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
@@ -467,7 +468,7 @@ public class Utils {
         }
         String cad;
         switch (s){
-            case "CodInspeccion":
+            case "CodMAC":
                 return inspeccionModel.CodInspeccion;
             case "Gerencia":
                 //return observacionModel.CodAreaHSEC;
@@ -638,6 +639,7 @@ public class Utils {
     public static NoticiasModel noticiasModel=new NoticiasModel();
 
     public static VerificacionModel verificacionModel=new VerificacionModel();
+    public static MACuasiAccidenteModel maCuasiAccidenteModel=new MACuasiAccidenteModel();
 
 
     public static String fecha_inicio="";

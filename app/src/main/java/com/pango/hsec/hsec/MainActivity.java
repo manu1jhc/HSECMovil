@@ -51,6 +51,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
@@ -74,6 +75,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import layout.FragmentCapacitaciones;
+import layout.FragmentMACuasiAccidente;
 import layout.FragmentObsFacilito;
 import layout.FragmentConfiguracion;
 import layout.FragmentContactenos;
@@ -105,6 +107,8 @@ public class MainActivity extends AppCompatActivity
         FragmentObsFacilito.OnFragmentInteractionListener,
         FragmentNoticias.OnFragmentInteractionListener,
         FragmentVerificaciones.OnFragmentInteractionListener,
+        FragmentMACuasiAccidente.OnFragmentInteractionListener,
+
         SearchView.OnQueryTextListener
 {
 
@@ -151,6 +155,9 @@ public class MainActivity extends AppCompatActivity
 
     public static int countVerificacion;
     public static boolean flag_verificacion=false;
+
+    public static int countMACuasi;
+    public static boolean flag_maCuasi=false;
 
     String TipoSearch;
     String txtSearch;
@@ -588,7 +595,8 @@ public class MainActivity extends AppCompatActivity
         Contactenos,
         PlanPendiente,
         Noticias,
-        Verificaciones
+        Verificaciones,
+        MACuasiaccidente
     }
 
     @Override
@@ -842,11 +850,21 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        /*
         if (id == R.id.nav_reporte) {
 
             GlobalVariables.flagFacilito=false;
             Intent myIntent = new Intent(this, report_obs.class);
             startActivity(myIntent);
+        }
+*/
+        if(id == R.id.nav_ma_cuasi){
+            GlobalVariables.ObjectEditable=false;
+            Intent addMACuasi = new Intent( this, ActIngresoMA.class);
+            //addMACuasi.putExtra("codObs", "OBS000000XYZ");
+            //addMACuasi.putExtra("tipoObs","TO01");
+            //addMACuasi.putExtra("posTab", 0);
+            startActivity(addMACuasi);
         }
 
         if(id==R.id.nav_sisap){
@@ -1012,12 +1030,16 @@ public class MainActivity extends AppCompatActivity
                     //navigationView.getMenu().findItem(R.id.nav_imagenes).setChecked(true);
                     ClickMenuInspeccion();
                     return true;
-
+/*
                 case R.id.navigation_avanzado:
                     uncheckItemsMenu();
                     ClickMenuAvanzado();
                     return true;
-
+*/
+                case R.id.navigation_ma_cuasi:
+                    uncheckItemsMenu();
+                    ClickMenuMACuasiAccidente();
+                    return true;
             }
             return false;
         }
@@ -1049,13 +1071,20 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.FichaPersonal);
 
     }
-
+/*
     public void ClickMenuAvanzado() {
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_avanzado).setChecked(true);
         bottomNavigationView.setVisibility(View.VISIBLE);
         ChangeFragment(NavigationFragment.ObsFacilito);
 
+    }
+*/
+    public void ClickMenuMACuasiAccidente(){
+        uncheckItemsMenu();
+        bottomNavigationView.getMenu().findItem(R.id.navigation_ma_cuasi).setChecked(true);
+        bottomNavigationView.setVisibility(View.VISIBLE);
+        ChangeFragment(NavigationFragment.MACuasiaccidente);
     }
 
     private void ClickMenuConfiguracion() {
@@ -1144,13 +1173,14 @@ public class MainActivity extends AppCompatActivity
             case Capacitaciones: fragment = new FragmentCapacitaciones(); Tipo="J";  Title="Capacitaciones"; break;
             case Noticias: fragment = new FragmentNoticias();  Tipo="N";Title="Noticias"; break;
             case Verificaciones: fragment = new FragmentVerificaciones();  Tipo="V";Title="Verificaciones"; break;
+            case MACuasiaccidente: fragment = new FragmentMACuasiAccidente();  Tipo="M";Title="Medio Ambiente - Cuasi Accidente"; break;
 
 
         }
         lastTag=Tipo;
         // button Search
         Title_txt.setText(Title);
-        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I")||Tipo.equals("N")||Tipo.equals("E")||Tipo.equals("V"))
+        if(Tipo.equals("A")||Tipo.equals("C")||Tipo.equals("D")||Tipo.equals("I")||Tipo.equals("N")||Tipo.equals("E")||Tipo.equals("V")||Tipo.equals("M"))
         {
             buscar.setVisibility(View.VISIBLE);
             if(Tipo.equals("E"))
@@ -1188,6 +1218,14 @@ public class MainActivity extends AppCompatActivity
             if(temp.list_busqueda!=null)
                 GlobalVariables.stateFac=temp.list_busqueda.onSaveInstanceState();
         }
+/*
+        if(!Tipo.equals("M")){
+            GlobalVariables.passMAC=true;
+            FragmentMACuasiAccidente temp= (FragmentMACuasiAccidente)GlobalVariables.fragmentSave.get(3);
+            if(temp.list_busqueda!=null)
+                GlobalVariables.stateMAC=temp.list_busqueda.onSaveInstanceState();
+        }
+*/
        //showFragment(R.id.content,fragment,Tipo,false);
         if(fragment!=null&&GlobalVariables.fragmentStack.size()==0){
             getSupportFragmentManager()

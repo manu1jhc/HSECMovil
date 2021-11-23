@@ -4,10 +4,17 @@
     >
 
     <group android:checkableBehavior="single">
+        <!--
         <item
             android:id="@+id/nav_reporte"
             android:icon="@drawable/ic_logofacilito"
             android:title="Ingresar Reporte SOS" />
+-->
+        <item
+            android:id="@+id/nav_ma_cuasi"
+            android:icon="@drawable/ic_cuasi_ambiente"
+            android:title="Ingresar CuasiAccidente" />
+
 
         <item
             android:id="@+id/nav_observacion"

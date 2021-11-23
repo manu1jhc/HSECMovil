@@ -184,17 +184,22 @@ public class GlobalVariables  {
 
     public static ArrayList<ObsFacilitoMinModel> listaGlobalFacilito= new  ArrayList<>(); //data del fragment de Obs Facilito seguimiento
 
+    public static ArrayList<PublicacionModel> listaGlobalMACuasiAccidente=new ArrayList<>();//data del fragment medio ambiente cuasiaccidente
+
     public static Parcelable stateMuro;
     public static Parcelable stateObs;
     public static Parcelable stateInsp;
     public static Parcelable stateFac;
     public static Parcelable stateVer;
+    public static Parcelable stateMAC;
+
 
     public static boolean passHome=false;
     public static boolean passObs=false;
     public static boolean passInsp=false;
     public static boolean passFac=false;
     public static boolean passVer=false;
+    public static boolean passMAC=false;
 
 
     public static View view_fragment;

@@ -47,17 +47,16 @@
             android:textSize="16sp" />
 
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/user_data"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:menu="@menu/activity_main_drawer"
-        android:layout_marginBottom="56dp"
-        />
-
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/user_data"
+            android:layout_gravity="start"
+            android:layout_marginTop="-5dp"
+            android:layout_marginBottom="56dp"
+            android:fitsSystemWindows="true"
+            app:menu="@menu/activity_main_drawer" />
 
         <LinearLayout
             android:layout_width="match_parent"

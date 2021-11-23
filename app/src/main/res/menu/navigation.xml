@@ -45,13 +45,17 @@
         android:title="Inspecciones"
         app:showAsAction="ifRoom|withText"/>
 
-
+<!--
     <item
         android:id="@+id/navigation_avanzado"
         android:icon="@drawable/ic_logofacilito"
         android:title="Rep. SOS"
         app:showAsAction="ifRoom|withText"/>
-
-
+-->
+    <item
+        android:id="@+id/navigation_ma_cuasi"
+        android:icon="@drawable/ic_cuasi_ambiente"
+        android:title="Cuasi Accidente"
+        app:showAsAction="ifRoom|withText"/>
 
 </menu>
