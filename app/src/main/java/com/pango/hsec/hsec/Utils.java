@@ -468,7 +468,7 @@ public class Utils {
         }
         String cad;
         switch (s){
-            case "CodMAC":
+            case "CodInspeccion":
                 return inspeccionModel.CodInspeccion;
             case "Gerencia":
                 //return observacionModel.CodAreaHSEC;
@@ -518,6 +518,120 @@ public class Utils {
                 return GlobalVariables.getDescripcion(GlobalVariables.Tipo_insp,inspeccionModel.CodTipo);
 
             default:
+                return "";
+        }
+    }
+
+    public static String getMACuasiData(MACuasiAccidenteModel maCuasiAccidenteModel, String s) {
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("h:mm a");
+        Date temp= null;
+        Date tempP= null;
+        try {
+            //tempP= formatoInicial.parse(maCuasiAccidenteModel.FechaP);
+            temp= formatoInicial.parse(maCuasiAccidenteModel.Fecha);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String cad;
+        switch (s){
+            case "CodCuasiAcci":
+                return maCuasiAccidenteModel.CodCuasiAcci;
+//            case "CodAreaHSEC":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.CodAreaHSEC,maCuasiAccidenteModel.CodAreaHSEC).trim().replace("=","");
+//            case "CodTipo":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.CodTipo,maCuasiAccidenteModel.CodTipo).trim().replace("=","");
+//
+//            case "PerReporta":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.PerReporta,maCuasiAccidenteModel.PerReporta).trim().replace("=","");
+
+            case "Gerencia":
+                //return observacionModel.CodAreaHSEC;
+                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,maCuasiAccidenteModel.Gerencia).trim().replace("=","");
+            case "SuperInt":
+                //return observacionModel.CodNivelRiesgo;
+                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.SuperInt).trim().replace("=","");
+
+//            case "ClasReal":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,maCuasiAccidenteModel.ClasReal).trim().replace("=","");
+//
+//            case "ClasPotencial":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,maCuasiAccidenteModel.ClasPotencial).trim().replace("=","");
+//
+//            case "ActRelacionada":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.ActRelacionada,maCuasiAccidenteModel.ActRelacionada).trim().replace("=","");
+//            case "GrupRiesgo":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.GrupRiesgo,maCuasiAccidenteModel.GrupRiesgo).trim().replace("=","");
+
+            case "Fecha":
+
+                return formatoRender.format(temp);
+
+            case "Hora":
+                return formatoHora.format(temp).replace(". ","").replace(".","");
+
+            case "CodUbicacion":
+                return  GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,maCuasiAccidenteModel.CodUbicacion);
+
+//            case "CodSubUbicacion":
+//                return  GlobalVariables.getDescripcion(GlobalVariables.CodSubUbicacion,maCuasiAccidenteModel.CodSubUbicacion);
+//
+//            case "UbicacionEsp":
+//                return  GlobalVariables.getDescripcion(GlobalVariables.UbicacionEsp,maCuasiAccidenteModel.UbicacionEsp);
+//
+//            case "Lugar":
+//                return GlobalVariables.getDescripcion(GlobalVariables.Lugar,maCuasiAccidenteModel.Lugar);
+
+            default:
+                return "";
+        }
+    }
+
+
+    public static String getMACuasiDataDetalle(MACuasiAccidenteModel maCuasiAccidenteModel, String s) {
+        DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
+        DateFormat formatoHora = new SimpleDateFormat("h:mm a");
+        Date temp= null;
+        Date tempP= null;
+        try {
+            //tempP= formatoInicial.parse(maCuasiAccidenteModel.FechaP);
+            temp= formatoInicial.parse(maCuasiAccidenteModel.Fecha);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String cad;
+        switch (s){
+
+//            case "TituIncidente":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,maCuasiAccidenteModel.TituIncidente).trim().replace("=","");
+//            case "TituDetallado":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.TituDetallado,maCuasiAccidenteModel.TituDetallado).trim().replace("=","");
+//
+//            case "Turno":
+//                //return observacionModel.CodAreaHSEC;
+//                return GlobalVariables.getDescripcion(GlobalVariables.Turno,maCuasiAccidenteModel.Turno).trim().replace("=","");
+
+            case "Contrata":
+                //return observacionModel.CodAreaHSEC;
+                return GlobalVariables.getDescripcion(GlobalVariables.Contrata,maCuasiAccidenteModel.Contrata).trim().replace("=","");
+//            case "DesSuceso":
+//                //return observacionModel.CodNivelRiesgo;
+//                return GlobalVariables.getDescripcion(GlobalVariables.DesSuceso,maCuasiAccidenteModel.DesSuceso).trim().replace("=","");
+//            case "AccioInmediatas":
+//                //return observacionModel.CodNivelRiesgo;
+//                return GlobalVariables.getDescripcion(GlobalVariables.AccioInmediatas,maCuasiAccidenteModel.AccioInmediatas).trim().replace("=","");
+           default:
                 return "";
         }
     }
@@ -634,12 +748,12 @@ public class Utils {
 
     public static ArrayList<String> tempObs=new ArrayList<String>();
     public static ObservacionModel observacionModel=new ObservacionModel();
+    public static MACuasiAccidenteModel maCuasiAccidenteModel=new MACuasiAccidenteModel();
     public static ObsFacilitoModel observacionFacilitoModel=new ObsFacilitoModel();
     public static InspeccionModel inspeccionModel=new InspeccionModel();
     public static NoticiasModel noticiasModel=new NoticiasModel();
 
     public static VerificacionModel verificacionModel=new VerificacionModel();
-    public static MACuasiAccidenteModel maCuasiAccidenteModel=new MACuasiAccidenteModel();
 
 
     public static String fecha_inicio="";
