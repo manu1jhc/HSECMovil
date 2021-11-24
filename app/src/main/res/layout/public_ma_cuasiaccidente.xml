@@ -72,31 +72,33 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/mp_profile"
                 app:layout_constraintTop_toBottomOf="@+id/mp_nombre" />
-<!--
-            <TextView
-                android:id="@+id/mp_tipoinsp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="10dp"
-                android:text="TextView"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
--->
+            <!--
+                        <TextView
+                            android:id="@+id/mp_tipoinsp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginTop="10dp"
+                            android:text="TextView"
+                            android:textSize="12sp"
+                            android:visibility="gone"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+            -->
             <TextView
                 android:id="@+id/textView26"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginStart="8dp"
                 android:text="Medio Ambiente - Cuasi Accidente"
-                android:textSize="12sp"
+                android:textSize="12dp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/btn_editar"
                 app:layout_constraintStart_toEndOf="@+id/mp_profile"
-                app:layout_constraintTop_toBottomOf="@+id/mp_fecha" />
+                app:layout_constraintTop_toBottomOf="@+id/mp_fecha"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="10dp" />
 
             <TextView
                 android:id="@+id/tx_empresa"

@@ -7,6 +7,7 @@ android:layout_height="match_parent"
 android:background="@color/colorBlanco"
 tools:context="layout.FragmentMACuasiAccidente">
 
+
     <LinearLayout
         android:id="@+id/ll_menu_sup"
         android:layout_width="match_parent"
@@ -54,6 +55,7 @@ tools:context="layout.FragmentMACuasiAccidente">
 
 
     </LinearLayout>
+
     <TextView
         android:id="@+id/tx_mensajeb"
         android:layout_width="match_parent"
@@ -66,6 +68,8 @@ tools:context="layout.FragmentMACuasiAccidente">
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/linear_total"
         android:layout_width="match_parent"
@@ -92,8 +96,7 @@ tools:context="layout.FragmentMACuasiAccidente">
             app:layout_constraintEnd_toStartOf="@+id/btn_eliminarf"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="4dp"
-            android:layout_marginLeft="50dp" />
+            tools:ignore="RtlCompat" />
 
         <Button
             android:id="@+id/btn_eliminarf"
@@ -109,7 +112,7 @@ tools:context="layout.FragmentMACuasiAccidente">
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginRight="4dp" />
+            tools:ignore="RtlCompat" />
 
 
 
@@ -134,9 +137,7 @@ tools:context="layout.FragmentMACuasiAccidente">
             android:layout_height="match_parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-
-            >
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/tx_texto"
@@ -159,9 +160,12 @@ tools:context="layout.FragmentMACuasiAccidente">
                 android:id="@+id/list_busqueda"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+
                 android:layout_marginBottom="2dp"
                 android:layout_marginTop="2dp"
                 android:dividerHeight="5dp"
+
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -220,7 +224,5 @@ tools:context="layout.FragmentMACuasiAccidente">
         </android.widget.LinearLayout>
 
     </android.support.constraint.ConstraintLayout>
-
-
 
 </android.support.constraint.ConstraintLayout>

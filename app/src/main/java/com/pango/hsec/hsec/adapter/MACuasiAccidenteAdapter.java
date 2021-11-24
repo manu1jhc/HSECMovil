@@ -72,7 +72,7 @@ public class MACuasiAccidenteAdapter extends ArrayAdapter<PublicacionModel> {
         ImageView img_det = rowView.findViewById(R.id.mp_imgdet);
         TextView nombre = rowView.findViewById(R.id.mp_nombre);
         TextView fecha = rowView.findViewById(R.id.mp_fecha);
-       // TextView tipo_insp = rowView.findViewById(R.id.mp_tipoinsp);
+        // TextView tipo_insp = rowView.findViewById(R.id.mp_tipoinsp);
         ImageView btn_editar=rowView.findViewById(R.id.btn_editar);
         TextView comentario=rowView.findViewById(R.id.tx_comentario);
         TextView tx_empresa=rowView.findViewById(R.id.tx_empresa);

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 
 /**
@@ -13,7 +14,7 @@ import com.pango.hsec.hsec.R;
  * Use the {@link FragmentComentMA#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentComentMA extends Fragment {
+public class FragmentComentMA extends Fragment implements IActivity {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,5 +60,20 @@ public class FragmentComentMA extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_coment_ma, container, false);
+    }
+
+    @Override
+    public void success(String data, String Tipo) throws CloneNotSupportedException {
+
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) throws CloneNotSupportedException {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
     }
 }

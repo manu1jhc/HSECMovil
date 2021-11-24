@@ -1,22 +1,27 @@
 package com.pango.hsec.hsec.model;
 
 public class MACuasiAccidenteModel {
-    public String CodObservacion;
+    public String CodCuasiAcci;
     public String CodAreaHSEC;
-    public String CodNivelRiesgo;
-    public String CodObservadoPor;//codigo de la persona
-    public String ObservadoPor;
-    public String Fecha;
+    public String CodTipo;
+    public String PerReporta;
     public String Gerencia;
-    public String Superint;
+    public String SuperInt;
+    public String ClasReal;
+    public String ClasPotencial;
+    public String ActRelacionada;
+    public String GrupRiesgo;
+    public String Fecha;
+    public String Hora;
     public String CodUbicacion;
-    public String Lugar; //Pagenumber
-    public String CodTipo;//Elemperpage
-    public String CodSubTipo;
-    // public String Fecha_inicio;
-    //public String Fecha_fin;
-
-    public String FechaInicio;
-    public String FechaFin;
-    //public String tipo_obs;
+    public String CodSubUbicacion;
+    public String UbicacionEsp;
+    public String Lugar;
+    //Detalle
+    public String TituIncidente;
+    public String TituDetallado;
+    public String Turno;
+    public String Contrata;
+    public String DesSuceso;
+    public String AccioInmediatas;
 }

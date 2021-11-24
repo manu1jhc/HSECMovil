@@ -30,7 +30,6 @@ import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,8 +39,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener{
 
-public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
     MyPageAdapter pageAdapter;
     private ViewPager mViewPager;
     private TabHost mTabHost;
@@ -52,16 +51,6 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
     Gson gson;
     HorizontalScrollView horizontalscroll;
 
-    /*
-        public static String jsonInspeccion="";
-        public static String jsonEquipo="";
-        public static String jsonParticipante="";
-
-        public static String jsonObsIns="";
-        public static String jsonComentario="";
-
-    */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +60,6 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
 
         //GlobalVariables loaddata = new GlobalVariables();
-        //loaddata.LoadData();
         horizontalscroll=findViewById(R.id.horizontalscroll);
 
         gson=  new Gson();
@@ -127,8 +115,8 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
                 }
             }
         }
-
     }
+
     public void loadData(){
 
         initialiseTabHost();
@@ -138,16 +126,36 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
         mViewPager.setAdapter(pageAdapter);
         mViewPager.setOnPageChangeListener(MACuasiDetalle.this);
     }
+
+    // Tabs Creation
+    private void initialiseTabHost() {
+        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
+        mTabHost.setup();
+
+        // TODO Put here your Tabs
+        MACuasiDetalle.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab1").setIndicator("INCIDENTE-MA"));
+        MACuasiDetalle.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab2").setIndicator("DETALLE"));
+        MACuasiDetalle.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab3").setIndicator("GALERIA"));
+        MACuasiDetalle.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab4").setIndicator("PLANES DE ACCIÓN"));
+        MACuasiDetalle.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab5").setIndicator("COMENTARIOS"));
+        mTabHost.setOnTabChangedListener(this);
+
+    }
+
+    public void close(View view){
+        finish();
+    }
+
     // Method to add a TabHost
     private static void AddTab(MACuasiDetalle activity, TabHost tabHost,
                                TabHost.TabSpec tabSpec) {
         tabSpec.setContent(new MyTabFactory(activity));
         tabHost.addTab(tabSpec);
-    }
-
-
-    public void close(View view){
-        finish();
     }
 
     @Override
@@ -176,71 +184,56 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
 
     }
 
-    @Override
-    public void onPageSelected(int position) {
-
-    }
-    @Override
-    public void onTabChanged(String s) {
-        pos = this.mTabHost.getCurrentTab();
-        this.mViewPager.setCurrentItem(pos);
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
+
         // TODO Put here your Fragments
         FragmentMACuasiDetalle1 f1 = FragmentMACuasiDetalle1.newInstance(codObs);
         FragmentMACuasiDetalle2 f2 = FragmentMACuasiDetalle2.newInstance(codObs);
-
-        //FragmentGaleriaMA f3 = FragmentGaleriaMA.newInstance(codObs);
+       // FragmentGaleriaMa f3 = FragmentGaleriaMa.newInstance(codObs);
         FragmentGaleria f3 = FragmentGaleria.newInstance(codObs);
         //FragmentPlanesMA f4 = FragmentPlanesMA.newInstance(codObs);
-        FragmentPlan f4 = FragmentPlan.newInstance(codObs,1);//cambiar a codObs
+        FragmentPlan f4 = FragmentPlan.newInstance(codObs,1);
         //FragmentComentMA f5 = FragmentComentMA.newInstance(codObs);
-        FragmentComent f5=FragmentComent.newInstance(codObs);
+        FragmentComent f5 = FragmentComent.newInstance(codObs);
 
         fList.add(f1);
         fList.add(f2);
         fList.add(f3);
         fList.add(f4);
         fList.add(f5);
+
         return fList;
     }
 
-    // Tabs Creation
-    private void initialiseTabHost() {
-        mTabHost = (TabHost) findViewById(android.R.id.tabhost);
-        mTabHost.setup();
-
-        // TODO Put here your Tabs
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("INCIDENTE-MA"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab2").setIndicator("DETALLE"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab3").setIndicator("GALERIA"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab4").setIndicator("PLANES DE ACCIÓN"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab5").setIndicator("COMENTARIOS"));
-        mTabHost.setOnTabChangedListener(this);
+    @Override
+    public void onPageSelected(int position) {
 
     }
 
+    @Override
+    public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public void onTabChanged(String tabId) {
+        pos = this.mTabHost.getCurrentTab();
+        this.mViewPager.setCurrentItem(pos);
+    }
 
     @Override
     public void success(String data, String Tipo) throws CloneNotSupportedException {
-    }
-    @Override
-    public void successpost(String data, String Tipo) throws CloneNotSupportedException {
-    }
-    @Override
-    public void error(String mensaje, String Tipo) {
+
     }
 
+    @Override
+    public void successpost(String data, String Tipo) throws CloneNotSupportedException {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
+    }
 }
