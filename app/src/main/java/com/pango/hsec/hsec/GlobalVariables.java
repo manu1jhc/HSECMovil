@@ -183,7 +183,6 @@ public class GlobalVariables  {
     public static ArrayList<PublicacionModel> listaGlobalVerificaciones=new ArrayList<>();//data del fragment de inspecciones
 
     public static ArrayList<ObsFacilitoMinModel> listaGlobalFacilito= new  ArrayList<>(); //data del fragment de Obs Facilito seguimiento
-
     public static ArrayList<PublicacionModel> listaGlobalMACuasiAccidente=new ArrayList<>();//data del fragment medio ambiente cuasiaccidente
 
     public static Parcelable stateMuro;
@@ -192,7 +191,6 @@ public class GlobalVariables  {
     public static Parcelable stateFac;
     public static Parcelable stateVer;
     public static Parcelable stateMAC;
-
 
     public static boolean passHome=false;
     public static boolean passObs=false;
@@ -298,6 +296,27 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> UbicacionEspecifica_obs = new ArrayList<>();
 
     public static  ArrayList<Maestro> Tipo_insp = new ArrayList<>();
+
+    //MACuasi
+    public static  ArrayList<Maestro> CodAreaHSEC = new ArrayList<>();
+    public static  ArrayList<Maestro> CodTipo = new ArrayList<>();
+    public static  ArrayList<Maestro> PerReporta = new ArrayList<>();
+    public static  ArrayList<Maestro> ClasPotencial = new ArrayList<>();
+    public static  ArrayList<Maestro> ClasReal = new ArrayList<>();
+    public static  ArrayList<Maestro> ActRelacionada = new ArrayList<>();
+    public static  ArrayList<Maestro> GrupRiesgo = new ArrayList<>();
+    public static  ArrayList<Maestro> UbicacionEsp = new ArrayList<>();
+    public static  ArrayList<Maestro> CodSubUbicacion = new ArrayList<>();
+    public static  ArrayList<Maestro> Lugar = new ArrayList<>();
+    //MACuasiDetalle
+    public static  ArrayList<Maestro> TituIncidente = new ArrayList<>();
+    public static  ArrayList<Maestro> TituDetallado = new ArrayList<>();
+    public static  ArrayList<Maestro> Turno = new ArrayList<>();
+    //public static  ArrayList<Maestro> Contrata = new ArrayList<>();
+    public static  ArrayList<Maestro> DesSuceso = new ArrayList<>();
+    public static  ArrayList<Maestro> AccioInmediatas = new ArrayList<>();
+
+
 
 //plan de accion
     public static  ArrayList<Maestro> Referencia_Plan = new ArrayList<>();
