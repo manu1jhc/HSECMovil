@@ -21,40 +21,39 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Busquedas.B_inspecciones;
 import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle;
 import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
+import com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad.ActSeguridad;
+import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.ActIngresoSeg;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
-import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.MACuasiAccidenteAdapter;
-import com.pango.hsec.hsec.adapter.PublicacionAdapter;
+import com.pango.hsec.hsec.adapter.SeguridadCAAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
-import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
-import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
 
 import static com.pango.hsec.hsec.MainActivity.flag_maCuasi;
-import static com.pango.hsec.hsec.MainActivity.flag_observacion;
+import static com.pango.hsec.hsec.MainActivity.flag_seguri;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentMACuasiAccidente#newInstance} factory method to
+ * Use the {@link FragmentSecuridadCA#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentMACuasiAccidente extends Fragment implements IActivity {
+public class FragmentSecuridadCA extends Fragment implements IActivity {
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -62,12 +61,12 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
     View rootView;
     String tipo_filtro="";
     Button btn_filtro;
-    Button add_cuasi;
+    Button add_sec;
     public static final int REQUEST_CODE = 1;
     String url="";
     public ListView list_busqueda;
     static int paginacion2=1;
-    boolean flagMACFiltro=true;
+    boolean flagSECFiltro=true;
     boolean upFlag;
     boolean downFlag;
     boolean listenerFlag;
@@ -83,27 +82,22 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
     View popupView;
     PopupWindow popupWindow;
     boolean flagpopup=false;
-    public MACuasiAccidenteAdapter ca;
+    public SeguridadCAAdapter ca;
     ConstraintLayout linear_total;
     Button btn_eliminarf;
     TextView tx_filtro;
     String Elemperpage="7";
-    private OnFragmentInteractionListener mListener;
 
-    public FragmentMACuasiAccidente() {
+    private FragmentSecuridadCA.OnFragmentInteractionListener mListener;
+
+    public FragmentSecuridadCA() {
         // Required empty public constructor
     }
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentMACuasiAccidente.
-     */
+
+
     // TODO: Rename and change types and number of parameters
-    public static FragmentMACuasiAccidente newInstance(String param1, String param2) {
-        FragmentMACuasiAccidente fragment = new FragmentMACuasiAccidente();
+    public static FragmentSecuridadCA newInstance(String param1, String param2) {
+        FragmentSecuridadCA fragment = new FragmentSecuridadCA();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -123,27 +117,25 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        rootView=inflater.inflate(R.layout.fragment_ma_cuasi_accidente, container, false);
+        rootView = inflater.inflate(R.layout.fragment_securidad_ca, container, false);
         // Inflate the layout for this fragment
-        add_cuasi=rootView.findViewById(R.id.add_cuasi);
+        add_sec = rootView.findViewById(R.id.add_seg);
 
-        tx_texto =(TextView) rootView.findViewById(R.id.tx_texto);
+        tx_texto = (TextView) rootView.findViewById(R.id.tx_texto);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipelayout);
-        constraintLayout=(ConstraintLayout) rootView.findViewById(R.id.const_main);
-        //swipeRefreshLayout.setVisibility(View.INVISIBLE);
-        lupabuscar=(ImageView) rootView.findViewById(R.id.lupabuscar);
+        constraintLayout = (ConstraintLayout) rootView.findViewById(R.id.const_main);
+        lupabuscar = (ImageView) rootView.findViewById(R.id.lupabuscar);
         GlobalVariables loaddata = new GlobalVariables();
-        //loaddata.LoadData();
-        list_busqueda=(ListView) rootView.findViewById(R.id.list_busqueda);
+        list_busqueda = (ListView) rootView.findViewById(R.id.list_busqueda);
         //sp_busqueda=(Spinner) rootView.findViewById(R.id.sp_busqueda);
-        tx_mensajeb=rootView.findViewById(R.id.tx_mensajeb);
-        btn_filtro=(Button) rootView.findViewById(R.id.btn_filtro);
-        linear_total=rootView.findViewById(R.id.linear_total);
-        btn_eliminarf=rootView.findViewById(R.id.btn_eliminarf);
-        tx_filtro=rootView.findViewById(R.id.tx_filtro);
+        tx_mensajeb = rootView.findViewById(R.id.tx_mensajeb);
+        btn_filtro = (Button) rootView.findViewById(R.id.btn_filtro);
+        linear_total = rootView.findViewById(R.id.linear_total);
+        btn_eliminarf = rootView.findViewById(R.id.btn_eliminarf);
+        tx_filtro = rootView.findViewById(R.id.tx_filtro);
 
         url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
-        if(GlobalVariables.listaGlobalMACuasiAccidente.size()==0) {
+        if (GlobalVariables.listaGlobalSeguridadMA.size() == 0) {
 
             Utils.maCuasiAccidenteModel = new MACuasiAccidenteModel();
             MACuasiAccidenteModel maCuasiAccidenteModel = new MACuasiAccidenteModel();
@@ -155,19 +147,19 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
             json = gson.toJson(maCuasiAccidenteModel);
 
             Utils.isActivity = true;
-            final ActivityController obj = new ActivityController("post-" + paginacion2, url, FragmentMACuasiAccidente.this, getActivity());
-            obj.execute(json,"0");
+            final ActivityController obj = new ActivityController("post-" + paginacion2, url, FragmentSecuridadCA.this, getActivity());
+            obj.execute(json, "0");
 
-        }else{
-            successpost("","-1");
+        } else {
+            successpost("", "-1");
         }
 
         btn_eliminarf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 linear_total.setVisibility(View.GONE);
-                flag_maCuasi =false;
-                GlobalVariables.listaGlobalMACuasiAccidente.clear();
+                flag_seguri =false;
+                GlobalVariables.listaGlobalSeguridadMA.clear();
 
                 Utils.maCuasiAccidenteModel = new MACuasiAccidenteModel();
                 MACuasiAccidenteModel maCuasiAccidenteModel = new MACuasiAccidenteModel();
@@ -182,17 +174,18 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 Utils.isActivity = true;
                 //GlobalVariables.listaGlobalInspeccion = new ArrayList<>();
 
-                final ActivityController obj = new ActivityController("post", url, FragmentMACuasiAccidente.this, getActivity());
+                final ActivityController obj = new ActivityController("post", url, FragmentSecuridadCA.this, getActivity());
                 obj.execute(json);
             }
         });
-        add_cuasi.setOnClickListener(new View.OnClickListener() {
+
+        add_sec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 GlobalVariables.ObjectEditable=false;
-                Intent addMACuasi = new Intent(getActivity(), ActIngresoMA.class);
-                addMACuasi.putExtra("codObs","INC000000XYZ");
-                startActivity(addMACuasi);
+                Intent addSecCA = new Intent(getActivity(), ActIngresoSeg.class);
+                addSecCA.putExtra("codObs","INC000000XYZ");
+                startActivity(addSecCA);
             }
         });
 
@@ -211,7 +204,7 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 //is_swipe=false;
                 swipeRefreshLayout.setRefreshing(true);
 //                tx_texto.setVisibility(View.VISIBLE);
-                flagMACFiltro=true;
+                flagSECFiltro=true;
                 paginacion2=1;
                 //   upFlag=false;
                 //  downFlag=false;
@@ -221,7 +214,7 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 //swipeRefreshLayout.setRefreshing(true);
                 loadingTop=true;
                 tx_texto.setVisibility(View.VISIBLE);
-                GlobalVariables.listaGlobalMACuasiAccidente.clear(); //crear segun el formato
+                GlobalVariables.listaGlobalSeguridadMA.clear(); //crear segun el formato
                 //GlobalVariables.contpublic=2;
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.flag_up_toast=true;
@@ -235,7 +228,7 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
 
                 //Utils.isActivity=true;
                 GlobalVariables.istabs=false;
-                final ActivityController obj = new ActivityController("post-0", url, FragmentMACuasiAccidente.this,getActivity());
+                final ActivityController obj = new ActivityController("post-0", url, FragmentSecuridadCA.this,getActivity());
                 obj.execute(json,"0");
 
                 // Toast.makeText(rootView.getContext(),"swipe",Toast.LENGTH_SHORT).show();
@@ -243,6 +236,7 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 //  } },0);
 
             } });
+
 
         list_busqueda.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
@@ -264,7 +258,7 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                     // GlobalVariables.FDown=true;
                     //Toast.makeText(rootView.getContext(), "ACEPTO DOWNFLAG", Toast.LENGTH_SHORT).show();
                     /// cambiar el 100 por el total de publicaciones
-                    if (GlobalVariables.listaGlobalMACuasiAccidente.size() != MainActivity.countMACuasi && flag_enter&&flagMACFiltro) {
+                    if (GlobalVariables.listaGlobalSeguridadMA.size() != MainActivity.countSegu && flag_enter&&flagSECFiltro) {
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
@@ -311,7 +305,7 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
 
 
                         GlobalVariables.istabs=false;// para que no entre al flag de tabs
-                        final ActivityController obj = new ActivityController("post-2", url, FragmentMACuasiAccidente.this,getActivity());
+                        final ActivityController obj = new ActivityController("post-2", url, FragmentSecuridadCA.this,getActivity());
                         obj.execute(json2,"2");
 
                        /* layoutInflater =(LayoutInflater) rootView.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -355,15 +349,16 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 }
             }
         });
+
         listenerFlag = false;
 
         list_busqueda.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
-                String CodMACuasi= GlobalVariables.listaGlobalMACuasiAccidente.get(position).Codigo;
-                Intent intent = new Intent(getActivity(), MACuasiDetalle.class);
-                intent.putExtra("codObs",CodMACuasi);
+                String CodSeguCA= GlobalVariables.listaGlobalSeguridadMA.get(position).Codigo;
+                Intent intent = new Intent(getActivity(), ActSeguridad.class);
+                intent.putExtra("codObs",CodSeguCA);
                 intent.putExtra("posTab",0);
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                 startActivity(intent);
@@ -389,9 +384,9 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
 
                 Utils.isActivity = true;
                 url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
-                GlobalVariables.listaGlobalMACuasiAccidente = new ArrayList<>();
+                GlobalVariables.listaGlobalSeguridadMA = new ArrayList<>();
 
-                final ActivityController obj = new ActivityController("post", url, FragmentMACuasiAccidente.this,getActivity());
+                final ActivityController obj = new ActivityController("post", url, FragmentSecuridadCA.this,getActivity());
                 obj.execute(json);
 
                 /*
@@ -455,11 +450,8 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
 
             }
         });
-
-
-
-
         return rootView;
+
     }
 
     public void onButtonPressed(Uri uri) {
@@ -470,15 +462,15 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
 
     public void DeleteObject(String Url, int index){
         String url= GlobalVariables.Url_base+Url;
-        ActivityController obj = new ActivityController("get", url, FragmentMACuasiAccidente.this,getActivity());
+        ActivityController obj = new ActivityController("get", url, FragmentSecuridadCA.this,getActivity());
         obj.execute(""+index);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentMACuasiAccidente.OnFragmentInteractionListener) {
-            mListener = (FragmentMACuasiAccidente.OnFragmentInteractionListener) context;
+        if (context instanceof FragmentSecuridadCA.OnFragmentInteractionListener) {
+            mListener = (FragmentSecuridadCA.OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -493,21 +485,21 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
 
     @Override
     public void success(String data, String Tipo) {
-        // data remove
         if(data.contains("-1")) Toast.makeText(getContext(), "Ocurrio un error al eliminar registro.",    Toast.LENGTH_SHORT).show();
         else ca.remove(Integer.parseInt(Tipo)-2);
+
     }
 
     @Override
-    public void successpost(String data1, String Tipo){
+    public void successpost(String data1, String Tipo) {
         //data add
         if(Tipo.equals("")){
 
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
-            GlobalVariables.listaGlobalMACuasiAccidente=getPublicacionModel.Data;
-            MainActivity.countMACuasi=getPublicacionModel.Count;
-            ca = new MACuasiAccidenteAdapter(getActivity(), GlobalVariables.listaGlobalMACuasiAccidente,this);
+            GlobalVariables.listaGlobalSeguridadMA=getPublicacionModel.Data;
+            MainActivity.countSegu=getPublicacionModel.Count;
+            ca = new SeguridadCAAdapter(getActivity(), GlobalVariables.listaGlobalSeguridadMA,this);
             list_busqueda.setAdapter(ca);
             if(getPublicacionModel.Data.size()==0){
                 swipeRefreshLayout.setVisibility(View.INVISIBLE);
@@ -520,20 +512,20 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
         }
 
         else if(Tipo.equals("-1")){ // load data preview load
-            ca = new  MACuasiAccidenteAdapter(getActivity(), GlobalVariables.listaGlobalMACuasiAccidente,this);
+            ca = new SeguridadCAAdapter(getActivity(), GlobalVariables.listaGlobalSeguridadMA,this);
             list_busqueda.setAdapter(ca);
-            if(GlobalVariables.stateMAC != null&&GlobalVariables.passMAC) {
+            if(GlobalVariables.stateSEC != null&&GlobalVariables.passSEC) {
                 swipeRefreshLayout.setEnabled(false);
-                list_busqueda.onRestoreInstanceState(GlobalVariables.stateMAC);
-                GlobalVariables.passMAC=false;
+                list_busqueda.onRestoreInstanceState(GlobalVariables.stateSEC);
+                GlobalVariables.passSEC=false;
             }
         }
         else if(Tipo.equals("0")){ //from refresh data (add 1)
             Gson gson = new Gson();
             GetPublicacionModel getPublicacionModel = gson.fromJson(data1, GetPublicacionModel.class);
-            GlobalVariables.listaGlobalMACuasiAccidente=getPublicacionModel.Data;
-            MainActivity.countMACuasi=getPublicacionModel.Count;
-            ca = new MACuasiAccidenteAdapter(getContext(),GlobalVariables.listaGlobalMACuasiAccidente,this);
+            GlobalVariables.listaGlobalSeguridadMA=getPublicacionModel.Data;
+            MainActivity.countSegu=getPublicacionModel.Count;
+            ca = new SeguridadCAAdapter(getContext(),GlobalVariables.listaGlobalSeguridadMA,this);
             list_busqueda.setAdapter(ca);
 
             swipeRefreshLayout.setRefreshing(false);
@@ -552,9 +544,9 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
 
 
 
-        if(flag_maCuasi){
+        if(flag_seguri){
             linear_total.setVisibility(View.VISIBLE);
-            tx_filtro.setText("("+ MainActivity.countMACuasi+")"+" resultados");
+            tx_filtro.setText("("+ MainActivity.countSegu+")"+" resultados");
         }else {linear_total.setVisibility(View.GONE);}
 
     }
@@ -568,6 +560,4 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
-
-
 }

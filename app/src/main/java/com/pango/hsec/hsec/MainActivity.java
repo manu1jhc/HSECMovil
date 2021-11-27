@@ -55,8 +55,8 @@ import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad.ActSeguridad;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
-import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
@@ -86,6 +86,7 @@ import layout.FragmentObservaciones;
 import layout.FragmentPlanPendiente;
 import layout.FragmentAvanzado;
 import layout.FragmentNoticias;
+import layout.FragmentSecuridadCA;
 import layout.FragmentVerificaciones;
 
 import static android.content.ContentValues.TAG;
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity
         FragmentNoticias.OnFragmentInteractionListener,
         FragmentVerificaciones.OnFragmentInteractionListener,
         FragmentMACuasiAccidente.OnFragmentInteractionListener,
+        FragmentSecuridadCA.OnFragmentInteractionListener,
 
         SearchView.OnQueryTextListener
 {
@@ -158,6 +160,9 @@ public class MainActivity extends AppCompatActivity
 
     public static int countMACuasi;
     public static boolean flag_maCuasi=false;
+
+    public static int countSegu;
+    public static boolean flag_seguri=false;
 
     String TipoSearch;
     String txtSearch;
@@ -596,7 +601,8 @@ public class MainActivity extends AppCompatActivity
         PlanPendiente,
         Noticias,
         Verificaciones,
-        MACuasiaccidente
+        MACuasiaccidente,
+        SeguridadCA
     }
 
     @Override
@@ -867,6 +873,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(addMACuasi);
         }
 
+
         if(id==R.id.nav_sisap){
             try{
                 Intent sendIntent =   getPackageManager().getLaunchIntentForPackage("com.base.app.donnyadrian.sisap008");
@@ -966,6 +973,23 @@ public class MainActivity extends AppCompatActivity
             ClickVerificaciones();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
         }
+
+        else if (id == R.id.nav_maSeguridad){
+            Menu menu = navigationView.getMenu();
+            uncheckItems(menu);
+            ClickSeguridadCA();
+            bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
+        }
+
+       /* if(id == R.id.nav_maSeguridad){
+            GlobalVariables.ObjectEditable=false;
+            Intent addMACuasiSeg = new Intent( this, ActSeguridad.class);
+            //addMACuasiSeg.putExtra("codObs", "OBS000000XYZ");
+            //addMACuasiSeg.putExtra("tipoObs","TO01");
+            //addMACuasiSeg
+            // .putExtra("posTab", 0);
+            startActivity(addMACuasiSeg);
+        }*/
 
 
         else if(id == R.id.nav_actualizar){
@@ -1113,6 +1137,11 @@ public class MainActivity extends AppCompatActivity
         ChangeFragment(NavigationFragment.Verificaciones);
 
     }
+    private void ClickSeguridadCA() {
+        uncheckItemsMenu();
+        ChangeFragment(NavigationFragment.SeguridadCA);
+
+    }
     public void ClickPendientes(){
         uncheckItemsMenu();
         ChangeFragment(NavigationFragment.PlanPendiente);
@@ -1173,7 +1202,8 @@ public class MainActivity extends AppCompatActivity
             case Capacitaciones: fragment = new FragmentCapacitaciones(); Tipo="J";  Title="Capacitaciones"; break;
             case Noticias: fragment = new FragmentNoticias();  Tipo="N";Title="Noticias"; break;
             case Verificaciones: fragment = new FragmentVerificaciones();  Tipo="V";Title="Verificaciones"; break;
-            case MACuasiaccidente: fragment = new FragmentMACuasiAccidente();  Tipo="M";Title="Medio Ambiente - Cuasi Accidente"; break;
+            case MACuasiaccidente: fragment = new FragmentMACuasiAccidente();  Tipo="M";Title="Medio Ambiente"; break;
+            case SeguridadCA: fragment = new FragmentSecuridadCA();  Tipo="S";Title="Seguridad - CA"; break;
 
 
         }

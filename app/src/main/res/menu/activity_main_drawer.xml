@@ -52,6 +52,11 @@
             android:title="Planes de Acción Pendientes" />
 
         <item
+            android:id="@+id/nav_maSeguridad"
+            android:icon="@drawable/ic_seguridad"
+            android:title="Seguridad - Cuasi Accidente" />
+
+        <item
             android:id="@+id/nav_sisap"
             android:icon="@drawable/ic_sisap"
             android:iconTint="@color/icon_sisap"

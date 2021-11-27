@@ -1,4 +1,4 @@
-package com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi;
+package com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -13,14 +13,11 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad.ActSeguridad;
+import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.FragmentMACuasiDetalle1;
+import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.FragmentMACuasiDetalle2;
+import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
-import com.pango.hsec.hsec.Inspecciones.FragmentComentIns;
-import com.pango.hsec.hsec.Inspecciones.FragmentInspeccion;
-import com.pango.hsec.hsec.Inspecciones.FragmentObsInsp;
-import com.pango.hsec.hsec.Inspecciones.FragmentParticipante;
 import com.pango.hsec.hsec.Login;
 import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.FragmentComent;
@@ -40,8 +37,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener{
-
+public class ActSeguridad extends FragmentActivity implements IActivity, TabHost.OnTabChangeListener, ViewPager.OnPageChangeListener {
     MyPageAdapter pageAdapter;
     private ViewPager mViewPager;
     private TabHost mTabHost;
@@ -51,11 +47,12 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
     int pos,proviene;
     Gson gson;
     HorizontalScrollView horizontalscroll;
+    private View mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ma_cuasi_detalle);
+        setContentView(R.layout.activity_seguridad);
 
         close=findViewById(R.id.imageButton);
         mViewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -99,7 +96,7 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
                     }
                     else {
                         GlobalVariables.pasnotification=true;
-                        Intent intent = new Intent(MACuasiDetalle.this, Login.class);
+                        Intent intent = new Intent(ActSeguridad.this, Login.class);
                         startActivity(intent);
                         finish();
                     }
@@ -108,7 +105,7 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
                     UsuarioModel UserLoged= gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
                     if(!codpersona.equals(UserLoged.CodPersona)) {
                         Toast.makeText(this, "Usuario logueado no coincide con usuario a notificar",Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MACuasiDetalle.this, MainActivity.class);
+                        Intent intent = new Intent(ActSeguridad.this, MainActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -117,7 +114,6 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
             }
         }
     }
-
     public void loadData(){
 
         initialiseTabHost();
@@ -125,26 +121,24 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
         List<Fragment> fragments = getFragments();
         pageAdapter = new MyPageAdapter(getSupportFragmentManager(), fragments);
         mViewPager.setAdapter(pageAdapter);
-        mViewPager.setOnPageChangeListener(MACuasiDetalle.this);
+        mViewPager.setOnPageChangeListener(ActSeguridad.this);
     }
-
-
     // Tabs Creation
     private void initialiseTabHost() {
         mTabHost = (TabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup();
 
         // TODO Put here your Tabs
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab1").setIndicator("INCIDENTE-MA"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
+        ActSeguridad.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab1").setIndicator("SEGURIDAD - CA"));
+        ActSeguridad.AddTab(this, this.mTabHost,
                 this.mTabHost.newTabSpec("Tab2").setIndicator("DETALLE"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab3").setIndicator("GALERIA"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab4").setIndicator("PLANES DE ACCIÓN"));
-        MACuasiDetalle.AddTab(this, this.mTabHost,
-                this.mTabHost.newTabSpec("Tab5").setIndicator("COMENTARIOS"));
+        ActSeguridad.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab3").setIndicator("CAUSALIDAD"));
+        ActSeguridad.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab4").setIndicator("GALERIA"));
+        ActSeguridad.AddTab(this, this.mTabHost,
+                this.mTabHost.newTabSpec("Tab5").setIndicator("PLANES DE ACCIÓN"));
         mTabHost.setOnTabChangedListener(this);
 
     }
@@ -152,9 +146,8 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
     public void close(View view){
         finish();
     }
-
     // Method to add a TabHost
-    private static void AddTab(MACuasiDetalle activity, TabHost tabHost,
+    private static void AddTab(ActSeguridad activity, TabHost tabHost,
                                TabHost.TabSpec tabSpec) {
         tabSpec.setContent(new MyTabFactory(activity));
         tabHost.addTab(tabSpec);
@@ -183,21 +176,17 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
         } else {
             horizontalscroll.scrollBy(positionOffsetPixels, 0);
         }
-
     }
 
     private List<Fragment> getFragments() {
         List<Fragment> fList = new ArrayList<Fragment>();
 
         // TODO Put here your Fragments
-        FragmentMACuasiDetalle1 f1 = FragmentMACuasiDetalle1.newInstance(codObs);
-        FragmentMACuasiDetalle2 f2 = FragmentMACuasiDetalle2.newInstance(codObs);
-       // FragmentGaleriaMa f3 = FragmentGaleriaMa.newInstance(codObs);
-        FragmentGaleria f3 = FragmentGaleria.newInstance(codObs);
-        //FragmentPlanesMA f4 = FragmentPlanesMA.newInstance(codObs);
-        FragmentPlan f4 = FragmentPlan.newInstance(codObs,1);
-        //FragmentComentMA f5 = FragmentComentMA.newInstance(codObs);
-        FragmentComent f5 = FragmentComent.newInstance(codObs);
+        FragmentGeneralCA f1 = FragmentGeneralCA.newInstance(codObs);
+        FragmentDetalleCA f2 = FragmentDetalleCA.newInstance(codObs);
+        FragmentCausalidadCA f3 = FragmentCausalidadCA.newInstance(codObs);
+        FragmentGaleria f4 = FragmentGaleria.newInstance(codObs);
+        FragmentPlan f5 = FragmentPlan.newInstance(codObs,1);
 
         fList.add(f1);
         fList.add(f2);
@@ -225,12 +214,12 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
     }
 
     @Override
-    public void success(String data, String Tipo) throws CloneNotSupportedException {
+    public void success(String data, String Tipo) {
 
     }
 
     @Override
-    public void successpost(String data, String Tipo) throws CloneNotSupportedException {
+    public void successpost(String data, String Tipo) {
 
     }
 
@@ -238,4 +227,5 @@ public class MACuasiDetalle extends FragmentActivity implements IActivity, TabHo
     public void error(String mensaje, String Tipo) {
 
     }
+
 }
