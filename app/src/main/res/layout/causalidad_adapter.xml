@@ -1,0 +1,163 @@
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Tipo Causa"
+                android:textSize="@dimen/size_text_izq"
+                android:textStyle="bold"
+                android:layout_weight="0.72"
+                tools:text="Tipo Causa"
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:textAlignment="textEnd"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/tx_tipo_causa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_weight="0.28"
+                tools:text=""
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Condición"
+                android:textSize="@dimen/size_text_izq"
+                android:textStyle="bold"
+                android:layout_weight="0.72"
+                tools:text="Condición"
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:textAlignment="textEnd"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/tx_condicion"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_weight="0.28"
+                tools:text=""
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Causa"
+                android:textSize="@dimen/size_text_izq"
+                android:textStyle="bold"
+                android:layout_weight="0.72"
+                tools:text="Causa"
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:textAlignment="textEnd"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/tx_causa"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_weight="0.28"
+                tools:text=""
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Comentario"
+                android:textSize="@dimen/size_text_izq"
+                android:textStyle="bold"
+                android:layout_weight="0.72"
+                tools:text="Comentario"
+                android:background="@color/ColorPlomo4"
+                android:gravity="right|center_vertical"
+                android:textAlignment="textEnd"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
+                tools:ignore="RtlCompat" />
+
+            <TextView
+                android:id="@+id/tx_comentar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_weight="0.28"
+                tools:text=""
+                />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

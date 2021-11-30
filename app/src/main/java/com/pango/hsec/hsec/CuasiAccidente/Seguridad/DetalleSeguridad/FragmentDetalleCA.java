@@ -2,6 +2,8 @@ package com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +34,7 @@ public class FragmentDetalleCA extends Fragment implements IActivity {
     Detalle2Adapter detalle2Adapter;
     String jsonSegDet="";
     String url;
-
+    RecyclerView detalleCARecycler;
     String codObs;
     private View mView;
 
@@ -60,23 +62,16 @@ public class FragmentDetalleCA extends Fragment implements IActivity {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_detalle_ca, container, false);
         codObs=getArguments().getString("bString");
+        detalleCARecycler = mView.findViewById(R.id.list_detSegCA);
 
         GlobalVariables.view_fragment=mView;
         url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
+
         if(jsonSegDet.isEmpty()) {
             GlobalVariables.istabs=true;
             final ActivityController obj = new ActivityController("get", url, FragmentDetalleCA.this,getActivity());
@@ -87,6 +82,17 @@ public class FragmentDetalleCA extends Fragment implements IActivity {
 
         return mView;
     }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+
 
     @Override
     public void success(String data, String Tipo){
@@ -110,11 +116,14 @@ public class FragmentDetalleCA extends Fragment implements IActivity {
                 obsDetIzqf.add(obsDetIzq[i]);
             }
         }
+        detalleCARecycler.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        detalleCARecycler.setLayoutManager(llm);
 
         DetalleSegAdapter generalSegAdapter= new DetalleSegAdapter(getContext(),getSeguridadModel,obsDetcabf,obsDetIzqf);
-
-        ListView listaDetalles = (ListView) mView.findViewById(R.id.list_detSegCA);
-        listaDetalles.setAdapter(generalSegAdapter);
+       // ListView listaDetalles = (ListView) mView.findViewById(R.id.list_detSegCA);
+        detalleCARecycler.setAdapter(generalSegAdapter);
     }
 
     @Override

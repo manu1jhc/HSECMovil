@@ -8,13 +8,20 @@
         <entry key="app/src/main/res/layout/activity_ma_cuasi_detalle.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_seguridad.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_seguridad_ma.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_detalle_ca.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/causalidad_adapter.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_causalidad_ca.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_detalle_ca.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_general_ca.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_ma_cuasi_accidente.xml" value="0.10054347826086957" />
         <entry key="app/src/main/res/layout/fragment_ma_cuasi_detalle1.xml" value="0.10054347826086957" />
         <entry key="app/src/main/res/layout/fragment_obs.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_obs_is.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_obs_com.xml" value="0.17447916666666666" />
+        <entry key="app/src/main/res/layout/fragment_obs_cond.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_obs_is.xml" value="0.2134387351778656" />
+        <entry key="app/src/main/res/layout/fragment_obs_is_ccritico.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_obs_tar.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_securidad_ca.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/obslist.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/public_ma_cuasiaccidente.xml" value="0.12364130434782608" />
         <entry key="app/src/main/res/layout/public_seguridad_ca.xml" value="0.1" />
         <entry key="app/src/main/res/menu/activity_main_drawer.xml" value="0.17447916666666666" />
