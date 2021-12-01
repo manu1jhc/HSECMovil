@@ -184,6 +184,7 @@ public class GlobalVariables  {
 
     public static ArrayList<ObsFacilitoMinModel> listaGlobalFacilito= new  ArrayList<>(); //data del fragment de Obs Facilito seguimiento
     public static ArrayList<PublicacionModel> listaGlobalMACuasiAccidente=new ArrayList<>();//data del fragment medio ambiente cuasiaccidente
+    public static ArrayList<PublicacionModel> listaGlobalSeguridadMA=new ArrayList<>();//data del fragment medio ambiente cuasiaccidente
 
     public static Parcelable stateMuro;
     public static Parcelable stateObs;
@@ -191,6 +192,7 @@ public class GlobalVariables  {
     public static Parcelable stateFac;
     public static Parcelable stateVer;
     public static Parcelable stateMAC;
+    public static Parcelable stateSEC;
 
     public static boolean passHome=false;
     public static boolean passObs=false;
@@ -198,6 +200,7 @@ public class GlobalVariables  {
     public static boolean passFac=false;
     public static boolean passVer=false;
     public static boolean passMAC=false;
+    public static boolean passSEC=false;
 
 
     public static View view_fragment;
@@ -315,6 +318,16 @@ public class GlobalVariables  {
     //public static  ArrayList<Maestro> Contrata = new ArrayList<>();
     public static  ArrayList<Maestro> DesSuceso = new ArrayList<>();
     public static  ArrayList<Maestro> AccioInmediatas = new ArrayList<>();
+
+    //SeguridaCuasi
+    public static  ArrayList<Maestro> Subtipo = new ArrayList<>();
+    public static  ArrayList<Maestro> HHRelacionada = new ArrayList<>();
+    public static  ArrayList<Maestro> Riesgo = new ArrayList<>();
+    //Detalle Seguridad
+    public static  ArrayList<Maestro> Conclusiones = new ArrayList<>();
+    public static  ArrayList<Maestro> Aprendizaje = new ArrayList<>();
+    public static  ArrayList<Maestro> ResumenIM = new ArrayList<>();
+
 
 
 

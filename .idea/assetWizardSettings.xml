@@ -18,6 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
+                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/add_moderator/baseline_add_moderator_24.xml" />
                                       <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/add_moderator/baseline_add_moderator_24.xml" />
                                     </map>
                                   </option>
@@ -30,6 +31,8 @@
                           <map>
                             <entry key="outputName" value="ic_seguridad_cuasi" />
                             <entry key="sourceFile" value="D:\HSECMovil\App\iconos app\gamepad2.svg" />
+                            <entry key="outputName" value="ic_seguridad" />
+                            <entry key="sourceFile" value="$USER_HOME$/D:\HSECMovil\App\iconos app\gamepad2.svg" />
                           </map>
                         </option>
                       </PersistentState>

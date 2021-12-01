@@ -38,7 +38,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:cropToPadding="false"
-                android:src="@drawable/ic_iinspeccion"
+                android:src="@drawable/ic_cuasi_ambiente"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent"
@@ -53,7 +53,7 @@
 
                 android:fontFamily="@font/asap"
                 android:gravity="center_vertical"
-                android:text="Inspección"
+                android:text="Incidente - Medio Ambiente"
                 android:textColor="@color/colorBlanco"
                 android:textSize="@dimen/titulo_det"
                 app:layout_constraintBottom_toBottomOf="parent"

@@ -13,6 +13,13 @@
         android:theme="@style/AppTheme">
         <activity android:name=".CuasiAccidente.Seguridad.IngresosSeguridad.ActAddSeguridad"></activity>
         <activity android:name=".CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle" />
+        <activity
+            android:name=".CuasiAccidente.Seguridad.IngresosSeguridad.ActIngresoSeg"
+            android:exported="true" />
+        <activity
+            android:name=".CuasiAccidente.Seguridad.DetalleSeguridad.ActSeguridad"
+            android:exported="true" />
+        <activity android:name=".CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle" />
         <activity android:name=".CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA" />
         <activity
             android:name=".Busquedas.B_Verificaciones"
