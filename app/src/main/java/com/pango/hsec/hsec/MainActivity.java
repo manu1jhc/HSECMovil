@@ -55,6 +55,7 @@ import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.ActAddSeguridad;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
@@ -861,11 +862,21 @@ public class MainActivity extends AppCompatActivity
         if(id == R.id.nav_ma_cuasi){
             GlobalVariables.ObjectEditable=false;
             Intent addMACuasi = new Intent( this, ActIngresoMA.class);
-            //addMACuasi.putExtra("codObs", "OBS000000XYZ");
+            addMACuasi.putExtra("codObs", "INC000000XYZ");
             //addMACuasi.putExtra("tipoObs","TO01");
             //addMACuasi.putExtra("posTab", 0);
             startActivity(addMACuasi);
         }
+//        nav_seguridad
+        if(id == R.id.nav_seguridad){
+            GlobalVariables.ObjectEditable=false;
+            Intent addSegCuasi = new Intent( this, ActAddSeguridad.class);
+            addSegCuasi.putExtra("codObs", "INC000000XYZ");
+            //addMACuasi.putExtra("tipoObs","TO01");
+            //addMACuasi.putExtra("posTab", 0);
+            startActivity(addSegCuasi);
+        }
+
 
         if(id==R.id.nav_sisap){
             try{

@@ -13,7 +13,12 @@
         <item
             android:id="@+id/nav_ma_cuasi"
             android:icon="@drawable/ic_cuasi_ambiente"
-            android:title="Ingresar CuasiAccidente" />
+            android:title="Ingresar Medio Ambiente" />
+
+        <item
+            android:id="@+id/nav_seguridad"
+            android:icon="@drawable/ic_seguridad_cuasi"
+            android:title="Ingresar Seguridad" />
 
 
         <item

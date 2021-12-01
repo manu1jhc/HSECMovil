@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_logo_hsec2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle"></activity>
+        <activity android:name=".CuasiAccidente.Seguridad.IngresosSeguridad.ActAddSeguridad"></activity>
+        <activity android:name=".CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle" />
         <activity android:name=".CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA" />
         <activity
             android:name=".Busquedas.B_Verificaciones"
