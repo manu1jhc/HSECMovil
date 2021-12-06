@@ -38,7 +38,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:cropToPadding="false"
-                android:src="@drawable/ic_cuasi_ambiente"
+                android:src="@drawable/ic_medio_ambiente"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imageButton"
                 app:layout_constraintTop_toTopOf="parent"

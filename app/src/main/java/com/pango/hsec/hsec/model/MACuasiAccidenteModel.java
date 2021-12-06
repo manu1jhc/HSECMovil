@@ -4,9 +4,9 @@ public class MACuasiAccidenteModel {
     public String CodCuasiAcci;
     public String CodAreaHSEC;
     public String CodTipo;
-    public String PerReporta;
+    public String ObservadoPor;
     public String Gerencia;
-    public String SuperInt;
+    public String Superint;
     public String ClasReal;
     public String ClasPotencial;
     public String ActRelacionada;
@@ -21,7 +21,7 @@ public class MACuasiAccidenteModel {
     public String TituIncidente;
     public String TituDetallado;
     public String Turno;
-    public String Contrata;
+    public String CodContrata;
     public String DesSuceso;
     public String AccioInmediatas;
 }

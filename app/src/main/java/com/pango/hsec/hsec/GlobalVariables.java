@@ -302,7 +302,7 @@ public class GlobalVariables  {
 
     //MACuasi
     public static  ArrayList<Maestro> CodAreaHSEC = new ArrayList<>();
-    public static  ArrayList<Maestro> CodTipo = new ArrayList<>();
+    //public static  ArrayList<Maestro> CodTipo = new ArrayList<>();
     public static  ArrayList<Maestro> PerReporta = new ArrayList<>();
     public static  ArrayList<Maestro> ClasPotencial = new ArrayList<>();
     public static  ArrayList<Maestro> ClasReal = new ArrayList<>();
@@ -327,6 +327,10 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Conclusiones = new ArrayList<>();
     public static  ArrayList<Maestro> Aprendizaje = new ArrayList<>();
     public static  ArrayList<Maestro> ResumenIM = new ArrayList<>();
+
+    public static  ArrayList<Maestro> TipoCausa = new ArrayList<>();
+    public static  ArrayList<Maestro> TipoCond = new ArrayList<>();
+    public static  ArrayList<Maestro> Tipo_Inc = new ArrayList<>();
 
 
 
