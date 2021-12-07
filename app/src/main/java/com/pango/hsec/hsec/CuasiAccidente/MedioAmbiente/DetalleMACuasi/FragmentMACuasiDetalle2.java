@@ -26,7 +26,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentMACuasiDetalle2 extends Fragment implements IActivity {
-    String[] obsDetcab={"TituIncidente","TituDetallado","Turno","Contrata","DesSuceso","AccioInmediatas"};
+    String[] obsDetcab={"TituIncidente","TituDetallado","Turno","CodContrata","DesSuceso","AccioInmediatas"};
     String[] obsDetIzq={"Título del Incidente","Título Detallado","Turno","Contrata","Descripción del Suceso","Acciones Inmediatas"};
     Detalle2Adapter detalle2Adapter;
     String jsonCuasi2="";
@@ -95,11 +95,14 @@ public class FragmentMACuasiDetalle2 extends Fragment implements IActivity {
         ArrayList<String> obsDetcabf=new ArrayList<>();//
         ArrayList<String> obsDetIzqf=new ArrayList<>();//
 
+        for(int i=0;i<6;i++){
+            obsDetcabf.add(obsDetcab[i]);
+            obsDetIzqf.add(obsDetIzq[i]);
+        }
 
-        /*Detalle2Adapter detalle2Adapter= new Detalle2Adapter(getContext(),getMACuasiModel2,obsDetcabf,obsDetIzqf);
-
+        Detalle2Adapter detalle2Adapter= new Detalle2Adapter(getContext(),getMACuasiModel2,obsDetcabf,obsDetIzqf);
         ListView listaDetalles = (ListView) mView.findViewById(R.id.list_detMACuasiDet);
-        listaDetalles.setAdapter(detalle2Adapter);*/
+        listaDetalles.setAdapter(detalle2Adapter);
     }
 
     @Override

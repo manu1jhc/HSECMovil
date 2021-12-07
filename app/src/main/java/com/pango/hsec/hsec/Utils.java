@@ -140,9 +140,9 @@ public class Utils {
 
                 return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,observacionModel.Gerencia+"."+observacionModel.Superint).trim().replace("=","");
 
-            case "CodUbicacion":// 12
+            case "CodUbicacion":
                 String[] parts = new String[0];
-                cad=observacionModel.CodUbicacion; // 12.3.45
+                cad=observacionModel.CodUbicacion;
                 if (cad==null) {
                     //parts[0]=("");
                     return "";
@@ -152,12 +152,12 @@ public class Utils {
                     return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts[0]);
                 }
 
-            case "CodSubUbicacion": //12.3
+            case "CodSubUbicacion":
                 cad=observacionModel.CodUbicacion;
                 String[] parts2=cad.split("\\.");
                 String b = parts2[0]+"."+parts2[1];
                 return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
-            case "UbicacionEsp": //12.3.45
+            case "UbicacionEsp":
                 cad=observacionModel.CodUbicacion;
                 return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
             case "Lugar":
@@ -541,35 +541,40 @@ public class Utils {
                 return maCuasiAccidenteModel.CodCuasiAcci;
             case "CodAreaHSEC":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,maCuasiAccidenteModel.CodAreaHSEC).trim().replace("=","");
+                //maCuasiAccidenteModel.CodAreaHSEC
+                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,"003").trim().replace("=","");
             case "CodTipo":
+                //return maCuasiAccidenteModel.CodTipo;
+                return "Cuasi Accidente";
+            //case "PerReporta":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_Inc,maCuasiAccidenteModel.CodTipo).trim().replace("=","");
+              //  return GlobalVariables.getDescripcion(GlobalVariables.PerReporta,maCuasiAccidenteModel.PerReporta).trim().replace("=","");
 
-            case "PerReporta":
-                //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.,maCuasiAccidenteModel.PerReporta).trim().replace("=","");
-                return "";
+            case "ObservadoPor":
+                return "43054695";
 
             case "Gerencia":
                 //return observacionModel.CodAreaHSEC;
                 return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,maCuasiAccidenteModel.Gerencia).trim().replace("=","");
-            case "SuperInt":
+            //case "SuperInt":
                 //return observacionModel.CodNivelRiesgo;
-                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.SuperInt).trim().replace("=","");
-
+               // return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.SuperInt).trim().replace("=","");
+            case "Superint":
+                //return observacionModel.Superint;
+                //return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.Gerencia+"."+maCuasiAccidenteModel.Superint).trim().replace("=","");
+                return "SUPERINTENDENCIA DE MNATENIMIENTO MECANICO";
             case "ClasReal":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,maCuasiAccidenteModel.ClasReal).trim().replace("=","");
-
+                //return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,maCuasiAccidenteModel.ClasReal).trim().replace("=","");
+                return "Clasificacion Real";
             case "ClasPotencial":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,maCuasiAccidenteModel.ClasPotencial).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,maCuasiAccidenteModel.ClasPotencial).trim().replace("=","");
+                return  "Clasificaion Potencial";
 
             case "ActRelacionada":
                 //return observacionModel.CodAreaHSEC;
-                //maCuasiAccidenteModel.ActRelacionada
-                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,"11").trim().replace("=","");
+                return GlobalVariables.getDescripcion(GlobalVariables.ActRelacionada,maCuasiAccidenteModel.ActRelacionada).trim().replace("=","");
             case "GrupRiesgo":
                 //return observacionModel.CodAreaHSEC;
                 //maCuasiAccidenteModel.GrupRiesgo
@@ -586,13 +591,18 @@ public class Utils {
                 return  GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,maCuasiAccidenteModel.CodUbicacion);
 
             case "CodSubUbicacion":
-                return  GlobalVariables.getDescripcion(GlobalVariables.SubUbicacion_obs,maCuasiAccidenteModel.CodSubUbicacion);
-
+                //cad=observacionModel.CodUbicacion;
+                cad="01.06.03";
+                String[] parts2=cad.split("\\.");
+                String b = parts2[0]+"."+parts2[1];
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
             case "UbicacionEsp":
-                return  GlobalVariables.getDescripcion(GlobalVariables.UbicacionEspecifica_obs,maCuasiAccidenteModel.UbicacionEsp);
-
+                //cad=observacionModel.CodUbicacion;
+                cad="01.06.03";
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
             case "Lugar":
-                return maCuasiAccidenteModel.Lugar;
+                //return maCuasiAccidenteModel.Lugar;
+                return "Vestuarios de Truck Shop";
 
             default:
                 return "";
@@ -617,26 +627,31 @@ public class Utils {
 
             case "TituIncidente":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,maCuasiAccidenteModel.TituIncidente).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,maCuasiAccidenteModel.TituIncidente).trim().replace("=","");
+                return "Volcadura";
             case "TituDetallado":
                 //return observacionModel.CodAreaHSEC;
                 //return GlobalVariables.getDescripcion(GlobalVariables.TituDetallado,maCuasiAccidenteModel.TituDetallado).trim().replace("=","");
-                return "";
+                return  "Volcadura en la fase II";
             case "Turno":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Turno,maCuasiAccidenteModel.Turno).trim().replace("=","");
-            case "Contrata":
+                //return GlobalVariables.getDescripcion(GlobalVariables.TURN,maCuasiAccidenteModel.Turno).trim().replace("=","");
+                return "Noche";
+            //case "Contrata":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Contrata,maCuasiAccidenteModel.Contrata).trim().replace("=","");
+              //  return GlobalVariables.getDescripcion(GlobalVariables.Contrata,maCuasiAccidenteModel.Contrata);
+            case "CodContrata":
+                //return GlobalVariables.getDescripcion(GlobalVariables.Contrata,inspeccionModel.CodContrata);
+                return "ACEROS JLAM";
             case "DesSuceso":
                 //return observacionModel.CodNivelRiesgo;
                //return GlobalVariables.getDescripcion(GlobalVariables.DesSuceso,maCuasiAccidenteModel.DesSuceso).trim().replace("=","");
-                return "";
+                return "Suito en la noche a las 7pm en Volccadura";
             case "AccioInmediatas":
                 //return observacionModel.CodNivelRiesgo;
                 //return GlobalVariables.getDescripcion(GlobalVariables.AccioInmediatas,maCuasiAccidenteModel.AccioInmediatas).trim().replace("=","");
-                return "";
-            default:
+                return "Se procedio a llamar al jefe inmediato indicandole lo sucedido. ";
+           default:
                 return "";
         }
     }
@@ -659,45 +674,60 @@ public class Utils {
                 return seguridadCAModel.CodCuasiAcci;
             case "CodAreaHSEC":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,seguridadCAModel.CodAreaHSEC).trim().replace("=","");
+                //seguridadCAModel.CodAreaHSEC
+                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,"001").trim().replace("=","");
             case "CodTipo":
-                //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_Inc,seguridadCAModel.CodTipo).trim().replace("=","");
-            case "Subtipo":
-                return GlobalVariables.getDescripcion(GlobalVariables.Subtipo,seguridadCAModel.Subtipo).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,observacionModel.CodTipo);
+                return "Cuasi Accidente";
 
-            case "PerReporta":
-                //return observacionModel.CodAreaHSEC
-//                return GlobalVariables.getDescripcion(GlobalVariables.,seguridadCAModel.PerReporta).trim().replace("=","");
-                return "";
+            case "CodSubTipo":
+                //return GlobalVariables.getDescripcion(GlobalVariables.SubTipo_obs,observacionModel.CodSubTipo);
+                return "Cuasi Accidente Personal";
+
+            //case "PerReporta":
+                //return observacionModel.CodAreaHSEC;
+                //return GlobalVariables.getDescripcion(GlobalVariables.PerReporta,seguridadCAModel.PerReporta).trim().replace("=","");
+            case "ObservadoPor":
+                return "43054695";
+
             case "Gerencia":
                 //return observacionModel.CodAreaHSEC;
                 return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,seguridadCAModel.Gerencia).trim().replace("=","");
-            case "SuperInt":
+            //case "SuperInt":
                 //return observacionModel.CodNivelRiesgo;
-                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,seguridadCAModel.SuperInt).trim().replace("=","");
+            //    return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,seguridadCAModel.SuperInt).trim().replace("=","");
 
+            case "Superint":
+                //return observacionModel.Superint;
+                //return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.Gerencia+"."+maCuasiAccidenteModel.Superint).trim().replace("=","");
+                return "SUPERINTENDENCIA DE MNATENIMIENTO MECANICO";
             case "ClasReal":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,seguridadCAModel.ClasReal).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,seguridadCAModel.ClasReal).trim().replace("=","");
+                return "Cat. 0 Cuasi Accidente";
 
             case "ClasPotencial":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,seguridadCAModel.ClasPotencial).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,seguridadCAModel.ClasPotencial).trim().replace("=","");
+                return "HPRI - AltoPotencial";
 
             case "ActRelacionada":
-                return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.ActRelacionada,seguridadCAModel.ActRelacionada).trim().replace("=","");
+                //return observacionModel.CodAreaHSEC;
+                //maCuasiAccidenteModel.ActRelacionada:
+                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,"11").trim().replace("=","");
             case "HHRelacionada":
-                return observacionModel.CodNivelRiesgo;
-               //return GlobalVariables.getDescripcion(GlobalVariables.HHRelacionada,seguridadCAModel.HHRelacionada).trim().replace("=","");
+                //return observacionModel.CodNivelRiesgo;
+                //seguridadCAModel.HHRelacionada
+               return GlobalVariables.getDescripcion(GlobalVariables.HHA_obs,"01").trim().replace("=","");
 
             case "GrupRiesgo":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.GrupRiesgo,seguridadCAModel.GrupRiesgo).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.GrupRiesgo,seguridadCAModel.GrupRiesgo).trim().replace("=","");
+                return "Grupo 03 – Trabajo en Altura";
             case "Riesgo":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Riesgo,seguridadCAModel.Riesgo).trim().replace("=","");
+               // return GlobalVariables.getDescripcion(GlobalVariables.Riesgo,seguridadCAModel.Riesgo).trim().replace("=","");
+                return "Caida desde altura";
 
             case "Fecha":
 
@@ -710,14 +740,18 @@ public class Utils {
                 return  GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,seguridadCAModel.CodUbicacion);
 
             case "CodSubUbicacion":
-                return  GlobalVariables.getDescripcion(GlobalVariables.SubUbicacion_obs,seguridadCAModel.CodSubUbicacion);
-
+                //cad=observacionModel.CodUbicacion;
+                cad="01.06.03";
+                String[] parts2=cad.split("\\.");
+                String b = parts2[0]+"."+parts2[1];
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
             case "UbicacionEsp":
-                return  GlobalVariables.getDescripcion(GlobalVariables.UbicacionEspecifica_obs,seguridadCAModel.UbicacionEsp);
-
+                //cad=observacionModel.CodUbicacion;
+                cad="01.06.03";
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
             case "Lugar":
-//                return GlobalVariables.getDescripcion(GlobalVariables.Lugar,seguridadCAModel.Lugar);
-            return "";
+                //return maCuasiAccidenteModel.Lugar;
+                return "Vestuarios de Truck Shop";
 
             default:
                 return "";
@@ -741,27 +775,30 @@ public class Utils {
 
             case "TituIncidente":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,seguridadCAModel.TituIncidente).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,seguridadCAModel.TituIncidente).trim().replace("=","");
+                return "Volcadura";
             case "TituDetallado":
                 //return observacionModel.CodAreaHSEC;
                 //return GlobalVariables.getDescripcion(GlobalVariables.TituDetallado,seguridadCAModel.TituDetallado).trim().replace("=","");
-                return "";
-
-            case "Turno":
+                return  "Volcadura en la fase II";
+            case "TURN":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Turno,seguridadCAModel.Turno).trim().replace("=","");
-            case "Contrata":
+                //return GlobalVariables.getDescripcion(GlobalVariables.Turno,seguridadCAModel.Turno).trim().replace("=","");
+                return "Dia";
+           // case "Contrata":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Contrata,seguridadCAModel.Contrata).trim().replace("=","");
+            //    return GlobalVariables.getDescripcion(GlobalVariables.Contrata,seguridadCAModel.Contrata).trim().replace("=","");
+            case "CodContrata":
+                //return GlobalVariables.getDescripcion(GlobalVariables.Contrata,inspeccionModel.CodContrata);
+                return "ACEROS JLAM";
             case "DesSuceso":
                 //return observacionModel.CodNivelRiesgo;
                 //return GlobalVariables.getDescripcion(GlobalVariables.DesSuceso,seguridadCAModel.DesSuceso).trim().replace("=","");
-                return "";
+                return "Suito en la noche a las 7pm en Volccadura";
             case "AccioInmediatas":
                 //return observacionModel.CodNivelRiesgo;
                 //return GlobalVariables.getDescripcion(GlobalVariables.AccioInmediatas,seguridadCAModel.AccioInmediatas).trim().replace("=","");
-            return "";
-
+                return "Se procedio a llamar al jefe inmediato indicandole lo sucedido. ";
             default:
                 return "";
         }

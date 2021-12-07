@@ -27,7 +27,7 @@ import java.util.ArrayList;
  */
 public class FragmentGeneralCA extends Fragment implements IActivity {
 
-    String[] obsDetcab={"CodSegIn","CodAreaHSEC","CodTipo","Subtipo","PerReporta","Gerencia","SuperInt","ClasReal","ClasPotencial","ActRelacionada","HHRelacionada","GrupRiesgo","Riesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
+    String[] obsDetcab={"CodSegIn","CodAreaHSEC","CodTipo","CodSubTipo","ObservadoPor","Gerencia","Superint","ClasReal","ClasPotencial","ActRelacionada","HHRelacionada","GrupRiesgo","Riesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
     String[] obsDetIzq={"Código Incidente","Área","Tipo","Subtipo","Persona que Reporta","Gerencia","Superintendencia","Clasificación Real","Clasificación Potencial","Activiad Relacionada","HHR Relacionada","Grupo de Riesgo","Riesgo","Fecha","Hora","Ubicación","Sub Ubicación","Sub Ubicación Específica","Lugar"};
     String jsonSec="";
     String url;

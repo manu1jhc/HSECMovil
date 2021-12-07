@@ -29,7 +29,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentDetalleCA extends Fragment implements IActivity {
-    String[] obsDetcab={"TituIncidente","TituDetallado","Turno","Contrata","Conclusiones","Aprendizaje","ResumenIM"};
+    String[] obsDetcab={"TituIncidente","TituDetallado","Turno","CodContrata","Conclusiones","Aprendizaje","ResumenIM"};
     String[] obsDetIzq={"Título del Incidente","Título Detallado","Turno","Contrata","Conclusiones","Aprendizaje", "Resumen de Informe Médico"};
     Detalle2Adapter detalle2Adapter;
     String jsonSegDet="";

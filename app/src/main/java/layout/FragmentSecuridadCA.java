@@ -135,6 +135,7 @@ public class FragmentSecuridadCA extends Fragment implements IActivity {
         tx_filtro = rootView.findViewById(R.id.tx_filtro);
 
         url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
+
         if (GlobalVariables.listaGlobalSeguridadMA.size() == 0) {
 
             Utils.maCuasiAccidenteModel = new MACuasiAccidenteModel();

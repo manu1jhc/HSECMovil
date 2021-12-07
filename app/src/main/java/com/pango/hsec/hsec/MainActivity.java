@@ -1212,7 +1212,7 @@ public class MainActivity extends AppCompatActivity
             case Capacitaciones: fragment = new FragmentCapacitaciones(); Tipo="J";  Title="Capacitaciones"; break;
             case Noticias: fragment = new FragmentNoticias();  Tipo="N";Title="Noticias"; break;
             case Verificaciones: fragment = new FragmentVerificaciones();  Tipo="V";Title="Verificaciones"; break;
-            case MACuasiaccidente: fragment = new FragmentMACuasiAccidente();  Tipo="M";Title="Seg.-Medio Ambiente"; break;
+            case MACuasiaccidente: fragment = new FragmentMACuasiAccidente();  Tipo="M";Title="Medio Ambiente"; break;
             case SeguridadCA: fragment = new FragmentSecuridadCA();  Tipo="S";Title="Seguridad - CA"; break;
 
 

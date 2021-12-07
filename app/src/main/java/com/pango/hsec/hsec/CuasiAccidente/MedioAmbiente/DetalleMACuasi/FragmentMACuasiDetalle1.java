@@ -27,8 +27,8 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentMACuasiDetalle1 extends Fragment implements IActivity {
-    String[] obsDetcab={"CodCuasiAcci","CodAreaHSEC","CodTipo","PerReportagvdrgbr","Gerencia","SuperInt","ClasReal","ClasPotencial","ActRelacionada","GrupRiesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
-    String[] obsDetIzq={"Código","Área","Tipo","Persona que Reporta","Gerencia","Superintendencia","Clasificación Real","Clasificación Potencial","Activiad Relacionada","Grupo de Riesgo","Fecha","Hora","Ubicación","Sub Ubicación","Sub Ubicación Específica","Lugar"};
+    String[] obsDetcab={"CodCuasiAcci","CodAreaHSEC","CodTipo","ObservadoPor","Gerencia","Superint","ClasReal","ClasPotencial","ActRelacionada","GrupRiesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
+    String[] obsDetIzq={"Código","Área","Tipo","Persona que Reporta","Gerencia","Superintendencia","Clasificación Real","Clasificación Potencial","Actividad Relacionada","Grupo de Riesgo","Fecha","Hora","Ubicación","Sub Ubicación","Sub Ubicación Específica","Lugar"};
     Detalle1Adapter detalle1Adapter;
     String jsonCuasi="";
     String url;
@@ -96,16 +96,13 @@ public class FragmentMACuasiDetalle1 extends Fragment implements IActivity {
         ArrayList<String> obsDetcabf=new ArrayList<>();//
         ArrayList<String> obsDetIzqf=new ArrayList<>();//
 
-        for(int i=0;i<10;i++){
+        for(int i=0;i<16;i++){
             Boolean pass=true;
-            switch (i){
+           /* switch (i){
                 case 2:
                     if(StringUtils.isEmpty(getMACuasiModel.SuperInt))pass=false;
                     break;
-                /*case 3:
-                    if(StringUtils.isEmpty(getMACuasiModel.CodContrata))pass=false;
-                    break;*/
-            }
+            }*/
             if(pass){
                 obsDetcabf.add(obsDetcab[i]);
                 obsDetIzqf.add(obsDetIzq[i]);
