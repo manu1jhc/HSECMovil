@@ -5,7 +5,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
-tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
+tools:context=".CuasiAccidente.Seguridad.IngresosSeguridad.FragmentAddDetalleSeg">
 
 <android.support.v4.widget.NestedScrollView
     android:layout_width="match_parent"
@@ -46,7 +46,7 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:paddingTop="@dimen/pad_topbottom_der"
-                    />
+                    tools:ignore="RtlCompat" />
 
                 <Spinner
                     android:id="@+id/spinner_titulo"
@@ -92,7 +92,7 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:paddingTop="@dimen/pad_topbottom_der"
-                    />
+                    tools:ignore="RtlCompat" />
 
                 <EditText
                     android:id="@+id/edit_titulo_det"
@@ -147,7 +147,7 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:paddingTop="@dimen/pad_topbottom_der"
-                    />
+                    tools:ignore="RtlCompat" />
                 <Spinner
                     android:id="@+id/spinner_turno"
                     android:layout_width="match_parent"
@@ -193,7 +193,7 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:paddingTop="@dimen/pad_topbottom_der"
-                    />
+                    tools:ignore="RtlCompat" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -233,7 +233,7 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:id="@+id/card_des_suceso"
+            android:id="@+id/card_conclusiones"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -247,14 +247,13 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                 >
 
                 <TextView
-                    android:id="@+id/tx_des_suceso"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Descripcion del suceso"
+                    android:text="Conclusiones"
                     android:textSize="@dimen/size_text_izq"
                     android:textStyle="bold"
                     android:layout_weight="0.72"
-                    tools:text="Descripcion del Suceso"
+                    tools:text="Conclusiones"
                     android:background="@color/ColorPlomo4"
                     android:gravity="right|center_vertical"
                     android:textAlignment="textEnd"
@@ -262,21 +261,19 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:paddingTop="@dimen/pad_topbottom_der"
-                    />
+                    tools:ignore="RtlCompat" />
 
                 <EditText
-                    android:id="@+id/edit_des_suceso"
+                    android:id="@+id/edit_conclusiones"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="0.28"
-
                     android:ems="10"
                     android:gravity="center_vertical"
                     android:inputType="textMultiLine"
                     android:background="@android:color/transparent"
-
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:textColor="@color/colorNegro"
@@ -287,7 +284,7 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
             </LinearLayout>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.CardView
-            android:id="@+id/card_acciones"
+            android:id="@+id/card_aprendizaje"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
@@ -301,7 +298,158 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                 >
 
                 <TextView
-                    android:id="@+id/tx_acciones"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Aprendizaje"
+                    android:textSize="@dimen/size_text_izq"
+                    android:textStyle="bold"
+                    android:layout_weight="0.72"
+                    tools:text="Aprendizaje"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    tools:ignore="RtlCompat" />
+                <EditText
+                    android:id="@+id/edit_aprendizaje"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.28"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:inputType="textMultiLine"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/colorNegro"
+                    android:textSize="@dimen/size_text_der"
+                    />
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Resumen de informe médico"
+                    android:textSize="@dimen/size_text_izq"
+                    android:textStyle="bold"
+                    android:layout_weight="0.72"
+                    tools:text="Resumen de informe médico"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    tools:ignore="RtlCompat" />
+
+                <EditText
+                    android:id="@+id/edit_resumen"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.28"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:inputType="textMultiLine"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/colorNegro"
+                    android:textSize="@dimen/size_text_der"
+                    />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cv_is1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/colorBtnBeige"
+                android:text="Afectados"
+                android:gravity="center"
+                android:textColor="@color/colorBlanco" />
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Descripción del suceso"
+                    android:textSize="@dimen/size_text_izq"
+                    android:textStyle="bold"
+                    android:layout_weight="0.72"
+                    tools:text="Descripción del suceso"
+                    android:background="@color/ColorPlomo4"
+                    android:gravity="right|center_vertical"
+                    android:textAlignment="textEnd"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="@dimen/pad_topbottom_der"
+                    android:paddingTop="@dimen/pad_topbottom_der"
+                    tools:ignore="RtlCompat" />
+
+                <EditText
+                    android:id="@+id/edit_des_suceso"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_weight="0.28"
+                    android:ems="10"
+                    android:gravity="center_vertical"
+                    android:inputType="textMultiLine"
+                    android:background="@android:color/transparent"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/colorNegro"
+                    android:textSize="@dimen/size_text_der"
+                    />
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                >
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Acciones Inmediatas"
@@ -316,7 +464,7 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                     android:paddingRight="8dp"
                     android:paddingBottom="@dimen/pad_topbottom_der"
                     android:paddingTop="@dimen/pad_topbottom_der"
-                    />
+                    tools:ignore="RtlCompat" />
 
                 <EditText
                     android:id="@+id/edit_acciones"
@@ -325,23 +473,17 @@ tools:context=".CuasiAccidente.MedioAmbiente.IngresosMA.FragmentAddDetalleMA">
                     android:layout_marginBottom="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_weight="0.28"
-
                     android:ems="10"
                     android:gravity="center_vertical"
                     android:inputType="textMultiLine"
                     android:background="@android:color/transparent"
-
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
                     android:textColor="@color/colorNegro"
                     android:textSize="@dimen/size_text_der"
-
                     />
-
             </LinearLayout>
         </android.support.v7.widget.CardView>
-
-
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
 

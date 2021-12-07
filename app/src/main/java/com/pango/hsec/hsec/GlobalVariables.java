@@ -121,6 +121,15 @@ public class GlobalVariables  {
     private ArrayList<PersonaModel> ListPersonaOobs=new ArrayList<>();
 
     //public static InspeccionModel Inspeccion=new InspeccionModel();
+    //incidente
+//    public static InspeccionModel AddInspeccion=new InspeccionModel(); //cabecera
+
+//Incidente seguridad
+public static InspeccionModel AddIncidenteSeg=new InspeccionModel(); //cabecera
+
+
+
+
 
     public static boolean validarEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -301,35 +310,37 @@ public class GlobalVariables  {
     public static  ArrayList<Maestro> Tipo_insp = new ArrayList<>();
 
     //MACuasi
-    public static  ArrayList<Maestro> CodAreaHSEC = new ArrayList<>();
-    public static  ArrayList<Maestro> CodTipo = new ArrayList<>();
-    public static  ArrayList<Maestro> PerReporta = new ArrayList<>();
+    //public static  ArrayList<Maestro> CodAreaHSEC = new ArrayList<>();
+    public static  ArrayList<Maestro> Tipo_Inc = new ArrayList<>();
+    //public static  ArrayList<Maestro> PerReporta = new ArrayList<>();
     public static  ArrayList<Maestro> ClasPotencial = new ArrayList<>();
     public static  ArrayList<Maestro> ClasReal = new ArrayList<>();
-    public static  ArrayList<Maestro> ActRelacionada = new ArrayList<>();
+    //public static  ArrayList<Maestro> ActRelacionada = new ArrayList<>();
     public static  ArrayList<Maestro> GrupRiesgo = new ArrayList<>();
-    public static  ArrayList<Maestro> UbicacionEsp = new ArrayList<>();
-    public static  ArrayList<Maestro> CodSubUbicacion = new ArrayList<>();
-    public static  ArrayList<Maestro> Lugar = new ArrayList<>();
+    //public static  ArrayList<Maestro> UbicacionEsp = new ArrayList<>();
+    //public static  ArrayList<Maestro> CodSubUbicacion = new ArrayList<>();
+    //public static  ArrayList<Maestro> Lugar = new ArrayList<>();
     //MACuasiDetalle
     public static  ArrayList<Maestro> TituIncidente = new ArrayList<>();
-    public static  ArrayList<Maestro> TituDetallado = new ArrayList<>();
+    //public static  ArrayList<Maestro> TituDetallado = new ArrayList<>();
     public static  ArrayList<Maestro> Turno = new ArrayList<>();
     //public static  ArrayList<Maestro> Contrata = new ArrayList<>();
-    public static  ArrayList<Maestro> DesSuceso = new ArrayList<>();
-    public static  ArrayList<Maestro> AccioInmediatas = new ArrayList<>();
+    //public static  ArrayList<Maestro> DesSuceso = new ArrayList<>();
+    //public static  ArrayList<Maestro> AccioInmediatas = new ArrayList<>();
 
     //SeguridaCuasi
     public static  ArrayList<Maestro> Subtipo = new ArrayList<>();
-    public static  ArrayList<Maestro> HHRelacionada = new ArrayList<>();
+    //public static  ArrayList<Maestro> HHRelacionada = new ArrayList<>();
     public static  ArrayList<Maestro> Riesgo = new ArrayList<>();
     //Detalle Seguridad
-    public static  ArrayList<Maestro> Conclusiones = new ArrayList<>();
-    public static  ArrayList<Maestro> Aprendizaje = new ArrayList<>();
-    public static  ArrayList<Maestro> ResumenIM = new ArrayList<>();
+//    public static  ArrayList<Maestro> Conclusiones = new ArrayList<>();
+//    public static  ArrayList<Maestro> Aprendizaje = new ArrayList<>();
+//    public static  ArrayList<Maestro> ResumenIM = new ArrayList<>();
 
-
-
+    //CAUSALIDAD
+    public static  ArrayList<Maestro> TipoCausa = new ArrayList<>();
+    public static  ArrayList<Maestro> TipoCond = new ArrayList<>();
+    public static ArrayList<Maestro> Tcausalidad = new ArrayList<>();
 
 //plan de accion
     public static  ArrayList<Maestro> Referencia_Plan = new ArrayList<>();
@@ -338,7 +349,7 @@ public class GlobalVariables  {
 
     public static  ArrayList<Maestro> Tablas = new ArrayList<>();
 
-    //Obserbacion Detalle
+    //Observacion Detalle
     public static  ArrayList<Maestro> Actividad_obs = new ArrayList<>();
     public static  ArrayList<Maestro> HHA_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Acto_obs = new ArrayList<>();
@@ -429,6 +440,18 @@ public class GlobalVariables  {
         Tipo_insp.add(Select);
         Tipo_Plan.add(Select);
         Tipo_Ver.add(Select);
+
+        Tipo_Inc.add(Select);
+        ClasPotencial.add(Select);
+        ClasReal.add(Select);
+        GrupRiesgo.add(Select);
+        TituIncidente.add(Select);
+        Turno.add(Select);
+        Subtipo.add(Select);
+        Riesgo.add(Select);
+
+
+
     }
     public static void loadObs_Detalles(){
 

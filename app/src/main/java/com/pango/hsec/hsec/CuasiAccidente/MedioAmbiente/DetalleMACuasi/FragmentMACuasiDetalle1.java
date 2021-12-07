@@ -27,7 +27,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentMACuasiDetalle1 extends Fragment implements IActivity {
-    String[] obsDetcab={"CodCuasiAcci","CodAreaHSEC","CodTipo","PerReporta","Gerencia","SuperInt","ClasReal","ClasPotencial","ActRelacionada","GrupRiesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
+    String[] obsDetcab={"CodCuasiAcci","CodAreaHSEC","CodTipo","PerReportagvdrgbr","Gerencia","SuperInt","ClasReal","ClasPotencial","ActRelacionada","GrupRiesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
     String[] obsDetIzq={"Código","Área","Tipo","Persona que Reporta","Gerencia","Superintendencia","Clasificación Real","Clasificación Potencial","Activiad Relacionada","Grupo de Riesgo","Fecha","Hora","Ubicación","Sub Ubicación","Sub Ubicación Específica","Lugar"};
     Detalle1Adapter detalle1Adapter;
     String jsonCuasi="";

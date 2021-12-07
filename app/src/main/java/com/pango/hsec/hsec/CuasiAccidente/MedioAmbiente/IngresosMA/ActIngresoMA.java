@@ -85,9 +85,9 @@ public class ActIngresoMA extends FragmentActivity implements IActivity, TabHost
 //        GlobalVariables.countObsInsp=1;
         tx_titulo=findViewById(R.id.tx_titulo);
         if(GlobalVariables.ObjectEditable){
-            tx_titulo.setText("Editar MA-Cuasi Accidente");
+            tx_titulo.setText("Editar Inc. Medio Ambiente");
         }else{
-            tx_titulo.setText("Nueva MA-Cuasi Accidente");
+            tx_titulo.setText("Nueva Inc. Medio Ambiente");
         }
 
         initialiseTabHost();
@@ -124,9 +124,8 @@ public class ActIngresoMA extends FragmentActivity implements IActivity, TabHost
       //  outInspeccion();
     }
 
-    public void outInspeccion(){
-
-
+    public void outIncidenteMA(){
+        finish();
     }
     public boolean ValifarFormulario(View view){
         return true;
@@ -218,7 +217,7 @@ public class ActIngresoMA extends FragmentActivity implements IActivity, TabHost
     }
 
     public void close(View view){
-        outInspeccion();
+        outIncidenteMA();
     }
     private static void AddTab(ActIngresoMA activity, TabHost tabHost,
                                TabHost.TabSpec tabSpec) {

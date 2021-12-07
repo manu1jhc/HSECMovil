@@ -55,8 +55,7 @@ import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad.ActSeguridad;
-import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.ActAddSeguridad;
+import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.ActIngresoSeg;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
@@ -110,6 +109,7 @@ public class MainActivity extends AppCompatActivity
         FragmentNoticias.OnFragmentInteractionListener,
         FragmentVerificaciones.OnFragmentInteractionListener,
         FragmentMACuasiAccidente.OnFragmentInteractionListener,
+        FragmentSecuridadCA.OnFragmentInteractionListener,
 
         SearchView.OnQueryTextListener
 {
@@ -159,7 +159,10 @@ public class MainActivity extends AppCompatActivity
     public static boolean flag_verificacion=false;
 
     public static int countMACuasi;
+    public static int countSegu;
+
     public static boolean flag_maCuasi=false;
+    public static boolean flag_seguri=false;
 
     String TipoSearch;
     String txtSearch;
@@ -872,7 +875,7 @@ public class MainActivity extends AppCompatActivity
 //        nav_seguridad
         if(id == R.id.nav_seguridad){
             GlobalVariables.ObjectEditable=false;
-            Intent addSegCuasi = new Intent( this, ActAddSeguridad.class);
+            Intent addSegCuasi = new Intent( this, ActIngresoSeg.class);
             addSegCuasi.putExtra("codObs", "INC000000XYZ");
             //addMACuasi.putExtra("tipoObs","TO01");
             //addMACuasi.putExtra("posTab", 0);
@@ -1209,7 +1212,8 @@ public class MainActivity extends AppCompatActivity
             case Capacitaciones: fragment = new FragmentCapacitaciones(); Tipo="J";  Title="Capacitaciones"; break;
             case Noticias: fragment = new FragmentNoticias();  Tipo="N";Title="Noticias"; break;
             case Verificaciones: fragment = new FragmentVerificaciones();  Tipo="V";Title="Verificaciones"; break;
-            case MACuasiaccidente: fragment = new FragmentMACuasiAccidente();  Tipo="M";Title="Medio Ambiente - Cuasi Accidente"; break;
+            case MACuasiaccidente: fragment = new FragmentMACuasiAccidente();  Tipo="M";Title="Seg.-Medio Ambiente"; break;
+            case SeguridadCA: fragment = new FragmentSecuridadCA();  Tipo="S";Title="Seguridad - CA"; break;
 
 
         }

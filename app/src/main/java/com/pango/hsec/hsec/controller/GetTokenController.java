@@ -230,6 +230,7 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
     public void Setdata(String data){
         Gson gson = new Gson();
         GetMaestroModel getMaestroModel = gson.fromJson(data, GetMaestroModel.class);
+
         for (Maestro item: getMaestroModel.Data ) {
             switch (item.Codigo)
             {
@@ -314,7 +315,38 @@ public class GetTokenController extends AsyncTask<String,Void,Void> {
                 case "COVI":
                     GlobalVariables.Covid.add(item);
                     break;
-
+////
+                case "CLAR":
+                    GlobalVariables.ClasReal.add(item);
+                    break;
+                case "CLAP":
+                    GlobalVariables.ClasPotencial.add(item);
+                    break;
+                case "GRIE":
+                    GlobalVariables.GrupRiesgo.add(item);
+                    break;
+                case "RIES":
+                    GlobalVariables.Riesgo.add(item);
+                    break;
+                case "TINC":
+                    GlobalVariables.TituIncidente.add(item);
+                    break;
+                case "TURN":
+                    GlobalVariables.Turno.add(item);
+                    break;
+                case "TCAU":
+                    GlobalVariables.TipoCausa.add(item);
+                    break;
+                case "TCON":
+                    GlobalVariables.TipoCond.add(item);
+                    break;
+                case "TPNC":
+                    GlobalVariables.Tipo_Inc.add(item);
+                    break;
+                case "ACAU":
+                    GlobalVariables.Tcausalidad.add(item);
+                    break;
+                //Tcausa
 
                 /*default:
                     break;*/

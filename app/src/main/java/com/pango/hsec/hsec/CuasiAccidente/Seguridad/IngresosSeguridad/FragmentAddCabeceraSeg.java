@@ -1,4 +1,4 @@
-package com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA;
+package com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -23,11 +23,12 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_personas;
-import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.FragmentAddCabeceraSeg;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentAddCabecera;
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.controller.ActivityController;
+import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
 
 import org.apache.commons.lang3.StringUtils;
@@ -41,11 +42,11 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentAddCabeceraMA#newInstance} factory method to
+ * Use the {@link FragmentAddCabeceraSeg#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentAddCabeceraMA extends Fragment implements IActivity {
-    String codIncMA;
+public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
+    String codIncSeg;
     ArrayList<Maestro> superintdata;
     public ArrayAdapter adapterUbicEspc,adapterSubN;
     String Ubicacionfinal="", Gerenciafinal="",  Ubicacion="";
@@ -63,15 +64,14 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
 
 
     private View mView;
-    TextView tx_reportado;
-    Spinner spinner_area, spinner_tipo, spinner_gerencia, spinner_superint, spinner_clasr,spinner_clasp, spinner_act_rel, spinner_grupo_riesgo, spinner_riesgo, spinner_ubicacion, spinner_sububicacion, spinner_ubic_esp;
+    TextView  tx_reportado;
+    Spinner spinner_area, spinner_tipo, spinner_subtipo, spinner_gerencia, spinner_superint, spinner_clasr,spinner_clasp, spinner_act_rel, spinner_hha_rel, spinner_grupo_riesgo, spinner_riesgo, spinner_ubicacion, spinner_sububicacion, spinner_ubic_esp;
     Button btn_fecha, btn_hora;
     EditText edit_lugar;
     ImageButton btn_buscar_r;
     TextView tx_codigo, tx_tipo,tx_rep,tx_gerencia,tx_clasr,tx_act_rel,tx_grupo_riesgo, tx_riesgo,tx_fecha, tx_hora,tx_ubicacion;
 
-
-    public FragmentAddCabeceraMA() {
+    public FragmentAddCabeceraSeg() {
         // Required empty public constructor
     }
 
@@ -79,11 +79,11 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @return A new instance of fragment FragmentAddCabeceraMA.
+     * @return A new instance of fragment FragmentAddCabeceraSeg.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentAddCabeceraMA newInstance(String sampleText) {
-        FragmentAddCabeceraMA fragment = new FragmentAddCabeceraMA();
+    public static FragmentAddCabeceraSeg newInstance(String sampleText) {
+        FragmentAddCabeceraSeg fragment = new FragmentAddCabeceraSeg();
         Bundle b = new Bundle();
         b.putString("bString", sampleText);
         fragment.setArguments(b);
@@ -93,15 +93,18 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        mView = inflater.inflate(R.layout.fragment_add_cabecera_ma, container, false);
-        codIncMA=getArguments().getString("bString");
+        mView = inflater.inflate(R.layout.fragment_add_cabecera_seg, container, false);
+        codIncSeg=getArguments().getString("bString");
         Gson gson = new Gson();
         boolean[] pass = {false,false},passGer={false};
         Integer[] itemSel = {0,0},itemSelGer={0};
@@ -128,11 +131,13 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
 
         spinner_area=(Spinner) mView.findViewById(R.id.spinner_area);
         spinner_tipo=(Spinner) mView.findViewById(R.id.spinner_tipo);
+        spinner_subtipo=(Spinner) mView.findViewById(R.id.spinner_subtipo);
         spinner_gerencia=(Spinner) mView.findViewById(R.id.spinner_gerencia);
         spinner_superint=(Spinner) mView.findViewById(R.id.spinner_superint);
         spinner_clasr=(Spinner) mView.findViewById(R.id.spinner_clasr);
         spinner_clasp=(Spinner) mView.findViewById(R.id.spinner_clasp);
         spinner_act_rel = (Spinner) mView.findViewById(R.id.spinner_act_rel);
+        spinner_hha_rel=(Spinner) mView.findViewById(R.id.spinner_hha_rel);
         spinner_grupo_riesgo=(Spinner) mView.findViewById(R.id.spinner_grupo_riesgo);
         spinner_riesgo=(Spinner) mView.findViewById(R.id.spinner_riesgo);
         spinner_ubicacion=(Spinner) mView.findViewById(R.id.spinner_ubicacion);
@@ -178,7 +183,7 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
         ArrayAdapter adapterArea = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, GlobalVariables.Area_obs);
         adapterArea.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_area.setAdapter(adapterArea);
-        spinner_area.setSelection(3);
+        spinner_area.setSelection(1);
         ArrayAdapter adapterTipo = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, GlobalVariables.Tipo_Inc);
         adapterTipo.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_tipo.setAdapter(adapterTipo);
@@ -204,6 +209,10 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
         ArrayAdapter adapterActRel = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, GlobalVariables.Actividad_obs);
         adapterActRel.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_act_rel.setAdapter(adapterActRel);
+
+        ArrayAdapter adapterHHA = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, GlobalVariables.HHA_obs);
+        adapterHHA.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
+        spinner_hha_rel.setAdapter(adapterHHA);
 
 //        if(GlobalVariables.ObjectEditable){ // load data of server
 //            if(GlobalVariables.AddInspeccion.CodInspeccion==null) // || !GlobalVariables.AddInspeccion.CodInspeccion.equals(codInsp)
@@ -391,7 +400,7 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
             @Override
             public void onClick(View v) {
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(FragmentAddCabeceraMA.this.getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog datePickerDialog = new DatePickerDialog(FragmentAddCabeceraSeg.this.getActivity(), date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH));
                 Calendar tempCalendar = Calendar.getInstance();
                 tempCalendar.set(Calendar.DAY_OF_MONTH,1);
                 tempCalendar.set(Calendar.HOUR, 0);
@@ -475,13 +484,28 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
         });
 
         return mView;
-
-
     }
 
 
 
 
+
+
+
+    @Override
+    public void success(String data, String Tipo) throws CloneNotSupportedException {
+
+    }
+
+    @Override
+    public void successpost(String data, String Tipo) throws CloneNotSupportedException {
+
+    }
+
+    @Override
+    public void error(String mensaje, String Tipo) {
+
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -498,20 +522,5 @@ public class FragmentAddCabeceraMA extends Fragment implements IActivity {
             Toast.makeText(getContext(), ex.toString(),
                     Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    public void success(String data, String Tipo) {
-
-    }
-
-    @Override
-    public void successpost(String data, String Tipo) {
-
-    }
-
-    @Override
-    public void error(String mensaje, String Tipo) {
-
     }
 }
