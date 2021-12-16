@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
@@ -7,7 +7,7 @@ android:layout_height="match_parent"
 tools:context="com.pango.hsec.hsec.ui.PickerActivity"
 tools:ignore="MergeRootFrame">
 
-<android.support.design.widget.AppBarLayout
+<com.google.android.material.appbar.AppBarLayout
     android:id="@+id/app_bar_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -18,7 +18,7 @@ tools:ignore="MergeRootFrame">
     <!--Gonna add the toolbar in code -->
 
 
-</android.support.design.widget.AppBarLayout>
+</com.google.android.material.appbar.AppBarLayout>
 
 
 <FrameLayout
@@ -37,7 +37,7 @@ tools:ignore="MergeRootFrame">
     android:onClick="onClickDone"
     android:src="@drawable/ic_action_done_white"
     />
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
 

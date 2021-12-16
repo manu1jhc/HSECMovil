@@ -1,6 +1,6 @@
 package com.pango.hsec.hsec.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +9,9 @@ import android.widget.TextView;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.SubDetalleModel;
 
 import java.util.ArrayList;
-
-import static com.pango.hsec.hsec.GlobalVariables.Aspectos_Obs;
 
 /**
  * Created by Andre on 19/02/2018.

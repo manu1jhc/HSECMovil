@@ -1,10 +1,10 @@
 package com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -13,14 +13,10 @@ import android.widget.TabHost;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.FragmentMACuasiDetalle1;
-import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.FragmentMACuasiDetalle2;
-import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Login;
 import com.pango.hsec.hsec.MainActivity;
-import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.Observaciones.FragmentGaleria;
 import com.pango.hsec.hsec.Observaciones.FragmentPlan;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;

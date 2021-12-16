@@ -1,9 +1,9 @@
 package com.pango.hsec.hsec.Busquedas;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,7 +28,6 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
-import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.InspeccionAdapter;
@@ -39,10 +38,6 @@ import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
-import com.pango.hsec.hsec.model.PublicacionModel;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 

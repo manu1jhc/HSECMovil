@@ -2,14 +2,13 @@
 package com.pango.hsec.hsec.Busquedas;
 
         import android.content.Intent;
-        import android.graphics.Rect;
-        import android.support.constraint.ConstraintLayout;
-        import android.support.v4.widget.SwipeRefreshLayout;
-        import android.support.v7.app.AppCompatActivity;
+
+        import androidx.constraintlayout.widget.ConstraintLayout;
+        import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+        import androidx.appcompat.app.AppCompatActivity;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.View;
-        import android.view.ViewTreeObserver;
         import android.widget.AbsListView;
         import android.widget.AdapterView;
         import android.widget.ArrayAdapter;
@@ -24,7 +23,6 @@ package com.pango.hsec.hsec.Busquedas;
         import com.google.gson.Gson;
         import com.pango.hsec.hsec.GlobalVariables;
         import com.pango.hsec.hsec.IActivity;
-        import com.pango.hsec.hsec.Login;
         import com.pango.hsec.hsec.R;
         import com.pango.hsec.hsec.Utils;
         import com.pango.hsec.hsec.adapter.BuscarPersonaAdapter;
@@ -32,8 +30,6 @@ package com.pango.hsec.hsec.Busquedas;
         import com.pango.hsec.hsec.model.GetPersonaModel;
         import com.pango.hsec.hsec.model.Maestro;
         import com.pango.hsec.hsec.model.PersonaModel;
-
-        import org.apache.commons.lang3.StringUtils;
 
         import java.util.ArrayList;
 

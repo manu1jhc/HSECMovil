@@ -12,7 +12,7 @@ android:orientation="vertical"
 android:weightSum="1"
     >
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/padingtop"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -22,7 +22,7 @@ android:weightSum="1"
     android:layout_weight="0.33"
     >
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layout_horizontal"
@@ -32,13 +32,13 @@ android:weightSum="1"
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/padingleft"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.33">
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <VideoView
             android:id="@+id/surfaceView"
@@ -52,18 +52,18 @@ android:weightSum="1"
             app:layout_constraintTop_toBottomOf="@+id/padingtop"
             app:layout_constraintVertical_bias="0.0" />
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/padingright"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="0.33">
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 
 
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/padingbutton"
     android:layout_width="match_parent"
     android:layout_height="0dp"
@@ -74,6 +74,6 @@ android:weightSum="1"
 
     >
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

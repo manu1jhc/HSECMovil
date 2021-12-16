@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,26 +22,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Ficha.BusqEstadistica;
 import com.pango.hsec.hsec.Ficha.PlanAccionDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
-import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.PlanMinAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPlanMinModel;
-import com.pango.hsec.hsec.model.InspeccionModel;
-import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import static com.pango.hsec.hsec.Utils.inspeccionModel;
 
 
 /**

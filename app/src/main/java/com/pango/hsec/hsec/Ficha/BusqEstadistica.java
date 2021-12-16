@@ -1,34 +1,29 @@
 package com.pango.hsec.hsec.Ficha;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Busquedas.B_observaciones;
 //import com.pango.hsec.hsec.Busquedas.Busqueda;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
-import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
@@ -38,31 +33,19 @@ import com.pango.hsec.hsec.adapter.FichaObsFacilitoAdapter;
 import com.pango.hsec.hsec.adapter.FichaObservacionAdapter;
 import com.pango.hsec.hsec.adapter.FichaPlanAdapter;
 import com.pango.hsec.hsec.adapter.FichaVerificacionAdapter;
-import com.pango.hsec.hsec.adapter.InspeccionAdapter;
-import com.pango.hsec.hsec.adapter.ObsFacilitoAdapter;
-import com.pango.hsec.hsec.adapter.PlanMinAdapter;
-import com.pango.hsec.hsec.adapter.PublicacionAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetObsFacilitoModel;
 import com.pango.hsec.hsec.model.GetPlanMinModel;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
-import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanMinModel;
-import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.VerificacionModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import layout.FragmentInspecciones;
-import layout.FragmentObservaciones;
 
 import static com.pango.hsec.hsec.Utils.inspeccionModel;
 

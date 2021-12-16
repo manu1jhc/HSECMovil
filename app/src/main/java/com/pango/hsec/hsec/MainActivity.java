@@ -14,22 +14,22 @@ import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.internal.BottomNavigationItemView;
-import android.support.design.internal.BottomNavigationMenuView;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.SearchView;
+import androidx.cardview.widget.CardView;
+import androidx.appcompat.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -53,7 +53,7 @@ import android.widget.Toast;
 
 import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
 
-import com.google.firebase.messaging.FirebaseMessaging;
+//import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.ActIngresoSeg;
 import com.pango.hsec.hsec.Facilito.obsFacilitoDet;
@@ -638,7 +638,7 @@ public class MainActivity extends AppCompatActivity
 
 
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
-        FirebaseMessaging.getInstance().subscribeToTopic("/topics/noticias");
+        //FirebaseMessaging.getInstance().subscribeToTopic("/topics/noticias");
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -1371,7 +1371,7 @@ public class MainActivity extends AppCompatActivity
             shiftingMode.setAccessible(false);
             for (int i = 0; i < menuView.getChildCount(); i++) {
                 BottomNavigationItemView item = (BottomNavigationItemView) menuView.getChildAt(i);
-                item.setShiftingMode(false);
+                item.setShifting(false);
                 // set once again checked value, so view will be updated
                 item.setChecked(item.getItemData().isChecked());
             }

@@ -1,53 +1,40 @@
 package com.pango.hsec.hsec.Ficha;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
-import android.view.MotionEvent;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Busquedas.B_observaciones;
-import com.pango.hsec.hsec.Busquedas.Busqueda;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
-import com.pango.hsec.hsec.Observaciones.FragmentPlan;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
 import com.pango.hsec.hsec.adapter.AccionMejoraAdapter;
-import com.pango.hsec.hsec.adapter.PersonaAdapter;
 import com.pango.hsec.hsec.adapter.PlandetAdapter;
 import com.pango.hsec.hsec.adapter.RespAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.AccionMejoraMinModel;
 import com.pango.hsec.hsec.model.AccionMejoraModel;
 import com.pango.hsec.hsec.model.GetAccionMejoraModel;
-import com.pango.hsec.hsec.model.GetGaleriaModel;
-import com.pango.hsec.hsec.model.GetPlanModel;
 import com.pango.hsec.hsec.model.PlanModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
-import layout.FragmentObservaciones;
 
 public class PlanAccionDet extends AppCompatActivity implements IActivity {
     public static final int REQUEST_CODE = 1;

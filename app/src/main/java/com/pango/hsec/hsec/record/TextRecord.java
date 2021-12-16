@@ -3,7 +3,7 @@ package com.pango.hsec.hsec.record;
 
 import android.annotation.SuppressLint;
 import android.nfc.NdefRecord;
-import android.support.v4.util.Preconditions;
+import androidx.core.util.Preconditions;
 
 import java.util.Arrays;
 

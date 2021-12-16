@@ -1,10 +1,10 @@
 package com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA;
 
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,15 +16,10 @@ import android.widget.TextView;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentAddCabecera;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentAddObservacion;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentAddParticipante;
 import com.pango.hsec.hsec.Observaciones.MyPageAdapter;
 import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.obs_archivos;
 import com.pango.hsec.hsec.obs_planaccion;
 import com.pango.hsec.hsec.util.ProgressRequestBody;

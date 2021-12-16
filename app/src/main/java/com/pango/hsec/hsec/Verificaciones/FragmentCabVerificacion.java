@@ -1,9 +1,7 @@
 package com.pango.hsec.hsec.Verificaciones;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.adapter.ObsAdapter;
 import com.pango.hsec.hsec.adapter.VerAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.VerificacionModel;

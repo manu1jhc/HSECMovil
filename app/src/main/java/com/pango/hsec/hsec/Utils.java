@@ -7,16 +7,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.annotation.Nullable;
+
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -32,10 +30,8 @@ import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
-import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.model.SeguridadCAModel;
 import com.pango.hsec.hsec.model.VerificacionModel;
-import com.pango.hsec.hsec.util.Compressor;
 import com.pango.hsec.hsec.utilitario.MySSLSocketFactory;
 
 import org.apache.http.HttpResponse;
@@ -59,7 +55,6 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -74,9 +69,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -574,7 +566,7 @@ public class Utils {
 
             case "ActRelacionada":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.ActRelacionada,maCuasiAccidenteModel.ActRelacionada).trim().replace("=","");
+                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,maCuasiAccidenteModel.ActRelacionada).trim().replace("=","");
             case "GrupRiesgo":
                 //return observacionModel.CodAreaHSEC;
                 //maCuasiAccidenteModel.GrupRiesgo

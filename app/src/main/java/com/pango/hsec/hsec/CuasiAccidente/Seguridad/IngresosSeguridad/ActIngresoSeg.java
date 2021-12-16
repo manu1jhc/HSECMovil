@@ -1,12 +1,11 @@
 package com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad;
 
-import android.content.DialogInterface;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.ViewPager;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -23,13 +22,9 @@ import com.pango.hsec.hsec.Observaciones.MyTabFactory;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.EquipoModel;
-import com.pango.hsec.hsec.model.ObsInspAddModel;
 import com.pango.hsec.hsec.obs_archivos;
 import com.pango.hsec.hsec.obs_planaccion;
 import com.pango.hsec.hsec.util.ProgressRequestBody;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

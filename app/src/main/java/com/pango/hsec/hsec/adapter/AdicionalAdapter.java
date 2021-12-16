@@ -1,15 +1,12 @@
 package com.pango.hsec.hsec.adapter;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.CapRecibidaModel;
-
-import java.util.ArrayList;
 
 /**
  * Created by Andre on 06/03/2018.

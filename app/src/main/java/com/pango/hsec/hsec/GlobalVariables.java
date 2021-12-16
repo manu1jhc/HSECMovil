@@ -1,16 +1,16 @@
 package com.pango.hsec.hsec;
 
 import android.os.Parcelable;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.util.Patterns;
 import android.view.View;
 
 import com.pango.hsec.hsec.model.CapCursoMinModel;
-import com.pango.hsec.hsec.model.CartillaModel;
 import com.pango.hsec.hsec.model.ControlCriticoModel;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
+import com.pango.hsec.hsec.model.IncidenteModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
@@ -125,9 +125,7 @@ public class GlobalVariables  {
 //    public static InspeccionModel AddInspeccion=new InspeccionModel(); //cabecera
 
 //Incidente seguridad
-public static InspeccionModel AddIncidenteSeg=new InspeccionModel(); //cabecera
-
-
+public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
 
 
 
@@ -298,6 +296,7 @@ public static InspeccionModel AddIncidenteSeg=new InspeccionModel(); //cabecera
 
     public static  ArrayList<Maestro> Gerencia = new ArrayList<>();
     public static  ArrayList<Maestro> SuperIntendencia = new ArrayList<>();
+
     public static  ArrayList<Maestro> Contrata = new ArrayList<>();
 
     public static  ArrayList<Maestro> NivelRiesgo_obs = new ArrayList<>();
@@ -448,9 +447,6 @@ public static InspeccionModel AddIncidenteSeg=new InspeccionModel(); //cabecera
         TituIncidente.add(Select);
         Turno.add(Select);
         Subtipo.add(Select);
-        Riesgo.add(Select);
-
-
 
     }
     public static void loadObs_Detalles(){
@@ -713,6 +709,37 @@ public static InspeccionModel AddIncidenteSeg=new InspeccionModel(); //cabecera
         return Super;
     }
 
+    public static ArrayList<Maestro> loadRiesgo(String Tipo){
+        ArrayList<Maestro> RiesgoTemp = new ArrayList<>();
+        RiesgoTemp.add(new Maestro("","-  Seleccione  -"));
+        for (Maestro item:Riesgo ) {
+            String Tipos[]=item.CodTipo.split("\\.");
+            if(Tipos[0].equals(Tipo)&&item.CodTipo.contains("."))
+                RiesgoTemp.add(item);
+        }
+        return RiesgoTemp;
+    }
+
+    public static ArrayList<Maestro> loadCondicion(String Tipo){
+        ArrayList<Maestro> CondTemp = new ArrayList<>();
+        //CondTemp.add(new Maestro("","-  Seleccione  -"));
+        for (Maestro item:TipoCond ) {
+            //String Tipos[]=item.CodTipo.split("\\.");
+            if(item.CodTipo.equals(Tipo))
+                CondTemp.add(item);
+        }
+        return CondTemp;
+    }
+
+    public static ArrayList<Maestro> loadCausalidades(String Tipo) {
+        ArrayList<Maestro> TcausaTemp = new ArrayList<>();
+        for (Maestro item : Tcausalidad) {
+            String Tipos[]=item.CodTipo.split("-");
+            if (Tipos[1].replace('o','a').equals(Tipo))
+                TcausaTemp.add(item);
+        }
+        return TcausaTemp;
+    }
     //autenticacion
     public static String reemplazar(String cadena, String busqueda, String reemplazo) {
         return cadena.replaceAll(busqueda, reemplazo);

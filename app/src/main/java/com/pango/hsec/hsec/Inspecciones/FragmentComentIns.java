@@ -1,9 +1,7 @@
 package com.pango.hsec.hsec.Inspecciones;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,7 +16,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Observaciones.FragmentComent;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.ComentAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;

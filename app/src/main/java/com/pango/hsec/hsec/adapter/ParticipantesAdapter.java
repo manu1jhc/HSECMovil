@@ -1,15 +1,13 @@
 package com.pango.hsec.hsec.adapter;
 
-        import android.app.Activity;
         import android.app.AlertDialog;
         import android.content.DialogInterface;
         import android.graphics.Color;
         import android.graphics.drawable.ColorDrawable;
-        import android.support.constraint.ConstraintLayout;
-        import android.support.v4.widget.SwipeRefreshLayout;
-        import android.support.v7.widget.CardView;
-        import android.support.v7.widget.LinearLayoutManager;
-        import android.support.v7.widget.RecyclerView;
+
+        import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+        import androidx.recyclerview.widget.LinearLayoutManager;
+        import androidx.recyclerview.widget.RecyclerView;
         import android.text.Editable;
         import android.text.InputFilter;
         import android.text.TextWatcher;
@@ -28,7 +26,6 @@ package com.pango.hsec.hsec.adapter;
         import android.widget.Toast;
 
         import com.bumptech.glide.Glide;
-        import com.pango.hsec.hsec.Capacitacion.AsistentesCurso;
         import com.pango.hsec.hsec.Capacitacion.ParticipantesCurso;
         import com.pango.hsec.hsec.GlobalVariables;
         import com.pango.hsec.hsec.R;

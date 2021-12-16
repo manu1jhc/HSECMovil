@@ -1,16 +1,13 @@
 package com.pango.hsec.hsec.Observaciones;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -18,12 +15,10 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.ControlCriticoAdapter;
-import com.pango.hsec.hsec.adapter.PersonaAdapter;
 import com.pango.hsec.hsec.adapter.TablaAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.GetControlCriticoModel;
-import com.pango.hsec.hsec.model.GetEquipoModel;
 import com.pango.hsec.hsec.model.GetSubDetalleModel;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
 import com.pango.hsec.hsec.model.SubDetalleModel;
@@ -31,7 +26,6 @@ import com.pango.hsec.hsec.model.SubDetalleModel;
 import java.util.ArrayList;
 
 import static com.pango.hsec.hsec.GlobalVariables.Contrata;
-import static com.pango.hsec.hsec.GlobalVariables.Gerencia;
 import static com.pango.hsec.hsec.GlobalVariables.StopWork_obs;
 
 public class FragmentObsIS extends Fragment implements IActivity {

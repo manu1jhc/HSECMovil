@@ -6,8 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.CardView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
 import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.ActIngresoSeg;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.MainActivity;
@@ -36,7 +35,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import layout.FragmentMACuasiAccidente;
 import layout.FragmentSecuridadCA;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;

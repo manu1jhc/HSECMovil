@@ -1,37 +1,28 @@
 package com.pango.hsec.hsec.Ingresos.Inspecciones;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.Busquedas.B_personasM;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Inspecciones.FragmentParticipante;
-import com.pango.hsec.hsec.PlanAccionEdit;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.ListEquipoAdapter;
-import com.pango.hsec.hsec.adapter.ListPersonEditAdapter;
-import com.pango.hsec.hsec.adapter.ParticipanteAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.EquipoModel;
 import com.pango.hsec.hsec.model.GetEquipoModel;
-import com.pango.hsec.hsec.model.GetPersonaModel;
 import com.pango.hsec.hsec.model.PersonaModel;
 
 import java.util.ArrayList;

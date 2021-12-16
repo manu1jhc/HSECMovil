@@ -2,13 +2,12 @@ package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,8 +23,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Ficha.BusqEstadistica;
-import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.PlanAccionEdit;

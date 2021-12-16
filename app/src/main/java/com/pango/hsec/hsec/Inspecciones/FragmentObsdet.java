@@ -2,7 +2,7 @@ package com.pango.hsec.hsec.Inspecciones;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +14,8 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.ObsDetAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
-import com.pango.hsec.hsec.model.ObsInspModel;
+
 /**
  * A simple {@link Fragment} subclass.
  */

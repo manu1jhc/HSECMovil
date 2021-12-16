@@ -2,9 +2,9 @@ package com.pango.hsec.hsec.Facilito;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,20 +23,11 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
-import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
-import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.adapter.MuroAdapter;
 import com.pango.hsec.hsec.adapter.ObsFacilitoAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetObsFacilitoModel;
-import com.pango.hsec.hsec.model.GetPublicacionModel;
-import com.pango.hsec.hsec.model.ObsFacilitoModel;
-
-import java.util.Arrays;
-import java.util.List;
 
 import layout.FragmentMuro;
 import layout.FragmentObsFacilito;

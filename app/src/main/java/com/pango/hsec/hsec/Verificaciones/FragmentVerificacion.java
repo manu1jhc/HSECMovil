@@ -1,12 +1,11 @@
 package com.pango.hsec.hsec.Verificaciones;
 import android.app.DatePickerDialog;
-        import android.app.Dialog;
-        import android.app.DialogFragment;
+import android.app.DialogFragment;
 import android.app.TimePickerDialog;
 import android.content.Intent;
         import android.os.Bundle;
-        import android.support.v4.app.Fragment;
-        import android.support.v4.content.ContextCompat;
+        import androidx.fragment.app.Fragment;
+        import androidx.core.content.ContextCompat;
         import android.text.Editable;
         import android.text.Html;
         import android.text.TextWatcher;
@@ -20,9 +19,7 @@ import android.content.Intent;
         import android.widget.EditText;
         import android.widget.ImageButton;
         import android.widget.Spinner;
-        import android.widget.TabHost;
-        import android.widget.TabWidget;
-        import android.widget.TextView;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -33,16 +30,14 @@ import android.widget.Toast;
         import com.pango.hsec.hsec.R;
         import com.pango.hsec.hsec.controller.ActivityController;
         import com.pango.hsec.hsec.model.Maestro;
-        import com.pango.hsec.hsec.model.ObservacionModel;
-        import com.pango.hsec.hsec.model.UsuarioModel;
+import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.model.VerificacionModel;
 
 import org.apache.commons.lang3.StringUtils;
 
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
-        import java.util.ArrayList;
-        import java.util.Calendar;
+import java.util.Calendar;
         import java.util.Date;
 
         import static android.app.Activity.RESULT_OK;

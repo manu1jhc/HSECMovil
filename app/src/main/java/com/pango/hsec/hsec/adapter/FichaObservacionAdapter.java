@@ -8,7 +8,7 @@ package com.pango.hsec.hsec.adapter;
         import android.content.Intent;
         import android.graphics.Color;
         import android.graphics.drawable.ColorDrawable;
-        import android.support.v7.widget.CardView;
+        import androidx.cardview.widget.CardView;
         import android.util.DisplayMetrics;
         import android.view.Gravity;
         import android.view.LayoutInflater;
@@ -21,15 +21,12 @@ package com.pango.hsec.hsec.adapter;
         import android.widget.RadioGroup;
         import android.widget.RelativeLayout;
         import android.widget.TextView;
-        import android.widget.Toast;
 
         import com.bumptech.glide.Glide;
         import com.pango.hsec.hsec.Ficha.BusqEstadistica;
         import com.pango.hsec.hsec.Ficha.FichaPersona;
         import com.pango.hsec.hsec.GlobalVariables;
-        import com.pango.hsec.hsec.MainActivity;
         import com.pango.hsec.hsec.Observaciones.ActMuroDet;
-        import com.pango.hsec.hsec.Observaciones.FragmentObs;
         import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
         import com.pango.hsec.hsec.R;
         import com.pango.hsec.hsec.model.PublicacionModel;
@@ -40,9 +37,6 @@ package com.pango.hsec.hsec.adapter;
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
         import java.util.ArrayList;
-
-        import layout.FragmentFichaPersonal;
-        import layout.FragmentObservaciones;
 
         import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 

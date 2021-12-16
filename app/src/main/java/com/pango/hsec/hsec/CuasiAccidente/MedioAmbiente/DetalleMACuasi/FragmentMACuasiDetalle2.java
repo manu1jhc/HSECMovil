@@ -1,7 +1,7 @@
 package com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +11,9 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.adapter.Detalle1Adapter;
 import com.pango.hsec.hsec.adapter.Detalle2Adapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 

@@ -3,17 +3,12 @@ package com.pango.hsec.hsec.util;
 import android.app.Activity;
 
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.OpenableColumns;
-import android.support.annotation.NonNull;
-import android.webkit.MimeTypeMap;
-import android.widget.Toast;
 
-import com.pango.hsec.hsec.GlobalVariables;
+import androidx.annotation.NonNull;
+import android.webkit.MimeTypeMap;
+
 import com.pango.hsec.hsec.model.GaleriaModel;
 
 import org.apache.commons.lang3.StringUtils;
@@ -21,14 +16,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;

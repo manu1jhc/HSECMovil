@@ -1,6 +1,6 @@
 package com.pango.hsec.hsec.controller;
 
-import android.support.annotation.RawRes;
+import androidx.annotation.RawRes;
 
 import com.pango.hsec.hsec.model.GetGaleriaModel;
 import com.pango.hsec.hsec.model.LoginModel;
@@ -16,7 +16,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
-import retrofit2.http.Url;
 
 /**
  * Created by ICWB-01 on 04/04/2018.

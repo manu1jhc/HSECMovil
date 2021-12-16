@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pango.hsec.hsec">
 
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the "MyLocation" functionality.
+    -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_logo_hsec2"
@@ -11,6 +16,30 @@
         android:roundIcon="@mipmap/ic_logo_hsec2"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
+        <activity
+            android:name=".Maps.MapsActivity2"
+            android:label="@string/title_activity_maps2"></activity>
+
+        <activity
+            android:name=".Maps.MapsActivity"
+            android:label="@string/title_activity_maps" />
+        <!--
+             The API key for Google Maps-based APIs is defined as a string resource.
+             (See the file "res/values/google_maps_api.xml").
+             Note that the API key is linked to the encryption key used to sign the APK.
+             You need a different API key for each encryption key, including the release key that is used to
+             sign the APK for publishing.
+             You can define the keys for the debug and release targets in src/debug/ and src/release/.
+        -->
         <activity android:name=".CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle" />
         <activity
             android:name=".CuasiAccidente.Seguridad.IngresosSeguridad.ActIngresoSeg"
@@ -34,7 +63,7 @@
         <activity android:name=".ui.PickerActivity" />
         <activity
             android:name=".firebase.MessageShowActivity"
-            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" /> <!-- firebase service -->
+            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="fullSensor"
@@ -49,7 +78,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity> <!-- firebase service -->
         <activity
             android:name=".Recuperar_password"
             android:screenOrientation="fullSensor"
@@ -272,40 +301,26 @@
             android:name=".Ficha.CambiarPassword"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppTheme.NoActionBar" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
-        <service
-            android:name=".util.OfflineSpiceService"
-            android:exported="false" />
-        <service
-            android:name=".firebase.MiFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-        <service
-            android:name=".firebase.MiFirebaseInstanceIdService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
-            </intent-filter>
-        </service>
-        <service android:name=".firebase.DeleteTokenService" />
     </application>
+
     <uses-feature
         android:name="android.hardware.nfc"
         android:required="false" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />

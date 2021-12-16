@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context="com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentAddCabecera">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
     >
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_codigo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,9 +69,9 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_gerencia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,9 +116,9 @@
 
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_superint"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -163,9 +163,9 @@
 
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/id_contrata"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -232,11 +232,11 @@
                 </LinearLayout>
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/id_fechaprog"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -285,10 +285,10 @@
  />
                 <!-- android:onClick="escogerFecha" -->
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/id_fechainsp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -338,10 +338,10 @@
 <!-- android:onClick="escogerFecha2"-->
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/id_hora"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -392,9 +392,9 @@
                 <!-- android:onClick="escogerHora"-->
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_ubicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -438,10 +438,10 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_sububicacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -486,10 +486,10 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_tipoinsp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -534,12 +534,12 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
 
     </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
 </LinearLayout>

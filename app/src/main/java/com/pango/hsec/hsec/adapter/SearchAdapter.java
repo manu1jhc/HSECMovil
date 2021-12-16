@@ -7,8 +7,8 @@ package com.pango.hsec.hsec.adapter;
         import android.content.Intent;
         import android.graphics.Color;
         import android.graphics.drawable.ColorDrawable;
-        import android.support.constraint.ConstraintLayout;
-        import android.support.v7.widget.CardView;
+        import androidx.constraintlayout.widget.ConstraintLayout;
+        import androidx.cardview.widget.CardView;
         import android.util.DisplayMetrics;
         import android.view.Gravity;
         import android.view.LayoutInflater;
@@ -26,7 +26,6 @@ package com.pango.hsec.hsec.adapter;
         import com.bumptech.glide.Glide;
         import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
         import com.pango.hsec.hsec.Facilito.report_obs;
-        import com.pango.hsec.hsec.Ficha.FichaPersona;
         import com.pango.hsec.hsec.GlobalVariables;
         import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
         import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
@@ -44,9 +43,6 @@ package com.pango.hsec.hsec.adapter;
         import java.text.ParseException;
         import java.text.SimpleDateFormat;
         import java.util.ArrayList;
-
-        import layout.FragmentFichaPersonal;
-        import layout.FragmentMuro;
 
         import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 

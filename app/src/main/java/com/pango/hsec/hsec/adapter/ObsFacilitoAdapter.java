@@ -1,34 +1,27 @@
 package com.pango.hsec.hsec.adapter;
 
 import com.bumptech.glide.Glide;
-import com.pango.hsec.hsec.Facilito.obsfacilitoAprobar;
-import com.pango.hsec.hsec.Facilito.opcionfacilito;
 import com.pango.hsec.hsec.Facilito.report_obs;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.Observaciones.Galeria_detalle;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.ObsFacilitoMinModel;
-import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -36,24 +29,17 @@ import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import layout.FragmentObsFacilito;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static com.pango.hsec.hsec.Utils.Obtenerfecha;
 
 /**
  * Created by jcila on 20/04/2018.

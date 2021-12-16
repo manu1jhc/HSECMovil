@@ -12,6 +12,7 @@ public class Maestro {
     public String Descripcion;
     public String SubTipos;
     public int Icon;
+    public boolean Checked;
     public Maestro() {
 
     }
@@ -42,6 +43,12 @@ public class Maestro {
         Icon = icon;
     }
 
+    public Maestro(String codigo, String codTipo,String descripcion, boolean checked) {
+        Codigo = codigo;
+        CodTipo = codTipo;
+        Descripcion = descripcion;
+        Checked = checked;
+    }
 
 // para IS
 

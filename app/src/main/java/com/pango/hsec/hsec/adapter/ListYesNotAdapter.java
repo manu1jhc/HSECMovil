@@ -1,22 +1,19 @@
 package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.Space;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.ControlCriticoModel;
 import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.SubDetalleModel;
 import com.pango.hsec.hsec.observacion_edit;

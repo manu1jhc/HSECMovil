@@ -1,11 +1,8 @@
 package com.pango.hsec.hsec.Ficha;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,10 +22,8 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.AdicionalAdapter;
 import com.pango.hsec.hsec.adapter.EstadisticaDetAdapter;
-import com.pango.hsec.hsec.adapter.PlandetAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetEstadisticaDetModel;
-import com.pango.hsec.hsec.model.GetEstadisticaModel;
 
 public class EstadisticaDet extends AppCompatActivity implements IActivity {
 

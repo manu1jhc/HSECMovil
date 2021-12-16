@@ -1,36 +1,21 @@
 package com.pango.hsec.hsec.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.cardview.widget.CardView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
-import android.widget.Space;
 import android.widget.TextView;
 
-import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.model.CartillaModel;
-import com.pango.hsec.hsec.model.PersonaModel;
-import com.pango.hsec.hsec.model.SubDetalleModel;
-import com.pango.hsec.hsec.obs_detalle1;
-import com.pango.hsec.hsec.obs_detalle2;
-import com.pango.hsec.hsec.observacion_edit;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CartillaAdapter extends ArrayAdapter<CartillaModel> {
     private Context context;

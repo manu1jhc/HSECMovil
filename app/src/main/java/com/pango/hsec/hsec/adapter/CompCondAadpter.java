@@ -1,7 +1,7 @@
 package com.pango.hsec.hsec.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +15,6 @@ import com.pango.hsec.hsec.model.SubDetalleModel;
 import java.util.List;
 
 import static com.pango.hsec.hsec.obs_detalle1.ListCompCond;
-import static com.pango.hsec.hsec.obs_detalle1.ListMetodologia;
 
 public class CompCondAadpter extends RecyclerView.Adapter<CompCondAadpter.ViewHolder> {
 

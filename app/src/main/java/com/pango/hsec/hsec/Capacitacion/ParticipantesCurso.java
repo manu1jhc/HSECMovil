@@ -2,49 +2,36 @@
 
 package com.pango.hsec.hsec.Capacitacion;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Busquedas.B_personas;
-import com.pango.hsec.hsec.Busquedas.B_personasM;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.adapter.AsistenteAdapter;
 import com.pango.hsec.hsec.adapter.OnLoadMoreListener;
 import com.pango.hsec.hsec.adapter.ParticipantesAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPersonaModel;
-import com.pango.hsec.hsec.model.Maestro;
 import com.pango.hsec.hsec.model.PersonaModel;
-import com.pango.hsec.hsec.utilitario.CircleTransform;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 

@@ -1,14 +1,13 @@
 package com.pango.hsec.hsec.Ingresos.Inspecciones;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -18,18 +17,12 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Inspecciones.FragmentObsdet;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.Maestro;
-import com.pango.hsec.hsec.model.ObsInspAddModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.

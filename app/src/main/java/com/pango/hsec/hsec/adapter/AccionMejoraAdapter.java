@@ -6,8 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,15 +29,11 @@ import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.AccionMejoraMinModel;
-import com.pango.hsec.hsec.model.AccionMejoraModel;
-import com.pango.hsec.hsec.observacion_edit;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
-import layout.FragmentObservaciones;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 

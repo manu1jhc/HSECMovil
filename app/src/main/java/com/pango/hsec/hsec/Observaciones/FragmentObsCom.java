@@ -1,10 +1,8 @@
 package com.pango.hsec.hsec.Observaciones;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
+import androidx.fragment.app.Fragment;
+import androidx.cardview.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.ObsDetalleModel;
-import com.pango.hsec.hsec.model.ObservacionModel;
 
 import static com.pango.hsec.hsec.GlobalVariables.Actividad_obs;
 import static com.pango.hsec.hsec.GlobalVariables.Acto_obs;

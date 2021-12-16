@@ -1,7 +1,7 @@
 package com.pango.hsec.hsec.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.Target;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.EstadisticaDetModel;
-import com.pango.hsec.hsec.model.EstadisticaModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 
 import java.text.DateFormat;

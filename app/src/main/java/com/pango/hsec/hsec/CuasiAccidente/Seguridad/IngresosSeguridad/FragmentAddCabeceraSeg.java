@@ -4,8 +4,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,10 +25,9 @@ import com.google.gson.Gson;
 import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
-import com.pango.hsec.hsec.Ingresos.Inspecciones.FragmentAddCabecera;
+import com.pango.hsec.hsec.Maps.MapsActivity;
+import com.pango.hsec.hsec.Maps.MapsActivity2;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.Maestro;
 
 import org.apache.commons.lang3.StringUtils;
@@ -48,8 +47,11 @@ import static android.app.Activity.RESULT_OK;
 public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
     String codIncSeg;
     ArrayList<Maestro> superintdata;
+    ArrayList<Maestro> riesgoData;
+
     public ArrayAdapter adapterUbicEspc,adapterSubN;
-    String Ubicacionfinal="", Gerenciafinal="",  Ubicacion="";
+    String Ubicacionfinal="", Gerenciafinal="",  Ubicacion="", GrupoRiesgoFinal;
+
     DatePickerDialog.OnDateSetListener date;
     Calendar myCalendar;
 
@@ -66,7 +68,7 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
     private View mView;
     TextView  tx_reportado;
     Spinner spinner_area, spinner_tipo, spinner_subtipo, spinner_gerencia, spinner_superint, spinner_clasr,spinner_clasp, spinner_act_rel, spinner_hha_rel, spinner_grupo_riesgo, spinner_riesgo, spinner_ubicacion, spinner_sububicacion, spinner_ubic_esp;
-    Button btn_fecha, btn_hora;
+    Button btn_fecha, btn_hora, button;
     EditText edit_lugar;
     ImageButton btn_buscar_r;
     TextView tx_codigo, tx_tipo,tx_rep,tx_gerencia,tx_clasr,tx_act_rel,tx_grupo_riesgo, tx_riesgo,tx_fecha, tx_hora,tx_ubicacion;
@@ -107,7 +109,10 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         codIncSeg=getArguments().getString("bString");
         Gson gson = new Gson();
         boolean[] pass = {false,false},passGer={false};
+        boolean[] pass_GR_R = {false,false},passGR={false};
         Integer[] itemSel = {0,0},itemSelGer={0};
+        Integer[] itemSel_GR_R = {0,0}, itemSelGR={0};
+
         tx_tipo=mView.findViewById(R.id.tx_tipo);
         tx_tipo.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Tipo:"));
         tx_rep=mView.findViewById(R.id.tx_rep);
@@ -151,7 +156,7 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         btn_hora = mView.findViewById(R.id.btn_hora);
         tx_codigo = mView.findViewById(R.id.tx_codigo);
         edit_lugar = mView.findViewById(R.id.edit_lugar);
-
+        button = mView.findViewById(R.id.button);
         btn_fecha.setText("SELECCIONAR FECHA");
         btn_hora.setText("SELECCIONAR HORA");
         spinner_area.setEnabled(false);
@@ -202,7 +207,9 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         adapterGRiesgo.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_grupo_riesgo.setAdapter(adapterGRiesgo);
 
-        ArrayAdapter adapterRiesgo = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, GlobalVariables.Riesgo);
+        riesgoData=new ArrayList<>();
+        riesgoData.add(new Maestro("","-  Seleccione  -"));
+        ArrayAdapter adapterRiesgo = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, riesgoData);
         adapterRiesgo.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_riesgo.setAdapter(adapterRiesgo);
 
@@ -361,6 +368,55 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
             }
         });
 
+        spinner_grupo_riesgo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(itemSelGR[0]!=position) {
+                    itemSelGR[0]=position;
+                    Maestro gRiesgo = (Maestro) ((Spinner) mView.findViewById(R.id.spinner_grupo_riesgo)).getSelectedItem();
+                    GrupoRiesgoFinal = gRiesgo.CodTipo;
+                    riesgoData.clear();
+                    for (Maestro item : GlobalVariables.loadRiesgo(GrupoRiesgoFinal)) {
+                        riesgoData.add(item);
+                    }
+                    adapterRiesgo.notifyDataSetChanged();
+                    if(!passGR[0]&&GlobalVariables.AddIncidenteSeg.GrupoRiesgo!=null)
+                    {
+                        passGR[0] =true;
+                        if(!StringUtils.isEmpty(GlobalVariables.AddIncidenteSeg.Riesgo))
+                            spinner_riesgo.setSelection(GlobalVariables.indexOf(riesgoData,GrupoRiesgoFinal+"."+GlobalVariables.AddIncidenteSeg.Riesgo));
+                    }
+                    else {
+                        GlobalVariables.AddIncidenteSeg.GrupoRiesgo=GrupoRiesgoFinal;
+                        spinner_riesgo.setSelection(0);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //gerencia="";
+            }
+        });
+
+        spinner_riesgo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                Maestro Tipo = (Maestro) ( (Spinner) mView.findViewById(R.id.spinner_riesgo) ).getSelectedItem();
+                if(!StringUtils.isEmpty(Tipo.CodTipo))
+                    GlobalVariables.AddIncidenteSeg.Riesgo=Tipo.CodTipo.split("\\.")[1];
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // superint="";
+            }
+        });
+
+
+
         myCalendar = Calendar.getInstance();
         date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -483,12 +539,18 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
             }
         });
 
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),   MapsActivity2.class);
+                startActivity(intent);
+            }
+        });
+
+
+
         return mView;
     }
-
-
-
-
 
 
 

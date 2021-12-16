@@ -1,4 +1,4 @@
-<android.support.v4.widget.NestedScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -24,9 +24,9 @@
                 android:background="@color/colorBtnBeige"
                 android:textColor="@color/colorBlanco"
                 />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -57,10 +57,10 @@
                     android:text="TextView" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -93,9 +93,9 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -126,10 +126,10 @@
                     android:text="TextView" />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -162,9 +162,9 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -197,10 +197,10 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -233,8 +233,8 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
-        <android.support.v7.widget.CardView
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
@@ -267,10 +267,10 @@
                     />
 
             </LinearLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
@@ -284,7 +284,7 @@
                 android:textColor="@color/colorBlanco"
                 android:gravity="center" />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -295,7 +295,7 @@
             >
 
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -313,9 +313,9 @@
                     android:text="Nombres y apellidos"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorBtnBeige"
@@ -330,7 +330,7 @@
                     android:text="Descripción área"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
 <!--
         <ListView
@@ -341,7 +341,7 @@
             android:layout_marginBottom="1dp"
             />
 -->
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_persona"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -350,7 +350,7 @@
 
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -363,7 +363,7 @@
                 android:textColor="@color/colorBlanco"
                 />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -371,7 +371,7 @@
             android:orientation="horizontal"
             >
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="280dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -387,9 +387,9 @@
                     android:layout_marginLeft="5dp"
                     android:text="Descripción"
                     android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorBtnBeige"
@@ -404,11 +404,11 @@
                     android:text="Calificación"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_aspectos"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -416,10 +416,10 @@
 
             >
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -432,7 +432,7 @@
                 android:textColor="@color/colorBlanco"
                 />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
         <LinearLayout
@@ -441,7 +441,7 @@
             android:orientation="horizontal"
             >
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="150dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
@@ -459,9 +459,9 @@
                     android:text="Etapa de la Tarea (según PET)"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
-            <android.support.v7.widget.CardView
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/colorBtnBeige"
@@ -474,12 +474,12 @@
                     android:text="Desviación Observada"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlanco" />
-            </android.support.v7.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
         </LinearLayout>
 
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_etapas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -487,11 +487,11 @@
 
             >
 
-        </android.support.v7.widget.RecyclerView>
+        </androidx.recyclerview.widget.RecyclerView>
 
 
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -504,7 +504,7 @@
                 android:textColor="@color/colorBlanco"
                 />
 
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
         <LinearLayout
@@ -523,7 +523,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardView20"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
@@ -541,9 +541,9 @@
                         android:text="Tipo de comentario"
                         android:textAlignment="center"
                         android:textColor="@color/colorBlanco" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignTop="@+id/cardView2"
@@ -560,7 +560,7 @@
                         android:text="Descripción"
                         android:textAlignment="center"
                         android:textColor="@color/colorBlanco" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
 
@@ -572,7 +572,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/ll_titulo">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/card"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
@@ -590,9 +590,9 @@
                         android:text="Tipo de comentario"
                         android:fontFamily="@font/asap"
                         android:textColor="@color/colorNegro"/>
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignTop="@+id/carddet1"
@@ -608,7 +608,7 @@
                         android:layout_height="match_parent"
                         android:text="-"
                         android:textAlignment="center" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
 
@@ -620,7 +620,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/ll_comentario1">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/carddet1"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
@@ -640,9 +640,9 @@
                         android:textColor="@color/colorNegro"
                         tools:layout_editor_absoluteX="8dp"
                         tools:layout_editor_absoluteY="42dp" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignTop="@+id/carddet1"
@@ -658,7 +658,7 @@
                         android:layout_height="match_parent"
                         android:text="-"
                         android:textAlignment="center" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
             <LinearLayout
@@ -669,7 +669,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/ll_comentario2">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/carddet3"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
@@ -689,9 +689,9 @@
                         android:textColor="@color/colorNegro"
                         tools:layout_editor_absoluteX="8dp"
                         tools:layout_editor_absoluteY="42dp" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignTop="@+id/carddet1"
@@ -707,7 +707,7 @@
                         android:layout_height="match_parent"
                         android:text="-"
                         android:textAlignment="center" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
 
@@ -719,7 +719,7 @@
                 android:orientation="horizontal"
                 app:layout_constraintTop_toBottomOf="@+id/ll_comentario3">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:id="@+id/carddet4"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
@@ -739,9 +739,9 @@
                         android:textColor="@color/colorNegro"
                         tools:layout_editor_absoluteX="8dp"
                         tools:layout_editor_absoluteY="42dp" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignTop="@+id/carddet1"
@@ -757,7 +757,7 @@
                         android:layout_height="match_parent"
                         android:text="-"
                         android:textAlignment="center" />
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
             </LinearLayout>
 
 
@@ -770,4 +770,4 @@
 
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

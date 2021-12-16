@@ -6,8 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.cardview.widget.CardView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
@@ -38,9 +37,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-import layout.FragmentFichaPersonal;
 import layout.FragmentInspecciones;
-import layout.FragmentMuro;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 

@@ -1,8 +1,8 @@
 package com.pango.hsec.hsec.adapter;
 
 import android.content.Context;
-import android.content.Intent;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,20 +10,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.pango.hsec.hsec.Ficha.FichaPersona;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.MainActivity;
-import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
-import com.pango.hsec.hsec.Observaciones.ActMuroDet;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 

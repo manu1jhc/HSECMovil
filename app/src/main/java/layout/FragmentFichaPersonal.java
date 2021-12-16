@@ -1,21 +1,14 @@
 package layout;
 
-import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.nfc.NdefMessage;
-import android.nfc.NfcAdapter;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.Settings;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +21,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Busquedas.B_observaciones;
 import com.pango.hsec.hsec.Busquedas.B_personas;
-import com.pango.hsec.hsec.Capacitacion.AsistentesCurso;
 import com.pango.hsec.hsec.Ficha.CambiarPassword;
 import com.pango.hsec.hsec.Ficha.Capacitaciones;
 import com.pango.hsec.hsec.Ficha.Estadisticas;
@@ -40,7 +31,6 @@ import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.PersonaModel;
 import com.pango.hsec.hsec.model.UsuarioModel;
 import com.pango.hsec.hsec.utilitario.CircleTransform;
 

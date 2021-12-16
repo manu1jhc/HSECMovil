@@ -9,13 +9,13 @@ android:orientation="vertical"
 tools:context="com.pango.hsec.hsec.Ficha.EstadisticaDet"
     >
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardBackgroundColor="@color/ColorVerdoso">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="50dp"
             >
@@ -58,11 +58,11 @@ tools:context="com.pango.hsec.hsec.Ficha.EstadisticaDet"
                 app:layout_constraintStart_toEndOf="@+id/imageView20"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v7.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 
 
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/colorBtnBeige">
@@ -77,10 +77,10 @@ tools:context="com.pango.hsec.hsec.Ficha.EstadisticaDet"
         android:text="Estadísticas"
         android:textColor="@color/colorBlanco"
         android:textSize="16sp" />
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
 
 
-<android.support.v7.widget.CardView
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:cardBackgroundColor="@color/colorBtnBeige">
@@ -138,7 +138,7 @@ tools:context="com.pango.hsec.hsec.Ficha.EstadisticaDet"
             tools:layout_editor_absoluteY="0dp" />
 
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
 
 <ListView
     android:id="@+id/list_estadistica"

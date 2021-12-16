@@ -1,11 +1,9 @@
 package com.pango.hsec.hsec.Observaciones;
 
 import android.content.Intent;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Gravity;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,23 +12,17 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.Ficha.BusqEstadistica;
 import com.pango.hsec.hsec.Ficha.PlanAccionDet;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.PlanAdapter;
 import com.pango.hsec.hsec.adapter.PlandetAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPlanModel;
-
-import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class FragmentPlan extends Fragment implements IActivity {
 

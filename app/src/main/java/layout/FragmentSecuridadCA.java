@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.DetalleMACuasi.MACuasiDetalle;
-import com.pango.hsec.hsec.CuasiAccidente.MedioAmbiente.IngresosMA.ActIngresoMA;
 import com.pango.hsec.hsec.CuasiAccidente.Seguridad.DetalleSeguridad.ActSeguridad;
 import com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.ActIngresoSeg;
 import com.pango.hsec.hsec.GlobalVariables;
@@ -30,7 +28,6 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.MainActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.adapter.MACuasiAccidenteAdapter;
 import com.pango.hsec.hsec.adapter.SeguridadCAAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
@@ -39,7 +36,6 @@ import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
 
-import static com.pango.hsec.hsec.MainActivity.flag_maCuasi;
 import static com.pango.hsec.hsec.MainActivity.flag_seguri;
 
 /**

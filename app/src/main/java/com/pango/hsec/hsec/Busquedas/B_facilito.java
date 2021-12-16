@@ -3,9 +3,9 @@ package com.pango.hsec.hsec.Busquedas;
 import android.app.DatePickerDialog;
 import android.app.DialogFragment;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
+import androidx.cardview.widget.CardView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,9 +20,7 @@ import android.widget.Toast;
 
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.model.Maestro;
-import com.pango.hsec.hsec.model.ObsFacilitoModel;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

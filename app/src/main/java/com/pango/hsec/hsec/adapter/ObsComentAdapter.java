@@ -3,8 +3,8 @@ package com.pango.hsec.hsec.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,14 +25,10 @@ import android.widget.TextView;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.R;
 
-import java.util.Collections;
 import java.util.List;
 
 import com.pango.hsec.hsec.model.Maestro;
-import com.pango.hsec.hsec.model.ObsComentModel;
 import com.pango.hsec.hsec.model.SubDetalleModel;
-
-import java.util.List;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
