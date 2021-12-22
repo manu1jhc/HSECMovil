@@ -724,8 +724,8 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
         ArrayList<Maestro> CondTemp = new ArrayList<>();
         //CondTemp.add(new Maestro("","-  Seleccione  -"));
         for (Maestro item:TipoCond ) {
-            //String Tipos[]=item.CodTipo.split("\\.");
-            if(item.CodTipo.equals(Tipo))
+            String Tipos[]=item.CodTipo.split("\\.");
+            if(Tipos[0].equals(Tipo))
                 CondTemp.add(item);
         }
         return CondTemp;
@@ -735,7 +735,7 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
         ArrayList<Maestro> TcausaTemp = new ArrayList<>();
         for (Maestro item : Tcausalidad) {
             String Tipos[]=item.CodTipo.split("-");
-            if (Tipos[1].replace('o','a').equals(Tipo))
+            if (Tipos[1].equals(Tipo))
                 TcausaTemp.add(item);
         }
         return TcausaTemp;

@@ -25,6 +25,8 @@ import com.pango.hsec.hsec.adapter.CheckCausaAdapter;
 import com.pango.hsec.hsec.model.CausalidadModel;
 import com.pango.hsec.hsec.model.Maestro;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
@@ -36,7 +38,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  */
 public class FragmentAddCausalidad extends Fragment implements IActivity {
     View mView;
-    String Causafinal = "";
+    String Causafinal = "", CondInicial = "";
     ArrayList<Maestro> causalidadData;
     ArrayList<CausalidadModel> listaSelCausalidad = new ArrayList<>();
 
@@ -136,7 +138,7 @@ public class FragmentAddCausalidad extends Fragment implements IActivity {
 
 
                 causalidadData=new ArrayList<>();
-                for (Maestro item : GlobalVariables.loadCausalidades("ca01")) {
+                for (Maestro item : GlobalVariables.loadCausalidades("co01")) {
                     causalidadData.add(item);
                 }
                 titulo_cc.setText("Condiciones - Total: " + causalidadData.size());
@@ -161,17 +163,18 @@ public class FragmentAddCausalidad extends Fragment implements IActivity {
                             for (Maestro item : GlobalVariables.loadCondicion(Causafinal)) {
                                 condiciondata.add(item);
                             }
+                            String Tipos[]=condiciondata.get(0).CodTipo.split("\\.");
+                            CondInicial = Tipos[1];
                             adapterTcondicion.notifyDataSetChanged();
                             sp_tipoCond.setSelection(0);
 
                             causalidadData=new ArrayList<>();
-                            for (Maestro item : GlobalVariables.loadCausalidades(Causafinal)) {
+                            for (Maestro item : GlobalVariables.loadCausalidades(CondInicial)) {
                                 causalidadData.add(item);
                             }
                             titulo_cc.setText("Condiciones - Total: " + causalidadData.size());
                             checkCausaAdapter.addAll(causalidadData);
                             checkCausaAdapter.notifyDataSetChanged();
-
 
 //                            if(!pass[0]&&GlobalVariables.AddIncidenteSeg.Gerencia!=null)
 //                            {
@@ -189,6 +192,35 @@ public class FragmentAddCausalidad extends Fragment implements IActivity {
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
                         //gerencia="";
+                    }
+                });
+
+                sp_tipoCond.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        Maestro Tipo = (Maestro) ( (Spinner) popupView.findViewById(R.id.sp_tipoCond) ).getSelectedItem();
+                        if(!StringUtils.isEmpty(Tipo.CodTipo)){
+                           // GlobalVariables.AddInspeccion.SuperInt=Tipo.CodTipo.split("\\.")[1];
+                            String Tipos[]=Tipo.CodTipo.split("\\.");
+                            CondInicial = Tipos[1];
+                            causalidadData=new ArrayList<>();
+                            for (Maestro item : GlobalVariables.loadCausalidades(CondInicial)) {
+                                causalidadData.add(item);
+                            }
+                            titulo_cc.setText("Condiciones - Total: " + causalidadData.size());
+                            checkCausaAdapter.addAll(causalidadData);
+                            checkCausaAdapter.notifyDataSetChanged();
+
+                        }
+
+
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        // superint="";
                     }
                 });
 

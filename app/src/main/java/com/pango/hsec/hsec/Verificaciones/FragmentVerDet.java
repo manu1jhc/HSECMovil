@@ -65,12 +65,8 @@ public class FragmentVerDet extends Fragment implements IActivity {
         GlobalVariables.jsonVerificaccion =data;
         Gson gson = new Gson();
         VerificacionModel getUsuarioModel = gson.fromJson(data, VerificacionModel.class);
-
         tx_observacion.setText(getUsuarioModel.Observacion);
-
         tx_accion.setText(getUsuarioModel.Accion);
-
-
         tx_stopwork.setText(GlobalVariables.getDescripcion(StopWork_obs,getUsuarioModel.StopWork));
 
     }
