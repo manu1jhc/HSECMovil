@@ -11,4 +11,21 @@
     map:uiRotateGestures="true"
     map:cameraTilt="30"
 
-    />
+
+    >
+
+    <Button
+        android:id="@+id/btnCordenas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom|center"
+        android:textColor="@android:color/white"
+        android:background="#7C51CA"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
+        android:text="Enviar Coordenadas" />
+
+</fragment>
+
