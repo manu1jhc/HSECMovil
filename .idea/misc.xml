@@ -7,7 +7,11 @@
         <entry key="app/src/main/res/layout/act_seguridad_ma.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_act_ingreso_seg.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout/activity_ma_cuasi_detalle.xml" value="0.22" />
+<<<<<<< HEAD
         <entry key="app/src/main/res/layout/activity_maps.xml" value="0.25" />
+=======
+        <entry key="app/src/main/res/layout/activity_maps.xml" value="0.12135416666666667" />
+>>>>>>> 8ba69bcf93949c0a051704e0f1b0c615d50b89c2
         <entry key="app/src/main/res/layout/activity_seguridad.xml" value="0.18" />
         <entry key="app/src/main/res/layout/activity_seguridad_ma.xml" value="0.1" />
         <entry key="app/src/main/res/layout/causalidad_adapter.xml" value="0.25" />
