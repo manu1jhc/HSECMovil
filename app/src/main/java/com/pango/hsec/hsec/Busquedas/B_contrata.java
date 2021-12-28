@@ -97,14 +97,6 @@ TextView tx_buscarc;
                 finish();
             }
         });
-
-
-
-
-
-
-
-
     }
 
     public void close(View view){

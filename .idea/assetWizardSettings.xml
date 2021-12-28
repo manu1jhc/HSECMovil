@@ -28,8 +28,11 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_addmaps" />
-                            <entry key="sourceFile" value="C:\Users\manuel\D:\HSECMovil\App\iconos app\gamepad2.svg" />
+                            <entry key="outputName" value="ic_seguridad_cuasi" />
+                            <entry key="sourceFile" value="D:\HSECMovil\App\iconos app\gamepad2.svg" />
+                            <entry key="outputName" value="ic_seguridad" />
+                            <entry key="outputName" value="ic_medio_ambiente" />
+                            <entry key="sourceFile" value="$USER_HOME$/D:\HSECMovil\App\iconos app\gamepad2.svg" />
                           </map>
                         </option>
                       </PersistentState>
