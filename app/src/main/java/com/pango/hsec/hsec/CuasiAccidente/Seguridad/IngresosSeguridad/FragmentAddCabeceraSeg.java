@@ -16,12 +16,14 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pango.hsec.hsec.Busquedas.B_contrata;
 import com.pango.hsec.hsec.Busquedas.B_personas;
 import com.pango.hsec.hsec.GlobalVariables;
 import com.pango.hsec.hsec.IActivity;
@@ -36,8 +38,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import androidx.appcompat.app.AppCompatActivity;
+import com.pango.hsec.hsec.Utils;
 
 import static android.app.Activity.RESULT_OK;
+import static com.pango.hsec.hsec.CuasiAccidente.Seguridad.IngresosSeguridad.FragmentAddDetalleSeg.REQUEST_CODE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,9 +50,11 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
+    TextView insp_maps;
     String codIncSeg;
     ArrayList<Maestro> superintdata;
     ArrayList<Maestro> riesgoData;
+    ListView listView;
 
     public ArrayAdapter adapterUbicEspc,adapterSubN;
     String Ubicacionfinal="", Gerenciafinal="",  Ubicacion="", GrupoRiesgoFinal;
@@ -63,6 +70,8 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
     public final Calendar c = Calendar.getInstance();
     int hora = c.get(Calendar.HOUR_OF_DAY);
     int minuto = c.get(Calendar.MINUTE);
+
+    ImageButton btn_buscar_m;
 
 
     private View mView;
@@ -99,6 +108,8 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
 //            mParam1 = getArguments().getString(ARG_PARAM1);
 //            mParam2 = getArguments().getString(ARG_PARAM2);
 //        }
+
+
     }
 
     @Override
@@ -133,6 +144,7 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         tx_hora.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Hora:"));
         tx_ubicacion=mView.findViewById(R.id.tx_ubicacion);
         tx_ubicacion.setText(Html.fromHtml("<font color="+ ContextCompat.getColor(getActivity(), R.color.colorRojo)+"> * </font>"+"Ubicación:"));
+        insp_maps= mView.findViewById(R.id.insp_maps);
 
         spinner_area=(Spinner) mView.findViewById(R.id.spinner_area);
         spinner_tipo=(Spinner) mView.findViewById(R.id.spinner_tipo);
@@ -157,6 +169,7 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         tx_codigo = mView.findViewById(R.id.tx_codigo);
         edit_lugar = mView.findViewById(R.id.edit_lugar);
         button = mView.findViewById(R.id.button);
+        btn_buscar_m = mView.findViewById(R.id.btn_buscar_m);
         btn_fecha.setText("SELECCIONAR FECHA");
         btn_hora.setText("SELECCIONAR HORA");
         spinner_area.setEnabled(false);
@@ -220,6 +233,8 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         ArrayAdapter adapterHHA = new ArrayAdapter(getContext(),R.layout.custom_spinner_item, GlobalVariables.HHA_obs);
         adapterHHA.setDropDownViewResource(R.layout.custom_simple_spinner_dropdown_item);
         spinner_hha_rel.setAdapter(adapterHHA);
+
+
 
 //        if(GlobalVariables.ObjectEditable){ // load data of server
 //            if(GlobalVariables.AddInspeccion.CodInspeccion==null) // || !GlobalVariables.AddInspeccion.CodInspeccion.equals(codInsp)
@@ -542,8 +557,17 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getContext(),   MapsActivity2.class);
+                Intent intent = new Intent(getContext(), MapsActivity2.class);
                 startActivity(intent);
+            }
+        });
+
+        btn_buscar_m.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), MapsActivity2.class);
+                startActivityForResult(intent , 2);
+
             }
         });
 
@@ -574,11 +598,16 @@ public class FragmentAddCabeceraSeg extends Fragment implements IActivity {
         try {
             super.onActivityResult(requestCode, resultCode, data);
 
-            if (requestCode == 1  && resultCode  == RESULT_OK) { // seleccion de Observado por
+            if (requestCode == 1  && resultCode  == RESULT_OK) { //
                 String name=data.getStringExtra("nombreP");
                 tx_reportado.setText(name);
-//                GlobalVariables.AddIncidenteSeg.ObservadoPor=name;
-//                GlobalVariables.AddIncidenteSeg.CodObservadoPor=data.getStringExtra("codpersona");
+
+            }
+            if (requestCode == 2  && resultCode  == RESULT_OK) { //
+
+                String cordenada = data.getStringExtra("cordenada");
+                insp_maps.setText(cordenada);
+
             }
         } catch (Exception ex) {
             Toast.makeText(getContext(), ex.toString(),
