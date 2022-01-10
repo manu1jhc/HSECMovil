@@ -24,13 +24,13 @@ import com.pango.hsec.hsec.model.CapCursoModel;
 import com.pango.hsec.hsec.model.GaleriaModel;
 import com.pango.hsec.hsec.model.InspeccionModel;
 import com.pango.hsec.hsec.model.LoginModel;
-import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
+import com.pango.hsec.hsec.model.IncidentesMAModel;
 import com.pango.hsec.hsec.model.NoticiasModel;
 import com.pango.hsec.hsec.model.ObsFacilitoModel;
 import com.pango.hsec.hsec.model.ObsInspDetModel;
 import com.pango.hsec.hsec.model.ObservacionModel;
 import com.pango.hsec.hsec.model.PlanModel;
-import com.pango.hsec.hsec.model.SeguridadCAModel;
+import com.pango.hsec.hsec.model.IncidentesSECModel;
 import com.pango.hsec.hsec.model.VerificacionModel;
 import com.pango.hsec.hsec.utilitario.MySSLSocketFactory;
 
@@ -257,7 +257,7 @@ public class Utils {
             case "CodObservacion":
                 return "Codigo";
             case "CodAreaHSEC":
-               // observacionModel.CodAreaHSEC
+                // observacionModel.CodAreaHSEC
                 return "Area";
             case "CodNivelRiesgo":
                 return "Nivel de riesgo";
@@ -323,7 +323,7 @@ public class Utils {
 
             case "FechaSolicitud":
                 return formatoRender.format(temp);
-                //return planModel.FechaSolicitud;
+            //return planModel.FechaSolicitud;
 
 
             case "CodEstadoAccion":
@@ -347,7 +347,7 @@ public class Utils {
             case "CodReferencia":
                 return GlobalVariables.getDescripcion(GlobalVariables.Referencia_Plan,planModel.CodReferencia);
 
-           // return planModel.CodReferencia;
+            // return planModel.CodReferencia;
 
             case "CodTipoAccion":
                 //return planModel.CodTipoAccion;
@@ -505,7 +505,7 @@ public class Utils {
                 /*cad=inspeccionModel.CodUbicacion;
                 String[] parts2=cad.split("\\.");
                 String b = parts2[0]+"."+parts2[1];*/
-              //  return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,inspeccionModel.CodSubUbicacion);
+            //  return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,inspeccionModel.CodSubUbicacion);
 
             case "CodTipo":
                 return GlobalVariables.getDescripcion(GlobalVariables.Tipo_insp,inspeccionModel.CodTipo);
@@ -515,7 +515,7 @@ public class Utils {
         }
     }
 
-    public static String getMACuasiData(MACuasiAccidenteModel maCuasiAccidenteModel, String s) {
+    public static String getMACuasiData(IncidentesMAModel maCuasiAccidenteModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
         DateFormat formatoHora = new SimpleDateFormat("h:mm a");
@@ -523,78 +523,66 @@ public class Utils {
         Date tempP= null;
         try {
             //tempP= formatoInicial.parse(maCuasiAccidenteModel.FechaP);
-            temp= formatoInicial.parse(maCuasiAccidenteModel.Fecha);
+            temp= formatoInicial.parse(maCuasiAccidenteModel.FechaDelSuceso);
         } catch (Exception e) {
             e.printStackTrace();
         }
         String cad;
         switch (s){
-            case "CodCuasiAcci":
-                return maCuasiAccidenteModel.CodCuasiAcci;
-            case "CodAreaHSEC":
-                //return observacionModel.CodAreaHSEC;
-                //maCuasiAccidenteModel.CodAreaHSEC
-                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,"003").trim().replace("=","");
-            case "CodTipo":
+            case "CodIncidente":
+                return maCuasiAccidenteModel.CodIncidente;
+            case "CodAreaHsec":
+                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,maCuasiAccidenteModel.CodAreaHsec).trim().replace("=","");
+            case "CodTipoIncidente":
                 //return maCuasiAccidenteModel.CodTipo;
-                return "Cuasi Accidente";
-            //case "PerReporta":
-                //return observacionModel.CodAreaHSEC;
-              //  return GlobalVariables.getDescripcion(GlobalVariables.PerReporta,maCuasiAccidenteModel.PerReporta).trim().replace("=","");
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_Inc,maCuasiAccidenteModel.CodTipoIncidente);
 
-            case "ObservadoPor":
-                return "43054695";
+            case "CodPerReporta":
+                return maCuasiAccidenteModel.CodPerReporta;
 
-            case "Gerencia":
+            case "CodPosicionGer":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,maCuasiAccidenteModel.Gerencia).trim().replace("=","");
-            //case "SuperInt":
-                //return observacionModel.CodNivelRiesgo;
-               // return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.SuperInt).trim().replace("=","");
-            case "Superint":
-                //return observacionModel.Superint;
+                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,maCuasiAccidenteModel.CodPosicionGer).trim().replace("=","");
+            case "CodPosicionSup":
                 //return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.Gerencia+"."+maCuasiAccidenteModel.Superint).trim().replace("=","");
-                return "SUPERINTENDENCIA DE MNATENIMIENTO MECANICO";
-            case "ClasReal":
-                //return observacionModel.CodAreaHSEC;
+                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.CodPosicionGer+"."+maCuasiAccidenteModel.CodPosicionSup).trim().replace("=","");
+            case "CodClasificaInci":
                 //return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,maCuasiAccidenteModel.ClasReal).trim().replace("=","");
-                return "Clasificacion Real";
-            case "ClasPotencial":
+                return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,maCuasiAccidenteModel.CodClasificaInci).trim().replace("=","");
+            case "CodClasiPotencial":
                 //return observacionModel.CodAreaHSEC;
                 //return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,maCuasiAccidenteModel.ClasPotencial).trim().replace("=","");
-                return  "Clasificaion Potencial";
+                return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,maCuasiAccidenteModel.CodClasiPotencial).trim().replace("=","");
 
-            case "ActRelacionada":
+            case "CodActiRelacionada":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,maCuasiAccidenteModel.ActRelacionada).trim().replace("=","");
-            case "GrupRiesgo":
+                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,maCuasiAccidenteModel.CodActiRelacionada).trim().replace("=","");
+            case "CodGrupoRiesgo":
                 //return observacionModel.CodAreaHSEC;
                 //maCuasiAccidenteModel.GrupRiesgo
-                return GlobalVariables.getDescripcion(GlobalVariables.GrupRiesgo,"02").trim().replace("=","");
+                return GlobalVariables.getDescripcion(GlobalVariables.GrupRiesgo,maCuasiAccidenteModel.CodGrupoRiesgo).trim().replace("=","");
 
-            case "Fecha":
-
+            case "FechaDelSuceso":
                 return formatoRender.format(temp);
 
-            case "Hora":
+            case "HoraDelSuceso":
                 return formatoHora.format(temp).replace(". ","").replace(".","");
 
             case "CodUbicacion":
                 return  GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,maCuasiAccidenteModel.CodUbicacion);
 
             case "CodSubUbicacion":
-                //cad=observacionModel.CodUbicacion;
-                cad="01.06.03";
-                String[] parts2=cad.split("\\.");
-                String b = parts2[0]+"."+parts2[1];
-                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
-            case "UbicacionEsp":
-                //cad=observacionModel.CodUbicacion;
-                cad="01.06.03";
+                cad=maCuasiAccidenteModel.CodSubUbicacion;
+                //cad="01.06.03";
                 return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
-            case "Lugar":
+            case "CodUbicacionEspecifica":
+                cad=maCuasiAccidenteModel.CodUbicacionEspecifica;
+                //cad="01.06.03";
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
+
+            case "DesUbicacion":
                 //return maCuasiAccidenteModel.Lugar;
-                return "Vestuarios de Truck Shop";
+                return maCuasiAccidenteModel.DesUbicacion;
 
             default:
                 return "";
@@ -602,7 +590,7 @@ public class Utils {
     }
 
 
-    public static String getMACuasiDataDetalle(MACuasiAccidenteModel maCuasiAccidenteModel, String s) {
+    public static String getMACuasiDataDetalle(IncidentesMAModel maCuasiAccidenteModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
         DateFormat formatoHora = new SimpleDateFormat("h:mm a");
@@ -610,45 +598,43 @@ public class Utils {
         Date tempP= null;
         try {
             //tempP= formatoInicial.parse(maCuasiAccidenteModel.FechaP);
-            temp= formatoInicial.parse(maCuasiAccidenteModel.Fecha);
+            temp= formatoInicial.parse(maCuasiAccidenteModel.FechaDelSuceso);
         } catch (Exception e) {
             e.printStackTrace();
         }
         String cad;
         switch (s){
 
-            case "TituIncidente":
+            case "CodTituloInci":
                 //return observacionModel.CodAreaHSEC;
                 //return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,maCuasiAccidenteModel.TituIncidente).trim().replace("=","");
-                return "Volcadura";
-            case "TituDetallado":
+                return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,maCuasiAccidenteModel.CodTituloInci).trim().replace("=","");
+            case "DescripcionIncidente":
                 //return observacionModel.CodAreaHSEC;
                 //return GlobalVariables.getDescripcion(GlobalVariables.TituDetallado,maCuasiAccidenteModel.TituDetallado).trim().replace("=","");
-                return  "Volcadura en la fase II";
-            case "Turno":
+                return maCuasiAccidenteModel.DescripcionIncidente;
+            case "CodTurno":
                 //return observacionModel.CodAreaHSEC;
                 //return GlobalVariables.getDescripcion(GlobalVariables.TURN,maCuasiAccidenteModel.Turno).trim().replace("=","");
-                return "Noche";
-            //case "Contrata":
-                //return observacionModel.CodAreaHSEC;
-              //  return GlobalVariables.getDescripcion(GlobalVariables.Contrata,maCuasiAccidenteModel.Contrata);
+                return maCuasiAccidenteModel.CodTurno;
+            //  return GlobalVariables.getDescripcion(GlobalVariables.Contrata,maCuasiAccidenteModel.Contrata);
             case "CodContrata":
                 //return GlobalVariables.getDescripcion(GlobalVariables.Contrata,inspeccionModel.CodContrata);
-                return "ACEROS JLAM";
+                return GlobalVariables.getDescripcion(GlobalVariables.Contrata,maCuasiAccidenteModel.CodContrata);
             case "DesSuceso":
                 //return observacionModel.CodNivelRiesgo;
-               //return GlobalVariables.getDescripcion(GlobalVariables.DesSuceso,maCuasiAccidenteModel.DesSuceso).trim().replace("=","");
-                return "Suito en la noche a las 7pm en Volccadura";
-            case "AccioInmediatas":
+                //return GlobalVariables.getDescripcion(GlobalVariables.DesSuceso,maCuasiAccidenteModel.DesSuceso).trim().replace("=","");
+                return maCuasiAccidenteModel.DesSuceso;
+            case "AccInmediatas":
                 //return observacionModel.CodNivelRiesgo;
                 //return GlobalVariables.getDescripcion(GlobalVariables.AccioInmediatas,maCuasiAccidenteModel.AccioInmediatas).trim().replace("=","");
-                return "Se procedio a llamar al jefe inmediato indicandole lo sucedido. ";
-           default:
+                return maCuasiAccidenteModel.AccInmediatas;
+            default:
                 return "";
         }
     }
 
-    public static String getSecCuasiData(SeguridadCAModel seguridadCAModel, String s) {
+    public static String getSecCuasiData(IncidentesSECModel seguridadCAModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
         DateFormat formatoHora = new SimpleDateFormat("h:mm a");
@@ -656,101 +642,82 @@ public class Utils {
         Date tempP= null;
         try {
             //tempP= formatoInicial.parse(seguridadCAModel.FechaP);
-            temp= formatoInicial.parse(seguridadCAModel.Fecha);
+            temp= formatoInicial.parse(seguridadCAModel.FechaDelSuceso);
         } catch (Exception e) {
             e.printStackTrace();
         }
         String cad;
         switch (s){
-            case "CodCuasiAcci":
-                return seguridadCAModel.CodCuasiAcci;
-            case "CodAreaHSEC":
+            case "CodIncidente":
+                return seguridadCAModel.CodIncidente;
+            case "CodAreaHsec":
                 //return observacionModel.CodAreaHSEC;
-                //seguridadCAModel.CodAreaHSEC
-                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,"001").trim().replace("=","");
-            case "CodTipo":
-                //return GlobalVariables.getDescripcion(GlobalVariables.Tipo_obs2,observacionModel.CodTipo);
-                return "Cuasi Accidente";
+                return GlobalVariables.getDescripcion(GlobalVariables.Area_obs,seguridadCAModel.CodAreaHsec).trim().replace("=","");
+            case "CodTipoIncidente":
+                return GlobalVariables.getDescripcion(GlobalVariables.Tipo_Inc,seguridadCAModel.CodTipoIncidente);
+            // return "Cuasi Accidente";
 
-            case "CodSubTipo":
-                //return GlobalVariables.getDescripcion(GlobalVariables.SubTipo_obs,observacionModel.CodSubTipo);
-                return "Cuasi Accidente Personal";
+            case "CodSubTipoIncidente":
+                return GlobalVariables.getDescripcion(GlobalVariables.SubTipo_obs,seguridadCAModel.CodSubTipoIncidente);
+            //return "Cuasi Accidente Personal";
 
-            //case "PerReporta":
+            case "CodPerReporta":
+                return seguridadCAModel.CodPerReporta;
+            case "CodPosicionGer":
                 //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.PerReporta,seguridadCAModel.PerReporta).trim().replace("=","");
-            case "ObservadoPor":
-                return "43054695";
+                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,seguridadCAModel.CodPosicionGer).trim().replace("=","");
 
-            case "Gerencia":
+            case "CodPosicionSup":
+                return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,seguridadCAModel.CodPosicionGer+"."+seguridadCAModel.CodPosicionSup).trim().replace("=","");
+
+            case "CodClasificaInci":
                 //return observacionModel.CodAreaHSEC;
-                return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,seguridadCAModel.Gerencia).trim().replace("=","");
-            //case "SuperInt":
-                //return observacionModel.CodNivelRiesgo;
-            //    return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,seguridadCAModel.SuperInt).trim().replace("=","");
+                return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,seguridadCAModel.CodClasificaInci).trim().replace("=","");
 
-            case "Superint":
-                //return observacionModel.Superint;
-                //return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,maCuasiAccidenteModel.Gerencia+"."+maCuasiAccidenteModel.Superint).trim().replace("=","");
-                return "SUPERINTENDENCIA DE MNATENIMIENTO MECANICO";
-            case "ClasReal":
+            case "CodClasiPotencial":
                 //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.ClasReal,seguridadCAModel.ClasReal).trim().replace("=","");
-                return "Cat. 0 Cuasi Accidente";
+                return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,seguridadCAModel.CodClasiPotencial).trim().replace("=","");
 
-            case "ClasPotencial":
+            case "CodActiRelacionada":
+                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,seguridadCAModel.CodActiRelacionada).trim().replace("=","");
+
+            case "CodHha":
+                return GlobalVariables.getDescripcion(GlobalVariables.HHA_obs,seguridadCAModel.CodHha).trim().replace("=","");
+
+            case "CodGrupoRiesgo":
+                return GlobalVariables.getDescripcion(GlobalVariables.GrupRiesgo,seguridadCAModel.CodGrupoRiesgo).trim().replace("=","");
+
+            case "CodRiesgo":
                 //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.ClasPotencial,seguridadCAModel.ClasPotencial).trim().replace("=","");
-                return "HPRI - AltoPotencial";
+                return GlobalVariables.getDescripcion(GlobalVariables.Riesgo,seguridadCAModel.CodRiesgo).trim().replace("=","");
 
-            case "ActRelacionada":
-                //return observacionModel.CodAreaHSEC;
-                //maCuasiAccidenteModel.ActRelacionada:
-                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,"11").trim().replace("=","");
-            case "HHRelacionada":
-                //return observacionModel.CodNivelRiesgo;
-                //seguridadCAModel.HHRelacionada
-               return GlobalVariables.getDescripcion(GlobalVariables.HHA_obs,"01").trim().replace("=","");
-
-            case "GrupRiesgo":
-                //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.GrupRiesgo,seguridadCAModel.GrupRiesgo).trim().replace("=","");
-                return "Grupo 03 – Trabajo en Altura";
-            case "Riesgo":
-                //return observacionModel.CodAreaHSEC;
-               // return GlobalVariables.getDescripcion(GlobalVariables.Riesgo,seguridadCAModel.Riesgo).trim().replace("=","");
-                return "Caida desde altura";
-
-            case "Fecha":
-
+            case "FechaDelSuceso":
                 return formatoRender.format(temp);
 
-            case "Hora":
+            case "HoraDelSuceso":
                 return formatoHora.format(temp).replace(". ","").replace(".","");
 
             case "CodUbicacion":
                 return  GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,seguridadCAModel.CodUbicacion);
 
             case "CodSubUbicacion":
-                //cad=observacionModel.CodUbicacion;
-                cad="01.06.03";
-                String[] parts2=cad.split("\\.");
-                String b = parts2[0]+"."+parts2[1];
-                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);
-            case "UbicacionEsp":
-                //cad=observacionModel.CodUbicacion;
-                cad="01.06.03";
+                cad=seguridadCAModel.CodSubUbicacion;
+                //cad="01.06.03";
                 return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
-            case "Lugar":
-                //return maCuasiAccidenteModel.Lugar;
-                return "Vestuarios de Truck Shop";
+            case "CodUbicacionEspecifica":
+                cad=seguridadCAModel.CodUbicacionEspecifica;
+                //cad="01.06.03";
+                return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,cad);
+            case "DesUbicacion":
+                return seguridadCAModel.DesUbicacion;
+
 
             default:
                 return "";
         }
     }
 
-    public static String getSeguridadDetCA(SeguridadCAModel seguridadCAModel, String s) {
+    public static String getSeguridadDetCA(IncidentesSECModel seguridadCAModel, String s) {
         DateFormat formatoInicial = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         DateFormat formatoRender = new SimpleDateFormat("EEEE d 'de' MMMM 'de' yyyy");
         DateFormat formatoHora = new SimpleDateFormat("h:mm a");
@@ -758,39 +725,35 @@ public class Utils {
         Date tempP= null;
         try {
             //tempP= formatoInicial.parse(maCuasiAccidenteModel.FechaP);
-            temp= formatoInicial.parse(seguridadCAModel.Fecha);
+            temp= formatoInicial.parse(seguridadCAModel.FechaDelSuceso);
         } catch (Exception e) {
             e.printStackTrace();
         }
         String cad;
         switch (s){
 
-            case "TituIncidente":
+            case "CodTituloInci":
                 //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,seguridadCAModel.TituIncidente).trim().replace("=","");
-                return "Volcadura";
-            case "TituDetallado":
+                return GlobalVariables.getDescripcion(GlobalVariables.TituIncidente,seguridadCAModel.CodTituloInci).trim().replace("=","");
+            case "DescripcionIncidente":
                 //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.TituDetallado,seguridadCAModel.TituDetallado).trim().replace("=","");
-                return  "Volcadura en la fase II";
-            case "TURN":
+                return seguridadCAModel.DescripcionIncidente;
+
+            case "CodTurno":
                 //return observacionModel.CodAreaHSEC;
-                //return GlobalVariables.getDescripcion(GlobalVariables.Turno,seguridadCAModel.Turno).trim().replace("=","");
-                return "Dia";
-           // case "Contrata":
-                //return observacionModel.CodAreaHSEC;
-            //    return GlobalVariables.getDescripcion(GlobalVariables.Contrata,seguridadCAModel.Contrata).trim().replace("=","");
+                //return GlobalVariables.getDescripcion(GlobalVariables.Turno,seguridadCAModel.CodTurno).trim().replace("=","");
+                return seguridadCAModel.CodTurno;
             case "CodContrata":
-                //return GlobalVariables.getDescripcion(GlobalVariables.Contrata,inspeccionModel.CodContrata);
-                return "ACEROS JLAM";
-            case "DesSuceso":
-                //return observacionModel.CodNivelRiesgo;
-                //return GlobalVariables.getDescripcion(GlobalVariables.DesSuceso,seguridadCAModel.DesSuceso).trim().replace("=","");
-                return "Suito en la noche a las 7pm en Volccadura";
-            case "AccioInmediatas":
-                //return observacionModel.CodNivelRiesgo;
-                //return GlobalVariables.getDescripcion(GlobalVariables.AccioInmediatas,seguridadCAModel.AccioInmediatas).trim().replace("=","");
-                return "Se procedio a llamar al jefe inmediato indicandole lo sucedido. ";
+                return GlobalVariables.getDescripcion(GlobalVariables.Contrata,seguridadCAModel.CodContrata);
+
+            case "Conclusiones":
+                return seguridadCAModel.Conclusiones;
+
+            case "Aprendizajes":
+                return seguridadCAModel.Aprendizajes;
+            case "ResumenInfMedico":
+                return seguridadCAModel.ResumenInfMedico;
+
             default:
                 return "";
         }
@@ -815,11 +778,11 @@ public class Utils {
                 return obsInspDetModel.CodInspeccion;
             case "NroDetInspeccion":
                 return obsInspDetModel.NroDetInspeccion;
-                //return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,inspeccionModel.Gerencia).trim().replace("=","");
+            //return GlobalVariables.getDescripcion(GlobalVariables.Gerencia,inspeccionModel.Gerencia).trim().replace("=","");
 
             case "Lugar":
                 return obsInspDetModel.Lugar;
-                //return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,inspeccionModel.SuperInt).trim().replace("=","");
+            //return GlobalVariables.getDescripcion(GlobalVariables.SuperIntendencia,inspeccionModel.SuperInt).trim().replace("=","");
 
             case "CodUbicacion":
                 String[] parts = new String[0];
@@ -841,11 +804,11 @@ public class Utils {
                 return GlobalVariables.getDescripcion(GlobalVariables.Ubicaciones_obs,parts2[0]+"."+parts2[1]);*/
                 return GlobalVariables.getDescripcion(GlobalVariables.Aspecto_Obs,obsInspDetModel.CodAspectoObs);
 
-                        //obsInspDetModel.CodAspectoObs;
+            //obsInspDetModel.CodAspectoObs;
 
             case "CodActividadRel":
 
-            return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,obsInspDetModel.CodActividadRel);
+                return GlobalVariables.getDescripcion(GlobalVariables.Actividad_obs,obsInspDetModel.CodActividadRel);
             //return obsInspDetModel.CodActividadRel;
 
             case "CodNivelRiesgo":
@@ -908,7 +871,8 @@ public class Utils {
 
     public static ArrayList<String> tempObs=new ArrayList<String>();
     public static ObservacionModel observacionModel=new ObservacionModel();
-    public static MACuasiAccidenteModel maCuasiAccidenteModel=new MACuasiAccidenteModel();
+    public static IncidentesMAModel maCuasiAccidenteModel=new IncidentesMAModel();
+    public static IncidentesSECModel secCuasiAccidenteModel=new IncidentesSECModel();
     public static ObsFacilitoModel observacionFacilitoModel=new ObsFacilitoModel();
     public static InspeccionModel inspeccionModel=new InspeccionModel();
     public static NoticiasModel noticiasModel=new NoticiasModel();
@@ -934,7 +898,7 @@ public class Utils {
 
                 final String docId = DocumentsContract.getDocumentId(uri);
                 final String[] split = docId.split(":");
-               // return Environment.getExternalStorageDirectory() + "/" + split[1];
+                // return Environment.getExternalStorageDirectory() + "/" + split[1];
                 String urlbase=Environment.getExternalStorageDirectory().toString() +"/" + split[1];
                 if(!split[0].equals("0"))urlbase="/storage/"+split[0]+ "/" + split[1];
                 File myFile = new File(urlbase);
@@ -943,7 +907,7 @@ public class Utils {
                 String id = DocumentsContract.getDocumentId(uri);
                 if(uri.getPath().contains("raw:")) uri = Uri.parse("file://"+uri.getPath().split(":")[1]);
                 else {
-                   // if(id.contains(":")) id = id.split(":")[1];
+                    // if(id.contains(":")) id = id.split(":")[1];
                     if (id.startsWith("msf:")) {
                         Toast.makeText(context, "Seleccione otra carpeta", Toast.LENGTH_LONG).show();
                         return null;
@@ -1049,8 +1013,8 @@ public class Utils {
     public static void DeleteCache(String DiRroot){
         File file = new File(DiRroot);
 
-            String[] files;
-            files = file.list();
+        String[] files;
+        files = file.list();
         if(files!=null)
             for (int i=0; i<files.length; i++) {
                 File myFile = new File(file, files[i]);
@@ -1059,7 +1023,7 @@ public class Utils {
     }
 
     public static void closeSoftKeyBoard(Activity context) {
-       // InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+        // InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
         //inputMethodManager.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
         View view = context.getCurrentFocus();
         if (view != null) {
@@ -1070,25 +1034,25 @@ public class Utils {
 
     public static void cargar_alerta(Context context,Activity activity){
 
-            AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-            alertDialog.setCancelable(false);
-            alertDialog.setTitle("Error en la Conexión");
-            alertDialog.setMessage("Revisa tu conexión a internet e inténtalo de nuevo");
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Inténtalo de nuevo", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    activity.finish();
-                    activity.startActivity(activity.getIntent());
-                }
-            });
+        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setCancelable(false);
+        alertDialog.setTitle("Error en la Conexión");
+        alertDialog.setMessage("Revisa tu conexión a internet e inténtalo de nuevo");
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Inténtalo de nuevo", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                activity.finish();
+                activity.startActivity(activity.getIntent());
+            }
+        });
 
-            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cerrar Aplicación", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    activity.finish();
-                    //startActivity(getIntent());
-                }
-            });
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cerrar Aplicación", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                activity.finish();
+                //startActivity(getIntent());
+            }
+        });
 
-            alertDialog.show();
+        alertDialog.show();
 
     }
 
@@ -1161,7 +1125,7 @@ public class Utils {
             GlobalVariables.token_auth = responsepost.substring(1, responsepost.length() - 1);
             //doInBackground(strings);
             if(GlobalVariables.con_status==200&&GlobalVariables.token_auth.length()>40)
-            return true;
+                return true;
             else return false;
         } catch (IOException e) {
             e.printStackTrace();

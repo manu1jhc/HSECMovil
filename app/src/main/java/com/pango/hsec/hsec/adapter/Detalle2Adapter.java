@@ -9,16 +9,16 @@ import android.widget.TextView;
 
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
+import com.pango.hsec.hsec.model.IncidentesMAModel;
 
 import java.util.ArrayList;
 
 public class Detalle2Adapter extends BaseAdapter {
     private Context context;
-    MACuasiAccidenteModel maCuasiAccidenteModel;
+    IncidentesMAModel maCuasiAccidenteModel;
     ArrayList<String> obsDetcab;
     ArrayList<String> obsDetIzq;
-    public Detalle2Adapter(Context context, MACuasiAccidenteModel maCuasiAccidenteModel,ArrayList<String> obsDetcab,ArrayList<String> obsDetIzq) {
+    public Detalle2Adapter(Context context, IncidentesMAModel maCuasiAccidenteModel,ArrayList<String> obsDetcab,ArrayList<String> obsDetIzq) {
         this.context = context;
         this.maCuasiAccidenteModel=maCuasiAccidenteModel;
         this.obsDetcab=obsDetcab;
@@ -31,7 +31,7 @@ public class Detalle2Adapter extends BaseAdapter {
     }
 
     @Override
-    public MACuasiAccidenteModel getItem(int position) {
+    public IncidentesMAModel getItem(int position) {
         return null;
     }
 

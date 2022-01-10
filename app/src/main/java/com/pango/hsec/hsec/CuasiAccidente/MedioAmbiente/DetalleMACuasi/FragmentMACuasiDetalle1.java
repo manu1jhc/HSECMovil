@@ -13,7 +13,7 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.Detalle1Adapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
+import com.pango.hsec.hsec.model.IncidentesMAModel;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentMACuasiDetalle1 extends Fragment implements IActivity {
-    String[] obsDetcab={"CodCuasiAcci","CodAreaHSEC","CodTipo","ObservadoPor","Gerencia","Superint","ClasReal","ClasPotencial","ActRelacionada","GrupRiesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
+    String[] obsDetcab={"CodIncidente","CodAreaHsec","CodTipoIncidente","CodPerReporta","CodPosicionGer","CodPosicionSup","CodClasificaInci","CodClasiPotencial","CodActiRelacionada","CodGrupoRiesgo","FechaDelSuceso","HoraDelSuceso","CodUbicacion","CodSubUbicacion","CodUbicacionEspecifica","DesUbicacion"};
     String[] obsDetIzq={"Código","Área","Tipo","Persona que Reporta","Gerencia","Superintendencia","Clasificación Real","Clasificación Potencial","Actividad Relacionada","Grupo de Riesgo","Fecha","Hora","Ubicación","Sub Ubicación","Sub Ubicación Específica","Lugar"};
     Detalle1Adapter detalle1Adapter;
     String jsonCuasi="";
@@ -71,7 +71,7 @@ public class FragmentMACuasiDetalle1 extends Fragment implements IActivity {
         codObs=getArguments().getString("bString");
 
         GlobalVariables.view_fragment=mView;
-        url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
+        url= GlobalVariables.Url_base+"Incidentes/GetDetalleIncidenteID/"+codObs;
         if(jsonCuasi.isEmpty()) {
             GlobalVariables.istabs=true;
             final ActivityController obj = new ActivityController("get", url, FragmentMACuasiDetalle1.this,getActivity());
@@ -87,7 +87,7 @@ public class FragmentMACuasiDetalle1 extends Fragment implements IActivity {
     public void success(String data, String Tipo) {
         jsonCuasi=data;
         Gson gson = new Gson();
-        MACuasiAccidenteModel getMACuasiModel = gson.fromJson(data, MACuasiAccidenteModel.class);
+        IncidentesMAModel getMACuasiModel = gson.fromJson(data, IncidentesMAModel.class);
 
         ArrayList<String> obsDetcabf=new ArrayList<>();//
         ArrayList<String> obsDetIzqf=new ArrayList<>();//

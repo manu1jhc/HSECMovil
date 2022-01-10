@@ -9,17 +9,17 @@ import android.widget.TextView;
 
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.model.SeguridadCAModel;
+import com.pango.hsec.hsec.model.IncidentesSECModel;
 
 import java.util.ArrayList;
 
 public class GeneralSegAdapter extends BaseAdapter {
 
     private Context context;
-    SeguridadCAModel seguridadCAModel;
+    IncidentesSECModel seguridadCAModel;
     ArrayList<String> obsDetcab;
     ArrayList<String> obsDetIzq;
-    public GeneralSegAdapter(Context context, SeguridadCAModel seguridadCAModel,ArrayList<String> obsDetcab,ArrayList<String> obsDetIzq) {
+    public GeneralSegAdapter(Context context, IncidentesSECModel seguridadCAModel,ArrayList<String> obsDetcab,ArrayList<String> obsDetIzq) {
         this.context = context;
         this.seguridadCAModel=seguridadCAModel;
         this.obsDetcab=obsDetcab;
@@ -31,7 +31,7 @@ public class GeneralSegAdapter extends BaseAdapter {
     }
 
     @Override
-    public SeguridadCAModel getItem(int position) {
+    public IncidentesSECModel getItem(int position) {
         return null;
     }
 

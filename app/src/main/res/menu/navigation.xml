@@ -55,7 +55,7 @@
     <item
         android:id="@+id/navigation_ma_cuasi"
         android:icon="@drawable/ic_medio_ambiente"
-        android:title="Medio Ambi"
+        android:title="Med. Ambi"
         app:showAsAction="ifRoom|withText"/>
 
 </menu>

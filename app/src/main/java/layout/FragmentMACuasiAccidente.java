@@ -31,7 +31,7 @@ import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.MACuasiAccidenteAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
-import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
+import com.pango.hsec.hsec.model.IncidentesMAModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
@@ -138,8 +138,8 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
         url = GlobalVariables.Url_base + "Observaciones/FiltroObservaciones";
         if(GlobalVariables.listaGlobalMACuasiAccidente.size()==0) {
 
-            Utils.maCuasiAccidenteModel = new MACuasiAccidenteModel();
-            MACuasiAccidenteModel maCuasiAccidenteModel = new MACuasiAccidenteModel();
+            Utils.maCuasiAccidenteModel = new IncidentesMAModel();
+            IncidentesMAModel maCuasiAccidenteModel = new IncidentesMAModel();
             tipo_busqueda = 1;
             maCuasiAccidenteModel.CodUbicacion = Elemperpage;
             maCuasiAccidenteModel.Lugar = "1";
@@ -162,8 +162,8 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 flag_maCuasi =false;
                 GlobalVariables.listaGlobalMACuasiAccidente.clear();
 
-                Utils.maCuasiAccidenteModel = new MACuasiAccidenteModel();
-                MACuasiAccidenteModel maCuasiAccidenteModel = new MACuasiAccidenteModel();
+                Utils.maCuasiAccidenteModel = new IncidentesMAModel();
+                IncidentesMAModel maCuasiAccidenteModel = new IncidentesMAModel();
                 tipo_busqueda = 1;
                 maCuasiAccidenteModel.CodUbicacion = Elemperpage;
                 maCuasiAccidenteModel.Lugar = "1";
@@ -356,7 +356,7 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
                 String CodMACuasi= GlobalVariables.listaGlobalMACuasiAccidente.get(position).Codigo;
                 Intent intent = new Intent(getActivity(), MACuasiDetalle.class);
-                intent.putExtra("codObs",CodMACuasi);
+                intent.putExtra("codObs","INC00032760");
                 intent.putExtra("posTab",0);
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                 startActivity(intent);
@@ -370,8 +370,8 @@ public class FragmentMACuasiAccidente extends Fragment implements IActivity {
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.isFragment=false;
 
-                Utils.maCuasiAccidenteModel=new MACuasiAccidenteModel();
-                MACuasiAccidenteModel maCuasiAccidenteModel=new MACuasiAccidenteModel();
+                Utils.maCuasiAccidenteModel=new IncidentesMAModel();
+                IncidentesMAModel maCuasiAccidenteModel=new IncidentesMAModel();
                 tipo_busqueda=2;
                 maCuasiAccidenteModel.CodUbicacion=Elemperpage;
                 maCuasiAccidenteModel.Lugar="1";

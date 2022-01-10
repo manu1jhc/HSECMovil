@@ -27,7 +27,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pango.hsec.hsec.R;
-import com.pango.hsec.hsec.model.Maestro;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -36,33 +35,43 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
+
+import java.util.ArrayList;
+import java.util.Locale;
+
 public class MapsActivity2  extends FragmentActivity implements OnMapReadyCallback,
         LocationListener,GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMapClickListener{
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     GoogleApiClient mGoogleApiClient;
     LocationRequest mLocationRequest;
-    ArrayList<Maestro> contrata_datos=new ArrayList<>();
+
     View mapView;
     ListView listView;
     private Marker markerPais;
     Button bttnGuardar;
     String latLong;
+    Double latitudGPS, longitudGPS;
+
+
+    private static final int MY_PERMISSION_ACCESS_FINE_LOCATION = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        //datos.getString("title")
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mapView = mapFragment.getView();
         mapFragment.getMapAsync(this);
-
 
         bttnGuardar = (Button) findViewById(R.id.btnCordenas);
 
@@ -78,60 +87,67 @@ public class MapsActivity2  extends FragmentActivity implements OnMapReadyCallba
 
             }
         });
-
-
-
-
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                buildGoogleApiClient();
-//                mMap.setMyLocationEnabled(true);
-                mMap.setMyLocationEnabled(true);
-                mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        // A partir de las versión 6 en adelante cambia las políticas sobre los permisos
+        // Hay que verificar los permisos e informar al usuario si va a brindar los accesos correspondientes
+
+        // Validamos la versión
+        if( Build.VERSION.SDK_INT >= 23) {
+            // Validamos si ACCESS_FINE_LOCATION tiene permisos otorgados por el usuario
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // Informamos al usuario sobre que permisos se le van a solicitar.
+                ActivityCompat.requestPermissions( this, new String[] {  Manifest.permission.ACCESS_FINE_LOCATION  }, MY_PERMISSION_ACCESS_FINE_LOCATION);
+                return;
+            } else {
+                // Esta parte se ejecuta cuando los permisos son otorgados por el usuario
+                getMap();
             }
+        } else {
+            // Esta bloque se ejecuta cuando una versión de android es inferior a la 6 o API 23, obtiene la información sobre los permisos
+            // del AndroidManifest.xml
+            getMap();
         }
-        else {
-            buildGoogleApiClient();
-//            mMap.setMyLocationEnabled(true);
-            mMap.setMyLocationEnabled(true);
-            mMap.getUiSettings().setMyLocationButtonEnabled(true);
-        }
-        // Marcadores
-//        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)));
-//        LatLng position = new LatLng(15, 15);
-//        googleMap.addMarker(new MarkerOptions()
-//                .position(position)
-//                .title("Marcador draggable")
-//                .draggable(true));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(position));
-// Markers
-//        LatLng colombia = new LatLng(4.6,-74.08);
-//        markerPais = googleMap.addMarker(new MarkerOptions()
-//                .position(colombia)
-//                .title("Colombia")
-//        );
-//
-//        // Cámara
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(colombia));
-//        // Eventos
-//        googleMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) this);
-
-        // Eventos
         mMap.setOnMapClickListener(this);
-
 
     }
 
+    private void getMap() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            mMap.setMyLocationEnabled(true);
+        }
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled (true);
+        Bundle datos = this.getIntent().getExtras();
+        latitudGPS = Double.valueOf(datos.getString("latitud"));
+        longitudGPS = Double.valueOf(datos.getString("longitud"));
 
+        //LatLng peru = new LatLng(-12.046374, -77.042793);
+        LatLng peru = new LatLng(latitudGPS, longitudGPS);
+        mMap.addMarker(new MarkerOptions().position(peru).title("Marcador en Perú"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(peru));
+    }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSION_ACCESS_FINE_LOCATION: {
+                // Si el usuario acepta los permisos
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getMap();
+                } else {
+                    // Si el usuario no brinda los permisos
+                    // Toast.makeText(MainActivity.this, "Permiso denegado", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
+    }
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -140,6 +156,7 @@ public class MapsActivity2  extends FragmentActivity implements OnMapReadyCallba
                 .addApi(LocationServices.API).build();
         mGoogleApiClient.connect();
     }
+
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -224,19 +241,4 @@ public class MapsActivity2  extends FragmentActivity implements OnMapReadyCallba
 
     }
 
-
-
-
-    //    public boolean onMarkerClick(Marker marker) {
-//        if (marker.equals(markerPais)) {
-////            Intent intent = new Intent(this, MarkerDetailActivity.class);
-////            intent.putExtra(EXTRA_LATITUD, marker.getPosition().latitude);
-////            intent.putExtra(EXTRA_LONGITUD, marker.getPosition().longitude);
-////
-////            startActivity(intent);
-//            Toast.makeText(this, "coordenadas: " + marker.getPosition().latitude + "-" + marker.getPosition().longitude,Toast.LENGTH_SHORT).show();
-//
-//        }
-//        return false;
-//    }
 }

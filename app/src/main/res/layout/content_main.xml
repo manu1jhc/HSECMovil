@@ -191,6 +191,7 @@
         app:itemIconTint="@drawable/selector_bottom_bar"
         app:itemTextColor="@drawable/selector_bottom_bar"
         app:menu="@menu/navigation"
+        app:labelVisibilityMode="labeled"
         />
 
 </LinearLayout>

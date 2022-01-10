@@ -7,24 +7,25 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.pango.hsec.hsec.R;
+import com.pango.hsec.hsec.model.CausalidadModel;
 import com.pango.hsec.hsec.model.SeguridadCAModel;
 
 import java.util.ArrayList;
 
 public class CausalidadAdapter extends RecyclerView.Adapter<CausalidadAdapter.TablaViewHolder> {
-    private ArrayList<SeguridadCAModel> seguridadCA;
+    private ArrayList<CausalidadModel> seguridadCA;
 
-    public CausalidadAdapter(ArrayList<SeguridadCAModel> seguridadCA) {
+    public CausalidadAdapter(ArrayList<CausalidadModel> seguridadCA) {
         this.seguridadCA=seguridadCA;
     }
     @Override
     public void onBindViewHolder(CausalidadAdapter.TablaViewHolder holder, int position) {
-        SeguridadCAModel em = seguridadCA.get(position);
+        CausalidadModel em = seguridadCA.get(position);
 
         holder.tx_tipo_causa.setText(em.TipoCausa);
-        holder.tx_condicion.setText(em.TipoCausa);
-        holder.tx_causa.setText(em.TipoCausa);
-        holder.tx_comentar.setText(em.TipoCausa);
+        holder.tx_condicion.setText(em.Condicion);
+        holder.tx_causa.setText(em.Causa);
+        holder.tx_comentar.setText(em.Comentario);
 
     }
 

@@ -4,11 +4,16 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="wrap_content"
-android:orientation="vertical">
+android:layout_margin="2dp"
+android:padding="2dp"
+android:orientation="vertical"
+android:background="@drawable/customborder"
+    >
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,10 +29,9 @@ android:orientation="vertical">
                 android:textStyle="bold"
                 android:layout_weight="0.72"
                 tools:text="Tipo Causa"
-                android:background="@color/ColorPlomo4"
+                android:fontFamily="@font/asap"
                 android:gravity="right|center_vertical"
                 android:textAlignment="textEnd"
-                android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="@dimen/pad_topbottom_der"
                 android:paddingTop="@dimen/pad_topbottom_der"
@@ -37,9 +41,12 @@ android:orientation="vertical">
                 android:id="@+id/tx_tipo_causa"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:text=""
                 android:layout_weight="0.28"
                 tools:text=""
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -58,19 +65,18 @@ android:orientation="vertical">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Condición"
-                android:textSize="@dimen/size_text_izq"
-                android:textStyle="bold"
                 android:layout_weight="0.72"
-                tools:text="Condición"
-                android:background="@color/ColorPlomo4"
+                android:fontFamily="@font/asap"
                 android:gravity="right|center_vertical"
-                android:textAlignment="textEnd"
-                android:paddingLeft="8dp"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 android:paddingRight="8dp"
                 android:paddingBottom="@dimen/pad_topbottom_der"
-                android:paddingTop="@dimen/pad_topbottom_der"
-                tools:ignore="RtlCompat" />
+                android:text="Condición"
+                android:textAlignment="textEnd"
+                android:textSize="@dimen/size_text_izq"
+                android:textStyle="bold"
+                tools:ignore="RtlCompat"
+                tools:text="Condición" />
 
             <TextView
                 android:id="@+id/tx_condicion"
@@ -79,6 +85,8 @@ android:orientation="vertical">
                 android:text=""
                 android:layout_weight="0.28"
                 tools:text=""
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -103,7 +111,7 @@ android:orientation="vertical">
                 android:textStyle="bold"
                 android:layout_weight="0.72"
                 tools:text="Causa"
-                android:background="@color/ColorPlomo4"
+                android:fontFamily="@font/asap"
                 android:gravity="right|center_vertical"
                 android:textAlignment="textEnd"
                 android:paddingLeft="8dp"
@@ -119,6 +127,8 @@ android:orientation="vertical">
                 android:text=""
                 android:layout_weight="0.28"
                 tools:text=""
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -141,10 +151,9 @@ android:orientation="vertical">
                 android:textStyle="bold"
                 android:layout_weight="0.72"
                 tools:text="Comentario"
-                android:background="@color/ColorPlomo4"
+                android:fontFamily="@font/asap"
                 android:gravity="right|center_vertical"
                 android:textAlignment="textEnd"
-                android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="@dimen/pad_topbottom_der"
                 android:paddingTop="@dimen/pad_topbottom_der"
@@ -156,6 +165,8 @@ android:orientation="vertical">
                 android:layout_height="match_parent"
                 android:text=""
                 android:layout_weight="0.28"
+                android:paddingBottom="@dimen/pad_topbottom_der"
+                android:paddingTop="@dimen/pad_topbottom_der"
                 tools:text=""
                 />
         </LinearLayout>

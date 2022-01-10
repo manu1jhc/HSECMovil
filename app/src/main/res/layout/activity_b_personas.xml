@@ -15,7 +15,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="45dp"
             >
 
             <ImageButton
@@ -75,13 +75,13 @@
     <TextView
         android:id="@+id/tx_b_persona"
         android:layout_width="match_parent"
-        android:layout_height="35dp"
+        android:layout_height="30dp"
         android:background="@color/colorBtnBeige"
         android:gravity="center"
         android:text="Búsqueda de personas"
         android:textAlignment="center"
         android:textColor="@color/colorBlanco"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="8dp"
                         android:text="Apellidos"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -166,7 +166,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="8dp"
                         android:text="Nombres"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -211,7 +211,7 @@
                         android:layout_marginStart="4dp"
                         android:layout_marginTop="8dp"
                         android:text="DNI"
-                        android:textSize="16sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -251,7 +251,7 @@
                             android:layout_marginLeft="4dp"
                             android:layout_marginTop="8dp"
                             android:text="Gerencia"
-                            android:textSize="16sp"
+                            android:textSize="14sp"
                             android:textStyle="bold"/>
 
                         <Spinner
@@ -260,6 +260,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="2dp"
                             android:layout_marginTop="2dp"
+                            android:textColor="@color/colorNegro"
                             android:gravity="center" />
 
                     </LinearLayout>
@@ -280,7 +281,7 @@
                     android:layout_marginLeft="4dp"
                     android:layout_marginTop="8dp"
                     android:text="Superintendencia"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     android:textStyle="bold"/>
 
                 <Spinner
@@ -289,6 +290,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="2dp"
                     android:layout_marginTop="2dp"
+                    android:textColor="@color/colorNegro"
                     android:gravity="center" />
 
             </LinearLayout>
@@ -322,7 +324,7 @@
             android:text="Lista de personas"
             android:textAlignment="center"
             android:textColor="@color/colorBlanco"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -399,7 +401,6 @@
             android:layout_height="0dp"
             android:layout_marginBottom="1dp"
             android:layout_marginTop="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/const_main"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -457,11 +458,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
             android:background="@color/colorBlanco"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/btn_Agregar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
@@ -470,11 +471,11 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="2dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginTop="2dp"
 
                 android:layout_marginRight="8dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.893"
@@ -487,9 +488,9 @@
                 android:id="@+id/tx_main"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginRight="117dp"
                 android:layout_marginTop="2dp"
+                android:layout_marginRight="117dp"
+                android:layout_marginBottom="2dp"
                 android:text="Cargando ..."
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

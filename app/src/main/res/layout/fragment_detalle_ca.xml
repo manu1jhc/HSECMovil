@@ -54,7 +54,7 @@
                     android:textColor="@color/colorNegro" />
 
                 <TextView
-                    android:id="@+id/tx_tarea_obs"
+                    android:id="@+id/tx_suceso"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -87,7 +87,7 @@
                     android:textColor="@color/colorNegro" />
 
                 <TextView
-                    android:id="@+id/tx_tarea_o"
+                    android:id="@+id/tx_AccInme"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"

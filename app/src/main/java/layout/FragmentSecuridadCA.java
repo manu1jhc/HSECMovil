@@ -31,7 +31,7 @@ import com.pango.hsec.hsec.Utils;
 import com.pango.hsec.hsec.adapter.SeguridadCAAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
 import com.pango.hsec.hsec.model.GetPublicacionModel;
-import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
+import com.pango.hsec.hsec.model.IncidentesSECModel;
 import com.pango.hsec.hsec.model.PublicacionModel;
 
 import java.util.ArrayList;
@@ -134,8 +134,8 @@ public class FragmentSecuridadCA extends Fragment implements IActivity {
 
         if (GlobalVariables.listaGlobalSeguridadMA.size() == 0) {
 
-            Utils.maCuasiAccidenteModel = new MACuasiAccidenteModel();
-            MACuasiAccidenteModel maCuasiAccidenteModel = new MACuasiAccidenteModel();
+            Utils.secCuasiAccidenteModel = new IncidentesSECModel();
+            IncidentesSECModel maCuasiAccidenteModel = new IncidentesSECModel();
             tipo_busqueda = 1;
             maCuasiAccidenteModel.CodUbicacion = Elemperpage;
             maCuasiAccidenteModel.Lugar = "1";
@@ -158,8 +158,8 @@ public class FragmentSecuridadCA extends Fragment implements IActivity {
                 flag_seguri =false;
                 GlobalVariables.listaGlobalSeguridadMA.clear();
 
-                Utils.maCuasiAccidenteModel = new MACuasiAccidenteModel();
-                MACuasiAccidenteModel maCuasiAccidenteModel = new MACuasiAccidenteModel();
+                Utils.secCuasiAccidenteModel = new IncidentesSECModel();
+                IncidentesSECModel maCuasiAccidenteModel = new IncidentesSECModel();
                 tipo_busqueda = 1;
                 maCuasiAccidenteModel.CodUbicacion = Elemperpage;
                 maCuasiAccidenteModel.Lugar = "1";
@@ -355,7 +355,7 @@ public class FragmentSecuridadCA extends Fragment implements IActivity {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
                 String CodSeguCA= GlobalVariables.listaGlobalSeguridadMA.get(position).Codigo;
                 Intent intent = new Intent(getActivity(), ActSeguridad.class);
-                intent.putExtra("codObs",CodSeguCA);
+                intent.putExtra("codObs","INC00032760");
                 intent.putExtra("posTab",0);
                 //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                 startActivity(intent);
@@ -369,8 +369,8 @@ public class FragmentSecuridadCA extends Fragment implements IActivity {
                 GlobalVariables.flagUpSc=true;
                 GlobalVariables.isFragment=false;
 
-                Utils.maCuasiAccidenteModel=new MACuasiAccidenteModel();
-                MACuasiAccidenteModel maCuasiAccidenteModel=new MACuasiAccidenteModel();
+                Utils.secCuasiAccidenteModel=new IncidentesSECModel();
+                IncidentesSECModel maCuasiAccidenteModel=new IncidentesSECModel();
                 tipo_busqueda=2;
                 maCuasiAccidenteModel.CodUbicacion=Elemperpage;
                 maCuasiAccidenteModel.Lugar="1";

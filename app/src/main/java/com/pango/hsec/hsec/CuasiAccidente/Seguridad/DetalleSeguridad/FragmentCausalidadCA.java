@@ -48,7 +48,7 @@ public class FragmentCausalidadCA extends Fragment implements IActivity {
         recCaus = mView.findViewById(R.id.rec_causalidad);
 
         GlobalVariables.view_fragment=mView;
-        url= GlobalVariables.Url_base+"Observaciones/GetDetalle/"+codObs;
+        url= GlobalVariables.Url_base+"Incidentes/GetDetalleIncidenteCausalidadID/"+codObs;
         if(jsonCausaidad.isEmpty()) {
             GlobalVariables.istabs=true;
             final ActivityController obj = new ActivityController("get", url, FragmentCausalidadCA.this,getActivity());
@@ -58,7 +58,7 @@ public class FragmentCausalidadCA extends Fragment implements IActivity {
         }
         return mView;
 
-   }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

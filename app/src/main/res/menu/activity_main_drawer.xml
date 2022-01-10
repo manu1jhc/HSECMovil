@@ -62,15 +62,23 @@
             android:title="Seguridad - Cuasi Accidente" />
 
         <item
+            android:id="@+id/nav_conUbicacion"
+            android:icon="@drawable/location"
+            android:title="Configuración de Ubicaciones" />
+
+
+
+
+        <item
             android:id="@+id/nav_sisap"
             android:icon="@drawable/ic_sisap"
             android:iconTint="@color/icon_sisap"
             android:title="Aprobaciónes (SISAP) "/>
         <item
-        android:id="@+id/nav_gamePacto"
-        android:icon="@drawable/ic_gamepad2"
-        android:iconTint="@color/icon_sisap"
-        android:title="PACTO POR LA VIDA(Juego)"/>
+            android:id="@+id/nav_gamePacto"
+            android:icon="@drawable/ic_gamepad2"
+            android:iconTint="@color/icon_sisap"
+            android:title="PACTO POR LA VIDA(Juego)"/>
     </group>
 
     <item android:title="Más Opciones">
@@ -80,6 +88,7 @@
                 android:id="@+id/nav_actualizar"
                 android:icon="@drawable/ic_cloud_download"
                 android:title="Actualizar HSEC movil"/>
+
 
             <item
                 android:id="@+id/nav_feedback"
@@ -94,12 +103,12 @@
                 android:id="@+id/nav_configuracion"
                 android:icon="@drawable/ic_menu_configuracion"
                 android:title="Configuración" />
-<!--
-            <item
-                android:id="@+id/nav_cerrar"
-                android:icon="@drawable/ic_cerrar_sesion"
-                android:title="Cerrar sesión" />
--->
+            <!--
+                        <item
+                            android:id="@+id/nav_cerrar"
+                            android:icon="@drawable/ic_cerrar_sesion"
+                            android:title="Cerrar sesión" />
+            -->
         </menu>
     </item>
 

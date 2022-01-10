@@ -264,16 +264,16 @@ public class FragmentGaleria extends Fragment implements IActivity {
 		}else{
 			rel_otros.setVisibility(View.GONE);
 		}
-
-		for(int i=0;i<getGaleriaModel.Data.size();i++){
-			if(getGaleriaModel.Data.get(i).TipoArchivo.equals("TP03")){
-				rel_otros.setVisibility(View.VISIBLE);
-				DataDocs.add(getGaleriaModel.Data.get(i));
-			}else{
-				DataImg.add(getGaleriaModel.Data.get(i));
+		if (getGaleriaModel.Count != -1) {
+			for (int i = 0; i < getGaleriaModel.Data.size(); i++) {
+				if (getGaleriaModel.Data.get(i).TipoArchivo.equals("TP03")) {
+					rel_otros.setVisibility(View.VISIBLE);
+					DataDocs.add(getGaleriaModel.Data.get(i));
+				} else {
+					DataImg.add(getGaleriaModel.Data.get(i));
+				}
 			}
 		}
-
 
 			GlobalVariables.listaGaleria=DataImg;
 

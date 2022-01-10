@@ -1,11 +1,9 @@
 package com.pango.hsec.hsec.model;
 
 public class CausalidadModel {
-    public String codCausa;
-    public String codCondicion;
-    public String codAnalisisCausa;
-    public String desCausa;
-    public String desCondicion;
-    public String desAnalisisCausa;
-    public String comentario;
+    public String CodIncidente;
+    public String TipoCausa;
+    public String Condicion;
+    public String Causa;
+    public String Comentario;
 }

@@ -9,17 +9,17 @@ import android.widget.TextView;
 
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.Utils;
-import com.pango.hsec.hsec.model.SeguridadCAModel;
+import com.pango.hsec.hsec.model.IncidentesSECModel;
 
 import java.util.ArrayList;
 
 public class DetalleSegAdapter extends RecyclerView.Adapter<DetalleSegAdapter.TablaViewHolder> {
     private Context context;
-    SeguridadCAModel seguridadCAModel;
+    IncidentesSECModel seguridadCAModel;
     ArrayList<String> obsDetcab;
     ArrayList<String> obsDetIzq;
 
-    public DetalleSegAdapter(Context context, SeguridadCAModel seguridadCAModel,ArrayList<String> obsDetcab,ArrayList<String> obsDetIzq) {
+    public DetalleSegAdapter(Context context, IncidentesSECModel seguridadCAModel,ArrayList<String> obsDetcab,ArrayList<String> obsDetIzq) {
         this.context = context;
         this.seguridadCAModel=seguridadCAModel;
         this.obsDetcab=obsDetcab;
@@ -77,5 +77,4 @@ public class DetalleSegAdapter extends RecyclerView.Adapter<DetalleSegAdapter.Ta
     }*/
 
 
-    }
-
+}

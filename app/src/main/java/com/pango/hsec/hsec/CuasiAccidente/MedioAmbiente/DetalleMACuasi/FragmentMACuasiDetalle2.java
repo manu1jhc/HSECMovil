@@ -13,7 +13,7 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.Detalle2Adapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.MACuasiAccidenteModel;
+import com.pango.hsec.hsec.model.IncidentesMAModel;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentMACuasiDetalle2 extends Fragment implements IActivity {
-    String[] obsDetcab={"TituIncidente","TituDetallado","Turno","CodContrata","DesSuceso","AccioInmediatas"};
+    String[] obsDetcab={"CodTituloInci","DescripcionIncidente","CodTurno","CodContrata","DesSuceso","AccInmediatas"};
     String[] obsDetIzq={"Título del Incidente","Título Detallado","Turno","Contrata","Descripción del Suceso","Acciones Inmediatas"};
     Detalle2Adapter detalle2Adapter;
     String jsonCuasi2="";
@@ -71,7 +71,7 @@ public class FragmentMACuasiDetalle2 extends Fragment implements IActivity {
         codObs=getArguments().getString("bString");
 
         GlobalVariables.view_fragment=mView;
-        url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
+        url= GlobalVariables.Url_base+"Incidentes/GetDetalleIncidenteID/"+codObs;
         if(jsonCuasi2.isEmpty()) {
             GlobalVariables.istabs=true;
             final ActivityController obj = new ActivityController("get", url, FragmentMACuasiDetalle2.this,getActivity());
@@ -87,7 +87,7 @@ public class FragmentMACuasiDetalle2 extends Fragment implements IActivity {
     public void success(String data, String Tipo) {
         jsonCuasi2=data;
         Gson gson = new Gson();
-        MACuasiAccidenteModel getMACuasiModel2 = gson.fromJson(data, MACuasiAccidenteModel.class);
+        IncidentesMAModel getMACuasiModel2 = gson.fromJson(data, IncidentesMAModel.class);
 
         ArrayList<String> obsDetcabf=new ArrayList<>();//
         ArrayList<String> obsDetIzqf=new ArrayList<>();//

@@ -1,12 +1,16 @@
 package com.pango.hsec.hsec;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.nfc.NdefMessage;
 import android.nfc.NfcAdapter;
@@ -14,12 +18,17 @@ import android.nfc.Tag;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -27,9 +36,12 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.cardview.widget.CardView;
 import androidx.appcompat.widget.SearchView;
+
 import android.util.DisplayMetrics;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -61,6 +73,7 @@ import com.pango.hsec.hsec.Ingresos.Inspecciones.AddInspeccion;
 import com.pango.hsec.hsec.Inspecciones.ActInspeccionDet;
 import com.pango.hsec.hsec.Noticias.ActNoticiaDet;
 import com.pango.hsec.hsec.Observaciones.ActMuroDet;
+import com.pango.hsec.hsec.Ubicaciones.ActUbicacion;
 import com.pango.hsec.hsec.Verificaciones.ActVerificacionDet;
 import com.pango.hsec.hsec.Verificaciones.AddVerificacion;
 import com.pango.hsec.hsec.adapter.SearchAdapter;
@@ -111,8 +124,7 @@ public class MainActivity extends AppCompatActivity
         FragmentMACuasiAccidente.OnFragmentInteractionListener,
         FragmentSecuridadCA.OnFragmentInteractionListener,
 
-        SearchView.OnQueryTextListener
-{
+        SearchView.OnQueryTextListener {
 
     private NavigationView navigationView;
     private BottomNavigationView bottomNavigationView; // menu inferior
@@ -123,7 +135,7 @@ public class MainActivity extends AppCompatActivity
     PopupWindow popupWindow;
     DrawerLayout drawerLayout;
     public ImageButton buscar;
-    TextView Title_txt,user_data;
+    TextView Title_txt, user_data;
     String lastTag;
     //NavigationView navigation_drawer_container;
 
@@ -133,7 +145,7 @@ public class MainActivity extends AppCompatActivity
     TextView txt_result;
     ListView list_result;
     SearchAdapter adSearch;
-    ConstraintLayout constraintLayout,constrainSearch;
+    ConstraintLayout constraintLayout, constrainSearch;
     RelativeLayout rl1;
     LinearLayout Lrly;
     public SearchView searchView;
@@ -141,95 +153,95 @@ public class MainActivity extends AppCompatActivity
     boolean downFlag;
     boolean listenerFlag;
     int contPublicacion;
-    boolean flag_enter=true;
+    boolean flag_enter = true;
     int pagination;
     public static int countFacilito;
-    public static boolean flag_Facilito=false;
+    public static boolean flag_Facilito = false;
 
     public static int countObservacion;
-    public static boolean flag_observacion=false;
+    public static boolean flag_observacion = false;
 
     public static int countInspeccion;
-    public static boolean flag_inspeccion=false;
+    public static boolean flag_inspeccion = false;
 
     public static int countNoticia;
-    public static boolean flag_noticia=false;
+    public static boolean flag_noticia = false;
 
     public static int countVerificacion;
-    public static boolean flag_verificacion=false;
+    public static boolean flag_verificacion = false;
 
     public static int countMACuasi;
     public static int countSegu;
 
-    public static boolean flag_maCuasi=false;
-    public static boolean flag_seguri=false;
+    public static boolean flag_maCuasi = false;
+    public static boolean flag_seguri = false;
 
     String TipoSearch;
     String txtSearch;
-    String oldTipo="";
-    String oldtxtSearch="";
+    String oldTipo = "";
+    String oldtxtSearch = "";
 
-// activr NFC
+    private LocationManager locationManager;
+    // activr NFC
     public NfcAdapter nfcAdapter;
     public PendingIntent pendingIntent;
     public boolean activeScan, existNFC;
+
     @Override
-    protected void onNewIntent(Intent intent){
+    protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
-        if ( fragment instanceof FragmentFichaPersonal) {
-            if(activeScan) {
+        Fragment fragment = GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size() - 1);
+        if (fragment instanceof FragmentFichaPersonal) {
+            if (activeScan) {
                 setIntent(intent);
                 resolveIntent(intent);
             }
         }
     }
 
-    public void showNFC(boolean pass){
-        if(pass){
-            nfcAdapter=null;
-            pendingIntent =null;
-        }
-        else{
+    public void showNFC(boolean pass) {
+        if (pass) {
+            nfcAdapter = null;
+            pendingIntent = null;
+        } else {
             nfcAdapter = NfcAdapter.getDefaultAdapter(this);
 
-            if(!nfcAdapter.isEnabled())
+            if (!nfcAdapter.isEnabled())
                 activarnfc();
-            pendingIntent= PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-            nfcAdapter.enableForegroundDispatch(this,pendingIntent,null,null);
+            pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
         }
-        activeScan=!pass;
+        activeScan = !pass;
 
     }
 
-    public void activarnfc(){
+    public void activarnfc() {
         Toast.makeText(this, "Se necesita activar NFC.", Toast.LENGTH_LONG).show();
-        Intent intent= new Intent(Settings.ACTION_WIRELESS_SETTINGS);
+        Intent intent = new Intent(Settings.ACTION_WIRELESS_SETTINGS);
         startActivity(intent);
     }
 
     public void resolveIntent(Intent intent) {
         String action = intent.getAction();
-        if(nfcAdapter.ACTION_TAG_DISCOVERED.equals(action) || nfcAdapter.ACTION_TECH_DISCOVERED.equals(action)|| nfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)){
+        if (nfcAdapter.ACTION_TAG_DISCOVERED.equals(action) || nfcAdapter.ACTION_TECH_DISCOVERED.equals(action) || nfcAdapter.ACTION_NDEF_DISCOVERED.equals(action)) {
             Parcelable[] rawMsgs = intent.getParcelableArrayExtra(nfcAdapter.EXTRA_NDEF_MESSAGES);
             NdefMessage[] msgs;
-            if(rawMsgs != null){
-                msgs= new NdefMessage[rawMsgs.length];
-                for(int i=0;i<rawMsgs.length;i++){
-                    msgs[i]=(NdefMessage) rawMsgs[i];
+            if (rawMsgs != null) {
+                msgs = new NdefMessage[rawMsgs.length];
+                for (int i = 0; i < rawMsgs.length; i++) {
+                    msgs[i] = (NdefMessage) rawMsgs[i];
                 }
-            }
-            else{
+            } else {
                 byte[] empty = new byte[0];
-                byte[] id= intent.getByteArrayExtra(nfcAdapter.EXTRA_ID);
+                byte[] id = intent.getByteArrayExtra(nfcAdapter.EXTRA_ID);
                 Tag tag = (Tag) intent.getParcelableExtra(nfcAdapter.EXTRA_TAG);
-                byte[] idnfc= tag.getId();
-                String[] code=toHex(idnfc).split(" ");
-                int len=code.length;
-                String CodNFC=":"+code[len-3]+code[len-2]+code[len-1];
+                byte[] idnfc = tag.getId();
+                String[] code = toHex(idnfc).split(" ");
+                int len = code.length;
+                String CodNFC = ":" + code[len - 3] + code[len - 2] + code[len - 1];
 
-                String url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral?id="+CodNFC;
-                Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
+                String url = GlobalVariables.Url_base + "FichaPersonal/Informaciongeneral?id=" + CodNFC;
+                Fragment fragment = GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size() - 1);
                 FragmentFichaPersonal my = (FragmentFichaPersonal) fragment;
                 my.loadScan(url);
             }
@@ -239,24 +251,25 @@ public class MainActivity extends AppCompatActivity
 
     private String toHex(byte[] bytes) {
         StringBuilder sb = new StringBuilder();
-        for(int i= bytes.length-1;i>=0;--i){
-            int b= bytes[i] &0xff;
-            if(b<0x10) sb.append("0");
+        for (int i = bytes.length - 1; i >= 0; --i) {
+            int b = bytes[i] & 0xff;
+            if (b < 0x10) sb.append("0");
             sb.append(Integer.toHexString(b));
-            if(i>0) sb.append(" ");
+            if (i > 0) sb.append(" ");
         }
         return sb.toString();
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
-        if ( fragment instanceof FragmentFichaPersonal) {
+        Fragment fragment = GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size() - 1);
+        if (fragment instanceof FragmentFichaPersonal) {
             FragmentFichaPersonal my = (FragmentFichaPersonal) fragment;
             if (nfcAdapter != null) {
                 if (!nfcAdapter.isEnabled())
                     activarnfc();
-                nfcAdapter.enableForegroundDispatch(this,pendingIntent, null, null);
+                nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
             }
         }
     }
@@ -264,8 +277,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
-        if ( fragment instanceof FragmentFichaPersonal) {
+        Fragment fragment = GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size() - 1);
+        if (fragment instanceof FragmentFichaPersonal) {
             FragmentFichaPersonal my = (FragmentFichaPersonal) fragment;
             if (nfcAdapter != null) {
                 nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
@@ -285,16 +298,16 @@ public class MainActivity extends AppCompatActivity
 
     public void lupaBuscar(View view) {
 
-        if(lastTag=="E"){
-            Fragment fragment=GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size()-1);
-            if ( fragment instanceof FragmentAvanzado) {
+        if (lastTag == "E") {
+            Fragment fragment = GlobalVariables.fragmentStack.get(GlobalVariables.fragmentStack.size() - 1);
+            if (fragment instanceof FragmentAvanzado) {
                 FragmentAvanzado my = (FragmentAvanzado) fragment;
                 my.SendFeedback();
             }
             return;
         }
 
-        layoutInflater =(LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        layoutInflater = (LayoutInflater) view.getContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         popupView = layoutInflater.inflate(R.layout.popup_search, null);
 
         popupWindow = new PopupWindow(popupView, RadioGroup.LayoutParams.MATCH_PARENT, RadioGroup.LayoutParams.MATCH_PARENT, true);
@@ -305,75 +318,76 @@ public class MainActivity extends AppCompatActivity
         popupWindow.setOutsideTouchable(true);
         popupWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NOT_NEEDED);
         dataSeach.clear();
-        pagination=1;
-        TipoSearch="0";
-        txtSearch="";
-        oldTipo="";
-        oldtxtSearch="";
+        pagination = 1;
+        TipoSearch = "0";
+        txtSearch = "";
+        oldTipo = "";
+        oldtxtSearch = "";
 
         popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
 
             @Override
             public void onDismiss() {
-                if(adSearch!=null && adSearch.popupWindow!=null)adSearch.popupWindow.dismiss();
+                if (adSearch != null && adSearch.popupWindow != null)
+                    adSearch.popupWindow.dismiss();
             }
         });
 
-        ImageButton btn_closep=(ImageButton) popupView.findViewById(R.id.btn_closep);
-        ImageButton btn_filtro=(ImageButton) popupView.findViewById(R.id.btn_filtro);
-        searchView=(SearchView) popupView.findViewById(R.id.searchView);
+        ImageButton btn_closep = (ImageButton) popupView.findViewById(R.id.btn_closep);
+        ImageButton btn_filtro = (ImageButton) popupView.findViewById(R.id.btn_filtro);
+        searchView = (SearchView) popupView.findViewById(R.id.searchView);
 
-        card_result=(CardView) popupView.findViewById(R.id.cardSearch);
-        txt_result=(TextView) popupView.findViewById(R.id.txt_mensaje);
-        list_result=(ListView) popupView.findViewById(R.id.list_result);
-        constraintLayout=(ConstraintLayout) popupView.findViewById(R.id.const_main2);
-        constrainSearch=(ConstraintLayout) popupView.findViewById(R.id.constrainSearch);
-        Spinner sptipo= (Spinner) popupView.findViewById(R.id.spinnerTipo);
-        rl1=(RelativeLayout) popupView.findViewById(R.id.rl1);
-        Lrly=(LinearLayout)  popupView.findViewById(R.id.linearLayout2);
+        card_result = (CardView) popupView.findViewById(R.id.cardSearch);
+        txt_result = (TextView) popupView.findViewById(R.id.txt_mensaje);
+        list_result = (ListView) popupView.findViewById(R.id.list_result);
+        constraintLayout = (ConstraintLayout) popupView.findViewById(R.id.const_main2);
+        constrainSearch = (ConstraintLayout) popupView.findViewById(R.id.constrainSearch);
+        Spinner sptipo = (Spinner) popupView.findViewById(R.id.spinnerTipo);
+        rl1 = (RelativeLayout) popupView.findViewById(R.id.rl1);
+        Lrly = (LinearLayout) popupView.findViewById(R.id.linearLayout2);
         card_result.setVisibility(View.GONE);
 
         list_result.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(),"Click en "+position,Toast.LENGTH_SHORT).show();
-                String Codigo=dataSeach.get(position).Codigo;
+                String Codigo = dataSeach.get(position).Codigo;
                 Intent intent;
-                switch (Codigo.substring(0,3)){
+                switch (Codigo.substring(0, 3)) {
                     case "OBS":
-                        String tipoObs=GlobalVariables.listaGlobal.get(position).Tipo;
+                        String tipoObs = GlobalVariables.listaGlobal.get(position).Tipo;
                         intent = new Intent(MainActivity.this, ActMuroDet.class);
-                        intent.putExtra("codObs",Codigo);
-                        intent.putExtra("posTab",0);
-                        intent.putExtra("tipoObs",tipoObs);
+                        intent.putExtra("codObs", Codigo);
+                        intent.putExtra("posTab", 0);
+                        intent.putExtra("tipoObs", tipoObs);
                         startActivity(intent);
                         break;
                     case "INS":
                         intent = new Intent(MainActivity.this, ActInspeccionDet.class);
-                        intent.putExtra("codObs",Codigo);
-                        intent.putExtra("posTab",0);
+                        intent.putExtra("codObs", Codigo);
+                        intent.putExtra("posTab", 0);
                         //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                         startActivity(intent);
                         break;
                     case "NOT":
                         intent = new Intent(MainActivity.this, ActNoticiaDet.class);
-                        intent.putExtra("codObs",Codigo);
-                        intent.putExtra("posTab",0);
+                        intent.putExtra("codObs", Codigo);
+                        intent.putExtra("posTab", 0);
                         //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                         startActivity(intent);
 
                         break;
                     case "OBF":
                         intent = new Intent(MainActivity.this, obsFacilitoDet.class);
-                        intent.putExtra("codObs",Codigo);
+                        intent.putExtra("codObs", Codigo);
                         //intent.putExtra("posTab",0);
                         //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                         startActivity(intent);
                         break;
                     case "VER":
                         intent = new Intent(MainActivity.this, ActVerificacionDet.class);
-                        intent.putExtra("codObs",Codigo);
-                        intent.putExtra("posTab",0);
+                        intent.putExtra("codObs", Codigo);
+                        intent.putExtra("posTab", 0);
                         //intent.putExtra("UrlObs",GlobalVariables.listaGlobal.get(position).UrlObs);
                         startActivity(intent);
 
@@ -394,22 +408,22 @@ public class MainActivity extends AppCompatActivity
                 }
                 if (upFlag && scrollState == SCROLL_STATE_IDLE) {
                     upFlag = false;
-                   // swipeRefreshLayout.setEnabled(true);
+                    // swipeRefreshLayout.setEnabled(true);
                 }
                 if (downFlag && scrollState == SCROLL_STATE_IDLE) {
                     downFlag = false;
                     if (adSearch.getCount() != contPublicacion && flag_enter) {
-                        GlobalVariables.istabs=false;// para que no entre al flag de tabs
+                        GlobalVariables.istabs = false;// para que no entre al flag de tabs
 
                         //progressBarMain.setVisibility(View.VISIBLE);
                         flag_enter = false;
                         constraintLayout.setVisibility(View.VISIBLE);
-                        Utils.isActivity=false;
+                        Utils.isActivity = false;
 
-                        pagination+=1;
-                        String url = GlobalVariables.Url_base + "Muro/Search/" +txtSearch+"/"+TipoSearch+"/"+ pagination + "/" + "7";
+                        pagination += 1;
+                        String url = GlobalVariables.Url_base + "Muro/Search/" + txtSearch + "/" + TipoSearch + "/" + pagination + "/" + "7";
 
-                        ActivityController obj = new ActivityController("get-"+pagination, url, MainActivity.this,MainActivity.this);
+                        ActivityController obj = new ActivityController("get-" + pagination, url, MainActivity.this, MainActivity.this);
                         obj.execute("1");
                     }
                 }
@@ -428,104 +442,102 @@ public class MainActivity extends AppCompatActivity
                 if (listenerFlag && !view.canScrollVertically(-1)) {
                     upFlag = true;
                     downFlag = false;
-                }  }
+                }
+            }
         });
 
-            SpinnerAdapter adapter=new SpinnerAdapter(this, R.layout.item_spinner,R.id.txt,spdatasearch);
-            sptipo.setAdapter(adapter);
+        SpinnerAdapter adapter = new SpinnerAdapter(this, R.layout.item_spinner, R.id.txt, spdatasearch);
+        sptipo.setAdapter(adapter);
 
-        if(lastTag.equals("A"))  {
+        if (lastTag.equals("A")) {
             sptipo.setVisibility(View.VISIBLE);
             btn_filtro.setVisibility(View.GONE);
-        }
-        else {
+        } else {
             sptipo.setVisibility(View.GONE);
             btn_filtro.setVisibility(View.VISIBLE);
-            if(lastTag.equals("I")) TipoSearch="1";
-            else if(lastTag.equals("C")) TipoSearch="2";
-            else if(lastTag.equals("D")) TipoSearch="3";
-            else TipoSearch="4";
+            if (lastTag.equals("I")) TipoSearch = "1";
+            else if (lastTag.equals("C")) TipoSearch = "2";
+            else if (lastTag.equals("D")) TipoSearch = "3";
+            else TipoSearch = "4";
         }
 
-            sptipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        sptipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                Maestro Tipo = (Maestro) ( (Spinner) popupView.findViewById(R.id.spinnerTipo) ).getSelectedItem();
-                TipoSearch=Tipo.CodTipo;
-                if(!txtSearch.isEmpty()&&(!txtSearch.equals(oldtxtSearch)||!oldTipo.equals(TipoSearch))){
-                    oldTipo=TipoSearch;
-                    oldtxtSearch=txtSearch;
-                    String url = GlobalVariables.Url_base + "Muro/Search/" +txtSearch+"/"+TipoSearch+"/1/" + "7";
-                    ActivityController obj = new ActivityController("get", url, MainActivity.this,MainActivity.this);
+                Maestro Tipo = (Maestro) ((Spinner) popupView.findViewById(R.id.spinnerTipo)).getSelectedItem();
+                TipoSearch = Tipo.CodTipo;
+                if (!txtSearch.isEmpty() && (!txtSearch.equals(oldtxtSearch) || !oldTipo.equals(TipoSearch))) {
+                    oldTipo = TipoSearch;
+                    oldtxtSearch = txtSearch;
+                    String url = GlobalVariables.Url_base + "Muro/Search/" + txtSearch + "/" + TipoSearch + "/1/" + "7";
+                    ActivityController obj = new ActivityController("get", url, MainActivity.this, MainActivity.this);
                     obj.execute("0");
                     searchView.clearFocus();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
             }
         });
 
-            searchView.setOnQueryTextListener(this);
-            searchView.setFocusable(false);
-                rl1.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-                        popupWindow.dismiss();
-                    }
-                });
-                btn_closep.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
-                        popupWindow.dismiss();
-                    }
-                });
-                btn_filtro.setOnClickListener(new View.OnClickListener(){
-                    @Override
-                    public void onClick(View v){
+        searchView.setOnQueryTextListener(this);
+        searchView.setFocusable(false);
+        rl1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        btn_closep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        btn_filtro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                        if(lastTag.equals("C")) // observacion
-                        {
-                            FragmentObservaciones temp =(FragmentObservaciones)GlobalVariables.fragmentSave.get(0);
-                            temp.Filtro_Obs();
-                            popupWindow.dismiss();
-                        }
-                        else if(lastTag.equals("D")) // inspe
-                        {
-                            FragmentInspecciones temp =(FragmentInspecciones)GlobalVariables.fragmentSave.get(1);
-                            temp.Filtro_Insp();
-                            popupWindow.dismiss();
-                        }
-                        else if(lastTag.equals("I")) // obsFac
-                        {
-                            FragmentObsFacilito temp =(FragmentObsFacilito)GlobalVariables.fragmentSave.get(2);
-                            temp.Filtro_Facilito();
-                            popupWindow.dismiss();
-                        }else if(lastTag.equals("N"))//noticias
-                        {
-                            FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(4);
-                            temp.Filtro_Noticias();
-                            popupWindow.dismiss();
-                        }
-                        else if(lastTag.equals("V"))//Verificaciones
-                        {
-                            FragmentVerificaciones temp =(FragmentVerificaciones)GlobalVariables.fragmentSave.get(5);
-                            temp.Filtro_Verificaciones();
-                            popupWindow.dismiss();
-                        }
-                    }
-                });
+                if (lastTag.equals("C")) // observacion
+                {
+                    FragmentObservaciones temp = (FragmentObservaciones) GlobalVariables.fragmentSave.get(0);
+                    temp.Filtro_Obs();
+                    popupWindow.dismiss();
+                } else if (lastTag.equals("D")) // inspe
+                {
+                    FragmentInspecciones temp = (FragmentInspecciones) GlobalVariables.fragmentSave.get(1);
+                    temp.Filtro_Insp();
+                    popupWindow.dismiss();
+                } else if (lastTag.equals("I")) // obsFac
+                {
+                    FragmentObsFacilito temp = (FragmentObsFacilito) GlobalVariables.fragmentSave.get(2);
+                    temp.Filtro_Facilito();
+                    popupWindow.dismiss();
+                } else if (lastTag.equals("N"))//noticias
+                {
+                    FragmentNoticias temp = (FragmentNoticias) GlobalVariables.fragmentSave.get(4);
+                    temp.Filtro_Noticias();
+                    popupWindow.dismiss();
+                } else if (lastTag.equals("V"))//Verificaciones
+                {
+                    FragmentVerificaciones temp = (FragmentVerificaciones) GlobalVariables.fragmentSave.get(5);
+                    temp.Filtro_Verificaciones();
+                    popupWindow.dismiss();
+                }
+            }
+        });
 
-        }
+    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        txtSearch=query.trim();
-        if(!txtSearch.isEmpty()&&(!txtSearch.equals(oldtxtSearch)||!oldTipo.equals(TipoSearch))){
-            oldTipo=TipoSearch;
-            oldtxtSearch=txtSearch;
-            String url = GlobalVariables.Url_base + "Muro/Search/" +txtSearch+"/"+TipoSearch+"/1/" + "7";
-            ActivityController obj = new ActivityController("get", url, MainActivity.this,MainActivity.this);
+        txtSearch = query.trim();
+        if (!txtSearch.isEmpty() && (!txtSearch.equals(oldtxtSearch) || !oldTipo.equals(TipoSearch))) {
+            oldTipo = TipoSearch;
+            oldtxtSearch = txtSearch;
+            String url = GlobalVariables.Url_base + "Muro/Search/" + txtSearch + "/" + TipoSearch + "/1/" + "7";
+            ActivityController obj = new ActivityController("get", url, MainActivity.this, MainActivity.this);
             obj.execute("0");
             searchView.clearFocus();
             return true;
@@ -535,7 +547,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        txtSearch=newText;
+        txtSearch = newText;
         return false;
     }
 
@@ -555,7 +567,8 @@ public class MainActivity extends AppCompatActivity
         });
         alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Aceptar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                GlobalVariables.listaGlobalObservacion.clear();;
+                GlobalVariables.listaGlobalObservacion.clear();
+                ;
                 GlobalVariables.listaGlobal.clear();
                 GlobalVariables.listaGlobalInspeccion.clear();
                 GlobalVariables.listaGlobalNoticias.clear();
@@ -563,11 +576,11 @@ public class MainActivity extends AppCompatActivity
                 GlobalVariables.listaPlanMin.clear();
                 GlobalVariables.listaGlobalVerificaciones.clear();
 
-                GlobalVariables.token_auth="";
+                GlobalVariables.token_auth = "";
 
                 Save_status(false);
-                Save_Datalogin("","");
-                Intent intent=new Intent(MainActivity.this, Login.class);
+                Save_Datalogin("", "");
+                Intent intent = new Intent(MainActivity.this, Login.class);
                 startActivity(intent);
                 finish();
 
@@ -581,14 +594,14 @@ public class MainActivity extends AppCompatActivity
         drawerLayout.closeDrawers();
         //navigation_drawer_container.setVisibility(View.GONE);
         Gson gson = new Gson();
-        GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-        GlobalVariables.dniUser=GlobalVariables.userLoaded.NroDocumento;
+        GlobalVariables.userLoaded = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+        GlobalVariables.dniUser = GlobalVariables.userLoaded.NroDocumento;
         ClickMenuFicha();
         uncheckItemsMenu();
         bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
     }
 
-    public enum NavigationFragment{
+    public enum NavigationFragment {
         Muro,
         Capacitaciones,
         FichaPersonal,
@@ -611,10 +624,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
         disableShiftMode(bottomNavigationView);
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        buscar=findViewById(R.id.btn_buscar);
-        Title_txt= (TextView)findViewById(R.id.txtTitleMain);
-        user_data=findViewById(R.id.user_data);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        buscar = findViewById(R.id.btn_buscar);
+        Title_txt = (TextView) findViewById(R.id.txtTitleMain);
+        user_data = findViewById(R.id.user_data);
         //navigation_drawer_container=findViewById(R.id.navigation_drawer_container);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         contextOfApplication = getApplicationContext();
@@ -626,15 +639,15 @@ public class MainActivity extends AppCompatActivity
         GlobalVariables.fragmentSave.push(new FragmentVerificaciones()); //5
 
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        if(nfcAdapter!=null)existNFC=true;
+        if (nfcAdapter != null) existNFC = true;
         ChangeFragment(NavigationFragment.Muro);
         uncheckItemsMenu();
-        spdatasearch.add(new Maestro(R.drawable.ic_all_options,"0","Todos"));
-        spdatasearch.add(new Maestro(R.drawable.ic_facilito,"1","Rep. SOS"));
-        spdatasearch.add(new Maestro(R.drawable.ic_iobservacion,"2","Observación"));
-        spdatasearch.add(new Maestro(R.drawable.ic_iinspeccion,"3","Inspección"));
-        spdatasearch.add(new Maestro(R.drawable.ic_inoticia,"4","Noticia"));
-        spdatasearch.add(new Maestro(R.drawable.ic_verified,"5","Verificaciones"));
+        spdatasearch.add(new Maestro(R.drawable.ic_all_options, "0", "Todos"));
+        spdatasearch.add(new Maestro(R.drawable.ic_facilito, "1", "Rep. SOS"));
+        spdatasearch.add(new Maestro(R.drawable.ic_iobservacion, "2", "Observación"));
+        spdatasearch.add(new Maestro(R.drawable.ic_iinspeccion, "3", "Inspección"));
+        spdatasearch.add(new Maestro(R.drawable.ic_inoticia, "4", "Noticia"));
+        spdatasearch.add(new Maestro(R.drawable.ic_verified, "5", "Verificaciones"));
 
 
         bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
@@ -644,139 +657,138 @@ public class MainActivity extends AppCompatActivity
 
         //navigationView.setItemIconTintList(null);
 
-        if(!GlobalVariables.desdeBusqueda){
+        if (!GlobalVariables.desdeBusqueda) {
             ChangeFragment(NavigationFragment.Muro);
             uncheckItemsMenu();
             bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
-            GlobalVariables.desdeBusqueda=false;
-        }else{
+            GlobalVariables.desdeBusqueda = false;
+        } else {
             ChangeFragment(NavigationFragment.FichaPersonal);
             uncheckItemsMenu();
             bottomNavigationView.getMenu().findItem(R.id.navigation_ficha).setChecked(true);
         }
         //GlobalVariables.fragmentSave.push(new FragmentObservaciones()); //2
-        String nom_user="";
-        if(!org.apache.commons.lang3.StringUtils.isEmpty(GlobalVariables.json_user))
-        {
+        String nom_user = "";
+        if (!org.apache.commons.lang3.StringUtils.isEmpty(GlobalVariables.json_user)) {
             Gson gson = new Gson();
-            GlobalVariables.userLoaded=gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
-            GlobalVariables.userLogin= GlobalVariables.userLoaded;
-            GlobalVariables.dniUser= GlobalVariables.userLoaded.NroDocumento;
-           nom_user=GlobalVariables.userLoaded.Nombres;
+            GlobalVariables.userLoaded = gson.fromJson(GlobalVariables.json_user, UsuarioModel.class);
+            GlobalVariables.userLogin = GlobalVariables.userLoaded;
+            GlobalVariables.dniUser = GlobalVariables.userLoaded.NroDocumento;
+            nom_user = GlobalVariables.userLoaded.Nombres;
         }
 
-        String[] DataUser= new String[0];
+        String[] DataUser = new String[0];
         String[] nombre = new String[0];
-        String[] apellido=new String[0];
+        String[] apellido = new String[0];
         //String[] a = new String[0];
         DataUser = nom_user.split(",");
 
-        apellido=DataUser[0].trim().split(" ");
-        nombre=DataUser[1].trim().split(" ");
+        apellido = DataUser[0].trim().split(" ");
+        nombre = DataUser[1].trim().split(" ");
 
-        user_data.setText(nombre[0]+" "+apellido[0]);
+        user_data.setText(nombre[0] + " " + apellido[0]);
 
 
         String versionName = BuildConfig.VERSION_NAME;
-        if(Float.parseFloat(obtener_version())<=Float.parseFloat(versionName)){
+        if (Float.parseFloat(obtener_version()) <= Float.parseFloat(versionName)) {
             hideItem();
         }
-        if(GlobalVariables.userLoaded.Rol.equals("1")||GlobalVariables.userLoaded.Rol.equals("4")||GlobalVariables.userLoaded.Rol.equals("5"))
+        if (GlobalVariables.userLoaded.Rol.equals("1") || GlobalVariables.userLoaded.Rol.equals("4") || GlobalVariables.userLoaded.Rol.equals("5"))
             showCapacitacion();
 
     }
-    private void hideItem()
-    {
+
+    private void hideItem() {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_actualizar).setVisible(false);
     }
 
-    private void showCapacitacion()
-    {
+    private void showCapacitacion() {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_capacitacion).setVisible(true);
         uncheckItems(nav_Menu);
     }
 
-    public static Context getContextOfApplication(){ return contextOfApplication; }
+    public static Context getContextOfApplication() {
+        return contextOfApplication;
+    }
+
     //int  backpress=0;
     private Boolean exit = false;
 
     @Override
     public void onBackPressed() {
-        boolean passdismis=true;
+        boolean passdismis = true;
         try {
 
             //drawerLayout.closeDrawers();
             //drawerLayout.openDrawer(GravityCompat.START);
             //drawerLayout.isDrawerOpen();
 
-            if(drawerLayout.isDrawerOpen(GravityCompat.START)) {//detecta si el menu lateral esta abierto
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {//detecta si el menu lateral esta abierto
                 //drawer is open
                 drawerLayout.closeDrawers();
-            }else if (GlobalVariables.fragmentStack.size() == 2) {
+            } else if (GlobalVariables.fragmentStack.size() == 2) {
 
-                if(lastTag.equals("C")) // Obs
+                if (lastTag.equals("C")) // Obs
                 {
-                    FragmentObservaciones temp =(FragmentObservaciones)GlobalVariables.fragmentSave.get(0);
-                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
-                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
-                    else  if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())  temp.ca.popupWindow.dismiss();
-                    else passdismis=false;
+                    FragmentObservaciones temp = (FragmentObservaciones) GlobalVariables.fragmentSave.get(0);
+                    if (adSearch != null && adSearch.popupWindow != null && adSearch.popupWindow.isShowing())
+                        adSearch.popupWindow.dismiss();
+                    else if (popupWindow != null && popupWindow.isShowing()) popupWindow.dismiss();
+                    else if (temp.ca.popupWindow != null && temp.ca.popupWindow.isShowing())
+                        temp.ca.popupWindow.dismiss();
+                    else passdismis = false;
 
-                }
-                else if(lastTag.equals("D")) // inspe
+                } else if (lastTag.equals("D")) // inspe
                 {
-                    FragmentInspecciones temp =(FragmentInspecciones)GlobalVariables.fragmentSave.get(1);
-                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
-                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
-                    else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
-                    else passdismis=false;
-                }
-                else if(lastTag.equals("H")) // planes
+                    FragmentInspecciones temp = (FragmentInspecciones) GlobalVariables.fragmentSave.get(1);
+                    if (adSearch != null && adSearch.popupWindow != null && adSearch.popupWindow.isShowing())
+                        adSearch.popupWindow.dismiss();
+                    else if (popupWindow != null && popupWindow.isShowing()) popupWindow.dismiss();
+                    else if (temp.ca.popupWindow != null && temp.ca.popupWindow.isShowing())
+                        temp.ca.popupWindow.dismiss();
+                    else passdismis = false;
+                } else if (lastTag.equals("H")) // planes
                 {
-                    FragmentPlanPendiente temp =(FragmentPlanPendiente)GlobalVariables.fragmentSave.get(3);
-                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
-                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
-                    else if(temp.pma.popupWindow!=null&&temp.pma.popupWindow.isShowing())temp.pma.popupWindow.dismiss();
-                    else passdismis=false;
-                }
-                else if(lastTag.equals("I")) // obsFac
+                    FragmentPlanPendiente temp = (FragmentPlanPendiente) GlobalVariables.fragmentSave.get(3);
+                    if (adSearch != null && adSearch.popupWindow != null && adSearch.popupWindow.isShowing())
+                        adSearch.popupWindow.dismiss();
+                    else if (popupWindow != null && popupWindow.isShowing()) popupWindow.dismiss();
+                    else if (temp.pma.popupWindow != null && temp.pma.popupWindow.isShowing())
+                        temp.pma.popupWindow.dismiss();
+                    else passdismis = false;
+                } else if (lastTag.equals("I")) // obsFac
                 {
-                    FragmentObsFacilito temp =(FragmentObsFacilito)GlobalVariables.fragmentSave.get(2);
-                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
-                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
-                    else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
-                    else passdismis=false;
-                }
-
-                else if(lastTag.equals("N")) // noticias
+                    FragmentObsFacilito temp = (FragmentObsFacilito) GlobalVariables.fragmentSave.get(2);
+                    if (adSearch != null && adSearch.popupWindow != null && adSearch.popupWindow.isShowing())
+                        adSearch.popupWindow.dismiss();
+                    else if (popupWindow != null && popupWindow.isShowing()) popupWindow.dismiss();
+                    else if (temp.ca.popupWindow != null && temp.ca.popupWindow.isShowing())
+                        temp.ca.popupWindow.dismiss();
+                    else passdismis = false;
+                } else if (lastTag.equals("N")) // noticias
                 {
-                    FragmentNoticias temp =(FragmentNoticias)GlobalVariables.fragmentSave.get(4);
-                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
-                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
-                    else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
-                    else passdismis=false;
-                }
-
-                else if(lastTag.equals("V")) // validaciones
+                    FragmentNoticias temp = (FragmentNoticias) GlobalVariables.fragmentSave.get(4);
+                    if (adSearch != null && adSearch.popupWindow != null && adSearch.popupWindow.isShowing())
+                        adSearch.popupWindow.dismiss();
+                    else if (popupWindow != null && popupWindow.isShowing()) popupWindow.dismiss();
+                    else if (temp.ca.popupWindow != null && temp.ca.popupWindow.isShowing())
+                        temp.ca.popupWindow.dismiss();
+                    else passdismis = false;
+                } else if (lastTag.equals("V")) // validaciones
                 {
-                    FragmentVerificaciones temp =(FragmentVerificaciones)GlobalVariables.fragmentSave.get(5);
-                    if(adSearch!=null &&adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
-                    else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
-                    //else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();  //adapter
-                    else passdismis=false;
-                }
+                    FragmentVerificaciones temp = (FragmentVerificaciones) GlobalVariables.fragmentSave.get(5);
+                    if (adSearch != null && adSearch.popupWindow != null && adSearch.popupWindow.isShowing())
+                        adSearch.popupWindow.dismiss();
+                    else if (popupWindow != null && popupWindow.isShowing()) popupWindow.dismiss();
+                        //else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();  //adapter
+                    else passdismis = false;
+                } else passdismis = false;
 
-
-
-
-
-                else passdismis=false;
-
-                if(!passdismis){
+                if (!passdismis) {
                     Title_txt.setText("HSEC");
 
                     fragmentManager = getSupportFragmentManager();
@@ -792,23 +804,25 @@ public class MainActivity extends AppCompatActivity
                     bottomNavigationView.getMenu().findItem(R.id.navigation_muro).setChecked(true);
                     buscar.setVisibility(View.VISIBLE);
                     ft.show(GlobalVariables.fragmentStack.lastElement());
-                    lastTag="A";
+                    lastTag = "A";
                     ft.commit();
                 }
-            }else {
+            } else {
                 //super.onBackPressed();
-                FragmentMuro temp =(FragmentMuro)GlobalVariables.fragmentStack.get(0);
+                FragmentMuro temp = (FragmentMuro) GlobalVariables.fragmentStack.get(0);
 
-                if(adSearch!=null && adSearch.popupWindow!=null &&adSearch.popupWindow.isShowing())adSearch.popupWindow.dismiss();
-                else if(popupWindow!=null &&popupWindow.isShowing())popupWindow.dismiss();
-                else if(temp.ca.popupWindow!=null&&temp.ca.popupWindow.isShowing())temp.ca.popupWindow.dismiss();
+                if (adSearch != null && adSearch.popupWindow != null && adSearch.popupWindow.isShowing())
+                    adSearch.popupWindow.dismiss();
+                else if (popupWindow != null && popupWindow.isShowing()) popupWindow.dismiss();
+                else if (temp.ca.popupWindow != null && temp.ca.popupWindow.isShowing())
+                    temp.ca.popupWindow.dismiss();
                 else if (exit) {
                     //GlobalVariables.fragmentStack.clear();
                     super.onBackPressed(); // finish activity
                     //this.finish();
 
                 } else {
-                    Toast.makeText(this, "Press Back again to Exit.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Press Back again to Exit.", Toast.LENGTH_SHORT).show();
                     exit = true;
                     new Handler().postDelayed(new Runnable() {
                         @Override
@@ -818,10 +832,11 @@ public class MainActivity extends AppCompatActivity
                     }, 3 * 1000);
                 }
             }
-        }catch (Throwable e){
+        } catch (Throwable e) {
             Log.d("error_frag", e.getLocalizedMessage());
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -837,20 +852,21 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void DeleteObject(String Url, int index){
-        String url= GlobalVariables.Url_base+Url;
-        ActivityController obj = new ActivityController("get", url, this,this);
-        obj.execute(""+index);
+    public void DeleteObject(String Url, int index) {
+        String url = GlobalVariables.Url_base + Url;
+        ActivityController obj = new ActivityController("get", url, this, this);
+        obj.execute("" + index);
     }
 
-    public void openFichaPersona(){
+    public void openFichaPersona() {
 
         ChangeFragment(NavigationFragment.FichaPersonal);
-        GlobalVariables.isUserlogin=false;
+        GlobalVariables.isUserlogin = false;
         uncheckItemsMenu();
         ClickMenuFicha();
-        if(popupWindow!=null)popupWindow.dismiss();
+        if (popupWindow != null) popupWindow.dismiss();
     }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -864,22 +880,33 @@ public class MainActivity extends AppCompatActivity
             startActivity(myIntent);
         }
 */
-        if(id == R.id.nav_ma_cuasi){
-            GlobalVariables.ObjectEditable=false;
-            Intent addMACuasi = new Intent( this, ActIngresoMA.class);
+        if (id == R.id.nav_ma_cuasi) {
+            GlobalVariables.ObjectEditable = false;
+            Intent addMACuasi = new Intent(this, ActIngresoMA.class);
             addMACuasi.putExtra("codObs", "INC000000XYZ");
             //addMACuasi.putExtra("tipoObs","TO01");
             //addMACuasi.putExtra("posTab", 0);
             startActivity(addMACuasi);
         }
 //        nav_seguridad
-        if(id == R.id.nav_seguridad){
-            GlobalVariables.ObjectEditable=false;
-            Intent addSegCuasi = new Intent( this, ActIngresoSeg.class);
-            addSegCuasi.putExtra("codObs", "INC000000XYZ");
-            //addMACuasi.putExtra("tipoObs","TO01");
-            //addMACuasi.putExtra("posTab", 0);
-            startActivity(addSegCuasi);
+        if (id == R.id.nav_seguridad) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                        Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+                }, 1000);
+
+            //            GlobalVariables.ObjectEditable=false;
+//            Intent addSegCuasi = new Intent( this, ActIngresoSeg.class);
+//            addSegCuasi.putExtra("codObs", "INC000000XYZ");
+//            //addMACuasi.putExtra("tipoObs","TO01");
+//            //addMACuasi.putExtra("posTab", 0);
+//            startActivity(addSegCuasi);
+        }
+
+        if(id == R.id.nav_conUbicacion){
+            ActivityCompat.requestPermissions(this, new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION
+            }, 1001);
+
         }
 
 
@@ -1018,6 +1045,46 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+// ingresar si da permisos de ubicacion (gps)
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1000: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted! Do the work
+                    GlobalVariables.ObjectEditable = false;
+                    Intent addSegCuasi = new Intent(this, ActIngresoSeg.class);
+                    addSegCuasi.putExtra("codObs", "INC000000XYZ");
+                    //addMACuasi.putExtra("tipoObs","TO01");
+                    //addMACuasi.putExtra("posTab", 0);
+                    startActivity(addSegCuasi);
+
+                } else {
+                    // permission denied!
+                    Toast.makeText(this, "Para poder agregar un Incidente de tipo seguridad, necesita otorgar los permisos solicitados", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+            case 1001: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    GlobalVariables.ObjectEditable=false;
+                    Intent addUbicacion = new Intent( this, ActUbicacion.class);
+                    startActivity(addUbicacion);
+
+
+                } else {
+                    // permission denied!
+                    Toast.makeText(this, "Para poder agregar un Incidente de tipo seguridad, necesita otorgar los permisos solicitados", Toast.LENGTH_LONG).show();
+                }
+                return;
+
+            }
+
+
+        }
     }
 
     //menu inferior

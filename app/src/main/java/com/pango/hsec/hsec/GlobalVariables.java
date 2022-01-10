@@ -124,8 +124,8 @@ public class GlobalVariables  {
     //incidente
 //    public static InspeccionModel AddInspeccion=new InspeccionModel(); //cabecera
 
-//Incidente seguridad
-public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
+    //Incidente seguridad
+    public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
 
 
 
@@ -179,7 +179,7 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
         else   GlobalVariables.fragmentStack.push(fragment);
     }
 
-// notification mejoras
+    // notification mejoras
     public static boolean pasnotification=false;
     public static String codFacilito="";
     //flag of muro
@@ -219,8 +219,8 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
     public static boolean flagUpSc=false;
     public  static boolean flagFacilito=false;
     public  static boolean flaghistorial=true;
-   // public static boolean FDown=false;
-   public static int count=5;
+    // public static boolean FDown=false;
+    public static int count=5;
     public static boolean flag_up_toast=false;
 
     //variables used in Ficha
@@ -233,7 +233,7 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
     public static String codObsHistorial;
     public static ArrayList<Maestro> CapaCursoDias = new  ArrayList<>();
     public static ArrayList<ObsFHistorialModel> listaHistorial = new  ArrayList<ObsFHistorialModel>();
-   // public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
+    // public static ArrayList<PublicacionModel> listaGlobalObservacion=new ArrayList<>();//data del fragment observaciones
 
     public static ArrayList<ObsFacilitoModel> listaObsFacilito = new  ArrayList<ObsFacilitoModel>();
 
@@ -292,6 +292,7 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
     //public static  ArrayList<Maestro> Tipo_obs = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_obs2 = new ArrayList<>();
     public static  ArrayList<Maestro> SubTipo_obs = new ArrayList<>();
+    public static  ArrayList<Maestro> PerReporta = new ArrayList<>();
 
 
     public static  ArrayList<Maestro> Gerencia = new ArrayList<>();
@@ -321,7 +322,7 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
     //public static  ArrayList<Maestro> Lugar = new ArrayList<>();
     //MACuasiDetalle
     public static  ArrayList<Maestro> TituIncidente = new ArrayList<>();
-    //public static  ArrayList<Maestro> TituDetallado = new ArrayList<>();
+    public static  ArrayList<Maestro> TituDetallado = new ArrayList<>();
     public static  ArrayList<Maestro> Turno = new ArrayList<>();
     //public static  ArrayList<Maestro> Contrata = new ArrayList<>();
     //public static  ArrayList<Maestro> DesSuceso = new ArrayList<>();
@@ -332,16 +333,16 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
     //public static  ArrayList<Maestro> HHRelacionada = new ArrayList<>();
     public static  ArrayList<Maestro> Riesgo = new ArrayList<>();
     //Detalle Seguridad
-//    public static  ArrayList<Maestro> Conclusiones = new ArrayList<>();
-//    public static  ArrayList<Maestro> Aprendizaje = new ArrayList<>();
-//    public static  ArrayList<Maestro> ResumenIM = new ArrayList<>();
+    public static  ArrayList<Maestro> Conclusiones = new ArrayList<>();
+    public static  ArrayList<Maestro> Aprendizaje = new ArrayList<>();
+    public static  ArrayList<Maestro> ResumenIM = new ArrayList<>();
 
     //CAUSALIDAD
     public static  ArrayList<Maestro> TipoCausa = new ArrayList<>();
     public static  ArrayList<Maestro> TipoCond = new ArrayList<>();
     public static ArrayList<Maestro> Tcausalidad = new ArrayList<>();
 
-//plan de accion
+    //plan de accion
     public static  ArrayList<Maestro> Referencia_Plan = new ArrayList<>();
     public static  ArrayList<Maestro> Tipo_Plan = new ArrayList<>();
     public static  ArrayList<Maestro> Estado_Plan = new ArrayList<>();
@@ -704,7 +705,7 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
         for (Maestro item:SuperIntendencia ) {
             String Tipos[]=item.CodTipo.split("\\.");
             if(Tipos[0].equals(Tipo))
-                    Super.add(item);
+                Super.add(item);
         }
         return Super;
     }
@@ -751,4 +752,4 @@ public static IncidenteModel AddIncidenteSeg=new IncidenteModel(); //cabecera
         return cadena3;
     }
 
-   }
+}

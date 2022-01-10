@@ -2,7 +2,7 @@ package com.pango.hsec.hsec.model;
 import java.util.ArrayList;
 
 public class GetCausalidadModel {
-    public ArrayList<SeguridadCAModel> Data;
+    public ArrayList<CausalidadModel> Data;
     public int Count;
 
     public GetCausalidadModel(){

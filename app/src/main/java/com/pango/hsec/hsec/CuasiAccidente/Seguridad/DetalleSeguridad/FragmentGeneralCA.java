@@ -13,7 +13,7 @@ import com.pango.hsec.hsec.IActivity;
 import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.GeneralSegAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.SeguridadCAModel;
+import com.pango.hsec.hsec.model.IncidentesSECModel;
 
 import java.util.ArrayList;
 
@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 public class FragmentGeneralCA extends Fragment implements IActivity {
 
-    String[] obsDetcab={"CodSegIn","CodAreaHSEC","CodTipo","CodSubTipo","ObservadoPor","Gerencia","Superint","ClasReal","ClasPotencial","ActRelacionada","HHRelacionada","GrupRiesgo","Riesgo","Fecha","Hora","CodUbicacion","CodSubUbicacion","UbicacionEsp","Lugar"};
+    String[] obsDetcab={"CodIncidente","CodAreaHsec","CodTipoIncidente","codSubTipoIncidente","CodPerReporta","CodPosicionGer","CodPosicionSup","CodClasificaInci","CodClasiPotencial","CodActiRelacionada","CodHha","CodGrupoRiesgo","CodRiesgo","FechaDelSuceso","HoraDelSuceso","CodUbicacion","CodSubUbicacion","CodUbicacionEspecifica","DesUbicacion"};
     String[] obsDetIzq={"Código Incidente","Área","Tipo","Subtipo","Persona que Reporta","Gerencia","Superintendencia","Clasificación Real","Clasificación Potencial","Activiad Relacionada","HHR Relacionada","Grupo de Riesgo","Riesgo","Fecha","Hora","Ubicación","Sub Ubicación","Sub Ubicación Específica","Lugar"};
     String jsonSec="";
     String url;
@@ -71,7 +71,7 @@ public class FragmentGeneralCA extends Fragment implements IActivity {
         codObs=getArguments().getString("bString");
 
         GlobalVariables.view_fragment=mView;
-        url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
+        url= GlobalVariables.Url_base+"Incidentes/GetDetalleIncidenteID/"+codObs;
         if(jsonSec.isEmpty()) {
             GlobalVariables.istabs=true;
             final ActivityController obj = new ActivityController("get", url, FragmentGeneralCA.this,getActivity());
@@ -86,7 +86,7 @@ public class FragmentGeneralCA extends Fragment implements IActivity {
     public void success(String data, String Tipo) {
         jsonSec=data;
         Gson gson = new Gson();
-        SeguridadCAModel getSeguridadModel = gson.fromJson(data, SeguridadCAModel.class);
+        IncidentesSECModel getSeguridadModel = gson.fromJson(data, IncidentesSECModel.class);
 
         ArrayList<String> obsDetcabf=new ArrayList<>();//
         ArrayList<String> obsDetIzqf=new ArrayList<>();//

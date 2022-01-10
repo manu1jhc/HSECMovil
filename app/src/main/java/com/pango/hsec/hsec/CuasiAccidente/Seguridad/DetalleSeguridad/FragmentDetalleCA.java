@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.pango.hsec.hsec.GlobalVariables;
@@ -15,7 +16,7 @@ import com.pango.hsec.hsec.R;
 import com.pango.hsec.hsec.adapter.Detalle2Adapter;
 import com.pango.hsec.hsec.adapter.DetalleSegAdapter;
 import com.pango.hsec.hsec.controller.ActivityController;
-import com.pango.hsec.hsec.model.SeguridadCAModel;
+import com.pango.hsec.hsec.model.IncidentesSECModel;
 
 import java.util.ArrayList;
 
@@ -25,13 +26,15 @@ import java.util.ArrayList;
  * create an instance of this fragment.
  */
 public class FragmentDetalleCA extends Fragment implements IActivity {
-    String[] obsDetcab={"TituIncidente","TituDetallado","Turno","CodContrata","Conclusiones","Aprendizaje","ResumenIM"};
+    String[] obsDetcab={"CodTituloInci","DescripcionIncidente","CodTurno","CodContrata","Conclusiones","Aprendizajes","ResumenInfMedico"};
     String[] obsDetIzq={"Título del Incidente","Título Detallado","Turno","Contrata","Conclusiones","Aprendizaje", "Resumen de Informe Médico"};
     Detalle2Adapter detalle2Adapter;
     String jsonSegDet="";
     String url;
     RecyclerView detalleCARecycler;
     String codObs;
+    TextView tx_suceso, tx_AccInme;
+
     private View mView;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -64,9 +67,11 @@ public class FragmentDetalleCA extends Fragment implements IActivity {
         mView = inflater.inflate(R.layout.fragment_detalle_ca, container, false);
         codObs=getArguments().getString("bString");
         detalleCARecycler = mView.findViewById(R.id.list_detSegCA);
+        tx_suceso =mView.findViewById(R.id.tx_suceso);
+        tx_AccInme =mView.findViewById(R.id.tx_AccInme);
 
         GlobalVariables.view_fragment=mView;
-        url= GlobalVariables.Url_base+"Observaciones/Get/"+codObs;
+        url= GlobalVariables.Url_base+"Incidentes/GetDetalleIncidenteID/"+codObs;
 
         if(jsonSegDet.isEmpty()) {
             GlobalVariables.istabs=true;
@@ -94,7 +99,7 @@ public class FragmentDetalleCA extends Fragment implements IActivity {
     public void success(String data, String Tipo){
         jsonSegDet=data;
         Gson gson = new Gson();
-        SeguridadCAModel getSeguridadModel = gson.fromJson(data, SeguridadCAModel.class);
+        IncidentesSECModel getSeguridadModel = gson.fromJson(data, IncidentesSECModel.class);
 
         ArrayList<String> obsDetcabf=new ArrayList<>();//
         ArrayList<String> obsDetIzqf=new ArrayList<>();//
@@ -112,13 +117,15 @@ public class FragmentDetalleCA extends Fragment implements IActivity {
                 obsDetIzqf.add(obsDetIzq[i]);
             }
         }
+        tx_suceso.setText(getSeguridadModel.DesSuceso);
+        tx_AccInme.setText(getSeguridadModel.AccInmediatas);
         detalleCARecycler.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         detalleCARecycler.setLayoutManager(llm);
 
         DetalleSegAdapter generalSegAdapter= new DetalleSegAdapter(getContext(),getSeguridadModel,obsDetcabf,obsDetIzqf);
-       // ListView listaDetalles = (ListView) mView.findViewById(R.id.list_detSegCA);
+        // ListView listaDetalles = (ListView) mView.findViewById(R.id.list_detSegCA);
         detalleCARecycler.setAdapter(generalSegAdapter);
     }
 
